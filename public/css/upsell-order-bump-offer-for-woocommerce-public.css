@@ -1,0 +1,155 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+ /* Popup CSS */
+.mwb_bump_popup_wrapper , 
+.mwb_bump_popup_loader {
+
+	background-color: rgba(0, 0, 0, 0.79);
+	position: fixed;
+	z-index: 999;
+	left: 0;
+	right: 0;
+	display: none;
+	align-items: center;
+	top: 0;
+	bottom: 0;
+	justify-content: center;
+	flex-direction: column;
+	overflow-y: auto;
+	height: 100%;
+	z-index: 999;
+	padding: 15px;
+}
+.mwb_bump_popup_content {
+	max-width: 875px;
+	margin: 0 auto;
+	width: 100%;
+	background-color: #ffffff;
+	position: relative;
+	padding: 20px 0 0;
+	overflow-y: auto;
+	height: 450px;
+	animation:fadein .5s;
+}
+.mwb_bump_popup_inner_content {
+	padding-bottom: 20px;
+}
+p.stock.out-of-stock {
+    margin: 0;
+}
+span#mwb_ubo_price_html_for_variation {
+	font-size: 20px;
+	font-weight: 700;
+}
+#mwb_ubo_price_html_for_variation ins {
+    font-weight: 700;
+    padding-left: 5px;
+}
+span#mwb_ubo_err_waring_for_variation {
+    color: #ff0000;
+    margin-top: 25px;
+    display: none;
+    font-size: 15px !important;
+}
+.mwb_bump_popup_close {
+	display: block;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	text-align: center;
+	font-size: 18px;
+	opacity: 0.6;
+	font-weight: bold;
+	z-index: 1;
+}
+.mwb_bump_popup_select select {
+	background-color: #ffffff;
+	border: 1px solid #eeeeee;
+	border-radius: 4px;
+	color: #363636;
+	min-width: 300px;
+	width: auto !important;
+	height: 45px;
+	padding: 5px;
+}
+.mwb_bump_popup_select > p {
+	font-size: 30px;
+	margin-bottom: 0px;
+}
+.mwb_upsell_variation_pop_up_body {
+	overflow: hidden;
+}
+p.mwb_ubo_bump_attributes_name {
+    margin: 10px auto;
+    font-size: unset;
+}
+#mwb_ubo_bump_add_to_cart_button {
+	display: inline-block;
+	width: auto !important;
+	font-size: 16px !important;
+	white-space: unset !important;
+	display: none;
+	margin-top: 45px;
+}
+/*custom css for old browser*/
+.mwb_bump_popup_image, 
+.mwb_bump_popup_select {
+	padding: 0px 15px;
+	width: 50%;
+	flex: 0 0 47%;
+	display: inline-block;
+	float: left;
+}
+.mwb_bump_popup_inner_content {
+	display: block;
+	width: 100%;
+
+}
+.mwb_bump_popup_inner_content:after {
+	content: "";
+	clear: both;
+	display: block;
+}
+@media only screen and (max-width: 767px) {
+	.mwb_bump_popup_image, 
+	.mwb_bump_popup_select {
+		width: 100%;
+		margin: auto;
+	}
+}
+/*custom css for old browser*/
+/* mobile view */
+@media screen and (max-width: 576px) {
+	.mwb_bump_popup_select select{
+		min-width: 100%;
+	}
+	.mwb_bump_popup_image,
+	.mwb_bump_popup_select{
+		flex: 0 0 100%;
+	}
+
+	#mwb_ubo_bump_add_to_cart_button {
+		margin:auto;
+	}
+
+	.mwb_ubo_input_row {
+		margin-bottom: 30px;
+	}
+
+	.mwb_bump_popup_close {
+		right: 11px;
+		top: 2px;
+	}
+	.mwb_bump_popup_image {
+		margin-top: 20px;
+	}
+	.mwb_bump_popup_content{
+		height: 320px;
+	}
+}
