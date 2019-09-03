@@ -185,7 +185,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 				<?php 
 
-				$bump_name = ! empty( $mwb_upsell_bumps_list[$mwb_upsell_bump_id]["mwb_upsell_bump_name"] ) ? sanitize_text_field($mwb_upsell_bumps_list[$mwb_upsell_bump_id]["mwb_upsell_bump_name"]) : esc_html__( 'Bump', 'upsell-order-bump-offer-for-woocommerce' ) . " #$mwb_upsell_bump_id";
+				$bump_name = ! empty( $mwb_upsell_bumps_list[$mwb_upsell_bump_id]["mwb_upsell_bump_name"] ) ? sanitize_text_field($mwb_upsell_bumps_list[$mwb_upsell_bump_id]["mwb_upsell_bump_name"]) : esc_html__( 'Order Bump', 'upsell-order-bump-offer-for-woocommerce' ) . " #$mwb_upsell_bump_id";
 
 				$bump_status = ! empty( $mwb_upsell_bumps_list[$mwb_upsell_bump_id]["mwb_upsell_bump_status"] ) ? sanitize_text_field($mwb_upsell_bumps_list[$mwb_upsell_bump_id]["mwb_upsell_bump_status"]) : 'no';
 
@@ -209,7 +209,7 @@ $mwb_upsell_bump_schedule_options = array(
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="mwb_upsell_bump_name"><?php esc_html_e('Name of the Order Bump','upsell-order-bump-offer-for-woocommerce');?></label>
+						<label for="mwb_upsell_bump_name"><?php esc_html_e( 'Name of the Order Bump','upsell-order-bump-offer-for-woocommerce' );?></label>
 					</th>
 
 					<td class="forminp forminp-text">
@@ -356,7 +356,7 @@ $mwb_upsell_bump_schedule_options = array(
 			</tbody>
 		</table>
 
-		<div class="mwb_upsell_bump_offers"><h1><?php esc_html_e( 'Bump Offer', 'upsell-order-bump-offer-for-woocommerce');?></h1>
+		<div class="mwb_upsell_bump_offers"><h1><?php esc_html_e( 'Order Bump Offer', 'upsell-order-bump-offer-for-woocommerce');?></h1>
 		</div>
 
 		<?php 

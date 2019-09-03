@@ -1045,7 +1045,7 @@ div#mwb_upsell_bump_status .mwb_upsell_bump_span:before {
   background-color: rgba(255,255,255,0.6);  
   bottom: 0;  
   top: 0; 
-  z-index: 111; 
+  z-index: 9999; 
   display: none;  
   align-items: center;  
   justify-content: center;  
