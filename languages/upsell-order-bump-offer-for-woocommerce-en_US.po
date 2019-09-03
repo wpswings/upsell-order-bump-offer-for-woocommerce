@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Upsell Order Bump Offer for WooCommerce 1.0.0\n"
-"POT-Creation-Date: 2019-08-31 11:49+0530\n"
-"PO-Revision-Date: 2019-08-31 11:49+0530\n"
+"POT-Creation-Date: 2019-09-03 11:03+0530\n"
+"PO-Revision-Date: 2019-09-03 11:03+0530\n"
 "Last-Translator: \n"
 "Language-Team: makewebbetter\n"
 "Language: en_US\n"
@@ -44,9 +44,9 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:204
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:205
-msgid "Order Bump(lite)"
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:201
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:202
+msgid "Order Bump"
 msgstr ""
 
 #: admin/partials/templates/mwb_ubo_lite_creation.php:156
@@ -146,7 +146,7 @@ msgid "Schedule your Order Bump for specific weekdays."
 msgstr ""
 
 #: admin/partials/templates/mwb_ubo_lite_creation.php:359
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:398
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:397
 msgid "Bump Offer"
 msgstr ""
 
@@ -611,17 +611,17 @@ msgid "Offer Location"
 msgstr ""
 
 #: admin/partials/templates/mwb_ubo_lite_settings.php:192
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:694
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:691
 msgid "Before Order Summary"
 msgstr ""
 
 #: admin/partials/templates/mwb_ubo_lite_settings.php:193
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:699
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:696
 msgid "Before Payment Gateways"
 msgstr ""
 
 #: admin/partials/templates/mwb_ubo_lite_settings.php:194
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:704
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:701
 msgid "After Payment Gateways"
 msgstr ""
 
@@ -655,19 +655,23 @@ msgstr ""
 msgid "Global Settings"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:38
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:41
+msgid "License"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:46
 msgid "Overview"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:72
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:110
 msgid "Connect with Us in one click"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:74
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:112
 msgid "Connect"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:76
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:114
 msgid "Regarding any issue, query or feature request for Bump Offers."
 msgstr ""
 
@@ -698,67 +702,67 @@ msgid ""
 "discount on any other place on this site."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:709
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:706
 msgid "Before Place order button"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:926
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:923
 msgid "Add this offer to cart"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:996
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:993
 msgid "Choose an option"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:179
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:178
 msgid "true"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:200
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:357
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:199
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:356
 msgid "added"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:232
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:231
 msgid "removed"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:287
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:286
 msgid "Sorry, this variation is not available."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:302
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:301
 msgid "Out of stock."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:398
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:397
 msgid "applied"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:107
+#: upsell-order-bump-offer-for-woocommerce.php:100
 msgid "Settings"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:118
+#: upsell-order-bump-offer-for-woocommerce.php:111
 msgid "Go to Docs"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:120
+#: upsell-order-bump-offer-for-woocommerce.php:113
 msgid "Go Premium"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:182
+#: upsell-order-bump-offer-for-woocommerce.php:175
 msgid "WooCommerce"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:182
+#: upsell-order-bump-offer-for-woocommerce.php:175
 msgid " is not activated, Please activate WooCommerce first to activate "
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:182
+#: upsell-order-bump-offer-for-woocommerce.php:175
 msgid "Upsell Order Bump Offer for WooCommerce"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:182
+#: upsell-order-bump-offer-for-woocommerce.php:175
 msgid "."
 msgstr ""
