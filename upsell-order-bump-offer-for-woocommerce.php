@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Upsell Order Bump Offer for WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/
-  * Description:       Increase your cart value by adding bumps that offer additional products or services to customers after they buy.
+  * Description:       Increase your cart value by adding bumps that offer additional products or services to customers at checkout page.
  *
  * Requires at least: 		4.4
  * Tested up to: 			5.2.2
