@@ -33,15 +33,16 @@ do_action('mwb_ubo_lite_tab_active');
 
 		<a class="nav-tab <?php echo $mwb_ubo_lite_active_tab == 'bump-list' ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list"><?php _e('Order Bumps List', 'upsell-order-bump-offer-for-woocommerce');?></a>
 
-		<a class="nav-tab <?php echo $mwb_ubo_lite_active_tab == 'settings' ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=settings"><?php _e('Global Settings', 'upsell-order-bump-offer-for-woocommerce');?></a>
+		<a class="nav-tab <?php echo $mwb_ubo_lite_active_tab == 'settings' ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=settings"><?php _e( 'Global Settings', 'upsell-order-bump-offer-for-woocommerce' );?></a>
 		
-        <!-- If premium version is available -->
-        <?php if( is_plugin_active( 'woocommerce-upsell-order-bump-offer-pro/woocommerce-upsell-order-bump-offer-pro.php' ) ) : ?>
+        <!-- If premium version is available, set license tab. -->
+        <?php if( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) : ?>
 
-            <a class="nav-tab <?php echo $mwb_ubo_lite_active_tab == 'license' ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=license"><?php _e('License', 'upsell-order-bump-offer-for-woocommerce');?></a>
+            <a class="nav-tab <?php echo $mwb_ubo_lite_active_tab == 'license' ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=license"><?php _e( 'License', 'upsell-order-bump-offer-for-woocommerce' );?></a>
 
         <?php else : ?>
 
+            <!-- If Org version set overview tab. -->
             <a class="nav-tab <?php echo $mwb_ubo_lite_active_tab == 'overview' ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=overview"><?php _e('Overview', 'upsell-order-bump-offer-for-woocommerce');?></a>
 
         <?php endif; ?>
@@ -56,29 +57,30 @@ do_action('mwb_ubo_lite_tab_active');
 	<?php 
 
         // If premium version is available.
-        if( is_plugin_active( 'woocommerce-upsell-order-bump-offer-pro/woocommerce-upsell-order-bump-offer-pro.php' ) ) {
+        if( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
             if( $mwb_ubo_lite_active_tab == 'creation-setting' )
             {   
                 // Include creation file from pro version.
-                include_once( MWB_UPSELL_BUMP_OFFER_DIRPATH . '/admin/partials/templates/mwb_upsell_bump_creation.php' );
+                include_once( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/mwb_upsell_bump_creation.php' );
             } 
             elseif( $mwb_ubo_lite_active_tab == 'bump-list')
             {   
                 // Include listing file from pro version.
-                include_once( MWB_UPSELL_BUMP_OFFER_DIRPATH . '/admin/partials/templates/mwb_upsell_bump_list.php' );
+                include_once( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/mwb_upsell_bump_list.php' );
             }
             elseif( $mwb_ubo_lite_active_tab == 'settings')
             {   
                 // Include setting file from org version.
-                include_once 'templates/mwb_ubo_lite_settings.php';
+                include_once ( 'templates/mwb_ubo_lite_settings.php' );
             }
             elseif( $mwb_ubo_lite_active_tab == 'license' )
             {   
                 // Include license file from pro version.
-                include_once( MWB_UPSELL_BUMP_OFFER_DIRPATH . '/admin/partials/templates/mwb_upsell_bump-license.php' );
+                include_once( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/mwb_upsell_bump-license.php' );
             }
-
+/*
+        require_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . 'admin/partials/templates/mwb_upsell_bump-license.php';*/
         } else {
 
             if( $mwb_ubo_lite_active_tab == 'creation-setting' )

@@ -216,50 +216,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 	public function mwb_ubo_lite_add_backend() {
 
-		// Premium version plugin files.
-		if( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && class_exists('Upsell_Order_Bump_Offer_For_Woocommerce_Pro') ) {
-
-			$mwb_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_lic_callback_function;
-			
-			$mwb_upsell_bump_callname_lic_initial = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_lic_ini_callback_function;
-
-			$day_count = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic_initial();
-
-			if( Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic() || 0 <= $day_count ) {
-
-				if ( ! Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic() && 0 <= $day_count ):
-
-					$day_count_warning = floor( $day_count );
-
-					$day_string = sprintf( _n( '%s day', '%s days', $day_count_warning, 'upsell-order-bump-offer-for-woocommerce' ), number_format_i18n( $day_count_warning ) );
-
-					$day_string = '<span id="mwb-upsell-bump-day-count" >'.$day_string.'</span>';
-
-					?>
-					<div id="mwb-bump-thirty-days-notify" class="notice notice-warning">
-						<p>
-					    	<strong><a href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=license"><?php _e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></a><?php printf( __( ' the license key before %s or you may risk losing data and the plugin will also become dysfunctional.', 'upsell-order-bump-offer-for-woocommerce' ), $day_string ); ?></strong>
-						</p>
-					</div>
-					<?php
-
-				endif;
-
-				//Include pro files.
-				require_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . 'admin/partials/upsell-order-bump-offer-for-woocommerce-pro-admin-display.php';
-
-
-			} else {
-
-				// Include pro license activation tab.
-				require_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . 'admin/partials/templates/mwb_upsell_bump-license.php';
-			}
-
-		} else {
-
-			// Pro version in operative. Render Org Menu file.
-			require_once plugin_dir_path( __FILE__ ).'/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
-		}
+		require_once plugin_dir_path( __FILE__ ).'/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
 	}
 
 
