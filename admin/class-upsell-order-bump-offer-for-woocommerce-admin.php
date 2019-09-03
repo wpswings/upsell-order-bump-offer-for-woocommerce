@@ -216,7 +216,55 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 	public function mwb_ubo_lite_add_backend() {
 
-		require_once plugin_dir_path( __FILE__ ).'/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
+		if( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+
+			$mwb_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_lic_callback_function;
+        
+	        $mwb_upsell_bump_callname_lic_initial = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_lic_ini_callback_function;
+
+	        $day_count = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic_initial();
+
+			if( Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic() || 0 <= $day_count ) {
+
+				if ( ! Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic() && 0 <= $day_count ):
+
+					$day_count_warning = floor( $day_count );
+
+					$day_string = sprintf( _n( '%s day', '%s days', $day_count_warning, 'upsell-order-bump-offer-for-woocommerce' ), number_format_i18n( $day_count_warning ) );
+
+					$day_string = '<span id="mwb-upsell-bump-day-count" >'.$day_string.'</span>';
+
+					?>
+					
+					<div id="mwb-bump-thirty-days-notify" class="notice notice-warning">
+					    <p>
+					    	<strong><a href="?page=mwb-bump-offer-setting&tab=license"><?php _e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></a><?php printf( __( ' the license key before %s or you may risk losing data and the plugin will also become dysfunctional.', 'upsell-order-bump-offer-for-woocommerce' ), $day_string ); ?></strong>
+					    </p>
+					</div>
+
+					<?php
+
+				endif;
+
+				require_once plugin_dir_path( __FILE__ ).'/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
+
+			} else { ?>
+
+				<div class="wrap woocommerce" id="mwb_upsell_bump_setting_wrapper">
+					<div class="mwb_upsell_bump_setting_title"><?php echo apply_filters( 'mwb_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ); ?>
+			        <span class="mwb_upsell_bump_setting_title_version"><?php esc_html_e( 'v', 'upsell-order-bump-offer-for-woocommerce'); echo UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION; ?></span>
+			    	</div>
+			    </div><?php
+
+				//Failed Activation.
+				include_once( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/mwb_upsell_bump-license.php' );
+			}
+
+		} else {
+
+			//With org files only.
+			require_once plugin_dir_path( __FILE__ ).'/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
+		}
 	}
 
 
@@ -382,6 +430,30 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		echo json_encode( $return );
 
 		wp_die();
+	}
+
+	/**
+	 * Function for showing bump offer price in order table.
+	 *
+	 * @since    1.0.0
+	 */
+	public function show_bump_total_content( $column_name, $post_ID ) {
+		if ( $column_name == 'order_total' ) {
+			$order = wc_get_order( $post_ID );
+			foreach ( $order->get_items() as $item_id => $item ) { 
+				$bump_offer = wc_get_order_item_meta( $item_id, 'Bump Offer', true );
+				$bump_price = $item->get_total();
+			}
+	        if( !empty( $bump_offer ) ) {
+	        	?>
+	        		<p class= "mwb_bump_table_html" >
+	        			<?php _e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ); 
+	        				echo wc_price( $bump_price );
+	        			?>
+	        		</p>
+	        	<?php
+	        }
+		}
 	}
 
 // End of class.

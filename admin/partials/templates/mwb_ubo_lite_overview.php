@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="mwb_ubo_lite_overview">
 	<div class="mwb_ubo_lite_intro_section">
 		<div id="mwb_ubo_lite_video_title">
-	    	<h2><?php esc_html_e( 'How Bump Offers Works and How to Setup an Order Bump.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+	    	<h2><?php esc_html_e( 'How Order Bump Offer Works and How to Setup it Up.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
 	    </div>
 	</div>
 
@@ -48,6 +48,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h3><?php esc_html_e( 'Unlock the power to make unlimited order bumps.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 			<!-- Pro Content. -->
 			<p><?php esc_html_e( 'With our current version, you have just access to one order bump which can be used to show limited offers. But it would be very beneficial if you can make multiple order bumps. So, get our premium version today in order to make unlimited numbers of order bumps for each and every product at your site. Introduce your customers to most relevant offers on the basis of their purchase. Give your sales a great boost ahead.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+
+			<h3><?php esc_html_e( 'Get premium support.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+			<!-- Pro Content. -->
+			<p><?php esc_html_e( 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 		</div>
 		<!-- Premium feature section ends. -->
 

@@ -31,6 +31,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Activator {
 	 */
 	public static function activate() {
 
+		// Set default settings tab to Overview for five minutes
+        set_transient( 'mwb_ubo_lite_default_settings_tab', 'overview', 300 );
 	}
 
 }

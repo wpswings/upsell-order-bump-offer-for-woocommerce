@@ -10,6 +10,7 @@
 
 				e.preventDefault();
 				$( '.mwb_ubo_lite_go_pro_popup_wrap' ).addClass( 'mwb_ubo_lite_go_pro_popup_show' );
+				$( 'body' ).addClass( 'mwb_ubo_lite_go_pro_popup_body' );
 			}
 		});
 
@@ -18,6 +19,7 @@
 			// Hide Go pro popup.
 			e.preventDefault();
 			$( '.mwb_ubo_lite_go_pro_popup_wrap' ).removeClass('mwb_ubo_lite_go_pro_popup_show' );
+			$( 'body' ).removeClass( 'mwb_ubo_lite_go_pro_popup_body' );
 		});
 		$('.mwb_ubo_lite_skype_setting').on( 'click', function () {
 			$( '#mwb_ubo_lite_skype_connect_with_us' ).toggleClass('show');
@@ -30,6 +32,7 @@
 	        if( e.target.className == 'mwb_ubo_lite_go_pro_popup_wrap mwb_ubo_lite_go_pro_popup_show' )
 	        {   
 	            $( '.mwb_ubo_lite_go_pro_popup_wrap' ).removeClass( 'mwb_ubo_lite_go_pro_popup_show' );
+	            $( 'body' ).removeClass( 'mwb_ubo_lite_go_pro_popup_body' );
 	        }
 	      }
 	    );

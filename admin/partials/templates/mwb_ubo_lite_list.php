@@ -73,9 +73,20 @@ else {
 	<?php endif; ?>
 
 	<?php if( ! empty( $mwb_upsell_bumps_list ) ):?>
+	<?php if( ! is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && count( $mwb_upsell_bumps_list ) > 1 ) : ?>
+
+		<div class="notice notice-warning">
+		    <p>
+		    	<strong><?php _e( 'Only first Order Bump will work. Please activate pro version to make all working.', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong>
+		    </p>
+		</div>
+
+	<?php ?>
+
+	<?php endif; ?>
 		<table>
 			<tr>
-				<th><?php esc_html_e( 'Bump Name', 'upsell-order-bump-offer-for-woocommerce' );?></th>
+				<th><?php esc_html_e( 'Name', 'upsell-order-bump-offer-for-woocommerce' );?></th>
 				<th><?php esc_html_e( 'Status', 'upsell-order-bump-offer-for-woocommerce' );?></th>
 				<th id="mwb_upsell_bump_list_target_th"><?php esc_html_e( 'Target Product(s) and Categories', 'upsell-order-bump-offer-for-woocommerce' );?></th>
 				<th><?php esc_html_e( 'Offers', 'upsell-order-bump-offer-for-woocommerce' );?></th>
@@ -228,7 +239,7 @@ else {
 </div>
 
 <!-- Add section to trigger Go Pro popup. -->
-<?php if( count( $mwb_upsell_bumps_list ) ) : ?>
+<?php if( ! empty( $mwb_upsell_bumps_list ) && count( $mwb_upsell_bumps_list ) ) : ?>
 
 	<input type="hidden" class="mwb_ubo_lite_saved_funnel" value="<?php echo( count( $mwb_upsell_bumps_list ) ); ?>">
 

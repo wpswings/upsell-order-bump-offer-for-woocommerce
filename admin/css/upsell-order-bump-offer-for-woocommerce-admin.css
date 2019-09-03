@@ -101,11 +101,14 @@
 .mwb_ubo_lite_go_pro_popup {
   background-color: #ffffff;
   max-width: 800px;
-  margin: auto 20px;
   border-radius: 4px;
   padding: 20px;
   text-align: center;
   position: relative;
+  margin-left: 160px;
+}
+.mwb_ubo_lite_go_pro_popup_body {
+  overflow: hidden;
 }
 .mwb_ubo_lite_go_pro_popup_head {
   position: relative;
@@ -123,6 +126,10 @@
   height: 25px;
   line-height: 21px;
   border-radius: 50%;
+}
+#mwb_upsell_bump_setting_wrapper .mwb_ubo_lite_go_pro_popup_close span {
+    font-size: 25px !important;
+    line-height: 19px;
 }
 .mwb_ubo_lite_go_pro_popup_close:focus,
 .mwb_ubo_lite_go_pro_popup_close:hover{
@@ -1351,8 +1358,6 @@ select.mwb_select_for_description_class {
   z-index: 1;
   display: none;
   padding: 15px;
-  
-
 }
 .mwb_ubo_skin_popup_inner {
   background-color: #ffffff;
@@ -1446,7 +1451,22 @@ select.mwb_select_for_description_class {
 /*===================================
 =            media query            =
 ===================================*/
+@media only screen and (max-width: 960px) {
+  .mwb_ubo_lite_go_pro_popup {
+    margin-left: 30px !important;
+  }
+}
+
+
+
 @media only screen and (max-width:867px)  {
+
+.mwb_ubo_lite_go_pro_popup {
+    max-width: 600px;
+}
+
+
+
   #mwb_upsell_bump_setting_wrapper .nav-tab {
     padding: 10px ;
   }
@@ -1456,20 +1476,30 @@ select.mwb_select_for_description_class {
   #mwb_upsell_bump_setting_wrapper nav.nav-tab-wrapper.woo-nav-tab-wrapper {
    display: flex;
    flex-wrap: wrap;
- }
+  }
  .mwb_upsell_offer_templates_parent .mwb_upsell_offer_template {
   width: 50%;
-}
-.new_created_offers.mwb_upsell_single_offer th, 
-.new_created_offers.mwb_upsell_single_offer td {
-  display: block;
-}
+  }
+  .new_created_offers.mwb_upsell_single_offer th, 
+  .new_created_offers.mwb_upsell_single_offer td {
+    display: block;
+  }
 }
 @media only screen and (max-width:782px)  {
   .mwb_upsell_table table th,
   table.form-table.mwb_upsell_bump_creation_setting .mwb_upsell_bump_enable_plugin_label{
     width: 100%;
   }
+.mwb_ubo_lite_go_pro_popup_head h2 {
+    font-size: 18px !important;
+}
+
+.mwb_ubo_lite_go_pro_popup {
+
+    margin-left: 0px !important;
+    margin: 20px !important;
+
+
 }
 @media only screen and (max-width:767px)  {
   .mwb_upsell_bumps_list table {
@@ -1515,6 +1545,12 @@ select.mwb_select_for_description_class {
   }
 }
 @media only screen and (max-width:500px)  {
+
+  #mwb_upsell_bump_setting_wrapper .mwb_ubo_lite_go_pro_popup_close span {
+    font-size: 25px !important;
+    line-height: 23px;
+}
+
   #mwb_upsell_bump_setting_wrapper .mwb_upsell_table #mwb_upsell_bump_name_heading h2 {
     width: 100%;
     font-size: 28px;
