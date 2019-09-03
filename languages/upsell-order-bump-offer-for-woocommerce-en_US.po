@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Upsell Order Bump Offer for WooCommerce 1.0.0\n"
-"POT-Creation-Date: 2019-09-03 11:03+0530\n"
-"PO-Revision-Date: 2019-09-03 11:03+0530\n"
+"POT-Creation-Date: 2019-09-03 11:32+0530\n"
+"PO-Revision-Date: 2019-09-03 11:32+0530\n"
 "Last-Translator: \n"
 "Language-Team: makewebbetter\n"
 "Language: en_US\n"
@@ -46,6 +46,7 @@ msgstr ""
 
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:201
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:202
+#: admin/partials/templates/mwb_ubo_lite_creation.php:188
 msgid "Order Bump"
 msgstr ""
 
@@ -84,10 +85,6 @@ msgstr ""
 
 #: admin/partials/templates/mwb_ubo_lite_creation.php:174
 msgid "on every Sunday"
-msgstr ""
-
-#: admin/partials/templates/mwb_ubo_lite_creation.php:188
-msgid "Bump"
 msgstr ""
 
 #: admin/partials/templates/mwb_ubo_lite_creation.php:203
@@ -146,8 +143,7 @@ msgid "Schedule your Order Bump for specific weekdays."
 msgstr ""
 
 #: admin/partials/templates/mwb_ubo_lite_creation.php:359
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:397
-msgid "Bump Offer"
+msgid "Order Bump Offer"
 msgstr ""
 
 #: admin/partials/templates/mwb_ubo_lite_creation.php:384
@@ -733,6 +729,10 @@ msgstr ""
 
 #: public/class-upsell-order-bump-offer-for-woocommerce-public.php:301
 msgid "Out of stock."
+msgstr ""
+
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:397
+msgid "Bump Offer"
 msgstr ""
 
 #: public/class-upsell-order-bump-offer-for-woocommerce-public.php:397
