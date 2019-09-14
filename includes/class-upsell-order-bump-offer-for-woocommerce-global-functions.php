@@ -718,33 +718,77 @@ function mwb_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
  */
 function mwb_ubo_lite_check_category_in_cart( $category_target_id ='' ) {
 
+	// First get required category is parent or child.
+	$target_parent_id = mwb_ubo_lite_category_has_parent( $category_target_id );
+
     // Start of the loop that fetches the cart items.
 	foreach ( WC()->cart->get_cart() as $cart_key => $cart_item_object ) {
 
-		$_product = $cart_item_object['data'];
-		$product_id = ! empty( $_product->get_parent_id() ) ? $_product->get_parent_id() : $_product->get_id();
+		$product = $cart_item_object['data'];
+		$product_id = ! empty( $product->get_parent_id() ) ? $product->get_parent_id() : $product->get_id();
 		$terms = get_the_terms( $product_id, 'product_cat' );
 
-		if( ! empty( $terms ) ) :
+		if( ! empty( $terms ) )	{
 
-        // Second level loop search, in case some items have several categories.
+			// Second level loop search, in case some items have several categories.
 			foreach ( $terms as $term ) {
 
-				$_categoryid = $term->term_id;
+				// Category id is the product category.
+				$category_id = $term->term_id;
+				$category_parent_id = $term->parent;
 
-				if ( ! empty( $category_target_id ) && ( $_categoryid == $category_target_id ) ):
+				if( 'is_parent' == $target_parent_id && $category_target_id == $category_parent_id ) {
 
-	                // Category is in cart!
+					// Child Category is in cart!
 					return $cart_key;
+				}
 
-				endif;
+				// Case to trigger category for child or parent with no child category itself.
+				if ( ! empty( $category_target_id ) && ( $category_id == $category_target_id ) ) {
+
+					// Category is in cart!
+					return $cart_key;
+				}
 			}
-
-		endif;
+		}
 	}	
 }
 
+/**
+ * Function for search through category.
+ *
+ * @since   1.0.0 
+ */
+function mwb_ubo_lite_category_has_parent( $cat_id ) {
 
+	/**
+	 * Custom category are not handled as default taxonomies (category). 
+	 * They are under product_cat terms so we get all the category and fetch the 
+	 * required one.
+	 * After that check if it is parent of not.
+	 */
+	$args = array(
+	    'taxonomy'   => 'product_cat',
+	);
+
+	$product_categories = get_terms( $args );
+	$category_parent = 'is_parent';
+
+	foreach ( $product_categories as $key => $single_category ) {
+
+		if( $cat_id == $single_category->term_id ) {
+
+			// Required category!
+			if( ! empty( $single_category->parent ) ) {
+
+				$category_parent = $single_category->parent;
+
+			}
+
+			return $category_parent;
+		}
+	}
+}
 
 /**
  * Function for prepare bump data in a single array.

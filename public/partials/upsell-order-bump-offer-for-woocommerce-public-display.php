@@ -38,7 +38,7 @@
 	 * Rest leave No need to check,
 	 * For live one check if target id is present and after this category 
 	   check,
-	 * Save the array that is encountered and target product key.
+	 * Save the array index that is encountered and target product key.
 	 */
 
 	if( ! session_id() ) {

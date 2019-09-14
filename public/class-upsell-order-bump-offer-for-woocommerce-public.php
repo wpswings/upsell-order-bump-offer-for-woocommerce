@@ -227,7 +227,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	    unset( $_SESSION[ 'bump_offer_product_key' ] );
 	    unset( $_SESSION[ 'bump_target_product_key' ] );
 	    unset( $_SESSION[ 'bump_offer_status' ] );
-
+	    
 		echo json_encode( esc_html__( 'removed', 'upsell-order-bump-offer-for-woocommerce' ) );
 
 		wp_die();

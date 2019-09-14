@@ -91,14 +91,19 @@ if( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 
 	define('UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
-	add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'mwb_ubo_lite_plugin_settings_link' );
+	// If pro version is added settings will be came over from that.
+	if( ! is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
-	function mwb_ubo_lite_plugin_settings_link( $links ) 
-	{
-		$plugin_links= array('<a href="' .
-			admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting' ) .
-			'">' . __( "Settings",'upsell-order-bump-offer-for-woocommerce' ) .'</a>');
-		return array_merge( $plugin_links,$links );
+		// Add settings links.
+		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'mwb_ubo_lite_plugin_settings_link' );
+
+		function mwb_ubo_lite_plugin_settings_link( $links ) {
+			
+			$plugin_links= array('<a href="' .
+				admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting' ) .
+				'">' . __( "Settings",'upsell-order-bump-offer-for-woocommerce' ) .'</a>');
+			return array_merge( $plugin_links,$links );
+		}
 	}
 
 	add_filter( 'plugin_row_meta', 'mwb_ubo_lite_add_doc_and_premium_link', 10, 2 );
