@@ -165,7 +165,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$bump_discounted_price = ! empty( $_POST[ 'discount' ] ) ? sanitize_text_field( $_POST[ 'discount' ] ) : '';
 		
-		$cart_item_data = array( 'mwb_discounted_price' => $bump_discounted_price );
+		$cart_item_data = array(
+			'mwb_discounted_price' => $bump_discounted_price,
+			'flag_' . uniqid() => true,
+		);
 
 		$_product = wc_get_product( $bump_product_id );
 
@@ -337,8 +340,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$bump_target_cart_key = ! empty( $_POST[ 'bump_target_cart_key' ] ) ? sanitize_text_field( $_POST[ 'bump_target_cart_key' ] ) : ''; 
 
 		// Now safe to add to cart.
-		$cart_item_data = array(
-			'mwb_discounted_price' => $bump_offer_discount
+		$cart_item_data = array( 
+			'mwb_discounted_price' => $bump_discounted_price,
+			'flag_' . uniqid() => true,
 		);
 
 		if( ! session_id() ) {
