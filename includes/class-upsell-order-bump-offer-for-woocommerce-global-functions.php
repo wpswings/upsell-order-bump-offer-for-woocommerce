@@ -473,8 +473,16 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 	$image = wp_get_attachment_image_src( get_post_thumbnail_id( $bump['id'] ), 'single-post-thumbnail' )[0];
 
 	if( empty ( $image ) ) {
-		
-		$image = wc_placeholder_img_src(); 
+
+		$bump_parent_id = wc_get_product( $bump['id'] )->get_parent_id();
+
+		if( ! empty( $bump_parent_id ) ) {
+
+			$image = wp_get_attachment_image_src( get_post_thumbnail_id( $bump_parent_id ), 'single-post-thumbnail' )[0];
+		} else {
+
+			$image = wc_placeholder_img_src();
+		}
 	}
 
 	if( ! session_id() ) {
@@ -906,7 +914,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 				<!-- Product Image starts. -->
 				<div class="mwb_bump_popup_image" >
 					<?php
-						echo mwb_ubo_lite_get_bump_image( $product->get_id() ); 
+						echo mwb_ubo_lite_get_bump_image( $product->get_id() );
 					?>
 				</div>
 				<!-- Product Image ends. -->
@@ -988,20 +996,32 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
  *
  * @since   1.0.0 
  */
-function mwb_ubo_lite_get_bump_image( $product_id = '' ) {
+function mwb_ubo_lite_get_bump_image( $product_id = '', $parent = '' ) {
 	
 	// Get product thumbnail id.
 	$image_id = get_post_thumbnail_id( $product_id );
+	$variation_product = wc_get_product( $product_id );
 
 	if( ! empty( $image_id ) ) {
 
-		// Get image with complete html for adding zooming effect.
+		// Get image with complete html for adding zooming effect( Variation ).
 		$bump_var_image = wc_get_gallery_image_html( $image_id, true );
 
 	} else {
 
-		// If no image is present return the woocommerce place holder image.
-		$bump_var_image = wc_placeholder_img();
+		$image_id = get_post_thumbnail_id( $variation_product->get_parent_id() );
+
+		if( ! empty( $image_id ) ) {
+
+			// Get image with complete html for adding zooming effect( Parent image ).
+			$bump_var_image = wc_get_gallery_image_html( $image_id, true );
+
+		} else {
+
+			// If no image is present return the woocommerce place holder image.
+			$bump_var_image = wc_placeholder_img();
+		}
+
 	}
 
 	return $bump_var_image;

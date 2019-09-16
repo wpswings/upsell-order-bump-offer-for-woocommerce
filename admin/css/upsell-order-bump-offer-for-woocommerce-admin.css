@@ -1447,9 +1447,65 @@ select.mwb_select_for_description_class {
   display: inline-block;
   vertical-align: middle;
 }
-/**/
+
+/*==================================
+=            Animation.            =
+===================================*/
+@keyframes popupskow {
+
+  0% {
+    -webkit-transform: scale(.7);
+    transform: scale(.7);
+  }
+  45% {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+  }
+  80% {
+    -webkit-transform: scale(.95);
+    transform: scale(.95);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes flipInX {
+  from {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  60% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  to {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+  }
+}
+
 /*===================================
-=            media query            =
+=            Media Query            =
 ===================================*/
 @media only screen and (max-width: 960px) {
   .mwb_ubo_lite_go_pro_popup {
@@ -1521,13 +1577,13 @@ select.mwb_select_for_description_class {
     width: 250px;
   }
 	.mwb-ubo-text-section .titledesc {
-	    width: auto !important;
-	    padding: 6px !important;
+    width: auto !important;
+    padding: 6px !important;
 	}
 	#mwb_upsell_bump_setting_wrapper .mwb_upsell_bump_setting_title {
     font-size: 20px;
-   }
-   .mwb_upsell_bumps_list table td, .mwb_upsell_bumps_list table th, .mwb_upsell_table table th, .mwb_upsell_table table td {
+  }
+  .mwb_upsell_bumps_list table td, .mwb_upsell_bumps_list table th, .mwb_upsell_table table th, .mwb_upsell_table table td {
 	    padding: 10px;
 	}
 }
@@ -1559,7 +1615,7 @@ select.mwb_select_for_description_class {
   #mwb_upsell_bump_setting_wrapper .mwb_ubo_lite_go_pro_popup_close span {
     font-size: 25px !important;
     line-height: 23px;
-}
+  }
 
   #mwb_upsell_bump_setting_wrapper .mwb_upsell_table #mwb_upsell_bump_name_heading h2 {
     width: 100%;
@@ -1637,56 +1693,3 @@ select.mwb_select_for_description_class {
   }
 }
 
-/*animation*/
-@keyframes popupskow {
-
-  0% {
-    -webkit-transform: scale(.7);
-    transform: scale(.7);
-  }
-  45% {
-    -webkit-transform: scale(1.05);
-    transform: scale(1.05);
-  }
-  80% {
-    -webkit-transform: scale(.95);
-    transform: scale(.95);
-  }
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-}
-
-@keyframes flipInX {
-  from {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-    opacity: 0;
-  }
-
-  40% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-  }
-
-  60% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    opacity: 1;
-  }
-
-  80% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-  }
-
-  to {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-  }
-}
