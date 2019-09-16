@@ -23,7 +23,7 @@
  * WC tested up to: 		3.7.0
  *
  * Version:           1.0.0
- * Author:            Make Web Better
+ * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt

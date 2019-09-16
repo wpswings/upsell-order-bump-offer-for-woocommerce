@@ -268,6 +268,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		// Image to reflect on select change.
 		$image_id = get_post_thumbnail_id( $variation_id );
+		$variation_product = wc_get_product( $variation_id );
+
 		if( ! empty( $image_id ) ) {
 
 			$html = wc_get_gallery_image_html( $image_id, true );
@@ -275,7 +277,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		} else {
 
-			$bump_var_image = wc_placeholder_img();
+			// If no variation image is present show default one.
+			$bump_var_image = mwb_ubo_lite_get_bump_image( $variation_product->get_parent_id() );
 		}
 
 		// Variation id will be empty if selected variation is not available.

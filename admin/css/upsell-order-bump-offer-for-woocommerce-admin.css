@@ -1520,6 +1520,16 @@ select.mwb_select_for_description_class {
   #mwb_upsell_bump_setting_wrapper .mwb_upsell_offer_input_type{
     width: 250px;
   }
+	.mwb-ubo-text-section .titledesc {
+	    width: auto !important;
+	    padding: 6px !important;
+	}
+	#mwb_upsell_bump_setting_wrapper .mwb_upsell_bump_setting_title {
+    font-size: 20px;
+   }
+   .mwb_upsell_bumps_list table td, .mwb_upsell_bumps_list table th, .mwb_upsell_table table th, .mwb_upsell_table table td {
+	    padding: 10px;
+	}
 }
 @media only screen and (max-width:600px)  {
   .mwb_upsell_bumps_list {
