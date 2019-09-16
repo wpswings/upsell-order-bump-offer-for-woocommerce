@@ -20,7 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<hr>
 
 	<div id="mwb_ubo_lite_overview_video">
-		<iframe width="100%" height="450px" src="https://www.youtube.com/embed/Wa3NL4oy-tE?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen=""></iframe>
+		<!-- <iframe width="100%" height="450px" src="https://www.youtube.com/watch?v=7K4BFDqX-dw" frameborder="0" allowfullscreen=""></iframe> -->
+		<iframe width="100%" height="450px" src="https://www.youtube.com/embed/7K4BFDqX-dw" frameborder="0" allowfullscreen=""></iframe>
 	</div>
 
 	<hr>
