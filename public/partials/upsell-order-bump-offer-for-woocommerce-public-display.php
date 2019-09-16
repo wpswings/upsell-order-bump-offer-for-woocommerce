@@ -174,6 +174,7 @@
 	$_SESSION[ 'mwb_upsell_bump_target_key' ] = ! empty( $_SESSION[ 'mwb_upsell_bump_target_key' ] ) ? $_SESSION[ 'mwb_upsell_bump_target_key' ] : $mwb_upsell_bump_target_key;
 
 	$bump = mwb_ubo_lite_fetch_bump_offer_details( $_SESSION[ 'encountered_bump_array' ], $_SESSION[ 'mwb_upsell_bump_target_key' ] );
+
 ?>
 
 <?php   

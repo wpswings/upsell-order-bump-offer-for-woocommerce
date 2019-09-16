@@ -477,7 +477,7 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 		$image = wc_placeholder_img_src(); 
 	}
 
-	if( !session_id() ) {
+	if( ! session_id() ) {
 
 		session_start();
 	}

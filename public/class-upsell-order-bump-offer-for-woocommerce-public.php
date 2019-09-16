@@ -187,14 +187,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// If simple product or any single variations.
 			// Add to cart the same.
 
-			if( !session_id() ) {
+			if( ! session_id() ) {
 
 				session_start();
 			}
 			
 			$_SESSION[ 'bump_offer_product_key' ] = WC()->cart->add_to_cart( $bump_product_id, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data );
-
-			$_SESSION[ 'bump_target_product_key' ] = $bump_target_cart_key;
 
 			$_SESSION[ 'bump_offer_status' ] = esc_html__( 'added', 'upsell-order-bump-offer-for-woocommerce' );
 
@@ -225,7 +223,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	    WC()->cart->remove_cart_item( $_SESSION[ 'bump_offer_product_key' ] );
 
 	    unset( $_SESSION[ 'bump_offer_product_key' ] );
-	    unset( $_SESSION[ 'bump_target_product_key' ] );
 	    unset( $_SESSION[ 'bump_offer_status' ] );
 	    
 		echo json_encode( esc_html__( 'removed', 'upsell-order-bump-offer-for-woocommerce' ) );
@@ -344,14 +341,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			'mwb_discounted_price' => $bump_offer_discount
 		);
 
-		if( !session_id() ) {
+		if( ! session_id() ) {
 
 			session_start();
 		}
 
 		$_SESSION[ 'bump_offer_product_key' ] = WC()->cart->add_to_cart( $variation_parent_id, $quantity = '1', $variation_id , $variation = array(), $cart_item_data );
-
-		$_SESSION[ 'bump_target_product_key' ] = $bump_target_cart_key;
 
 		$_SESSION[ 'bump_offer_status' ] = esc_html__( 'added', 'upsell-order-bump-offer-for-woocommerce' );
 
@@ -367,7 +362,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 	public function reset_session_variable() {
 
-		if( !session_id() ) {
+		if( ! session_id() ) {
 
 			session_start();
 		}
@@ -385,7 +380,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 	    $order_items = $order->get_items();
 		
-		if( !session_id() ) {
+		if( ! session_id() ) {
 
 			session_start();
 		}
@@ -407,7 +402,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 	public function disable_quantity_bump_product_in_cart( $product_quantity, $cart_item_key ) {
 
-		if( !session_id() ) {
+		if( ! session_id() ) {
 
 			session_start();
 		}
@@ -468,7 +463,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			// When bump key is deleted from cart page, reset session variables.
 			unset( $_SESSION[ 'bump_offer_product_key' ] );
-			unset( $_SESSION[ 'bump_target_product_key' ] );
 			unset( $_SESSION[ 'bump_offer_status' ] );
 		}
 	}
