@@ -256,7 +256,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 						?>
 
-						<select id="mwb_upsell_bump_target_ids_search" class="wc-bump-product-search" multiple="multiple" style="" name="mwb_upsell_bump_target_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a product&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
+						<select id="mwb_upsell_bump_target_ids_search" class="wc-bump-product-search" multiple="multiple" name="mwb_upsell_bump_target_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a product&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 
 							<?php
 
@@ -427,7 +427,7 @@ $mwb_upsell_bump_schedule_options = array(
 								?>
 							</select>
 
-							<span style="margin-top: 1%"; class="mwb_upsell_offer_description"><?php esc_html_e( 'Select the product you want to show as offer.' ,'upsell-order-bump-offer-for-woocommerce'); ?></span>
+							<span class="mwb_upsell_offer_description mwb_upsell_offer_desc_text"><?php esc_html_e( 'Select the product you want to show as offer.' ,'upsell-order-bump-offer-for-woocommerce'); ?></span>
 						</td>
 					</tr>
 					<!-- Offer product end. -->

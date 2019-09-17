@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="mwb_ubo_lite_overview">
 	<div class="mwb_ubo_lite_intro_section">
 		<div id="mwb_ubo_lite_video_title">
-	    	<h2><?php esc_html_e( 'How Order Bump Offer Works and How to Set it Up.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
-	    </div>
+			<h2><?php esc_html_e( 'How Order Bump Offer Works and How to Set it Up.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+		</div>
 	</div>
 
 	<hr>
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="mwb_ubo_lite_overview_pro_version">
 		<h2><?php esc_html_e( 'What is WooCommerce Upsell Order Bump Offer?', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
 
-		<p><?php esc_html_e( 'WooCommerce Upsell Order Bump Offer allow its users to show pre-checkout offers on its checkout page with order bumps. This you may also call it as WooCommerce Order bumps. These Smart offer Bumps appears based on what customer is just going to purchase and the offer gets accepted in just a single click which is added instantly to customers existing Order.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+		<p><?php esc_html_e( "WooCommerce Upsell Order Bump Offer allows its users to show exclusive special one time offers known as Order Bumps on the checkout page. These Order Bumps can be accepted in just a single click which is added instantly to customer's existing Order.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
 		<p><?php esc_html_e( 'The Store owner can set the offers specifically for Target Products or Categories so that relevant Order Bumps can be offered which are hard to resist.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
@@ -45,18 +45,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<!-- Premium feature section starts. -->
 		<div class="mwb_ubo_lite_overview_go_pro">
-			<h3><?php esc_html_e( 'Unlock the power to make unlimited order bumps.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+			<h3><?php esc_html_e( 'Unlock the power to create unlimited Order Bumps.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 			<!-- Pro Content. -->
-			<p><?php esc_html_e( 'With our current version, you have just access to one order bump which can be used to show limited offers. But it would be very beneficial if you can make multiple order bumps. So, get our premium version today in order to make unlimited numbers of order bumps for each and every product at your site. Introduce your customers to most relevant offers on the basis of their purchase. Give your sales a great boost ahead.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'With our Free version, you have limited access to create just one Order Bump. So, get our Premium version today to create multiple Order Bumps. Introduce your customers to the most relevant offers which will benefit them on their existing purchase. Give your sales a great boost ahead.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
-			<h3><?php esc_html_e( 'Get premium support.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+			<h3><?php esc_html_e( 'Get Premium Support.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 			<!-- Pro Content. -->
-			<p><?php esc_html_e( 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+			<p>
+			<?php
+			esc_html_e(
+				"Receive dedicated 24*7 Phone, Email & Skype support. Our Support is ready to assist you regarding any query, issue or feature request and if that doesn't help our Technical team will connect with you personally and have your query resolved.",
+				'upsell-order-bump-offer-for-woocommerce'
+			);
+			?>
+			</p>
 		</div>
 		<!-- Premium feature section ends. -->
 

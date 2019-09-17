@@ -960,6 +960,9 @@ table.form-table.mwb_upsell_bump_creation_setting tr td input[type="text"] {
   font-size: 13px !important;
   font-style: italic;
 }
+.new_created_offers.mwb_upsell_single_offer .mwb_upsell_offer_desc_text {
+  margin-top: 1%
+}
 .mwb_upsell_offer_template.mwb_upsell_custom_page_link_div.active h6 {
   text-align: center;
   font-size: 16px;
