@@ -39,6 +39,19 @@ if( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 		$_POST['mwb_upsell_bump_status'] = 'no';
 	}
 
+	// When price is saved.
+	if( empty( $_POST['mwb_upsell_bump_offer_discount_price'] ) ) {
+
+		if( $_POST['mwb_upsell_bump_offer_discount_price'] == '' ) {
+
+			$_POST['mwb_upsell_bump_offer_discount_price'] = '20';
+
+		} else {
+
+			$_POST['mwb_upsell_bump_offer_discount_price'] = '0';
+		}
+	}
+
 	// New bump to be made.
 	$mwb_upsell_new_bump = array();
 
@@ -365,7 +378,7 @@ $mwb_upsell_bump_schedule_options = array(
 		$mwb_upsell_bump_product_in_offer = ! empty( $mwb_upsell_bumps_list[$mwb_upsell_bump_id]['mwb_upsell_bump_products_in_offer'] ) ? sanitize_text_field($mwb_upsell_bumps_list[$mwb_upsell_bump_id]['mwb_upsell_bump_products_in_offer']) : '';
 
 		// Offers with discount.
-		$mwb_upsell_bump_products_discount = ! empty( $mwb_upsell_bumps_list[$mwb_upsell_bump_id]['mwb_upsell_bump_offer_discount_price'] ) ? $mwb_upsell_bumps_list[$mwb_upsell_bump_id]['mwb_upsell_bump_offer_discount_price'] : '20';
+		$mwb_upsell_bump_products_discount = ( $mwb_upsell_bumps_list[$mwb_upsell_bump_id]['mwb_upsell_bump_offer_discount_price'] != '' ) ? $mwb_upsell_bumps_list[$mwb_upsell_bump_id]['mwb_upsell_bump_offer_discount_price'] : '20';
 
 		?>
 		<!-- Loader for template generation starts. -->

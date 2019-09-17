@@ -255,7 +255,7 @@ else {
 	<div class="mwb_ubo_lite_go_pro_popup">
 		<!-- Main heading. -->
 		<div class="mwb_ubo_lite_go_pro_popup_head">
-			<h2><?php echo esc_html__( 'Want More ? Go Pro !!', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+			<h2><?php echo esc_html__( 'Want More? Go Pro !!', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
 			<a href="" class="mwb_ubo_lite_go_pro_popup_close">
 				<span>&times;</span>
 			</a>
@@ -273,7 +273,7 @@ else {
 				<?php esc_html_e( 'Stucked to just one order bump ? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 			</p>
 			<p class="mwb_ubo_lite_go_pro_popup_text">
-				<?php esc_html_e( 'Go with our premium version and make unlimited numbers of order bumps. Make the most attractive offers with all of your products. Boost up your sale upto 20-30% with our premium version. ', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+				<?php esc_html_e( 'Go with our premium version and make unlimited numbers of order bumps. Make the most attractive offers with all of your products. Set Relevant offers for specific targets which will ensure customer satisfaction and higher conversion rates. ', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 			</p>
 		</div>
 

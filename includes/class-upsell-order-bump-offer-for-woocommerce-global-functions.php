@@ -620,7 +620,7 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	if ( $price_type == 'fixed' && empty( $discount_price ) ) {
 
 		if( $discount_price == 0 || $discount_price == '' ) : $discount_price = 0; endif;
-		$bump['discount_price'] = sanitize_text_field( $price );
+		$bump['discount_price'] = sanitize_text_field( $discount_price );
 	}
 
 	$_product->set_price( $bump['discount_price'] );
@@ -1028,7 +1028,6 @@ function mwb_ubo_lite_get_bump_image( $product_id = '', $parent = '' ) {
 }
 
 
-
 /**
  * Adding all html for the attributes with a dropdown.
  *
@@ -1062,22 +1061,30 @@ function mwb_ubo_lite_show_variation_dropdown( $args = array() ) {
 	}
 
 	$html = '<select id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . '" name="' . esc_attr( $name ) . '" data-attribute_name="attribute_' . esc_attr( sanitize_title( $attribute ) ) . '" data-show_option_none="' . ( $show_option_none ? 'yes' : 'no' ) . '">';
+
 	$html .= '<option value="">' . esc_html( $show_option_none_text ) . '</option>';
 
 	if ( ! empty( $options ) ) {
+
 		if ( $product && taxonomy_exists( $attribute ) ) {
+
 			// Get terms if this is a taxonomy - ordered. We need the names too.
 			$terms = wc_get_product_terms( $product->get_id(), $attribute, array( 'fields' => 'all' ) );
 
 			foreach ( $terms as $term ) {
+
 				if ( in_array( $term->slug, $options ) ) {
 					$html .= '<option value="' . esc_attr( $term->slug ) . '" ' . selected( sanitize_title( $args['selected'] ), $term->slug, false ) . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $term->name ) ) . '</option>';
 				}
 			}
+
 		} else {
+
 			foreach ( $options as $option ) {
+
 				// This handles < 2.4.0 bw compatibility where text attributes were not sanitized.
 				$selected = sanitize_title( $args['selected'] ) === $args['selected'] ? selected( $args['selected'], sanitize_title( $option ), false ) : selected( $args['selected'], $option, false );
+
 				$html .= '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( apply_filters( 'woocommerce_variation_option_name', $option ) ) . '</option>';
 			}
 		}
@@ -1119,7 +1126,7 @@ function mwb_ubo_lite_custom_price_html( $product_id='', $bump_discount= '', $ge
     	$price_array = explode( '+', $bump_discount );
     	$price_type = $price_array[1];
     	$price_discount = $price_array[0];
-    	
+	
     	if( $price_type == '%' ) {
 
     		$price_discount = sanitize_text_field( $price_discount );
@@ -1135,9 +1142,8 @@ function mwb_ubo_lite_custom_price_html( $product_id='', $bump_discount= '', $ge
         	// Just add the price with discount, tax will be added automatically.
         	if( empty( $price_discount ) ) {
 
-        		// If zero or empty default amount will be taken.
-        		$price_discount = $product->get_price();
-        		$bump_price = $price_discount;
+        		$bump_price = '0';
+        		$product->set_price( $bump_price );
 
         	} else {
 
@@ -1200,5 +1206,4 @@ function mwb_ubo_lite_custom_price_html( $product_id='', $bump_discount= '', $ge
 			return wc_format_sale_price( $sale_price, $bump_price );
 		}
 	}
-
 }

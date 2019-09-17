@@ -13,15 +13,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="mwb_ubo_lite_overview">
 	<div class="mwb_ubo_lite_intro_section">
 		<div id="mwb_ubo_lite_video_title">
-	    	<h2><?php esc_html_e( 'How Order Bump Offer Works and How to Setup it Up.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+	    	<h2><?php esc_html_e( 'How Order Bump Offer Works and How to Set it Up.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
 	    </div>
 	</div>
 
 	<hr>
 
 	<div id="mwb_ubo_lite_overview_video">
-		<!-- <iframe width="100%" height="450px" src="https://www.youtube.com/watch?v=7K4BFDqX-dw" frameborder="0" allowfullscreen=""></iframe> -->
-		<iframe width="100%" height="450px" src="https://www.youtube.com/embed/7K4BFDqX-dw" frameborder="0" allowfullscreen=""></iframe>
+		<iframe width="100%" height="500" src="https://www.youtube.com/embed/7K4BFDqX-dw" frameborder="0" allowfullscreen=""></iframe>
 	</div>
 
 	<hr>
