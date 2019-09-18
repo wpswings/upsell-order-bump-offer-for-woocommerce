@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -63,7 +62,6 @@ function deactivate_upsell_order_bump_offer_for_woocommerce() {
  * The code that runs during plugin validation.
  * This action is checks for WooCommerce Dependency.
  */
-
 function mwb_ubo_lite_plugin_activation() {
 
 	$activation['status'] = true;
@@ -97,6 +95,7 @@ if( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 		// Add settings links.
 		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'mwb_ubo_lite_plugin_settings_link' );
 
+		// Add Settings link if premium version is not available.
 		function mwb_ubo_lite_plugin_settings_link( $links ) {
 			
 			$plugin_links= array('<a href="' .
@@ -108,6 +107,7 @@ if( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 
 	add_filter( 'plugin_row_meta', 'mwb_ubo_lite_add_doc_and_premium_link', 10, 2 );
 
+	// Add custom links for getting premium version.
 	function mwb_ubo_lite_add_doc_and_premium_link( $links, $file ) {
 		
 		if ( strpos( $file, 'upsell-order-bump-offer-for-woocommerce.php' ) !== false ) {

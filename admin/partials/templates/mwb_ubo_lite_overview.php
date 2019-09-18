@@ -45,20 +45,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<!-- Premium feature section starts. -->
 		<div class="mwb_ubo_lite_overview_go_pro">
-			<h3><?php esc_html_e( 'Unlock the power to create unlimited Order Bumps.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
-			<!-- Pro Content. -->
-			<p><?php esc_html_e( 'With our Free version, you have limited access to create just one Order Bump. So, get our Premium version today to create multiple Order Bumps. Introduce your customers to the most relevant offers which will benefit them on their existing purchase. Give your sales a great boost ahead.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
-			<h3><?php esc_html_e( 'Get Premium Support.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
-			<!-- Pro Content. -->
-			<p>
-			<?php
-			esc_html_e(
-				"Receive dedicated 24*7 Phone, Email & Skype support. Our Support is ready to assist you regarding any query, issue or feature request and if that doesn't help our Technical team will connect with you personally and have your query resolved.",
-				'upsell-order-bump-offer-for-woocommerce'
-			);
-			?>
-			</p>
+			<div class="mwb_ubo_lite_go_pro_features">
+
+				<img src="<?php echo UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . "admin/resources/Icons/bumps.png"; ?> ">
+
+				<div class="mwb_ubo_lite_go_pro_features_wrap">
+
+					<!-- Pro feature heading. -->
+					<h3><?php esc_html_e( 'Unlock the power to create unlimited Order Bumps', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+
+					<!-- Pro feature Content. -->
+					<p><?php esc_html_e( 'With our Free version, you have limited access to create just one Order Bump. So, get our Premium version today to create multiple Order Bumps. Introduce your customers to the most relevant offers which will benefit them on their existing purchase. Give your sales a great boost ahead.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+
+				</div>
+			</div>
+
+			<div class="mwb_ubo_lite_go_pro_features"><img src="<?php echo UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . "admin/resources/Icons/customer_support.png"; ?> ">
+
+				<div class="mwb_ubo_lite_go_pro_features_wrap">
+
+					<!-- Pro feature Content. -->
+					<h3><?php esc_html_e( 'Get Premium Support', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+
+					<!-- Pro feature heading. -->
+					<p><?php esc_html_e(
+						"Receive dedicated 24*7 Phone, Email & Skype support. Our Support is ready to assist you regarding any query, issue or feature request and if that doesn't help our Technical team will connect with you personally and have your query resolved.",
+						'upsell-order-bump-offer-for-woocommerce'
+					); ?></p>
+
+				</div>
+			</div>
 		</div>
 		<!-- Premium feature section ends. -->
 
