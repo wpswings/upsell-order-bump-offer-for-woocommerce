@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -80,8 +79,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 			$pagescreen = $screen->id;
 
-			if( $pagescreen == 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' )
-			{
+			if( 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' == $pagescreen ) {
+
 				wp_register_style( 'mwb_ubo_lite_admin_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-admin.css', array(), $this->version, 'all' );
 
 				wp_enqueue_style( 'mwb_ubo_lite_admin_style' );
@@ -126,7 +125,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 			$pagescreen = $screen->id;
 
-			if( $pagescreen == 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' ) {
+			if( 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' == $pagescreen ) {
 
 				wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/select2.min.js', array( 'jquery' ), $this->version, false );
 
@@ -138,9 +137,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					$locale  = localeconv();
 					$decimal = isset( $locale['decimal_point'] ) ? $locale['decimal_point'] : '.';
 					$params = array(
-						/* translators: %s: decimal */
+						/* Translators: %s: decimal. */
 						'i18n_decimal_error'                => sprintf( __( 'Please enter in decimal (%s) format without thousand separators.', 'upsell-order-bump-offer-for-woocommerce' ), $decimal ),
-						/* translators: %s: price decimal separator */
+						/* Translators: %s: price decimal separator. */
 						'i18n_mon_decimal_error'            => sprintf( __( 'Please enter in monetary decimal (%s) format without thousand separators and currency symbols.', 'upsell-order-bump-offer-for-woocommerce' ), wc_get_price_decimal_separator() ),
 						'i18n_country_iso_error'            => __( 'Please enter in country code with two capital letters.', 'upsell-order-bump-offer-for-woocommerce' ),
 						'i18_sale_less_than_regular_error'  => __( 'Please enter in a value less than the regular price.', 'upsell-order-bump-offer-for-woocommerce' ),
@@ -164,14 +163,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 				if( ! empty( $_GET['mwb-bump-offer-section'] ) ) {
 
-					$bump_offer_section['value'] = sanitize_text_field( $_GET['mwb-bump-offer-section'] );
+					$bump_offer_section['value'] = sanitize_text_field( wp_unslash( $_GET['mwb-bump-offer-section'] ) );
 
 					wp_localize_script( 'mwb_ubo_lite_admin_script', 'offer_section_obj', $bump_offer_section );
 				}
 
 				if( ! empty( $_GET['mwb-bump-template-section'] ) ) {
 
-					$bump_template_section['value'] = sanitize_text_field( $_GET['mwb-bump-template-section'] );
+					$bump_template_section['value'] = sanitize_text_field( wp_unslash( $_GET['mwb-bump-template-section'] ) );
 
 					wp_localize_script( 'mwb_ubo_lite_admin_script', 'template_section_obj', $bump_template_section );
 				}
@@ -213,7 +212,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-
 	public function mwb_ubo_lite_add_backend() {
 
 		if( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
@@ -230,15 +228,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 					$day_count_warning = floor( $day_count );
 
+					// Days warning.
 					$day_string = sprintf( _n( '%s day', '%s days', $day_count_warning, 'upsell-order-bump-offer-for-woocommerce' ), number_format_i18n( $day_count_warning ) );
 
+					// Days warning html.
 					$day_string = '<span id="mwb-upsell-bump-day-count" >'.$day_string.'</span>';
 
 					?>
 					
 					<div id="mwb-bump-thirty-days-notify" class="notice notice-warning">
 					    <p>
-					    	<strong><a href="?page=mwb-bump-offer-setting&tab=license"><?php _e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></a><?php printf( __( ' the license key before %s or you may risk losing data and the plugin will also become dysfunctional.', 'upsell-order-bump-offer-for-woocommerce' ), $day_string ); ?></strong>
+					    	<strong><a href="?page=mwb-bump-offer-setting&tab=license">
+
+					    	<!-- License warning. -->
+					    	<?php esc_html_e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></a><?php printf( esc_html_e( ' the license key before %s or you may risk losing data and the plugin will also become dysfunctional.', 'upsell-order-bump-offer-for-woocommerce' ), $day_string ); ?></strong>
 					    </p>
 					</div>
 
@@ -251,8 +254,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			} else { ?>
 
 				<div class="wrap woocommerce" id="mwb_upsell_bump_setting_wrapper">
-					<div class="mwb_upsell_bump_setting_title"><?php echo apply_filters( 'mwb_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ); ?>
-			        <span class="mwb_upsell_bump_setting_title_version"><?php esc_html_e( 'v', 'upsell-order-bump-offer-for-woocommerce'); echo UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION; ?></span>
+
+					<div class="mwb_upsell_bump_setting_title"><?php esc_html_e( apply_filters( 'mwb_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
+
+			        <span class="mwb_upsell_bump_setting_title_version"><?php esc_html_e( 'v', 'upsell-order-bump-offer-for-woocommerce'); esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION ); ?></span>
+
 			    	</div>
 			    </div><?php
 
@@ -262,7 +268,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 		} else {
 
-			//With org files only.
+			// With org files only.
 			require_once plugin_dir_path( __FILE__ ).'/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
 		}
 	}
@@ -273,12 +279,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-
 	public function search_products_for_bump() {
 		
 		$return = array();
 		$search_results = new WP_Query( array( 
-			's'						=> $_GET['q'],
+			's'						=> ! empty( $_GET['q'] )? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
 			'post_type' 			=> array( 'product', 'product_variation' ),
 			'post_status' 			=> array( 'publish' ),
 			'ignore_sticky_posts' 	=> 1,
@@ -317,7 +322,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					'subscription_variation',
 				);
 
-				if( in_array( $product_type, $unsupported_product_types ) || $stock === "outofstock" ) {
+				if( in_array( $product_type, $unsupported_product_types ) || 'outofstock' == $stock ) {
 
 					continue;
 				}
@@ -339,12 +344,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-
 	public function search_products_for_offers() {
 
 		$return = array();
 		$search_results = new WP_Query( array( 
-			's'						=> $_GET['q'],
+			's'						=> ! empty( $_GET['q'] )? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
 			'post_type' 			=> array( 'product' , 'product_variation' ),
 			'post_status' 			=> array( 'publish' ),
 			'ignore_sticky_posts' 	=> 1,
@@ -383,7 +387,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					'subscription_variation',
 				);
 
-				if( in_array( $product_type, $unsupported_product_types ) || $stock === "outofstock" ) {
+				if( in_array( $product_type, $unsupported_product_types ) || 'outofstock' == $stock ) {
 
 					continue;
 				}
@@ -405,13 +409,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-
 	public function search_product_categories_for_bump() {
 		
 		$return = array();
 		$args = array(
-			'search'	 => $_GET['q'],
-		    'taxonomy'   => "product_cat",
+			'search'	 => ! empty( $_GET['q'] )? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
+		    'taxonomy'   => 'product_cat',
 		    'orderby'    => 'name',
 		);
 
@@ -438,21 +441,29 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since    1.0.0
 	 */
 	public function show_bump_total_content( $column_name, $post_ID ) {
-		if ( $column_name == 'order_total' ) {
+
+		// Add bump offer price to order total column.
+		if ( 'order_total' == $column_name ) {
+
+			// Get order id as post id.
 			$order = wc_get_order( $post_ID );
+
 			foreach ( $order->get_items() as $item_id => $item ) { 
+
 				$bump_offer = wc_get_order_item_meta( $item_id, 'Bump Offer', true );
 				$bump_price = $item->get_total();
+
 			}
-	        if( !empty( $bump_offer ) ) {
-	        	?>
-	        		<p class= "mwb_bump_table_html" >
-	        			<?php _e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ); 
-	        				echo wc_price( $bump_price );
-	        			?>
-	        		</p>
-	        	<?php
-	        }
+
+	        if( ! empty( $bump_offer ) ) : ?>
+
+	        	<p class= "mwb_bump_table_html" >
+        			<?php esc_html_e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ); 
+        				esc_html_e( wc_price( $bump_price ) );
+        			?>
+        		</p>
+
+	        <?php endif;
 		}
 	}
 
