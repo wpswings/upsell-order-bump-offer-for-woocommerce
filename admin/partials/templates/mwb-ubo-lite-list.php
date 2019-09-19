@@ -223,7 +223,7 @@ else {
 							esc_html_e( $offer->get_title() . " (#".$value['mwb_upsell_bump_products_in_offer'].")" ); 
 						} else {
 
-							esc_html_e( "No offers Added" );
+							esc_html_e( 'No offers Added','upsell-order-bump-offer-for-woocommerce' );
 						}
 					?>		
 					</p>
