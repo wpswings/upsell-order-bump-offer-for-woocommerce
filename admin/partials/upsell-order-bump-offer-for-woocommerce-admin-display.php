@@ -129,7 +129,7 @@ do_action( 'mwb_ubo_lite_tab_active' );
 <div id="mwb_ubo_lite_skype_connect_with_us">   
     <div class="mwb_ubo_lite_skype_connect_title"><?php esc_html_e( 'Connect with Us in one click', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 
-    <a class="button" target="_blank" href="https://join.skype.com/invite/IKVeNkLHebpC"><img src="<?php echo UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . "admin/resources/logo/skype_logo.png"; ?>"><?php esc_html_e( 'Connect', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+    <a class="button" target="_blank" href="https://join.skype.com/invite/IKVeNkLHebpC"><img src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . "admin/resources/logo/skype_logo.png" ); ?>"><?php esc_html_e( 'Connect', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
     <p><?php esc_html_e( 'Regarding any issue, query or feature request for Order Bump Offers.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
     <div class="mwb_ubo_lite_skype_setting"><span class="dashicons dashicons-admin-generic"></span></div>

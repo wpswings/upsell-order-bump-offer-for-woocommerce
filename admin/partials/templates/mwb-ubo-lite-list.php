@@ -264,14 +264,13 @@ else {
 	<div class="mwb_ubo_lite_go_pro_popup">
 		<!-- Main heading. -->
 		<div class="mwb_ubo_lite_go_pro_popup_head">
-			<h2><?php echo esc_html__( 'Want More? Go Pro !!', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+			<h2><?php esc_html_e( 'Want More? Go Pro !!', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+			<!-- Close button. -->
 			<a href="" class="mwb_ubo_lite_go_pro_popup_close">
 				<span>&times;</span>
 			</a>
 		</div>
 
-		<!-- Close button. -->
-		
 		<!-- Notice icon. -->
 		<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . "admin/resources/Icons/pro.png" ); ?> ">
 		</div>
