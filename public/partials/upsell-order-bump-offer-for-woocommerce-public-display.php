@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Provide a public-facing view for the plugin
  *
@@ -12,6 +11,7 @@
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/public/partials
  */
 ?>
+
 <?php
 
 	// Check enability of the plugin at settings page.
@@ -101,7 +101,7 @@
 						}
 
 						// Check if offer product is already in cart.
-						if( mwb_ubo_lite_already_in_cart( $single_bump_array[ 'mwb_upsell_bump_products_in_offer' ] ) && $mwb_upsell_bump_global_skip_settings == 'yes' ) {
+						if( mwb_ubo_lite_already_in_cart( $single_bump_array[ 'mwb_upsell_bump_products_in_offer' ] ) && 'yes' == $mwb_upsell_bump_global_skip_settings ) {
 
 							continue;
 						}
@@ -134,7 +134,7 @@
 							}
 
 							// Check if offer product is already in cart.
-							if( mwb_ubo_lite_already_in_cart( $single_bump_array[ 'mwb_upsell_bump_products_in_offer' ] ) && $mwb_upsell_bump_global_skip_settings == 'yes' ) {
+							if( mwb_ubo_lite_already_in_cart( $single_bump_array[ 'mwb_upsell_bump_products_in_offer' ] ) && 'yes' == $mwb_upsell_bump_global_skip_settings ) {
 
 								continue;
 

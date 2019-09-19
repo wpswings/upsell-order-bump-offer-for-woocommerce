@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -163,7 +162,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		// Add admin arena.
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'mwb_ubo_lite_admin_menu' );
 
-		// Load scripts and styles
+		// Load scripts and styles.
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
@@ -192,7 +191,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		// By default plugin will be enabled.
 		$mwb_upsell_bump_enable_plugin = ! empty( $mwb_ubo_global_options['mwb_bump_enable_plugin'] ) ? $mwb_ubo_global_options['mwb_bump_enable_plugin'] : 'on';	
 
-		if( $mwb_upsell_bump_enable_plugin === "on" ) {
+		if( "on" == $mwb_upsell_bump_enable_plugin ) {
 
 			$plugin_public = new Upsell_Order_Bump_Offer_For_Woocommerce_Public( $this->get_plugin_name(), $this->get_version() );
 
@@ -292,10 +291,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		return $this->version;
 	}
 
-	// Public static variable to be accessed in this plugin.
-	public static $mwb_upsell_bump_list_callback_function = 'mwb_upsell_bump_list_callback_return';
 	/**
-	 * Validate the use of features of this plugin for initial days.
+	 * Public static variable to be accessed in this plugin.
+	 *
+	 * @since    1.0.0
+	 */
+	public static $mwb_upsell_bump_list_callback_function = 'mwb_upsell_bump_list_callback_return';
+
+	/**
+	 * Validate the use of bump lists at org and pro version.
 	 *
 	 * @since    1.0.0
 	 */

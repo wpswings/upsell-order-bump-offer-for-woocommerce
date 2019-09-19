@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The public-facing functionality of the plugin.
  *
@@ -121,7 +120,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Add custom hook to show offer bump after payment gateways but before 
 	 * terms as one is not provided by Woocommerce. 
-	 *
+	 * @param      string    $template_name.
+	 * @param      string    $template_path.
 	 * @since    1.0.0
 	 */
 	public function add_bump_offer_custom_hook( $template_name, $template_path ) {
@@ -152,18 +152,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 *
 	 * @since    1.0.0
 	 */
-
 	public function add_offer_in_cart() {
 
 		// Nonce verification.
 		check_ajax_referer( 'mwb_ubo_lite_nonce' , 'nonce' );
 
 		// The id of the offer to be added.
-		$bump_product_id = ! empty( $_POST[ 'id' ] ) ? sanitize_text_field( $_POST[ 'id' ] ) : '';
+		$bump_product_id = ! empty( $_POST[ 'id' ] ) ? sanitize_text_field( wp_unslash($_POST[ 'id' ]) ) : '';
 
 		$bump_target_cart_key = ! empty( $_POST[ 'bump_target_cart_key' ] ) ? sanitize_text_field( $_POST[ 'bump_target_cart_key' ] ) : '';
 
-		$bump_discounted_price = ! empty( $_POST[ 'discount' ] ) ? sanitize_text_field( $_POST[ 'discount' ] ) : '';
+		$bump_discounted_price = ! empty( $_POST[ 'discount' ] ) ? sanitize_text_field( wp_unslash($_POST[ 'discount' ]) ) : '';
 		
 		$cart_item_data = array(
 			'mwb_discounted_price' => $bump_discounted_price,
@@ -211,7 +210,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 *
 	 * @since    1.0.0
 	 */
-
 	public function remove_offer_in_cart() {
 
 		// Nonce verification.
@@ -239,17 +237,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 *
 	 * @since    1.0.0
 	 */
-
 	public function search_variation_id_by_select() {
 
 		// Nonce verification.
 		check_ajax_referer( 'mwb_ubo_lite_nonce' , 'nonce' );
 
-		$bump_offer_id = ! empty( $_POST[ 'id' ] ) ? sanitize_text_field( $_POST[ 'id' ] ) : ''; 	//variation parent.
+		$bump_offer_id = ! empty( $_POST[ 'id' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'id' ] ) ) : ''; 	//variation parent.
 
-		$bump_offer_discount = ! empty( $_POST[ 'discount' ] ) ? sanitize_text_field( $_POST[ 'discount' ] ) : '';
+		$bump_offer_discount = ! empty( $_POST[ 'discount' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'discount' ] ) ) : '';
 
-		$bump_target_cart_key = ! empty( $_POST[ 'bump_target_cart_key' ] ) ? sanitize_text_field( $_POST[ 'bump_target_cart_key' ] ) : '';
+		$bump_target_cart_key = ! empty( $_POST[ 'bump_target_cart_key' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'bump_target_cart_key' ] ) ) : '';
 
 		$attributes_selected_options = $_POST[ 'attributes_selected_options' ];
 
@@ -325,7 +322,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 *
 	 * @since    1.0.0
 	 */
-
 	public function add_variation_offer_in_cart() {
 
 		check_ajax_referer( 'mwb_ubo_lite_nonce' , 'nonce' );
@@ -334,17 +330,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$variation_id = ! empty( $_POST[ 'id' ] ) ? sanitize_text_field( $_POST[ 'id' ] ) : ''; 	
 
 		// Contains parent variable ID.		
-		$variation_parent_id = ! empty( $_POST[ 'parent_id' ] ) ? sanitize_text_field( $_POST[ 'parent_id' ] ) : ''; 
+		$variation_parent_id = ! empty( $_POST[ 'parent_id' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'parent_id' ] ) ) : ''; 
 
 		// Contains bump discount.
-		$bump_offer_discount = ! empty( $_POST[ 'discount' ] ) ? sanitize_text_field( $_POST[ 'discount' ] ) : ''; 		
-
+		$bump_offer_discount = ! empty( $_POST[ 'discount' ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'discount' ] ) ) : ''; 		
+		
 		// Contains target cart key.
 		$bump_target_cart_key = ! empty( $_POST[ 'bump_target_cart_key' ] ) ? sanitize_text_field( $_POST[ 'bump_target_cart_key' ] ) : ''; 
 
 		// Now safe to add to cart.
 		$cart_item_data = array( 
-			'mwb_discounted_price' => $bump_discounted_price,
+			'mwb_discounted_price' => $bump_offer_discount,
 			'flag_' . uniqid() => true,
 		);
 
@@ -366,7 +362,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 *
 	 * @since    1.0.0
 	 */
-
 	public function reset_session_variable() {
 
 		if( ! session_id() ) {
@@ -380,7 +375,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 	/**
 	 * Add order item meta to bump product.
-	 *
+	 * @param object $order.
 	 * @since    1.0.0
 	 */
     public function add_order_item_meta( $order ) {
@@ -403,10 +398,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 	/**
 	 * Disabling the offer quantity for bump product in Cart page.
-	 *
+	 * @param string $product_quantity.
+	 * @param string $cart_item_key.
 	 * @since    1.0.0
 	 */
-
 	public function disable_quantity_bump_product_in_cart( $product_quantity, $cart_item_key ) {
 
 		if( ! session_id() ) {
@@ -426,11 +421,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 
 	/**
-	* Removal of target and bump product is handled here.
-	*
-	* @since 1.0.0
-	*/
-
+	 * Removal of target and bump product is handled here.
+	 * @param string $key_to_be_removed.
+	 * @param string $cart_object.
+	 * @since 1.0.0
+	 */
 	public function after_remove_product( $key_to_be_removed, $cart_object ) {
 
 		$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
@@ -474,13 +469,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 	}
 
-
 	/**
 	 * Change price at last for bump offer product.
-	 *
+	 * @param object $cart_object.
 	 * @since    1.0.0
 	 */
-
 	public function woocommerce_custom_price_to_cart_item( $cart_object ) {  
 
     	if( ! WC()->session->__isset( "reload_checkout" ) ) {

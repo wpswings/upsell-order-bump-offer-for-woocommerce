@@ -1,4 +1,15 @@
 <?php
+/**
+ * Provide a admin area view for the plugin
+ *
+ * This file is used to list all bump offers.
+ *
+ * @link       https://makewebbetter.com/
+ * @since      1.0.0
+ *
+ * @package    Upsell_Order_Bump_Offer_For_Woocommerce
+ * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/admin/partials/templates
+ */
 
 /**
  * Exit if accessed directly.
@@ -19,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Delete bumps.
 if( isset( $_GET['del_bump_id'] ) ) {
 
-	$bump_id = sanitize_text_field( $_GET['del_bump_id'] );
+	$bump_id = sanitize_text_field( wp_unslash( $_GET['del_bump_id'] ) );
 
 	// Get all bumps.
 	$mwb_upsell_bumps = get_option( 'mwb_ubo_bump_list' );
@@ -39,7 +50,6 @@ if( isset( $_GET['del_bump_id'] ) ) {
 
 	exit();
 }
-
 
 // Get all bumps.
 $mwb_upsell_bumps_list = get_option( "mwb_ubo_bump_list" );
@@ -77,7 +87,7 @@ else {
 
 		<div class="notice notice-warning">
 		    <p>
-		    	<strong><?php _e( 'Only first Order Bump will work. Please activate pro version to make all working.', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong>
+		    	<strong><?php esc_html_e( 'Only first Order Bump will work. Please activate pro version to make all working.', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong>
 		    </p>
 		</div>
 
@@ -96,14 +106,14 @@ else {
 			<!-- Foreach Bump start. -->
 			<?php foreach ( $mwb_upsell_bumps_list as $key => $value ):
 
-				$offer_present = ! empty( $value['mwb_upsell_bump_products_in_offer'] ) ? $value['mwb_upsell_bump_products_in_offer'] : 'no offer selected'; 
+				$offer_present = ! empty( $value['mwb_upsell_bump_products_in_offer'] ) ? $value['mwb_upsell_bump_products_in_offer'] : '';
 				
 				$offers = wc_get_product( $offer_present );
 
 			?>
 			<tr>		
 				<!-- Bump Name. -->
-				<td><a class="mwb_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo $key?>"><?php echo $value["mwb_upsell_bump_name"]; ?></a></td>
+				<td><a class="mwb_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php esc_html_e( $key ); ?>"><?php esc_html_e( $value["mwb_upsell_bump_name"] ); ?></a></td>
 
 				<!-- Bump Status. -->
 				<td>
@@ -145,8 +155,8 @@ else {
 								continue;
 							}
 						?>
-							<p><?php echo $product->get_title() . "( #$single_target_product )";?></p>
-						<?php 
+							<p><?php esc_html_e( $product->get_title() . "( #$single_target_product )" );?></p>
+						<?php
 
 						endforeach;
 
@@ -181,7 +191,7 @@ else {
 								continue;
 							}
 						?>
-							<p><?php echo $category_name . "( #$single_target_category_id )"; ?></p>
+							<p><?php esc_html_e( $category_name . "( #$single_target_category_id )" ); ?></p>
 						<?php 
 
 						endforeach;
@@ -206,17 +216,16 @@ else {
 				<!-- Offers Count. -->
 				<td>
 					<p>
-						<?php 
-							if( isset( $value['mwb_upsell_bump_products_in_offer'] ) ) {
+					<?php 
+						if( ! empty( $value['mwb_upsell_bump_products_in_offer'] ) ) {
 
-								$offer = wc_get_product( $value['mwb_upsell_bump_products_in_offer'] );
-								echo $offer->get_title() . " (#".$value['mwb_upsell_bump_products_in_offer'].")"; 
-							} else {
+							$offer = wc_get_product( $value['mwb_upsell_bump_products_in_offer'] );
+							esc_html_e( $offer->get_title() . " (#".$value['mwb_upsell_bump_products_in_offer'].")" ); 
+						} else {
 
-								echo "No offers Added";
-							}
-						?>
-							
+							esc_html_e( "No offers Added" );
+						}
+					?>		
 					</p>
 				</td> 
 
@@ -224,10 +233,10 @@ else {
 				<td>
 
 					<!-- Bump View/Edit link. -->
-					<a class="mwb_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo $key?>"><?php esc_html_e( 'View / Edit', 'upsell-order-bump-offer-for-woocommerce' );?></a>
+					<a class="mwb_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php esc_html_e( $key ); ?>"><?php esc_html_e( 'View / Edit', 'upsell-order-bump-offer-for-woocommerce' );?></a>
 
 					<!-- Bump Delete link. -->
-					<a class="mwb_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list&del_bump_id=<?php echo $key?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' );?></a>
+					<a class="mwb_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list&del_bump_id=<?php esc_html_e( $key ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' );?></a>
 				</td>
 
 				<?php do_action( 'mwb_ubo_add_more_col_data' ); ?>
@@ -264,13 +273,13 @@ else {
 		<!-- Close button. -->
 		
 		<!-- Notice icon. -->
-		<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php echo UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . "admin/resources/Icons/pro.png"; ?> ">
+		<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . "admin/resources/Icons/pro.png" ); ?> ">
 		</div>
 
 		<!-- Notice. -->
 		<div class="mwb_ubo_lite_go_pro_popup_content">
 			<p class="mwb_ubo_lite_go_pro_popup_text">
-				<?php esc_html_e( 'Stucked to just one order bump ? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+				<?php esc_html_e( 'Stucked to just one order bump? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 			</p>
 			<p class="mwb_ubo_lite_go_pro_popup_text">
 				<?php esc_html_e( 'Go with our premium version and make unlimited numbers of order bumps. Make the most attractive offers with all of your products. Set Relevant offers for specific targets which will ensure customer satisfaction and higher conversion rates. ', 'upsell-order-bump-offer-for-woocommerce' ); ?>

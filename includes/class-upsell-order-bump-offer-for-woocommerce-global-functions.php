@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -9,7 +8,6 @@
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/admin
  */
-
 
 /**
  * Bump offer template 1.
@@ -169,10 +167,9 @@ function mwb_ubo_lite_offer_default_text() {
 	return $default_default_text;
 }
 
-
 /**
  * Bump Offer Html.
- *
+ * @param array $bump.
  * @since    1.0.0
  */
 function mwb_ubo_lite_bump_offer_html( $bump ) {
@@ -197,18 +194,16 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 	
 	}
 
-	if( ! empty( $bump[ 'price_type' ] ) && $bump[ 'price_type' ] == 'fixed' ) {
+	if( ! empty( $bump[ 'price_type' ] ) && 'fixed' == $bump[ 'price_type' ] ) {
+
 		$bump_price_html = $discount_title_fixed;
 	}
 	else {
+
 		$bump_price_html = $discount_title_percent;
 	}
 
-	?>
-
-	<?php
-
-	// Template adaption
+	// Template adaption.
 	$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
 	$mwb_ubo_template_adaption = ! empty( $mwb_ubo_global_options[ 'mwb_ubo_temp_adaption' ] ) ? $mwb_ubo_global_options[ 'mwb_ubo_temp_adaption' ] : '';
 
@@ -240,9 +235,9 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 	?>
 
 	<?php $parent_border_width = '2px' ; ?>
-	<?php if( $parent_border_type == 'double' ) : $parent_border_width = '4px'; endif; ?>
+	<?php if( 'double' == $parent_border_type ) : $parent_border_width = '4px'; endif; ?>
 
-	<!--  HTML goes down here --> 
+	<!--  HTML goes down here. --> 
 	<style type="text/css">
 		/**
 		* All of the CSS for your public-facing functionality should be
@@ -251,41 +246,36 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 		.mwb_upsell_offer_main_wrapper {
 			display: block;
 			width: 100%;
-			padding-top:  <?php echo $parent_top_vertical_spacing."px"; ?> ;
-			padding-bottom:  <?php echo $parent_bottom_vertical_spacing."px"; ?> ;
+			padding-top:  <?php esc_html_e( $parent_top_vertical_spacing ); ?>px;
+			padding-bottom:  <?php esc_html_e( $parent_bottom_vertical_spacing ); ?>px;
 		}
 		.mwb_upsell_offer_parent_wrapper {
-			border: <?php echo $parent_border_type." ".$parent_border_color." ".$parent_border_width ?> ;
+			border: <?php esc_html_e( $parent_border_type." ".$parent_border_color." ".$parent_border_width ) ?> ;
 			<?php if( 'no' == $mwb_ubo_template_adaption ) : ?>
 				max-width: 400px;
 			<?php endif; ?>
 			margin: 0 auto;
 		}
-
 		.mwb_upsell_offer_parent_wrapper {
 			font-family: 'Source Sans Pro', sans-serif;
 		}
-
 		.mwb_upsell_offer_wrapper {
 			background-color: #ffffff;
 			width: 100%;
 			padding: 20px;
 		}
-
 		.mwb_upsell_offer_discount_section {
 			margin: 0;
 			text-align: center;
-			background-color: <?php echo $discount_section_background_color ?>;
+			background-color: <?php esc_html_e( $discount_section_background_color ) ?>;
 			line-height: 1.68;
 		}
-
 		.mwb_upsell_offer_discount_section h3 {
-			color: <?php echo $discount_section_text_color ?>;
+			color: <?php esc_html_e( $discount_section_text_color ) ?>;
 			margin: 0px;
 			padding: 1px;
-			font-size: <?php echo $discount_section_text_size ?>px;
+			font-size: <?php esc_html_e( $discount_section_text_size ); ?>px;
 		}
-
 		.mwb_upsell_offer_product_section {
 			display: -webkit-flex;
 			display: -moz-flex;
@@ -295,79 +285,60 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			font-size: 16px;
 			align-items: start;
 		}
-
 		.mwb_upsell_offer_product_section p{
 			margin: 0;
-			color: <?php echo $product_section_text_color ?>;
-			font-size: <?php echo $product_section_text_size ?>px;
+			color: <?php esc_html_e( $product_section_text_color ) ?>;
+			font-size: <?php esc_html_e( $product_section_text_size ); ?>px;
 
 		}
-
 		.mwb_upsell_offer_product_content h4 {
 			display: inline-block;
 			vertical-align: middle;
 			font-weight: 500;
 		}
-
 		.mwb_upsell_offer_product_content p {
 			white-space: pre-line;
 		}
-
 		p.mwb_upsell_offer_product_price {
-		    font-size: <?php echo $product_section_text_size ?>px;
+		    font-size: <?php esc_html_e( $product_section_text_size ); ?>px;
 		    font-weight: 700;
 		}
-
 		p.mwb_upsell_offer_product_price del{
-			font-size: <?php echo $product_section_text_size ?>px;
+			font-size: <?php esc_html_e( $product_section_text_size ); ?>px;
 		}
-
 		.mwb_upsell_offer_product_section h4 {
 			margin: 0;
-			color: <?php echo $product_section_text_color ?>;
-			font-size: <?php echo $product_section_text_size+=10 ?>px;
+			color: <?php esc_html_e( $product_section_text_color ) ?>;
+			font-size: <?php esc_html_e( $product_section_text_size+=10 ); ?>px;
 			font-weight: 300;
 		}
-
 		.mwb_upsell_offer_product_content {
 		    width: calc(100% - 90px);
 		}
-
 		.mwb_upsell_offer_primary_section {
 			align-items: center;
-			background-color: <?php echo $primary_section_background_color ?>;
+			background-color: <?php esc_html_e( $primary_section_background_color ) ?>;
 			display: flex;
 			margin: 14px auto;
 			padding: 10px;
 		}
-
 		.mwb_upsell_offer_primary_section h5 {
-			color: <?php echo $primary_section_text_color ?>;
-			font-size: <?php echo $primary_section_text_size ?>px;
+			color: <?php esc_html_e( $primary_section_text_color ); ?>;
+			font-size: <?php esc_html_e( $primary_section_text_size ); ?>px;
 			margin: 0 0 0 10px;
 			font-weight: 600;
 		}
-
 		.mwb_upsell_offer_secondary_section {
 			padding: 8px;
-			background-color: <?php echo $secondary_section_background_color ?>;
+			background-color: <?php esc_html_e( $secondary_section_background_color ); ?>;
 			text-align: center;
 			white-space: pre-line;
-
 		}
-
 		.mwb_upsell_offer_secondary_section p {
-			color: <?php echo $secondary_section_text_color ?>;
+			color: <?php esc_html_e( $secondary_section_text_color ); ?>;
 			margin: 0;
-			font-size:<?php echo $secondary_section_text_size ?>px;
-			
+			font-size:<?php esc_html_e( $secondary_section_text_size ); ?>px;
 		}
-
-		/*
-		* Css for checkbox
-		*
-		*/
-
 		/* Custom checkbox container */
 		.mwb_upsell_offer_primary_section .mwb_upsell_bump_checkbox_container {
 			cursor: pointer;
@@ -382,7 +353,6 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			-ms-user-select: none;
 			user-select: none;
 		}
-		
 		/* Hide the browser's default checkbox. */
 		.mwb_upsell_bump_checkbox_container input {
 			position: absolute;
@@ -391,7 +361,6 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			height: 0;
 			width: 0;
 		}
-
 		/* Create a custom checkbox. */
 		.checkmark {
 			position: absolute;
@@ -403,7 +372,6 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			background-color: #eeeeee;
 			animation: shadow-pulse 1.5s infinite;
 		}
-
 		@keyframes shadow-pulse
 		{
 			0% {
@@ -413,29 +381,24 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 				box-shadow: 0 0 0 7px transparent;
 			}
 		}
-		
 		/* On mouse-over, add a grey background color. */
 		.mwb_upsell_bump_checkbox_container:hover input ~ .checkmark {
 			background-color: #ccc;
 		}
-
 		/* When the checkbox is checked, add a blue background. */
 		.mwb_upsell_bump_checkbox_container input:checked ~ .checkmark {
 			background-color: #ffffff;
 		}
-
 		/* Create the checkmark/indicator (hidden when not checked). */
 		.checkmark:after {
 			content: "";
 			position: absolute;
 			display: none;
 		}
-
 		/* Show the checkmark when checked. */
 		.mwb_upsell_bump_checkbox_container input:checked ~ .checkmark:after {
 			display: block;
 		}
-
 		/* Style the checkmark/indicator. */
 		.mwb_upsell_bump_checkbox_container .checkmark:after {
 			left: 9px;
@@ -462,7 +425,7 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 
 	<?php 
 
-	// Incase no offer is added return
+	// Incase no offer is added return.
 	$bump['id'] = ! empty( $bump['id'] ) ? sanitize_text_field( $bump['id'] ) : "";
 	if( empty( $bump['id'] ) ) : return; endif;
 
@@ -526,7 +489,7 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 	// wrapper div start.
 	$bumphtml .= '<div class = "mwb_upsell_offer_wrapper" >';
 
-	// product section start
+	// product section start.
 	$bumphtml .= '<div class = "mwb_upsell_offer_product_section" >';
 	$bumphtml .= '<div class = "mwb_upsell_offer_image" >';
 	$bumphtml .= '<img src="'.$image.'" style =" max-height: 120px; width: 90px; max-width: 100px; " data-id="'.$bump["id"].'">';
@@ -559,11 +522,10 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 	return $bumphtml;
 }
 
-
-
 /**
  * Fetch Bump Offer details for offer html.
- *
+ * @param      string    $encountered_bump_array_index.
+ * @param      string    $mwb_upsell_bump_target_key.
  * @since    1.0.0
  */
 function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $mwb_upsell_bump_target_key = '' ) {
@@ -589,7 +551,7 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	$bump = ! empty( $bump )? $bump : array();
 
 	// Check if price or discount % is given.
-	if( $price_type == '%' && ! empty( $discount_price ) ){
+	if( '%' == $price_type && ! empty( $discount_price ) ) {
 
 		// Discount % is given( no negatives, not more than 100, if 100% then price zero ).
 		$discount_price = sanitize_text_field( $discount_price );
@@ -602,13 +564,13 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	// Discount % is given with null value or zero.
 	if( $price_type == '%' && empty( $discount_price ) ) {
 
-		// Discount % is given( null or zero )
+		// Discount % is given( null or zero ).
 		$bump['discount_price'] = $price ;
 
 	}
 
 	// Discount fixed is given with null value or zero.
-	if ( $price_type == 'fixed' && ! empty( $discount_price  ) ) {
+	if ( 'fixed' == $price_type && ! empty( $discount_price  ) ) {
 
 		// When fixed price is given.
 		if( $discount_price < 0 ) : $discount_price = 0; endif;
@@ -617,9 +579,9 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	}
 
 	// Discount is given with null value or zero.
-	if ( $price_type == 'fixed' && empty( $discount_price ) ) {
+	if ( 'fixed' == $price_type && empty( $discount_price ) ) {
 
-		if( $discount_price == 0 || $discount_price == '' ) : $discount_price = 0; endif;
+		if( 0 == $discount_price || '' == $discount_price ) : $discount_price = 0; endif;
 		$bump['discount_price'] = sanitize_text_field( $discount_price );
 	}
 
@@ -642,7 +604,7 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 
 	if( ! empty( $mwb_bump_upsell_selected_template ) ) {
 
-		// Load the css of selected template
+		// Load the css of selected template.
 		$template_callb_func = 'mwb_ubo_lite_offer_template_' . $mwb_bump_upsell_selected_template;
 
 		$mwb_bump_enable_available_design = $template_callb_func();
@@ -653,14 +615,14 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 		$bump['design_css'] = $encountered_bump_array[ 'design_css' ];
 	}
 
-	if ( $price_type == '%' ) {
+	if ( '%' == $price_type ) {
 
 		if( empty( $discount_price ) ) : $discount_price = 0; endif;
 		$bump['bump_price_html'] = $discount_price.'%';
 
 	} else {
 
-		if( get_option( 'woocommerce_tax_display_cart' ) == 'incl' ) {
+		if( 'incl' == get_option( 'woocommerce_tax_display_cart' ) ) {
 
 			$inclusive = true;
 		}
@@ -687,8 +649,8 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 
 /**
  * Retrieve Bump Offer location details.
- *
- * @since   1.0.0 
+ * @param string $key.
+ * @since   1.0.0.
  */
 function mwb_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gateways' ) {
 
@@ -721,7 +683,7 @@ function mwb_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 
 /**
  * Function for search through category.
- *
+ * @param string $category_target_id.
  * @since   1.0.0 
  */
 function mwb_ubo_lite_check_category_in_cart( $category_target_id ='' ) {
@@ -764,7 +726,7 @@ function mwb_ubo_lite_check_category_in_cart( $category_target_id ='' ) {
 
 /**
  * Function for search through category.
- *
+ * @param string $cat_id.
  * @since   1.0.0 
  */
 function mwb_ubo_lite_category_has_parent( $cat_id ) {
@@ -800,7 +762,7 @@ function mwb_ubo_lite_category_has_parent( $cat_id ) {
 
 /**
  * Function for prepare bump data in a single array.
- *
+ * @param 	string 	$product_id.
  * @since   1.0.0
  */
 function mwb_ubo_lite_check_if_in_cart( $product_id ='' ) {
@@ -850,7 +812,7 @@ function mwb_ubo_lite_check_if_in_cart( $product_id ='' ) {
 
 /**
  * Function to check similiar offer already present in cart.
- *
+ * @param 	string 	$offer_id.
  * @since   1.0.0 
  */
 function mwb_ubo_lite_already_in_cart( $offer_id ) {
@@ -884,7 +846,7 @@ function mwb_ubo_lite_already_in_cart( $offer_id ) {
 
 /**
  * Adding html for the popup to show variations.
- *
+ * @param 	object 	$product.
  * @since   1.0.0 
  */
 function mwb_ubo_lite_show_variation_popup( $product = '' ) {
@@ -892,7 +854,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 	?>
 	<!-- HTML for loader starts. -->
 	<div class= "mwb_bump_popup_loader">
-		<img src= <?php echo UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/loader.svg'; ?> >
+		<img src= <?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/loader.svg' ); ?> >
 	</div>
 	<!-- HTML for loader ends. -->
 
@@ -907,7 +869,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 
 				<!-- Close button starts. -->
 				<span class="mwb_bump_popup_close">
-					<img src= <?php echo UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/close.png'; ?> > 
+					<img src= <?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/close.png' ); ?> >
 				</span>
 				<!-- Close button ends. -->
 
@@ -922,7 +884,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 				<!-- Variation Select starts. -->
 				<div class="mwb_bump_popup_select">
 					<p class="bump_variable_product_title">
-						<?php echo( $product->get_title() ); ?>
+						<?php esc_html_e( $product->get_title() ); ?>
 					</p>
 
 					<?php
@@ -949,7 +911,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 
 								<!-- In case slug is encountered. -->
 								<?php $show_title = str_replace('pa_', '', $attribute_name );  ?>
-								<?php echo( ucfirst( $show_title ) ); ?>
+								<?php esc_html_e( ucfirst( $show_title ) ); ?>
 								
 							</p>
 
@@ -972,7 +934,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 
 					<!-- Add to cart button starts. -->
 					<button name="add-to-cart" class="single_add_to_cart_button button alt" id="mwb_ubo_bump_add_to_cart_button">
-						<?php _e( 'Add this offer to cart','upsell-order-bump-offer-for-woocommerce' ); ?>
+						<?php esc_html_e( 'Add this offer to cart','upsell-order-bump-offer-for-woocommerce' ); ?>
 					</button>
 					<!-- Add to cart button ends. -->
 					
@@ -993,10 +955,10 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 
 /**
  * Check if Product Image is present or not and show.
- *
+ * @param 	object 	$product_id.
  * @since   1.0.0 
  */
-function mwb_ubo_lite_get_bump_image( $product_id = '', $parent = '' ) {
+function mwb_ubo_lite_get_bump_image( $product_id = '' ) {
 	
 	// Get product thumbnail id.
 	$image_id = get_post_thumbnail_id( $product_id );
@@ -1030,7 +992,7 @@ function mwb_ubo_lite_get_bump_image( $product_id = '', $parent = '' ) {
 
 /**
  * Adding all html for the attributes with a dropdown.
- *
+ * @param 	array 	$args.
  * @since   1.0.0 
  */
 function mwb_ubo_lite_show_variation_dropdown( $args = array() ) {
@@ -1098,8 +1060,10 @@ function mwb_ubo_lite_show_variation_dropdown( $args = array() ) {
 
 /**
  * Get price html with bump offer discount
- *
- * @since    1.0.0
+ * @param 	string 	$product_id.
+ * @param 	string 	$bump_discount.
+ * @param 	string 	$get.
+ * @since   1.0.0
  */
 
 function mwb_ubo_lite_custom_price_html( $product_id='', $bump_discount= '', $get = '' ) {

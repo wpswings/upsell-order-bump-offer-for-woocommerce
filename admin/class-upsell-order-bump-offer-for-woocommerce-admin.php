@@ -241,7 +241,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					    	<strong><a href="?page=mwb-bump-offer-setting&tab=license">
 
 					    	<!-- License warning. -->
-					    	<?php esc_html_e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></a><?php printf( esc_html_e( ' the license key before %s or you may risk losing data and the plugin will also become dysfunctional.', 'upsell-order-bump-offer-for-woocommerce' ), $day_string ); ?></strong>
+					    	<?php esc_html_e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></a><?php printf( __( ' the license key before %s or you may risk losing data and the plugin will also become dysfunctional.', 'upsell-order-bump-offer-for-woocommerce' ), $day_string ); ?></strong>
 					    </p>
 					</div>
 
@@ -256,9 +256,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				<div class="wrap woocommerce" id="mwb_upsell_bump_setting_wrapper">
 
 					<div class="mwb_upsell_bump_setting_title"><?php esc_html_e( apply_filters( 'mwb_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
-
 			        <span class="mwb_upsell_bump_setting_title_version"><?php esc_html_e( 'v', 'upsell-order-bump-offer-for-woocommerce'); esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION ); ?></span>
-
 			    	</div>
 			    </div><?php
 
@@ -459,7 +457,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 	        	<p class= "mwb_bump_table_html" >
         			<?php esc_html_e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ); 
-        				esc_html_e( wc_price( $bump_price ) );
+        				_e( wc_price( $bump_price ) );
         			?>
         		</p>
 
