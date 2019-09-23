@@ -26,24 +26,25 @@ do_action( 'mwb_ubo_lite_tab_active' );
 
 ?>
 <div class="wrap woocommerce" id="mwb_upsell_bump_setting_wrapper">
-	<div class="mwb_upsell_bump_setting_title"><?php esc_html_e( apply_filters( 'mwb_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
+	<div class="mwb_upsell_bump_setting_title"><?php echo esc_html( apply_filters( 'mwb_ubo_lite_heading', esc_html( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
 	<span class="mwb_upsell_bump_setting_title_version">
 	<?php
-	esc_html_e( 'v', 'upsell-order-bump-offer-for-woocommerce' );
-	esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION );
+		esc_html_e( 'v', 'upsell-order-bump-offer-for-woocommerce' );
+		echo esc_html( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION );
 	?>
 	</span>
 	</div>
 
 	<nav class="nav-tab-wrapper woo-nav-tab-wrapper">
 
-		<a class="nav-tab <?php esc_html_e( 'creation-setting' == $mwb_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting"><?php esc_html_e( 'Save Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="nav-tab <?php echo esc_html( 'creation-setting' == $mwb_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting"><?php esc_html_e( 'Save Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
-		<a class="nav-tab <?php esc_html_e( 'bump-list' == $mwb_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list"><?php esc_html_e( 'Order Bumps List', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="nav-tab <?php echo esc_html( 'bump-list' == $mwb_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list"><?php esc_html_e( 'Order Bumps List', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
-		<a class="nav-tab <?php esc_html_e( 'settings' == $mwb_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=settings"><?php esc_html_e( 'Global Settings', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="nav-tab <?php echo esc_html( 'settings' == $mwb_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=settings"><?php esc_html_e( 'Global Settings', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 		<?php
+
 		if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
 				$mwb_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_lic_callback_function;
@@ -52,17 +53,19 @@ do_action( 'mwb_ubo_lite_tab_active' );
 
 				$day_count = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic_initial();
 		}
+
+		$plugin_version = mwb_ubo_lite_if_pro_exists();
+
 		?>
-
 		<!-- If premium version is available, set license tab. -->
-		<?php if ( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && ! Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic() ) : ?>
+		<?php if ( $plugin_version && ! Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic() ) : ?>
 
-			<a class="nav-tab <?php esc_html_e( 'license' == $mwb_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=license"><?php esc_html_e( 'License', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+			<a class="nav-tab <?php echo esc_html( 'license' == $mwb_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=license"><?php esc_html_e( 'License', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 		<?php endif; ?>
 
 		<!-- If Org version set overview tab. -->
-		<a class="nav-tab <?php esc_html_e( 'overview' == $mwb_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=overview"><?php esc_html_e( 'Overview', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="nav-tab <?php echo esc_html( 'overview' == $mwb_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=overview"><?php esc_html_e( 'Overview', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 		<?php do_action( 'mwb_ubo_setting_tab' ); ?>
 
@@ -73,7 +76,7 @@ do_action( 'mwb_ubo_lite_tab_active' );
 
 	<?php
 
-	if ( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+	if ( $plugin_version ) {
 
 		// If license is activated or trial period is remaining.
 		if ( 'creation-setting' == $mwb_ubo_lite_active_tab ) {
@@ -86,6 +89,7 @@ do_action( 'mwb_ubo_lite_tab_active' );
 			// Include setting file from org version.
 			include_once( 'templates/mwb-ubo-lite-settings.php' );
 		} elseif ( 'overview' == $mwb_ubo_lite_active_tab ) {
+			// Include setting file from org version.
 			include_once 'templates/mwb-ubo-lite-overview.php';
 		}
 
@@ -109,8 +113,8 @@ do_action( 'mwb_ubo_lite_tab_active' );
 			include_once 'templates/mwb-ubo-lite-overview.php';
 		}
 	}
+	do_action( 'mwb_ubo_lite_setting_tab_html' );
 
-		do_action( 'mwb_ubo_lite_setting_tab_html' );
 	?>
 </div>
 
@@ -118,7 +122,7 @@ do_action( 'mwb_ubo_lite_tab_active' );
 <div id="mwb_ubo_lite_skype_connect_with_us">   
 	<div class="mwb_ubo_lite_skype_connect_title"><?php esc_html_e( 'Connect with Us in one click', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 
-	<a class="button" target="_blank" href="https://join.skype.com/invite/IKVeNkLHebpC"><img src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/logo/skype_logo.png' ); ?>"><?php esc_html_e( 'Connect', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+	<a class="button" target="_blank" href="https://join.skype.com/invite/IKVeNkLHebpC"><img src="<?php echo esc_html( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/logo/skype_logo.png' ); ?>"><?php esc_html_e( 'Connect', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 	<p><?php esc_html_e( 'Regarding any issue, query or feature request for Order Bump Offers.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 	<div class="mwb_ubo_lite_skype_setting"><span class="dashicons dashicons-admin-generic"></span></div>

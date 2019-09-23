@@ -10,6 +10,22 @@
  */
 
 /**
+ * If pro Add-on is present and activated/valid.
+ *
+ * @since    1.0.0
+ */
+function mwb_ubo_lite_if_pro_exists() {
+
+	// Check if pro plugin exists.
+	if ( in_array( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Bump offer template 1.
  *
  * ( Default Template ).
@@ -46,8 +62,6 @@ function mwb_ubo_lite_offer_template_1() {
 	return $mwb_bump_upsell_global_css;
 }
 
-
-
 /**
  * Bump offer template 2.
  *
@@ -83,8 +97,6 @@ function mwb_ubo_lite_offer_template_2() {
 	return $mwb_bump_upsell_global_css;
 }
 
-
-
 /**
  * Bump offer template 3.
  *
@@ -119,8 +131,6 @@ function mwb_ubo_lite_offer_template_3() {
 
 	return $mwb_bump_upsell_global_css;
 }
-
-
 
 /**
  * Bump offer default global options.
@@ -818,8 +828,6 @@ function mwb_ubo_lite_check_if_in_cart( $product_id = '' ) {
 	}
 }
 
-
-
 /**
  * Function to check similiar offer already present in cart.
  *
@@ -852,7 +860,6 @@ function mwb_ubo_lite_already_in_cart( $offer_id ) {
 
 	return false;
 }
-
 
 /**
  * Adding html for the popup to show variations.
@@ -961,7 +968,6 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 	<?php
 }
 
-
 /**
  * Check if Product Image is present or not and show.
  *
@@ -997,7 +1003,6 @@ function mwb_ubo_lite_get_bump_image( $product_id = '' ) {
 
 	return $bump_var_image;
 }
-
 
 /**
  * Adding all html for the attributes with a dropdown.

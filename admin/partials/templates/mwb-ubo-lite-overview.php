@@ -58,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<!-- Premium feature section starts. -->
 			<div class="mwb_ubo_lite_overview_go_pro">
 				<div class="mwb_ubo_lite_go_pro_features">
-					<img src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/bumps.png' ); ?> ">
+					<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/bumps.png' ); ?> ">
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature heading. -->
 						<h3><?php esc_html_e( 'Unlock the power to create unlimited Order Bumps', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
@@ -83,7 +83,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<br>
 						<?php esc_html_e( "Our Support is ready to assist you regarding any query, issue or feature request and if that doesn't help our Technical team will connect with you personally and have your query resolved.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
-					<img class="mwb_ubo_lite_premium_support" src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/customer_support.png' ); ?> ">
+					<img class="mwb_ubo_lite_premium_support" src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/customer_support.png' ); ?> ">
 				</div>
 			</div>
 			<!-- Premium feature section ends. -->

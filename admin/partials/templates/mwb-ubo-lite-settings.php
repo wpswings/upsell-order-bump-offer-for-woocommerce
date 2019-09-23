@@ -22,24 +22,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	// Nonce verification.
-	if ( empty( $_POST['mwb_upsell_bump_nonce'] ) || ! wp_verify_nonce( $_POST['mwb_upsell_bump_nonce'], 'mwb_upsell_bump_settings_nonce' ) ) {
-
-		esc_html_e( "Sorry, your nonce didn't verified. Please refresh the page" );
-		wp_die();
-	}
+	check_admin_referer( 'mwb_upsell_bump_settings_nonce', 'mwb_upsell_bump_nonce' );
 
 	$mwb_bump_upsell_global_options = array();
 
 	// Enable Plugin.
 	$mwb_bump_upsell_global_options['mwb_bump_enable_plugin'] = ! empty( $_POST['mwb_bump_enable_plugin'] ) ? 'on' : 'off';
 
-	$mwb_bump_upsell_global_options['mwb_bump_skip_offer'] = ! empty( $_POST['mwb_bump_skip_offer'] ) ? sanitize_text_field( $_POST['mwb_bump_skip_offer'] ) : esc_html__( 'yes' );
+	$mwb_bump_upsell_global_options['mwb_bump_skip_offer'] = ! empty( $_POST['mwb_bump_skip_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_skip_offer'] ) ) : esc_html__( 'yes' );
 
-	$mwb_bump_upsell_global_options['mwb_ubo_offer_location'] = ! empty( $_POST['mwb_ubo_offer_location'] ) ? sanitize_text_field( $_POST['mwb_ubo_offer_location'] ) : esc_html__( '_after_payment_gateways' );
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_location'] = ! empty( $_POST['mwb_ubo_offer_location'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_location'] ) ) : esc_html__( '_after_payment_gateways' );
 
-	$mwb_bump_upsell_global_options['mwb_ubo_temp_adaption'] = ! empty( $_POST['mwb_ubo_temp_adaption'] ) ? sanitize_text_field( $_POST['mwb_ubo_temp_adaption'] ) : esc_html__( 'yes' );
+	$mwb_bump_upsell_global_options['mwb_ubo_temp_adaption'] = ! empty( $_POST['mwb_ubo_temp_adaption'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_temp_adaption'] ) ) : esc_html__( 'yes' );
 
-	$mwb_bump_upsell_global_options['mwb_ubo_offer_removal'] = ! empty( $_POST['mwb_ubo_offer_removal'] ) ? sanitize_text_field( $_POST['mwb_ubo_offer_removal'] ) : esc_html__( 'yes' );
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_removal'] = ! empty( $_POST['mwb_ubo_offer_removal'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_removal'] ) ) : esc_html__( 'yes' );
 
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'mwb_ubo_global_options', $mwb_bump_upsell_global_options );
@@ -91,12 +87,12 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 						<?php
 							$attribute_description = esc_html__( 'Enable Upsell Order Bump Offer plugin.', 'upsell-order-bump-offer-for-woocommerce' );
-							echo wc_help_tip( $attribute_description );
+							echo wp_kses_post( wc_help_tip( $attribute_description ) );
 						?>
 
 						<label for="mwb_ubo_enable_switch" class="mwb_upsell_bump_enable_plugin_label mwb_bump_enable_plugin_support">
 
-							<input id="mwb_ubo_enable_switch" class="mwb_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( $mwb_bump_enable_plugin == 'on' ) ? "checked='checked'" : ''; ?> name="mwb_bump_enable_plugin" >	
+							<input id="mwb_ubo_enable_switch" class="mwb_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( 'on' == $mwb_bump_enable_plugin ) ? "checked='checked'" : ''; ?> name="mwb_bump_enable_plugin" >	
 							<span class="mwb_upsell_bump_enable_plugin_span"></span>
 
 						</label>
@@ -114,7 +110,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 						<?php
 							$attribute_description = esc_html__( 'Skip Bump offer if offer product is already present in cart.', 'upsell-order-bump-offer-for-woocommerce' );
-							echo wc_help_tip( $attribute_description );
+							echo wp_kses_post( wc_help_tip( $attribute_description ) );
 						?>
 
 						<!-- Select options for skipping. -->
@@ -149,14 +145,14 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 						<?php
 							$attribute_description = esc_html__( 'Choose if Bump Offer product should be removed if Target product is removed from Cart page.', 'upsell-order-bump-offer-for-woocommerce' );
-							echo wc_help_tip( $attribute_description );
+							echo wp_kses_post( wc_help_tip( $attribute_description ) );
 						?>
 
 						<select id="mwb_ubo_offer_removal_select" name="mwb_ubo_offer_removal" >
 
 							<?php foreach ( $mwb_ubo_offer_removal_options as $key => $value ) : ?>
 
-								<option <?php selected( $mwb_ubo_offer_removal, $key ); ?> value="<?php esc_html_e( $key ); ?>"><?php esc_html_e( $value ); ?></option>
+								<option <?php selected( $mwb_ubo_offer_removal, $key ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>
 								
 							<?php endforeach; ?>
 
@@ -185,14 +181,14 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 						<?php
 							$attribute_description = esc_html__( 'If Free Width, the Order Bump Offer will adapt to the complete width of it\'s parent location area else it will be fixed.', 'upsell-order-bump-offer-for-woocommerce' );
-							echo wc_help_tip( $attribute_description );
+							echo wp_kses_post( wc_help_tip( $attribute_description ) );
 						?>
 
 						<select id="mwb_ubo_temp_adaption_select" name="mwb_ubo_temp_adaption" >
 
 							<?php foreach ( $mwb_ubo_temp_adaptions_options as $key => $value ) : ?>
 
-								<option <?php selected( $mwb_ubo_temp_adaption, $key ); ?> value="<?php esc_html_e( $key ); ?>"><?php esc_html_e( $value ); ?></option>
+								<option <?php selected( $mwb_ubo_temp_adaption, $key ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>
 								
 							<?php endforeach; ?>
 
@@ -223,14 +219,14 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 						<?php
 							$attribute_description = esc_html__( 'Choose the location where the Bump Offer will be displayed on the Checkout page.', 'upsell-order-bump-offer-for-woocommerce' );
-							echo wc_help_tip( $attribute_description );
+							echo wp_kses_post( wc_help_tip( $attribute_description ) );
 						?>
 
 						<select id="mwb_ubo_offer_location" name="mwb_ubo_offer_location" >
 
 							<?php foreach ( $offer_locations_array as $key => $value ) : ?>
 
-								<option <?php selected( $bump_offer_location, $key ); ?> value="<?php esc_html_e( $key ); ?>"><?php esc_html_e( $value ); ?></option>	
+								<option <?php selected( $bump_offer_location, $key ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>	
 								
 							<?php endforeach; ?>
 

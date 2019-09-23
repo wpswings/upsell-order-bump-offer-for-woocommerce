@@ -63,11 +63,10 @@ if ( ! empty( $mwb_upsell_bumps_list ) ) {
 
 	// Now key function will return last bump key.
 	$mwb_upsell_bumps_last_index = key( $mwb_upsell_bumps_list_duplicate );
-}
 
-// When no bump is there then new bump id will be 1 (0+1).
-else {
+} else {
 
+	// When no bump is there then new bump id will be 1 (0+1).
 	$mwb_upsell_bumps_last_index = 0;
 }
 
@@ -112,97 +111,92 @@ else {
 				?>
 			<tr>		
 				<!-- Bump Name. -->
-				<td><a class="mwb_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php esc_html_e( $key ); ?>"><?php esc_html_e( $value['mwb_upsell_bump_name'] ); ?></a></td>
+				<td>
+					<a class="mwb_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['mwb_upsell_bump_name'] ); ?></a>
+				</td>
 
 				<!-- Bump Status. -->
 				<td>
-					<?php
+				<?php
 
 					$bump_status = ! empty( $value['mwb_upsell_bump_status'] ) ? $value['mwb_upsell_bump_status'] : 'no';
 
-					if ( 'yes' == $bump_status ) {
+				if ( 'yes' == $bump_status ) {
 
-						echo '<span class="mwb_upsell_bump_list_live"></span><span class="mwb_upsell_bump_list_live_name">' . esc_html__( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>';
-					} else {
+					echo '<span class="mwb_upsell_bump_list_live"></span><span class="mwb_upsell_bump_list_live_name">' . esc_html__( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>';
+				} else {
 
-						echo '<span class="mwb_upsell_bump_list_sandbox"></span><span class="mwb_upsell_bump_list_sandbox_name">' . esc_html__( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>';
-					}
+					echo '<span class="mwb_upsell_bump_list_sandbox"></span><span class="mwb_upsell_bump_list_sandbox_name">' . esc_html__( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>';
+				}
 
-					?>
-				
+				?>
 				</td>
 
 				<!-- Bump Target products. -->
 				<td>
-
-					<?php
+				<?php
 
 					// Target Product(s).
+				if ( ! empty( $value['mwb_upsell_bump_target_ids'] ) ) {
 
-					if ( ! empty( $value['mwb_upsell_bump_target_ids'] ) ) {
+					echo '<div class="mwb_upsell_bump_list_targets">';
 
-						echo '<div class="mwb_upsell_bump_list_targets">';
+					foreach ( $value['mwb_upsell_bump_target_ids'] as $single_target_product ) :
 
-						foreach ( $value['mwb_upsell_bump_target_ids'] as $single_target_product ) :
+						$product = wc_get_product( $single_target_product );
 
-							$product = wc_get_product( $single_target_product );
+						if ( empty( $product ) ) {
 
-							if ( empty( $product ) ) {
-
-								continue;
-							}
-							?>
-							<p><?php esc_html_e( $product->get_title() . "( #$single_target_product )" ); ?></p>
+							continue;
+						}
+						?>
+							<p><?php echo esc_html( $product->get_title() . "( #$single_target_product )" ); ?></p>
 							<?php
 
 						endforeach;
 
-						echo '</div>';
-					} else {
+					echo '</div>';
+				} else {
 
-						?>
+					?>
 
 						<p><i><?php esc_html_e( 'No Product(s) added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
 
 						<?php
-					}
+				}
 
 					echo '<hr>';
 
 					// Target Categories.
+				if ( ! empty( $value['mwb_upsell_bump_target_categories'] ) ) {
 
-					if ( ! empty( $value['mwb_upsell_bump_target_categories'] ) ) {
+					echo '<p><i>' . esc_html__( 'Target Categories -', 'upsell-order-bump-offer-for-woocommerce' ) . '</i></p>';
 
-						echo '<p><i>' . esc_html__( 'Target Categories -', 'upsell-order-bump-offer-for-woocommerce' ) . '</i></p>';
+					echo '<div class="mwb_upsell_bump_list_targets">';
 
-						echo '<div class="mwb_upsell_bump_list_targets">';
+					foreach ( $value['mwb_upsell_bump_target_categories'] as $single_target_category_id ) :
 
-						foreach ( $value['mwb_upsell_bump_target_categories'] as $single_target_category_id ) :
+						$category_name = get_the_category_by_ID( $single_target_category_id );
 
-							$category_name = get_the_category_by_ID( $single_target_category_id );
+						if ( empty( $category_name ) ) {
 
-							if ( empty( $category_name ) ) {
-
-								continue;
-							}
-							?>
-							<p><?php esc_html_e( $category_name . "( #$single_target_category_id )" ); ?></p>
+							continue;
+						}
+						?>
+							<p><?php echo esc_html( $category_name . "( #$single_target_category_id )" ); ?></p>
 							<?php
 
 						endforeach;
+					echo '</div>';
 
-						echo '</div>';
-					} else {
-
-						?>
-
-						<p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
-
-						<?php
-					}
-
+				} else {
 
 					?>
+					<p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
+
+					<?php
+				}
+				?>
 					
 				</td>
 
@@ -213,26 +207,23 @@ else {
 					if ( ! empty( $value['mwb_upsell_bump_products_in_offer'] ) ) {
 
 						$offer = wc_get_product( $value['mwb_upsell_bump_products_in_offer'] );
-						esc_html_e( $offer->get_title() . ' (#' . $value['mwb_upsell_bump_products_in_offer'] . ')' );
+						echo esc_html( $offer->get_title() . ' (#' . $value['mwb_upsell_bump_products_in_offer'] . ')' );
 					} else {
 
 						esc_html_e( 'No offers Added', 'upsell-order-bump-offer-for-woocommerce' );
 					}
 					?>
-							
 					</p>
-				</td> 
+				</td>
 
 				<!-- Bump Action. -->
 				<td>
-
 					<!-- Bump View/Edit link. -->
-					<a class="mwb_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php esc_html_e( $key ); ?>"><?php esc_html_e( 'View / Edit', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+					<a class="mwb_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'View / Edit', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 					<!-- Bump Delete link. -->
-					<a class="mwb_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list&del_bump_id=<?php esc_html_e( $key ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+					<a class="mwb_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list&del_bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 				</td>
-
 				<?php do_action( 'mwb_ubo_add_more_col_data' ); ?>
 			</tr>
 			<?php endforeach; ?>
@@ -266,7 +257,7 @@ else {
 		</div>
 
 		<!-- Notice icon. -->
-		<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/pro.png' ); ?> ">
+		<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/pro.png' ); ?> ">
 		</div>
 
 		<!-- Notice. -->
