@@ -294,7 +294,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	/**
 	 * Public static variable to be accessed in this plugin.
 	 *
-	 * @since    1.0.0
+	 * @var     callback string
+	 * @since   1.0.0
 	 */
 	public static $mwb_upsell_bump_list_callback_function = 'mwb_upsell_bump_list_callback_return';
 

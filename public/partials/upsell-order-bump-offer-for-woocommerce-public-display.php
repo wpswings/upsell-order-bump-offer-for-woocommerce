@@ -24,22 +24,21 @@
 	$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
 	$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
 
-if ( $mwb_bump_enable_plugin != 'on' || empty( $mwb_ubo_offer_array_collection ) ) {
+	if ( $mwb_bump_enable_plugin != 'on' || empty( $mwb_ubo_offer_array_collection ) ) {
 
-	return;
+		return;
 
-}
+	}
 
 	$mwb_upsell_bump_global_skip_settings = ! empty( $mwb_ubo_global_options['mwb_bump_skip_offer'] ) ? $mwb_ubo_global_options['mwb_bump_skip_offer'] : 'yes';
 
-	/*
-	 * Get all bump lists,
-	 * Check for live ones and scheduled for today only,
-	 * Rest leave No need to check,
-	 * For live one check if target id is present and after this category
-	   check,
-	 * Save the array index that is encountered and target product key.
-	 */
+/**
+ * Get all bump lists,
+ * Check for live ones and scheduled for today only,
+ * Rest leave No need to check,
+ * For live one check if target id is present and after this category check,
+ * Save the array index that is encountered and target product key.
+ */
 
 if ( ! session_id() ) {
 
@@ -146,6 +145,7 @@ if ( empty( $_SESSION['encountered_bump_array'] ) ) {
 					}
 				} // Second foreach for category search end.
 			}
+
 		} else {
 
 			// If offer product is not saved, continue.
@@ -154,41 +154,31 @@ if ( empty( $_SESSION['encountered_bump_array'] ) ) {
 	} // First foreach end.
 }
 
-
-	// When we didn't get a perfect data for bump offer to be shown.
+// When we didn't get a perfect data for bump offer to be shown.
 if ( empty( $encountered_bump_array ) && empty( $_SESSION['encountered_bump_array'] ) ) {
 
 	return;
 }
 
-?>
-<?php
 
-	$mwb_upsell_bump_target_key = ! empty( $mwb_upsell_bump_target_key ) ? $mwb_upsell_bump_target_key : '';
+$mwb_upsell_bump_target_key = ! empty( $mwb_upsell_bump_target_key ) ? $mwb_upsell_bump_target_key : '';
 
-	$_SESSION['encountered_bump_array'] = ! empty( $_SESSION['encountered_bump_array'] ) ? $_SESSION['encountered_bump_array'] : $encountered_bump_array;
+$_SESSION['encountered_bump_array'] = ! empty( $_SESSION['encountered_bump_array'] ) ? $_SESSION['encountered_bump_array'] : $encountered_bump_array;
 
-	$_SESSION['mwb_upsell_bump_target_key'] = ! empty( $_SESSION['mwb_upsell_bump_target_key'] ) ? $_SESSION['mwb_upsell_bump_target_key'] : $mwb_upsell_bump_target_key;
+$_SESSION['mwb_upsell_bump_target_key'] = ! empty( $_SESSION['mwb_upsell_bump_target_key'] ) ? $_SESSION['mwb_upsell_bump_target_key'] : $mwb_upsell_bump_target_key;
 
-	$bump = mwb_ubo_lite_fetch_bump_offer_details( $_SESSION['encountered_bump_array'], $_SESSION['mwb_upsell_bump_target_key'] );
+$bump = mwb_ubo_lite_fetch_bump_offer_details( $_SESSION['encountered_bump_array'], $_SESSION['mwb_upsell_bump_target_key'] );
 
-?>
 
-<?php
+$bumphtml = mwb_ubo_lite_bump_offer_html( $bump );
 
-	$bumphtml = mwb_ubo_lite_bump_offer_html( $bump );
+echo $bumphtml;
 
-	echo $bumphtml;
-
-?>
-
-<?php
-
-	/*
-	 * FOR VARIABLE PRODUCTS ONLY,
-	 * ADDING POPUP HTML,
-	 * FOR VARIATION SELECTION.
-	 */
+/*
+ * FOR VARIABLE PRODUCTS ONLY,
+ * ADDING POPUP HTML,
+ * FOR VARIATION SELECTION.
+ */
 if ( ! empty( $bump['id'] ) ) {
 
 	$product = wc_get_product( $bump['id'] );
@@ -199,6 +189,7 @@ if ( ! empty( $bump['id'] ) ) {
 		// Show variations popup Html.
 		mwb_ubo_lite_show_variation_popup( $product );
 	}
+
 } else {
 
 	return;

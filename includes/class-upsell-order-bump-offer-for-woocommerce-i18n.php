@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Define the internationalization functionality
  *
@@ -24,8 +23,7 @@
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/includes
  * @author     Make Web Better <webmaster@makewebbetter.com>
  */
-class Upsell_Order_Bump_Offer_For_Woocommerce_i18n {
-
+class Upsell_Order_Bump_Offer_For_Woocommerce_I18n {
 
 	/**
 	 * Load the plugin text domain for translation.

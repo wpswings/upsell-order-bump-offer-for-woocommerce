@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Fired during plugin activation
+ * Fired during plugin activation.
  *
  * @link       https://makewebbetter.com/
  * @since      1.0.0
@@ -23,15 +22,13 @@
 class Upsell_Order_Bump_Offer_For_Woocommerce_Activator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
+	 * Just set a transient to get tabs operative.
 	 *
 	 * @since    1.0.0
 	 */
 	public static function activate() {
 
-		// Set default settings tab to Overview for five minutes
+		// Set default settings tab to Overview for five minutes.
 		set_transient( 'mwb_ubo_lite_default_settings_tab', 'overview', 300 );
 	}
 
