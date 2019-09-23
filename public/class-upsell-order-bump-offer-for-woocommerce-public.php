@@ -123,8 +123,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * Add custom hook to show offer bump after payment gateways but before
 	 * terms as one is not provided by Woocommerce.
 	 *
-	 * @param    string $template_name	     Get checkout page template.
-	 * @param    string $template_path	     Get checkout page template path.
+	 * @param    string $template_name       Get checkout page template.
+	 * @param    string $template_path       Get checkout page template path.
 	 * @since    1.0.0
 	 */
 	public function add_bump_offer_custom_hook( $template_name, $template_path ) {
@@ -371,7 +371,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Add order item meta to bump product.
 	 *
-	 * @param 	 object 	$order 		The order in which bump offer is added.
+	 * @param    object $order      The order in which bump offer is added.
 	 * @since    1.0.0
 	 */
 	public function add_order_item_meta( $order ) {
@@ -395,8 +395,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Disabling the offer quantity for bump product in Cart page.
 	 *
-	 * @param 	 string 	$product_quantity 		Quantity at cart page.
-	 * @param 	 string 	$cart_item_key 			Cart item key.
+	 * @param    string $product_quantity       Quantity at cart page.
+	 * @param    string $cart_item_key          Cart item key.
 	 * @since    1.0.0
 	 */
 	public function disable_quantity_bump_product_in_cart( $product_quantity, $cart_item_key ) {
@@ -419,9 +419,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Removal of target and bump product is handled here.
 	 *
-	 * @param 	string 		$key_to_be_removed		The cart item key which is being removed.
-	 * @param 	object 		$cart_object			The cart object.
-	 * @since 	1.0.0
+	 * @param   string $key_to_be_removed      The cart item key which is being removed.
+	 * @param   object $cart_object            The cart object.
+	 * @since   1.0.0
 	 */
 	public function after_remove_product( $key_to_be_removed, $cart_object ) {
 
@@ -469,7 +469,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Change price at last for bump offer product.
 	 *
-	 * @param 	object 		$cart_object			The cart object.
+	 * @param   object $cart_object            The cart object.
 	 * @since    1.0.0
 	 */
 	public function woocommerce_custom_price_to_cart_item( $cart_object ) {
@@ -490,5 +490,5 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 	}
 
-// End of class.
+	// End of class.
 }
