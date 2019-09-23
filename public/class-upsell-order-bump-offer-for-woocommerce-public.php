@@ -123,8 +123,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * Add custom hook to show offer bump after payment gateways but before
 	 * terms as one is not provided by Woocommerce.
 	 *
-	 * @param      string $template_name.
-	 * @param      string $template_path.
+	 * @param    string $template_name	     Get checkout page template.
+	 * @param    string $template_path	     Get checkout page template path.
 	 * @since    1.0.0
 	 */
 	public function add_bump_offer_custom_hook( $template_name, $template_path ) {
@@ -163,7 +163,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// The id of the offer to be added.
 		$bump_product_id = ! empty( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';
 
-		$bump_target_cart_key = ! empty( $_POST['bump_target_cart_key'] ) ? sanitize_text_field( $_POST['bump_target_cart_key'] ) : '';
+		$bump_target_cart_key = ! empty( $_POST['bump_target_cart_key'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_target_cart_key'] ) ) : '';
 
 		$bump_discounted_price = ! empty( $_POST['discount'] ) ? sanitize_text_field( wp_unslash( $_POST['discount'] ) ) : '';
 
@@ -251,15 +251,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$bump_target_cart_key = ! empty( $_POST['bump_target_cart_key'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_target_cart_key'] ) ) : '';
 
-		$attributes_selected_options = $_POST['attributes_selected_options'];
-
-		foreach ( $attributes_selected_options as $key => $value ) {
-
-			$value = ! empty( $value ) ? sanitize_text_field( $value ) : '';
-		}
-
-		// Stripslashes if encountered
-		$attributes_selected_options['attribute_games'] = stripslashes( $attributes_selected_options['attribute_games'] );
+		$attributes_selected_options = ! empty( $_POST['attributes_selected_options'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['attributes_selected_options'] ) ) : array();
 
 		// Got all values to search for variation id from selected attributes.
 		$product = wc_get_product( $bump_offer_id );
@@ -293,7 +285,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		} else {
 
-			// Check if in instock.
+			// Check if in stock?
 			$selected_variation_product = wc_get_product( $variation_id );
 
 			if ( ! $selected_variation_product->is_in_stock() ) {
@@ -330,7 +322,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		check_ajax_referer( 'mwb_ubo_lite_nonce', 'nonce' );
 
 		// Contains selected variation ID.
-		$variation_id = ! empty( $_POST['id'] ) ? sanitize_text_field( $_POST['id'] ) : '';
+		$variation_id = ! empty( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';
 
 		// Contains parent variable ID.
 		$variation_parent_id = ! empty( $_POST['parent_id'] ) ? sanitize_text_field( wp_unslash( $_POST['parent_id'] ) ) : '';
@@ -339,7 +331,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$bump_offer_discount = ! empty( $_POST['discount'] ) ? sanitize_text_field( wp_unslash( $_POST['discount'] ) ) : '';
 
 		// Contains target cart key.
-		$bump_target_cart_key = ! empty( $_POST['bump_target_cart_key'] ) ? sanitize_text_field( $_POST['bump_target_cart_key'] ) : '';
+		$bump_target_cart_key = ! empty( $_POST['bump_target_cart_key'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_target_cart_key'] ) ) : '';
 
 		// Now safe to add to cart.
 		$cart_item_data = array(
@@ -379,7 +371,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Add order item meta to bump product.
 	 *
-	 * @param object $order.
+	 * @param 	 object 	$order 		The order in which bump offer is added.
 	 * @since    1.0.0
 	 */
 	public function add_order_item_meta( $order ) {
@@ -403,8 +395,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Disabling the offer quantity for bump product in Cart page.
 	 *
-	 * @param string $product_quantity.
-	 * @param string $cart_item_key.
+	 * @param 	 string 	$product_quantity 		Quantity at cart page.
+	 * @param 	 string 	$cart_item_key 			Cart item key.
 	 * @since    1.0.0
 	 */
 	public function disable_quantity_bump_product_in_cart( $product_quantity, $cart_item_key ) {
@@ -424,13 +416,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		return $product_quantity;
 	}
 
-
 	/**
 	 * Removal of target and bump product is handled here.
 	 *
-	 * @param string $key_to_be_removed.
-	 * @param string $cart_object.
-	 * @since 1.0.0
+	 * @param 	string 		$key_to_be_removed		The cart item key which is being removed.
+	 * @param 	object 		$cart_object			The cart object.
+	 * @since 	1.0.0
 	 */
 	public function after_remove_product( $key_to_be_removed, $cart_object ) {
 
@@ -478,7 +469,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Change price at last for bump offer product.
 	 *
-	 * @param object $cart_object.
+	 * @param 	object 		$cart_object			The cart object.
 	 * @since    1.0.0
 	 */
 	public function woocommerce_custom_price_to_cart_item( $cart_object ) {

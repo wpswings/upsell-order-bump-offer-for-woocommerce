@@ -10,27 +10,24 @@
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/public/partials
  */
-?>
 
-<?php
+// Check enability of the plugin at settings page.
+$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
 
-	// Check enability of the plugin at settings page.
-	$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
+// By default plugin will be enabled.
+$mwb_bump_enable_plugin = ! empty( $mwb_ubo_global_options['mwb_bump_enable_plugin'] ) ? $mwb_ubo_global_options['mwb_bump_enable_plugin'] : 'on';
 
-	// By default plugin will be enabled.
-	$mwb_bump_enable_plugin = ! empty( $mwb_ubo_global_options['mwb_bump_enable_plugin'] ) ? $mwb_ubo_global_options['mwb_bump_enable_plugin'] : 'on';
+// Get all saved bumps.
+$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
+$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
 
-	// Get all saved bumps.
-	$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
-	$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
+if ( 'on' != $mwb_bump_enable_plugin || empty( $mwb_ubo_offer_array_collection ) ) {
 
-	if ( $mwb_bump_enable_plugin != 'on' || empty( $mwb_ubo_offer_array_collection ) ) {
+	return;
 
-		return;
+}
 
-	}
-
-	$mwb_upsell_bump_global_skip_settings = ! empty( $mwb_ubo_global_options['mwb_bump_skip_offer'] ) ? $mwb_ubo_global_options['mwb_bump_skip_offer'] : 'yes';
+$mwb_upsell_bump_global_skip_settings = ! empty( $mwb_ubo_global_options['mwb_bump_skip_offer'] ) ? $mwb_ubo_global_options['mwb_bump_skip_offer'] : 'yes';
 
 /**
  * Get all bump lists,
@@ -61,7 +58,7 @@ if ( empty( $_SESSION['encountered_bump_array'] ) ) {
 		// Check for Bump Schedule.
 		$single_bump_schedule = ! empty( $single_bump_array['mwb_upsell_bump_schedule'] ) ? $single_bump_array['mwb_upsell_bump_schedule'] : '';
 
-		if ( ( $single_bump_array['mwb_upsell_bump_schedule'] != date( 'N' ) ) && ( $single_bump_array['mwb_upsell_bump_schedule'] != '0' ) ) {
+		if ( ( date( 'N' ) != $single_bump_array['mwb_upsell_bump_schedule'] ) && ( '0' != $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
 
 			continue;
 		}
@@ -145,7 +142,6 @@ if ( empty( $_SESSION['encountered_bump_array'] ) ) {
 					}
 				} // Second foreach for category search end.
 			}
-
 		} else {
 
 			// If offer product is not saved, continue.
@@ -160,7 +156,6 @@ if ( empty( $encountered_bump_array ) && empty( $_SESSION['encountered_bump_arra
 	return;
 }
 
-
 $mwb_upsell_bump_target_key = ! empty( $mwb_upsell_bump_target_key ) ? $mwb_upsell_bump_target_key : '';
 
 $_SESSION['encountered_bump_array'] = ! empty( $_SESSION['encountered_bump_array'] ) ? $_SESSION['encountered_bump_array'] : $encountered_bump_array;
@@ -168,7 +163,6 @@ $_SESSION['encountered_bump_array'] = ! empty( $_SESSION['encountered_bump_array
 $_SESSION['mwb_upsell_bump_target_key'] = ! empty( $_SESSION['mwb_upsell_bump_target_key'] ) ? $_SESSION['mwb_upsell_bump_target_key'] : $mwb_upsell_bump_target_key;
 
 $bump = mwb_ubo_lite_fetch_bump_offer_details( $_SESSION['encountered_bump_array'], $_SESSION['mwb_upsell_bump_target_key'] );
-
 
 $bumphtml = mwb_ubo_lite_bump_offer_html( $bump );
 
@@ -189,7 +183,6 @@ if ( ! empty( $bump['id'] ) ) {
 		// Show variations popup Html.
 		mwb_ubo_lite_show_variation_popup( $product );
 	}
-
 } else {
 
 	return;
