@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</ul>
 	</div>
 
-	<?php if( ! is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) : ?>
+	<?php if ( ! is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) : ?>
 
 		<div class="mwb_ubo_lite_overview_pro_version">
 			<h2><?php esc_html_e( 'Premium Plugin Additional Features', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
@@ -58,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<!-- Premium feature section starts. -->
 			<div class="mwb_ubo_lite_overview_go_pro">
 				<div class="mwb_ubo_lite_go_pro_features">
-					<img src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . "admin/resources/Icons/bumps.png" ); ?> ">
+					<img src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/bumps.png' ); ?> ">
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature heading. -->
 						<h3><?php esc_html_e( 'Unlock the power to create unlimited Order Bumps', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
@@ -73,20 +73,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<!-- Pro feature Content. -->
 						<h3><?php esc_html_e( 'Get Premium Support', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 						<!-- Pro feature heading. -->
-						<p><?php esc_html_e(
-							"Receive dedicated 24*7 Phone, Email & Skype support.",
+						<p>
+						<?php
+						esc_html_e(
+							'Receive dedicated 24*7 Phone, Email & Skype support.',
 							'upsell-order-bump-offer-for-woocommerce'
-						); ?><br>
+						);
+						?>
+						<br>
 						<?php esc_html_e( "Our Support is ready to assist you regarding any query, issue or feature request and if that doesn't help our Technical team will connect with you personally and have your query resolved.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
-					<img class="mwb_ubo_lite_premium_support" src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . "admin/resources/Icons/customer_support.png" ); ?> ">
+					<img class="mwb_ubo_lite_premium_support" src="<?php esc_html_e( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/customer_support.png' ); ?> ">
 				</div>
 			</div>
 			<!-- Premium feature section ends. -->
 
 			<!-- Go pro section starts. -->
 			<div class="mwb_ubo_lite_go_pro_popup_button">
-				<a class="button mwb_ubo_lite_overview_go_pro_button" target="_blank" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=mwb-ubo-lite-org&utm_medium=Overview&utm_campaign=ORG"><?php esc_html_e( 'Upgrade to Premium', 'upsell-order-bump-offer-for-woocommerce' ); echo ' <span class="dashicons dashicons-arrow-right-alt"></span>'; ?></a>
+				<a class="button mwb_ubo_lite_overview_go_pro_button" target="_blank" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=mwb-ubo-lite-org&utm_medium=Overview&utm_campaign=ORG">
+				<?php
+				esc_html_e( 'Upgrade to Premium', 'upsell-order-bump-offer-for-woocommerce' );
+				echo ' <span class="dashicons dashicons-arrow-right-alt"></span>';
+				?>
+				</a>
 			</div>
 			<!-- Go pro section ends. -->
 		</div>

@@ -14,12 +14,12 @@
  * @wordpress-plugin
  * Plugin Name:       Upsell Order Bump Offer for WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/
-  * Description:       Increase your cart value by adding bumps that offer additional products or services to customers at checkout page.
+ * Description:       Increase your cart value by adding bumps that offer additional products or services to customers at checkout page.
  *
- * Requires at least: 		4.4
- * Tested up to: 			5.2.3
- * WC requires at least: 	3.0
- * WC tested up to: 		3.7.0
+ * Requires at least:       4.4
+ * Tested up to:            5.2.3
+ * WC requires at least:    3.0
+ * WC tested up to:         3.7.0
  *
  * Version:           1.0.0
  * Author:            MakeWebBetter
@@ -70,7 +70,7 @@ function mwb_ubo_lite_plugin_activation() {
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 	// Dependant plugin.
-	if( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+	if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 
 		$activation['status'] = false;
 		$activation['message'] = 'woo_inactive';
@@ -80,28 +80,30 @@ function mwb_ubo_lite_plugin_activation() {
 	return $activation;
 }
 
-$mwb_ubo_lite_plugin_activation =  mwb_ubo_lite_plugin_activation();
+$mwb_ubo_lite_plugin_activation = mwb_ubo_lite_plugin_activation();
 
-if( true === $mwb_ubo_lite_plugin_activation['status'] ) {
+if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 
 	// Define all the neccessary details.
 	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL', plugin_dir_url( __FILE__ ) );
 
-	define('UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
+	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
 	// If pro version is added settings will be came over from that.
-	if( ! is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
+	if ( ! is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
 		// Add settings links.
-		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'mwb_ubo_lite_plugin_settings_link' );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'mwb_ubo_lite_plugin_settings_link' );
 
 		// Add Settings link if premium version is not available.
 		function mwb_ubo_lite_plugin_settings_link( $links ) {
-			
-			$plugin_links= array('<a href="' .
-				admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting' ) .
-				'">' . __( "Settings",'upsell-order-bump-offer-for-woocommerce' ) .'</a>');
-			return array_merge( $plugin_links,$links );
+
+			$plugin_links = array(
+				'<a href="' .
+									admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting' ) .
+									'">' . __( 'Settings', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+			);
+			return array_merge( $plugin_links, $links );
 		}
 	}
 
@@ -109,13 +111,13 @@ if( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 
 	// Add custom links for getting premium version.
 	function mwb_ubo_lite_add_doc_and_premium_link( $links, $file ) {
-		
+
 		if ( strpos( $file, 'upsell-order-bump-offer-for-woocommerce.php' ) !== false ) {
 
 			$row_meta = array(
-				'docs'    => '<a target="_blank" style="color:#FFF;background:linear-gradient(to right,#7a28ff 0,#00a1ff 100%);padding:5px;border-radius:6px;" href="https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer-pro/?utm_source=mwb-site&utm_medium=doc-cta&utm_campaign=bump-offer-page">'.esc_html__('Go to Docs', 'upsell-order-bump-offer-for-woocommerce' ).'</a>',
+				'docs'    => '<a target="_blank" style="color:#FFF;background:linear-gradient(to right,#7a28ff 0,#00a1ff 100%);padding:5px;border-radius:6px;" href="https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer-pro/?utm_source=mwb-site&utm_medium=doc-cta&utm_campaign=bump-offer-page">' . esc_html__( 'Go to Docs', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 
-				'goPro' => '<a target="_blank" style="color:#FFF;background:linear-gradient(to right,#45b649,#dce35b);padding:5px;border-radius:6px;" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/"><strong>'.esc_html__('Go Premium', 'upsell-order-bump-offer-for-woocommerce' ).'</strong></a>',
+				'goPro' => '<a target="_blank" style="color:#FFF;background:linear-gradient(to right,#45b649,#dce35b);padding:5px;border-radius:6px;" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/"><strong>' . esc_html__( 'Go Premium', 'upsell-order-bump-offer-for-woocommerce' ) . '</strong></a>',
 			);
 
 			return array_merge( $links, $row_meta );
@@ -150,7 +152,7 @@ if( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	}
 
 	run_upsell_order_bump_offer_for_woocommerce();
-	
+
 } else {
 
 	add_action( 'admin_init', 'mwb_ubo_lite_plugin_activation_failure' );
@@ -168,18 +170,19 @@ if( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	function mwb_ubo_lite_activation_admin_notice() {
 
 		global $mwb_ubo_lite_plugin_activation;
-		
+
 		// To hide Plugin activated notice.
 		unset( $_GET['activate'] );
 
-	    ?>
+		?>
 
-	    <?php if( 'woo_inactive' == $mwb_ubo_lite_plugin_activation['message'] ) : ?>
+		<?php if ( 'woo_inactive' == $mwb_ubo_lite_plugin_activation['message'] ) : ?>
 
-		    <div class="notice notice-error is-dismissible">
-		        <p><strong><?php esc_html_e( 'WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not activated, Please activate WooCommerce first to activate ', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong><?php esc_html_e( 'Upsell Order Bump Offer for WooCommerce' ); ?></strong><?php esc_html_e( '.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
-		    </div>
+			<div class="notice notice-error is-dismissible">
+				<p><strong><?php esc_html_e( 'WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not activated, Please activate WooCommerce first to activate ', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong><?php esc_html_e( 'Upsell Order Bump Offer for WooCommerce' ); ?></strong><?php esc_html_e( '.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+			</div>
 
-	    <?php endif;
+			<?php
+		endif;
 	}
 }

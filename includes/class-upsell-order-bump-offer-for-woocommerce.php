@@ -122,7 +122,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-upsell-order-bump-offer-for-woocommerce-public.php';
 
 		/**
-		 * The class responsible for defining all global functions that are used through 
+		 * The class responsible for defining all global functions that are used through
 		 * out the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php';
@@ -166,13 +166,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-		// Rest functionality for admin side ajax. 
+		// Rest functionality for admin side ajax.
 		$this->loader->add_action( 'wp_ajax_search_products_for_bump', $plugin_admin, 'search_products_for_bump' );
 		$this->loader->add_action( 'wp_ajax_search_product_categories_for_bump', $plugin_admin, 'search_product_categories_for_bump' );
 		$this->loader->add_action( 'wp_ajax_search_products_for_offers', $plugin_admin, 'search_products_for_offers' );
 
 		// Rest functionality for order table.
-		$this->loader->add_action( 'manage_shop_order_posts_custom_column', $plugin_admin, 'show_bump_total_content', 20 , 2  );
+		$this->loader->add_action( 'manage_shop_order_posts_custom_column', $plugin_admin, 'show_bump_total_content', 20, 2 );
 
 	}
 
@@ -185,20 +185,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 */
 	private function define_public_hooks() {
 
-		// Check enability of the plugin at settings page. 	
+		// Check enability of the plugin at settings page.
 		$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', array() );
 
 		// By default plugin will be enabled.
-		$mwb_upsell_bump_enable_plugin = ! empty( $mwb_ubo_global_options['mwb_bump_enable_plugin'] ) ? $mwb_ubo_global_options['mwb_bump_enable_plugin'] : 'on';	
+		$mwb_upsell_bump_enable_plugin = ! empty( $mwb_ubo_global_options['mwb_bump_enable_plugin'] ) ? $mwb_ubo_global_options['mwb_bump_enable_plugin'] : 'on';
 
-		if( "on" == $mwb_upsell_bump_enable_plugin ) {
+		if ( 'on' == $mwb_upsell_bump_enable_plugin ) {
 
 			$plugin_public = new Upsell_Order_Bump_Offer_For_Woocommerce_Public( $this->get_plugin_name(), $this->get_version() );
 
 			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-			// Add custom hook to show offer bump after payment gateways but before terms as one is not provided by Woocommerce. 
+			// Add custom hook to show offer bump after payment gateways but before terms as one is not provided by Woocommerce.
 			$this->loader->add_action( 'woocommerce_before_template_part', $plugin_public, 'add_bump_offer_custom_hook', 10, 2 );
 
 			// Bump Offer location.
@@ -210,42 +210,42 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( $offer_location_details['hook'], $plugin_public, 'show_offer_bump', $offer_location_details['priority'] );
 
 			// Ajax to add bump offer.
-			$this->loader->add_action( 'wp_ajax_add_offer_in_cart', $plugin_public, "add_offer_in_cart" );
-			$this->loader->add_action( 'wp_ajax_nopriv_add_offer_in_cart', $plugin_public, "add_offer_in_cart" );
+			$this->loader->add_action( 'wp_ajax_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
+			$this->loader->add_action( 'wp_ajax_nopriv_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
 
 			// Ajax to add bump offer.
-			$this->loader->add_action( 'wp_ajax_add_variation_offer_in_cart', $plugin_public, "add_variation_offer_in_cart" );
-			$this->loader->add_action( 'wp_ajax_nopriv_add_variation_offer_in_cart', $plugin_public, "add_variation_offer_in_cart" );				
+			$this->loader->add_action( 'wp_ajax_add_variation_offer_in_cart', $plugin_public, 'add_variation_offer_in_cart' );
+			$this->loader->add_action( 'wp_ajax_nopriv_add_variation_offer_in_cart', $plugin_public, 'add_variation_offer_in_cart' );
 
 			// Ajax to search variation.
-			$this->loader->add_action( 'wp_ajax_search_variation_id_by_select', $plugin_public, "search_variation_id_by_select" );
-			$this->loader->add_action( 'wp_ajax_nopriv_search_variation_id_by_select', $plugin_public, "search_variation_id_by_select" );
+			$this->loader->add_action( 'wp_ajax_search_variation_id_by_select', $plugin_public, 'search_variation_id_by_select' );
+			$this->loader->add_action( 'wp_ajax_nopriv_search_variation_id_by_select', $plugin_public, 'search_variation_id_by_select' );
 
 			// Ajax to remove bump offer.
-			$this->loader->add_action( 'wp_ajax_remove_offer_in_cart', $plugin_public, "remove_offer_in_cart" );
-			$this->loader->add_action( 'wp_ajax_nopriv_remove_offer_in_cart', $plugin_public, "remove_offer_in_cart" );
+			$this->loader->add_action( 'wp_ajax_remove_offer_in_cart', $plugin_public, 'remove_offer_in_cart' );
+			$this->loader->add_action( 'wp_ajax_nopriv_remove_offer_in_cart', $plugin_public, 'remove_offer_in_cart' );
 
 			// Start php session.
-			if( ! session_id() ) {
+			if ( ! session_id() ) {
 
 				session_start();
 			}
 
-			if( ! empty( $_SESSION[ 'mwb_upsell_bump_target_key' ] ) ) {
+			if ( ! empty( $_SESSION['mwb_upsell_bump_target_key'] ) ) {
 
 				// Cost calculations only when the offer is added.
 				$this->loader->add_action( 'woocommerce_before_calculate_totals', $plugin_public, 'woocommerce_custom_price_to_cart_item' );
 
 				// Disable quantity field.
-				$this->loader->add_filter( 'woocommerce_cart_item_quantity', $plugin_public, 'disable_quantity_bump_product_in_cart' , 10, 2 );
+				$this->loader->add_filter( 'woocommerce_cart_item_quantity', $plugin_public, 'disable_quantity_bump_product_in_cart', 10, 2 );
 
 				// Removing offer or target product manually by cart.
-				$this->loader->add_action( 'woocommerce_remove_cart_item', $plugin_public, 'after_remove_product', 21, 2  );
+				$this->loader->add_action( 'woocommerce_remove_cart_item', $plugin_public, 'after_remove_product', 21, 2 );
 
 				// Add meta data to order item for order review.
 				$this->loader->add_action( 'woocommerce_checkout_create_order', $plugin_public, 'add_order_item_meta', 10 );
 
-				// Reset custom session data.	
+				// Reset custom session data.
 				$this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'reset_session_variable', 10 );
 			}
 		}
@@ -307,28 +307,27 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 		$mwb_ubo_offer_array_collection = get_option( 'mwb_ubo_bump_list', array() );
 
-		if( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+		if ( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
 			$mwb_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_lic_callback_function;
-			
+
 			$mwb_upsell_bump_callname_lic_initial = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_lic_ini_callback_function;
 
 			$day_count = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic_initial();
 
-			if( Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic() || 0 <= $day_count ) {
-				
+			if ( Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic() || 0 <= $day_count ) {
+
 				return $mwb_ubo_offer_array_collection;
 
 			} else {
 
 				return array();
 			}
-			
 		} else {
 
 			return array( key( $mwb_ubo_offer_array_collection ) => $mwb_ubo_offer_array_collection[ key( $mwb_ubo_offer_array_collection ) ] );
 		}
 	}
 
-// End of class.
+	// End of class.
 }
