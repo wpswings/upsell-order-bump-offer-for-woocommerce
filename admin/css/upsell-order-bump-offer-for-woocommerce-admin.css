@@ -8,7 +8,6 @@
  #mwb_upsell_bump_setting_wrapper, #mwb_upsell_bump_setting_wrapper * {
   box-sizing: border-box;
 }
-
 /* Connect with skype - Start */
 #mwb_ubo_lite_skype_connect_with_us {
   text-align: center;
@@ -259,16 +258,33 @@
 .mwb_ubo_lite_overview_pro_version ul {
   list-style: none;
 }
-.mwb_ubo_lite_overview_pro_version ul li::before {
-  content: '👉';
-  font-size: 20px;
-  color: #4DB1E2;
-  font-weight: bold;
-  margin-right: 10px;
-}
 .mwb_ubo_lite_overview_pro_version p, .mwb_ubo_lite_overview_pro_version {
   font-size: 16px;
   line-height: 30px;
+}
+.mwb_ubo_lite_feature_list {
+  list-style: none;
+  padding-left: 0;
+}
+.mwb_ubo_lite_feature_list li {
+  position: relative;
+  padding-left: 10px;
+  line-height: 1.6;
+}
+.mwb_ubo_lite_feature_list li::before {
+  content: '';
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  background-image: url('../resources/Icons/bullet.png');
+  background-size: cover;
+  background-position: center;
+  left: 0;
+  top: 0;
+}
+.mwb_ubo_lite_feature_content {
+  vertical-align: 10px;
+  margin-left: 30px;
 }
 /* Overview section end. */
 
@@ -1569,9 +1585,6 @@ select.mwb_select_for_description_class {
     margin-left: 30px !important;
   }
 }
-
-
-
 @media only screen and (max-width:867px)  {
   .mwb_ubo_lite_go_pro_popup {
       max-width: 600px;
@@ -1763,4 +1776,3 @@ select.mwb_select_for_description_class {
     padding: 8px 10px;
   }
 }
-

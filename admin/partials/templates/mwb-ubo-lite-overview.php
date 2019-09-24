@@ -42,11 +42,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<p><?php esc_html_e( 'The Store owner can set the offers specifically for Target Products or Categories so that relevant Order Bumps can be offered which are hard to resist.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
-		<ul>
-			<li><?php esc_html_e( 'Capture Customer’s attention by displaying appealing offers on the checkout page.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
-			<li><?php esc_html_e( 'Develop Interest for the offer by mentioning how the offer will benefit them on their existing purchase.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
-			<li><?php esc_html_e( 'Convince them that this is an Exclusive offer only available here at this Discount.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
-			<li><?php esc_html_e( 'Ask them to Act and Accept the offer.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
+		<ul class='mwb_ubo_lite_feature_list'>
+			<li><span class='mwb_ubo_lite_feature_content'><?php esc_html_e( 'Capture Customer’s attention by displaying appealing offers on the checkout page.', 'upsell-order-bump-offer-for-woocommerce' ); ?></span></li>
+			<li><span class='mwb_ubo_lite_feature_content'><?php esc_html_e( 'Develop Interest for the offer by mentioning how the offer will benefit them on their existing purchase.', 'upsell-order-bump-offer-for-woocommerce' ); ?></span></li>
+			<li><span class='mwb_ubo_lite_feature_content'><?php esc_html_e( 'Convince them that this is an Exclusive offer only available here at this Discount.', 'upsell-order-bump-offer-for-woocommerce' ); ?></span></li>
+			<li><span class='mwb_ubo_lite_feature_content'><?php esc_html_e( 'Ask them to Act and Accept the offer.', 'upsell-order-bump-offer-for-woocommerce' ); ?></span></li>
 		</ul>
 	</div>
 
