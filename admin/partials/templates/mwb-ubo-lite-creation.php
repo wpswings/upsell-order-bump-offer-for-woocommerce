@@ -1058,7 +1058,7 @@ $mwb_upsell_bump_schedule_options = array(
 					<h3 class="mwb_ubo_offer_preview_heading"><?php esc_html_e( 'Offer Preview', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 
 					<!-- Generate a live preview. -->
-					<?php echo $bumphtml; ?>
+					<?php echo $bumphtml; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped Function returns the html so can't escape. ?>
 				</div>
 				<!-- Preview end -->
 

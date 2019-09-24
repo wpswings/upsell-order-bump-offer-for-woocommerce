@@ -466,7 +466,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 				<p class= "mwb_bump_table_html" >
 					<?php
-					echo esc_html_e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ) . wc_price( $bump_price );
+					echo esc_html_e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ) . wc_price( $bump_price ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped Function returns the html so can't escape.
 					?>
 				</p>
 

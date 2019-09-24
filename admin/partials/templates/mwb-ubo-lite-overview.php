@@ -36,9 +36,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<hr>
 
 	<div class="mwb_ubo_lite_overview_pro_version mwb_ubo_lite_go_pro_feature_first">
-		<h2><?php esc_html_e( 'What is WooCommerce Upsell Order Bump Offer?', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+		<h2><?php esc_html_e( 'What is Upsell Order Bump Offer for WooCommerce?', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
 
-		<p><?php esc_html_e( "WooCommerce Upsell Order Bump Offer allows its users to show exclusive special one time offers known as Order Bumps on the checkout page. These Order Bumps can be accepted in just a single click which is added instantly to customer's existing Order.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+		<p><?php esc_html_e( "Upsell Order Bump Offer for WooCommerce allows its users to show exclusive special one time offers known as Order Bumps on the checkout page. These Order Bumps can be accepted in just a single click which is added instantly to customer's existing Order.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
 		<p><?php esc_html_e( 'The Store owner can set the offers specifically for Target Products or Categories so that relevant Order Bumps can be offered which are hard to resist.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</ul>
 	</div>
 
-	<?php if ( ! is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) : ?>
+	<?php if ( ! mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) : ?>
 
 		<div class="mwb_ubo_lite_overview_pro_version">
 			<h2><?php esc_html_e( 'Premium Plugin Additional Features', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>

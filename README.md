@@ -68,7 +68,7 @@ If you need support or have any question then kindly use our online chat window 
 ### Automatic Installation
 
 * Automatic installation is the easiest option handled by WordPress.
-* Download WooCommerce Upsell Order Bump Offer Pro plugin.
+* Download Upsell Order Bump Offer for WooCommerce Pro plugin.
 * Login to your WordPress Dashboard.
 * Navigate to the sidebar, click on plugins.
 * Click on Add New and then hits on Upload Plugins.
@@ -77,9 +77,9 @@ If you need support or have any question then kindly use our online chat window 
 
 ### Manual Installation
 
-* Manual installation of the plugin is another option to install the plugin in the sellers WordPress-environment. The manual installation method involves downloading our WooCommerce Upsell Order Bump Offer Pro plugin and uploading it to the webserver via their favorite FTP application.
+* Manual installation of the plugin is another option to install the plugin in the sellers WordPress-environment. The manual installation method involves downloading our Upsell Order Bump Offer for WooCommerce Pro plugin and uploading it to the webserver via their favorite FTP application.
 * The steps for manual installation are as follows:
-* Upload the WooCommerce Upsell Order Bump Offer Pro folder to the /wp-content/plugins/ directory.
+* Upload the Upsell Order Bump Offer for WooCommerce Pro folder to the /wp-content/plugins/ directory.
 * Activate the plugin through the ‘Plugins’ menu in WordPress.
 
 ## Updating 

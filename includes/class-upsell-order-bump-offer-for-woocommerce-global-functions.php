@@ -894,7 +894,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 				<!-- Product Image starts. -->
 				<div class="mwb_bump_popup_image" >
 					<?php
-						echo mwb_ubo_lite_get_bump_image( $product->get_id() );
+						echo mwb_ubo_lite_get_bump_image( $product->get_id() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped Function returns the html so can't escape.
 					?>
 				</div>
 				<!-- Product Image ends. -->
@@ -942,7 +942,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 										'id'    => 'attribute_' . strtolower( $attribute_name ),
 										'class' => 'mwb_upsell_offer_variation_select ',
 									)
-								);
+								); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped Function returns the html so can't escape.
 							?>
 						</div>
 

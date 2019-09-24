@@ -36,6 +36,31 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
+ * Plugin Active Detection.
+ *
+ * @since    1.0.0
+ * @param    string $plugin_slug index file of plugin.
+ */
+function mwb_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
+
+	if ( empty( $plugin_slug ) ) {
+
+		return false;
+	}
+
+	$active_plugins = (array) get_option( 'active_plugins', array() );
+
+	if ( is_multisite() ) {
+
+		$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+
+	}
+
+	return in_array( $plugin_slug, $active_plugins ) || array_key_exists( $plugin_slug, $active_plugins );
+
+}
+
+/**
  * Currently plugin version.
  */
 define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '1.0.0' );
@@ -77,7 +102,7 @@ function mwb_ubo_lite_plugin_activation() {
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 	// Dependant plugin.
-	if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+	if ( ! mwb_ubo_lite_is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 
 		$activation['status'] = false;
 		$activation['message'] = 'woo_inactive';
@@ -97,7 +122,7 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
 	// If pro version is inactive add setings link to org version.
-	if ( ! is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
+	if ( ! mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
 		// Add settings links.
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'mwb_ubo_lite_plugin_settings_link' );

@@ -166,7 +166,7 @@ $bump = mwb_ubo_lite_fetch_bump_offer_details( $_SESSION['encountered_bump_array
 
 $bumphtml = mwb_ubo_lite_bump_offer_html( $bump );
 
-echo $bumphtml;
+echo $bumphtml; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped Function returns the html so can't escape.
 
 /*
  * FOR VARIABLE PRODUCTS ONLY,
