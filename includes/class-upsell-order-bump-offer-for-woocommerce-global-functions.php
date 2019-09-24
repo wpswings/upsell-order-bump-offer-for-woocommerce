@@ -267,7 +267,6 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 		}
 		.mwb_upsell_offer_wrapper {
 			background-color: #ffffff;
-			width: 100%;
 			padding: 20px;
 		}
 		.mwb_upsell_offer_discount_section {
@@ -563,7 +562,7 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	if ( '%' == $price_type && ! empty( $discount_price ) ) {
 
 		// Discount % is given( no negatives, not more than 100, if 100% then price zero ).
-		$discount_price = sanitize_text_field( $discount_price );
+		$discount_price = floatval( sanitize_text_field( $discount_price ) );
 
 		// Range should be 0-100 only.
 		$discount_price = ( 100 < $discount_price ) ? 100 : $discount_price;
@@ -1112,7 +1111,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 			$price_discount = ( $price_discount > 100 ) ? 100 : $price_discount;
 			$price_discount = ( $price_discount < 0 ) ? 0 : $price_discount;
 
-			$price_discount = sanitize_text_field( $price_discount );
+			$price_discount = floatval( sanitize_text_field( $price_discount ) );
 
 			$bump_price = $orginal_price - ( $orginal_price * $price_discount / 100 );
 
