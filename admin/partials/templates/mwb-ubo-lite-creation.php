@@ -90,15 +90,15 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 
 	$mwb_upsell_new_bump['mwb_upsell_offer_price_type'] = ! empty( $_POST['mwb_upsell_offer_price_type'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_price_type'] ) ) : '';
 
-	$mwb_upsell_new_bump['mwb_ubo_discount_title_for_fixed'] = ! empty( $_POST['mwb_ubo_discount_title_for_fixed'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_discount_title_for_fixed'] ) ) : '';
-
 	$mwb_upsell_new_bump['mwb_ubo_discount_title_for_percent'] = ! empty( $_POST['mwb_ubo_discount_title_for_percent'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_discount_title_for_percent'] ) ) : '';
 
 	$mwb_upsell_new_bump['mwb_bump_offer_decsription_text'] = ! empty( $_POST['mwb_bump_offer_decsription_text'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_bump_offer_decsription_text'] ) ) : '';
 
 	$mwb_upsell_new_bump['mwb_upsell_bump_offer_description'] = ! empty( $_POST['mwb_upsell_bump_offer_description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_upsell_bump_offer_description'] ) ) : '';
 
+	$mwb_upsell_new_bump['mwb_bump_upsell_selected_template'] = ! empty( $_POST['mwb_bump_upsell_selected_template'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_bump_upsell_selected_template'] ) ) : '';
 
+	$mwb_upsell_new_bump['mwb_ubo_selected_template'] = ! empty( $_POST['mwb_ubo_selected_template'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_ubo_selected_template'] ) ) : '';
 
 	// Sanitize and stripe slashes all the arrays.
 	$mwb_upsell_new_bump['mwb_upsell_bump_target_categories'] = ! empty( $_POST['mwb_upsell_bump_target_categories'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_upsell_bump_target_categories'] ) ) : '';
