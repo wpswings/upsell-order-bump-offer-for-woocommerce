@@ -65,30 +65,54 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 		}
 	}
 
+	if ( empty( $_POST['mwb_upsell_bump_schedule'] ) ) {
+
+		if ( '' == $_POST['mwb_upsell_bump_schedule'] ) {
+
+			$_POST['mwb_upsell_bump_schedule'] = '0';
+
+		}
+	}
+
 	// New bump to be made.
 	$mwb_upsell_new_bump = array();
 
 	// Sanitize and strip slashes for Texts.
-	$_POST['mwb_upsell_bump_name'] = ! empty( $_POST['mwb_upsell_bump_name'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_name'] ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_bump_status'] = ! empty( $_POST['mwb_upsell_bump_status'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_status'] ) ) : '';
 
-	$_POST['mwb_ubo_discount_title_for_fixed'] = ! empty( $_POST['mwb_ubo_discount_title_for_fixed'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_discount_title_for_fixed'] ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_bump_name'] = ! empty( $_POST['mwb_upsell_bump_name'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_name'] ) ) : '';
 
-	$_POST['mwb_ubo_discount_title_for_percent'] = ! empty( $_POST['mwb_ubo_discount_title_for_percent'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_discount_title_for_percent'] ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_bump_schedule'] = isset( $_POST['mwb_upsell_bump_schedule'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_schedule'] ) ) : '';
 
-	$_POST['mwb_bump_offer_decsription_text'] = ! empty( $_POST['mwb_bump_offer_decsription_text'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_bump_offer_decsription_text'] ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_bump_offer_discount_price'] = ! empty( $_POST['mwb_upsell_bump_offer_discount_price'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_offer_discount_price'] ) ) : '';
 
-	$_POST['mwb_upsell_bump_offer_description'] = ! empty( $_POST['mwb_upsell_bump_offer_description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_upsell_bump_offer_description'] ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_bump_products_in_offer'] = ! empty( $_POST['mwb_upsell_bump_products_in_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_products_in_offer'] ) ) : '';
 
-	$_POST['mwb_upsell_offer_title'] = ! empty( $_POST['mwb_upsell_offer_title'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_title'] ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_offer_price_type'] = ! empty( $_POST['mwb_upsell_offer_price_type'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_price_type'] ) ) : '';
+
+	$mwb_upsell_new_bump['mwb_ubo_discount_title_for_fixed'] = ! empty( $_POST['mwb_ubo_discount_title_for_fixed'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_discount_title_for_fixed'] ) ) : '';
+
+	$mwb_upsell_new_bump['mwb_ubo_discount_title_for_percent'] = ! empty( $_POST['mwb_ubo_discount_title_for_percent'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_discount_title_for_percent'] ) ) : '';
+
+	$mwb_upsell_new_bump['mwb_bump_offer_decsription_text'] = ! empty( $_POST['mwb_bump_offer_decsription_text'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_bump_offer_decsription_text'] ) ) : '';
+
+	$mwb_upsell_new_bump['mwb_upsell_bump_offer_description'] = ! empty( $_POST['mwb_upsell_bump_offer_description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_upsell_bump_offer_description'] ) ) : '';
+
+
+
+	// Sanitize and stripe slashes all the arrays.
+	$mwb_upsell_new_bump['mwb_upsell_bump_target_categories'] = ! empty( $_POST['mwb_upsell_bump_target_categories'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_upsell_bump_target_categories'] ) ) : '';
+
+	$mwb_upsell_new_bump['mwb_upsell_bump_target_ids'] = ! empty( $_POST['mwb_upsell_bump_target_ids'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_upsell_bump_target_ids'] ) ) : '';
 
 	// When Bump is saved for the first time so load default Design Settings.
 	if ( empty( $_POST['parent_border_type'] ) ) {
 
 		$design_settings = mwb_ubo_lite_offer_template_1();
 
-		$_POST['design_css'] = $design_settings;
+		$mwb_upsell_new_bump['design_css'] = $design_settings;
 
-		$_POST['design_text'] = mwb_ubo_lite_offer_default_text();
+		$mwb_upsell_new_bump['design_text'] = mwb_ubo_lite_offer_default_text();
 
 	} else {    // When design Settings is saved from Post.
 
@@ -138,7 +162,7 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 		unset( $_POST['secondary_section_text_color'] );
 		unset( $_POST['secondary_section_text_size'] );
 
-		$_POST['design_css'] = $design_settings_post;
+		$mwb_upsell_new_bump['design_css'] = $design_settings_post;
 
 		$text_settings_post = array(
 
@@ -158,13 +182,10 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 		unset( $_POST['mwb_bump_offer_decsription_text'] );
 		unset( $_POST['mwb_upsell_offer_title'] );
 		unset( $_POST['mwb_upsell_bump_offer_description'] );
-		$_POST['design_text'] = $text_settings_post;
+		$mwb_upsell_new_bump['design_text'] = $text_settings_post;
 	}
 
 	// When Bump is saved for the first time so load default text Settings.
-
-	$mwb_upsell_new_bump = $_POST;
-
 	$mwb_upsell_bump_series = array();
 
 	// POST bump as array at bump id key.
