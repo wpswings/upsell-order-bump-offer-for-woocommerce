@@ -87,7 +87,8 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 						<?php
 							$attribute_description = esc_html__( 'Enable Upsell Order Bump Offer plugin.', 'upsell-order-bump-offer-for-woocommerce' );
-							echo wp_kses_post( wc_help_tip( $attribute_description ) );
+
+							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
 						<label for="mwb_ubo_enable_switch" class="mwb_upsell_bump_enable_plugin_label mwb_bump_enable_plugin_support">
@@ -110,7 +111,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 						<?php
 							$attribute_description = esc_html__( 'Skip Bump offer if offer product is already present in cart.', 'upsell-order-bump-offer-for-woocommerce' );
-							echo wp_kses_post( wc_help_tip( $attribute_description ) );
+							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
 						<!-- Select options for skipping. -->
@@ -145,7 +146,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 						<?php
 							$attribute_description = esc_html__( 'Choose if Bump Offer product should be removed if Target product is removed from Cart page.', 'upsell-order-bump-offer-for-woocommerce' );
-							echo wp_kses_post( wc_help_tip( $attribute_description ) );
+							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
 						<select id="mwb_ubo_offer_removal_select" name="mwb_ubo_offer_removal" >
@@ -181,7 +182,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 						<?php
 							$attribute_description = esc_html__( 'If Free Width, the Order Bump Offer will adapt to the complete width of it\'s parent location area else it will be fixed.', 'upsell-order-bump-offer-for-woocommerce' );
-							echo wp_kses_post( wc_help_tip( $attribute_description ) );
+							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
 						<select id="mwb_ubo_temp_adaption_select" name="mwb_ubo_temp_adaption" >
@@ -219,7 +220,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 						<?php
 							$attribute_description = esc_html__( 'Choose the location where the Bump Offer will be displayed on the Checkout page.', 'upsell-order-bump-offer-for-woocommerce' );
-							echo wp_kses_post( wc_help_tip( $attribute_description ) );
+							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
 						<select id="mwb_ubo_offer_location" name="mwb_ubo_offer_location" >

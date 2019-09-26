@@ -229,6 +229,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					$day_count_warning = floor( $day_count );
 
 					// Days warning.
+					/* translators: %s is replaced with "days remaining" */
 					$day_string = sprintf( _n( '%s day', '%s days', $day_count_warning, 'upsell-order-bump-offer-for-woocommerce' ), number_format_i18n( $day_count_warning ) );
 
 					?>
@@ -237,7 +238,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 							<strong><a href="?page=mwb-bump-offer-setting&tab=license">
 
 							<!-- License warning. -->
-							<?php esc_html_e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></a><?php printf( esc_html__( ' the license key before %s or you may risk losing data and the plugin will also become dysfunctional.', 'upsell-order-bump-offer-for-woocommerce' ), '<span id="mwb-upsell-bump-day-count" >' . esc_html( $day_string ) . '</span>' ); ?></strong>
+							<?php esc_html_e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+							<?php
+							/* translators: %s is replaced with "days remaining" */
+							printf( esc_html__( ' the license key before %s or you may risk losing data and the plugin will also become dysfunctional.', 'upsell-order-bump-offer-for-woocommerce' ), '<span id="mwb-upsell-bump-day-count" >' . esc_html( $day_string ) . '</span>' );
+							?>
+							</strong>
 						</p>
 					</div>
 					<?php
@@ -466,7 +472,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 				<p class= "mwb_bump_table_html" >
 					<?php
-					echo esc_html_e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ) . wc_price( $bump_price ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped Function returns the html so can't escape.
+						$allowed_html = mwb_ubo_lite_allowed_html();
+						echo esc_html_e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ) . wp_kses( wc_price( $bump_price ), $allowed_html );
 					?>
 				</p>
 

@@ -26,6 +26,138 @@ function mwb_ubo_lite_if_pro_exists() {
 }
 
 /**
+ * If pro Add-on is present and activated/valid.
+ *
+ * @param   string $description        Tooltip message.
+ *
+ * @since    1.0.0
+ */
+function mwb_ubo_lite_help_tip( $description = '' ) {
+
+	// Run only if description message is present.
+	if ( ! empty( $description ) ) {
+
+		$allowed_html = array(
+			'span' => array(
+				'class'     => array(),
+				'data-tip'  => array(),
+			),
+		);
+
+		echo wp_kses( wc_help_tip( $description ), $allowed_html );
+	}
+}
+
+/**
+ * This function returns just allowed html for order bump.
+ *
+ * @since    1.0.0
+ */
+function mwb_ubo_lite_allowed_html() {
+
+	// Return the complete html elements defined by us.
+	$allowed_html = array(
+		'input' => array(
+			'class'     => array(),
+			'id'  => array(
+				'offer_shown_id',
+				'offer_shown_discount',
+				'target_id_cart_key',
+				'add_offer_in_cart',
+			),
+			'name'  => array(),
+			'value'  => array(),
+			'type'  => array( 'hidden', 'checkbox' ),
+			'checked' => array(),
+		),
+		'label' => array(
+			'class'     => array( 'mwb_upsell_bump_checkbox_container' ),
+			'id'  => array(),
+			'value'  => array(),
+		),
+		'span' => array(
+			'class'     => array(
+				'woocommerce-Price-amount',
+				'amount',
+				'woocommerce-Price-currencySymbol',
+				'checkmark',
+			),
+			'id'  => array(),
+			'value'  => array(),
+		),
+		'br'  => '',
+		'ins'  => '',
+		'del'  => '',
+		'h3'  => '',
+		'h4'  => '',
+		'h5'  => '',
+		'div' => array(
+			'class'     => array(
+				'mwb_upsell_offer_main_wrapper',
+				'mwb_upsell_offer_parent_wrapper',
+				'mwb_upsell_offer_discount_section',
+				'mwb_upsell_offer_wrapper',
+				'mwb_upsell_offer_product_section',
+				'mwb_upsell_offer_image',
+				'mwb_upsell_offer_product_content',
+				'mwb_upsell_offer_primary_section',
+				'mwb_upsell_offer_secondary_section',
+				'woocommerce-product-gallery__image',
+			),
+			'id'  => array(),
+			'value'  => array(),
+			'data-thumb'  => array(),
+			'data-thumb-alt'  => array(),
+			'woocommerce-product-gallery__image'  => array(),
+			'data-thumb'  => array(),
+		),
+		'p' => array(
+			'class' => array(
+				'mwb_upsell_offer_product_price',
+				'mwb_upsell_offer_product_description',
+			),
+			'id'  => array(),
+			'value'  => array(),
+		),
+		'b' => '',
+		'img' => array(
+			'class'     => array( 'wp-post-image' ),
+			'id'  => array(),
+			'src'  => array(),
+			'style'  => array(),
+			'data-id'  => array(),
+			'data-id'  => array(),
+			'data-id'  => array(),
+			'width'  => array(),
+			'height'  => array(),
+			'alt'  => array(),
+			'data-caption'  => array(),
+			'data-src'  => array(),
+			'data-large_image'  => array(),
+			'data-large_image_width'  => array(),
+			'data-large_image_height'  => array(),
+			'srcset'  => array(),
+			'sizes'  => array(),
+		),
+		'a' => array(
+			'href'  => '',
+		),
+		'select' => array(
+			'id'  => array(),
+			'class'  => array(),
+			'name'  => array(),
+			'data-attribute_name'  => array(),
+			'data-show_option_none'  => array(),
+		),
+		'option' => array(
+			'value' => array(),
+		),
+	);
+
+	return $allowed_html;
+}
+
+/**
  * Bump offer template 1.
  *
  * ( Default Template ).
@@ -892,9 +1024,8 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 
 				<!-- Product Image starts. -->
 				<div class="mwb_bump_popup_image" >
-					<?php
-						echo mwb_ubo_lite_get_bump_image( $product->get_id() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped Function returns the html so can't escape.
-					?>
+					<?php $allowed_html = mwb_ubo_lite_allowed_html(); ?>
+					<?php echo wp_kses( mwb_ubo_lite_get_bump_image( $product->get_id() ), $allowed_html ); ?>
 				</div>
 				<!-- Product Image ends. -->
 
@@ -932,7 +1063,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 
 							<?php
 								// Function to return variations select html.
-								echo mwb_ubo_lite_show_variation_dropdown(
+								$variation_dropdown = mwb_ubo_lite_show_variation_dropdown(
 									array(
 										'options' => $options,
 										'attribute' => $attribute_name,
@@ -941,7 +1072,8 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 										'id'    => 'attribute_' . strtolower( $attribute_name ),
 										'class' => 'mwb_upsell_offer_variation_select ',
 									)
-								); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped Function returns the html so can't escape.
+								);
+								echo wp_kses( $variation_dropdown, $allowed_html );
 							?>
 						</div>
 
