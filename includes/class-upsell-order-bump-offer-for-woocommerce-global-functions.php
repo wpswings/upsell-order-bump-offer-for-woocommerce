@@ -551,6 +551,11 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			width: 90px;
 			margin-right: 10px;
 		}
+		.mwb_upsell_offer_img {
+			max-height: 120px;
+			width: 90px;
+			max-width: 100px;
+		}
 		@media screen and (max-width: 480px) {
 			.mwb_upsell_offer_product_content {
 				margin-left: 0;
@@ -631,7 +636,7 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 	// product section start.
 	$bumphtml .= '<div class = "mwb_upsell_offer_product_section" >';
 	$bumphtml .= '<div class = "mwb_upsell_offer_image" >';
-	$bumphtml .= '<img src="' . $image . '" style =" max-height: 120px; width: 90px; max-width: 100px; " data-id="' . $bump['id'] . '">';
+	$bumphtml .= '<img class="mwb_upsell_offer_img" src="' . $image . '" data-id="' . $bump['id'] . '">';
 	$bumphtml .= '</div>';
 	$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4>' . $bump['name'] . '</h4><br>';
 	$bumphtml .= '<p class="mwb_upsell_offer_product_price">' . $bump_offer_price . '</p>';

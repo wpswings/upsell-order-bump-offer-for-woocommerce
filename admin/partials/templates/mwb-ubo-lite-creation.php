@@ -340,7 +340,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 						?>
 
-						<select id="mwb_upsell_bump_target_categories_search" class="wc-bump-product-category-search" multiple="multiple" style="" name="mwb_upsell_bump_target_categories[]" data-placeholder="<?php esc_attr_e( 'Search for a category&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
+						<select id="mwb_upsell_bump_target_categories_search" class="wc-bump-product-category-search" multiple="multiple" name="mwb_upsell_bump_target_categories[]" data-placeholder="<?php esc_attr_e( 'Search for a category&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 
 							<?php
 
