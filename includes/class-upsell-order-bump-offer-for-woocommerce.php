@@ -142,7 +142,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Upsell_Order_Bump_Offer_For_Woocommerce_i18n();
+		$plugin_i18n = new Upsell_Order_Bump_Offer_For_Woocommerce_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
