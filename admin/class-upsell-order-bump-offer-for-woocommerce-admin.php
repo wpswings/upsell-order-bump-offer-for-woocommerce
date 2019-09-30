@@ -235,7 +235,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					?>
 					<div id="mwb-bump-thirty-days-notify" class="notice notice-warning">
 						<p>
-							<strong><a href="?page=mwb-bump-offer-setting&tab=license">
+							<strong><a href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=license">
 
 							<!-- License warning. -->
 							<?php esc_html_e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>

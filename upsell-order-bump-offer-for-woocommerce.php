@@ -159,9 +159,9 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 		if ( strpos( $file, 'upsell-order-bump-offer-for-woocommerce.php' ) !== false ) {
 
 			$row_meta = array(
-				'docs'    => '<a target="_blank" style="color:#FFF;background:linear-gradient(to right,#7a28ff 0,#00a1ff 100%);padding:5px;border-radius:6px;" href="https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer-pro/?utm_source=mwb-site&utm_medium=doc-cta&utm_campaign=bump-offer-page">' . esc_html__( 'Go to Docs', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'docs'    => '<a target="_blank" style="color:#FFF;background:linear-gradient(to right,#7a28ff 0,#00a1ff 100%);padding:5px;border-radius:6px;" href="https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-ORG&utm_campaign=MWB-upsell-bump-org">' . esc_html__( 'Go to Docs', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 
-				'goPro' => '<a target="_blank" style="color:#FFF;background:linear-gradient(to right,#45b649,#dce35b);padding:5px;border-radius:6px;" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/"><strong>' . esc_html__( 'Go Premium', 'upsell-order-bump-offer-for-woocommerce' ) . '</strong></a>',
+				'goPro' => '<a target="_blank" style="color:#FFF;background:linear-gradient(to right,#45b649,#dce35b);padding:5px;border-radius:6px;" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-ORG&utm_campaign=MWB-upsell-bump-org"><strong>' . esc_html__( 'Go Premium', 'upsell-order-bump-offer-for-woocommerce' ) . '</strong></a>',
 			);
 
 			return array_merge( $links, $row_meta );
