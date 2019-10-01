@@ -100,7 +100,7 @@ p.mwb_ubo_bump_attributes_name {
 /*custom css for old browser*/
 .mwb_bump_popup_image, 
 .mwb_bump_popup_select {
-	padding: 0px 15px;
+	padding: 0px 20px;
 	width: 50%;
 	flex: 0 0 47%;
 	display: inline-block;
