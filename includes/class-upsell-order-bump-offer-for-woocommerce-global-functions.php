@@ -384,14 +384,14 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 		.mwb_upsell_offer_main_wrapper {
 			display: block;
 			width: 100%;
-			padding-top:  <?php echo esc_html( $parent_top_vertical_spacing ) . esc_html( 'px !important' ); ?>;
-			padding-bottom:  <?php echo esc_html( $parent_bottom_vertical_spacing ) . esc_html( 'px !important' ); ?>;
+			padding-top:  <?php echo esc_html( $parent_top_vertical_spacing ) . esc_html( 'px' ); ?>;
+			padding-bottom:  <?php echo esc_html( $parent_bottom_vertical_spacing ) . esc_html( 'px' ); ?>;
 		}
 		.mwb_upsell_offer_parent_wrapper {
-			border: <?php echo esc_html( $parent_border_type . ' ' . $parent_border_color . ' ' . $parent_border_width ) . esc_html( '!important' ); ?>;
+			border: <?php echo esc_html( $parent_border_type . ' ' . $parent_border_color . ' ' . $parent_border_width ); ?>;
 			margin: 0 auto;
 			<?php if ( 'no' == $mwb_ubo_template_adaption ) : ?>
-			max-width: 400px !important;
+			max-width: 400px;
 			<?php endif; ?>
 		}
 		.mwb_upsell_offer_parent_wrapper {
@@ -404,15 +404,15 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 		.mwb_upsell_offer_discount_section {
 			margin: 0;
 			text-align: center;
-			background-color: <?php echo esc_html( $discount_section_background_color ) . esc_html( '!important' ); ?>;
+			background-color: <?php echo esc_html( $discount_section_background_color ); ?>;
 			line-height: 1.68;
 		}
 		.mwb_upsell_offer_discount_section h3 {
-			color: <?php echo esc_html( $discount_section_text_color ) . esc_html( '!important' );; ?>;
+			color: <?php echo esc_html( $discount_section_text_color ); ?>;
 			margin: 0px;
 			padding: 1px;
-			font-size: <?php echo esc_html( $discount_section_text_size ) . esc_html( 'px !important' ); ?>;
-			border: none !important;
+			font-size: <?php echo esc_html( $discount_section_text_size ) . esc_html( 'px' ); ?>;
+			border: none;
 		}
 		.mwb_upsell_offer_product_section {
 			display: -webkit-flex;
@@ -423,10 +423,10 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			font-size: 16px;
 			align-items: start;
 		}
-		.mwb_upsell_offer_product_section p{
+		.mwb_upsell_offer_product_section p {
 			margin: 0;
-			color: <?php echo esc_html( $product_section_text_color ) . esc_html( '!important' ); ?>;
-			font-size: <?php echo esc_html( $product_section_text_size ) . esc_html( 'px !important' ); ?>;
+			color: <?php echo esc_html( $product_section_text_color ); ?>;
+			font-size: <?php echo esc_html( $product_section_text_size ) . esc_html( 'px' ); ?>;
 		}
 		.mwb_upsell_offer_product_content h4 {
 			display: inline-block;
@@ -437,16 +437,16 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			white-space: pre-line;
 		}
 		p.mwb_upsell_offer_product_price {
-			font-size: <?php echo esc_html( $product_section_text_size ) . esc_html( 'px !important' ); ?>;
+			font-size: <?php echo esc_html( $product_section_text_size ) . esc_html( 'px' ); ?>;
 			font-weight: 700;
 		}
 		p.mwb_upsell_offer_product_price del{
-			font-size: <?php echo esc_html( $product_section_text_size ) . esc_html( 'px !important' ); ?>;
+			font-size: <?php echo esc_html( $product_section_text_size ) . esc_html( 'px' ); ?>;
 		}
 		.mwb_upsell_offer_product_section h4 {
 			margin: 0;
-			color: <?php echo esc_html( $product_section_text_color ) . esc_html( '!important' ); ?>;
-			font-size: <?php echo esc_html( $product_section_text_size += 10 ) . esc_html( 'px !important' ); ?>;
+			color: <?php echo esc_html( $product_section_text_color ); ?>;
+			font-size: <?php echo esc_html( $product_section_text_size += 10 ) . esc_html( 'px' ); ?>;
 			font-weight: 300;
 		}
 		.mwb_upsell_offer_product_content {
@@ -454,32 +454,32 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 		}
 		.mwb_upsell_offer_primary_section {
 			align-items: center;
-			background-color: <?php echo esc_html( $primary_section_background_color ) . esc_html( '!important' ); ?>;
+			background-color: <?php echo esc_html( $primary_section_background_color ); ?>;
 			display: flex;
 			margin: 14px auto;
 			padding: 10px;
 		}
 		.mwb_upsell_offer_primary_section h5 {
-			color: <?php echo esc_html( $primary_section_text_color ) . esc_html( '!important' ); ?>;
-			font-size: <?php echo esc_html( $primary_section_text_size ) . esc_html( 'px !important' ); ?>;
+			color: <?php echo esc_html( $primary_section_text_color ); ?>;
+			font-size: <?php echo esc_html( $primary_section_text_size ) . esc_html( 'px' ); ?>;
 			margin: 0 0 0 10px;
 			font-weight: 600;
 		}
 		.mwb_upsell_offer_secondary_section {
 			padding: 8px;
-			background-color: <?php echo esc_html( $secondary_section_background_color ) . esc_html( '!important' ); ?>;
+			background-color: <?php echo esc_html( $secondary_section_background_color ); ?>;
 			text-align: center;
 			white-space: pre-line;
 		}
 		.mwb_upsell_offer_secondary_section p {
-			color: <?php echo esc_html( $secondary_section_text_color ) . esc_html( '!important' ); ?>;
+			color: <?php echo esc_html( $secondary_section_text_color ); ?>;
 			margin: 0;
-			font-size:<?php echo esc_html( $secondary_section_text_size ) . esc_html( 'px !important' ); ?>;
+			font-size:<?php echo esc_html( $secondary_section_text_size ) . esc_html( 'px' ); ?>;
 		}
 		/* Custom checkbox container. */
 		.mwb_upsell_offer_primary_section .mwb_upsell_bump_checkbox_container {
 			cursor: pointer;
-			width: auto !important;
+			width: auto;
 			font-size: 22px;
 			height: 23px;
 			margin-bottom: 6px;
