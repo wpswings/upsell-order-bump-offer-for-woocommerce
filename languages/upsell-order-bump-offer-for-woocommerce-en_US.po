@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Upsell Order Bump Offer for WooCommerce 1.0.0\n"
-"POT-Creation-Date: 2019-09-30 16:51+0530\n"
-"PO-Revision-Date: 2019-09-30 16:51+0530\n"
+"POT-Creation-Date: 2019-10-02 13:00+0530\n"
+"PO-Revision-Date: 2019-10-02 13:00+0530\n"
 "Last-Translator: \n"
 "Language-Team: makewebbetter\n"
 "Language: en_US\n"
@@ -668,17 +668,17 @@ msgid "Offer Location"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-settings.php:211
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:814
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:815
 msgid "Before Order Summary"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-settings.php:212
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:819
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:820
 msgid "Before Payment Gateways"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-settings.php:213
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:824
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:825
 msgid "After Payment Gateways"
 msgstr ""
 
@@ -751,15 +751,15 @@ msgid ""
 "discount on any other place on this site."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:829
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:830
 msgid "Before Place order button"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1089
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1090
 msgid "Add this offer to cart"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1172
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1173
 msgid "Choose an option"
 msgstr ""
 
