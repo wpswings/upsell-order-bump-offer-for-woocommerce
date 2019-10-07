@@ -21,7 +21,7 @@
  * WC requires at least:    3.0
  * WC tested up to:         3.7.0
  *
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/
  * License:           GPL-3.0
@@ -63,7 +63,7 @@ function mwb_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 /**
  * Currently plugin version.
  */
-define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '1.0.0' );
+define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '1.0.1' );
 
 /**
  * The code that runs during plugin activation.
