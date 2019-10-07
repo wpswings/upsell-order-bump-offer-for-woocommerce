@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<hr>
 
 	<div id="mwb_ubo_lite_overview_video">
-		<iframe width="100%" height="500" src="https://www.youtube.com/embed/7K4BFDqX-dw" frameborder="0" allowfullscreen=""></iframe>
+		<iframe width="100%" height="600px" src="https://www.youtube.com/embed/p9KIQyXauY4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 	</div>
 
 	<hr>
