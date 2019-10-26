@@ -683,7 +683,7 @@ $mwb_upsell_bump_schedule_options = array(
 								<!-- Bottom Vertical Spacing control start. -->
 								<tr valign="top">
 									<th scope="row" class="titledesc">
-										<label><?php esc_html_e( 'Add vertical spacing to the Bump Offer Box.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+										<label><?php esc_html_e( 'Select Bottom Vertical Spacing', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 									</th>
 
 									<td class="forminp forminp-text">
