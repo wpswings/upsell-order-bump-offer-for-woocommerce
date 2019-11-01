@@ -180,7 +180,7 @@ if ( ! empty( $bump['id'] ) ) {
 	$product = wc_get_product( $bump['id'] );
 
 	// The product must be variable.
-	if ( $product->has_child() ) {
+	if ( is_object( $product ) && $product->has_child() ) {
 
 		// Show variations popup Html.
 		mwb_ubo_lite_show_variation_popup( $product );

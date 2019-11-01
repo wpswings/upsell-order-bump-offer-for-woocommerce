@@ -174,7 +174,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$_product = wc_get_product( $bump_product_id );
 
-		if ( $_product->has_child() ) {
+		if ( is_object( $_product ) && $_product->has_child() ) {
 
 			// Generate default price html.
 			$bump_price_html = mwb_ubo_lite_custom_price_html( $bump_product_id, $bump_discounted_price );
@@ -270,7 +270,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		} else {
 
 			// If no variation image is present show default one.
-			$bump_var_image = mwb_ubo_lite_get_bump_image( $variation_product->get_parent_id() );
+			$bump_var_image = mwb_ubo_lite_get_bump_image( $bump_offer_id );
 		}
 
 		// Variation id will be empty if selected variation is not available.
