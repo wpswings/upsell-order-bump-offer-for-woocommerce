@@ -1,15 +1,11 @@
 jQuery(document).ready( function($) {
 
     // When bump is prepared we will get this data.
-    if ( $('#offer_shown_id').val() != null && $('#offer_shown_discount').val() ) {
-
-        var bump_id = $('#offer_shown_id').val();
-        var bump_discount = $('#offer_shown_discount').val();
-        var bump_target_cart_key = $('#target_id_cart_key').val();
-        var default_image = '';
-        var default_price = '';
-    }
-
+    var bump_id = '';
+    var bump_discount = '';
+    var bump_target_cart_key = '';
+    var default_image = '';
+    var default_price = '';
 
     /*
      * POP-UP JS.
@@ -66,6 +62,9 @@ jQuery(document).ready( function($) {
 
         // Converts attributes array in object.
         attributes_selected = Object.assign({}, attributes_selected );
+        bump_id = $('#offer_shown_id').val();
+        bump_discount = $('#offer_shown_discount').val();
+        bump_target_cart_key = $('#target_id_cart_key').val();
 
         jQuery.ajax({
 
@@ -76,7 +75,8 @@ jQuery(document).ready( function($) {
                 nonce : mwb.auth_nonce, 
                 action: 'search_variation_id_by_select' ,  
                 attributes_selected_options: attributes_selected , 
-                id: bump_id, discount: bump_discount, 
+                id: bump_id,
+                discount: bump_discount, 
                 bump_target_cart_key :bump_target_cart_key  
             },
 
@@ -129,6 +129,10 @@ jQuery(document).ready( function($) {
         $( '.mwb_upsell_offer_main_wrapper' ).css( 'opacity', '0.4' );
         
         var variation_selected = $( '#variation_id_selected' ).val();
+        bump_id = $('#offer_shown_id').val();
+        bump_discount = $('#offer_shown_discount').val();
+        bump_target_cart_key = $('#target_id_cart_key').val();
+
         jQuery.ajax({
 
             type: 'post',
@@ -168,6 +172,10 @@ jQuery(document).ready( function($) {
 
             $( '.mwb_bump_popup_loader' ).css( 'display','flex' );
             
+            bump_id = $('#offer_shown_id').val();
+            bump_discount = $('#offer_shown_discount').val();
+            bump_target_cart_key = $('#target_id_cart_key').val();
+
             // Add product to cart.
             jQuery.ajax({
 
