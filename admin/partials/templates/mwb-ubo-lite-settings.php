@@ -335,4 +335,3 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 		<input type="submit" value="<?php esc_html_e( 'Save Changes', 'upsell-order-bump-offer-for-woocommerce' ); ?>" class="button-primary woocommerce-save-button" name="mwb_upsell_bump_common_settings_save" id="mwb_upsell_bump_creation_setting_save" >
 	</p>
 </form>
-

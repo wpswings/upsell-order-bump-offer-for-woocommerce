@@ -280,7 +280,7 @@ function mwb_ubo_lite_default_global_options() {
 		'mwb_ubo_temp_adaption'     => 'yes',
 		'mwb_ubo_offer_global_css'  => '',
 		'mwb_ubo_offer_global_js'   => '',
-		'mwb_ubo_offer_price_html'  => 'sale_to_offer',
+		'mwb_ubo_offer_price_html'  => 'regular_to_offer',
 	);
 
 	return $default_global_options;
@@ -980,13 +980,14 @@ function mwb_ubo_lite_already_in_cart( $offer_id ) {
 	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 
 		// If offer product is a variable product.
-		if ( is_object( $product ) && $offer_product->has_child() ) {
+		if ( is_object( $offer_product ) && $offer_product->has_child() ) {
 
 			// If any variation of this parent is present return present.
 			if ( ( $cart_item['product_id'] == $offer_id ) && empty( $cart_item['mwb_discounted_price'] ) ) {
 
 				return true;
 			}
+			
 		} else {
 
 			// If offer id is variation or simple product.
@@ -1225,6 +1226,7 @@ function mwb_ubo_lite_show_variation_dropdown( $args = array() ) {
 function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', $get = '' ) {
 
 	$product = wc_get_product( $product_id );
+
 	$orginal_price = $product->get_price();
 	$sale_price = $product->get_sale_price();
 	$regular_price = $product->get_regular_price();
@@ -1232,7 +1234,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 	// Case of variable parent product.
 	if ( empty( $sale_price ) && empty( $regular_price ) ) {
 
-		if ( get_option( 'woocommerce_tax_display_cart' ) == 'incl' ) {
+		if ( 'incl' == get_option( 'woocommerce_tax_display_cart' ) ) {
 
 			$default_price = wc_get_price_including_tax( $product );
 		} else {
@@ -1280,6 +1282,14 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		return $bump_price;
 	}
 
+	/**
+	 * After v1.0.2 We have option to select the price html format.
+	 * So before returning price html in wc_format_sale_price check the settings and create html accordingly.
+	 */
+	$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
+
+	$price_formatting = ! empty( $mwb_ubo_global_options[ 'mwb_ubo_offer_price_html' ] ) ? $mwb_ubo_global_options[ 'mwb_ubo_offer_price_html' ] : '';
+
 	// Case of variable parent product.
 	if ( ! empty( $default_price ) ) {
 
@@ -1298,32 +1308,29 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 	// Check woocommerce settings for tax display at cart.
 	if ( 'incl' == get_option( 'woocommerce_tax_display_cart' ) ) {
 
-		// If sale price is not present.
-		if ( empty( $sale_price ) ) {
+		$regular_price = wc_get_price_including_tax( $product, array( 'price' => $regular_price ) );
+		$sale_price = wc_get_price_including_tax( $product, array( 'price' => $sale_price ) );
+		$bump_price = wc_get_price_including_tax( $product );
+	}
 
-			$regular_price = wc_get_price_including_tax( $product, array( 'price' => $regular_price ) );
+	/**
+	 * Here the price has been updated in case the tax must be included.
+	 */
 
-			$bump_price = wc_get_price_including_tax( $product );
+	// If regular price is to be shown.
+	if ( 'regular_to_offer' == $price_formatting ) {
 
-			return wc_format_sale_price( $regular_price, $bump_price );
+		return wc_format_sale_price( $regular_price, $bump_price );
+
+	} elseif ( 'sale_to_offer' == $price_formatting ) {
+
+		if( ! empty( $sale_price ) ) {
+
+			return wc_format_sale_price( $sale_price, $bump_price );
 
 		} else {
 
-			$sale_price = wc_get_price_including_tax( $product, array( 'price' => $sale_price ) );
-			$bump_price = wc_get_price_including_tax( $product );
-
-			return wc_format_sale_price( $sale_price, $bump_price );
-		}
-	} else {
-
-		// If sale price is present.
-		if ( empty( $sale_price ) ) {
-
 			return wc_format_sale_price( $regular_price, $bump_price );
-
-		} else {
-
-			return wc_format_sale_price( $sale_price, $bump_price );
 		}
 	}
 }
