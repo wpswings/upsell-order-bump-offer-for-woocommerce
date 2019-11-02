@@ -507,7 +507,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
 
 		$global_custom_css = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_global_css'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_global_css'] : '';
-		
+
 		if ( empty( $global_custom_css ) ) {
 
 			return;
@@ -562,8 +562,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		<?php
 
-
 	}
 
-// End of class.
+	// End of class.
 }

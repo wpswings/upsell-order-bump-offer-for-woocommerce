@@ -280,7 +280,7 @@ function mwb_ubo_lite_default_global_options() {
 		'mwb_ubo_temp_adaption'     => 'yes',
 		'mwb_ubo_offer_global_css'  => '',
 		'mwb_ubo_offer_global_js'   => '',
-		'mwb_ubo_offer_price_html'	=> 'sale_to_offer',
+		'mwb_ubo_offer_price_html'  => 'sale_to_offer',
 	);
 
 	return $default_global_options;
@@ -980,7 +980,7 @@ function mwb_ubo_lite_already_in_cart( $offer_id ) {
 	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 
 		// If offer product is a variable product.
-		if (  is_object( $product ) && $offer_product->has_child() ) {
+		if ( is_object( $product ) && $offer_product->has_child() ) {
 
 			// If any variation of this parent is present return present.
 			if ( ( $cart_item['product_id'] == $offer_id ) && empty( $cart_item['mwb_discounted_price'] ) ) {
