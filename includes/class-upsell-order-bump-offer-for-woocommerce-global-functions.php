@@ -1309,7 +1309,9 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 	if ( 'incl' == get_option( 'woocommerce_tax_display_cart' ) ) {
 
 		$regular_price = wc_get_price_including_tax( $product, array( 'price' => $regular_price ) );
-		$sale_price = wc_get_price_including_tax( $product, array( 'price' => $sale_price ) );
+		
+		$sale_price = ! empty( $sale_price ) ? wc_get_price_including_tax( $product, array( 'price' => $sale_price ) ) : $regular_price;
+
 		$bump_price = wc_get_price_including_tax( $product );
 	}
 

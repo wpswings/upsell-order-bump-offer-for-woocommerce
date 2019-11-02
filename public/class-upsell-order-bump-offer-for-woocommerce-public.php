@@ -292,10 +292,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 				// Out of stock.
 				$response = array(
+
 					'key' => 'stock',
 					'message' => '<p class="stock out-of-stock">' . esc_html__( 'Out of stock.', 'upsell-order-bump-offer-for-woocommerce' ) . '</p>',
 					'image' => $bump_var_image,
 				);
+
 				echo json_encode( $response );
 
 			} else {
@@ -305,6 +307,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					'message' => mwb_ubo_lite_custom_price_html( $variation_id, $bump_offer_discount ),
 					'image' => $bump_var_image,
 				);
+				
 				echo json_encode( $response );
 			}
 		}
