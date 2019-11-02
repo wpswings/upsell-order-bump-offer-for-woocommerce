@@ -250,7 +250,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				</tr>
 				<!-- Offer location end. -->
 
-				<!-- Feature after v1.0.2 -->
+				<!-- Features after v1.0.2 -->
 
 				<!-- Price html start. -->
 				<tr>
@@ -261,8 +261,8 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<?php
 
 					$offer_locations_array = array(
-						'regular_to_offer' => sprintf( '<del>%s</del> %s', esc_html__( 'Regular Price', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
-						'sale_to_offer' => sprintf( '<del>%s</del> %s', esc_html__( 'Sale Price', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
+						'regular_to_offer' => sprintf( '%s&nbsp;&nbsp;%s',esc_html__( '̶R̶e̶g̶u̶l̶a̶r̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ),esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
+						'sale_to_offer' => sprintf( '%s&nbsp;&nbsp;%s',esc_html__( ' ̶S̶a̶l̶e̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ),esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
 					);
 
 					?>
@@ -273,11 +273,16 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 							$attribute_description = esc_html__( 'Select the format to show the offer price in order bump.', 'upsell-order-bump-offer-for-woocommerce' );
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
-						<?php foreach ( $offer_locations_array as $key => $value ) : ?>
 
-							<input type="radio" name="mwb_ubo_offer_price_html"><span class="mwb_ubo_offer_price_option"><?php echo wp_kses( $value, 'del' ); ?></span>
+						<select id="mwb_ubo_offer_price_html" name="mwb_ubo_offer_price_html">
 
-						<?php endforeach; ?>
+							<?php foreach ( $offer_locations_array as $key => $value ) : ?>
+
+								<option <?php selected( $bump_offer_price_html, $key ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>
+
+							<?php endforeach; ?>
+
+						</select>
 					</td>
 				</tr>
 				<!-- Price html end. -->
