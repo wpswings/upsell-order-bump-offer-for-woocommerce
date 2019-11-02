@@ -44,6 +44,8 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_price_html'] = ! empty( $_POST['mwb_ubo_offer_price_html'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_price_html'] ) ) : '';
 
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_purchased_earlier'] = ! empty( $_POST['mwb_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_purchased_earlier'] ) ) : '';
+
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'mwb_ubo_global_options', $mwb_bump_upsell_global_options );
 
@@ -78,6 +80,8 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 	$mwb_ubo_offer_global_js = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_global_js'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_global_js'] : '';
 
 	$bump_offer_price_html = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_price_html'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_price_html'] : 'mwb_ubo_global_options';
+
+	$bump_offer_preorder_skip = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] : '';
 ?>
 
 <form action="" method="POST">
@@ -141,7 +145,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!--Skip offer end. -->
 
 				<!-- Offer removal on target removal starts. -->
-				<tr>
+				<tr valign="top">
 					<th scope="row" class="titledesc">
 						<label for="mwb_ubo_offer_removal_select"><?php esc_html_e( 'Offer Target Dependency', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
@@ -177,7 +181,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!-- Offer removal on target removal ends. -->
 
 				<!-- Template adaption starts. -->
-				<tr>
+				<tr valign="top">
 					<th scope="row" class="titledesc">
 						<label for="mwb_ubo_temp_adaption_select"><?php esc_html_e( 'Offer Adaption settings', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
@@ -213,7 +217,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!-- Template adaption ends. -->
 
 				<!-- Offer location start. -->
-				<tr>
+				<tr valign="top">
 					<th scope="row" class="titledesc">
 						<label for="mwb_ubo_offer_location"><?php esc_html_e( 'Offer Location', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
@@ -253,7 +257,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!-- Features after v1.0.2 -->
 
 				<!-- Price html start. -->
-				<tr>
+				<tr valign="top">
 					<th scope="row" class="titledesc">
 						<label for="mwb_ubo_offer_price_html"><?php esc_html_e( 'Offer Price Format', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
@@ -287,8 +291,27 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				</tr>
 				<!-- Price html end. -->
 
+				<!-- Price html start. -->
+				<tr valign="top" class="<?php echo ( ! mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) ? 'mwb_ubo_offer_premium_lock' : ''; ?>">
+					<th scope="row" class="titledesc">
+						<label for="mwb_ubo_offer_purchased_earlier"><?php esc_html_e( 'Skip offer purchased earlier', 'upsell-order-bump-offer-for-woocommerce' ); ?><span class="mwb_premium_feature"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/pro.png' ); ?> "></span></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'Skip order bump if the offer product is already purchased in previous orders.<br>Works for logged in users only.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<input type='checkbox' <?php echo ! empty( $bump_offer_preorder_skip ) && 'yes' == $bump_offer_preorder_skip ? 'checked' : ''; ?> id='mwb_ubo_offer_purchased_earlier' value='yes' name='mwb_ubo_offer_purchased_earlier'>
+
+					</td>
+				</tr>
+				<!-- Price html end. -->
+
 				<!-- Custom CSS start. -->
-				<tr>
+				<tr valign="top">
 					<th scope="row" class="titledesc">
 						<label for="mwb_ubo_offer_global_css"><?php esc_html_e( 'Custom CSS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
@@ -307,7 +330,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!-- Custom CSS end. -->
 
 				<!-- Custom JS start. -->
-				<tr>
+				<tr valign="top">
 					<th scope="row" class="titledesc">
 						<label for="mwb_ubo_offer_global_js"><?php esc_html_e( 'Custom JS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>

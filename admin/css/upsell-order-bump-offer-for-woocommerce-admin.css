@@ -1532,6 +1532,20 @@ select.mwb_select_for_description_class {
 .mwb-notice {
   display: block;
 }
+.mwb_premium_feature img {
+  width: 20px !important;
+}
+.mwb_premium_feature {
+  margin: 10px;
+  vertical-align: inherit;
+}
+#mwb_ubo_offer_purchased_earlier {
+  vertical-align: initial;
+}
+.mwb_ubo_offer_premium_lock {
+  pointer-events: none;
+  opacity: 0.6;
+}
 /*==================================
 =            Animation.            =
 ===================================*/
