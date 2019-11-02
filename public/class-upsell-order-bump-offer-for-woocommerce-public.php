@@ -490,5 +490,80 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 	}
 
-	// End of class.
+
+	/**
+	 * Adds custom CSS to site globally.
+	 *
+	 * @since    1.0.2
+	 */
+	public function global_custom_css() {
+
+		// Ignore admin, feed, robots or trackbacks.
+		if ( is_admin() || is_feed() || is_robots() || is_trackback() ) {
+
+			return;
+		}
+
+		$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
+
+		$global_custom_css = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_global_css'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_global_css'] : '';
+		
+		if ( empty( $global_custom_css ) ) {
+
+			return;
+		}
+
+		?>
+
+		<style type="text/css">
+
+			<?php
+
+			echo wp_unslash( $global_custom_css ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped It just displayes the html itself. Content in it is already escaped if required.
+
+			?>
+
+		</style>
+
+		<?php
+	}
+
+	/**
+	 * Adds custom JS to site globally.
+	 *
+	 * @since    1.0.2
+	 */
+	public function global_custom_js() {
+
+		// Ignore admin, feed, robots or trackbacks.
+		if ( is_admin() || is_feed() || is_robots() || is_trackback() ) {
+
+			return;
+		}
+
+		$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
+
+		$global_custom_js = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_global_js'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_global_js'] : '';
+
+		if ( empty( $global_custom_js ) ) {
+
+			return;
+		}
+
+		?>
+
+		<script type="text/javascript">
+
+			<?php
+				echo wp_unslash( $global_custom_js ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped It just displayes the html itself. Content in it is already escaped if required.
+			?>
+
+		</script>
+
+		<?php
+
+
+	}
+
+// End of class.
 }

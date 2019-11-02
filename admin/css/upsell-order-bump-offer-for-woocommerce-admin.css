@@ -8,6 +8,7 @@
  #mwb_upsell_bump_setting_wrapper, #mwb_upsell_bump_setting_wrapper * {
   box-sizing: border-box;
 }
+
 /* Connect with skype - Start */
 #mwb_ubo_lite_skype_connect_with_us {
   text-align: center;
@@ -1519,6 +1520,17 @@ select.mwb_select_for_description_class {
   width: 94%;
   display: inline-block;
   vertical-align: middle;
+}
+
+/*==================================
+=     After version v1.0.2         =
+===================================*/
+/* No other plugin notices on order bump page. */
+.notice {
+  display: none;
+}
+.mwb-notice {
+  display: block;
 }
 
 /*==================================

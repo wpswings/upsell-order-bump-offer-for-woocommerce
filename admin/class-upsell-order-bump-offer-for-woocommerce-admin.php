@@ -233,7 +233,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					$day_string = sprintf( _n( '%s day', '%s days', $day_count_warning, 'upsell-order-bump-offer-for-woocommerce' ), number_format_i18n( $day_count_warning ) );
 
 					?>
-					<div id="mwb-bump-thirty-days-notify" class="notice notice-warning">
+					<div id="mwb-bump-thirty-days-notify" class="notice notice-warning mwb-notice">
 						<p>
 							<strong><a href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=license">
 

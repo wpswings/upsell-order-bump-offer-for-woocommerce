@@ -197,7 +197,7 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 	?>
 
 	<!-- Settings saved notice. -->
-	<div class="notice notice-success is-dismissible"> 
+	<div class="notice notice-success is-dismissible mwb-notice">
 		<p><strong><?php esc_html_e( 'Settings saved', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong></p>
 	</div>
 

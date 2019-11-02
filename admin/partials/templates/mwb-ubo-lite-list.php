@@ -83,7 +83,7 @@ if ( ! empty( $mwb_upsell_bumps_list ) ) {
 	<?php if ( ! empty( $mwb_upsell_bumps_list ) ) : ?>
 		<?php if ( ! mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && count( $mwb_upsell_bumps_list ) > 1 ) : ?>
 
-		<div class="notice notice-warning">
+		<div class="notice notice-warning mwb-notice">
 			<p>
 				<strong><?php esc_html_e( 'Only first Order Bump will work. Please activate pro version to make all working.', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong>
 			</p>

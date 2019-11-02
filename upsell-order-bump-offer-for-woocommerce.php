@@ -230,7 +230,7 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 
 		<?php if ( 'woo_inactive' == $mwb_ubo_lite_plugin_activation['message'] ) : ?>
 
-			<div class="notice notice-error is-dismissible">
+			<div class="notice notice-error is-dismissible mwb-notice">
 				<p><strong><?php esc_html_e( 'WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not activated, Please activate WooCommerce first to activate ', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong><?php esc_html_e( 'Upsell Order Bump Offer for WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( '.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 			</div>
 

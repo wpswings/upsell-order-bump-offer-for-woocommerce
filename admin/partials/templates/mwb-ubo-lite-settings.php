@@ -37,12 +37,19 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_removal'] = ! empty( $_POST['mwb_ubo_offer_removal'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_removal'] ) ) : esc_html__( 'yes', 'upsell-order-bump-offer-for-woocommerce' );
 
+	// After version v1.0.2.
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_global_css'] = ! empty( $_POST['mwb_ubo_offer_global_css'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_ubo_offer_global_css'] ) ) : '';
+
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_global_js'] = ! empty( $_POST['mwb_ubo_offer_global_js'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_ubo_offer_global_js'] ) ) : '';
+
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_price_html'] = ! empty( $_POST['mwb_ubo_offer_price_html'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_price_html'] ) ) : '';
+
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'mwb_ubo_global_options', $mwb_bump_upsell_global_options );
 
 	?>
 	<!-- Settings saved notice. -->
-	<div class="notice notice-success is-dismissible"> 
+	<div class="notice notice-success is-dismissible mwb-notice"> 
 		<p><strong><?php esc_html_e( 'Settings saved', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong></p>
 	</div>
 
@@ -65,6 +72,12 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	// Bump Offer location.
 	$bump_offer_location = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_location'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_location'] : '';
+
+	$mwb_ubo_offer_global_css = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_global_css'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_global_css'] : '';
+
+	$mwb_ubo_offer_global_js = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_global_js'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_global_js'] : '';
+
+	$bump_offer_price_html = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_price_html'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_price_html'] : 'mwb_ubo_global_options';
 ?>
 
 <form action="" method="POST">
@@ -236,6 +249,82 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					</td>
 				</tr>
 				<!-- Offer location end. -->
+
+				<!-- Feature after v1.0.2 -->
+
+				<!-- Price html start. -->
+				<tr>
+					<th scope="row" class="titledesc">
+						<label for="mwb_ubo_offer_price_html"><?php esc_html_e( 'Offer Price Format', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<?php
+
+					$offer_locations_array = array(
+						'regular_to_offer' => esc_html__( 'Regular Price  Offer Price', 'upsell-order-bump-offer-for-woocommerce' ),
+						'sale_to_offer' => esc_html__( 'Sale Price  Offer Price', 'upsell-order-bump-offer-for-woocommerce' ),
+					);
+
+					?>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'Select the format to show the offer price in order bump.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<select id="mwb_ubo_offer_price_html" name="mwb_ubo_offer_price_html" >
+
+							<?php foreach ( $offer_locations_array as $key => $value ) : ?>
+
+								<option <?php selected( $bump_offer_price_html, $key ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>
+
+							<?php endforeach; ?>
+
+						</select>
+
+					</td>
+				</tr>
+				<!-- Price html end. -->
+
+				<!-- Custom CSS start. -->
+				<tr>
+					<th scope="row" class="titledesc">
+						<label for="mwb_ubo_offer_global_css"><?php esc_html_e( 'Custom CSS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'Add your custom CSS here. <br> Do not write style tags.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<textarea id="mwb_ubo_offer_global_css" name="mwb_ubo_offer_global_css" rows="4" cols="50"><?php echo esc_html( $mwb_ubo_offer_global_css ); ?></textarea>
+
+					</td>
+				</tr>
+				<!-- Custom CSS end. -->
+
+				<!-- Custom JS start. -->
+				<tr>
+					<th scope="row" class="titledesc">
+						<label for="mwb_ubo_offer_global_js"><?php esc_html_e( 'Custom JS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'Add your custom JS here. <br> Do not write scripts tags.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<textarea id="mwb_ubo_offer_global_js" name="mwb_ubo_offer_global_js" rows="4" cols="50"><?php echo esc_html( $mwb_ubo_offer_global_js ); ?></textarea>
+
+					</td>
+				</tr>
+				<!-- Custom JS end. -->
 
 			</tbody>
 		</table>

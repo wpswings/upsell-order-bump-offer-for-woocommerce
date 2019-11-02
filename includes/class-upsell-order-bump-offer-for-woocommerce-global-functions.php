@@ -278,6 +278,9 @@ function mwb_ubo_lite_default_global_options() {
 		'mwb_ubo_offer_location'    => '_after_payment_gateways',
 		'mwb_ubo_offer_removal'     => 'yes',
 		'mwb_ubo_temp_adaption'     => 'yes',
+		'mwb_ubo_offer_global_css'  => '',
+		'mwb_ubo_offer_global_js'   => '',
+		'mwb_ubo_offer_price_html'	=> 'sale_to_offer',
 	);
 
 	return $default_global_options;
