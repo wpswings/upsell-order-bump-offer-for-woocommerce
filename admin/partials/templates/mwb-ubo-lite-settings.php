@@ -291,16 +291,18 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				</tr>
 				<!-- Price html end. -->
 
-				<!-- Price html start. -->
-				<tr valign="top" class="<?php echo ( ! mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) ? 'mwb_ubo_offer_premium_lock' : ''; ?>">
+				<!-- Pre-order feature skip start. -->
+				<tr valign="top">
 					<th scope="row" class="titledesc">
-						<label for="mwb_ubo_offer_purchased_earlier"><?php esc_html_e( 'Skip offer purchased earlier', 'upsell-order-bump-offer-for-woocommerce' ); ?><span class="mwb_premium_feature"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/pro.png' ); ?> "></span></label>
+						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+
+						<label for="mwb_ubo_offer_purchased_earlier"><?php esc_html_e( 'Smart Pre-order Skip', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = esc_html__( 'Skip order bump if the offer product is already purchased in previous orders.<br>Works for logged in users only.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribute_description = esc_html__( 'This feature allows you to skip the order bump if the offer product is already purchased in previous orders.' );
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
@@ -308,7 +310,28 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 					</td>
 				</tr>
-				<!-- Price html end. -->
+				<!-- Pre-order feature skip end. -->
+
+				<!-- Replace with target start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+
+						<label for="mwb_ubo_offer_purchased_earlier"><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This feature allows you to replace offer product to target product when added via order bump.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<input type='checkbox' <?php echo ! empty( $bump_offer_preorder_skip ) && 'yes' == $bump_offer_preorder_skip ? 'checked' : ''; ?> id='mwb_ubo_offer_purchased_earlier' value='yes' name='mwb_ubo_offer_purchased_earlier'>
+
+					</td>
+				</tr>
+				<!-- Replace with target end. -->
 
 				<!-- Custom CSS start. -->
 				<tr valign="top">
