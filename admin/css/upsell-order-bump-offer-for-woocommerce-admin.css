@@ -1546,6 +1546,86 @@ select.mwb_select_for_description_class {
   pointer-events: none;
   opacity: 0.6;
 }
+.mwb_ubo_offer_premium_lock {
+  position: relative;
+  overflow: hidden;
+}
+.mwb_ubo_premium_strip {
+    border: 1px solid #78c900;
+    color: #ffffff;
+    background-color: #78c900;
+    position: absolute;
+    top: 11px;
+    bottom: 0;
+    right: 0;
+    left: 0px;
+    width: 32px;
+    height: 19px;
+    transform: skewY(-26deg);
+    transform-origin: top left;
+    color: #ffffff;
+    text-align: right;
+    font-size: 14px;
+}
+.mwb_ubo_premium_strip:after {
+  width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 23px solid transparent;
+    border-top: 19px solid #78c900;
+    position: absolute;
+    content: '';
+    top: 4px;
+    left: 21px;
+    transform: rotate(38deg);
+}
+.mwb-upsell-smart-offer-upgrade, .mwb-upsell-smart-pre-order-skip{
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  top: -3px;
+}
+.mwb-upsell-smart-offer-upgrade .mwb-upsell-smart-offer-upgrade-wrap,
+.mwb-upsell-smart-pre-order-skip .mwb-upsell-smart-pre-order-skip-wrap{
+  opacity: 0;
+}
+.mwb-upsell-smart-offer-upgrade .mwb-upsell-smart-offer-upgrade-wrap:checked + .upsell-smart-offer-upgrade-btn,
+.mwb-upsell-smart-pre-order-skip .mwb-upsell-smart-pre-order-skip-wrap:checked + .upsell-smart-pre-order-skip-btn{
+    background-color: #6dbe45;
+}
+.upsell-smart-offer-upgrade-btn,
+.upsell-smart-pre-order-skip-btn {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 30px;
+}
+.upsell-smart-offer-upgrade-btn:before,
+.upsell-smart-pre-order-skip-btn:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+.mwb-upsell-smart-offer-upgrade .mwb-upsell-smart-offer-upgrade-wrap:checked + .upsell-smart-offer-upgrade-btn:before,
+.mwb-upsell-smart-pre-order-skip .mwb-upsell-smart-pre-order-skip-wrap:checked + .upsell-smart-pre-order-skip-btn:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
 /*==================================
 =            Animation.            =
 ===================================*/

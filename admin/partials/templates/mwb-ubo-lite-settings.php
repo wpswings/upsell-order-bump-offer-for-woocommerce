@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
- // Save settings on Save changes.
+// Save settings on Save changes.
 if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	// Nonce verification.
@@ -44,7 +44,9 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_price_html'] = ! empty( $_POST['mwb_ubo_offer_price_html'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_price_html'] ) ) : '';
 
-	$mwb_bump_upsell_global_options['mwb_ubo_offer_purchased_earlier'] = ! empty( $_POST['mwb_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_purchased_earlier'] ) ) : '';
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_purchased_earlier'] = ! empty( $_POST['mwb_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_purchased_earlier'] ) ) : esc_html__( 'no', 'upsell-order-bump-offer-for-woocommerce' );
+
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_replace_target'] = ! empty( $_POST['mwb_ubo_offer_replace_target'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_replace_target'] ) ) : esc_html__( 'no', 'upsell-order-bump-offer-for-woocommerce' );
 
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'mwb_ubo_global_options', $mwb_bump_upsell_global_options );
@@ -79,9 +81,11 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$mwb_ubo_offer_global_js = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_global_js'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_global_js'] : '';
 
-	$bump_offer_price_html = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_price_html'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_price_html'] : 'mwb_ubo_global_options';
+	$bump_offer_price_html = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_price_html'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_price_html'] : 'regular_to_offer';
 
-	$bump_offer_preorder_skip = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] : '';
+	$bump_offer_preorder_skip = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] : 'no';
+
+	$bump_offer_replace_target = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] : 'no';
 ?>
 
 <form action="" method="POST">
@@ -93,6 +97,10 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 				<!-- Nonce field here. -->
 				<?php wp_nonce_field( 'mwb_upsell_bump_settings_nonce', 'mwb_upsell_bump_nonce' ); ?>
+
+				<?php if( ! mwb_ubo_lite_if_pro_exists() ) : ?>
+					<input type='hidden' id='mwb_ubo_pro_status' value='inactive'>
+				<?php endif; ?>
 
 				<!-- Enable Plugin start. -->
 				<tr valign="top">
@@ -294,7 +302,10 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!-- Pre-order feature skip start. -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
-						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+
+						<?php if( ! mwb_ubo_lite_if_pro_exists() ) : ?>
+							<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<?php endif; ?>
 
 						<label for="mwb_ubo_offer_purchased_earlier"><?php esc_html_e( 'Smart Pre-order Skip', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
@@ -305,9 +316,10 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 							$attribute_description = esc_html__( 'This feature allows you to skip the order bump if the offer product is already purchased in previous orders.' );
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
-
-						<input type='checkbox' <?php echo ! empty( $bump_offer_preorder_skip ) && 'yes' == $bump_offer_preorder_skip ? 'checked' : ''; ?> id='mwb_ubo_offer_purchased_earlier' value='yes' name='mwb_ubo_offer_purchased_earlier'>
-
+						<label class="mwb-upsell-smart-pre-order-skip" for="mwb_ubo_offer_purchased_earlier">
+						<input class="mwb-upsell-smart-pre-order-skip-wrap" type='checkbox' <?php echo mwb_ubo_lite_if_pro_exists() && ! empty( $bump_offer_preorder_skip ) && 'yes' == $bump_offer_preorder_skip ? 'checked' : ''; ?> id='mwb_ubo_offer_purchased_earlier' value='yes' name='mwb_ubo_offer_purchased_earlier'>
+						<span class="upsell-smart-pre-order-skip-btn"></span>
+						</label>
 					</td>
 				</tr>
 				<!-- Pre-order feature skip end. -->
@@ -315,9 +327,12 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!-- Replace with target start. -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
-						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
-						<label for="mwb_ubo_offer_purchased_earlier"><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<?php if( ! mwb_ubo_lite_if_pro_exists() ) : ?>
+							<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<?php endif; ?>
+
+						<label for="mwb_ubo_offer_replace_target"><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
@@ -327,7 +342,10 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
-						<input type='checkbox' <?php echo ! empty( $bump_offer_preorder_skip ) && 'yes' == $bump_offer_preorder_skip ? 'checked' : ''; ?> id='mwb_ubo_offer_purchased_earlier' value='yes' name='mwb_ubo_offer_purchased_earlier'>
+						<label class="mwb-upsell-smart-offer-upgrade" for="mwb_ubo_offer_replace_target">
+						<input class="mwb-upsell-smart-offer-upgrade-wrap" type='checkbox' <?php echo mwb_ubo_lite_if_pro_exists() && ! empty( $bump_offer_replace_target ) && 'yes' == $bump_offer_replace_target ? 'checked' : ''; ?> id='mwb_ubo_offer_replace_target' value='yes' name='mwb_ubo_offer_replace_target'>
+						<span class="upsell-smart-offer-upgrade-btn"></span>
+						</label>
 
 					</td>
 				</tr>
@@ -381,3 +399,42 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 		<input type="submit" value="<?php esc_html_e( 'Save Changes', 'upsell-order-bump-offer-for-woocommerce' ); ?>" class="button-primary woocommerce-save-button" name="mwb_upsell_bump_common_settings_save" id="mwb_upsell_bump_creation_setting_save" >
 	</p>
 </form>
+
+<!-- After v1.0.2 -->
+<!-- Adding go pro popup here. -->
+
+<!-- Go pro popup wrap start. -->
+<div class="mwb_ubo_lite_go_pro_popup_wrap">
+	<!-- Go pro popup main start. -->
+	<div class="mwb_ubo_lite_go_pro_popup">
+		<!-- Main heading. -->
+		<div class="mwb_ubo_lite_go_pro_popup_head">
+			<h2><?php esc_html_e( 'Want More? Go Pro !!', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+			<!-- Close button. -->
+			<a href="" class="mwb_ubo_lite_go_pro_popup_close">
+				<span>&times;</span>
+			</a>
+		</div>
+
+		<!-- Notice icon. -->
+		<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/pro.png' ); ?> ">
+		</div>
+
+		<!-- Notice. -->
+		<div class="mwb_ubo_lite_go_pro_popup_content">
+			<p class="mwb_ubo_lite_go_pro_popup_text">
+				<?php esc_html_e( 'Want some more super cool features? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+			</p>
+			<p class="mwb_ubo_lite_go_pro_popup_text">
+				<?php esc_html_e( 'Go with our premium version and make unlimited numbers of order bumps. Get more smart features in order to get high conversions. Make the most attractive offers with all of your products. Set Relevant offers for specific targets which will ensure customer satisfaction and higher conversion rates.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+			</p>
+		</div>
+
+		<!-- Go pro button. -->
+		<div class="mwb_ubo_lite_go_pro_popup_button">
+			<a class="button mwb_ubo_lite_overview_go_pro_button" target="_blank" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-ORG&utm_campaign=MWB-upsell-bump-org"><?php echo esc_html__( 'Upgrade to Premium', 'upsell-order-bump-offer-for-woocommerce' ) . ' <span class="dashicons dashicons-arrow-right-alt"></span>'; ?></a>
+		</div>
+	</div>
+	<!-- Go pro popup main end. -->
+</div>
+<!-- Go pro popup wrap end. -->

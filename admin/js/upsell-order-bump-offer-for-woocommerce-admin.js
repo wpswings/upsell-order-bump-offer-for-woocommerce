@@ -571,5 +571,20 @@ jQuery(document).ready( function($) {
 	    }
 	});
 
+	/**
+	 * Scripts after v1.0.2
+	 */
+	$('#mwb_ubo_offer_purchased_earlier, #mwb_ubo_offer_replace_target').on( 'click', function (e) {
+
+		// Add popup to unlock pro features.
+		var pro_status = document.getElementById( 'mwb_ubo_pro_status' );
+		if( null != pro_status ) {
+			
+			// Add a popup over here.
+			$(this).prop("checked", false);
+			$( '.mwb_ubo_lite_go_pro_popup_wrap' ).addClass( 'mwb_ubo_lite_go_pro_popup_show' );
+			$( 'body' ).addClass( 'mwb_ubo_lite_go_pro_popup_body' );
+		}
+	});
 // End of js.
 });

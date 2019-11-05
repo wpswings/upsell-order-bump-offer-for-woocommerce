@@ -75,7 +75,7 @@ if ( empty( $_SESSION['encountered_bump_array'] ) ) {
 
 		}
 
-		// Here we will have atleast a category or target id.
+		// Here we will have atleast a category or target id to search.
 		// Lets check for offer be present.
 		if ( ! empty( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) ) {
 

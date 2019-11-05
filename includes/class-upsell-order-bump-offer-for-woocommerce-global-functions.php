@@ -281,6 +281,8 @@ function mwb_ubo_lite_default_global_options() {
 		'mwb_ubo_offer_global_css'  => '',
 		'mwb_ubo_offer_global_js'   => '',
 		'mwb_ubo_offer_price_html'  => 'regular_to_offer',
+		'mwb_ubo_offer_purchased_earlier'  => 'no',
+		'mwb_ubo_offer_replace_target'  => 'no',
 	);
 
 	return $default_global_options;
