@@ -534,9 +534,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 	}
 
-
 	/**
-	 * Adds custom CSS to site globally.
+	 * Adds custom CSS to site.
 	 *
 	 * @since    1.0.2
 	 */
@@ -573,7 +572,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	}
 
 	/**
-	 * Adds custom JS to site globally.
+	 * Adds custom JS to site.
 	 *
 	 * @since    1.0.2
 	 */
@@ -608,5 +607,5 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 	}
 
-	// End of class.
+// End of class.
 }

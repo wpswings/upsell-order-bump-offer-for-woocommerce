@@ -1340,7 +1340,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 }
 
 /**
- * Destroy the only data added in session by plugin.
+ * Destroy the only data added in session by orderbump.
  *
  * @since   1.0.2
  */
@@ -1363,4 +1363,3 @@ function mwb_ubo_session_destroy() {
 		unset( $_SESSION[ $data ] );
 	}
 }
-
