@@ -282,7 +282,6 @@ function mwb_ubo_lite_default_global_options() {
 		'mwb_ubo_offer_global_js'   => '',
 		'mwb_ubo_offer_price_html'  => 'regular_to_offer',
 		'mwb_ubo_offer_purchased_earlier'  => 'no',
-		'mwb_ubo_offer_replace_target'  => 'no',
 	);
 
 	return $default_global_options;
@@ -1362,4 +1361,63 @@ function mwb_ubo_session_destroy() {
 
 		unset( $_SESSION[ $data ] );
 	}
+}
+
+/**
+ * Add Go pro popup.
+ *
+ * @since   1.0.2
+ */
+function mwb_ubo_go_pro( $location='pro' ) {
+
+	if ( 'pro' == $location ) {
+		
+		$message = esc_html__( 'Want some more super cool features? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce' );
+
+	} else {
+
+		$message = esc_html__( 'Stucked to just one order bump? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce' );
+	}
+
+	ob_start();
+	?>
+	<!-- Go pro popup wrap start. -->
+	<div class="mwb_ubo_lite_go_pro_popup_wrap">
+		<!-- Go pro popup main start. -->
+		<div class="mwb_ubo_lite_go_pro_popup">
+			<!-- Main heading. -->
+			<div class="mwb_ubo_lite_go_pro_popup_head">
+				<h2><?php esc_html_e( 'Want More? Go Pro !!', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+				<!-- Close button. -->
+				<a href="" class="mwb_ubo_lite_go_pro_popup_close">
+					<span>&times;</span>
+				</a>
+			</div>
+
+			<!-- Notice icon. -->
+			<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/pro.png' ); ?> ">
+			</div>
+
+			<!-- Notice. -->
+			<div class="mwb_ubo_lite_go_pro_popup_content">
+				<p class="mwb_ubo_lite_go_pro_popup_text">
+					<?php echo esc_html( $message ); ?>
+				</p>
+				<p class="mwb_ubo_lite_go_pro_popup_text">
+					<?php esc_html_e( 'Go with our premium version and make unlimited numbers of order bumps. Get more smart features and make the most attractive offers with all of your products. Set Relevant offers for specific targets which will ensure customer satisfaction and higher conversion rates.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+				</p>
+			</div>
+
+			<!-- Go pro button. -->
+			<div class="mwb_ubo_lite_go_pro_popup_button">
+				<a class="button mwb_ubo_lite_overview_go_pro_button" target="_blank" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-ORG&utm_campaign=MWB-upsell-bump-org"><?php echo esc_html__( 'Upgrade to Premium', 'upsell-order-bump-offer-for-woocommerce' ) . ' <span class="dashicons dashicons-arrow-right-alt"></span>'; ?></a>
+			</div>
+		</div>
+		<!-- Go pro popup main end. -->
+	</div>
+	<!-- Go pro popup wrap end. -->
+	<?php
+	$popup_html = ob_get_contents();
+	ob_end_clean();
+	echo $popup_html;
 }

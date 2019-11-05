@@ -231,6 +231,7 @@ $mwb_upsell_bump_schedule_options = array(
 				<?php wp_nonce_field( 'mwb_upsell_bump_creation_nonce', 'mwb_upsell_bump_nonce' ); ?>
 
 				<input type="hidden" name="mwb_upsell_bump_id" value="<?php echo esc_html( $mwb_upsell_bump_id ); ?>">
+				<input type='hidden' id='mwb_ubo_pro_status' value='inactive'>
 
 				<?php
 
@@ -392,7 +393,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 							$selected_week = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ? ( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) : '';
 
-						foreach ( $mwb_upsell_bump_schedule_options as $key => $value ) {
+							foreach ( $mwb_upsell_bump_schedule_options as $key => $value ) {
 							?>
 
 								<option <?php echo esc_html( $selected_week == $key ? 'selected=""' : '' ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>
@@ -404,6 +405,33 @@ $mwb_upsell_bump_schedule_options = array(
 					</td>	
 				</tr>
 				<!-- Schedule your Bump end. -->
+
+				<!-- Replace with target start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<?php if( ! mwb_ubo_lite_if_pro_exists() ) : ?>
+							<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<?php endif; ?>
+
+						<label for="mwb_ubo_offer_replace_target"><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This feature allows you to replace offer product to target product when added via order bump.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label class="mwb-upsell-smart-offer-upgrade" for="mwb_ubo_offer_replace_target">
+						<input class="mwb-upsell-smart-offer-upgrade-wrap" type='checkbox' id='mwb_ubo_offer_replace_target' value='yes'>
+						<span class="upsell-smart-offer-upgrade-btn"></span>
+						</label>
+						
+					</td>
+				</tr>
+				<!-- Replace with target end. -->
 
 			</tbody>
 		</table>
@@ -1131,3 +1159,8 @@ $mwb_upsell_bump_schedule_options = array(
 	</div>
 </div>
 
+<!-- After v1.0.2 -->
+<!-- Adding go pro popup here. -->
+
+<!-- Add Go pro popup. -->
+<?php mwb_ubo_go_pro( 'pro' ); ?>

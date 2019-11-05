@@ -243,38 +243,6 @@ if ( ! empty( $mwb_upsell_bumps_list ) ) {
 <div class="mwb_upsell_bump_create_new_bump">
 	<a href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=1" class="mwb_ubo_lite_bump_create_button" ><?php esc_html_e( '+Create New Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 </div>
-<!-- Go pro popup wrap start. -->
-<div class="mwb_ubo_lite_go_pro_popup_wrap">
-	<!-- Go pro popup main start. -->
-	<div class="mwb_ubo_lite_go_pro_popup">
-		<!-- Main heading. -->
-		<div class="mwb_ubo_lite_go_pro_popup_head">
-			<h2><?php esc_html_e( 'Want More? Go Pro !!', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
-			<!-- Close button. -->
-			<a href="" class="mwb_ubo_lite_go_pro_popup_close">
-				<span>&times;</span>
-			</a>
-		</div>
 
-		<!-- Notice icon. -->
-		<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/pro.png' ); ?> ">
-		</div>
-
-		<!-- Notice. -->
-		<div class="mwb_ubo_lite_go_pro_popup_content">
-			<p class="mwb_ubo_lite_go_pro_popup_text">
-				<?php esc_html_e( 'Stucked to just one order bump? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
-			</p>
-			<p class="mwb_ubo_lite_go_pro_popup_text">
-				<?php esc_html_e( 'Go with our premium version and make unlimited numbers of order bumps. Make the most attractive offers with all of your products. Set Relevant offers for specific targets which will ensure customer satisfaction and higher conversion rates. ', 'upsell-order-bump-offer-for-woocommerce' ); ?>
-			</p>
-		</div>
-
-		<!-- Go pro button. -->
-		<div class="mwb_ubo_lite_go_pro_popup_button">
-			<a class="button mwb_ubo_lite_overview_go_pro_button" target="_blank" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-ORG&utm_campaign=MWB-upsell-bump-org"><?php echo esc_html__( 'Upgrade to Premium', 'upsell-order-bump-offer-for-woocommerce' ) . ' <span class="dashicons dashicons-arrow-right-alt"></span>'; ?></a>
-		</div>
-	</div>
-	<!-- Go pro popup main end. -->
-</div>
-<!-- Go pro popup wrap end. -->
+<!-- Add Go pro popup. -->
+<?php mwb_ubo_go_pro( 'list' ); ?>

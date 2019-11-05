@@ -205,11 +205,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 				if( mwb_ubo_lite_if_pro_exists() ) {
 
-					$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
+					// Get all saved bumps.
+					$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
+					$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
 
-					$mwb_upsell_bump_offer_upgrade = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] : '';
+					$order_bump_index = ! empty( $_SESSION['encountered_bump_array'] ) ? $_SESSION['encountered_bump_array'] : '';
 
-					if( 'yes' == $mwb_upsell_bump_offer_upgrade && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+					$encountered_bump_array = ! empty( $mwb_ubo_offer_array_collection[ $order_bump_index ] ) ? $mwb_ubo_offer_array_collection[ $order_bump_index ] : array();
+
+					$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
+
+					if( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
 						Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_upgrade_offer();
 					}
@@ -242,9 +248,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// This settings won't be applicable if the pro feature ( smart upgrade is enabled ).
 		if( mwb_ubo_lite_if_pro_exists() ) {
 
-			$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
+			// Get all saved bumps.
+			$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
+			$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
 
-			$mwb_upsell_bump_offer_upgrade = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] : '';
+			$order_bump_index = ! empty( $_SESSION['encountered_bump_array'] ) ? $_SESSION['encountered_bump_array'] : '';
+
+			$encountered_bump_array = ! empty( $mwb_ubo_offer_array_collection[ $order_bump_index ] ) ? $mwb_ubo_offer_array_collection[ $order_bump_index ] : array();
+
+			$mwb_upsell_bump_offer_upgrade = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
 
 			if( 'yes' == $mwb_upsell_bump_offer_upgrade && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
@@ -380,6 +392,27 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$_SESSION['bump_offer_status'] = esc_html__( 'added', 'upsell-order-bump-offer-for-woocommerce' );
 
+		if( ! empty( $_SESSION['bump_offer_product_key'] ) ) {
+
+			if( mwb_ubo_lite_if_pro_exists() ) {
+
+				// Get all saved bumps.
+				$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
+				$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
+
+				$order_bump_index = ! empty( $_SESSION['encountered_bump_array'] ) ? $_SESSION['encountered_bump_array'] : '';
+
+				$encountered_bump_array = ! empty( $mwb_ubo_offer_array_collection[ $order_bump_index ] ) ? $mwb_ubo_offer_array_collection[ $order_bump_index ] : array();
+
+				$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
+
+				if( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+
+					Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_upgrade_offer();
+				}
+			}
+		}
+
 		echo json_encode( $_SESSION['bump_offer_status'] );
 		wp_die();
 	}
@@ -470,9 +503,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// This settings won't be applicable if the pro feature ( smart upgrade is enabled ).
 			if( mwb_ubo_lite_if_pro_exists() ) {
 
-				$mwb_upsell_bump_offer_upgrade = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] : '';
+				// Get all saved bumps.
+				$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
+				$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
 
-				if( 'yes' == $mwb_upsell_bump_offer_upgrade && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+				$order_bump_index = ! empty( $_SESSION['encountered_bump_array'] ) ? $_SESSION['encountered_bump_array'] : '';
+
+				$encountered_bump_array = ! empty( $mwb_ubo_offer_array_collection[ $order_bump_index ] ) ? $mwb_ubo_offer_array_collection[ $order_bump_index ] : array();
+
+				$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
+
+				if( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
 					// Do nothing and return.
 					return;

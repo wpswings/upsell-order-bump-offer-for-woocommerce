@@ -1550,35 +1550,35 @@ select.mwb_select_for_description_class {
   position: relative;
   overflow: hidden;
 }
+.mwb_ubo_premium_strip:after {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 39px solid transparent;
+  border-top: 21px solid #78c900;
+  position: absolute;
+  content: '';
+  top: 8px;
+  left: 24px;
+  transform: rotate(27deg);
+  z-index: -1;
+}
 .mwb_ubo_premium_strip {
   border: 1px solid #78c900;
   color: #ffffff;
   background-color: #78c900;
   position: absolute;
-  top: 24px;
+  top: 15px;
   bottom: 0;
   right: 0;
   left: 0px;
   width: 32px;
   height: 21px;
-  transform: skewY(-36deg);
+  transform: skewY(-26deg);
   transform-origin: top left;
   color: #ffffff;
   text-align: right;
   font-size: 14px;
-}
-.mwb_ubo_premium_strip:after {
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 24px solid transparent;
-  border-top: 19px solid #78c900;
-  position: absolute;
-  content: '';
-  top: 7px;
-  left: 22px;
-  transform: rotate(36deg);
-  z-index: -1;
 }
 .mwb-upsell-smart-offer-upgrade, .mwb-upsell-smart-pre-order-skip{
   position: relative;
