@@ -79,6 +79,22 @@ if ( empty( $_SESSION['encountered_bump_array'] ) ) {
 		// Lets check for offer be present.
 		if ( ! empty( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) ) {
 
+			/**
+			 * After v1.0.1 (pro)
+			 * Apply smart-skip in case of pro is active.
+			 */
+			if( mwb_ubo_lite_if_pro_exists() && is_user_logged_in() ) {
+
+				$mwb_upsell_bump_global_smart_skip = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] : '';
+				if( 'yes' == $mwb_upsell_bump_global_smart_skip && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+
+					if( Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_skip_for_pre_order( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) ) {
+
+						continue;
+					}
+				}
+			}
+
 			// Check if these product are present in cart one by one.
 			foreach ( $single_bump_array['mwb_upsell_bump_target_ids'] as $key => $single_target_id ) {
 

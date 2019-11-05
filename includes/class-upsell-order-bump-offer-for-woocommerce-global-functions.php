@@ -1338,3 +1338,29 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		}
 	}
 }
+
+/**
+ * Destroy the only data added in session by plugin.
+ *
+ * @since   1.0.2
+ */
+function mwb_ubo_session_destroy() {
+
+	if ( ! session_id() ) {
+
+		session_start();
+	}
+
+	$order_bump_data = array(
+		'encountered_bump_array',
+		'mwb_upsell_bump_target_key',
+		'bump_offer_product_key',
+		'bump_offer_status',
+	);
+
+	foreach ( $order_bump_data as $key => $data ) {
+
+		unset( $_SESSION[ $data ] );
+	}
+}
+

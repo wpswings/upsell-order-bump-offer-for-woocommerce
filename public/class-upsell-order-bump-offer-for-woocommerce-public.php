@@ -201,6 +201,21 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			$_SESSION['bump_offer_status'] = esc_html__( 'added', 'upsell-order-bump-offer-for-woocommerce' );
 
+			if( ! empty( $_SESSION['bump_offer_product_key'] ) ) {
+
+				if( mwb_ubo_lite_if_pro_exists() ) {
+
+					$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
+
+					$mwb_upsell_bump_offer_upgrade = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] : '';
+
+					if( 'yes' == $mwb_upsell_bump_offer_upgrade && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+
+						Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_upgrade_offer();
+					}
+				}
+			}
+
 			echo json_encode( $_SESSION['bump_offer_status'] );
 		}
 
@@ -222,6 +237,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		if ( ! session_id() ) {
 
 			session_start();
+		}
+
+		// This settings won't be applicable if the pro feature ( smart upgrade is enabled ).
+		if( mwb_ubo_lite_if_pro_exists() ) {
+
+			$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
+
+			$mwb_upsell_bump_offer_upgrade = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] : '';
+
+			if( 'yes' == $mwb_upsell_bump_offer_upgrade && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+
+				// On removal of offer product retrieve the target product.  
+				Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_retrieve_target();
+			}
 		}
 
 		WC()->cart->remove_cart_item( $_SESSION['bump_offer_product_key'] );
@@ -368,7 +397,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 
 		// Destroy session on order completed.
-		session_destroy();
+		mwb_ubo_session_destroy();
 	}
 
 	/**
@@ -438,6 +467,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Case of target being removed.
 		if ( ! empty( $_SESSION['mwb_upsell_bump_target_key'] ) && ! empty( $key_to_be_removed ) && $key_to_be_removed == $_SESSION['mwb_upsell_bump_target_key'] ) {
 
+			// This settings won't be applicable if the pro feature ( smart upgrade is enabled ).
+			if( mwb_ubo_lite_if_pro_exists() ) {
+
+				$mwb_upsell_bump_offer_upgrade = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_replace_target'] : '';
+
+				if( 'yes' == $mwb_upsell_bump_offer_upgrade && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+
+					// Do nothing and return.
+					return;
+				}
+			}
+
 			// Do this only when settings are setted yes.
 			if ( 'yes' == $mwb_ubo_global_options['mwb_ubo_offer_removal'] ) {
 
@@ -448,7 +489,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				}
 
 				// Reset session.
-				session_destroy();
+				mwb_ubo_session_destroy();
 
 			} else {
 
@@ -456,7 +497,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				unset( WC()->cart->cart_contents[ $_SESSION['bump_offer_product_key'] ]['mwb_discounted_price'] );
 
 				// Reset session.
-				session_destroy();
+				mwb_ubo_session_destroy();
 			}
 		}
 
