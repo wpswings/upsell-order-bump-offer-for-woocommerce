@@ -201,9 +201,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			$_SESSION['bump_offer_status'] = esc_html__( 'added', 'upsell-order-bump-offer-for-woocommerce' );
 
-			if( ! empty( $_SESSION['bump_offer_product_key'] ) ) {
+			if ( ! empty( $_SESSION['bump_offer_product_key'] ) ) {
 
-				if( mwb_ubo_lite_if_pro_exists() ) {
+				if ( mwb_ubo_lite_if_pro_exists() ) {
 
 					// Get all saved bumps.
 					$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
@@ -215,7 +215,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 					$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
 
-					if( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+					if ( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
 						Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_upgrade_offer();
 					}
@@ -246,7 +246,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 
 		// This settings won't be applicable if the pro feature ( smart upgrade is enabled ).
-		if( mwb_ubo_lite_if_pro_exists() ) {
+		if ( mwb_ubo_lite_if_pro_exists() ) {
 
 			// Get all saved bumps.
 			$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
@@ -258,9 +258,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			$mwb_upsell_bump_offer_upgrade = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
 
-			if( 'yes' == $mwb_upsell_bump_offer_upgrade && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+			if ( 'yes' == $mwb_upsell_bump_offer_upgrade && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
-				// On removal of offer product retrieve the target product.  
+				// On removal of offer product retrieve the target product.
 				Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_retrieve_target();
 			}
 		}
@@ -348,7 +348,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					'message' => mwb_ubo_lite_custom_price_html( $variation_id, $bump_offer_discount ),
 					'image' => $bump_var_image,
 				);
-				
+
 				echo json_encode( $response );
 			}
 		}
@@ -392,9 +392,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$_SESSION['bump_offer_status'] = esc_html__( 'added', 'upsell-order-bump-offer-for-woocommerce' );
 
-		if( ! empty( $_SESSION['bump_offer_product_key'] ) ) {
+		if ( ! empty( $_SESSION['bump_offer_product_key'] ) ) {
 
-			if( mwb_ubo_lite_if_pro_exists() ) {
+			if ( mwb_ubo_lite_if_pro_exists() ) {
 
 				// Get all saved bumps.
 				$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
@@ -406,7 +406,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 				$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
 
-				if( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+				if ( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
 					Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_upgrade_offer();
 				}
@@ -501,7 +501,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		if ( ! empty( $_SESSION['mwb_upsell_bump_target_key'] ) && ! empty( $key_to_be_removed ) && $key_to_be_removed == $_SESSION['mwb_upsell_bump_target_key'] ) {
 
 			// This settings won't be applicable if the pro feature ( smart upgrade is enabled ).
-			if( mwb_ubo_lite_if_pro_exists() ) {
+			if ( mwb_ubo_lite_if_pro_exists() ) {
 
 				// Get all saved bumps.
 				$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
@@ -513,7 +513,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 				$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
 
-				if( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+				if ( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
 					// Do nothing and return.
 					return;
@@ -642,5 +642,5 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 	}
 
-// End of class.
+	// End of class.
 }

@@ -85,14 +85,14 @@ function mwb_ubo_lite_allowed_html() {
 			'id'  => array(),
 			'value'  => array(),
 		),
-		'br'  	=> '',
-		'ins'  	=> '',
-		'del'  	=> '',
-		'h2'	=> '',
-		'h3'  	=> '',
-		'h4'  	=> '',
-		'h5'  	=> '',
-		'div' 	=> array(
+		'br'    => '',
+		'ins'   => '',
+		'del'   => '',
+		'h2'    => '',
+		'h3'    => '',
+		'h4'    => '',
+		'h5'    => '',
+		'div'   => array(
 			'class'     => array(
 				'mwb_upsell_offer_main_wrapper',
 				'mwb_upsell_offer_parent_wrapper',
@@ -148,12 +148,12 @@ function mwb_ubo_lite_allowed_html() {
 		),
 		'a' => array(
 			'href'  => array(),
-			'class'	=> array(
+			'class' => array(
 				'mwb_ubo_lite_go_pro_popup_close',
 				'button',
 				'mwb_ubo_lite_overview_go_pro_button',
 			),
-			'target' =>	'_blank',
+			'target' => '_blank',
 		),
 		'select' => array(
 			'id'  => array(),
@@ -1001,7 +1001,6 @@ function mwb_ubo_lite_already_in_cart( $offer_id ) {
 
 				return true;
 			}
-			
 		} else {
 
 			// If offer id is variation or simple product.
@@ -1302,7 +1301,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 	 */
 	$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
 
-	$price_formatting = ! empty( $mwb_ubo_global_options[ 'mwb_ubo_offer_price_html' ] ) ? $mwb_ubo_global_options[ 'mwb_ubo_offer_price_html' ] : '';
+	$price_formatting = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_price_html'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_price_html'] : '';
 
 	// Case of variable parent product.
 	if ( ! empty( $default_price ) ) {
@@ -1323,7 +1322,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 	if ( 'incl' == get_option( 'woocommerce_tax_display_cart' ) ) {
 
 		$regular_price = wc_get_price_including_tax( $product, array( 'price' => $regular_price ) );
-		
+
 		$sale_price = ! empty( $sale_price ) ? wc_get_price_including_tax( $product, array( 'price' => $sale_price ) ) : $regular_price;
 
 		$bump_price = wc_get_price_including_tax( $product );
@@ -1340,7 +1339,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 	} elseif ( 'sale_to_offer' == $price_formatting ) {
 
-		if( ! empty( $sale_price ) ) {
+		if ( ! empty( $sale_price ) ) {
 
 			return wc_format_sale_price( $sale_price, $bump_price );
 
@@ -1378,13 +1377,14 @@ function mwb_ubo_session_destroy() {
 
 /**
  * Add Go pro popup.
+ *
  * @param   string $location        Location of page where you want to show popup.
  * @since   1.0.2
  */
-function mwb_ubo_go_pro( $location='pro' ) {
+function mwb_ubo_go_pro( $location = 'pro' ) {
 
 	if ( 'pro' == $location ) {
-		
+
 		$message = esc_html__( 'Want some more super cool features? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce' );
 
 	} else {

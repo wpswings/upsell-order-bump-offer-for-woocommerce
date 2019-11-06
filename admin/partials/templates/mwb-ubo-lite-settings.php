@@ -95,7 +95,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!-- Nonce field here. -->
 				<?php wp_nonce_field( 'mwb_upsell_bump_settings_nonce', 'mwb_upsell_bump_nonce' ); ?>
 
-				<?php if( ! mwb_ubo_lite_if_pro_exists() ) : ?>
+				<?php if ( ! mwb_ubo_lite_if_pro_exists() ) : ?>
 					<input type='hidden' id='mwb_ubo_pro_status' value='inactive'>
 				<?php endif; ?>
 
@@ -270,8 +270,8 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<?php
 
 					$offer_locations_array = array(
-						'regular_to_offer' => sprintf( '%s&nbsp;&nbsp;%s',esc_html__( '̶R̶e̶g̶u̶l̶a̶r̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ),esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
-						'sale_to_offer' => sprintf( '%s&nbsp;&nbsp;%s',esc_html__( ' ̶S̶a̶l̶e̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ),esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
+						'regular_to_offer' => sprintf( '%s&nbsp;&nbsp;%s', esc_html__( '̶R̶e̶g̶u̶l̶a̶r̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
+						'sale_to_offer' => sprintf( '%s&nbsp;&nbsp;%s', esc_html__( ' ̶S̶a̶l̶e̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
 					);
 
 					?>
@@ -300,7 +300,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<tr valign="top">
 					<th scope="row" class="titledesc">
 
-						<?php if( ! mwb_ubo_lite_if_pro_exists() ) : ?>
+						<?php if ( ! mwb_ubo_lite_if_pro_exists() ) : ?>
 							<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 						<?php endif; ?>
 

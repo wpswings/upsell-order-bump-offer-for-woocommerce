@@ -393,7 +393,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 							$selected_week = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ? ( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) : '';
 
-							foreach ( $mwb_upsell_bump_schedule_options as $key => $value ) {
+						foreach ( $mwb_upsell_bump_schedule_options as $key => $value ) {
 							?>
 
 								<option <?php echo esc_html( $selected_week == $key ? 'selected=""' : '' ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>
@@ -410,7 +410,7 @@ $mwb_upsell_bump_schedule_options = array(
 				<tr valign="top">
 					<th scope="row" class="titledesc">
 
-						<?php if( ! mwb_ubo_lite_if_pro_exists() ) : ?>
+						<?php if ( ! mwb_ubo_lite_if_pro_exists() ) : ?>
 							<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 						<?php endif; ?>
 
