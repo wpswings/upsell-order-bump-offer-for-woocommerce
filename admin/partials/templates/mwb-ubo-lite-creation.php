@@ -293,7 +293,7 @@ $mwb_upsell_bump_schedule_options = array(
 						mwb_ubo_lite_help_tip( $description );
 
 						?>
-
+						
 						<select id="mwb_upsell_bump_target_ids_search" class="wc-bump-product-search" multiple="multiple" name="mwb_upsell_bump_target_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a product&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 
 							<?php
