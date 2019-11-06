@@ -599,13 +599,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		?>
 
-		<style type="text/css">
+		<style id="mwb-ubo-global-css" type="text/css">
 
-			<?php
-
-			echo wp_unslash( $global_custom_css ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped It just displayes the html itself. Content in it is already escaped if required.
-
-			?>
+			<?php echo wp_kses_post( wp_unslash( $global_custom_css ) ); ?>
 
 		</style>
 
@@ -636,11 +632,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		?>
 
-		<script type="text/javascript">
+		<script id="mwb-ubo-global-js" type="text/javascript">
 
-			<?php
-				echo wp_unslash( $global_custom_js ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped It just displayes the html itself. Content in it is already escaped if required.
-			?>
+			<?php echo wp_kses_post( wp_unslash( $global_custom_js ) ); ?>
 
 		</script>
 

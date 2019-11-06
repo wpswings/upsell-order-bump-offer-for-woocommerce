@@ -85,13 +85,14 @@ function mwb_ubo_lite_allowed_html() {
 			'id'  => array(),
 			'value'  => array(),
 		),
-		'br'  => '',
-		'ins'  => '',
-		'del'  => '',
-		'h3'  => '',
-		'h4'  => '',
-		'h5'  => '',
-		'div' => array(
+		'br'  	=> '',
+		'ins'  	=> '',
+		'del'  	=> '',
+		'h2'	=> '',
+		'h3'  	=> '',
+		'h4'  	=> '',
+		'h5'  	=> '',
+		'div' 	=> array(
 			'class'     => array(
 				'mwb_upsell_offer_main_wrapper',
 				'mwb_upsell_offer_parent_wrapper',
@@ -103,6 +104,11 @@ function mwb_ubo_lite_allowed_html() {
 				'mwb_upsell_offer_primary_section',
 				'mwb_upsell_offer_secondary_section',
 				'woocommerce-product-gallery__image',
+				'mwb_ubo_lite_go_pro_popup_wrap',
+				'mwb_ubo_lite_go_pro_popup',
+				'mwb_ubo_lite_go_pro_popup_head',
+				'mwb_ubo_lite_go_pro_popup_content',
+				'mwb_ubo_lite_go_pro_popup_button',
 			),
 			'id'  => array(),
 			'value'  => array(),
@@ -115,6 +121,7 @@ function mwb_ubo_lite_allowed_html() {
 			'class' => array(
 				'mwb_upsell_offer_product_price',
 				'mwb_upsell_offer_product_description',
+				'mwb_ubo_lite_go_pro_popup_text',
 			),
 			'id'  => array(),
 			'value'  => array(),
@@ -140,7 +147,13 @@ function mwb_ubo_lite_allowed_html() {
 			'sizes'  => array(),
 		),
 		'a' => array(
-			'href'  => '',
+			'href'  => array(),
+			'class'	=> array(
+				'mwb_ubo_lite_go_pro_popup_close',
+				'button',
+				'mwb_ubo_lite_overview_go_pro_button',
+			),
+			'target' =>	'_blank',
 		),
 		'select' => array(
 			'id'  => array(),
@@ -1365,7 +1378,7 @@ function mwb_ubo_session_destroy() {
 
 /**
  * Add Go pro popup.
- *
+ * @param   string $location        Location of page where you want to show popup.
  * @since   1.0.2
  */
 function mwb_ubo_go_pro( $location='pro' ) {
@@ -1392,7 +1405,7 @@ function mwb_ubo_go_pro( $location='pro' ) {
 				<a href="" class="mwb_ubo_lite_go_pro_popup_close">
 					<span>&times;</span>
 				</a>
-			</div>
+			</div>  
 
 			<!-- Notice icon. -->
 			<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/pro.png' ); ?> ">
@@ -1419,5 +1432,6 @@ function mwb_ubo_go_pro( $location='pro' ) {
 	<?php
 	$popup_html = ob_get_contents();
 	ob_end_clean();
-	echo $popup_html;
+	$allowed_html = mwb_ubo_lite_allowed_html();
+	echo wp_kses( $popup_html, $allowed_html );
 }
