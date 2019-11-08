@@ -1627,6 +1627,79 @@ select.mwb_select_for_description_class {
     -ms-transform: translateX(26px);
     transform: translateX(26px);
 }
+/*===================================
+=            After v1.2.0           =
+===================================*/
+.mwb_ubo_update_popup_wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1;
+  display: none;
+  padding: 15px;
+}
+.mwb_ubo_update_popup_inner {
+  background-color: #ffffff;
+  max-width: 550px;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  border-radius: 6px;
+  animation: flipInX 0.5s linear;
+}
+.mwb_ubo_update_popup_head {
+  max-width: 100px;
+  margin: 0 auto;
+}
+.mwb_ubo_update_popup_head img {
+  max-width: 100%;
+  width: auto;
+}
+.mwb_ubo_update_popup_ques h5 {
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+.mwb_ubo_update_popup_ques p {
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 15px 0;
+}
+.mwb_ubo_update_no, 
+.mwb_ubo_update_yes {
+  padding: 8px 30px;
+  display: inline-block;
+  background-color: #6dbe45;
+  color: #ffffff;
+  margin: 10px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.mwb_ubo_update_no {
+  background-color: #f04848;
+}
+.mwb_ubo_update_no:hover, 
+.mwb_ubo_update_yes:hover,
+.mwb_ubo_update_no:focus, 
+.mwb_ubo_update_yes:focus{
+  opacity: 0.8;
+  outline: 0;
+  box-shadow: none;
+  color: #ffffff;
+}
+.mwb_ubo_lite_update_popup_show {
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s linear all;
+  display: flex;
+}
 /*==================================
 =            Animation.            =
 ===================================*/

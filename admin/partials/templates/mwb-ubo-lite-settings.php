@@ -261,6 +261,16 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 				<!-- Features after v1.0.2 -->
 
+				<!-- Add version compare to dependent plugin -->
+				<?php
+					$is_update_needed = 'false';
+					if( version_compare( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_VERSION, '1.2.0' ) < 0 ) {
+
+						$is_update_needed = 'true';
+					}
+				?>
+				<input type="hidden" id="is_pro_update_needed" value="<?php echo esc_html( $is_update_needed ); ?>">
+
 				<!-- Price html start. -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
@@ -300,9 +310,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<tr valign="top">
 					<th scope="row" class="titledesc">
 
-						<?php if ( ! mwb_ubo_lite_if_pro_exists() ) : ?>
-							<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-						<?php endif; ?>
+						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
 						<label for="mwb_ubo_offer_purchased_earlier"><?php esc_html_e( 'Smart Pre-order Skip', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
@@ -374,3 +382,26 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 <!-- Adding go pro popup here. -->
 
 <?php mwb_ubo_go_pro( 'pro' ); ?>
+
+<!-- Update required Popup -->
+<div class="mwb_ubo_update_popup_wrapper">
+	<div class="mwb_ubo_update_popup_inner">
+		<!-- Popup icon -->
+		<div class="mwb_ubo_update_popup_head">
+			<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/warning.png' ); ?>">
+		</div>
+		<!-- Popup body. -->
+		<div class="mwb_ubo_update_popup_content">
+			<div class="mwb_ubo_update_popup_ques">
+				<h5><?php esc_html_e( 'This feature is Unavailable!', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></h5>
+				<p><?php esc_html_e( 'Currrent version of UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE PRO is out of date. Please update to the new version to use this feature.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+			</div>
+			<div class="mwb_ubo_update_popup_option">
+
+				<!-- Update Button button. -->
+				<a target="_blank" href="https://makewebbetter.com/my-account/downloads" class="mwb_ubo_update_yes"><?php esc_html_e( 'Update Now', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+				<a href="javascript:void(0);" class="mwb_ubo_update_no"><?php esc_html_e( "Don't update", 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+			</div>
+		</div>
+	</div>
+</div>
