@@ -23,8 +23,20 @@ if ( ! defined( 'ABSPATH' ) ) {
  * as viewing/editing previous bump.
  */
 
-// New Bump id.
-$mwb_upsell_bump_id = 1;
+// Get all Bump if already some funnels are present.
+$mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list', array() );
+
+if( ! empty( $mwb_upsell_bumps_list ) ) {
+
+	reset( $mwb_upsell_bumps_list );
+	$mwb_upsell_bump_id = key( $mwb_upsell_bumps_list );
+
+} else {
+
+	// New Bump id.
+	$mwb_upsell_bump_id = 1;
+}
+
 
 // When save changes is clicked.
 if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {

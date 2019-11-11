@@ -53,23 +53,6 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 // Get all bumps.
 $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
-if ( ! empty( $mwb_upsell_bumps_list ) ) {
-
-	// Temp bump variable.
-	$mwb_upsell_bumps_list_duplicate = $mwb_upsell_bumps_list;
-
-	// Make key pointer point to the end bump.
-	end( $mwb_upsell_bumps_list_duplicate );
-
-	// Now key function will return last bump key.
-	$mwb_upsell_bumps_last_index = key( $mwb_upsell_bumps_list_duplicate );
-
-} else {
-
-	// When no bump is there then new bump id will be 1 (0+1).
-	$mwb_upsell_bumps_last_index = 0;
-}
-
 ?>
 
 <div class="mwb_upsell_bumps_list" >
