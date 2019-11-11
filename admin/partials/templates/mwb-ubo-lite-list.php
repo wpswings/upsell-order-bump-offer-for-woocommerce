@@ -130,9 +130,10 @@ if ( ! empty( $mwb_upsell_bumps_list ) ) {
 
 				<!-- Bump Target products. -->
 				<td>
+					
 				<?php
 
-					// Target Product(s).
+				// Target Product(s).
 				if ( ! empty( $value['mwb_upsell_bump_target_ids'] ) ) {
 
 					echo '<div class="mwb_upsell_bump_list_targets">';
@@ -145,18 +146,27 @@ if ( ! empty( $mwb_upsell_bumps_list ) ) {
 
 							continue;
 						}
-						?>
-							<p><?php echo esc_html( $product->get_title() . "( #$single_target_product )" ); ?></p>
-							<?php
+
+						else if ( 'publish' != $product->get_status() ) {
+
+							printf( '<p><i>%s%s</p></i>', esc_html__( 'Product Unavailable', 'upsell-order-bump-offer-for-woocommerce' ), ' (#' . $single_target_product . ')' );
+							continue;
+						}
+
+						else {
+
+							?><p><?php echo esc_html( $product->get_title() . "( #$single_target_product )" ); ?></p><?php
+						}
 
 						endforeach;
 
 					echo '</div>';
+
 				} else {
 
 					?>
 
-						<p><i><?php esc_html_e( 'No Product(s) added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
+						<p><i><?php esc_html_e( 'No Product(s) added', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></i></p>
 
 						<?php
 				}
@@ -164,9 +174,10 @@ if ( ! empty( $mwb_upsell_bumps_list ) ) {
 					echo '<hr>';
 
 					// Target Categories.
+
 				if ( ! empty( $value['mwb_upsell_bump_target_categories'] ) ) {
 
-					echo '<p><i>' . esc_html__( 'Target Categories -', 'upsell-order-bump-offer-for-woocommerce' ) . '</i></p>';
+					echo '<p><i>' . esc_html__( 'Target Categories -', 'upsell-order-bump-offer-for-woocommerce-pro' ) . '</i></p>';
 
 					echo '<div class="mwb_upsell_bump_list_targets">';
 
@@ -176,27 +187,28 @@ if ( ! empty( $mwb_upsell_bumps_list ) ) {
 
 						if ( empty( $category_name ) ) {
 
+							printf( '<p><i>%s%s</p></i>', esc_html__( 'Category Unavailable', 'upsell-order-bump-offer-for-woocommerce' ), ' (#' . $single_target_category_id . ')' );
+
 							continue;
+
+						} else {
+
+							?><p><?php echo esc_html( $category_name . "( #$single_target_category_id )" ); ?></p><?php
 						}
-						?>
-							<p><?php echo esc_html( $category_name . "( #$single_target_category_id )" ); ?></p>
-							<?php
 
 						endforeach;
+
 					echo '</div>';
 
 				} else {
 
-					?>
-					<p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
-
-					<?php
+					?><p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></i></p><?php
 				}
+
 				?>
-					
 				</td>
 
-				<!-- Offer Product. -->
+				<!-- Bump Offer Product. -->
 				<td>
 					<p>
 					<?php
@@ -204,21 +216,27 @@ if ( ! empty( $mwb_upsell_bumps_list ) ) {
 
 						$offer_product = wc_get_product( $value['mwb_upsell_bump_products_in_offer'] );
 
-						if( empty( $offer_product ) ) {
+						if( empty( $offer_product )  ) {
 
 							esc_html_e( 'Product not found', 'upsell-order-bump-offer-for-woocommerce' );
+						} 
+
+						elseif ( 'publish' != $offer_product->get_status() ) {
+
+							printf( '<p><i>%s%s</p></i>', esc_html__( 'Product Unavailable', 'upsell-order-bump-offer-for-woocommerce' ), ' (#' . $value['mwb_upsell_bump_products_in_offer'] . ')' );
 						}
 
 						else {
 
-							echo esc_html( $offer_product->get_title() . ' (#' . $value['mwb_upsell_bump_products_in_offer'] . ')' );
+							echo '<p>' . esc_html( $offer_product->get_title() . ' (#' . $value['mwb_upsell_bump_products_in_offer'] . ')' ) . '</p>';
 						}
-					} 
+					}
 
 					else {
 
 						esc_html_e( 'No offers Added', 'upsell-order-bump-offer-for-woocommerce' );
 					}
+
 					?>
 					</p>
 				</td>
