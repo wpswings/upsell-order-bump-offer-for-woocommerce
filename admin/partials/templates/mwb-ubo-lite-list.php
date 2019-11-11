@@ -104,10 +104,6 @@ if ( ! empty( $mwb_upsell_bumps_list ) ) {
 			<?php
 			foreach ( $mwb_upsell_bumps_list as $key => $value ) :
 
-				$offer_present = ! empty( $value['mwb_upsell_bump_products_in_offer'] ) ? $value['mwb_upsell_bump_products_in_offer'] : '';
-
-				$offers = wc_get_product( $offer_present );
-
 				?>
 			<tr>		
 				<!-- Bump Name. -->
@@ -200,15 +196,26 @@ if ( ! empty( $mwb_upsell_bumps_list ) ) {
 					
 				</td>
 
-				<!-- Offers Count. -->
+				<!-- Offer Product. -->
 				<td>
 					<p>
 					<?php
 					if ( ! empty( $value['mwb_upsell_bump_products_in_offer'] ) ) {
 
-						$offer = wc_get_product( $value['mwb_upsell_bump_products_in_offer'] );
-						echo esc_html( $offer->get_title() . ' (#' . $value['mwb_upsell_bump_products_in_offer'] . ')' );
-					} else {
+						$offer_product = wc_get_product( $value['mwb_upsell_bump_products_in_offer'] );
+
+						if( empty( $offer_product ) ) {
+
+							esc_html_e( 'Product not found', 'upsell-order-bump-offer-for-woocommerce' );
+						}
+
+						else {
+
+							echo esc_html( $offer_product->get_title() . ' (#' . $value['mwb_upsell_bump_products_in_offer'] . ')' );
+						}
+					} 
+
+					else {
 
 						esc_html_e( 'No offers Added', 'upsell-order-bump-offer-for-woocommerce' );
 					}
