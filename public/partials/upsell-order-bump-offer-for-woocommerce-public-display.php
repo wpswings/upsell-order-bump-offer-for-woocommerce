@@ -107,6 +107,11 @@ if ( empty( $_SESSION['encountered_bump_array'] ) ) {
 					// Check offer product must be in stock.
 					$offer_product = wc_get_product( $single_bump_array['mwb_upsell_bump_products_in_offer'] );
 
+					if ( empty( $offer_product ) ) {
+
+						continue;
+					}
+
 					if ( ! $offer_product->is_in_stock() ) {
 
 						continue;
@@ -140,7 +145,13 @@ if ( empty( $_SESSION['encountered_bump_array'] ) ) {
 						// Check offer product must be in stock.
 						$offer_product = wc_get_product( $single_bump_array['mwb_upsell_bump_products_in_offer'] );
 
+						if ( empty( $offer_product ) ) {
+							
+							continue;
+						}
+
 						if ( ! $offer_product->is_in_stock() ) {
+							
 							continue;
 						}
 

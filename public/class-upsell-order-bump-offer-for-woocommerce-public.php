@@ -174,7 +174,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$_product = wc_get_product( $bump_product_id );
 
-		if ( is_object( $_product ) && $_product->has_child() ) {
+		if ( ! empty( $_product ) && $_product->has_child() ) {
 
 			// Generate default price html.
 			$bump_price_html = mwb_ubo_lite_custom_price_html( $bump_product_id, $bump_discounted_price );
@@ -296,12 +296,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		// Got all values to search for variation id from selected attributes.
 		$product = wc_get_product( $bump_offer_id );
+
+		if( empty( $product ) ) {
+
+			return;
+		}
+
 		$product_data_store = new WC_Product_Data_Store_CPT();
 		$variation_id = $product_data_store->find_matching_product_variation( $product, $attributes_selected_options );
+		$selected_variation_product = wc_get_product( $variation_id );
 
 		// Image to reflect on select change.
 		$image_id = get_post_thumbnail_id( $variation_id );
-		$variation_product = wc_get_product( $variation_id );
 
 		if ( ! empty( $image_id ) ) {
 
@@ -315,7 +321,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 
 		// Variation id will be empty if selected variation is not available.
-		if ( empty( $variation_id ) ) {
+		if ( empty( $variation_id ) || empty( $selected_variation_product ) ) {
 
 			$response = array(
 				'key' => 'not_available',
@@ -327,8 +333,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		} else {
 
 			// Check if in stock?
-			$selected_variation_product = wc_get_product( $variation_id );
-
 			if ( ! $selected_variation_product->is_in_stock() ) {
 
 				// Out of stock.

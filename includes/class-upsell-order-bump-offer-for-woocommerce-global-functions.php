@@ -588,7 +588,10 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 
 	// Incase no offer is added return.
 	$bump['id'] = ! empty( $bump['id'] ) ? sanitize_text_field( $bump['id'] ) : '';
-	if ( empty( $bump['id'] ) ) {
+	$bump_product = wc_get_product( $bump['id'] );
+
+	// If offer not found return.
+	if ( empty( $bump['id'] ) || empty( $bump_product ) ) {
 
 		return;
 	}
@@ -601,11 +604,12 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 
 	if ( empty( $image ) ) {
 
-		$bump_parent_id = wc_get_product( $bump['id'] )->get_parent_id();
+		$bump_parent_id = $bump_product->get_parent_id();
 
 		if ( ! empty( $bump_parent_id ) ) {
 
 			$image = wp_get_attachment_image_src( get_post_thumbnail_id( $bump_parent_id ), 'single-post-thumbnail' )[0];
+
 		} else {
 
 			$image = wc_placeholder_img_src();
@@ -709,6 +713,11 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	$discount_price = ! empty( $encountered_bump_array['mwb_upsell_bump_offer_discount_price'] ) ? sanitize_text_field( $encountered_bump_array['mwb_upsell_bump_offer_discount_price'] ) : '';
 
 	$_product = wc_get_product( $offer_id );
+
+	if ( empty( $_product ) ) {
+
+		return;
+	}
 
 	$price = $_product->get_price();
 	$price_type = $encountered_bump_array['mwb_upsell_offer_price_type'];
@@ -946,7 +955,7 @@ function mwb_ubo_lite_check_if_in_cart( $product_id = '' ) {
 	$product = wc_get_product( $product_id );       // Offer product to be checked.
 	$target_product = array();
 
-	if ( $product->is_type( 'variable' ) ) {
+	if ( ! empty( $product ) && $product->is_type( 'variable' ) ) {
 
 		$available_variations = $product->get_available_variations();
 
@@ -993,16 +1002,23 @@ function mwb_ubo_lite_check_if_in_cart( $product_id = '' ) {
 function mwb_ubo_lite_already_in_cart( $offer_id ) {
 
 	$offer_product = wc_get_product( $offer_id );
+
+	if( empty( $offer_product ) ) {
+
+		return false;
+	}
+
 	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 
 		// If offer product is a variable product.
-		if ( is_object( $offer_product ) && $offer_product->has_child() ) {
+		if ( $offer_product->has_child() ) {
 
 			// If any variation of this parent is present return present.
 			if ( ( $cart_item['product_id'] == $offer_id ) && empty( $cart_item['mwb_discounted_price'] ) ) {
 
 				return true;
 			}
+
 		} else {
 
 			// If offer id is variation or simple product.
@@ -1134,7 +1150,6 @@ function mwb_ubo_lite_get_bump_image( $product_id = '' ) {
 
 	// Get product thumbnail id.
 	$image_id = get_post_thumbnail_id( $product_id );
-	$variation_product = wc_get_product( $product_id );
 
 	if ( ! empty( $image_id ) ) {
 
@@ -1143,12 +1158,22 @@ function mwb_ubo_lite_get_bump_image( $product_id = '' ) {
 
 	} else {
 
-		$image_id = get_post_thumbnail_id( $variation_product->get_parent_id() );
+		$variation_product = wc_get_product( $product_id );
+		
+		if( ! empty( $variation_product ) ) {
 
-		if ( ! empty( $image_id ) ) {
+			$image_id = get_post_thumbnail_id( $variation_product->get_parent_id() );
 
-			// Get image with complete html for adding zooming effect( Parent image ).
-			$bump_var_image = wc_get_gallery_image_html( $image_id, true );
+			if ( ! empty( $image_id ) ) {
+
+				// Get image with complete html for adding zooming effect( Parent image ).
+				$bump_var_image = wc_get_gallery_image_html( $image_id, true );
+
+			} else {
+
+				// If no image is present return the woocommerce place holder image.
+				$bump_var_image = wc_placeholder_img();
+			}
 
 		} else {
 
@@ -1241,6 +1266,11 @@ function mwb_ubo_lite_show_variation_dropdown( $args = array() ) {
 function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', $get = '' ) {
 
 	$product = wc_get_product( $product_id );
+
+	if( empty( $product ) ) {
+
+		return;
+	}
 
 	$orginal_price = $product->get_price();
 	$sale_price = $product->get_sale_price();
