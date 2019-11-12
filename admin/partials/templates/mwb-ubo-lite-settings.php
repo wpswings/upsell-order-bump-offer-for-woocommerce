@@ -332,7 +332,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!-- Custom CSS start. -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
-						<label for="mwb_ubo_offer_global_css"><?php esc_html_e( 'Custom CSS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="mwb_ubo_offer_global_css"><?php esc_html_e( 'Global Custom CSS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
@@ -351,7 +351,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!-- Custom JS start. -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
-						<label for="mwb_ubo_offer_global_js"><?php esc_html_e( 'Custom JS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="mwb_ubo_offer_global_js"><?php esc_html_e( 'Global Custom JS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
