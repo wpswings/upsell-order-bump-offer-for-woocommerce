@@ -237,21 +237,10 @@
   margin: 50px 0;
   box-shadow: 0 5px 40px 0 rgba(0, 0, 0, 0.11);
 }
-.mwb_ubo_lite_go_pro_features img {
-  float: left;
-  width: 25%;
-  text-align: center;
-  vertical-align: middle;
-}
 .mwb_ubo_lite_go_pro_features:after {
   content: '';
   display: block;
   clear: both;
-}
-.mwb_ubo_lite_premium_content {
-  padding-left: 0 !important;
-  text-align: left;
-  width: 67% !important;
 }
 .mwb_ubo_lite_premium_support {
   width: 15% !important;
@@ -286,6 +275,23 @@
 .mwb_ubo_lite_feature_content {
   vertical-align: 10px;
   margin-left: 30px;
+}
+/* After v1.2.0 */
+.mwb_ubo_lite_go_pro_features img {
+  width: 200px;
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+.mwb_ubo_lite_go_pro_feature_image {
+  max-width: 37%;
+  flex: 0 0 37%;
+}
+.mwb_ubo_lite_premium_content {
+  text-align: left;
+  max-width: 67%;
+  width: 100%;
+  flex: 0 0 67%;
 }
 /* Overview section end. */
 

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Upsell Order Bump Offer for WooCommerce 1.0.2\n"
-"POT-Creation-Date: 2019-11-06 13:08+0530\n"
-"PO-Revision-Date: 2019-11-06 13:09+0530\n"
+"POT-Creation-Date: 2019-11-12 18:46+0530\n"
+"PO-Revision-Date: 2019-11-12 18:46+0530\n"
 "Last-Translator: \n"
 "Language-Team: makewebbetter\n"
 "Language: en_US\n"
@@ -47,7 +47,7 @@ msgstr ""
 
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:199
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:200
-#: admin/partials/templates/mwb-ubo-lite-creation.php:238
+#: admin/partials/templates/mwb-ubo-lite-creation.php:250
 msgid "Order Bump"
 msgstr ""
 
@@ -75,444 +75,458 @@ msgstr ""
 msgid "Order Bump: "
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:201
+#: admin/partials/templates/mwb-ubo-lite-creation.php:213
 #: admin/partials/templates/mwb-ubo-lite-settings.php:55
 msgid "Settings saved"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:212
+#: admin/partials/templates/mwb-ubo-lite-creation.php:224
 msgid "Daily"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:213
+#: admin/partials/templates/mwb-ubo-lite-creation.php:225
 msgid "on every Monday"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:214
+#: admin/partials/templates/mwb-ubo-lite-creation.php:226
 msgid "on every Tuesday"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:215
+#: admin/partials/templates/mwb-ubo-lite-creation.php:227
 msgid "on every Wednesday"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:216
+#: admin/partials/templates/mwb-ubo-lite-creation.php:228
 msgid "on every Thursday"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:217
+#: admin/partials/templates/mwb-ubo-lite-creation.php:229
 msgid "on every Friday"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:218
+#: admin/partials/templates/mwb-ubo-lite-creation.php:230
 msgid "on every Saturday"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:219
+#: admin/partials/templates/mwb-ubo-lite-creation.php:231
 msgid "on every Sunday"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:253
-#: admin/partials/templates/mwb-ubo-lite-list.php:126
+#: admin/partials/templates/mwb-ubo-lite-creation.php:265
+#: admin/partials/templates/mwb-ubo-lite-list.php:105
 msgid "Live"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:254
-#: admin/partials/templates/mwb-ubo-lite-list.php:129
+#: admin/partials/templates/mwb-ubo-lite-creation.php:266
+#: admin/partials/templates/mwb-ubo-lite-list.php:108
 msgid "Sandbox"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:262
+#: admin/partials/templates/mwb-ubo-lite-creation.php:274
 msgid "Name of the Order Bump"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:269
+#: admin/partials/templates/mwb-ubo-lite-creation.php:281
 msgid "Provide the name of your Order Bump."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:284
+#: admin/partials/templates/mwb-ubo-lite-creation.php:296
 msgid "Select target product(s)"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:291
+#: admin/partials/templates/mwb-ubo-lite-creation.php:303
 msgid ""
 "If any one of these Target Products is checked out then this Order Bump will "
 "be triggered and the below offer will be shown."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:297
-#: admin/partials/templates/mwb-ubo-lite-creation.php:477
+#: admin/partials/templates/mwb-ubo-lite-creation.php:309
+#: admin/partials/templates/mwb-ubo-lite-creation.php:487
 msgid "Search for a product&hellip;"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:331
+#: admin/partials/templates/mwb-ubo-lite-creation.php:343
 msgid "Select target categories"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:338
+#: admin/partials/templates/mwb-ubo-lite-creation.php:350
 msgid ""
 "If any one of these Target categories is checked out then this Order Bump "
 "will be triggered and the below offer will be shown."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:344
+#: admin/partials/templates/mwb-ubo-lite-creation.php:356
 msgid "Search for a category&hellip;"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:378
+#: admin/partials/templates/mwb-ubo-lite-creation.php:390
 msgid "Order Bump Schedule"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:385
+#: admin/partials/templates/mwb-ubo-lite-creation.php:397
 msgid "Schedule your Order Bump for specific weekdays."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:414
-#: admin/partials/templates/mwb-ubo-lite-settings.php:304
+#: admin/partials/templates/mwb-ubo-lite-creation.php:425
+#: admin/partials/templates/mwb-ubo-lite-settings.php:313
 msgid "Pro"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:417
+#: admin/partials/templates/mwb-ubo-lite-creation.php:427
+#: admin/partials/templates/mwb-ubo-lite-overview.php:77
 msgid "Smart Offer Upgrade"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:423
+#: admin/partials/templates/mwb-ubo-lite-creation.php:433
 msgid ""
 "This feature allows you to replace offer product to target product when "
-"added via order bump."
+"added via order bump.<br>This feature will work for Target Products only."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:439
+#: admin/partials/templates/mwb-ubo-lite-creation.php:449
 msgid "Order Bump Offer"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:464
+#: admin/partials/templates/mwb-ubo-lite-creation.php:474
 msgid "Offer Section"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:472
+#: admin/partials/templates/mwb-ubo-lite-creation.php:482
 msgid "Offer Product"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:498
+#: admin/partials/templates/mwb-ubo-lite-creation.php:508
 msgid "Select the product you want to show as offer."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:506
+#: admin/partials/templates/mwb-ubo-lite-creation.php:516
 msgid "Offer Price/Discount"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:512
+#: admin/partials/templates/mwb-ubo-lite-creation.php:522
 msgid "Discount %"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:514
+#: admin/partials/templates/mwb-ubo-lite-creation.php:524
 msgid "Fixed price"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:518
+#: admin/partials/templates/mwb-ubo-lite-creation.php:528
 msgid "Specify new offer price or discount %"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:538
+#: admin/partials/templates/mwb-ubo-lite-creation.php:548
 msgid "Appearance"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:542
+#: admin/partials/templates/mwb-ubo-lite-creation.php:552
 msgid "Template"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:543
+#: admin/partials/templates/mwb-ubo-lite-creation.php:553
 msgid "Design"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:544
+#: admin/partials/templates/mwb-ubo-lite-creation.php:554
 msgid "Content"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:570
+#: admin/partials/templates/mwb-ubo-lite-creation.php:580
 msgid "Dazzling Bliss"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:579
+#: admin/partials/templates/mwb-ubo-lite-creation.php:589
 msgid "Alluring Lakeside"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:589
+#: admin/partials/templates/mwb-ubo-lite-creation.php:599
 msgid "Elegant Summers"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:604
+#: admin/partials/templates/mwb-ubo-lite-creation.php:614
 msgid "Bump Offer Box"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:626
+#: admin/partials/templates/mwb-ubo-lite-creation.php:636
 msgid "Select Border type"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:631
+#: admin/partials/templates/mwb-ubo-lite-creation.php:641
 msgid "Select among different border types for Bump Offer."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:645
+#: admin/partials/templates/mwb-ubo-lite-creation.php:655
 msgid "No Border"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:646
+#: admin/partials/templates/mwb-ubo-lite-creation.php:656
 msgid "Solid"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:647
+#: admin/partials/templates/mwb-ubo-lite-creation.php:657
 msgid "Dashed"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:648
+#: admin/partials/templates/mwb-ubo-lite-creation.php:658
 msgid "Double"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:649
+#: admin/partials/templates/mwb-ubo-lite-creation.php:659
 msgid "Dotted"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:654
+#: admin/partials/templates/mwb-ubo-lite-creation.php:664
 msgid "----Select Border Type----"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:672
+#: admin/partials/templates/mwb-ubo-lite-creation.php:682
 msgid "Select Border Color"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:677
+#: admin/partials/templates/mwb-ubo-lite-creation.php:687
 msgid "Select border color for Bump Offer."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:693
+#: admin/partials/templates/mwb-ubo-lite-creation.php:703
 msgid "Select Top Vertical Spacing"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:698
+#: admin/partials/templates/mwb-ubo-lite-creation.php:708
 msgid "Add top spacing to the Bump Offer Box."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:714
+#: admin/partials/templates/mwb-ubo-lite-creation.php:724
 msgid "Select Bottom Vertical Spacing"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:719
+#: admin/partials/templates/mwb-ubo-lite-creation.php:729
 msgid "Add bottom spacing to the Bump Offer Box."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:740
+#: admin/partials/templates/mwb-ubo-lite-creation.php:750
 msgid "Discount Section"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:746
-#: admin/partials/templates/mwb-ubo-lite-creation.php:871
-#: admin/partials/templates/mwb-ubo-lite-creation.php:937
+#: admin/partials/templates/mwb-ubo-lite-creation.php:756
+#: admin/partials/templates/mwb-ubo-lite-creation.php:881
+#: admin/partials/templates/mwb-ubo-lite-creation.php:947
 msgid "Select Background Color"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:751
+#: admin/partials/templates/mwb-ubo-lite-creation.php:761
 msgid "Select background color for Discount section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:766
-#: admin/partials/templates/mwb-ubo-lite-creation.php:817
-#: admin/partials/templates/mwb-ubo-lite-creation.php:890
-#: admin/partials/templates/mwb-ubo-lite-creation.php:955
+#: admin/partials/templates/mwb-ubo-lite-creation.php:776
+#: admin/partials/templates/mwb-ubo-lite-creation.php:827
+#: admin/partials/templates/mwb-ubo-lite-creation.php:900
+#: admin/partials/templates/mwb-ubo-lite-creation.php:965
 msgid "Select Text Color"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:771
+#: admin/partials/templates/mwb-ubo-lite-creation.php:781
 msgid "Select text color for Discount section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:786
-#: admin/partials/templates/mwb-ubo-lite-creation.php:837
-#: admin/partials/templates/mwb-ubo-lite-creation.php:909
-#: admin/partials/templates/mwb-ubo-lite-creation.php:971
+#: admin/partials/templates/mwb-ubo-lite-creation.php:796
+#: admin/partials/templates/mwb-ubo-lite-creation.php:847
+#: admin/partials/templates/mwb-ubo-lite-creation.php:919
+#: admin/partials/templates/mwb-ubo-lite-creation.php:981
 msgid "Select Text Size"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:791
+#: admin/partials/templates/mwb-ubo-lite-creation.php:801
 msgid "Select font size for Discount section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:810
+#: admin/partials/templates/mwb-ubo-lite-creation.php:820
 msgid "Product Section"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:822
+#: admin/partials/templates/mwb-ubo-lite-creation.php:832
 msgid "Select text color for Product section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:842
+#: admin/partials/templates/mwb-ubo-lite-creation.php:852
 msgid "Select font size for Product section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:864
+#: admin/partials/templates/mwb-ubo-lite-creation.php:874
 msgid "Accept Offer Section"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:876
+#: admin/partials/templates/mwb-ubo-lite-creation.php:886
 msgid "Select background color for Accept Offer section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:895
+#: admin/partials/templates/mwb-ubo-lite-creation.php:905
 msgid "Select text color for Accept Offer section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:913
+#: admin/partials/templates/mwb-ubo-lite-creation.php:923
 msgid "Select font size for Accept Offer section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:931
+#: admin/partials/templates/mwb-ubo-lite-creation.php:941
 msgid "Offer Description Section"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:941
+#: admin/partials/templates/mwb-ubo-lite-creation.php:951
 msgid "Select background color for Offer Description section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:959
+#: admin/partials/templates/mwb-ubo-lite-creation.php:969
 msgid "Select text color for Offer Description section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:975
+#: admin/partials/templates/mwb-ubo-lite-creation.php:985
 msgid "Select font size for Offer Description section."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:998
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1008
 msgid "Discount Title"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1005
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1015
 msgid "Discount title content. Please use at respective places :"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1007
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1017
 #, php-format
 msgid "for % discount."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1009
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1019
 msgid "for fixed discount price."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1020
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1030
 msgid "For Discount %"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1025
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1035
 msgid "For Fixed Price"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1037
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1047
 msgid "Product Description"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1044
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1054
 msgid "Bump Offer Product description content."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1060
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1070
 msgid " Lead Title "
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1065
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1075
 msgid "Bump offer Lead title content."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1085
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1095
 msgid "Offer Description "
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1090
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1100
 msgid "Bump Offer description content."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1114
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1124
 msgid "Offer Preview"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1134
-#: admin/partials/templates/mwb-ubo-lite-settings.php:369
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1144
+#: admin/partials/templates/mwb-ubo-lite-settings.php:377
 msgid "Save Changes"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1149
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1159
 msgid "Do you really want to change template layout ?"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1150
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1160
 msgid "Changing layout will reset Design settings back to default."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1154
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1164
 #: admin/partials/templates/mwb-ubo-lite-settings.php:142
 msgid "Yes"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-creation.php:1156
+#: admin/partials/templates/mwb-ubo-lite-creation.php:1166
 #: admin/partials/templates/mwb-ubo-lite-settings.php:144
 msgid "No"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:79
+#: admin/partials/templates/mwb-ubo-lite-list.php:62
 msgid "No Order Bumps added"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:88
+#: admin/partials/templates/mwb-ubo-lite-list.php:71
 msgid ""
 "Only first Order Bump will work. Please activate pro version to make all "
 "working."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:96
+#: admin/partials/templates/mwb-ubo-lite-list.php:79
 msgid "Name"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:97
+#: admin/partials/templates/mwb-ubo-lite-list.php:80
 msgid "Status"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:98
+#: admin/partials/templates/mwb-ubo-lite-list.php:81
 msgid "Target Product(s) and Categories"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:99
+#: admin/partials/templates/mwb-ubo-lite-list.php:82
 msgid "Offers"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:100
+#: admin/partials/templates/mwb-ubo-lite-list.php:83
 msgid "Action"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:163
+#: admin/partials/templates/mwb-ubo-lite-list.php:135
+#: admin/partials/templates/mwb-ubo-lite-list.php:209
+msgid "Product Unavailable"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:152
 msgid "No Product(s) added"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:173
+#: admin/partials/templates/mwb-ubo-lite-list.php:163
 msgid "Target Categories -"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:195
+#: admin/partials/templates/mwb-ubo-lite-list.php:173
+msgid "Category Unavailable"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:188
 msgid "No Categories added"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:213
+#: admin/partials/templates/mwb-ubo-lite-list.php:204
+msgid "Product not found"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:220
 msgid "No offers Added"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:222
+#: admin/partials/templates/mwb-ubo-lite-list.php:230
 msgid "View / Edit"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:225
+#: admin/partials/templates/mwb-ubo-lite-list.php:233
 msgid "Delete"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:244
+#: admin/partials/templates/mwb-ubo-lite-list.php:252
 msgid "+Create New Order Bump"
 msgstr ""
 
@@ -565,39 +579,61 @@ msgstr ""
 msgid "Premium Plugin Additional Features"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-overview.php:64
+#: admin/partials/templates/mwb-ubo-lite-overview.php:66
 msgid "Unlock the power to create unlimited Order Bumps"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-overview.php:66
+#: admin/partials/templates/mwb-ubo-lite-overview.php:68
 msgid ""
 "With our Free version, you have limited access to create just one Order Bump."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-overview.php:67
+#: admin/partials/templates/mwb-ubo-lite-overview.php:69
 msgid ""
 "So, get our Premium version today to create multiple Order Bumps. Introduce "
 "your customers to the most relevant offers which will benefit them on their "
 "existing purchase. Give your sales a great boost ahead."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-overview.php:74
-msgid "Get Premium Support"
+#: admin/partials/templates/mwb-ubo-lite-overview.php:82
+msgid "Want to Offer an Upgrade on the Existing purchase to your customers."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-overview.php:79
+#: admin/partials/templates/mwb-ubo-lite-overview.php:87
+msgid ""
+"The Smart Upgrade offer feature will replace the existing product with the "
+"offer product as soon as they accept the Order Bump offer."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:98
+#: admin/partials/templates/mwb-ubo-lite-settings.php:315
+msgid "Smart Skip if Already Purchased"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:100
+msgid ""
+"This feature will allow you to Skip the Order Bump offer for those customers "
+"who have already purchased the offer product anytime before in previous "
+"orders."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:108
+msgid "Exclusive Support"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:113
 msgid "Receive dedicated 24*7 Phone, Email & Skype support."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-overview.php:84
+#: admin/partials/templates/mwb-ubo-lite-overview.php:118
 msgid ""
 "Our Support is ready to assist you regarding any query, issue or feature "
 "request and if that doesn't help our Technical team will connect with you "
 "personally and have your query resolved."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-overview.php:95
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1426
+#: admin/partials/templates/mwb-ubo-lite-overview.php:129
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1464
 msgid "Upgrade to Premium"
 msgstr ""
 
@@ -672,17 +708,17 @@ msgid "Offer Location"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-settings.php:233
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:832
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:849
 msgid "Before Order Summary"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-settings.php:234
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:837
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:854
 msgid "Before Payment Gateways"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-settings.php:235
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:842
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:859
 msgid "After Payment Gateways"
 msgstr ""
 
@@ -696,51 +732,65 @@ msgid ""
 "page."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-settings.php:267
+#: admin/partials/templates/mwb-ubo-lite-settings.php:277
 msgid "Offer Price Format"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-settings.php:273
+#: admin/partials/templates/mwb-ubo-lite-settings.php:283
 msgid "̶R̶e̶g̶u̶l̶a̶r̶ ̶P̶r̶i̶c̶e̶"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-settings.php:273
-#: admin/partials/templates/mwb-ubo-lite-settings.php:274
+#: admin/partials/templates/mwb-ubo-lite-settings.php:283
+#: admin/partials/templates/mwb-ubo-lite-settings.php:284
 msgid "Offer Price"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-settings.php:274
+#: admin/partials/templates/mwb-ubo-lite-settings.php:284
 msgid " ̶S̶a̶l̶e̶ ̶P̶r̶i̶c̶e̶"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-settings.php:282
-msgid "Select the format to show the offer price in order bump."
+#: admin/partials/templates/mwb-ubo-lite-settings.php:292
+msgid "Select the way to display Offer Price in Order Bumps."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-settings.php:307
-msgid "Smart Pre-order Skip"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-settings.php:313
+#: admin/partials/templates/mwb-ubo-lite-settings.php:321
 msgid ""
-"This feature allows you to skip the order bump if the offer product is "
-"already purchased in previous orders."
+"Skip the Order Bump offer for those customers who have already purchased the "
+"offer product anytime before in previous orders."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-settings.php:327
-msgid "Custom CSS"
+#: admin/partials/templates/mwb-ubo-lite-settings.php:335
+msgid "Global Custom CSS"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-settings.php:333
-msgid "Add your custom CSS here. <br> Do not write style tags."
+#: admin/partials/templates/mwb-ubo-lite-settings.php:341
+msgid "Add your Custom CSS without style tags."
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-settings.php:346
-msgid "Custom JS"
+#: admin/partials/templates/mwb-ubo-lite-settings.php:354
+msgid "Global Custom JS"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-settings.php:352
-msgid "Add your custom JS here. <br> Do not write scripts tags."
+#: admin/partials/templates/mwb-ubo-lite-settings.php:360
+msgid "Add your Custom JS without script tags."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-settings.php:396
+msgid "Update Required!"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-settings.php:397
+msgid ""
+"Please Update 'Upsell Order Bump Offer For Woocommerce Pro' to use this "
+"feature."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-settings.php:402
+msgid "Update Now"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-settings.php:403
+msgid "Don't update"
 msgstr ""
 
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:40
@@ -802,31 +852,31 @@ msgid ""
 "discount on any other place on this site."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:847
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:864
 msgid "Before Place order button"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1107
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1131
 msgid "Add this offer to cart"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1190
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1223
 msgid "Choose an option"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1388
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1426
 msgid "Want some more super cool features? Unlock your power to explore more."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1392
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1430
 msgid "Stucked to just one order bump? Unlock your power to explore more."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1403
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1441
 msgid "Want More? Go Pro !!"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1420
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1458
 msgid ""
 "Go with our premium version and make unlimited numbers of order bumps. Get "
 "more smart features and make the most attractive offers with all of your "
@@ -834,32 +884,32 @@ msgid ""
 "customer satisfaction and higher conversion rates."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:183
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:184
 msgid "true"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:202
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:393
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:203
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:398
 msgid "added"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:273
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:274
 msgid "removed"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:322
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:329
 msgid "Sorry, this variation is not available."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:338
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:343
 msgid "Out of stock."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:455
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:460
 msgid "Bump Offer"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:455
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:460
 msgid "applied"
 msgstr ""
 
