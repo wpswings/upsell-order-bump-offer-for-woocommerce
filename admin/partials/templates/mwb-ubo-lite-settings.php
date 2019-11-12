@@ -289,7 +289,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = esc_html__( 'Select the format to show the offer price in order bump.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribute_description = esc_html__( 'Select the way to display Offer Price in Order Bumps.', 'upsell-order-bump-offer-for-woocommerce' );
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
@@ -318,7 +318,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = esc_html__( 'This feature allows you to skip the order bump if the offer product is already purchased in previous orders.' );
+							$attribute_description = esc_html__( 'Skip the Order Bump offer for those customers who have already purchased the offer product anytime before in previous orders.','upsell-order-bump-offer-for-woocommerce' );
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 						<label class="mwb-upsell-smart-pre-order-skip" for="mwb_ubo_offer_purchased_earlier">
@@ -338,7 +338,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = esc_html__( 'Add your custom CSS here. <br> Do not write style tags.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribute_description = esc_html__( 'Add your Custom CSS without style tags.', 'upsell-order-bump-offer-for-woocommerce' );
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
@@ -357,7 +357,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = esc_html__( 'Add your custom JS here. <br> Do not write scripts tags.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribute_description = esc_html__( 'Add your Custom JS without script tags.', 'upsell-order-bump-offer-for-woocommerce' );
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
@@ -393,8 +393,8 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 		<!-- Popup body. -->
 		<div class="mwb_ubo_update_popup_content">
 			<div class="mwb_ubo_update_popup_ques">
-				<h5><?php esc_html_e( 'This feature is Unavailable!', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></h5>
-				<p><?php esc_html_e( 'Currrent version of UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE PRO is out of date. Please update to the new version to use this feature.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+				<h5><?php esc_html_e( 'Update Required!', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></h5>
+				<p><?php esc_html_e( "Please Update 'Upsell Order Bump Offer For Woocommerce Pro' to use this feature.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 			</div>
 			<div class="mwb_ubo_update_popup_option">
 
