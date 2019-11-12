@@ -312,7 +312,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
-						<label for="mwb_ubo_offer_purchased_earlier"><?php esc_html_e( 'Smart Pre-order Skip', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="mwb_ubo_offer_purchased_earlier"><?php esc_html_e( 'Smart Skip if Already Purchased', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">

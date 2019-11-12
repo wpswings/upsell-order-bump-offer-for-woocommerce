@@ -430,7 +430,7 @@ $mwb_upsell_bump_schedule_options = array(
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = esc_html__( 'This feature allows you to replace offer product to target product when added via order bump.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribute_description = esc_html__( 'This feature allows you to replace offer product to target product when added via order bump.<br>This feature will work for Target Products only.', 'upsell-order-bump-offer-for-woocommerce' );
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
