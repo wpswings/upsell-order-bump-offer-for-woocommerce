@@ -245,6 +245,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 				// Disable quantity field.
 				$this->loader->add_filter( 'woocommerce_cart_item_quantity', $plugin_public, 'disable_quantity_bump_product_in_cart', 10, 2 );
 
+				$this->loader->add_filter( 'wfacp_show_item_quantity', $plugin_public, 'disable_quantity_field_in_aerocheckout', 10, 2 );
+
 				// Removing offer or target product manually by cart.
 				$this->loader->add_action( 'woocommerce_remove_cart_item', $plugin_public, 'after_remove_product', 21, 2 );
 

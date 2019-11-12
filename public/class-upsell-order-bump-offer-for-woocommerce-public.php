@@ -168,6 +168,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$bump_discounted_price = ! empty( $_POST['discount'] ) ? sanitize_text_field( wp_unslash( $_POST['discount'] ) ) : '';
 
 		$cart_item_data = array(
+			'mwb_ubo_offer_product' => true,
 			'mwb_discounted_price' => $bump_discounted_price,
 			'flag_' . uniqid() => true,
 		);
@@ -644,6 +645,23 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		<?php
 
+	}
+
+	/**
+	 * Disable quantity field for bump offer product.
+	 *
+	 * @param   boolean $boolean            Show/Hide
+	 * @param   object  $cart_item           The cart object.
+	 * @since    1.2.0
+	 */
+	public function disable_quantity_field_in_aerocheckout( $boolean, $cart_item ) {
+
+		if( ! empty( $cart_item[ 'mwb_ubo_offer_product' ] ) ) {
+
+			return false;
+		}
+
+		return $boolean;
 	}
 
 	// End of class.
