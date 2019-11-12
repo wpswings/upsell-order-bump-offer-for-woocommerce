@@ -388,7 +388,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 	<div class="mwb_ubo_update_popup_inner">
 		<!-- Popup icon -->
 		<div class="mwb_ubo_update_popup_head">
-			<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/warning.png' ); ?>">
+			<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/warning.png' ); ?>">
 		</div>
 		<!-- Popup body. -->
 		<div class="mwb_ubo_update_popup_content">

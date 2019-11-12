@@ -486,7 +486,7 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 		#mwb_upsell_offer_main_id .mwb_upsell_offer_primary_section h5 {
 			color: <?php echo esc_html( $primary_section_text_color ); ?>;
 			font-size: <?php echo esc_html( $primary_section_text_size ) . esc_html( 'px' ); ?>;
-			margin: 0 0 0 10px;
+			margin: 0 0 0 5px;
 			font-weight: 600;
 		}
 		#mwb_upsell_offer_main_id .mwb_upsell_offer_secondary_section {
@@ -506,7 +506,7 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			width: auto;
 			font-size: 22px;
 			height: 23px;
-			margin-bottom: 6px;
+			margin: 0 0 6px 0;
 			padding-left: 35px;
 			position: relative;
 			-webkit-user-select: none;
@@ -581,28 +581,6 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			width: 90px;
 			max-width: 100px;
 		}
-
-
-		/*TESTING CSS START delllllllllll---*/
-
-
-/*		.mwb_upsell_offer_main_wrapper .mwb_upsell_bump_checkbox_container {
-			margin: initial !important;
-		}
-		.mwb_upsell_offer_primary_section .mwb_upsell_bump_checkbox_container .checkmark {
-			margin: auto;
-		}
-		.mwb_upsell_offer_discount_section span.woocommerce-Price-amount.amount {
-			color: inherit;
-			font-size: inherit;
-		}*/
-
-		.amount {
-			color: #111;
-			font-size: 12px;
-		}
-
-		/*TESTING CSS End delllllllllll---*/
 
 		@media screen and (max-width: 480px) {
 			#mwb_upsell_offer_main_id .mwb_upsell_offer_product_content {
@@ -1468,7 +1446,7 @@ function mwb_ubo_go_pro( $location = 'pro' ) {
 			</div>  
 
 			<!-- Notice icon. -->
-			<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/pro.png' ); ?> ">
+			<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/pro.png' ); ?> ">
 			</div>
 
 			<!-- Notice. -->

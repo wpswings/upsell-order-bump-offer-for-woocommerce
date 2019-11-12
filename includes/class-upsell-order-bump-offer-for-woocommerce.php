@@ -242,13 +242,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 				// Cost calculations only when the offer is added.
 				$this->loader->add_action( 'woocommerce_before_calculate_totals', $plugin_public, 'woocommerce_custom_price_to_cart_item' );
 
-				// Disable quantity field.
+				// Disable quantity field at cart page.
 				$this->loader->add_filter( 'woocommerce_cart_item_quantity', $plugin_public, 'disable_quantity_bump_product_in_cart', 10, 2 );
 
+				// For Aerocheckout pages.
 				$this->loader->add_filter( 'wfacp_show_item_quantity', $plugin_public, 'disable_quantity_field_in_aerocheckout', 10, 2 );
 
 				// Removing offer or target product manually by cart.
-				$this->loader->add_action( 'woocommerce_remove_cart_item', $plugin_public, 'after_remove_product', 21, 2 );
+				$this->loader->add_action( 'woocommerce_remove_cart_item', $plugin_public, 'after_remove_product', 10, 2 );
 
 				// Add meta data to order item for order review.
 				$this->loader->add_action( 'woocommerce_checkout_create_order', $plugin_public, 'add_order_item_meta', 10 );

@@ -27,160 +27,45 @@ if ( 'on' != $mwb_bump_enable_plugin || empty( $mwb_ubo_offer_array_collection )
 
 }
 
-$mwb_upsell_bump_global_skip_settings = ! empty( $mwb_ubo_global_options['mwb_bump_skip_offer'] ) ? $mwb_ubo_global_options['mwb_bump_skip_offer'] : 'yes';
+if( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'fetch_order_bump_from_collection' ) ) {
 
-/**
- * Get all bump lists,
- * Check for live ones and scheduled for today only,
- * Rest leave No need to check,
- * For live one check if target id is present and after this category check,
- * Save the array index that is encountered and target product key.
- */
+	$encountered_bump_result = Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collection( $mwb_ubo_offer_array_collection );
 
-if ( ! session_id() ) {
+	$encountered_bump_array = !empty( $encountered_bump_result[ 'encountered_bump_array' ] ) ? $encountered_bump_result[ 'encountered_bump_array' ] : '';
 
-	session_start();
-}
-
-if ( empty( $_SESSION['encountered_bump_array'] ) ) {
-
-	foreach ( $mwb_ubo_offer_array_collection as $single_bump_id => $single_bump_array ) {
-
-		// Check Bump status.
-		$single_bump_status = ! empty( $single_bump_array['mwb_upsell_bump_status'] ) ? $single_bump_array['mwb_upsell_bump_status'] : '';
-
-		// Not live so continue.
-		if ( 'yes' != $single_bump_status ) {
-
-			continue;
-		}
-
-		// Check for Bump Schedule.
-		$single_bump_schedule = ! empty( $single_bump_array['mwb_upsell_bump_schedule'] ) ? $single_bump_array['mwb_upsell_bump_schedule'] : '';
-
-		if ( ( date( 'N' ) != $single_bump_array['mwb_upsell_bump_schedule'] ) && ( '0' != $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
-
-			continue;
-		}
-
-		// Check if target products or target categories are empty.
-		$single_bump_target_ids = ! empty( $single_bump_array['mwb_upsell_bump_target_ids'] ) ? $single_bump_array['mwb_upsell_bump_target_ids'] : array();
-
-		$single_bump_categories = ! empty( $single_bump_array['mwb_upsell_bump_target_categories'] ) ? $single_bump_array['mwb_upsell_bump_target_categories'] : array();
-
-		// When both target products or target categories are empty, continue.
-		if ( empty( $single_bump_target_ids ) && empty( $single_bump_categories ) ) {
-
-			continue;
-
-		}
-
-		// Here we will have atleast a category or target id to search.
-		// Lets check for offer be present.
-		if ( ! empty( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) ) {
-
-			/**
-			 * After v1.0.1 (pro)
-			 * Apply smart-skip in case of pro is active.
-			 */
-			if ( mwb_ubo_lite_if_pro_exists() && is_user_logged_in() ) {
-
-				$mwb_upsell_bump_global_smart_skip = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] : '';
-				if ( 'yes' == $mwb_upsell_bump_global_smart_skip && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
-
-					if ( Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_skip_for_pre_order( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) ) {
-
-						continue;
-					}
-				}
-			}
-
-			// Check if these product are present in cart one by one.
-			foreach ( $single_bump_array['mwb_upsell_bump_target_ids'] as $key => $single_target_id ) {
-
-				// Check if present in cart.
-				$mwb_upsell_bump_target_key = mwb_ubo_lite_check_if_in_cart( $single_target_id );
-
-				// If we product is present we get the cart key.
-				if ( ! empty( $mwb_upsell_bump_target_key ) ) {
-
-					// Check offer product must be in stock.
-					$offer_product = wc_get_product( $single_bump_array['mwb_upsell_bump_products_in_offer'] );
-
-					if ( empty( $offer_product ) ) {
-
-						continue;
-					}
-
-					if ( ! $offer_product->is_in_stock() ) {
-
-						continue;
-					}
-
-					// Check if offer product is already in cart.
-					if ( mwb_ubo_lite_already_in_cart( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) && 'yes' == $mwb_upsell_bump_global_skip_settings ) {
-
-						continue;
-					}
-
-					// If everything is good just break !!
-					$encountered_bump_array = $single_bump_id;
-					break 2;
-
-				}
-			} // 2nd foreach end for product id.
-
-			// If target key is still empty means no target category is found yet.
-			if ( empty( $encountered_bump_array ) && ! empty( $single_bump_array['mwb_upsell_bump_target_categories'] ) ) {
-
-				foreach ( $single_bump_array['mwb_upsell_bump_target_categories'] as $key => $single_category_id ) {
-
-					// No target Id is found go for category,
-					// Check if the category is in cart.
-					$mwb_upsell_bump_target_key = mwb_ubo_lite_check_category_in_cart( $single_category_id );
-
-					// If we product is present we get the cart key.
-					if ( ! empty( $mwb_upsell_bump_target_key ) ) {
-
-						// Check offer product must be in stock.
-						$offer_product = wc_get_product( $single_bump_array['mwb_upsell_bump_products_in_offer'] );
-
-						if ( empty( $offer_product ) ) {
-							
-							continue;
-						}
-
-						if ( ! $offer_product->is_in_stock() ) {
-							
-							continue;
-						}
-
-						// Check if offer product is already in cart.
-						if ( mwb_ubo_lite_already_in_cart( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) && 'yes' == $mwb_upsell_bump_global_skip_settings ) {
-
-							continue;
-
-						}
-
-						// If everything is good just break !!
-						$encountered_bump_array = $single_bump_id;
-						break 2;
-
-					}
-				} // Second foreach for category search end.
-			}
-		} else {
-
-			// If offer product is not saved, continue.
-			continue;
-		}
-	} // First foreach end.
+	$mwb_upsell_bump_target_key = !empty( $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] ) ? $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] : '';
 }
 
 // When we didn't get a perfect data for bump offer to be shown.
 if ( empty( $encountered_bump_array ) && empty( $_SESSION['encountered_bump_array'] ) ) {
 
 	return;
+}
+
+$selected_order_bump = ! empty( $mwb_ubo_offer_array_collection[ $encountered_bump_array ] ) ? $mwb_ubo_offer_array_collection[ $encountered_bump_array ] : $mwb_ubo_offer_array_collection[ $_SESSION['encountered_bump_array'] ];
+
+// After v1.2.0
+if( ! empty( $selected_order_bump ) ) {
+
+	$offer_id = ! empty( $selected_order_bump['mwb_upsell_bump_products_in_offer'] ) ? sanitize_text_field( $selected_order_bump['mwb_upsell_bump_products_in_offer'] ) : '';
+	$offer_product = wc_get_product( $offer_id );
+
+	// Check once again product avaibility if present of not.
+	if( empty( $offer_product ) || 'publish' != $offer_product->get_status() || ! $offer_product->is_in_stock() ) {
+
+		// Search for the next order bump again.
+		if( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'fetch_order_bump_from_collection' ) ) {
+
+			// Destroy session.
+			mwb_ubo_session_destroy();
+
+			$encountered_bump_result = Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collection( $mwb_ubo_offer_array_collection );
+
+			$encountered_bump_array = ! empty( $encountered_bump_result[ 'encountered_bump_array' ] ) ? $encountered_bump_result[ 'encountered_bump_array' ] : '';
+
+			$mwb_upsell_bump_target_key = ! empty( $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] ) ? $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] : '';
+		}
+	}
 }
 
 $mwb_upsell_bump_target_key = ! empty( $mwb_upsell_bump_target_key ) ? $mwb_upsell_bump_target_key : '';
@@ -207,11 +92,12 @@ if ( ! empty( $bump['id'] ) ) {
 	$product = wc_get_product( $bump['id'] );
 
 	// The product must be variable.
-	if ( is_object( $product ) && $product->has_child() ) {
+	if ( ! empty( $product ) && $product->has_child() ) {
 
 		// Show variations popup Html.
 		mwb_ubo_lite_show_variation_popup( $product );
 	}
+
 } else {
 
 	return;
