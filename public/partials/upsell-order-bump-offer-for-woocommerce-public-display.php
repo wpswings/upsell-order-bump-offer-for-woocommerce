@@ -31,9 +31,9 @@ if( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'fetch_orde
 
 	$encountered_bump_result = Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collection( $mwb_ubo_offer_array_collection );
 
-	$encountered_bump_array = !empty( $encountered_bump_result[ 'encountered_bump_array' ] ) ? $encountered_bump_result[ 'encountered_bump_array' ] : '';
+	$encountered_bump_array = ! empty( $encountered_bump_result[ 'encountered_bump_array' ] ) ? $encountered_bump_result[ 'encountered_bump_array' ] : '';
 
-	$mwb_upsell_bump_target_key = !empty( $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] ) ? $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] : '';
+	$mwb_upsell_bump_target_key = ! empty( $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] ) ? $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] : '';
 }
 
 // When we didn't get a perfect data for bump offer to be shown.

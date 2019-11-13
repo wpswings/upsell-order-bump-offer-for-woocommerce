@@ -1473,3 +1473,57 @@ function mwb_ubo_go_pro( $location = 'pro' ) {
 	$allowed_html = mwb_ubo_lite_allowed_html();
 	echo wp_kses( $popup_html, $allowed_html );
 }
+
+/**
+ * 	Returns product name and status. 
+ *
+ * @param   string $product_id        Product id
+ * @since   1.2.0
+ */
+function mwb_ubo_lite_get_title( $product_id = '' ) {
+
+	if( ! empty( $product_id ) ) {
+
+		$result = esc_html__( 'Product not found', 'upsell-order-bump-offer-for-woocommerce' );
+
+		$product = wc_get_product( $product_id );
+
+		if( ! empty( $product ) ) {
+
+			if( 'publish' != $product->get_status() ) {
+
+				$result = esc_html__( 'Product Unavailable', 'upsell-order-bump-offer-for-woocommerce' );
+
+			} else {
+
+				$result = get_the_title( $product_id );
+			}
+
+		}
+
+		return $result;
+	}
+}
+
+/**
+ * 	Returns category name and existance. 
+ *
+ * @param   string $cat_id        Category id
+ * @since   1.2.0
+ */
+function mwb_ubo_lite_getcat_title( $cat_id = '' ) {
+
+	if( ! empty( $cat_id ) ) {
+
+		$result = esc_html__( 'Category not found', 'upsell-order-bump-offer-for-woocommerce' );
+
+		$category_name = get_the_category_by_ID( $cat_id );
+
+		if( ! empty( $category_name ) ) {
+
+			$result = $category_name;
+		}
+		
+		return $result;
+	}
+}

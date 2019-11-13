@@ -321,7 +321,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 									foreach ( $mwb_upsell_bump_target_products_ids as $mwb_upsell_bump_single_target_products_ids ) {
 
-										$product_name = get_the_title( $mwb_upsell_bump_single_target_products_ids );
+										$product_name = mwb_ubo_lite_get_title( $mwb_upsell_bump_single_target_products_ids );
 										?>
 
 										<option value="<?php echo esc_html( $mwb_upsell_bump_single_target_products_ids ); ?>" selected="selected"><?php echo( esc_html( $product_name ) . '(#' . esc_html( $mwb_upsell_bump_single_target_products_ids ) . ')' ); ?></option>';
@@ -368,7 +368,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 									foreach ( $mwb_upsell_bump_target_categories as $single_target_category_id ) {
 
-										$single_category_name = get_the_category_by_ID( $single_target_category_id );
+										$single_category_name = mwb_ubo_lite_getcat_title( $single_target_category_id );
 
 										?>
 										<option value="<?php echo esc_html( $single_target_category_id ); ?>" selected="selected"><?php echo( esc_html( $single_category_name ) . '(#' . esc_html( $single_target_category_id ) . ')' ); ?></option>';
@@ -491,11 +491,10 @@ $mwb_upsell_bump_schedule_options = array(
 
 								if ( ! empty( $current_offer_product_id ) ) {
 
-									$product_title = get_the_title( $current_offer_product_id );
+									$product_title = mwb_ubo_lite_get_title( $current_offer_product_id );
 
 									?>
 										
-
 									<option value="<?php echo esc_html( $current_offer_product_id ); ?>" selected="selected"><?php echo esc_html( $product_title ) . '( #' . esc_html( $current_offer_product_id ) . ' )'; ?>
 									</option>
 

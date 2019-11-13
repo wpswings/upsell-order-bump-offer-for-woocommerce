@@ -834,13 +834,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				}
 			} // First foreach end.
 
-			$result = array(
+			if( ! empty( $encountered_bump_array ) && ! empty( $mwb_upsell_bump_target_key ) ) {
 
-				'encountered_bump_array' => $encountered_bump_array,
-				'mwb_upsell_bump_target_key' => $mwb_upsell_bump_target_key,
-			);
+				$result = array(
 
-			return $result;
+					'encountered_bump_array' => $encountered_bump_array,
+					'mwb_upsell_bump_target_key' => $mwb_upsell_bump_target_key,
+				);
+
+				return $result;
+			}			
 		}
 	}
 
