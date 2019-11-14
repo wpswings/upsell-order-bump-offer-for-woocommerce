@@ -25,7 +25,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * The ID of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
 	private $plugin_name;
@@ -34,7 +33,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * The version of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
 	private $version;

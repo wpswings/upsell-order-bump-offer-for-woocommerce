@@ -33,7 +33,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      Upsell_Order_Bump_Offer_For_Woocommerce_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
@@ -42,7 +41,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
@@ -51,7 +49,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
 	protected $version;
@@ -94,7 +91,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function load_dependencies() {
 
@@ -138,7 +134,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function set_locale() {
 
@@ -153,7 +148,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function define_admin_hooks() {
 
@@ -181,7 +175,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function define_public_hooks() {
 
