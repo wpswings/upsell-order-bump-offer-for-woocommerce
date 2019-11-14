@@ -384,6 +384,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		// Now safe to add to cart.
 		$cart_item_data = array(
+			'mwb_ubo_offer_product' => true,
 			'mwb_discounted_price' => $bump_offer_discount,
 			'flag_' . uniqid() => true,
 		);
@@ -659,6 +660,26 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		if( ! empty( $cart_item[ 'mwb_ubo_offer_product' ] ) ) {
 
 			return false;
+		}
+
+		return $boolean;
+	}
+
+	/**
+	 * Hide undo notice for bump target/offer product.
+	 *
+	 * @param   boolean $boolean            Show/Hide
+	 * @param   object  $cart_item           The cart object.
+	 * @since    1.2.0
+	 */
+	public function hide_undo_notice_in_aerocheckout( $boolean, $cart_item ) {
+
+		if( ! empty( $cart_item[ 'key' ] ) && ( ! empty( $_SESSION[ 'mwb_upsell_bump_target_key' ] ) || ! empty( $_SESSION[ 'bump_offer_product_key' ] ) ) ) {
+
+			if( $cart_item[ 'key' ] == $_SESSION[ 'mwb_upsell_bump_target_key' ] || $cart_item[ 'key' ] == $_SESSION[ 'bump_offer_product_key' ] ) {
+
+				return true;
+			}
 		}
 
 		return $boolean;

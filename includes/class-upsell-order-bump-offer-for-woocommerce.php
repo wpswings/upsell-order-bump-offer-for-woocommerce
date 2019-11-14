@@ -248,6 +248,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 				// For Aerocheckout pages.
 				$this->loader->add_filter( 'wfacp_show_item_quantity', $plugin_public, 'disable_quantity_field_in_aerocheckout', 10, 2 );
 
+				$this->loader->add_filter( 'wfacp_show_undo_message_for_item', $plugin_public, 'hide_undo_notice_in_aerocheckout', 10, 2 );
+
 				// Removing offer or target product manually by cart.
 				$this->loader->add_action( 'woocommerce_remove_cart_item', $plugin_public, 'after_remove_product', 10, 2 );
 
