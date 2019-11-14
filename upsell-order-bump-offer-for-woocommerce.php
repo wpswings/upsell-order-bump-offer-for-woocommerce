@@ -99,8 +99,6 @@ function mwb_ubo_lite_plugin_activation() {
 	$activation['status'] = true;
 	$activation['message'] = '';
 
-	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
 	// Dependant plugin.
 	if ( ! mwb_ubo_lite_is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 

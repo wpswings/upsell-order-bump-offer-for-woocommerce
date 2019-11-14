@@ -17,7 +17,7 @@
 function mwb_ubo_lite_if_pro_exists() {
 
 	// Check if pro plugin exists.
-	if ( in_array( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	if ( mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
 		return true;
 	}
@@ -488,6 +488,7 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			font-size: <?php echo esc_html( $primary_section_text_size ) . esc_html( 'px' ); ?>;
 			margin: 0 0 0 5px;
 			font-weight: 600;
+			padding: 0;
 		}
 		#mwb_upsell_offer_main_id .mwb_upsell_offer_secondary_section {
 			padding: 8px;
