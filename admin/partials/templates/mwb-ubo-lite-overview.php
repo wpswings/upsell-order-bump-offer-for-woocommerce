@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</ul>
 	</div>
 
-	<?php if ( ! mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) : ?>
+	<?php if ( mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) : ?>
 
 		<div class="mwb_ubo_lite_overview_pro_version">
 			<h2><?php esc_html_e( 'Premium Plugin Additional Features', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
