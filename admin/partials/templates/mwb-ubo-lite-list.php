@@ -122,7 +122,9 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
 					foreach ( $value['mwb_upsell_bump_target_ids'] as $single_target_product ) :
 
-						?><p><?php echo esc_html( mwb_ubo_lite_get_title( $single_target_product ) . "( #$single_target_product )" ); ?></p><?php
+						?>
+						<p><?php echo esc_html( mwb_ubo_lite_get_title( $single_target_product ) . "( #$single_target_product )" ); ?></p>
+						<?php
 
 					endforeach;
 
@@ -130,7 +132,9 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
 				} else {
 
-					?><p><i><?php esc_html_e( 'No Product(s) added', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></i></p><?php
+					?>
+					<p><i><?php esc_html_e( 'No Product(s) added', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></i></p>
+					<?php
 				}
 
 					echo '<hr>';
@@ -145,7 +149,9 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
 					foreach ( $value['mwb_upsell_bump_target_categories'] as $single_target_category_id ) :
 
-						?><p><?php echo esc_html( mwb_ubo_lite_getcat_title( $single_target_category_id ) . "( #$single_target_category_id )" ); ?></p><?php
+						?>
+						<p><?php echo esc_html( mwb_ubo_lite_getcat_title( $single_target_category_id ) . "( #$single_target_category_id )" ); ?></p>
+						<?php
 
 					endforeach;
 
@@ -153,7 +159,9 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
 				} else {
 
-					?><p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></i></p><?php
+					?>
+					<p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></i></p>
+					<?php
 				}
 
 				?>
@@ -166,10 +174,10 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 					if ( ! empty( $value['mwb_upsell_bump_products_in_offer'] ) ) {
 
 						$single_offer_product = $value['mwb_upsell_bump_products_in_offer'];
-						?><p><?php echo esc_html( mwb_ubo_lite_get_title( $single_offer_product ) . "( #$single_offer_product )" ); ?></p><?php
-					}
-
-					else {
+						?>
+						<p><?php echo esc_html( mwb_ubo_lite_get_title( $single_offer_product ) . "( #$single_offer_product )" ); ?></p>
+						<?php
+					} else {
 
 						esc_html_e( 'No offers Added', 'upsell-order-bump-offer-for-woocommerce' );
 					}

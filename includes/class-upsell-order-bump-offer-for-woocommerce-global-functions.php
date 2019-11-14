@@ -434,8 +434,8 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 			border: none;
 		}
 		#mwb_upsell_offer_main_id .mwb_upsell_offer_discount_section h3 .amount {
-		    font-size: inherit;
-		    color: inherit;
+			font-size: inherit;
+			color: inherit;
 		}
 		#mwb_upsell_offer_main_id .mwb_upsell_offer_product_section {
 			text-align :left;
@@ -708,7 +708,7 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 
 	$mwb_ubo_offer_array_collection = get_option( 'mwb_ubo_bump_list' );
 
-	if ( empty( $mwb_ubo_offer_array_collection ) ) {
+	if ( empty( $mwb_ubo_offer_array_collection ) || empty( $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ] ) ) {
 
 		return;
 	}
@@ -1010,7 +1010,7 @@ function mwb_ubo_lite_already_in_cart( $offer_id ) {
 
 	$offer_product = wc_get_product( $offer_id );
 
-	if( empty( $offer_product ) ) {
+	if ( empty( $offer_product ) ) {
 
 		return false;
 	}
@@ -1025,7 +1025,6 @@ function mwb_ubo_lite_already_in_cart( $offer_id ) {
 
 				return true;
 			}
-
 		} else {
 
 			// If offer id is variation or simple product.
@@ -1166,8 +1165,8 @@ function mwb_ubo_lite_get_bump_image( $product_id = '' ) {
 	} else {
 
 		$variation_product = wc_get_product( $product_id );
-		
-		if( ! empty( $variation_product ) ) {
+
+		if ( ! empty( $variation_product ) ) {
 
 			$image_id = get_post_thumbnail_id( $variation_product->get_parent_id() );
 
@@ -1181,7 +1180,6 @@ function mwb_ubo_lite_get_bump_image( $product_id = '' ) {
 				// If no image is present return the woocommerce place holder image.
 				$bump_var_image = wc_placeholder_img();
 			}
-
 		} else {
 
 			// If no image is present return the woocommerce place holder image.
@@ -1274,7 +1272,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 	$product = wc_get_product( $product_id );
 
-	if( empty( $product ) ) {
+	if ( empty( $product ) ) {
 
 		return;
 	}
@@ -1476,22 +1474,22 @@ function mwb_ubo_go_pro( $location = 'pro' ) {
 }
 
 /**
- * 	Returns product name and status. 
+ *  Returns product name and status.
  *
- * @param   string $product_id        Product id
+ * @param   string $product_id        Product id.
  * @since   1.2.0
  */
 function mwb_ubo_lite_get_title( $product_id = '' ) {
 
-	if( ! empty( $product_id ) ) {
+	if ( ! empty( $product_id ) ) {
 
 		$result = esc_html__( 'Product not found', 'upsell-order-bump-offer-for-woocommerce' );
 
 		$product = wc_get_product( $product_id );
 
-		if( ! empty( $product ) ) {
+		if ( ! empty( $product ) ) {
 
-			if( 'publish' != $product->get_status() ) {
+			if ( 'publish' != $product->get_status() ) {
 
 				$result = esc_html__( 'Product Unavailable', 'upsell-order-bump-offer-for-woocommerce' );
 
@@ -1499,7 +1497,6 @@ function mwb_ubo_lite_get_title( $product_id = '' ) {
 
 				$result = get_the_title( $product_id );
 			}
-
 		}
 
 		return $result;
@@ -1507,24 +1504,24 @@ function mwb_ubo_lite_get_title( $product_id = '' ) {
 }
 
 /**
- * 	Returns category name and existance. 
+ *  Returns category name and existance.
  *
- * @param   string $cat_id        Category id
+ * @param   string $cat_id        Category id.
  * @since   1.2.0
  */
 function mwb_ubo_lite_getcat_title( $cat_id = '' ) {
 
-	if( ! empty( $cat_id ) ) {
+	if ( ! empty( $cat_id ) ) {
 
 		$result = esc_html__( 'Category not found', 'upsell-order-bump-offer-for-woocommerce' );
 
 		$category_name = get_the_category_by_ID( $cat_id );
 
-		if( ! empty( $category_name ) ) {
+		if ( ! empty( $category_name ) ) {
 
 			$result = $category_name;
 		}
-		
+
 		return $result;
 	}
 }

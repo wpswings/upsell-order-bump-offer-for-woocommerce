@@ -335,7 +335,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 				return array();
 			}
-			
 		} else {
 
 			return array( key( $mwb_ubo_offer_array_collection ) => $mwb_ubo_offer_array_collection[ key( $mwb_ubo_offer_array_collection ) ] );

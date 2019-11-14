@@ -84,7 +84,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						);
 						?>
 						<br>
-						<?php esc_html_e( "The Smart Upgrade offer feature will replace the existing product with the offer product as soon as they accept the Order Bump offer.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+						<?php esc_html_e( 'The Smart Upgrade offer feature will replace the existing product with the offer product as soon as they accept the Order Bump offer.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
 					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/smart-upgrade.png' ); ?> "></div>
 				</div>

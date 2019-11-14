@@ -298,7 +298,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Got all values to search for variation id from selected attributes.
 		$product = wc_get_product( $bump_offer_id );
 
-		if( empty( $product ) ) {
+		if ( empty( $product ) ) {
 
 			return;
 		}
@@ -651,13 +651,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Disable quantity field for bump offer product.
 	 *
-	 * @param   boolean $boolean            Show/Hide
+	 * @param   boolean $boolean             Show/Hide.
 	 * @param   object  $cart_item           The cart object.
 	 * @since    1.2.0
 	 */
 	public function disable_quantity_field_in_aerocheckout( $boolean, $cart_item ) {
 
-		if( ! empty( $cart_item[ 'mwb_ubo_offer_product' ] ) ) {
+		if ( ! empty( $cart_item['mwb_ubo_offer_product'] ) ) {
 
 			return false;
 		}
@@ -668,20 +668,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Hide undo notice for bump target/offer product.
 	 *
-	 * @param   boolean $boolean            Show/Hide
+	 * @param   boolean $boolean             Show/Hide.
 	 * @param   object  $cart_item           The cart object.
 	 * @since    1.2.0
 	 */
 	public function hide_undo_notice_in_aerocheckout( $boolean, $cart_item ) {
 
-		if( ! empty( $cart_item[ 'mwb_ubo_offer_product' ] ) ) {
+		if ( ! empty( $cart_item['mwb_ubo_offer_product'] ) ) {
 
 			return true;
 		}
 
-		if( ! empty( $cart_item[ 'key' ] ) && ! empty( $_SESSION[ 'mwb_upsell_bump_target_key' ] ) ) {
+		if ( ! empty( $cart_item['key'] ) && ! empty( $_SESSION['mwb_upsell_bump_target_key'] ) ) {
 
-			if( $cart_item[ 'key' ] == $_SESSION[ 'mwb_upsell_bump_target_key' ] ) {
+			if ( $cart_item['key'] == $_SESSION['mwb_upsell_bump_target_key'] ) {
 
 				return true;
 			}
@@ -697,7 +697,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @since    1.2.0
 	 */
 	public function fetch_order_bump_from_collection( $order_bump_collection = array() ) {
-		
+
 		/**
 		 * Check enability of the plugin at settings page,
 		 * Get all bump lists,
@@ -825,7 +825,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								$offer_product = wc_get_product( $single_bump_array['mwb_upsell_bump_products_in_offer'] );
 
 								if ( empty( $offer_product ) ) {
-									
+
 									continue;
 								}
 
@@ -835,7 +835,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								}
 
 								if ( ! $offer_product->is_in_stock() ) {
-									
+
 									continue;
 								}
 
@@ -860,7 +860,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				}
 			} // First foreach end.
 
-			if( ! empty( $encountered_bump_array ) && ! empty( $mwb_upsell_bump_target_key ) ) {
+			if ( ! empty( $encountered_bump_array ) && ! empty( $mwb_upsell_bump_target_key ) ) {
 
 				$result = array(
 
@@ -869,9 +869,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				);
 
 				return $result;
-			}			
+			}
 		}
 	}
 
-// End of class.
+	// End of class.
 }

@@ -27,43 +27,49 @@ if ( 'on' != $mwb_bump_enable_plugin || empty( $mwb_ubo_offer_array_collection )
 
 }
 
-if( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'fetch_order_bump_from_collection' ) ) {
+if ( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'fetch_order_bump_from_collection' ) ) {
 
 	$encountered_bump_result = Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collection( $mwb_ubo_offer_array_collection );
 
-	$encountered_bump_array = ! empty( $encountered_bump_result[ 'encountered_bump_array' ] ) ? $encountered_bump_result[ 'encountered_bump_array' ] : '';
+	$encountered_bump_array = ! empty( $encountered_bump_result['encountered_bump_array'] ) ? $encountered_bump_result['encountered_bump_array'] : '';
 
-	$mwb_upsell_bump_target_key = ! empty( $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] ) ? $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] : '';
+	$mwb_upsell_bump_target_key = ! empty( $encountered_bump_result['mwb_upsell_bump_target_key'] ) ? $encountered_bump_result['mwb_upsell_bump_target_key'] : '';
 }
 
-// When we didn't get a perfect data for bump offer to be shown.
+// When we didn't get a perfect index for bump offer to be shown.
 if ( empty( $encountered_bump_array ) && empty( $_SESSION['encountered_bump_array'] ) ) {
+
+	return;
+}
+
+// When we didn't get a saved funnel at same index for bump offer to be shown.
+if ( empty( $mwb_ubo_offer_array_collection[ $encountered_bump_array ] ) && empty( $mwb_ubo_offer_array_collection[ $_SESSION['encountered_bump_array'] ] ) ) {
 
 	return;
 }
 
 $selected_order_bump = ! empty( $mwb_ubo_offer_array_collection[ $encountered_bump_array ] ) ? $mwb_ubo_offer_array_collection[ $encountered_bump_array ] : $mwb_ubo_offer_array_collection[ $_SESSION['encountered_bump_array'] ];
 
-// After v1.2.0
-if( ! empty( $selected_order_bump ) ) {
+// After v1.2.0.
+if ( ! empty( $selected_order_bump ) ) {
 
 	$offer_id = ! empty( $selected_order_bump['mwb_upsell_bump_products_in_offer'] ) ? sanitize_text_field( $selected_order_bump['mwb_upsell_bump_products_in_offer'] ) : '';
 	$offer_product = wc_get_product( $offer_id );
 
 	// Check once again product avaibility if present of not.
-	if( empty( $offer_product ) || 'publish' != $offer_product->get_status() || ! $offer_product->is_in_stock() ) {
+	if ( empty( $offer_product ) || 'publish' != $offer_product->get_status() || ! $offer_product->is_in_stock() ) {
 
 		// Search for the next order bump again.
-		if( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'fetch_order_bump_from_collection' ) ) {
+		if ( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'fetch_order_bump_from_collection' ) ) {
 
 			// Destroy session.
 			mwb_ubo_session_destroy();
 
 			$encountered_bump_result = Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collection( $mwb_ubo_offer_array_collection );
 
-			$encountered_bump_array = ! empty( $encountered_bump_result[ 'encountered_bump_array' ] ) ? $encountered_bump_result[ 'encountered_bump_array' ] : '';
+			$encountered_bump_array = ! empty( $encountered_bump_result['encountered_bump_array'] ) ? $encountered_bump_result['encountered_bump_array'] : '';
 
-			$mwb_upsell_bump_target_key = ! empty( $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] ) ? $encountered_bump_result[ 'mwb_upsell_bump_target_key' ] : '';
+			$mwb_upsell_bump_target_key = ! empty( $encountered_bump_result['mwb_upsell_bump_target_key'] ) ? $encountered_bump_result['mwb_upsell_bump_target_key'] : '';
 		}
 	}
 }
@@ -97,7 +103,6 @@ if ( ! empty( $bump['id'] ) ) {
 		// Show variations popup Html.
 		mwb_ubo_lite_show_variation_popup( $product );
 	}
-
 } else {
 
 	return;
