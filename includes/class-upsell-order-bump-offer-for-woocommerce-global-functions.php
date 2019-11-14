@@ -623,16 +623,15 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 		}
 	}
 
-	if ( ! session_id() ) {
-
-		session_start();
-	}
-
 	$check = '';
 
-	if ( ! empty( $_SESSION['bump_offer_status'] ) && 'added' == $_SESSION['bump_offer_status'] && ! is_admin() ) {
+	// Check woocommrece class exists.
+	if( function_exists( 'WC' ) && ! empty( WC()->session ) ) {
 
-		$check = 'checked';
+		if ( ! is_admin() && null != WC()->session->get( 'bump_offer_status' ) && 'added' == WC()->session->get( 'bump_offer_status' ) ) {
+
+			$check = 'checked';
+		}
 	}
 
 	/*
@@ -1394,11 +1393,6 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
  */
 function mwb_ubo_session_destroy() {
 
-	if ( ! session_id() ) {
-
-		session_start();
-	}
-
 	$order_bump_data = array(
 		'encountered_bump_array',
 		'mwb_upsell_bump_target_key',
@@ -1408,7 +1402,7 @@ function mwb_ubo_session_destroy() {
 
 	foreach ( $order_bump_data as $key => $data ) {
 
-		unset( $_SESSION[ $data ] );
+		WC()->session->__unset( $data );
 	}
 }
 

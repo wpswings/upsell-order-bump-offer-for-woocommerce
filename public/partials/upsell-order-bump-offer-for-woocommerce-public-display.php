@@ -37,18 +37,18 @@ if ( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'fetch_ord
 }
 
 // When we didn't get a perfect index for bump offer to be shown.
-if ( empty( $encountered_bump_array ) && empty( $_SESSION['encountered_bump_array'] ) ) {
+if ( empty( $encountered_bump_array ) && null == WC()->session->get( 'encountered_bump_array' ) ) {
 
 	return;
 }
 
 // When we didn't get a saved funnel at same index for bump offer to be shown.
-if ( empty( $mwb_ubo_offer_array_collection[ $encountered_bump_array ] ) && empty( $mwb_ubo_offer_array_collection[ $_SESSION['encountered_bump_array'] ] ) ) {
+if ( empty( $mwb_ubo_offer_array_collection[ $encountered_bump_array ] ) && empty( $mwb_ubo_offer_array_collection[ WC()->session->get( 'encountered_bump_array' ) ] ) ) {
 
 	return;
 }
 
-$selected_order_bump = ! empty( $mwb_ubo_offer_array_collection[ $encountered_bump_array ] ) ? $mwb_ubo_offer_array_collection[ $encountered_bump_array ] : $mwb_ubo_offer_array_collection[ $_SESSION['encountered_bump_array'] ];
+$selected_order_bump = ! empty( $mwb_ubo_offer_array_collection[ $encountered_bump_array ] ) ? $mwb_ubo_offer_array_collection[ $encountered_bump_array ] : $mwb_ubo_offer_array_collection[ WC()->session->get( 'encountered_bump_array' ) ];
 
 // After v1.2.0.
 if ( ! empty( $selected_order_bump ) ) {
@@ -76,11 +76,16 @@ if ( ! empty( $selected_order_bump ) ) {
 
 $mwb_upsell_bump_target_key = ! empty( $mwb_upsell_bump_target_key ) ? $mwb_upsell_bump_target_key : '';
 
-$_SESSION['encountered_bump_array'] = ! empty( $_SESSION['encountered_bump_array'] ) ? $_SESSION['encountered_bump_array'] : $encountered_bump_array;
+// Save bump index.
+$encountered_bump_array = null != WC()->session->get( 'encountered_bump_array' ) ? WC()->session->get( 'encountered_bump_array' ) : $encountered_bump_array;
+WC()->session->set( 'encountered_bump_array' , $encountered_bump_array );
 
-$_SESSION['mwb_upsell_bump_target_key'] = ! empty( $_SESSION['mwb_upsell_bump_target_key'] ) ? $_SESSION['mwb_upsell_bump_target_key'] : $mwb_upsell_bump_target_key;
+// Save Target product cart key.
+$mwb_upsell_bump_target_key = null != WC()->session->get( 'mwb_upsell_bump_target_key' ) ? WC()->session->get( 'mwb_upsell_bump_target_key' ) : $mwb_upsell_bump_target_key;
+WC()->session->set( 'mwb_upsell_bump_target_key' , $mwb_upsell_bump_target_key );
 
-$bump = mwb_ubo_lite_fetch_bump_offer_details( $_SESSION['encountered_bump_array'], $_SESSION['mwb_upsell_bump_target_key'] );
+
+$bump = mwb_ubo_lite_fetch_bump_offer_details( WC()->session->get( 'encountered_bump_array' ), WC()->session->get( 'mwb_upsell_bump_target_key' ) );
 
 $bumphtml = mwb_ubo_lite_bump_offer_html( $bump );
 
