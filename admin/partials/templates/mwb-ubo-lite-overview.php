@@ -59,7 +59,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="mwb_ubo_lite_overview_go_pro">
 
 				<!-- Feature - Left Intent -->
-				<div class="mwb_ubo_lite_go_pro_features">
+				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_unlimited_offers">
 					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/bumps.png' ); ?> "></div>
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature heading. -->
@@ -71,8 +71,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 
 				<!-- Feature - Right Intent -->
-				<div class="mwb_ubo_lite_go_pro_features">
-					<div class="mwb_ubo_lite_go_pro_features_wrap mwb_ubo_lite_premium_content">
+				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_upgrade_offer">
+					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature Content. -->
 						<h3><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 						<!-- Pro feature heading. -->
@@ -90,7 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 
 				<!-- Feature - Left Intent -->
-				<div class="mwb_ubo_lite_go_pro_features">
+				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_smart_skip">
 					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/past-order.png' ); ?> "></div>
 
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
@@ -102,8 +102,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 
 				<!-- Feature - Right Intent -->
-				<div class="mwb_ubo_lite_go_pro_features">
-					<div class="mwb_ubo_lite_go_pro_features_wrap mwb_ubo_lite_premium_content">
+				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_exclusive_support">
+					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature Content. -->
 						<h3><?php esc_html_e( 'Exclusive Support', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 						<!-- Pro feature heading. -->

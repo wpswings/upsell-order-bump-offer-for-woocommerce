@@ -674,9 +674,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function hide_undo_notice_in_aerocheckout( $boolean, $cart_item ) {
 
-		if( ! empty( $cart_item[ 'key' ] ) && ( ! empty( $_SESSION[ 'mwb_upsell_bump_target_key' ] ) || ! empty( $_SESSION[ 'bump_offer_product_key' ] ) ) ) {
+		if( ! empty( $cart_item[ 'mwb_ubo_offer_product' ] ) ) {
 
-			if( $cart_item[ 'key' ] == $_SESSION[ 'mwb_upsell_bump_target_key' ] || $cart_item[ 'key' ] == $_SESSION[ 'bump_offer_product_key' ] ) {
+			return true;
+		}
+
+		if( ! empty( $cart_item[ 'key' ] ) && ! empty( $_SESSION[ 'mwb_upsell_bump_target_key' ] ) ) {
+
+			if( $cart_item[ 'key' ] == $_SESSION[ 'mwb_upsell_bump_target_key' ] ) {
 
 				return true;
 			}
