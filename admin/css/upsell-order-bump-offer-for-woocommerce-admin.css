@@ -278,10 +278,11 @@
   width: 250px;
 }
 .mwb_ubo_lite_go_pro_features.mwb_ubo_lite_go_pro_upgrade_offer img {
-  width: 250px;
+  width: 200px;
 }
-.mwb_ubo_lite_go_pro_features.mwb_ubo_lite_go_pro_unlimited_offers img {
-  width: 250px;
+.mwb_ubo_lite_go_pro_features.mwb_ubo_lite_go_pro_smart_skip img,
+.mwb_ubo_lite_go_pro_features.mwb_ubo_lite_go_pro_exclusive_support img {
+  width: 180px;
 }
 .mwb_ubo_lite_go_pro_feature_image {
   max-width: 33%;
@@ -289,9 +290,9 @@
 }
 .mwb_ubo_lite_go_pro_features_wrap {
   text-align: left;
-  max-width: 67%;
+  max-width: 65%;
   width: 100%;
-  flex: 0 0 67%;
+  flex: 0 0 65%;
 }
 /* Overview section end. */
 
