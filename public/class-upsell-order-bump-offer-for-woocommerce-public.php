@@ -95,7 +95,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/upsell-order-bump-offer-for-woocommerce-public.js', array( 'jquery' ), $this->version, false );
 
 		// Public ajax.
-		wp_register_script( 'add_bump_offer_to_cart', plugin_dir_url( __FILE__ ) . 'js/mwb_ubo_lite_public_script.js', array( 'jquery' ) );
+		wp_enqueue_script( 'add_bump_offer_to_cart', plugin_dir_url( __FILE__ ) . 'js/mwb_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false  );
 
 		wp_localize_script(
 			'add_bump_offer_to_cart',
@@ -106,8 +106,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'auth_nonce'    => wp_create_nonce( 'mwb_ubo_lite_nonce' ),
 			)
 		);
-
-		wp_enqueue_script( 'add_bump_offer_to_cart' );
 
 		// Do not work in mobile-view mode.
 		if ( ! wp_is_mobile() ) {
