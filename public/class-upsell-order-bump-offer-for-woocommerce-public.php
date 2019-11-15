@@ -470,7 +470,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
 
-		// Case of target being removed.
+		/**===================================================================================
+									 Case of target being removed. 
+		 =====================================================================================*/
 		if ( null != WC()->session->get( 'mwb_upsell_bump_target_key' ) && ! empty( $key_to_be_removed ) && $key_to_be_removed == WC()->session->get( 'mwb_upsell_bump_target_key' ) ) {
 
 			// This settings won't be applicable if the pro feature ( smart upgrade is enabled ).
@@ -491,6 +493,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					// Do nothing and return.
 					return;
 				}
+
+			} else {
+
+				// Case if target is removed but no offer is added, then destroy session.
+				mwb_ubo_session_destroy();
 			}
 
 			// Do this only when settings are setted yes.
@@ -515,11 +522,37 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			}
 		}
 
-		// Case of offer being removed.
+		/**===================================================================================
+									Case of offer being removed. 
+		 =====================================================================================*/
 		if ( null != WC()->session->get( 'bump_offer_product_key' ) && ! empty( $key_to_be_removed ) && $key_to_be_removed == WC()->session->get( 'bump_offer_product_key' ) ) {
 
-			// When bump key is deleted from cart page, reset session variables.
-			mwb_ubo_session_destroy();
+			/**
+			 * This settings won't be applicable if the pro is unavailable ( smart upgrade is enabled ).
+			 * If offer is being removed in smart pro then you can reset the session and show new bump.
+			 */
+			if ( mwb_ubo_lite_if_pro_exists() && null != WC()->session->get( 'bump_offer_product_key' ) ) {
+
+				// Get all saved bumps.
+				$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
+				$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
+
+				$order_bump_index = null != WC()->session->get( 'encountered_bump_array' ) ? WC()->session->get( 'encountered_bump_array' ) : '';
+
+				$encountered_bump_array = ! empty( $mwb_ubo_offer_array_collection[ $order_bump_index ] ) ? $mwb_ubo_offer_array_collection[ $order_bump_index ] : array();
+
+				$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
+
+				if ( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'mwb_ubo_retrieve_target' ) ) {
+
+					// You can either search for a new one or just restore the target.
+					Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_retrieve_target();
+				}
+			}
+
+			// When bump key is deleted from cart page, reset offer dependent session variables.
+			WC()->session->__unset( 'bump_offer_product_key' );
+			WC()->session->__unset( 'bump_offer_status' );
 		}
 	}
 
