@@ -618,5 +618,47 @@ jQuery(document).ready( function($) {
 
 	});
 
+	// If org is new and pro is old. Then folder will be unavailable at that time.
+	var new_attr = '';
+	var template_data_link = '';
+	var template_data_link_id = '';
+
+
+	mwb_ubo_change_template_img_src( '1' );
+	mwb_ubo_change_template_img_src( '2' );
+	mwb_ubo_change_template_img_src( '3' );
+
+	// For update popup at creation file.
+	jQuery( '.mwb_ubo_skin_popup_head img' ).attr( 'src',function( index,attr ) {
+
+		new_attr = attr.replace( 'Icons','icons' );
+		return new_attr;
+	});
+
+	function mwb_ubo_change_template_img_src( template_data_link_id = false ) {
+
+		if( false == template_data_link_id ) {
+
+			return;
+		}
+
+		template_data_link = $("a.mwb_ubo_template_link[data_link=" + template_data_link_id + "] img");
+
+		jQuery( template_data_link ).attr( 'src',function( index,attr ) {
+
+			if( '1' == template_data_link_id ) {
+
+				new_attr = attr.replace( 'Offer%20templates/Template' + template_data_link_id,'offer-templates/template-' + template_data_link_id );
+			}
+
+			else {
+
+				new_attr = attr.replace( 'Offer templates/Template' + template_data_link_id,'offer-templates/template-' + template_data_link_id );
+			}
+
+			return new_attr;
+		});
+	}
+
 // End of js.
 });
