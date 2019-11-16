@@ -53,6 +53,23 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 // Get all bumps.
 $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
+if ( ! empty( $mwb_upsell_bumps_list ) ) {
+
+	// Temp bump variable.
+	$mwb_upsell_bumps_list_duplicate = $mwb_upsell_bumps_list;
+
+	// Make key pointer point to the end bump.
+	end( $mwb_upsell_bumps_list_duplicate );
+
+	// Now key function will return last bump key.
+	$mwb_upsell_bumps_last_index = key( $mwb_upsell_bumps_list_duplicate );
+
+} else {
+
+	// When no bump is there then new bump id will be 1 (0+1).
+	$mwb_upsell_bumps_last_index = 0;
+}
+
 ?>
 
 <div class="mwb_upsell_bumps_list" >
@@ -66,7 +83,7 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 	<?php if ( ! empty( $mwb_upsell_bumps_list ) ) : ?>
 		<?php if ( ! mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && count( $mwb_upsell_bumps_list ) > 1 ) : ?>
 
-		<div class="notice notice-warning mwb-notice">
+		<div class="notice notice-warning">
 			<p>
 				<strong><?php esc_html_e( 'Only first Order Bump will work. Please activate pro version to make all working.', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong>
 			</p>
@@ -86,6 +103,10 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 			<!-- Foreach Bump start. -->
 			<?php
 			foreach ( $mwb_upsell_bumps_list as $key => $value ) :
+
+				$offer_present = ! empty( $value['mwb_upsell_bump_products_in_offer'] ) ? $value['mwb_upsell_bump_products_in_offer'] : '';
+
+				$offers = wc_get_product( $offer_present );
 
 				?>
 			<tr>		
@@ -115,73 +136,82 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 				<td>
 				<?php
 
-				// Target Product(s).
+					// Target Product(s).
 				if ( ! empty( $value['mwb_upsell_bump_target_ids'] ) ) {
 
 					echo '<div class="mwb_upsell_bump_list_targets">';
 
 					foreach ( $value['mwb_upsell_bump_target_ids'] as $single_target_product ) :
 
-						?>
-						<p><?php echo esc_html( mwb_ubo_lite_get_title( $single_target_product ) . "( #$single_target_product )" ); ?></p>
-						<?php
+						$product = wc_get_product( $single_target_product );
 
-					endforeach;
+						if ( empty( $product ) ) {
+
+							continue;
+						}
+						?>
+							<p><?php echo esc_html( $product->get_title() . "( #$single_target_product )" ); ?></p>
+							<?php
+
+						endforeach;
 
 					echo '</div>';
-
 				} else {
 
 					?>
-					<p><i><?php esc_html_e( 'No Product(s) added', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></i></p>
-					<?php
+
+						<p><i><?php esc_html_e( 'No Product(s) added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
+
+						<?php
 				}
 
 					echo '<hr>';
 
 					// Target Categories.
-
 				if ( ! empty( $value['mwb_upsell_bump_target_categories'] ) ) {
 
-					echo '<p><i>' . esc_html__( 'Target Categories -', 'upsell-order-bump-offer-for-woocommerce-pro' ) . '</i></p>';
+					echo '<p><i>' . esc_html__( 'Target Categories -', 'upsell-order-bump-offer-for-woocommerce' ) . '</i></p>';
 
 					echo '<div class="mwb_upsell_bump_list_targets">';
 
 					foreach ( $value['mwb_upsell_bump_target_categories'] as $single_target_category_id ) :
 
+						$category_name = get_the_category_by_ID( $single_target_category_id );
+
+						if ( empty( $category_name ) ) {
+
+							continue;
+						}
 						?>
-						<p><?php echo esc_html( mwb_ubo_lite_getcat_title( $single_target_category_id ) . "( #$single_target_category_id )" ); ?></p>
-						<?php
+							<p><?php echo esc_html( $category_name . "( #$single_target_category_id )" ); ?></p>
+							<?php
 
-					endforeach;
-
+						endforeach;
 					echo '</div>';
 
 				} else {
 
 					?>
-					<p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></i></p>
+					<p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
+
 					<?php
 				}
-
 				?>
+					
 				</td>
 
-				<!-- Bump Offer Product. -->
+				<!-- Offers Count. -->
 				<td>
 					<p>
 					<?php
 					if ( ! empty( $value['mwb_upsell_bump_products_in_offer'] ) ) {
 
-						$single_offer_product = $value['mwb_upsell_bump_products_in_offer'];
-						?>
-						<p><?php echo esc_html( mwb_ubo_lite_get_title( $single_offer_product ) . "( #$single_offer_product )" ); ?></p>
-						<?php
+						$offer = wc_get_product( $value['mwb_upsell_bump_products_in_offer'] );
+						echo esc_html( $offer->get_title() . ' (#' . $value['mwb_upsell_bump_products_in_offer'] . ')' );
 					} else {
 
 						esc_html_e( 'No offers Added', 'upsell-order-bump-offer-for-woocommerce' );
 					}
-
 					?>
 					</p>
 				</td>
@@ -213,6 +243,38 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 <div class="mwb_upsell_bump_create_new_bump">
 	<a href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=1" class="mwb_ubo_lite_bump_create_button" ><?php esc_html_e( '+Create New Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 </div>
+<!-- Go pro popup wrap start. -->
+<div class="mwb_ubo_lite_go_pro_popup_wrap">
+	<!-- Go pro popup main start. -->
+	<div class="mwb_ubo_lite_go_pro_popup">
+		<!-- Main heading. -->
+		<div class="mwb_ubo_lite_go_pro_popup_head">
+			<h2><?php esc_html_e( 'Want More? Go Pro !!', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+			<!-- Close button. -->
+			<a href="" class="mwb_ubo_lite_go_pro_popup_close">
+				<span>&times;</span>
+			</a>
+		</div>
 
-<!-- Add Go pro popup. -->
-<?php mwb_ubo_go_pro( 'list' ); ?>
+		<!-- Notice icon. -->
+		<div class="mwb_ubo_lite_go_pro_popup_head"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/pro.png' ); ?> ">
+		</div>
+
+		<!-- Notice. -->
+		<div class="mwb_ubo_lite_go_pro_popup_content">
+			<p class="mwb_ubo_lite_go_pro_popup_text">
+				<?php esc_html_e( 'Stucked to just one order bump? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+			</p>
+			<p class="mwb_ubo_lite_go_pro_popup_text">
+				<?php esc_html_e( 'Go with our premium version and make unlimited numbers of order bumps. Make the most attractive offers with all of your products. Set Relevant offers for specific targets which will ensure customer satisfaction and higher conversion rates. ', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+			</p>
+		</div>
+
+		<!-- Go pro button. -->
+		<div class="mwb_ubo_lite_go_pro_popup_button">
+			<a class="button mwb_ubo_lite_overview_go_pro_button" target="_blank" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-ORG&utm_campaign=MWB-upsell-bump-org"><?php echo esc_html__( 'Upgrade to Premium', 'upsell-order-bump-offer-for-woocommerce' ) . ' <span class="dashicons dashicons-arrow-right-alt"></span>'; ?></a>
+		</div>
+	</div>
+	<!-- Go pro popup main end. -->
+</div>
+<!-- Go pro popup wrap end. -->

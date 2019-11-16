@@ -33,6 +33,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * the plugin.
 	 *
 	 * @since    1.0.0
+	 * @access   protected
 	 * @var      Upsell_Order_Bump_Offer_For_Woocommerce_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
@@ -41,6 +42,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
+	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
@@ -49,6 +51,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
+	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
 	protected $version;
@@ -91,6 +94,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
+	 * @access   private
 	 */
 	private function load_dependencies() {
 
@@ -134,6 +138,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
+	 * @access   private
 	 */
 	private function set_locale() {
 
@@ -148,6 +153,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
+	 * @access   private
 	 */
 	private function define_admin_hooks() {
 
@@ -175,6 +181,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
+	 * @access   private
 	 */
 	private function define_public_hooks() {
 
@@ -218,14 +225,29 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_remove_offer_in_cart', $plugin_public, 'remove_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_remove_offer_in_cart', $plugin_public, 'remove_offer_in_cart' );
 
-			// Global Custom CSS.
-			$this->loader->add_action( 'wp_head', $plugin_public, 'global_custom_css' );
+			// Start php session.
+			if ( ! session_id() ) {
 
-			// Global custom JS.
-			$this->loader->add_action( 'wp_footer', $plugin_public, 'global_custom_js' );
+				session_start();
+			}
 
-			// All mandatory functions to be called after adding offer product.
-			$this->loader->add_action( 'woocommerce_init', $plugin_public, 'woocommerce_init_ubo_functions' );
+			if ( ! empty( $_SESSION['mwb_upsell_bump_target_key'] ) ) {
+
+				// Cost calculations only when the offer is added.
+				$this->loader->add_action( 'woocommerce_before_calculate_totals', $plugin_public, 'woocommerce_custom_price_to_cart_item' );
+
+				// Disable quantity field.
+				$this->loader->add_filter( 'woocommerce_cart_item_quantity', $plugin_public, 'disable_quantity_bump_product_in_cart', 10, 2 );
+
+				// Removing offer or target product manually by cart.
+				$this->loader->add_action( 'woocommerce_remove_cart_item', $plugin_public, 'after_remove_product', 21, 2 );
+
+				// Add meta data to order item for order review.
+				$this->loader->add_action( 'woocommerce_checkout_create_order', $plugin_public, 'add_order_item_meta', 10 );
+
+				// Reset custom session data.
+				$this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'reset_session_variable', 10 );
+			}
 		}
 	}
 

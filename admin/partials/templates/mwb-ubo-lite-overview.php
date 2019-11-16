@@ -57,10 +57,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<!-- Premium feature section starts. -->
 			<div class="mwb_ubo_lite_overview_go_pro">
-
-				<!-- Feature - Left Intent -->
-				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_unlimited_offers">
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/bumps.png' ); ?> "></div>
+				<div class="mwb_ubo_lite_go_pro_features">
+					<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/bumps.png' ); ?> ">
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature heading. -->
 						<h3><?php esc_html_e( 'Unlock the power to create unlimited Order Bumps', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
@@ -70,42 +68,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 				</div>
 
-				<!-- Feature - Right Intent -->
-				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_upgrade_offer">
-					<div class="mwb_ubo_lite_go_pro_features_wrap">
+				<div class="mwb_ubo_lite_go_pro_features">
+					<div class="mwb_ubo_lite_go_pro_features_wrap mwb_ubo_lite_premium_content">
 						<!-- Pro feature Content. -->
-						<h3><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
-						<!-- Pro feature heading. -->
-						<p>
-						<?php
-						esc_html_e(
-							'Want to Offer an Upgrade on the Existing purchase to your customers.',
-							'upsell-order-bump-offer-for-woocommerce'
-						);
-						?>
-						<br>
-						<?php esc_html_e( 'The Smart Upgrade offer feature will replace the existing product with the offer product as soon as they accept the Order Bump offer.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
-					</div>
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/smart-upgrade.png' ); ?> "></div>
-				</div>
-
-				<!-- Feature - Left Intent -->
-				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_smart_skip">
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/past-order.png' ); ?> "></div>
-
-					<div class="mwb_ubo_lite_go_pro_features_wrap">
-						<!-- Pro feature heading. -->
-						<h3><?php esc_html_e( 'Smart Skip if Already Purchased', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
-						<!-- Pro feature Content. -->
-						<p><?php esc_html_e( 'This feature will allow you to Skip the Order Bump offer for those customers who have already purchased the offer product anytime before in previous orders.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
-					</div>
-				</div>
-
-				<!-- Feature - Right Intent -->
-				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_exclusive_support">
-					<div class="mwb_ubo_lite_go_pro_features_wrap">
-						<!-- Pro feature Content. -->
-						<h3><?php esc_html_e( 'Exclusive Support', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+						<h3><?php esc_html_e( 'Get Premium Support', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 						<!-- Pro feature heading. -->
 						<p>
 						<?php
@@ -117,7 +83,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<br>
 						<?php esc_html_e( "Our Support is ready to assist you regarding any query, issue or feature request and if that doesn't help our Technical team will connect with you personally and have your query resolved.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/customer-support.png' ); ?> "></div>
+					<img class="mwb_ubo_lite_premium_support" src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/customer_support.png' ); ?> ">
 				</div>
 			</div>
 			<!-- Premium feature section ends. -->

@@ -571,52 +571,5 @@ jQuery(document).ready( function($) {
 	    }
 	});
 
-	/**
-	 * Scripts after v1.0.2
-	 */
-	$('#mwb_ubo_offer_purchased_earlier, #mwb_ubo_offer_replace_target').on( 'click', function (e) {
-
-		// Add popup to unlock pro features.
-		var pro_status = document.getElementById( 'mwb_ubo_pro_status' );
-		if( null != pro_status ) {
-			
-			// Add a popup over here.
-			$(this).prop("checked", false);
-			$( '.mwb_ubo_lite_go_pro_popup_wrap' ).addClass( 'mwb_ubo_lite_go_pro_popup_show' );
-			$( 'body' ).addClass( 'mwb_ubo_lite_go_pro_popup_body' );
-		}
-	});
-
-	// If org is updated but pro is not.
-	jQuery( '#mwb_ubo_offer_purchased_earlier' ).on( 'click',function(e){
-
-		var is_update_needed = jQuery( '#is_pro_update_needed' ).val();
-
-		if( 'true' == is_update_needed ) {
-
-			jQuery(this).prop( 'checked', false );
-			jQuery('.mwb_ubo_update_popup_wrapper').addClass( 'mwb_ubo_lite_update_popup_show' );
-			jQuery('body').addClass( 'mwb_ubo_lite_go_pro_popup_body' );
-		}
-	});
-
-	// Onclick outside the div close for Update popup.
-	jQuery('body').click( function(e) {
-
-		if( e.target.className == 'mwb_ubo_update_popup_wrapper mwb_ubo_lite_update_popup_show' ) {
-
-			jQuery( '.mwb_ubo_update_popup_wrapper' ).removeClass( 'mwb_ubo_lite_update_popup_show' );
-			jQuery( 'body' ).removeClass( 'mwb_ubo_lite_go_pro_popup_body' );
-		}
-	});
-
-	// Close popup on clicking buttons.
-	jQuery('.mwb_ubo_update_yes, .mwb_ubo_update_no').click( function(e) {
-
-		jQuery( '.mwb_ubo_update_popup_wrapper' ).removeClass( 'mwb_ubo_lite_update_popup_show' );
-		jQuery( 'body' ).removeClass( 'mwb_ubo_lite_go_pro_popup_body' );
-
-	});
-
 // End of js.
 });

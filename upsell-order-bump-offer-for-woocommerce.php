@@ -17,11 +17,11 @@
  * Description:       Increase your cart value by adding bumps that offer additional products or services to customers at checkout page.
  *
  * Requires at least:       4.4
- * Tested up to:            5.2.4
+ * Tested up to:            5.2.3
  * WC requires at least:    3.0
- * WC tested up to:         3.8.0
+ * WC tested up to:         3.7.0
  *
- * Version:           1.2.0
+ * Version:           1.0.1
  * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/
  * License:           GPL-3.0
@@ -63,7 +63,7 @@ function mwb_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 /**
  * Currently plugin version.
  */
-define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '1.2.0' );
+define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '1.0.1' );
 
 /**
  * The code that runs during plugin activation.
@@ -98,6 +98,8 @@ function mwb_ubo_lite_plugin_activation() {
 
 	$activation['status'] = true;
 	$activation['message'] = '';
+
+	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 	// Dependant plugin.
 	if ( ! mwb_ubo_lite_is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
@@ -228,7 +230,7 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 
 		<?php if ( 'woo_inactive' == $mwb_ubo_lite_plugin_activation['message'] ) : ?>
 
-			<div class="notice notice-error is-dismissible mwb-notice">
+			<div class="notice notice-error is-dismissible">
 				<p><strong><?php esc_html_e( 'WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not activated, Please activate WooCommerce first to activate ', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong><?php esc_html_e( 'Upsell Order Bump Offer for WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( '.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 			</div>
 

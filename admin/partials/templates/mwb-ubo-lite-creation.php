@@ -23,20 +23,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * as viewing/editing previous bump.
  */
 
-// Get all Bump if already some funnels are present.
-$mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list', array() );
-
-if ( ! empty( $mwb_upsell_bumps_list ) ) {
-
-	reset( $mwb_upsell_bumps_list );
-	$mwb_upsell_bump_id = key( $mwb_upsell_bumps_list );
-
-} else {
-
-	// New Bump id.
-	$mwb_upsell_bump_id = 1;
-}
-
+// New Bump id.
+$mwb_upsell_bump_id = 1;
 
 // When save changes is clicked.
 if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
@@ -209,7 +197,7 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 	?>
 
 	<!-- Settings saved notice. -->
-	<div class="notice notice-success is-dismissible mwb-notice">
+	<div class="notice notice-success is-dismissible"> 
 		<p><strong><?php esc_html_e( 'Settings saved', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong></p>
 	</div>
 
@@ -243,7 +231,6 @@ $mwb_upsell_bump_schedule_options = array(
 				<?php wp_nonce_field( 'mwb_upsell_bump_creation_nonce', 'mwb_upsell_bump_nonce' ); ?>
 
 				<input type="hidden" name="mwb_upsell_bump_id" value="<?php echo esc_html( $mwb_upsell_bump_id ); ?>">
-				<input type='hidden' id='mwb_ubo_pro_status' value='inactive'>
 
 				<?php
 
@@ -305,7 +292,7 @@ $mwb_upsell_bump_schedule_options = array(
 						mwb_ubo_lite_help_tip( $description );
 
 						?>
-						
+
 						<select id="mwb_upsell_bump_target_ids_search" class="wc-bump-product-search" multiple="multiple" name="mwb_upsell_bump_target_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a product&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 
 							<?php
@@ -321,7 +308,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 									foreach ( $mwb_upsell_bump_target_products_ids as $mwb_upsell_bump_single_target_products_ids ) {
 
-										$product_name = mwb_ubo_lite_get_title( $mwb_upsell_bump_single_target_products_ids );
+										$product_name = get_the_title( $mwb_upsell_bump_single_target_products_ids );
 										?>
 
 										<option value="<?php echo esc_html( $mwb_upsell_bump_single_target_products_ids ); ?>" selected="selected"><?php echo( esc_html( $product_name ) . '(#' . esc_html( $mwb_upsell_bump_single_target_products_ids ) . ')' ); ?></option>';
@@ -368,7 +355,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 									foreach ( $mwb_upsell_bump_target_categories as $single_target_category_id ) {
 
-										$single_category_name = mwb_ubo_lite_getcat_title( $single_target_category_id );
+										$single_category_name = get_the_category_by_ID( $single_target_category_id );
 
 										?>
 										<option value="<?php echo esc_html( $single_target_category_id ); ?>" selected="selected"><?php echo( esc_html( $single_category_name ) . '(#' . esc_html( $single_target_category_id ) . ')' ); ?></option>';
@@ -418,31 +405,6 @@ $mwb_upsell_bump_schedule_options = array(
 				</tr>
 				<!-- Schedule your Bump end. -->
 
-				<!-- Replace with target start. -->
-				<tr valign="top">
-					<th scope="row" class="titledesc">
-						
-						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-
-						<label for="mwb_ubo_offer_replace_target"><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
-					</th>
-
-					<td class="forminp forminp-text">
-
-						<?php
-							$attribute_description = esc_html__( 'This feature allows you to replace offer product to target product when added via order bump.', 'upsell-order-bump-offer-for-woocommerce' );
-							mwb_ubo_lite_help_tip( $attribute_description );
-						?>
-
-						<label class="mwb-upsell-smart-offer-upgrade" for="mwb_ubo_offer_replace_target">
-						<input class="mwb-upsell-smart-offer-upgrade-wrap" type='checkbox' id='mwb_ubo_offer_replace_target' value='yes'>
-						<span class="upsell-smart-offer-upgrade-btn"></span>
-						</label>
-						
-					</td>
-				</tr>
-				<!-- Replace with target end. -->
-
 			</tbody>
 		</table>
 
@@ -491,10 +453,11 @@ $mwb_upsell_bump_schedule_options = array(
 
 								if ( ! empty( $current_offer_product_id ) ) {
 
-									$product_title = mwb_ubo_lite_get_title( $current_offer_product_id );
+									$product_title = get_the_title( $current_offer_product_id );
 
 									?>
 										
+
 									<option value="<?php echo esc_html( $current_offer_product_id ); ?>" selected="selected"><?php echo esc_html( $product_title ) . '( #' . esc_html( $current_offer_product_id ) . ' )'; ?>
 									</option>
 
@@ -578,7 +541,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 							<p class="mwb_ubo_template_name" ><?php esc_html_e( 'Dazzling Bliss', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 							<a href="javascript:void" class="mwb_ubo_template_link" data_link = '1' >
-								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-1.png' ); ?>">
+								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template1.png' ); ?>">
 							</a>
 						</div>
 
@@ -587,7 +550,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 							<p class="mwb_ubo_template_name" ><?php esc_html_e( 'Alluring Lakeside', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 							<a href="javascript:void" class="mwb_ubo_template_link" data_link = '2' >
-								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-2.png' ); ?>">
+								<img src="<?php echo esc_html( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template2.png' ); ?>">
 							</a>
 						</div>
 					
@@ -598,7 +561,7 @@ $mwb_upsell_bump_schedule_options = array(
 							<p class="mwb_ubo_template_name" ><?php esc_html_e( 'Elegant Summers', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
 							<a href="javascript:void" class="mwb_ubo_template_link" data_link = '3' >
-								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-3.png' ); ?>">
+								<img src="<?php echo esc_html( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template3.png' ); ?>">
 							</a>
 						</div>
 					</div>
@@ -720,7 +683,7 @@ $mwb_upsell_bump_schedule_options = array(
 								<!-- Bottom Vertical Spacing control start. -->
 								<tr valign="top">
 									<th scope="row" class="titledesc">
-										<label><?php esc_html_e( 'Select Bottom Vertical Spacing', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+										<label><?php esc_html_e( 'Add vertical spacing to the Bump Offer Box.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 									</th>
 
 									<td class="forminp forminp-text">
@@ -1150,7 +1113,7 @@ $mwb_upsell_bump_schedule_options = array(
 	<div class="mwb_ubo_skin_popup_inner">
 		<!-- Popup icon -->
 		<div class="mwb_ubo_skin_popup_head">
-			<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/warning.png' ); ?>">
+			<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Icons/warning.png' ); ?>">
 		</div>
 		<!-- Popup body. -->
 		<div class="mwb_ubo_skin_popup_content">
@@ -1168,8 +1131,3 @@ $mwb_upsell_bump_schedule_options = array(
 	</div>
 </div>
 
-<!-- After v1.0.2 -->
-<!-- Adding go pro popup here. -->
-
-<!-- Add Go pro popup. -->
-<?php mwb_ubo_go_pro( 'pro' ); ?>
