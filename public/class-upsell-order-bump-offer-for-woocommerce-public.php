@@ -722,10 +722,32 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					continue;
 				}
 
-				// Check for Bump Schedule.
-				$single_bump_schedule = ! empty( $single_bump_array['mwb_upsell_bump_schedule'] ) ? $single_bump_array['mwb_upsell_bump_schedule'] : '';
+				/**
+				 * Check for Bump Schedule.
+				 * For earlier versions here we will get a string instaed of array.
+				 */
+				if( empty( $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
 
-				if ( ( date( 'N' ) != $single_bump_array['mwb_upsell_bump_schedule'] ) && ( '0' != $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
+					// Could be '0' or array( '0' );
+					$single_bump_array['mwb_upsell_bump_schedule'] = array( '0' );
+
+				} 
+
+				// If is string means for earlier versions.
+				elseif( ! empty( $single_bump_array['mwb_upsell_bump_schedule'] ) && ! is_array( $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
+
+					$single_bump_array['mwb_upsell_bump_schedule'] = array( $single_bump_array['mwb_upsell_bump_schedule'] );
+
+				}
+
+				// Check for current day condition.
+				if ( ! is_array( $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
+
+					continue;
+				}
+
+				// Got an array. Now check.
+				if( ! in_array( '0', $single_bump_array['mwb_upsell_bump_schedule'] ) && ! in_array( date( 'N' ), $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
 
 					continue;
 				}

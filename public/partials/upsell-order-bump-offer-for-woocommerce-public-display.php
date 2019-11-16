@@ -50,8 +50,22 @@ if ( empty( $mwb_ubo_offer_array_collection[ $encountered_bump_array ] ) && empt
 
 $selected_order_bump = ! empty( $mwb_ubo_offer_array_collection[ $encountered_bump_array ] ) ? $mwb_ubo_offer_array_collection[ $encountered_bump_array ] : $mwb_ubo_offer_array_collection[ WC()->session->get( 'encountered_bump_array' ) ];
 
+
 // After v1.2.0.
 if ( ! empty( $selected_order_bump ) ) {
+
+	// Check if still live.
+	if( ! empty( $selected_order_bump[ 'mwb_upsell_bump_status' ] ) && 'yes' != $selected_order_bump[ 'mwb_upsell_bump_status' ] ) {
+
+		// Destroy session.
+		mwb_ubo_session_destroy();
+
+		$encountered_bump_result = Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collection( $mwb_ubo_offer_array_collection );
+
+		$encountered_bump_array = ! empty( $encountered_bump_result['encountered_bump_array'] ) ? $encountered_bump_result['encountered_bump_array'] : '';
+
+		$mwb_upsell_bump_target_key = ! empty( $encountered_bump_result['mwb_upsell_bump_target_key'] ) ? $encountered_bump_result['mwb_upsell_bump_target_key'] : '';
+	}
 
 	$offer_id = ! empty( $selected_order_bump['mwb_upsell_bump_products_in_offer'] ) ? sanitize_text_field( $selected_order_bump['mwb_upsell_bump_products_in_offer'] ) : '';
 	$offer_product = wc_get_product( $offer_id );
@@ -78,10 +92,12 @@ $mwb_upsell_bump_target_key = ! empty( $mwb_upsell_bump_target_key ) ? $mwb_upse
 
 // Save bump index.
 $encountered_bump_array = null != WC()->session->get( 'encountered_bump_array' ) ? WC()->session->get( 'encountered_bump_array' ) : $encountered_bump_array;
+
 WC()->session->set( 'encountered_bump_array' , $encountered_bump_array );
 
 // Save Target product cart key.
 $mwb_upsell_bump_target_key = null != WC()->session->get( 'mwb_upsell_bump_target_key' ) ? WC()->session->get( 'mwb_upsell_bump_target_key' ) : $mwb_upsell_bump_target_key;
+
 WC()->session->set( 'mwb_upsell_bump_target_key' , $mwb_upsell_bump_target_key );
 
 

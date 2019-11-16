@@ -77,11 +77,12 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 		}
 	}
 
+	// From these versions we will be having multiselect for schedules.
 	if ( empty( $_POST['mwb_upsell_bump_schedule'] ) ) {
 
 		if ( '' == $_POST['mwb_upsell_bump_schedule'] ) {
 
-			$_POST['mwb_upsell_bump_schedule'] = '0';
+			$_POST['mwb_upsell_bump_schedule'] = array( '0' );
 
 		}
 	}
@@ -94,7 +95,9 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 
 	$mwb_upsell_new_bump['mwb_upsell_bump_name'] = ! empty( $_POST['mwb_upsell_bump_name'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_name'] ) ) : '';
 
-	$mwb_upsell_new_bump['mwb_upsell_bump_schedule'] = isset( $_POST['mwb_upsell_bump_schedule'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_schedule'] ) ) : '';
+
+	// Updated after v1.2.0.
+	$mwb_upsell_new_bump['mwb_upsell_bump_schedule'] = ! empty( $_POST['mwb_upsell_bump_schedule'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_upsell_bump_schedule'] ) ) : array( '0' );
 
 	$mwb_upsell_new_bump['mwb_upsell_bump_offer_discount_price'] = ! empty( $_POST['mwb_upsell_bump_offer_discount_price'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_offer_discount_price'] ) ) : '';
 
@@ -400,21 +403,31 @@ $mwb_upsell_bump_schedule_options = array(
 
 						?>
 
-						<select class="mwb_upsell_bump_schedule" id="mwb_upsell_bump_schedule_select" name="mwb_upsell_bump_schedule">
 						<?php
 
-							$selected_week = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ? ( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) : '';
+						// For earlier versions we will get a string over here.
+						if ( ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) && ! is_array( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ) {
+							
+							// Whatever was the selected day, add as an array.
+							$mwb_ubo_selected_schedule = array( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ][ 'mwb_upsell_bump_schedule' ] );
+							
+						} else {
 
-						foreach ( $mwb_upsell_bump_schedule_options as $key => $value ) {
-							?>
-
-								<option <?php echo esc_html( $selected_week == $key ? 'selected=""' : '' ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>
-
-							<?php
+							$mwb_ubo_selected_schedule = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ? ( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) : array( '0' ); 
 						}
+
 						?>
-						</select>			
-					</td>	
+
+						<select id="mwb_upsell_bump_schedule_select" class="wc-bump-schedule-search mwb_upsell_bump_schedule" multiple="multiple" name="mwb_upsell_bump_schedule[]" data-placeholder="<?php esc_attr_e( 'Search for a specific days&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
+
+							<?php foreach ( $mwb_upsell_bump_schedule_options as $key => $day ) : ?>
+
+								<option <?php echo in_array( $key, $mwb_ubo_selected_schedule ) ? 'selected' : '' ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $day ); ?></option>
+
+							<?php endforeach; ?>
+
+						</select>
+					</td>
 				</tr>
 				<!-- Schedule your Bump end. -->
 

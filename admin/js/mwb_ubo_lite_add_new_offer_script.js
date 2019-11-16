@@ -92,5 +92,8 @@ jQuery(document).ready( function($) {
 		},
 		minimumInputLength: 3 // The minimum of symbols to input before perform a search.
 	});
+
+	// Target date.
+	jQuery('.wc-bump-schedule-search').select2();
 	
 });
