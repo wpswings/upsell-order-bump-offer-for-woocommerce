@@ -225,13 +225,13 @@ $mwb_bump_offer_type = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['m
 
 $mwb_upsell_bump_schedule_options = array(
 	'0'     => __( 'Daily', 'upsell-order-bump-offer-for-woocommerce' ),
-	'1'     => __( 'on every Monday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'2'     => __( 'on every Tuesday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'3'     => __( 'on every Wednesday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'4'     => __( 'on every Thursday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'5'     => __( 'on every Friday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'6'     => __( 'on every Saturday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'7'     => __( 'on every Sunday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'1'     => __( 'Monday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'2'     => __( 'Tuesday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'3'     => __( 'Wednesday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'4'     => __( 'Thursday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'5'     => __( 'Friday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'6'     => __( 'Saturday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'7'     => __( 'Sunday', 'upsell-order-bump-offer-for-woocommerce' ),
 );
 
 ?>

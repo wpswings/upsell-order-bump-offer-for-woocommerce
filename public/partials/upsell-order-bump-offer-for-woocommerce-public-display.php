@@ -57,6 +57,12 @@ if ( ! empty( $selected_order_bump ) ) {
 	// Check if still live.
 	if( ! empty( $selected_order_bump[ 'mwb_upsell_bump_status' ] ) && 'yes' != $selected_order_bump[ 'mwb_upsell_bump_status' ] ) {
 
+		// In case offer is already added then remove the offer product.
+		if ( null != WC()->session->get( 'bump_offer_product_key' ) ) {
+
+			WC()->cart->remove_cart_item( WC()->session->get( 'bump_offer_product_key' ) );
+		}
+		
 		// Destroy session.
 		mwb_ubo_session_destroy();
 
