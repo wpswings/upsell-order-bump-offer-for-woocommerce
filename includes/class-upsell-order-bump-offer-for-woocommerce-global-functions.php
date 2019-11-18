@@ -683,8 +683,12 @@ function mwb_ubo_lite_bump_offer_html( $bump ) {
 	$bumphtml .= '</div>';
 	// Primary section end.
 
-	// Secondary section start.
-	$bumphtml .= '<div class = "mwb_upsell_offer_secondary_section" ><p>' . $description . '</p></div>';
+	// Secondary section start. 
+	// When don't show this when empty except for admin as it involves Live Preview.
+	if ( ! empty( $description ) || is_admin() ) :
+
+		$bumphtml .= '<div class = "mwb_upsell_offer_secondary_section" ><p>' . $description . '</p></div>';
+	endif;
 	// Secondary section end.
 
 	// Wrapper div end.
