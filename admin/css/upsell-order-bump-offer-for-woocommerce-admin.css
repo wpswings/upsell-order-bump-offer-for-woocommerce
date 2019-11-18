@@ -1356,8 +1356,8 @@ button.button-primary.mwb_upsell_activate_offer_template:focus {
 .mwb_upsell_bump_enable_plugin_label.mwb_bump_enable_plugin_support {
   width: 60px !important;
 }
-#mwb_upsell_bump_setting_wrapper .wp-picker-container, 
-#mwb_upsell_bump_setting_wrapper .wp-picker-container * {
+#mwb_upsell_bump_setting_wrapper .wp-picker-container .wp-picker-holder, 
+#mwb_upsell_bump_setting_wrapper .wp-picker-container .wp-picker-holder * {
   box-sizing: unset !important;
 }
 #mwb_upsell_bump_setting_wrapper.woocommerce table.form-table .wp-picker-container .iris-picker{

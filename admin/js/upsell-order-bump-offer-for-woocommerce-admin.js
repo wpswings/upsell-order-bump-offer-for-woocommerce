@@ -276,6 +276,7 @@
 			if( text_id == 'off_desc' ) {			// Offer Description.
 
 				msg = $(this).val();
+				$(".mwb_upsell_offer_secondary_section").show();
 				$(".mwb_upsell_offer_secondary_section p").html( msg );
 			}
 
@@ -658,6 +659,16 @@ jQuery(document).ready( function($) {
 
 			return new_attr;
 		});
+	}
+
+	// No text is present in the container.
+	var exisiting_text = '';
+	exisiting_text = $(".mwb_upsell_offer_secondary_section").text();
+
+	if( '' == exisiting_text ) {
+
+		// Hide if no content is present.
+		$(".mwb_upsell_offer_secondary_section").hide();
 	}
 
 // End of js.
