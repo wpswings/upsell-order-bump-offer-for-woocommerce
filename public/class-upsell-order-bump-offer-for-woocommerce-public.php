@@ -143,7 +143,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		/**
 		 * This adds the bump to checkout page.
 		 */
-		require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-public-display.php';
+		if( function_exists( 'is_checkout' ) && is_checkout() ) {
+
+			require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-public-display.php';
+		}
 	}
 
 	/**
@@ -784,48 +787,51 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 						}
 					}
 
-					// Check if these product are present in cart one by one.
-					foreach ( $single_bump_array['mwb_upsell_bump_target_ids'] as $key => $single_target_id ) {
+					if( ! empty( $single_bump_array['mwb_upsell_bump_target_ids'] ) && is_array( $single_bump_array['mwb_upsell_bump_target_ids'] ) ) {
 
-						// Check if present in cart.
-						$mwb_upsell_bump_target_key = mwb_ubo_lite_check_if_in_cart( $single_target_id );
+						// Check if these product are present in cart one by one.
+						foreach ( $single_bump_array['mwb_upsell_bump_target_ids'] as $key => $single_target_id ) {
 
-						// If we product is present we get the cart key.
-						if ( ! empty( $mwb_upsell_bump_target_key ) ) {
+							// Check if present in cart.
+							$mwb_upsell_bump_target_key = mwb_ubo_lite_check_if_in_cart( $single_target_id );
 
-							// Check offer product must be in stock.
-							$offer_product = wc_get_product( $single_bump_array['mwb_upsell_bump_products_in_offer'] );
+							// If we product is present we get the cart key.
+							if ( ! empty( $mwb_upsell_bump_target_key ) ) {
 
-							if ( empty( $offer_product ) ) {
+								// Check offer product must be in stock.
+								$offer_product = wc_get_product( $single_bump_array['mwb_upsell_bump_products_in_offer'] );
 
-								continue;
+								if ( empty( $offer_product ) ) {
+
+									continue;
+								}
+
+								if ( 'publish' != $offer_product->get_status() ) {
+
+									continue;
+								}
+
+								if ( ! $offer_product->is_in_stock() ) {
+
+									continue;
+								}
+
+								// Check if offer product is already in cart.
+								if ( mwb_ubo_lite_already_in_cart( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) && 'yes' == $mwb_upsell_bump_global_skip_settings ) {
+
+									continue;
+								}
+
+								// If everything is good just break !!
+								$encountered_bump_array = $single_bump_id;
+								break 2;
+
 							}
-
-							if ( 'publish' != $offer_product->get_status() ) {
-
-								continue;
-							}
-
-							if ( ! $offer_product->is_in_stock() ) {
-
-								continue;
-							}
-
-							// Check if offer product is already in cart.
-							if ( mwb_ubo_lite_already_in_cart( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) && 'yes' == $mwb_upsell_bump_global_skip_settings ) {
-
-								continue;
-							}
-
-							// If everything is good just break !!
-							$encountered_bump_array = $single_bump_id;
-							break 2;
-
-						}
-					} // 2nd foreach end for product id.
+						} // 2nd foreach end for product id.
+					}
 
 					// If target key is still empty means no target category is found yet.
-					if ( empty( $encountered_bump_array ) && ! empty( $single_bump_array['mwb_upsell_bump_target_categories'] ) ) {
+					if ( empty( $encountered_bump_array ) && ! empty( $single_bump_array['mwb_upsell_bump_target_categories'] ) && is_array( $single_bump_array['mwb_upsell_bump_target_categories'] ) ) {
 
 						foreach ( $single_bump_array['mwb_upsell_bump_target_categories'] as $key => $single_category_id ) {
 

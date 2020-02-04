@@ -17,9 +17,9 @@
  * Description:       Increase your cart value by adding bumps that offer additional products or services to customers at checkout page.
  *
  * Requires at least:       4.4
- * Tested up to:            5.2.4
+ * Tested up to:            5.3.2
  * WC requires at least:    3.0
- * WC tested up to:         3.8.0
+ * WC tested up to:         3.9.1
  *
  * Version:           1.2.0
  * Author:            MakeWebBetter
