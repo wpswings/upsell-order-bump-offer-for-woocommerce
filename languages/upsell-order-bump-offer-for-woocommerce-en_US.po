@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 1.2.0\n"
-"POT-Creation-Date: 2019-11-18 17:49+0530\n"
-"PO-Revision-Date: 2019-11-18 19:00+0530\n"
+"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 1.3.0\n"
+"POT-Creation-Date: 2020-08-13 15:26+0530\n"
+"PO-Revision-Date: 2020-08-13 15:26+0530\n"
 "Last-Translator: \n"
 "Language-Team: makewebbetter\n"
 "Language: en_US\n"
@@ -622,7 +622,7 @@ msgid ""
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-overview.php:129
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1461
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1463
 msgid "Upgrade to Premium"
 msgstr ""
 
@@ -845,27 +845,27 @@ msgstr ""
 msgid "Before Place order button"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1134
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1136
 msgid "Add this offer to cart"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1225
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1227
 msgid "Choose an option"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1423
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1425
 msgid "Want some more super cool features? Unlock your power to explore more."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1427
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1429
 msgid "Stucked to just one order bump? Unlock your power to explore more."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1438
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1440
 msgid "Want More? Go Pro !!"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1455
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1457
 msgid ""
 "Go with our premium version and make unlimited numbers of order bumps. Get "
 "more smart features and make the most attractive offers with all of your "
@@ -873,44 +873,44 @@ msgid ""
 "customer satisfaction and higher conversion rates."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1484
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1486
 msgid "Product not found"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1492
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1494
 msgid "Product Unavailable"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1514
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1516
 msgid "Category not found"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:180
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:183
 msgid "true"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:196
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:384
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:199
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:387
 msgid "added"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:262
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:265
 msgid "removed"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:317
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:320
 msgid "Sorry, this variation is not available."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:331
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:334
 msgid "Out of stock."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:436
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:439
 msgid "Bump Offer"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:436
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:439
 msgid "applied"
 msgstr ""
 
