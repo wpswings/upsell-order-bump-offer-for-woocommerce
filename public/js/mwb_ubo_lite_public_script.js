@@ -11,7 +11,7 @@ jQuery(document).ready( function($) {
      * POP-UP JS.
      * To hide on click close.
      */
-    $( '.mwb_bump_popup_close' ).live( 'click', function () { 
+    $(document).on('click', '.mwb_bump_popup_close', function(e) {
         $( '.mwb_upsell_offer_main_wrapper' ).css( 'pointer-events', 'all' );
         $( '.mwb_upsell_offer_main_wrapper' ).css( 'opacity', '1' );
         $('body').removeClass( 'mwb_upsell_variation_pop_up_body' ); 
@@ -24,7 +24,7 @@ jQuery(document).ready( function($) {
      * To add the price html and image of selected variation in popup.
      */
 
-    $( '.mwb_upsell_offer_variation_select' ).live( 'change', function () {
+    $(document).on('change', '.mwb_upsell_offer_variation_select', function(e) {
 
         var selected_variations = $( '.mwb_upsell_offer_variation_select' );
         var attributes_selected = [];
@@ -120,8 +120,7 @@ jQuery(document).ready( function($) {
      * POP-UP ADD TO CART BUTTON [ works with variable products].
      * To add the selected js.
      */
-    $( '#mwb_ubo_bump_add_to_cart_button' ).live( 'click', function (e) {
-
+    $(document).on( 'click', '#mwb_ubo_bump_add_to_cart_button', function(e) {
         e.preventDefault();
 
         // Disable bump div.
@@ -157,12 +156,10 @@ jQuery(document).ready( function($) {
         });
     });
 
-
     /**
      * CHECKBOX ADD TO CART [ works with simple product and product variations ].
      */
-
-    $( '#add_offer_in_cart' ).live( 'click', function () {
+    $(document).on('click', '#add_offer_in_cart', function(e) {
 
         // Disable bump div.
         $( '.mwb_upsell_offer_main_wrapper' ).css( 'pointer-events', 'none' );
@@ -255,7 +252,7 @@ jQuery(document).ready( function($) {
     if( mwb.mobile_view != 1 ) {
 
         // Function for zooming image( not for mobile view ).
-        $( '.mwb_bump_popup_image' ).live( 'hover', function (e) { 
+        $(document).on('hover', '.mwb_bump_popup_image', function(e) {
 
             // Block opening image.
             e.preventDefault();
@@ -265,7 +262,8 @@ jQuery(document).ready( function($) {
         });
     } else {
 
-        $( '.mwb_bump_popup_image' ).live( 'click', function (e) { 
+        $(document).on('click', '.mwb_bump_popup_image', function(e) {
+
             // Block opening image.
             e.preventDefault();
         });

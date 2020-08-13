@@ -17,11 +17,11 @@
  * Description:       Increase your cart value by adding bumps that offer additional products or services to customers at checkout page.
  *
  * Requires at least:       4.4
- * Tested up to:            5.3.2
+ * Tested up to:            5.5
  * WC requires at least:    3.0
- * WC tested up to:         3.9.1
+ * WC tested up to:         4.4
  *
- * Version:           1.2.0
+ * Version:           1.3.0
  * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/
  * License:           GPL-3.0
@@ -63,7 +63,7 @@ function mwb_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 /**
  * Currently plugin version.
  */
-define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '1.2.0' );
+define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '1.3.0' );
 
 /**
  * The code that runs during plugin activation.

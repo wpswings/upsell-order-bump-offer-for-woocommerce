@@ -1108,10 +1108,12 @@ function mwb_ubo_lite_show_variation_popup( $product = '' ) {
 
 								<!-- In case slug is encountered. -->
 								<?php $show_title = str_replace( 'pa_', '', $attribute_name ); ?>
+								<?php $attribute_name = str_replace( ' ', '-', $attribute_name ); ?>
 								<?php echo esc_html( ucfirst( $show_title ) ); ?>
 							</p>
 
 							<?php
+							
 								// Function to return variations select html.
 								$variation_dropdown = mwb_ubo_lite_show_variation_dropdown(
 									array(

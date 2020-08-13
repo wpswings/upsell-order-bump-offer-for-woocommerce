@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Upsell plugin](https://img.shields.io/badge/Upsell-Offers-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.2.2-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-3.7.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Upsell plugin](https://img.shields.io/badge/Upsell-Offers-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.5-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-4.4-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
 
 ![Upsell Order Bump Offer for Woocommerce](https://mwblive-0obrejwqde.netdna-ssl.com/wp-content/uploads/2019/06/bump-offer-thumbnail.png)
 * Contributors:MakeWebBetter

@@ -1392,7 +1392,7 @@ button.button-primary.mwb_upsell_activate_offer_template:focus {
 select.mwb_select_for_description_class {
   width: 40%; 
   display: inline-block; 
-  vertical-align: middle;"
+  vertical-align: middle;
 }
 .mwb_ubo_description{
   font-size: 13px;
@@ -1812,15 +1812,16 @@ select.mwb_select_for_description_class {
 }
 @media only screen and (max-width:782px)  {
   .mwb_upsell_table table th,
-  table.form-table.mwb_upsell_bump_creation_setting .mwb_upsell_bump_enable_plugin_label{
+    table.form-table.mwb_upsell_bump_creation_setting .mwb_upsell_bump_enable_plugin_label{
     width: 100%;
   }
-.mwb_ubo_lite_go_pro_popup_head h2 {
+  .mwb_ubo_lite_go_pro_popup_head h2 {
     font-size: 18px !important;
-}
-.mwb_ubo_lite_go_pro_popup {
+  }
+  .mwb_ubo_lite_go_pro_popup {
     margin-left: 0px !important;
     margin: 20px !important;
+  }
 }
 @media only screen and (max-width:767px)  {
   .mwb_upsell_bumps_list table {
