@@ -14,8 +14,7 @@ jQuery(document).ready( function($) {
     /**
      * CHECKBOX ADD TO CART [ works with simple product and product variations ].
      */
-    //$( '.add_offer_in_cart' ).live( 'click', function () {
-    $(document).on('click', '.add_offer_in_cart', function(e) {
+    $(document).on( 'click', '.add_offer_in_cart', function(e) {
 
         order_bump_index = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.order_bump_index' ).val();
         parent_wrapper_class = '.mwb_ubo_wrapper_' + order_bump_index;
@@ -111,8 +110,7 @@ jQuery(document).ready( function($) {
      * To add the price html and image of selected variation in popup.
      */
 
-    // $( '.mwb_upsell_offer_variation_select' ).live( 'change', function () {
-    $(document).on('change', '.mwb_upsell_offer_variation_select', function(e) {
+    $(document).on( 'change', '.mwb_upsell_offer_variation_select', function(e) {
 
         var selected_order_bump_index = $(this).attr( 'order_bump_index' );
 
@@ -234,8 +232,8 @@ jQuery(document).ready( function($) {
      * POP-UP ADD TO CART BUTTON [ works with variable products].
      * To add the selected js.
      */
-    // $( '.mwb_ubo_bump_add_to_cart_button' ).live( 'click', function (e) {
-    $(document).on('click', '.mwb_ubo_bump_add_to_cart_button', function(e) {
+    $(document).on( 'click', '.mwb_ubo_bump_add_to_cart_button', function(e) {
+
         e.preventDefault();
         order_bump_index = $(this).attr( 'offer_bump_index' );
         if( typeof order_bump_index === 'undefined' ) {
@@ -300,8 +298,8 @@ jQuery(document).ready( function($) {
      * POP-UP JS.
      * To hide on click close.
      */
-    // $( '.mwb_bump_popup_close' ).live( 'click', function () {
-    $(document).on('click', '.mwb_bump_popup_close', function(e) {
+    $(document).on( 'click', '.mwb_bump_popup_close', function(e) {
+
         order_bump_index = $(this).attr( 'offer_bump_index' );
 
         $( '.mwb_ubo_wrapper_index_' + order_bump_index ).css( 'pointer-events', 'all' );
@@ -338,8 +336,8 @@ jQuery(document).ready( function($) {
     if( mwb.mobile_view != 1 ) {
 
         // Function for zooming image( not for mobile view ).
-        // $( '.mwb_bump_popup_image' ).live( 'hover', function (e) { 
-        $(document).on('hover', '.mwb_bump_popup_image', function(e) {
+        $(document).on( 'hover', '.mwb_bump_popup_image', function(e) {
+
             // Block opening image.
             e.preventDefault();
             $('.woocommerce-product-gallery__image').zoom({
@@ -349,8 +347,8 @@ jQuery(document).ready( function($) {
 
     } else {
 
-        // $( '.mwb_bump_popup_image' ).live( 'click', function (e) { 
-        $(document).on('click', '.mwb_bump_popup_image', function(e) {
+        $(document).on( 'click', '.mwb_bump_popup_image', function(e) {
+
             // Block opening image.
             e.preventDefault();
         });
