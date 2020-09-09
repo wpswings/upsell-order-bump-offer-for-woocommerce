@@ -44,7 +44,7 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 	}
 
 	update_option( 'mwb_ubo_bump_list', $mwb_upsell_bumps );
-
+	
 	wp_redirect( admin_url( 'admin.php' ) . '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list' );
 
 	exit();

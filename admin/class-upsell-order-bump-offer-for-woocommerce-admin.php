@@ -388,6 +388,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				$product_type = $product->get_type();
 
 				$unsupported_product_types = array(
+					//'variable',
 					'grouped',
 					'external',
 					'subscription',

@@ -40,15 +40,15 @@
 p.stock.out-of-stock {
     margin: 0;
 }
-span#mwb_ubo_price_html_for_variation {
+.mwb_ubo_price_html_for_variation {
 	font-size: 20px;
 	font-weight: 700;
 }
-#mwb_ubo_price_html_for_variation ins {
+.mwb_ubo_price_html_for_variation ins {
     font-weight: 700;
     padding-left: 5px;
 }
-span#mwb_ubo_err_waring_for_variation {
+.mwb_ubo_err_waring_for_variation {
     color: #ff0000;
     margin-top: 25px;
     display: none;
@@ -89,7 +89,7 @@ p.mwb_ubo_bump_attributes_name {
     margin: 10px auto;
     font-size: unset;
 }
-#mwb_ubo_bump_add_to_cart_button {
+.mwb_ubo_bump_add_to_cart_button {
 	display: inline-block;
 	width: auto !important;
 	font-size: 16px !important;
@@ -134,7 +134,7 @@ p.mwb_ubo_bump_attributes_name {
 		flex: 0 0 100%;
 	}
 
-	#mwb_ubo_bump_add_to_cart_button {
+	.mwb_ubo_bump_add_to_cart_button {
 		margin:auto;
 	}
 

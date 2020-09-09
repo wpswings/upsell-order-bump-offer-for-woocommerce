@@ -1,19 +1,48 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Upsell Order Bump Offer for WooCommerce 1.2.0\n"
-"POT-Creation-Date: 2019-11-18 17:49+0530\n"
-"PO-Revision-Date: 2019-11-18 19:00+0530\n"
+"POT-Creation-Date: 2019-11-26 17:10+0530\n"
+"PO-Revision-Date: 2019-11-26 17:11+0530\n"
 "Last-Translator: \n"
 "Language-Team: makewebbetter\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr__;esc_attr_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: upsell-order-bump-offer-for-woocommerce.php:138
+msgid "Settings"
+msgstr ""
+
+#: upsell-order-bump-offer-for-woocommerce.php:160
+msgid "Go to Docs"
+msgstr ""
+
+#: upsell-order-bump-offer-for-woocommerce.php:162
+msgid "Go Premium"
+msgstr ""
+
+#: upsell-order-bump-offer-for-woocommerce.php:232
+msgid "WooCommerce"
+msgstr ""
+
+#: upsell-order-bump-offer-for-woocommerce.php:232
+msgid " is not activated, Please activate WooCommerce first to activate "
+msgstr ""
+
+#: upsell-order-bump-offer-for-woocommerce.php:232
+msgid "Upsell Order Bump Offer for WooCommerce"
+msgstr ""
+
+#: upsell-order-bump-offer-for-woocommerce.php:232
+msgid "."
+msgstr ""
 
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:138
 #, php-format
@@ -69,8 +98,220 @@ msgstr ""
 msgid "v"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:474
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:475
 msgid "Order Bump: "
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:40
+msgid "Save Order Bump"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:42
+msgid "Order Bumps List"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:44
+msgid "Global Settings"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:63
+msgid "License"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:68
+msgid "Overview"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:123
+msgid "Connect with Us in one click"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:125
+msgid "Connect"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:127
+msgid "Regarding any issue, query or feature request for Order Bump Offers."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:26
+msgid "How Order Bump Offer Works and How to Set it Up"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:39
+msgid "What is Upsell Order Bump Offer for WooCommerce?"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:41
+msgid ""
+"Upsell Order Bump Offer for WooCommerce allows its users to show exclusive "
+"special one time offers known as Order Bumps on the checkout page. These "
+"Order Bumps can be accepted in just a single click which is added instantly "
+"to customer's existing Order."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:43
+msgid ""
+"The Store owner can set the offers specifically for Target Products or "
+"Categories so that relevant Order Bumps can be offered which are hard to "
+"resist."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:46
+msgid ""
+"Capture Customer’s attention by displaying appealing offers on the checkout "
+"page."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:47
+msgid ""
+"Develop Interest for the offer by mentioning how the offer will benefit them "
+"on their existing purchase."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:48
+msgid ""
+"Convince them that this is an Exclusive offer only available here at this "
+"Discount."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:49
+msgid "Ask them to Act and Accept the offer."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:56
+msgid "Premium Plugin Additional Features"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:66
+msgid "Unlock the power to create unlimited Order Bumps"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:68
+msgid ""
+"With our Free version, you have limited access to create just one Order Bump."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:69
+msgid ""
+"So, get our Premium version today to create multiple Order Bumps. Introduce "
+"your customers to the most relevant offers which will benefit them on their "
+"existing purchase. Give your sales a great boost ahead."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:77
+#: admin/partials/templates/mwb-ubo-lite-creation.php:440
+msgid "Smart Offer Upgrade"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:82
+msgid "Want to Offer an Upgrade on the Existing purchase to your customers."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:87
+msgid ""
+"The Smart Upgrade offer feature will replace the existing product with the "
+"offer product as soon as they accept the Order Bump offer."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:98
+#: admin/partials/templates/mwb-ubo-lite-settings.php:315
+msgid "Smart Skip if Already Purchased"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:100
+msgid ""
+"This feature will allow you to Skip the Order Bump offer for those customers "
+"who have already purchased the offer product anytime before in previous "
+"orders."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:108
+msgid "Exclusive Support"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:113
+msgid "Receive dedicated 24*7 Phone, Email & Skype support."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:118
+msgid ""
+"Our Support is ready to assist you regarding any query, issue or feature "
+"request and if that doesn't help our Technical team will connect with you "
+"personally and have your query resolved."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-overview.php:129
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1487
+msgid "Upgrade to Premium"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:62
+msgid "No Order Bumps added"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:71
+msgid ""
+"Only first Order Bump will work. Please activate pro version to make all "
+"working."
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:79
+msgid "Name"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:80
+msgid "Status"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:81
+msgid "Target Product(s) and Categories"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:82
+msgid "Offers"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:83
+msgid "Action"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:105
+#: admin/partials/templates/mwb-ubo-lite-creation.php:268
+msgid "Live"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:108
+#: admin/partials/templates/mwb-ubo-lite-creation.php:269
+msgid "Sandbox"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:136
+msgid "No Product(s) added"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:146
+msgid "Target Categories -"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:163
+msgid "No Categories added"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:182
+msgid "No offers Added"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:192
+msgid "View / Edit"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:195
+msgid "Delete"
+msgstr ""
+
+#: admin/partials/templates/mwb-ubo-lite-list.php:214
+msgid "+Create New Order Bump"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-creation.php:216
@@ -108,16 +349,6 @@ msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-creation.php:234
 msgid "Sunday"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-creation.php:268
-#: admin/partials/templates/mwb-ubo-lite-list.php:105
-msgid "Live"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-creation.php:269
-#: admin/partials/templates/mwb-ubo-lite-list.php:108
-msgid "Sandbox"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-creation.php:277
@@ -172,11 +403,6 @@ msgstr ""
 #: admin/partials/templates/mwb-ubo-lite-creation.php:438
 #: admin/partials/templates/mwb-ubo-lite-settings.php:313
 msgid "Pro"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-creation.php:440
-#: admin/partials/templates/mwb-ubo-lite-overview.php:77
-msgid "Smart Offer Upgrade"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-creation.php:446
@@ -461,171 +687,6 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: admin/partials/templates/mwb-ubo-lite-list.php:62
-msgid "No Order Bumps added"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:71
-msgid ""
-"Only first Order Bump will work. Please activate pro version to make all "
-"working."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:79
-msgid "Name"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:80
-msgid "Status"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:81
-msgid "Target Product(s) and Categories"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:82
-msgid "Offers"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:83
-msgid "Action"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:136
-msgid "No Product(s) added"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:146
-msgid "Target Categories -"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:163
-msgid "No Categories added"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:182
-msgid "No offers Added"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:192
-msgid "View / Edit"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:195
-msgid "Delete"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-list.php:214
-msgid "+Create New Order Bump"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:26
-msgid "How Order Bump Offer Works and How to Set it Up"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:39
-msgid "What is Upsell Order Bump Offer for WooCommerce?"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:41
-msgid ""
-"Upsell Order Bump Offer for WooCommerce allows its users to show exclusive "
-"special one time offers known as Order Bumps on the checkout page. These "
-"Order Bumps can be accepted in just a single click which is added instantly "
-"to customer's existing Order."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:43
-msgid ""
-"The Store owner can set the offers specifically for Target Products or "
-"Categories so that relevant Order Bumps can be offered which are hard to "
-"resist."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:46
-msgid ""
-"Capture Customer’s attention by displaying appealing offers on the checkout "
-"page."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:47
-msgid ""
-"Develop Interest for the offer by mentioning how the offer will benefit them "
-"on their existing purchase."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:48
-msgid ""
-"Convince them that this is an Exclusive offer only available here at this "
-"Discount."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:49
-msgid "Ask them to Act and Accept the offer."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:56
-msgid "Premium Plugin Additional Features"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:66
-msgid "Unlock the power to create unlimited Order Bumps"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:68
-msgid ""
-"With our Free version, you have limited access to create just one Order Bump."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:69
-msgid ""
-"So, get our Premium version today to create multiple Order Bumps. Introduce "
-"your customers to the most relevant offers which will benefit them on their "
-"existing purchase. Give your sales a great boost ahead."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:82
-msgid "Want to Offer an Upgrade on the Existing purchase to your customers."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:87
-msgid ""
-"The Smart Upgrade offer feature will replace the existing product with the "
-"offer product as soon as they accept the Order Bump offer."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:98
-#: admin/partials/templates/mwb-ubo-lite-settings.php:315
-msgid "Smart Skip if Already Purchased"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:100
-msgid ""
-"This feature will allow you to Skip the Order Bump offer for those customers "
-"who have already purchased the offer product anytime before in previous "
-"orders."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:108
-msgid "Exclusive Support"
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:113
-msgid "Receive dedicated 24*7 Phone, Email & Skype support."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:118
-msgid ""
-"Our Support is ready to assist you regarding any query, issue or feature "
-"request and if that doesn't help our Technical team will connect with you "
-"personally and have your query resolved."
-msgstr ""
-
-#: admin/partials/templates/mwb-ubo-lite-overview.php:129
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1461
-msgid "Upgrade to Premium"
-msgstr ""
-
 #: admin/partials/templates/mwb-ubo-lite-settings.php:32
 #: admin/partials/templates/mwb-ubo-lite-settings.php:36
 #: admin/partials/templates/mwb-ubo-lite-settings.php:38
@@ -697,17 +758,17 @@ msgid "Offer Location"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-settings.php:233
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:853
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:869
 msgid "Before Order Summary"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-settings.php:234
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:858
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:874
 msgid "Before Payment Gateways"
 msgstr ""
 
 #: admin/partials/templates/mwb-ubo-lite-settings.php:235
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:863
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:879
 msgid "After Payment Gateways"
 msgstr ""
 
@@ -782,90 +843,90 @@ msgstr ""
 msgid "Don't update"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:40
-msgid "Save Order Bump"
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:180
+msgid "true"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:42
-msgid "Order Bumps List"
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:197
+msgid "added"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:44
-msgid "Global Settings"
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:274
+msgid "removed"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:63
-msgid "License"
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:329
+msgid "Sorry, this variation is not available."
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:68
-msgid "Overview"
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:343
+msgid "Out of stock."
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:123
-msgid "Connect with Us in one click"
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:448
+msgid "Bump Offer"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:125
-msgid "Connect"
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:448
+msgid "applied"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:127
-msgid "Regarding any issue, query or feature request for Order Bump Offers."
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:789
+msgid "no_change"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:312
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:313
 msgid "AT JUST"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:312
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:313
 msgid "!!"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:314
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:315
 msgid "off only for you !!"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:316
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:317
 msgid "A unique and handy product that perfectly fits your personality."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:318
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:319
 msgid "Hurry up. Get this one time offer !!"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:320
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:321
 msgid ""
 "Hey fella, you can get access to the above offer by just clicking the "
 "checkbox over there. Add this offer to your order, you will never get such a "
 "discount on any other place on this site."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:868
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:884
 msgid "Before Place order button"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1134
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1150
 msgid "Add this offer to cart"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1225
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1241
 msgid "Choose an option"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1423
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1449
 msgid "Want some more super cool features? Unlock your power to explore more."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1427
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1453
 msgid "Stucked to just one order bump? Unlock your power to explore more."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1438
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1464
 msgid "Want More? Go Pro !!"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1455
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1481
 msgid ""
 "Go with our premium version and make unlimited numbers of order bumps. Get "
 "more smart features and make the most attractive offers with all of your "
@@ -873,71 +934,14 @@ msgid ""
 "customer satisfaction and higher conversion rates."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1484
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1510
 msgid "Product not found"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1492
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1518
 msgid "Product Unavailable"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1514
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1540
 msgid "Category not found"
-msgstr ""
-
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:180
-msgid "true"
-msgstr ""
-
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:196
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:384
-msgid "added"
-msgstr ""
-
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:262
-msgid "removed"
-msgstr ""
-
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:317
-msgid "Sorry, this variation is not available."
-msgstr ""
-
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:331
-msgid "Out of stock."
-msgstr ""
-
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:436
-msgid "Bump Offer"
-msgstr ""
-
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:436
-msgid "applied"
-msgstr ""
-
-#: upsell-order-bump-offer-for-woocommerce.php:138
-msgid "Settings"
-msgstr ""
-
-#: upsell-order-bump-offer-for-woocommerce.php:160
-msgid "Go to Docs"
-msgstr ""
-
-#: upsell-order-bump-offer-for-woocommerce.php:162
-msgid "Go Premium"
-msgstr ""
-
-#: upsell-order-bump-offer-for-woocommerce.php:232
-msgid "WooCommerce"
-msgstr ""
-
-#: upsell-order-bump-offer-for-woocommerce.php:232
-msgid " is not activated, Please activate WooCommerce first to activate "
-msgstr ""
-
-#: upsell-order-bump-offer-for-woocommerce.php:232
-msgid "Upsell Order Bump Offer for WooCommerce"
-msgstr ""
-
-#: upsell-order-bump-offer-for-woocommerce.php:232
-msgid "."
 msgstr ""
