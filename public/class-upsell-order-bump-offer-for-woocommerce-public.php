@@ -773,9 +773,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			return true;
 		}
 
-		if ( ! empty( $cart_item['key'] ) && null != WC()->session->get( 'mwb_upsell_bump_target_key' ) ) {
+		if ( ! empty( $cart_item['key'] ) && null != WC()->session->get( 'encountered_bump_tarket_key_array' ) && is_array( WC()->session->get( 'encountered_bump_tarket_key_array' ) ) ) {
 
-			if ( $cart_item['key'] == WC()->session->get( 'mwb_upsell_bump_target_key' ) ) {
+			if ( in_array( $cart_item['key'], WC()->session->get( 'encountered_bump_tarket_key_array' ) ) ) {
 
 				return true;
 			}
