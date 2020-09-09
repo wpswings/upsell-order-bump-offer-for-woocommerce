@@ -1121,6 +1121,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '', $order_bump_index = '
 
 								<!-- In case slug is encountered. -->
 								<?php $show_title = str_replace( 'pa_', '', $attribute_name ); ?>
+								<?php $attribute_name = str_replace( ' ', '-', $attribute_name ); ?>
 								<?php echo esc_html( ucfirst( $show_title ) ); ?>
 							</p>
 
