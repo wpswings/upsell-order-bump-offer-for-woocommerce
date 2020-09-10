@@ -645,7 +645,6 @@
   transition: box-shadow 100ms linear 0s;
   border: none;
   cursor: pointer;
-  z-index: 99;
   text-decoration: none;
   color: #ffffff;
 }
