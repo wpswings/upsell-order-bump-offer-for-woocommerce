@@ -36,6 +36,7 @@ if( null != WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->se
 	$fetch_order_bumps = false;
 
 	$encountered_bump_ids_array = WC()->session->get( 'encountered_bump_array' );
+	$encountered_bump_tarket_key_array = WC()->session->get( 'encountered_bump_tarket_key_array' );
 
 	// For Each Order Bump Ids array from session.
 	foreach ( $encountered_bump_ids_array as $key => $value ) {

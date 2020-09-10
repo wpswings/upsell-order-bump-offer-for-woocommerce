@@ -480,15 +480,31 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	}
 
 	/**
+	 * Remove encountered session to refetch order bumps when any product is added to cart.
+	 *
+	 * @since   1.5.0
+	 */
+	public function remove_encountered_session_after_add_to_cart() {
+
+		// Remove encountered session to refetch order bumps.
+		mwb_ubo_destroy_encountered_session();
+	}
+
+	/**
 	 * When cart item product remove is triggered.
 	 *
-	 * Removal of target and bump product is handled here.
+	 * Remove encountered session to refetch order bumps when any product is removed from cart.
+	 *
+	 * Removal of target and bump offer product is handled here.
 	 *
 	 * @param   string $key_to_be_removed      The cart item key which is being removed.
 	 * @param   object $cart_object            The cart object.
 	 * @since   1.0.0
 	 */
 	public function after_remove_product( $key_to_be_removed, $cart_object ) {
+
+		// Remove encountered session to refetch order bumps.
+		mwb_ubo_destroy_encountered_session();
 
 		$may_be_offer_item = false;
 		$may_be_target_item = false;
@@ -585,19 +601,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					WC()->session->__unset( 'bump_offer_status_' . $bump_index );
 				}
 			}
-
-			/**
-			 * When Target is removed it means that funnel is no longer been shown,
-			 * hence remove it from session too.
-			 */
-			$remove_index = str_replace( 'index_', '', $bump_index );
-	
-			if( ! empty( $remove_index ) || '0' == $remove_index ) {
-
-				$encountered_bump_ids_array = WC()->session->get( 'encountered_bump_array' );
-				unset( $encountered_bump_ids_array[ $remove_index ] );
-				WC()->session->set( 'encountered_bump_array' , $encountered_bump_ids_array );
-			}
 		}
 	}
 
@@ -611,7 +614,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param   object $cart_object            The cart object.
 	 * @since   1.0.0
 	 */
-	public function after_product_removed_from_cart( $key_that_removed, $after_remove_cart_object ) {
+	public function after_product_removed_from_cart( $key_that_removed, $cart_object ) {
 
 		$cart_items = $cart_object->cart_contents;
 
@@ -1041,6 +1044,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			add_filter( 'wfacp_show_item_quantity', array( $this, 'disable_quantity_field_in_aerocheckout' ), 10, 2 );
 
 			add_filter( 'wfacp_show_undo_message_for_item', array( $this, 'hide_undo_notice_in_aerocheckout', 10, 2 ) );
+
+			// Remove encountered session to refetch order bumps when any product is added to cart.
+			add_action( 'woocommerce_add_to_cart', array( $this, 'remove_encountered_session_after_add_to_cart' ), 10, 2 );
 
 			// Removing offer or target product manually by cart.
 			add_action( 'woocommerce_remove_cart_item', array( $this, 'after_remove_product' ), 10, 2 );

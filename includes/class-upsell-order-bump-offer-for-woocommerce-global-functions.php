@@ -1410,6 +1410,29 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 }
 
 /**
+ * Unset order bump encountered session.
+ *
+ * @since   1.5.0
+ */
+function mwb_ubo_destroy_encountered_session() {
+
+	// WC Session not accessible so return.
+	if( empty( WC()->session ) ) {
+
+		return;
+	}
+
+	$session_keys = array(
+		'encountered_bump_array',
+	);
+
+	foreach ( $session_keys as $key => $key_name ) {
+
+		WC()->session->__unset( $key_name );
+	}
+}
+
+/**
  * Destroy the only data added in session by orderbump.
  *
  * @since   1.2.0
