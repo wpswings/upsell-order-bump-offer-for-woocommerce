@@ -29,15 +29,15 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 	// Enable Plugin.
 	$mwb_bump_upsell_global_options['mwb_bump_enable_plugin'] = ! empty( $_POST['mwb_bump_enable_plugin'] ) ? 'on' : 'off';
 
-	$mwb_bump_upsell_global_options['mwb_bump_skip_offer'] = ! empty( $_POST['mwb_bump_skip_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_skip_offer'] ) ) : esc_html__( 'yes', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_bump_skip_offer'] = ! empty( $_POST['mwb_bump_skip_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_skip_offer'] ) ) : 'yes';
 
 	$mwb_bump_upsell_global_options['mwb_bump_order_bump_limit'] = ! empty( $_POST['mwb_bump_order_bump_limit'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_order_bump_limit'] ) ) : esc_html__( '1', 'upsell-order-bump-offer-for-woocommerce' );
 
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_location'] = ! empty( $_POST['mwb_ubo_offer_location'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_location'] ) ) : esc_html__( '_after_payment_gateways', 'upsell-order-bump-offer-for-woocommerce' );
 
-	$mwb_bump_upsell_global_options['mwb_ubo_temp_adaption'] = ! empty( $_POST['mwb_ubo_temp_adaption'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_temp_adaption'] ) ) : esc_html__( 'yes', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_ubo_temp_adaption'] = ! empty( $_POST['mwb_ubo_temp_adaption'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_temp_adaption'] ) ) : 'yes';
 
-	$mwb_bump_upsell_global_options['mwb_ubo_offer_removal'] = ! empty( $_POST['mwb_ubo_offer_removal'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_removal'] ) ) : esc_html__( 'yes', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_removal'] = ! empty( $_POST['mwb_ubo_offer_removal'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_removal'] ) ) : 'yes';
 
 	// After version v1.0.2.
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_global_css'] = ! empty( $_POST['mwb_ubo_offer_global_css'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_ubo_offer_global_css'] ) ) : '';
@@ -46,7 +46,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_price_html'] = ! empty( $_POST['mwb_ubo_offer_price_html'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_price_html'] ) ) : '';
 
-	$mwb_bump_upsell_global_options['mwb_ubo_offer_purchased_earlier'] = ! empty( $_POST['mwb_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_purchased_earlier'] ) ) : esc_html__( 'no', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_purchased_earlier'] = ! empty( $_POST['mwb_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_purchased_earlier'] ) ) : 'no';
 
 	$mwb_bump_upsell_global_options['mwb_ubo_exclude_products'] = ! empty( $_POST['mwb_ubo_exclude_products'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_ubo_exclude_products'] ) ) : '';
 

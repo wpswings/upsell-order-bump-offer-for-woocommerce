@@ -506,150 +506,96 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Remove encountered session to refetch order bumps.
 		mwb_ubo_destroy_encountered_session();
 
-		$may_be_offer_item = false;
-		$may_be_target_item = false;
+		if( empty( $key_to_be_removed ) || empty( WC()->cart->cart_contents ) ) {
 
-		if( ! empty( $key_to_be_removed ) ) {
-
-			$cart_item = WC()->cart->cart_contents[ $key_to_be_removed ];
-
-			if( ! empty( $cart_item['mwb_ubo_offer_product'] ) ) {
-
-				// The item which is removing is offer product.
-				$bump_index = !empty( $cart_item['mwb_ubo_offer_index'] ) ?  $cart_item['mwb_ubo_offer_index'] : '';
-				$may_be_offer_item = true;
-
-			}
-
-			// If the removing item is normal, then verify is a target item for some offer product.
-			elseif( ! empty( $cart_object->cart_contents ) && is_array( $cart_object->cart_contents ) ) {
-
-				foreach ( $cart_object->cart_contents as $cart_offer_item_key => $cart_offer_item ) {
-
-					// If item is offer product, continue.
-					if( ! empty( $cart_offer_item['mwb_ubo_offer_product'] ) ) {
-
-						if( $cart_offer_item['mwb_ubo_target_key'] == $key_to_be_removed ) {
-
-							// If the same target key is found in order cart item, Handle offer product too.
-							$bump_index = !empty( $cart_offer_item['mwb_ubo_offer_index'] ) ?  $cart_offer_item['mwb_ubo_offer_index'] : '';
-							$may_be_target_item = true;
-							break;
-						}
-					}
-				}
-			}
+			return;
 		}
 
-		if( $may_be_offer_item ) {
+		// $current_cart_item = WC()->cart->cart_contents[ $key_to_be_removed ];
+		$current_cart_item = ! empty( $cart_object->cart_contents[ $key_to_be_removed ] ) ? $cart_object->cart_contents[ $key_to_be_removed ] : '';
 
+		// When the removed product is an Offer product.
+		if( ! empty( $current_cart_item['mwb_ubo_offer_product'] ) ) {
+
+			$bump_index = ! empty( $current_cart_item['mwb_ubo_offer_index'] ) ?  $current_cart_item['mwb_ubo_offer_index'] : '';
+			
 			/**
-			 * Here the removing product is an offer product.
-			 * Remove the offer product and unset the session index.
-			 * Do not delete other session variables.
+			 * Unset order bump params from WC cart and index session for the removed offer product.
+			 * Do not unset other session variables.
 			 */
-			if( ! empty( $bump_index ) ) {
 
-				// Prevent offer rollback on undo.
-				unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_offer_product'] );
-				unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_offer_index'] );
-				unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_discounted_price'] );
-				unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_target_key'] );
+			// Unset order bump params from WC cart to prevent Offer rollback on undo.
+			unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_offer_product'] );
+			unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_offer_index'] );
+			unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_discounted_price'] );
+			unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_target_key'] );
 
-				WC()->session->__unset( 'bump_offer_status_' . $bump_index );
-			}
+			WC()->session->__unset( 'bump_offer_status_' . $bump_index );
+			
 
-		} elseif ( $may_be_target_item ) {
+		}
 
-			/**
-			 * Here the removing product is an Target product.
-			 * If target dependency is yes then remove the offer product and unset the session index.
-			 * Do not delete other session variables.
-			 */
+		// When the removed product is a Normal or Target product.
+		elseif( ! empty( $cart_object->cart_contents ) && is_array( $cart_object->cart_contents ) ) {
 
 			// Global settings.
 			$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
 
-			// Do this only when settings are setted yes.
-			if ( 'yes' == $mwb_ubo_global_options['mwb_ubo_offer_removal'] ) {
+			foreach ( $cart_object->cart_contents as $cart_offer_item_key => $cart_offer_item ) {
 
-				// Remove bump offer product too if present.
-				if ( ! empty( $cart_offer_item_key ) ) {
+				// Check Offer product and Target keys.
+				if( ! empty( $cart_offer_item['mwb_ubo_offer_product'] ) && ! empty( $cart_offer_item['mwb_ubo_target_key'] ) ) {
 
-					// Prevent roll back.
-					unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_product'] );
-					unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_index'] );
-					unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_discounted_price'] );
-					unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_target_key'] );
-					unset( WC()->cart->cart_contents[ $cart_offer_item_key ] );
-				}
+					// When Target key matches means Removed product is a Target product.
+					if( $cart_offer_item['mwb_ubo_target_key'] == $key_to_be_removed ) {
 
-				// Here you need to unset only offer key from session. No need to reset session completely.
-				WC()->session->__unset( 'bump_offer_status_' . $bump_index );
+						// If the same target key is found in order cart item, Handle offer product too.
+						$bump_index = ! empty( $cart_offer_item['mwb_ubo_offer_index'] ) ?  $cart_offer_item['mwb_ubo_offer_index'] : '';
 
-			} else {
+						// When Target dependency is set to Remove Offer product.
+						if ( ! empty( $mwb_ubo_global_options['mwb_ubo_offer_removal'] ) && 'yes' == $mwb_ubo_global_options['mwb_ubo_offer_removal'] ) {
 
-				if( ! empty( $cart_offer_item_key ) ) {
+							/**
+							 * Remove Target dependent Offer product.
+							 * Unset order bump params from WC cart and index session for the dependent offer product.
+							 * Do not unset other session variables.
+							 */
+							if ( ! empty( $cart_offer_item_key ) ) {
 
-					// Convert to normal product.
-					unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_product'] );
-					unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_index'] );
-					unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_discounted_price'] );
-					unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_target_key'] );
+								// Unset order bump params from WC cart to prevent Offer rollback on undo.
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_product'] );
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_index'] );
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_discounted_price'] );
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_target_key'] );
 
-					// Here you need to unset only offer key from session. No need to reset session completely.
-					WC()->session->__unset( 'bump_offer_status_' . $bump_index );
-				}
-			}
-		}
-	}
+								// Remove the Offer product.
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ] );
 
-	/**
-	 * When the cart item product is removed.
-	 *
-     * WIW-CC start : if only offer products are present then remove them as any one target needs to be
-	 * present.
-	 *
-	 * @param   string $key_to_be_removed      The cart item key which is being removed.
-	 * @param   object $cart_object            The cart object.
-	 * @since   1.0.0
-	 */
-	public function after_product_removed_from_cart( $key_that_removed, $cart_object ) {
+								WC()->session->__unset( 'bump_offer_status_' . $bump_index );
+							}
+						}
 
-		$cart_items = $cart_object->cart_contents;
+						// When Target dependency is set to Keep Offer product.
+						else {
 
-		if( empty( $cart_items ) || ! is_array( $cart_items ) ) {
+							/**
+							 * Convert Target dependent Offer product into Normal product.
+							 * Unset order bump params from WC cart and index session for the dependent offer product.
+							 * Do not unset other session variables.
+							 */
+							if( ! empty( $cart_offer_item_key ) ) {
 
-			return;
-		}
+								// Convert Offer product to normal product.
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_product'] );
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_index'] );
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_discounted_price'] );
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_target_key'] );
 
-		$removed_item = $cart_items[ $key_that_removed ];
-
-		// If offer product do nothing.
-		if( $removed_item[ 'mwb_ubo_offer_product' ] ) {
-
-			return;
-		}
-
-		else {
-
-			$target_product_ids = WC()->session->get( 'encountered_bump_tarket_key_array' );
-			if( in_array( $key_that_removed , $target_product_ids ) ) {
-
-				// Incase the target was removed, we will face some issues in maintaining indexing.
-				foreach ( $cart_items as $cart_item_key => $cart_item_data ) {
-
-					if( ! empty( $cart_item_data[ 'mwb_ubo_offer_product' ] ) ) {
-
-						unset( WC()->cart->cart_contents[ $cart_item_key ]['mwb_ubo_offer_product'] );
-						unset( WC()->cart->cart_contents[ $cart_item_key ]['mwb_ubo_offer_index'] );
-						unset( WC()->cart->cart_contents[ $cart_item_key ]['mwb_discounted_price'] );
-						unset( WC()->cart->cart_contents[ $cart_item_key ]['mwb_ubo_target_key'] );
-						unset( WC()->cart->cart_contents[ $cart_item_key ] );
+								WC()->session->__unset( 'bump_offer_status_' . $bump_index );
+							}
+						}
 					}
 				}
-
-				mwb_ubo_session_destroy();
 			}
 		}
 	}
@@ -1050,9 +996,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			// Removing offer or target product manually by cart.
 			add_action( 'woocommerce_remove_cart_item', array( $this, 'after_remove_product' ), 10, 2 );
-
-			// When the cart item product is actually removed.
-			add_action( 'woocommerce_cart_item_removed', array( $this, 'after_product_removed_from_cart' ), 10, 2 );
 
 			// Add meta data to order item for order review.
 			add_action( 'woocommerce_checkout_create_order', array( $this, 'add_order_item_meta' ), 10 );
