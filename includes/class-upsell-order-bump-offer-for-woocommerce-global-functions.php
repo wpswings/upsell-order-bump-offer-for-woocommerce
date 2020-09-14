@@ -1437,7 +1437,7 @@ function mwb_ubo_destroy_encountered_session() {
  *
  * @since   1.2.0
  */
-function mwb_ubo_session_destroy( $index = '' ) {
+function mwb_ubo_session_destroy() {
 
 	// WC Session not accessible so return.
 	if( empty( WC()->session ) ) {
@@ -1450,25 +1450,15 @@ function mwb_ubo_session_destroy( $index = '' ) {
 		'encountered_bump_tarket_key_array',
 		'bump_offer_status',
 		'encountered_bump_array_display',
-		'bump_offer_status_' . $index,
 	);
-
-	$unset_all = false;
-
-	if( empty( $index ) ) {
-
-		$unset_all = true;
-	}
 
 	foreach ( $order_bump_data as $key => $data ) {
 
-		if( null != WC()->session->get( $data ) || ( ! empty( $unset_all ) && false !== strpos( $key, 'bump_offer_status_' ) ) ) {
+		if( null != WC()->session->get( $data ) ) {
 
 			WC()->session->__unset( $data );
 		}
 	}
-
-	return WC()->session;
 }
 
 /**

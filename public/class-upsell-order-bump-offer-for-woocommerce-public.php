@@ -196,7 +196,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			$bump_offer_cart_item_key = WC()->cart->add_to_cart( $bump_product_id, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data );
 
-			WC()->session->set( 'bump_offer_status' , esc_html__( 'added', 'upsell-order-bump-offer-for-woocommerce' ) );
+			WC()->session->set( 'bump_offer_status' , 'added' );
 			WC()->session->set( "bump_offer_status_$bump_index" , $bump_offer_cart_item_key );
 
 			// WIW-CC : No need to upgrade.
@@ -223,7 +223,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// 	}
 			// }
 
-			echo json_encode( WC()->session->get( 'bump_offer_status' ) );
+			echo json_encode( 'added' );
 		}
 
 		wp_die();
@@ -398,7 +398,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		WC()->session->set( "bump_offer_status_index_$bump_index" , $bump_offer_cart_item_key );
 
-		WC()->session->set( 'bump_offer_status' , esc_html__( 'added', 'upsell-order-bump-offer-for-woocommerce' ) );
+		WC()->session->set( 'bump_offer_status' , 'added' );
 
 		// if ( null != WC()->session->get( 'bump_offer_product_key' ) ) {
 
@@ -421,7 +421,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// 	}
 		// }
 
-		echo json_encode( WC()->session->get( 'bump_offer_status' ) );
+		echo json_encode( 'added' );
 		wp_die();
 	}
 
@@ -511,7 +511,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			return;
 		}
 
-		// $current_cart_item = WC()->cart->cart_contents[ $key_to_be_removed ];
 		$current_cart_item = ! empty( $cart_object->cart_contents[ $key_to_be_removed ] ) ? $cart_object->cart_contents[ $key_to_be_removed ] : '';
 
 		// When the removed product is an Offer product.

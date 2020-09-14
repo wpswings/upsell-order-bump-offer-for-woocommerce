@@ -129,7 +129,11 @@ if( ! current_user_can( 'manage_options' ) && null == WC()->session->get( 'encou
 			$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
 		}
 
-		mwb_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $key, $encountered_respective_target_key );
+		/** 
+		 * Passing bump id as key ( 2nd param ) also, so that the index is set according to bump id.
+		 * So that right session index is set and right order bumps remain checked.
+		 */
+		mwb_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_order_bump_id, $encountered_respective_target_key );
 	}
 	
 ?></div><?php
