@@ -68,11 +68,7 @@ if( null != WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->se
 
 if ( $fetch_order_bumps && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'fetch_order_bump_from_collection' ) ) {
 
-	// WIW-CC : Get here Two Order Bump Ids that are suppose to be shown.
-	// Limit is 3.
-	$order_bump_limit = ! empty( $mwb_ubo_global_options['mwb_bump_order_bump_limit'] ) ? $mwb_ubo_global_options['mwb_bump_order_bump_limit'] : '1';
-
-	$encountered_bump_result = Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collection( $mwb_ubo_offer_array_collection, $order_bump_limit );
+	$encountered_bump_result = Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collection( $mwb_ubo_offer_array_collection, $mwb_ubo_global_options );
 
 	//  WIW-CC : Will return array of Order Bumps Ids.
 	$encountered_bump_ids_array = ! empty( $encountered_bump_result['encountered_bump_array'] ) ? $encountered_bump_result['encountered_bump_array'] : array();
@@ -107,8 +103,8 @@ if ( empty( $encountered_bump_ids_array ) || ! is_array( $encountered_bump_ids_a
 // 	return;
 // }
 
-// Set Session whenever Order Bump Ids are fetched from collection. ( Don't set Session for Admin )
-if( ! current_user_can( 'manage_options' ) && null == WC()->session->get( 'encountered_bump_array' ) ) {
+// Set Session whenever Order Bump Ids are fetched from collection.
+if( null == WC()->session->get( 'encountered_bump_array' ) ) {
 
 	WC()->session->set( 'encountered_bump_array' , $encountered_bump_ids_array );
 	WC()->session->set( 'encountered_bump_tarket_key_array' , $encountered_bump_tarket_key_array );

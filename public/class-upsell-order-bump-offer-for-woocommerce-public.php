@@ -480,17 +480,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	}
 
 	/**
-	 * Remove encountered session to refetch order bumps when any product is added to cart.
-	 *
-	 * @since   1.5.0
-	 */
-	public function remove_encountered_session_after_add_to_cart() {
-
-		// Remove encountered session to refetch order bumps.
-		mwb_ubo_destroy_encountered_session();
-	}
-
-	/**
 	 * When cart item product remove is triggered.
 	 *
 	 * Remove encountered session to refetch order bumps when any product is removed from cart.
@@ -738,7 +727,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param   array $order_bump_collection            All order bump collection.
 	 * @since    1.2.0
 	 */
-	public function fetch_order_bump_from_collection( $order_bump_collection = array(), $bump_limit = '1' ) {
+	public function fetch_order_bump_from_collection( $order_bump_collection = array(), $mwb_ubo_global_options = array() ) {
 
 		/**
 		 * Check enability of the plugin at settings page,
@@ -749,17 +738,22 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 * Save the array index that is encountered and target product key.
 		 */
 
-		$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
+		// Get Multiple Order Bumps limit. Default limit is 1.
+		$order_bump_limit = ! empty( $mwb_ubo_global_options['mwb_bump_order_bump_limit'] ) ? $mwb_ubo_global_options['mwb_bump_order_bump_limit'] : '1';
 
-		$mwb_upsell_bump_global_skip_settings = ! empty( $mwb_ubo_global_options['mwb_bump_skip_offer'] ) ? $mwb_ubo_global_options['mwb_bump_skip_offer'] : 'yes';
+		$global_skip_settings = ! empty( $mwb_ubo_global_options['mwb_bump_skip_offer'] ) ? $mwb_ubo_global_options['mwb_bump_skip_offer'] : 'yes';
 
 		$encountered_bump_key_array = array();
 		$encountered_target_key_array = array();
 
-		// WIW-CC : Send Two Order Bump IDs after validations ( Means N no. will be send when they are Live and good else 1 will be sent or nill ) .
-		if( $bump_limit >= count( $encountered_bump_key_array ) ) {
+		if( ! empty( $order_bump_collection ) && is_array( $order_bump_collection ) ) {
 
 			foreach ( $order_bump_collection as $single_bump_id => $single_bump_array ) {
+
+
+				if( count( $encountered_bump_key_array ) >= $order_bump_limit ) {
+					break;
+				}
 
 				// If already encountered and saved. ( Just if happens : Worst case. )
 				if( ! empty( $encountered_bump_key_array ) && in_array( $single_bump_id , $encountered_bump_key_array ) ) {
@@ -846,7 +840,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					}
 
 					// If  target category is present.
-					if( ! empty( $single_bump_array['mwb_upsell_bump_target_ids'] ) ) :
+					if( ! empty( $single_bump_array['mwb_upsell_bump_target_ids'] ) && is_array( $single_bump_array['mwb_upsell_bump_target_ids'] ) ) :
 
 						// Check if these product are present in cart one by one.
 						foreach ( $single_bump_array['mwb_upsell_bump_target_ids'] as $key => $single_target_id ) {
@@ -876,7 +870,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								}
 
 								// Check if offer product is already in cart.
-								if ( mwb_ubo_lite_already_in_cart( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) && 'yes' == $mwb_upsell_bump_global_skip_settings ) {
+								if ( mwb_ubo_lite_already_in_cart( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) && 'yes' == $global_skip_settings ) {
 
 									continue;
 								}
@@ -926,7 +920,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								}
 
 								// Check if offer product is already in cart.
-								if ( mwb_ubo_lite_already_in_cart( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) && 'yes' == $mwb_upsell_bump_global_skip_settings ) {
+								if ( mwb_ubo_lite_already_in_cart( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) && 'yes' == $global_skip_settings ) {
 
 									continue;
 
@@ -949,9 +943,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					continue;
 				}
 
-			} // First foreach end.
+			} // $order_bump_collection foreach end.
 			
-		} // Condition check for bump limit.
+		} // Empty and Array Condition check for $order_bump_collection.
 
 		if ( ! empty( $encountered_bump_key_array ) && ! empty( $encountered_target_key_array ) ) {
 
@@ -989,9 +983,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			add_filter( 'wfacp_show_item_quantity', array( $this, 'disable_quantity_field_in_aerocheckout' ), 10, 2 );
 
 			add_filter( 'wfacp_show_undo_message_for_item', array( $this, 'hide_undo_notice_in_aerocheckout', 10, 2 ) );
-
-			// Remove encountered session to refetch order bumps when any product is added to cart.
-			add_action( 'woocommerce_add_to_cart', array( $this, 'remove_encountered_session_after_add_to_cart' ), 10, 2 );
 
 			// Removing offer or target product manually by cart.
 			add_action( 'woocommerce_remove_cart_item', array( $this, 'after_remove_product' ), 10, 2 );

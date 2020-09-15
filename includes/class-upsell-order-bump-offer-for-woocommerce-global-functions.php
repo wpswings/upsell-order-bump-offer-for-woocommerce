@@ -287,16 +287,17 @@ function mwb_ubo_lite_default_global_options() {
 
 	$default_global_options = array(
 
-		'mwb_bump_enable_plugin'    => 'on', // By default plugin will be enabled.
-		'mwb_bump_skip_offer'       => 'yes',
-		'mwb_ubo_offer_location'    => '_after_payment_gateways',
-		'mwb_ubo_offer_removal'     => 'yes',
-		'mwb_ubo_temp_adaption'     => 'yes',
-		'mwb_ubo_offer_global_css'  => '',
-		'mwb_ubo_offer_global_js'   => '',
-		'mwb_ubo_offer_price_html'  => 'regular_to_offer',
-		'mwb_ubo_offer_purchased_earlier'  => 'no',
-		'mwb_ubo_exclude_products'  => array(),
+		'mwb_bump_enable_plugin'    		=> 'on', // By default plugin will be enabled.
+		'mwb_bump_skip_offer'       		=> 'yes',
+		'mwb_ubo_offer_location'    		=> '_after_payment_gateways',
+		'mwb_ubo_offer_removal'     		=> 'yes',
+		'mwb_ubo_temp_adaption'     		=> 'yes',
+		'mwb_ubo_offer_global_css'  		=> '',
+		'mwb_ubo_offer_global_js'   		=> '',
+		'mwb_ubo_offer_price_html'  		=> 'regular_to_offer',
+		'mwb_ubo_offer_purchased_earlier'   => 'no',
+		'mwb_bump_order_bump_limit'			=> '1',	
+		'mwb_ubo_exclude_products'  		=> array(),
 	);
 
 	return $default_global_options;

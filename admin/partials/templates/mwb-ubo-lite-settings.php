@@ -31,7 +31,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$mwb_bump_upsell_global_options['mwb_bump_skip_offer'] = ! empty( $_POST['mwb_bump_skip_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_skip_offer'] ) ) : 'yes';
 
-	$mwb_bump_upsell_global_options['mwb_bump_order_bump_limit'] = ! empty( $_POST['mwb_bump_order_bump_limit'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_order_bump_limit'] ) ) : esc_html__( '1', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_bump_order_bump_limit'] = ! empty( $_POST['mwb_bump_order_bump_limit'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_order_bump_limit'] ) ) : '1';
 
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_location'] = ! empty( $_POST['mwb_ubo_offer_location'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_location'] ) ) : esc_html__( '_after_payment_gateways', 'upsell-order-bump-offer-for-woocommerce' );
 
@@ -86,6 +86,9 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 	$bump_offer_price_html = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_price_html'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_price_html'] : 'regular_to_offer';
 
 	$bump_offer_preorder_skip = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] : 'no';
+
+	// Bump Offer limit.
+	$mwb_bump_order_bump_limit = ! empty( $mwb_ubo_global_options['mwb_bump_order_bump_limit'] ) ? $mwb_ubo_global_options['mwb_bump_order_bump_limit'] : '1';
 
 	$exclude_products = ! empty( $mwb_ubo_global_options['mwb_ubo_exclude_products'] ) ? $mwb_ubo_global_options['mwb_ubo_exclude_products'] : array();
 
@@ -387,8 +390,6 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 							$attribute_description = esc_html__( 'Limit of order bump to be shown.', 'upsell-order-bump-offer-for-woocommerce' );
 							mwb_ubo_lite_help_tip( $attribute_description );
 
-							// Bump Offer limit.
-							$mwb_bump_order_bump_limit = ! empty( $mwb_ubo_global_options['mwb_bump_order_bump_limit'] ) ? $mwb_ubo_global_options['mwb_bump_order_bump_limit'] : '1';
 						?>
 
 						<input type="number" min="1" id="mwb_bump_order_bump_limit" name="mwb_bump_order_bump_limit" value="<?php echo esc_html( $mwb_bump_order_bump_limit ); ?>">
