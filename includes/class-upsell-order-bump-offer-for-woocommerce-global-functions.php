@@ -660,6 +660,12 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	$bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
+	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
+
+	if ( ! empty( $bump['smart_offer_upgrade'] ) && 'yes' == $bump['smart_offer_upgrade'] ) {
+
+		$bumphtml .= '<input type="hidden" class="order_bump_smo" value=' . $bump['smart_offer_upgrade'] . '>';
+	}
 	
 	if ( ! empty( $bump['bump_price_at_zero'] ) ) :
 		$bumphtml .= '<input type="hidden" id ="bump_price_at_zero" value=' . $bump['bump_price_at_zero'] . '>';
@@ -731,6 +737,9 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 
 	$encountered_bump_array = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ];
 
+	// Smart offer Upgrade.
+	$smart_offer_upgrade = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
+
 	$offer_id = ! empty( $encountered_bump_array['mwb_upsell_bump_products_in_offer'] ) ? sanitize_text_field( $encountered_bump_array['mwb_upsell_bump_products_in_offer'] ) : '';
 
 	$discount_price = ! empty( $encountered_bump_array['mwb_upsell_bump_offer_discount_price'] ) ? sanitize_text_field( $encountered_bump_array['mwb_upsell_bump_offer_discount_price'] ) : '';
@@ -746,6 +755,12 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	$price_type = $encountered_bump_array['mwb_upsell_offer_price_type'];
 
 	$bump = ! empty( $bump ) ? $bump : array();
+
+	// Smart offer upgrade.
+	if( 'yes' == $smart_offer_upgrade ) {
+
+		$bump['smart_offer_upgrade'] = 'yes';
+	}
 
 	// Check if price or discount % is given.
 	if ( '%' == $price_type && ! empty( $discount_price ) ) {

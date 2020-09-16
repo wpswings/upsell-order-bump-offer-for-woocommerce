@@ -165,6 +165,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$bump_discounted_price = ! empty( $_POST['discount'] ) ? sanitize_text_field( wp_unslash( $_POST['discount'] ) ) : '';
 		$bump_index = ! empty( $_POST['bump_index'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
 		$bump_target_cart_key = ! empty( $_POST['bump_target_cart_key'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_target_cart_key'] ) ) : '';
+		$order_bump_id = ! empty( $_POST['order_bump_id'] ) ? sanitize_text_field( wp_unslash( $_POST['order_bump_id'] ) ) : '';
+		$smart_offer_upgrade = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
 
 		$cart_item_data = array(
 			'mwb_ubo_offer_product' => true,
@@ -199,29 +201,22 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			WC()->session->set( 'bump_offer_status' , 'added' );
 			WC()->session->set( "bump_offer_status_$bump_index" , $bump_offer_cart_item_key );
 
-			// WIW-CC : No need to upgrade.
-			// if ( null != WC()->session->get( 'bump_offer_product_key' ) ) {
+			// Smart offer Upgrade.
+			if ( mwb_ubo_lite_if_pro_exists() && 'yes' == $smart_offer_upgrade ) {
 
+				// Get all saved bumps.
+				$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
+				$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
 
-				
-			// 	if ( mwb_ubo_lite_if_pro_exists() ) {
+				$encountered_bump_array = ! empty( $mwb_ubo_offer_array_collection[ $order_bump_id ] ) ? $mwb_ubo_offer_array_collection[ $order_bump_id ] : array();
 
-			// 		// Get all saved bumps.
-			// 		$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
-			// 		$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
+				$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
 
-			// 		$order_bump_index = null != WC()->session->get( 'encountered_bump_array' ) ? WC()->session->get( 'encountered_bump_array' ) : '';
+				if ( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'mwb_ubo_upgrade_offer' ) ) {
 
-			// 		$encountered_bump_array = ! empty( $mwb_ubo_offer_array_collection[ $order_bump_index ] ) ? $mwb_ubo_offer_array_collection[ $order_bump_index ] : array();
-
-			// 		$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
-
-			// 		if ( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'mwb_ubo_upgrade_offer' ) ) {
-
-			// 			Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_upgrade_offer();
-			// 		}
-			// 	}
-			// }
+					Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_upgrade_offer( $bump_offer_cart_item_key, $bump_target_cart_key );
+				}
+			}
 
 			echo json_encode( 'added' );
 		}
@@ -241,27 +236,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		check_ajax_referer( 'mwb_ubo_lite_nonce', 'nonce' );
 
 		$bump_index = ! empty( $_POST['bump_index'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
-
-		// At this time, we already have the offer product cart key.
-		// This settings won't be applicable if the pro feature ( smart upgrade is enabled ).
-		// if ( mwb_ubo_lite_if_pro_exists() ) {
-
-		// 	// Get all saved bumps.
-		// 	$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
-		// 	$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
-
-		// 	$order_bump_index = null != WC()->session->get( 'encountered_bump_array' ) ? WC()->session->get( 'encountered_bump_array' ) : '';
-
-		// 	$encountered_bump_array = ! empty( $mwb_ubo_offer_array_collection[ $order_bump_index ] ) ? $mwb_ubo_offer_array_collection[ $order_bump_index ] : array();
-
-		// 	$mwb_upsell_bump_offer_upgrade = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
-
-		// 	if ( 'yes' == $mwb_upsell_bump_offer_upgrade && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'mwb_ubo_retrieve_target' ) ) {
-
-		// 		// On removal of offer product retrieve the target product.
-		// 		Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_retrieve_target();
-		// 	}
-		// }
 
 		if( null != WC()->session->get( "bump_offer_status_$bump_index" ) ) {
 
@@ -385,6 +359,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$bump_index = ! empty( $_POST['bump_index'] ) || '0' == $_POST['bump_index'] ? $_POST['bump_index'] : '';
 
+		$order_bump_id = ! empty( $_POST['order_bump_id'] ) ? sanitize_text_field( wp_unslash( $_POST['order_bump_id'] ) ) : '';
+		$smart_offer_upgrade = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
+
 		// Now safe to add to cart.
 		$cart_item_data = array(
 			'mwb_ubo_offer_product' => true,
@@ -400,26 +377,22 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		WC()->session->set( 'bump_offer_status' , 'added' );
 
-		// if ( null != WC()->session->get( 'bump_offer_product_key' ) ) {
+		// Smart offer Upgrade.
+		if ( mwb_ubo_lite_if_pro_exists() && 'yes' == $smart_offer_upgrade ) {
 
-		// 	if ( mwb_ubo_lite_if_pro_exists() ) {
+			// Get all saved bumps.
+			$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
+			$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
 
-		// 		// Get all saved bumps.
-		// 		$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
-		// 		$mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
+			$encountered_bump_array = ! empty( $mwb_ubo_offer_array_collection[ $order_bump_id ] ) ? $mwb_ubo_offer_array_collection[ $order_bump_id ] : array();
 
-		// 		$order_bump_index = null != WC()->session->get( 'encountered_bump_array' ) ? WC()->session->get( 'encountered_bump_array' ) : '';
+			$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
 
-		// 		$encountered_bump_array = ! empty( $mwb_ubo_offer_array_collection[ $order_bump_index ] ) ? $mwb_ubo_offer_array_collection[ $order_bump_index ] : array();
+			if ( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'mwb_ubo_upgrade_offer' ) ) {
 
-		// 		$mwb_upsell_bump_replace_target = ! empty( $encountered_bump_array['mwb_ubo_offer_replace_target'] ) ? $encountered_bump_array['mwb_ubo_offer_replace_target'] : '';
-
-		// 		if ( 'yes' == $mwb_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'mwb_ubo_upgrade_offer' ) ) {
-
-		// 			Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_upgrade_offer();
-		// 		}
-		// 	}
-		// }
+				Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_upgrade_offer( $bump_offer_cart_item_key, $bump_target_cart_key );
+			}
+		}
 
 		echo json_encode( 'added' );
 		wp_die();
@@ -492,9 +465,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function after_remove_product( $key_to_be_removed, $cart_object ) {
 
-		// Remove encountered session to refetch order bumps.
-		mwb_ubo_destroy_encountered_session();
-
 		if( empty( $key_to_be_removed ) || empty( WC()->cart->cart_contents ) ) {
 
 			return;
@@ -505,22 +475,45 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// When the removed product is an Offer product.
 		if( ! empty( $current_cart_item['mwb_ubo_offer_product'] ) ) {
 
+			// Hide Undo notice for Offer Products.
+			add_filter( 'woocommerce_cart_item_removed_notice_type', '__return_null' );
+
 			$bump_index = ! empty( $current_cart_item['mwb_ubo_offer_index'] ) ?  $current_cart_item['mwb_ubo_offer_index'] : '';
+
+			// When the removed product is a Smart Offer Upgrade - Offer product.
+			if( ! empty( $current_cart_item['mwb_ubo_sou_offer'] ) && ! empty( $current_cart_item['mwb_ubo_target_key'] ) ) {
+
+				// Restore Target product.
+				if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'mwb_ubo_retrieve_target' ) ) {
+
+					Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_retrieve_target( $current_cart_item['mwb_ubo_target_key'] );
+				}
+			}
 			
 			/**
 			 * Unset order bump params from WC cart and index session for the removed offer product.
 			 * Do not unset other session variables.
 			 */
 
-			// Unset order bump params from WC cart to prevent Offer rollback on undo.
-			unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_offer_product'] );
-			unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_offer_index'] );
-			unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_discounted_price'] );
-			unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_target_key'] );
+			/**
+			 * Unset order bump params from WC cart to prevent Offer rollback on undo.
+			 * Commenting : Unset in WC() Cart doesn't work for the current cart item 
+			 * that is being removed, works with other cart items though.
+			 */
+			// unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_offer_product'] );
+			// unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_offer_index'] );
+			// unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_discounted_price'] );
+			// unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_target_key'] );
 
 			WC()->session->__unset( 'bump_offer_status_' . $bump_index );
-			
+		
+		}
 
+		// When the removed product is a Smart Offer Upgrade - Target product.
+		elseif( ! empty( $current_cart_item['mwb_ubo_sou_target'] ) ) {
+
+			// Do nothing.
+			return;
 		}
 
 		// When the removed product is a Normal or Target product.
@@ -586,6 +579,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				}
 			}
 		}
+
+		// Remove encountered session to refetch order bumps.
+		mwb_ubo_destroy_encountered_session();
 	}
 
 	/**

@@ -7,6 +7,8 @@ jQuery(document).ready( function($) {
     var default_image = '';
     var default_price = '';
     var order_bump_index = '';
+    var order_bump_id = '';
+    var smart_offer_upgrade = '';
 
 /*==========================================================================
                         Add to cart checkbox click
@@ -25,9 +27,11 @@ jQuery(document).ready( function($) {
 
         if ( $( parent_wrapper_class + ' .add_offer_in_cart' ).is( ':checked' ) ) {
 
-            bump_id = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.offer_shown_id' ).val();
+            bump_id = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.offer_shown_id' ).val(); // offer product id.
             bump_discount = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.offer_shown_discount' ).val();
             bump_target_cart_key = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.target_id_cart_key' ).val();
+            order_bump_id = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.order_bump_id' ).val();
+            smart_offer_upgrade = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.order_bump_smo' ).val();
 
             // Add product to cart.
             jQuery.ajax({
@@ -41,6 +45,8 @@ jQuery(document).ready( function($) {
                     id: bump_id,
                     discount: bump_discount,
                     bump_target_cart_key: bump_target_cart_key,
+                    order_bump_id: order_bump_id,
+                    smart_offer_upgrade: smart_offer_upgrade,
 
                     // Index : index_{ digit }
                     bump_index: order_bump_index,
@@ -254,7 +260,9 @@ jQuery(document).ready( function($) {
         bump_id = selected_order_bump.find( '.offer_shown_id' ).val();
         bump_discount = selected_order_bump.find('.offer_shown_discount').val();
         bump_target_cart_key = selected_order_bump.find('.target_id_cart_key').val();
-        
+        order_bump_id = selected_order_bump.find( '.order_bump_id' ).val();
+        smart_offer_upgrade = selected_order_bump.find( '.order_bump_smo' ).val();
+
         var variation_selected = '';
         jQuery( '.variation_id_selected' ).each(function(){
 
@@ -275,6 +283,8 @@ jQuery(document).ready( function($) {
                 id: variation_selected, 
                 parent_id: bump_id,
                 discount: bump_discount,
+                order_bump_id: order_bump_id,
+                smart_offer_upgrade: smart_offer_upgrade,
 
                 // Index : { digit }
                 bump_index: order_bump_index,

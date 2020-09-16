@@ -286,7 +286,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 		$mwb_ubo_offer_array_collection = get_option( 'mwb_ubo_bump_list', array() );
 
-		if ( mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+		if ( mwb_ubo_lite_if_pro_exists() && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
 			$mwb_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_lic_callback_function;
 
@@ -304,9 +304,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			}
 		} else {
 
-			return array( key( $mwb_ubo_offer_array_collection ) => $mwb_ubo_offer_array_collection[ key( $mwb_ubo_offer_array_collection ) ] );
+			$single_first_bump = array( key( $mwb_ubo_offer_array_collection ) => $mwb_ubo_offer_array_collection[ key( $mwb_ubo_offer_array_collection ) ] );
+
+			// Unset Smart Offer Upgrade in case as it's a pro feature.
+			$single_first_bump[key( $mwb_ubo_offer_array_collection )]['mwb_ubo_offer_replace_target'] = 'no';
+
+			return $single_first_bump;
 		}
 	}
 
-	// End of class.
-}
+} // End of class.
