@@ -1378,6 +1378,14 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 	$price_formatting = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_price_html'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_price_html'] : 'regular_to_offer';
 
+	$is_subscription = false;
+
+	// Check if Subscription product.
+	if ( class_exists( 'WC_Subscriptions_Product' ) && WC_Subscriptions_Product::is_subscription( $product ) ) {
+		
+		$is_subscription = true;
+	}
+
 	// Case of variable parent product.
 	if ( ! empty( $default_price ) ) {
 
@@ -1388,6 +1396,11 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		} else {
 
 			$bump_price = wc_get_price_excluding_tax( $product );
+		}
+
+		if ( $is_subscription === true ) {
+			
+			return $product->get_price_html();
 		}
 
 		return wc_format_sale_price( $default_price, $bump_price );
@@ -1410,15 +1423,34 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 	// If regular price is to be shown.
 	if ( 'regular_to_offer' == $price_formatting ) {
 
+		if ( $is_subscription === true ) {
+			
+			return $product->get_price_html();
+		}
+
 		return wc_format_sale_price( $regular_price, $bump_price );
 
 	} elseif ( 'sale_to_offer' == $price_formatting ) {
 
 		if ( ! empty( $sale_price ) ) {
 
+			if ( $is_subscription === true ) {
+
+				$updated_html = explode( '<span class="subscription-details">', $product->get_price_html() );
+
+				$subscription_details = ! empty( $updated_html[ '1' ] ) ? '<span class="subscription-details">' . $updated_html[ '1' ] : '';
+
+				return wc_format_sale_price( $sale_price, $bump_price ) . $subscription_details;
+			}
+
 			return wc_format_sale_price( $sale_price, $bump_price );
 
 		} else {
+
+			if ( $is_subscription === true ) {
+				
+				return $product->get_price_html();
+			}
 
 			return wc_format_sale_price( $regular_price, $bump_price );
 		}
@@ -1686,6 +1718,25 @@ function mwb_ubo_order_bump_session_validations( $encountered_order_bump_id = ''
 
 	// Offer Product Validations.
 	if ( empty( $offer_product ) || 'publish' != $offer_product->get_status() || ! $offer_product->is_in_stock() ) {
+
+		return false;
+	}
+}
+
+/**
+ * If page reload is required when subscription offer is added
+ * and according to conditions.
+ *
+ * @since    1.5.0
+ */
+function mwb_ubo_lite_reload_required_after_adding_offer( $product = '' ) {
+
+	if( ! empty( $product ) && ! is_user_logged_in() && class_exists( 'WC_Subscriptions_Product' ) && WC_Subscriptions_Product::is_subscription( $product ) && 'yes' != get_option( 'woocommerce_enable_signup_and_login_from_checkout') ) {
+
+		return true;
+	}
+
+	else {
 
 		return false;
 	}

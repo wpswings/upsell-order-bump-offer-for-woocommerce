@@ -178,6 +178,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$_product = wc_get_product( $bump_product_id );
 
+		$added = 'added';
+
+		if ( mwb_ubo_lite_reload_required_after_adding_offer( $_product ) ) {
+			
+			$added = 'subs_reload';
+		}
+
 		if ( ! empty( $_product ) && $_product->has_child() ) {
 
 			// Generate default price html.
@@ -191,7 +198,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// Now we have to add a pop up.
 			echo json_encode( $response );
 
-		} else {
+		} elseif ( ! empty( $_product ) ) {
 
 			// If simple product or any single variations.
 			// Add to cart the same.
@@ -218,7 +225,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				}
 			}
 
-			echo json_encode( 'added' );
+			echo json_encode( $added );
 		}
 
 		wp_die();
@@ -371,6 +378,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			'mwb_ubo_target_key' => $bump_target_cart_key,
 		);
 
+		$_product = wc_get_product( $variation_id );
+
+		$added = 'added';
+
+		if ( mwb_ubo_lite_reload_required_after_adding_offer( $_product ) ) {
+			
+			$added = 'subs_reload';
+		}
+
 		$bump_offer_cart_item_key = WC()->cart->add_to_cart( $variation_parent_id, $quantity = '1', $variation_id, $variation = array(), $cart_item_data );
 
 		WC()->session->set( "bump_offer_status_index_$bump_index" , $bump_offer_cart_item_key );
@@ -394,7 +410,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			}
 		}
 
-		echo json_encode( 'added' );
+		echo json_encode( $added );
 		wp_die();
 	}
 

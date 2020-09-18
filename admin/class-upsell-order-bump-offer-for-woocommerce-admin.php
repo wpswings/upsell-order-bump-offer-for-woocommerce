@@ -323,9 +323,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				$unsupported_product_types = array(
 					'grouped',
 					'external',
-					'subscription',
-					'variable-subscription',
-					'subscription_variation',
+					// 'subscription',
+					// 'variable-subscription',
+					// 'subscription_variation',
 				);
 
 				if ( in_array( $product_type, $unsupported_product_types ) || 'outofstock' == $stock ) {
@@ -388,12 +388,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				$product_type = $product->get_type();
 
 				$unsupported_product_types = array(
-					//'variable',
 					'grouped',
 					'external',
-					'subscription',
-					'variable-subscription',
-					'subscription_variation',
+					// 'subscription',
+					// 'variable-subscription',
+					// 'subscription_variation',
 				);
 
 				if ( in_array( $product_type, $unsupported_product_types ) || 'outofstock' == $stock ) {

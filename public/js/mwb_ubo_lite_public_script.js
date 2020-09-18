@@ -78,6 +78,14 @@ jQuery(document).ready( function($) {
                         $( 'body' ).trigger( 'update_checkout' );
                         $( '.mwb_ubo_wrapper_' + order_bump_index ).css( 'pointer-events', 'all' );
                         $( '.mwb_ubo_wrapper_' + order_bump_index ).css( 'opacity', '1' );
+
+                        // When Reload is required.
+                        if( 'subs_reload' == msg ) {
+                            
+                            // Scroll Top and Reload.
+                            $("html, body").scrollTop( 300 );
+                            location.reload();
+                        }
                     }
                 }
             });
@@ -297,6 +305,14 @@ jQuery(document).ready( function($) {
                 $( 'body' ).trigger( 'update_checkout' );
                 $( parent_wrapper_class ).css( 'pointer-events', 'all' );
                 $( parent_wrapper_class ).css( 'opacity', '1' );
+
+                // When Reload is required.
+                if( 'subs_reload' == msg ) {
+
+                    // Scroll Top and Reload.
+                    $("html, body").scrollTop( 300 );
+                    location.reload();
+                }
             }
         });
     });
