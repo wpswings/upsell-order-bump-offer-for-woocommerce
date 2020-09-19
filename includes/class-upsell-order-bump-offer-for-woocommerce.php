@@ -226,6 +226,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 			// All mandatory functions to be called after adding offer product.
 			$this->loader->add_action( 'woocommerce_init', $plugin_public, 'woocommerce_init_ubo_functions' );
+
+			// Hide the Order Bump meta from order items for Customers.
+			! is_admin() && $this->loader->add_filter( 'woocommerce_order_item_get_formatted_meta_data', $plugin_public, 'hide_order_bump_meta_for_customers' );
 		}
 	}
 

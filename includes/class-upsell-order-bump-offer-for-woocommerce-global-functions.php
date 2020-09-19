@@ -1459,7 +1459,9 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 /**
  * Unset order bump encountered session.
- *
+ * In which Order Bump ids are saved
+ * which are displayed from session. 	
+ * 
  * @since   1.5.0
  */
 function mwb_ubo_destroy_encountered_session() {
@@ -1470,13 +1472,17 @@ function mwb_ubo_destroy_encountered_session() {
 		return;
 	}
 
+	// Encountered session key.
 	$session_keys = array(
 		'encountered_bump_array',
 	);
 
 	foreach ( $session_keys as $key => $key_name ) {
 
-		WC()->session->__unset( $key_name );
+		if( null != WC()->session->get( $key_name ) ) {
+
+			WC()->session->__unset( $key_name );
+		}
 	}
 }
 
@@ -1493,18 +1499,30 @@ function mwb_ubo_session_destroy() {
 		return;
 	}
 
-	$order_bump_data = array(
+	$session_keys = array(
 		'encountered_bump_array',
 		'encountered_bump_tarket_key_array',
 		'bump_offer_status',
 		'encountered_bump_array_display',
 	);
 
-	foreach ( $order_bump_data as $key => $data ) {
+	// Add bump status index session keys.
+	$encountered_bump_array = null != WC()->session->get( 'encountered_bump_array' ) ? WC()->session->get( 'encountered_bump_array' ) : array();
 
-		if( null != WC()->session->get( $data ) ) {
+	if( ! empty( $encountered_bump_array ) && is_array( $encountered_bump_array ) ) {
 
-			WC()->session->__unset( $data );
+		foreach ( $encountered_bump_array as $bump_id ) {
+			
+			$session_keys[] = "bump_offer_status_index_$bump_id";
+		}
+	}
+	
+
+	foreach ( $session_keys as $key => $key_name ) {
+
+		if( null != WC()->session->get( $key_name ) ) {
+
+			WC()->session->__unset( $key_name );
 		}
 	}
 }

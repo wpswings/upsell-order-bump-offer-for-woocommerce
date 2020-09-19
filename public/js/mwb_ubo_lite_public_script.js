@@ -42,7 +42,7 @@ jQuery(document).ready( function($) {
                 data: { 
                     nonce : mwb.auth_nonce,
                     action: 'add_offer_in_cart',
-                    id: bump_id,
+                    id: bump_id, // offer product id.
                     discount: bump_discount,
                     bump_target_cart_key: bump_target_cart_key,
                     order_bump_id: order_bump_id,
@@ -288,8 +288,8 @@ jQuery(document).ready( function($) {
             data: { 
                 nonce : mwb.auth_nonce, 
                 action: 'add_variation_offer_in_cart' ,
-                id: variation_selected, 
-                parent_id: bump_id,
+                id: variation_selected, // variation offer product id.
+                parent_id: bump_id, // variation offer parent product id.
                 discount: bump_discount,
                 order_bump_id: order_bump_id,
                 smart_offer_upgrade: smart_offer_upgrade,

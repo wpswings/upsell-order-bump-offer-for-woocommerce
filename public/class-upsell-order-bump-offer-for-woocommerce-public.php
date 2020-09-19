@@ -439,7 +439,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			if ( ! empty( $single_order_item->legacy_values['mwb_ubo_offer_product'] ) ) {
 
-				$single_order_item->update_meta_data( esc_html__( 'Bump Offer', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'applied', 'upsell-order-bump-offer-for-woocommerce' ) );
+				$single_order_item->update_meta_data( 'is_order_bump_purchase', 'true' );
 			}
 		}
 	}
@@ -1005,6 +1005,24 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// Reset custom session data.
 			add_action( 'woocommerce_thankyou', array( $this, 'reset_session_variable' ), 10 );
 		}
+	}
+
+	/**
+	 * Hide the Order Bump meta from order items for Customers.
+	 *
+	 * @since       1.5.0
+	 */
+	public function hide_order_bump_meta_for_customers( $formatted_meta ) {
+
+		foreach ( $formatted_meta as $key => $meta ) {
+
+			if ( ! empty( $meta->key ) && 'is_order_bump_purchase' == $meta->key ) {
+
+				unset( $formatted_meta[ $key ] );
+			}
+		}
+
+		return $formatted_meta;
 	}
 
 // End of class.

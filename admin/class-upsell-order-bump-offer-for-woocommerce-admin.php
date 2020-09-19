@@ -458,20 +458,31 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			// Get order id as post id.
 			$order = wc_get_order( $post_ID );
 
-			foreach ( $order->get_items() as $item_id => $item ) {
+			$order_items = $order->get_items();
 
-				$bump_offer = wc_get_order_item_meta( $item_id, 'Bump Offer', true );
-				$bump_price = $item->get_total();
+			$order_bump_purchased = false;
 
+			if ( ! empty( $order_items ) && is_array( $order_items ) ) {
+
+				$order_bump_item_total = 0;
+
+				foreach ( $order_items as $item_id => $single_item ) {
+
+					if ( ! empty( wc_get_order_item_meta( $item_id, 'is_order_bump_purchase', true ) ) || ! empty( wc_get_order_item_meta( $item_id, 'Bump Offer', true ) ) ) {
+
+						$order_bump_purchased = true;
+						$order_bump_item_total += $single_item->get_total();
+					}
+				}
 			}
 
-			if ( ! empty( $bump_offer ) ) :
+			if ( $order_bump_purchased ) :
 				?>
 
 				<p class= "mwb_bump_table_html" >
 					<?php
 						$allowed_html = mwb_ubo_lite_allowed_html();
-						echo esc_html_e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ) . wp_kses( wc_price( $bump_price ), $allowed_html );
+						echo esc_html_e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ) . wp_kses( wc_price( $order_bump_item_total ), $allowed_html );
 					?>
 				</p>
 
