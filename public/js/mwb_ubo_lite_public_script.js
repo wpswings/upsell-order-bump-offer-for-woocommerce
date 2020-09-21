@@ -9,6 +9,16 @@ jQuery(document).ready( function($) {
     var order_bump_index = '';
     var order_bump_id = '';
     var smart_offer_upgrade = '';
+    var selected_order_bump = '';
+    var selected_order_bump_popup = '';
+
+    function mwb_ubo_lite_intant_zoom_img( selected_order_bump_popup ) {
+
+        if( mwb.mobile_view != 1 ) {
+
+            selected_order_bump_popup.find( '.woocommerce-product-gallery__image' ).zoom();
+        }
+    }
 
 /*==========================================================================
                         Add to cart checkbox click
@@ -62,6 +72,10 @@ jQuery(document).ready( function($) {
                         $( '.mwb_bump_popup_loader' ).css('display','none');
                         $( '.mwb_bump_popup_' + variation_popup_index ).css('display','flex');
                         $('body').addClass( 'mwb_upsell_variation_pop_up_body' );
+
+                        // Add zoom to defaut image.
+                        selected_order_bump_popup = jQuery( '.mwb_bump_popup_' + variation_popup_index );
+                        mwb_ubo_lite_intant_zoom_img( selected_order_bump_popup );
 
                         // hide add to cart button by default.
                         $( '.mwb_ubo_bump_add_to_cart_button' ).css('display','none');
@@ -130,11 +144,11 @@ jQuery(document).ready( function($) {
 
         // Order Bump Object.
         var parent_wrapper_class = '.mwb_ubo_wrapper_index_' + selected_order_bump_index;
-        var selected_order_bump = jQuery( parent_wrapper_class );
+        selected_order_bump = jQuery( parent_wrapper_class );
 
         // Order Bump Popup Object.
         var popup_wrapper_class = '.mwb_bump_popup_' + selected_order_bump_index;
-        var selected_order_bump_popup = jQuery( popup_wrapper_class );
+        selected_order_bump_popup = jQuery( popup_wrapper_class );
 
         // Fetch selected attributes.
         // var selected_variations = $(this);
@@ -161,7 +175,7 @@ jQuery(document).ready( function($) {
 
                 // Default View on no selection.
                 selected_order_bump_popup.find( '.mwb_bump_popup_image' ).html( default_image );
-                selected_order_bump_popup.find( '.woocommerce-product-gallery__image').zoom();
+                mwb_ubo_lite_intant_zoom_img( selected_order_bump_popup );
                 selected_order_bump_popup.find( '.mwb_ubo_err_waring_for_variation').css( 'display','none' );
                 selected_order_bump_popup.find( '.mwb_ubo_price_html_for_variation').css( 'display','block' );
                 selected_order_bump_popup.find( '.mwb_ubo_bump_add_to_cart_button').css( 'display','none' );
@@ -211,7 +225,7 @@ jQuery(document).ready( function($) {
                     selected_order_bump_popup.find( '.mwb_ubo_bump_add_to_cart_button' ).css('display','none');
 
                     selected_order_bump_popup.find( '.mwb_bump_popup_image' ).html( msg['image'] );
-                    selected_order_bump_popup.find( '.woocommerce-product-gallery__image' ).zoom();
+                    mwb_ubo_lite_intant_zoom_img( selected_order_bump_popup );
                     selected_order_bump_popup.find( '.mwb_ubo_err_waring_for_variation' ).html( msg['message'] );
 
                 } else if ( msg['key'] == 'not_available' ) {
@@ -221,7 +235,7 @@ jQuery(document).ready( function($) {
                     selected_order_bump_popup.find( '.mwb_ubo_bump_add_to_cart_button' ).css('display','none');
 
                     selected_order_bump_popup.find( '.mwb_bump_popup_image' ).html( msg['image'] );
-                    selected_order_bump_popup.find( '.woocommerce-product-gallery__image' ).zoom();
+                    mwb_ubo_lite_intant_zoom_img( selected_order_bump_popup );
                     selected_order_bump_popup.find( '.mwb_ubo_err_waring_for_variation' ).html( msg['message'] );
 
                 } else if ( ! isNaN( msg['key'] ) ) {
@@ -231,7 +245,7 @@ jQuery(document).ready( function($) {
                     selected_order_bump_popup.find( '.mwb_ubo_bump_add_to_cart_button' ).css('display','flex');
 
                     selected_order_bump_popup.find( '.mwb_bump_popup_image' ).html( msg['image'] );
-                    selected_order_bump_popup.find( '.woocommerce-product-gallery__image' ).zoom();
+                    mwb_ubo_lite_intant_zoom_img( selected_order_bump_popup );
                     selected_order_bump_popup.find( '.variation_id_selected' ).val( msg['key'] );
                     selected_order_bump_popup.find( '.mwb_ubo_price_html_for_variation' ).html( msg['message'] );
                 }
