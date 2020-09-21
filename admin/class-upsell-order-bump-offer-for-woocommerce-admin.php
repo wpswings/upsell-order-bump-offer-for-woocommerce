@@ -491,5 +491,75 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		}
 	}
 
-	// End of class.
-}
+		/**
+	 * Add Upsell Reporting in Woo Admin reports.
+	 *
+	 * @since       1.5.0
+	 */
+	public function add_order_bump_reporting( $reports ) {
+
+		$reports['mwb_order_bump'] = array(
+
+			'title'  => esc_html__( 'Order Bump', 'upsell-order-bump-offer-for-woocommerce' ),
+			'reports'  => array(
+
+				'sales_by_date' => array(
+					'title' => esc_html__( 'Order Bump Sales by date', 'upsell-order-bump-offer-for-woocommerce' ),
+					'description' => '',
+					'hide_title' => 1,
+					'callback' => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'order_bump_reporting_callback' ),
+				),
+
+				'sales_by_product' => array(
+					'title' => esc_html__( 'Order Bump Sales by product', 'upsell-order-bump-offer-for-woocommerce' ),
+					'description' => '',
+					'hide_title' => 1,
+					'callback' => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'order_bump_reporting_callback' ),
+				),
+
+				'sales_by_category' => array(
+					'title' => esc_html__( 'Order Bump Sales by category', 'upsell-order-bump-offer-for-woocommerce' ),
+					'description' => '',
+					'hide_title' => 1,
+					'callback' => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'order_bump_reporting_callback' ),
+				),
+			),
+		);
+
+		return $reports;
+	}
+
+	/**
+	 * Add custom report. callback.
+	 *
+	 * @since       1.5.0
+	 */
+	public static function order_bump_reporting_callback( $report_type ) {
+
+		$report_file = ! empty( $report_type ) ? str_replace( '_', '-', $report_type ) : '';
+		$preformat_string = ! empty( $report_type ) ? ucwords( str_replace( '_', ' ', $report_type ) ) : '';
+		$class_name = ! empty( $preformat_string ) ? 'Mwb_Upsell_Order_Bump_Report_' . str_replace( ' ', '_', $preformat_string ) : '';
+
+		/**
+		 * The file responsible for defining reporting.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'reporting/class-mwb-upsell-order-bump-report-' . $report_file . '.php';
+
+		if ( class_exists( $class_name ) ) {
+
+			$report = new $class_name();
+			$report->output_report();
+
+		} else {
+
+			?>
+			<div class="mwb_ubo_report_error_wrap" style="text-align: center;">
+				<h2 class="mwb_ubo_report_error_text">
+					<?php esc_html_e( 'Some Error Occured while creating report.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+				</h2>
+			</div>
+			<?php
+		}
+	}
+
+} // End of class.

@@ -167,6 +167,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 		// Rest functionality for order table.
 		$this->loader->add_action( 'manage_shop_order_posts_custom_column', $plugin_admin, 'show_bump_total_content', 20, 2 );
+		// Order Bump Report.
+		$this->loader->add_filter( 'woocommerce_admin_reports', $plugin_admin, 'add_order_bump_reporting' );
 
 	}
 
