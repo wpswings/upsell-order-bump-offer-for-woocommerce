@@ -1506,7 +1506,7 @@ function mwb_ubo_session_destroy() {
 		'encountered_bump_array_display',
 	);
 
-	// Add bump status index session keys.
+	// Add respective bump status index session keys for removal.
 	$encountered_bump_array = null != WC()->session->get( 'encountered_bump_array' ) ? WC()->session->get( 'encountered_bump_array' ) : array();
 
 	if( ! empty( $encountered_bump_array ) && is_array( $encountered_bump_array ) ) {

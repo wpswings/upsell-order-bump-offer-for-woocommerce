@@ -123,6 +123,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php';
 
+		/**
+		 * The class responsible for Sales by Order Bump - Data handling and Stats.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'reporting/class-mwb-upsell-order-bump-report-sales-by-bump.php';
+
 		$this->loader = new Upsell_Order_Bump_Offer_For_Woocommerce_Loader();
 
 	}
@@ -229,8 +234,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			// All mandatory functions to be called after adding offer product.
 			$this->loader->add_action( 'woocommerce_init', $plugin_public, 'woocommerce_init_ubo_functions' );
 
-			// Hide the Order Bump meta from order items for Customers.
-			! is_admin() && $this->loader->add_filter( 'woocommerce_order_item_get_formatted_meta_data', $plugin_public, 'hide_order_bump_meta_for_customers' );
+			// Hide Order Bump meta from order items.
+			$this->loader->add_filter( 'woocommerce_order_item_get_formatted_meta_data', $plugin_public, 'hide_order_bump_meta' );
 		}
 	}
 

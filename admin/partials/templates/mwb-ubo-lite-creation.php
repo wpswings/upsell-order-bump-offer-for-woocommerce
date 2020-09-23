@@ -200,6 +200,25 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 		$mwb_upsell_new_bump['design_text'] = $text_settings_post;
 	}
 
+	// If Order Bump already exists then save Sales By Bump - Stats if present.
+	if ( ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['offer_view_count'] ) ) {
+
+		$sales_stats_bump = $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ];
+
+		// Not Post data, so no need to Sanitize and Strip slashes.
+
+		// Empty for this already checked above.
+		$mwb_upsell_new_bump['offer_view_count'] = $sales_stats_bump['offer_view_count'];
+
+		$mwb_upsell_new_bump['offer_accept_count'] = ! empty( $sales_stats_bump['offer_accept_count'] ) ? $sales_stats_bump['offer_accept_count'] : 0;
+
+		$mwb_upsell_new_bump['offer_remove_count'] = ! empty( $sales_stats_bump['offer_remove_count'] ) ? $sales_stats_bump['offer_remove_count'] : 0;
+
+		$mwb_upsell_new_bump['bump_success_count'] = ! empty( $sales_stats_bump['bump_success_count'] ) ? $sales_stats_bump['bump_success_count'] : 0;
+
+		$mwb_upsell_new_bump['bump_total_sales'] = ! empty( $sales_stats_bump['bump_total_sales'] ) ? $sales_stats_bump['bump_total_sales'] : 0;
+	}
+
 	// When Bump is saved for the first time so load default text Settings.
 	$mwb_upsell_bump_series = array();
 

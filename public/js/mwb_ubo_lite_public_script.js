@@ -30,6 +30,7 @@ jQuery(document).ready( function($) {
 
         order_bump_index = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.order_bump_index' ).val();
         parent_wrapper_class = '.mwb_ubo_wrapper_' + order_bump_index;
+        order_bump_id = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.order_bump_id' ).val();
 
         // Disable bump div.
         $( '.mwb_ubo_wrapper_' + order_bump_index ).css( 'pointer-events', 'none' );
@@ -40,7 +41,6 @@ jQuery(document).ready( function($) {
             bump_id = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.offer_shown_id' ).val(); // offer product id.
             bump_discount = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.offer_shown_discount' ).val();
             bump_target_cart_key = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.target_id_cart_key' ).val();
-            order_bump_id = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.order_bump_id' ).val();
             smart_offer_upgrade = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.order_bump_smo' ).val();
 
             // Add product to cart.
@@ -117,7 +117,8 @@ jQuery(document).ready( function($) {
                     action: 'remove_offer_in_cart',
 
                     // Index : index_{ digit }
-                    bump_index: order_bump_index, 
+                    bump_index: order_bump_index,
+                    order_bump_id: order_bump_id, 
                 },
                 
                 success: function( msg ) {

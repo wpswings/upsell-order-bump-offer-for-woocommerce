@@ -70,13 +70,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		 * class.
 		 */
 
+		$valid_screens = array(
+			'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting',
+			'order-bump_page_upsell-order-bump-offer-for-woocommerce-reporting',
+		);
+
 		$screen = get_current_screen();
 
 		if ( isset( $screen->id ) ) {
 
 			$pagescreen = $screen->id;
 
-			if ( 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' == $pagescreen ) {
+			if ( in_array( $pagescreen, $valid_screens ) ) {
 
 				wp_register_style( 'mwb_ubo_lite_admin_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-admin.css', array(), $this->version, 'all' );
 
@@ -202,6 +207,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'dashicons-yes-alt',
 			56
 		);
+
+		/**
+		 * Add sub-menu for funnel settings.
+		 */
+		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Order Bump & Settings', 'woo-one-click-upsell-funnel' ), esc_html__( 'Order Bump & Settings', 'woo-one-click-upsell-funnel' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-setting' );
+
+		/**
+		 * Add sub-menu for reportings settings.
+		 */
+		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Sales Reports', 'woo-one-click-upsell-funnel' ), esc_html__( 'Sales Reports', 'woo-one-click-upsell-funnel' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-reporting', array( $this, 'add_submenu_page_reporting_callback' ) );
 	}
 
 	/**
@@ -275,6 +290,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			// With org files only.
 			require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
 		}
+	}
+
+	/**
+	 * Reporting and Funnel Stats Sub menu callback.
+	 *
+	 * @since       1.5.0
+	 */
+	public function add_submenu_page_reporting_callback() {
+
+		require_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/reporting/upsell-order-bump-reporting-config-panel.php';
 	}
 
 

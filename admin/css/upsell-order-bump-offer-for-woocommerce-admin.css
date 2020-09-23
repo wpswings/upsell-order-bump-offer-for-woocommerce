@@ -391,6 +391,24 @@
 .mwb_upsell_bumps_list table{
   table-layout: fixed;
 }
+.mwb_upsell_bumps_list table tr:nth-child(2n+1) {
+    background-color: #f7f5f5;
+}
+.mwb_ubo_reporting_funnel_stats_hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.mwb_ubo_stats_conversion_rate {
+    background-color: #b4db65;
+    border-radius: 10px 10px;
+}
+.mwb_ubo_stats_total_sales {
+    background-color: #8eba36;
+    border-radius: 10px 10px;
+}
+.mwb_ubo_stats_conversion_rate p, .mwb_ubo_stats_total_sales p {
+    color: #ffffff !important;
+}
 .mwb-upsell-bump-wrap p.submit input#submit {
  background: #0474b7 ;
  padding: 10px 10px;
@@ -812,10 +830,10 @@ span.mwb_wocuf_pro_span label::after {
   font-weight: 200 !important;
 }
 .mwb_upsell_bumps_list p {
-  color: #444 !important  ;
+  color: #444  ;
 }
 .mwb_upsell_bump_list_targets {
-  background-color: #f1f1f1;
+  background-color: #eaeaea;
   border-radius: 10px 10px;
 }
 .mwb_upsell_bump_list_live,

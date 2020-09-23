@@ -171,6 +171,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$cart_item_data = array(
 			'mwb_ubo_offer_product' => true,
 			'mwb_ubo_offer_index' => $bump_index,
+			'mwb_ubo_bump_id' => $order_bump_id,
 			'mwb_discounted_price' => $bump_discounted_price,
 			'mwb_ubo_target_key' => $bump_target_cart_key,
 			'flag_' . uniqid() => true,
@@ -204,6 +205,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// Add to cart the same.
 
 			$bump_offer_cart_item_key = WC()->cart->add_to_cart( $bump_product_id, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data );
+
+			// Add Order Bump Offer Accept Count for the respective Order Bump.
+			$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
+			$sales_by_bump->add_offer_accept_count();
 
 			WC()->session->set( 'bump_offer_status' , 'added' );
 			WC()->session->set( "bump_offer_status_$bump_index" , $bump_offer_cart_item_key );
@@ -375,6 +380,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			'mwb_discounted_price' => $bump_offer_discount,
 			'flag_' . uniqid() => true,
 			'mwb_ubo_offer_index' => 'index_' . $bump_index,
+			'mwb_ubo_bump_id' => $order_bump_id,
 			'mwb_ubo_target_key' => $bump_target_cart_key,
 		);
 
@@ -388,6 +394,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 
 		$bump_offer_cart_item_key = WC()->cart->add_to_cart( $variation_parent_id, $quantity = '1', $variation_id, $variation = array(), $cart_item_data );
+
+		// Add Order Bump Offer Accept Count for the respective Order Bump.
+		$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
+		$sales_by_bump->add_offer_accept_count();
 
 		WC()->session->set( "bump_offer_status_index_$bump_index" , $bump_offer_cart_item_key );
 
@@ -412,36 +422,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		echo json_encode( $added );
 		wp_die();
-	}
-
-	/**
-	 * On successful order reset data.
-	 *
-	 * @since    1.0.0
-	 */
-	public function reset_session_variable() {
-
-		// Destroy session on order completed.
-		mwb_ubo_session_destroy();
-	}
-
-	/**
-	 * Add order item meta to bump product.
-	 *
-	 * @param    object $order      The order in which bump offer is added.
-	 * @since    1.0.0
-	 */
-	public function add_order_item_meta( $order ) {
-
-		$order_items = $order->get_items();
-
-		foreach ( $order_items as $item_key => $single_order_item ) {
-
-			if ( ! empty( $single_order_item->legacy_values['mwb_ubo_offer_product'] ) ) {
-
-				$single_order_item->update_meta_data( 'is_order_bump_purchase', 'true' );
-			}
-		}
 	}
 
 	/**
@@ -495,6 +475,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			add_filter( 'woocommerce_cart_item_removed_notice_type', '__return_null' );
 
 			$bump_index = ! empty( $current_cart_item['mwb_ubo_offer_index'] ) ?  $current_cart_item['mwb_ubo_offer_index'] : '';
+			$bump_id = ! empty( $current_cart_item['mwb_ubo_bump_id'] ) ?  $current_cart_item['mwb_ubo_bump_id'] : '';
+
+			// Add Order Bump Offer Remove Count for the respective Order Bump.
+			$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $bump_id );
+			$sales_by_bump->add_offer_remove_count();
 
 			// When the removed product is a Smart Offer Upgrade - Offer product.
 			if( ! empty( $current_cart_item['mwb_ubo_sou_offer'] ) && ! empty( $current_cart_item['mwb_ubo_target_key'] ) ) {
@@ -522,6 +507,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_target_key'] );
 
 			WC()->session->__unset( 'bump_offer_status_' . $bump_index );
+
+			// As offer product is removed so no need remove encountered session to refetch order bumps.
+			return;
 		
 		}
 
@@ -547,7 +535,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					if( $cart_offer_item['mwb_ubo_target_key'] == $key_to_be_removed ) {
 
 						// If the same target key is found in order cart item, Handle offer product too.
-						$bump_index = ! empty( $cart_offer_item['mwb_ubo_offer_index'] ) ?  $cart_offer_item['mwb_ubo_offer_index'] : '';
+						$bump_index = ! empty( $cart_offer_item['mwb_ubo_offer_index'] ) ? $cart_offer_item['mwb_ubo_offer_index'] : '';
+						$bump_id = ! empty( $cart_offer_item['mwb_ubo_bump_id'] ) ? $cart_offer_item['mwb_ubo_bump_id'] : '';
+
+						$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $bump_id );
 
 						// When Target dependency is set to Remove Offer product.
 						if ( ! empty( $mwb_ubo_global_options['mwb_ubo_offer_removal'] ) && 'yes' == $mwb_ubo_global_options['mwb_ubo_offer_removal'] ) {
@@ -562,11 +553,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								// Unset order bump params from WC cart to prevent Offer rollback on undo.
 								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_product'] );
 								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_index'] );
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_bump_id'] );
 								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_discounted_price'] );
 								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_target_key'] );
 
 								// Remove the Offer product.
 								unset( WC()->cart->cart_contents[ $cart_offer_item_key ] );
+
+								// Add Order Bump Offer Remove Count for the respective Order Bump.
+								$sales_by_bump->add_offer_remove_count();
 
 								WC()->session->__unset( 'bump_offer_status_' . $bump_index );
 							}
@@ -585,8 +580,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								// Convert Offer product to normal product.
 								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_product'] );
 								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_index'] );
+								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_bump_id'] );
 								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_discounted_price'] );
 								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_target_key'] );
+
+								// Add Order Bump Offer Remove Count for the respective Order Bump.
+								$sales_by_bump->add_offer_remove_count();
 
 								WC()->session->__unset( 'bump_offer_status_' . $bump_index );
 							}
@@ -1002,27 +1001,180 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// Add meta data to order item for order review.
 			add_action( 'woocommerce_checkout_create_order', array( $this, 'add_order_item_meta' ), 10 );
 
-			// Reset custom session data.
-			add_action( 'woocommerce_thankyou', array( $this, 'reset_session_variable' ), 10 );
+			// Add Order Bump - Order Post meta.
+			add_action( 'woocommerce_checkout_order_processed', array( $this, 'add_bump_order_post_meta' ), 10 );
+
+			// Handle Order Bump Orders on Thankyou for Success Rate and Stats.
+			add_action( 'woocommerce_thankyou', array( $this, 'report_sales_by_bump_handling' ), 10 );
+
+			// Reset Order Bump session data.
+			add_action( 'woocommerce_thankyou', array( $this, 'reset_session_variable' ), 11 );
 		}
 	}
 
 	/**
-	 * Hide the Order Bump meta from order items for Customers.
+	 * Add order item meta to bump product.
+	 *
+	 * @param    object $order      The order in which bump offer is added.
+	 * @since    1.0.0
+	 */
+	public function add_order_item_meta( $order ) {
+
+		$order_items = $order->get_items();
+
+		if( ! empty( $order_items ) && is_array( $order_items ) ) {
+
+			foreach ( $order_items as $item_key => $single_order_item ) {
+
+				if ( ! empty( $single_order_item->legacy_values['mwb_ubo_offer_product'] ) ) {
+
+					$single_order_item->update_meta_data( 'is_order_bump_purchase', 'true' );
+				}
+
+				if ( ! empty( $single_order_item->legacy_values['mwb_ubo_bump_id'] ) ) {
+
+					$single_order_item->update_meta_data( 'mwb_order_bump_id', $single_order_item->legacy_values['mwb_ubo_bump_id'] );
+				}
+			}
+		}
+	}	
+
+	/**
+	 * Hide Order Bump meta from order items.
 	 *
 	 * @since       1.5.0
 	 */
-	public function hide_order_bump_meta_for_customers( $formatted_meta ) {
+	public function hide_order_bump_meta( $formatted_meta ) {
 
-		foreach ( $formatted_meta as $key => $meta ) {
+		if( ! empty( $formatted_meta ) && is_array( $formatted_meta ) ) {
 
-			if ( ! empty( $meta->key ) && 'is_order_bump_purchase' == $meta->key ) {
+			// Hide bump id meta for both Customers and Admin.
+			foreach ( $formatted_meta as $key => $meta ) {
 
-				unset( $formatted_meta[ $key ] );
+				if ( ! empty( $meta->key ) && 'mwb_order_bump_id' == $meta->key ) {
+
+					unset( $formatted_meta[ $key ] );
+				}
+			}
+
+			// Hide bump purchase meta only for Customers.
+			if( ! is_admin() ) {
+
+				foreach ( $formatted_meta as $key => $meta ) {
+
+					if ( ! empty( $meta->key ) && 'is_order_bump_purchase' == $meta->key ) {
+
+						unset( $formatted_meta[ $key ] );
+					}
+				}
 			}
 		}
 
 		return $formatted_meta;
+	}
+
+	/**
+	 * Add Order Bump - Order Post meta.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_bump_order_post_meta( $order_id ) {
+
+		$order = new WC_Order( $order_id );
+
+		$order_items = $order->get_items();
+
+		if( ! empty( $order_items ) && is_array( $order_items ) ) {
+
+			foreach ( $order_items as $item_id => $single_item ) {
+
+				if ( ! empty( wc_get_order_item_meta( $item_id, 'is_order_bump_purchase', true ) ) ) {
+
+					// Add post meta as this is a Order Bump order.
+					update_post_meta( $order_id, 'mwb_bump_order', 'true' );
+					// Add post meta for processing Success Rate and Stats on Thankyou page.
+					update_post_meta( $order_id, 'mwb_bump_order_process_sales_stats', 'true' );
+					break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Handle Order Bump Orders on Thankyou for Success Rate and Stats.
+	 *
+	 * @since    1.5.0
+	 */
+	public function report_sales_by_bump_handling( $order_id ) {
+
+		if ( ! $order_id ) {
+
+			return;
+		}
+
+		// Process once and only for Order Bump orders.
+		$bump_order = get_post_meta( $order_id, 'mwb_bump_order_process_sales_stats', true );
+
+		if ( empty( $bump_order ) ) {
+
+			return;
+		}
+
+		$order = new WC_Order( $order_id );
+
+		if ( empty( $order ) ) {
+
+			return;
+		}
+
+		$processed_order_statuses = array(
+			'processing',
+			'completed',
+			'on-hold',
+		);
+
+		if ( ! in_array( $order->get_status(), $processed_order_statuses ) ) {
+
+			return;
+		}
+
+		$order_items = $order->get_items();
+
+		if ( ! empty( $order_items ) && is_array( $order_items ) ) {
+
+			foreach ( $order_items as $item_id => $single_item ) {
+
+				if ( ! empty( wc_get_order_item_meta( $item_id, 'is_order_bump_purchase', true ) ) && ! empty( wc_get_order_item_meta( $item_id, 'mwb_order_bump_id', true ) ) ) {
+
+					$order_bump_item_total = wc_get_order_item_meta( $item_id, '_line_total', true );
+
+					// Add Order Bump Success count and Total Sales for the respective Order Bump.
+					$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( wc_get_order_item_meta( $item_id, 'mwb_order_bump_id', true ) );
+
+					$sales_by_bump->add_bump_success_count();
+					$sales_by_bump->add_bump_total_sales( $order_bump_item_total );
+
+					// Delete bump id as it might change so no need to associate the order item with it.
+					wc_delete_order_item_meta( $item_id, 'mwb_order_bump_id' );
+				}
+			}
+		}
+
+		/**
+		 * Delete Order Bump sales stats meta so that this is processed only once.
+		 */
+		delete_post_meta( $order_id, 'mwb_bump_order_process_sales_stats' );
+	}
+
+	/**
+	 * On successful order reset data.
+	 *
+	 * @since    1.0.0
+	 */
+	public function reset_session_variable() {
+
+		// Destroy session on order completed.
+		mwb_ubo_session_destroy();
 	}
 
 // End of class.
