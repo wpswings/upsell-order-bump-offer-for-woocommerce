@@ -422,7 +422,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 		<!-- Popup body. -->
 		<div class="mwb_ubo_update_popup_content">
 			<div class="mwb_ubo_update_popup_ques">
-				<h5><?php esc_html_e( 'Update Required!', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></h5>
+				<h5><?php esc_html_e( 'Update Required!', 'upsell-order-bump-offer-for-woocommerce' ); ?></h5>
 				<p><?php esc_html_e( "Please Update 'Upsell Order Bump Offer For Woocommerce Pro' to use this feature.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 			</div>
 			<div class="mwb_ubo_update_popup_option">

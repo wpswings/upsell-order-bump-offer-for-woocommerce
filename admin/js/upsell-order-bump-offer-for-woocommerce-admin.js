@@ -230,7 +230,7 @@
 
 			var text_id = $(this).attr('text_id');
 			var msg = '';			// Check which field in changed
-			var price = $('#offer_shown_discount').val().split("+");
+			var price = $('.offer_shown_discount').val().split("+");
 
 			if( text_id == 'fixed' ) {			// Fixed Price Text.
 
@@ -240,7 +240,7 @@
 					var string = $(this).val();
 					if( price[0] == 0 ){
 
-						fixed = '$'+$('#bump_price_at_zero').val();
+						fixed = '$'+$('.bump_price_at_zero').val();
 					}
 
 					msg = string.replace( "{dc_price}", fixed );

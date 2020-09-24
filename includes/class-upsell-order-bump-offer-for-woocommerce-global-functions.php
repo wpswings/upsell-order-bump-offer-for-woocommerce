@@ -666,8 +666,8 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		$bumphtml .= '<input type="hidden" class="order_bump_smo" value=' . $bump['smart_offer_upgrade'] . '>';
 	}
 	
-	if ( ! empty( $bump['bump_price_at_zero'] ) ) :
-		$bumphtml .= '<input type="hidden" id ="bump_price_at_zero" value=' . $bump['bump_price_at_zero'] . '>';
+	if ( is_admin() && ! empty( $bump['bump_price_at_zero'] ) ) :
+		$bumphtml .= '<input type="hidden" class="bump_price_at_zero" value=' . $bump['bump_price_at_zero'] . '>';
 	endif;
 
 	$bumphtml .= '<div class = "mwb_upsell_offer_parent_wrapper" >';
