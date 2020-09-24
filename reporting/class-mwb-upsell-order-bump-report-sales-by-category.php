@@ -4,7 +4,7 @@
  * Order Bump Sales by Category Report.
  *
  * @link       https://makewebbetter.com/
- * @since      3.0.0
+ * @since      1.5.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/reporting

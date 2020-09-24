@@ -27,30 +27,30 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 <div class="mwb_upsell_bumps_list" >
 
 	<div class="mwb_ubo_reporting_heading" >
-		<h2><?php esc_html_e( 'Order Bump Sales - Reports', 'woo-one-click-upsell-funnel' ); ?></h2>
-		<a target="_blank" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-reports&tab=mwb_order_bump' ) ); ?>"><?php esc_html_e( 'Visit here &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+		<h2><?php esc_html_e( 'Order Bump Sales - Reports', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+		<a target="_blank" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-reports&tab=mwb_order_bump' ) ); ?>"><?php esc_html_e( 'Visit here &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 	</div>
 
 	<hr class="mwb_ubo_reporting_funnel_stats_hr">
 
-	<div class="mwb_ubo_stats_heading" ><h2><?php esc_html_e( 'Sales by Order Bump - Stats', 'woo-one-click-upsell-funnel' ); ?></h2></div>
+	<div class="mwb_ubo_stats_heading" ><h2><?php esc_html_e( 'Sales by Order Bump - Stats', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2></div>
 
 	<?php if ( empty( $order_bumps ) ) : ?>
 
-		<p class="mwb_upsell_bump_no_bump"><?php esc_html_e( 'No Order Bumps added', 'woo-one-click-upsell-funnel' ); ?></p>
+		<p class="mwb_upsell_bump_no_bump"><?php esc_html_e( 'No Order Bumps added', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
 	<?php endif; ?>
 
 	<?php if ( ! empty( $order_bumps ) ) : ?>
 		<table>
 			<tr>
-				<th><?php esc_html_e( 'Name', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'View Count', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Success Count', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Offer Accept Count', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Offer Remove Count', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Conversion Rate', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Total Sales', 'woo-one-click-upsell-funnel' ); ?></th>
+				<th><?php esc_html_e( 'Name', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'View Count', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Success Count', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Offer Accept Count', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Offer Remove Count', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Conversion Rate', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Total Sales', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
 			</tr>
 
 			<!-- Foreach Funnel start -->
@@ -132,7 +132,7 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 
 						$conversion_rate = number_format( (float) $conversion_rate, 2 );
 
-						echo '<div class="mwb_ubo_stats_conversion_rate"><p>' . esc_html( $conversion_rate . esc_html__( '%', 'woo-one-click-upsell-funnel' ) ) . '</p><div>';
+						echo '<div class="mwb_ubo_stats_conversion_rate"><p>' . esc_html( $conversion_rate . esc_html__( '%', 'upsell-order-bump-offer-for-woocommerce' ) ) . '</p><div>';
 
 						?>
 					

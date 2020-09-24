@@ -211,12 +211,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		/**
 		 * Add sub-menu for funnel settings.
 		 */
-		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Order Bump & Settings', 'woo-one-click-upsell-funnel' ), esc_html__( 'Order Bump & Settings', 'woo-one-click-upsell-funnel' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-setting' );
+		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Order Bump & Settings', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Order Bump & Settings', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-setting' );
 
 		/**
 		 * Add sub-menu for reportings settings.
 		 */
-		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Sales Reports', 'woo-one-click-upsell-funnel' ), esc_html__( 'Sales Reports', 'woo-one-click-upsell-funnel' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-reporting', array( $this, 'add_submenu_page_reporting_callback' ) );
+		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Sales Reports', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Sales Reports', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-reporting', array( $this, 'add_submenu_page_reporting_callback' ) );
 	}
 
 	/**

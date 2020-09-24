@@ -296,8 +296,7 @@ function mwb_ubo_lite_default_global_options() {
 		'mwb_ubo_offer_global_js'   		=> '',
 		'mwb_ubo_offer_price_html'  		=> 'regular_to_offer',
 		'mwb_ubo_offer_purchased_earlier'   => 'no',
-		'mwb_bump_order_bump_limit'			=> '1',	
-		'mwb_ubo_exclude_products'  		=> array(),
+		'mwb_bump_order_bump_limit'			=> '1',
 	);
 
 	return $default_global_options;
@@ -1652,7 +1651,7 @@ function mwb_ubo_lite_getcat_title( $cat_id = '' ) {
  * @param   string 		$encountered_order_bump_id        			Single order bump id.
  * @param   string 		$key        								Key of encountered order bump array.
  * @param   string 		$encountered_respective_target_key       	Target product key for same order bump.
- * @since   1.2.0 ( Customised )
+ * @since   1.5.0
  */
 function mwb_ubo_analyse_and_display_order_bump( $encountered_order_bump_id = '', $key, $encountered_respective_target_key ) {
 
@@ -1699,7 +1698,7 @@ function mwb_ubo_analyse_and_display_order_bump( $encountered_order_bump_id = ''
  * @param   string 		$encountered_order_bump_id        	Single order bump id.
  * @param   array 		$mwb_ubo_offer_array_collection     Array of all order bumps collection.
  * @param   array 		$mwb_ubo_global_options       		Array of global settings.
- * @since   1.2.0 ( Customised )
+ * @since   1.5.0
  */
 function mwb_ubo_order_bump_session_validations( $encountered_order_bump_id = '', $mwb_ubo_offer_array_collection, $mwb_ubo_global_options ) {
 
@@ -1759,39 +1758,3 @@ function mwb_ubo_lite_reload_required_after_adding_offer( $product = '' ) {
 		return false;
 	}
 }
-
-/**
- * WIW-CC : Exclude products customization.
- * As Order Bump Offer is always shown ( no dependency on target ) so need to hide order bumps 
- * for some products.
- */
-/*function mwb_ubo_lite_hide_offer_for_excluded_products( $global_options = array() ) {
-
-	$exclude_products_ids = ! empty( $global_options['mwb_ubo_exclude_products'] ) ? $global_options['mwb_ubo_exclude_products'] : array();
-
-	if( empty( $exclude_products_ids ) || ! function_exists( 'WC' ) || empty( WC()->cart ) ) {
-
-		return false;
-	}
-
-	$cart_items = WC()->cart->get_cart();
-
-	if( empty( $cart_items ) || ! is_array( $cart_items ) ) {
-
-		return false;
-	}
-
-	$only_excluded_products_present = true;
-
-	foreach ( $cart_items as $cart_item_key => $cart_item ) {
-
-		if( ! in_array( $cart_item['product_id'], $exclude_products_ids ) && ! in_array( $cart_item['variation_id'], $exclude_products_ids ) && empty( $cart_item['mwb_discounted_price'] ) ) {
-
-			$only_excluded_products_present = false;
-
-			break;
-		}
-	}
-
-	return $only_excluded_products_present;
-}*/

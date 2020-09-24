@@ -33,7 +33,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$mwb_bump_upsell_global_options['mwb_bump_order_bump_limit'] = ! empty( $_POST['mwb_bump_order_bump_limit'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_order_bump_limit'] ) ) : '1';
 
-	$mwb_bump_upsell_global_options['mwb_ubo_offer_location'] = ! empty( $_POST['mwb_ubo_offer_location'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_location'] ) ) : esc_html__( '_after_payment_gateways', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_location'] = ! empty( $_POST['mwb_ubo_offer_location'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_location'] ) ) : '_after_payment_gateways';
 
 	$mwb_bump_upsell_global_options['mwb_ubo_temp_adaption'] = ! empty( $_POST['mwb_ubo_temp_adaption'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_temp_adaption'] ) ) : 'yes';
 
@@ -47,8 +47,6 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_price_html'] = ! empty( $_POST['mwb_ubo_offer_price_html'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_price_html'] ) ) : '';
 
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_purchased_earlier'] = ! empty( $_POST['mwb_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_purchased_earlier'] ) ) : 'no';
-
-	$mwb_bump_upsell_global_options['mwb_ubo_exclude_products'] = ! empty( $_POST['mwb_ubo_exclude_products'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_ubo_exclude_products'] ) ) : '';
 
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'mwb_ubo_global_options', $mwb_bump_upsell_global_options );
@@ -89,8 +87,6 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	// Bump Offer limit.
 	$mwb_bump_order_bump_limit = ! empty( $mwb_ubo_global_options['mwb_bump_order_bump_limit'] ) ? $mwb_ubo_global_options['mwb_bump_order_bump_limit'] : '1';
-
-	$exclude_products = ! empty( $mwb_ubo_global_options['mwb_ubo_exclude_products'] ) ? $mwb_ubo_global_options['mwb_ubo_exclude_products'] : array();
 
 ?>
 
@@ -176,7 +172,11 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = esc_html__( 'Choose if Bump Offer product should be removed if Target product is removed from Cart page.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribute_description = sprintf( '<p><span class="mwb_ubo_description">%s</span> <span class="mwb_ubo_tip_tip">%s</span></p><p><span class="mwb_ubo_description">%s</span> <span class="mwb_ubo_tip_tip">%s</span></p>', 
+								esc_html__( 'Remove offer when target product is removed:', 'upsell-order-bump-offer-for-woocommerce' ), 
+								esc_html__( 'As the Target product is removed the offer product associated with the target will also be removed from your customer\'s cart.', 'upsell-order-bump-offer-for-woocommerce' ), 
+								esc_html__( 'Keep offer when target product is removed:', 'upsell-order-bump-offer-for-woocommerce' ), 
+								esc_html__( 'As the Target product is removed the offer product associated with the target will be converted into a normal product in your customer\'s cart.', 'upsell-order-bump-offer-for-woocommerce' ) );
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 
@@ -337,46 +337,6 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					</td>
 				</tr>
 				<!-- Pre-order feature skip end. -->
-
-				<!-- Exclude products start. -->
-				<tr valign="top">
-					<th scope="row" class="titledesc">
-						<label for="mwb_upsell_bump_target_ids_search"><?php esc_html_e( 'Exclude Products', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
-					</th>
-
-					<td class="forminp forminp-text">
-
-						<?php
-							$attribute_description = esc_html__( 'Order Bump offer will not appear if only these products are present in cart.', 'upsell-order-bump-offer-for-woocommerce' );
-							mwb_ubo_lite_help_tip( $attribute_description );
-						?>
-
-						<select id="mwb_upsell_bump_target_ids_search" class="wc-bump-product-search" multiple="multiple" name="mwb_ubo_exclude_products[]" data-placeholder="<?php esc_attr_e( 'Search for a product&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
-
-							<?php
-
-							if ( ! empty( $exclude_products ) && is_array( $exclude_products ) ) {
-
-								// Array_map with absint converts negative array values to positive, so that we dont get negative ids.
-								$exclude_products_ids = array_map( 'absint', $exclude_products );
-
-								foreach ( $exclude_products_ids as $single_exclude_product_id ) {
-
-									$product_name = mwb_ubo_lite_get_title( $single_exclude_product_id );
-									?>
-
-									<option value="<?php echo esc_html( $single_exclude_product_id ); ?>" selected="selected"><?php echo( esc_html( $product_name ) . '(#' . esc_html( $single_exclude_product_id ) . ')' ); ?></option>';
-
-									<?php
-								}
-								
-							}
-
-							?>
-						</select>
-					</td>
-				</tr>
-				<!-- Exclude products end. -->
 
 				<!-- Order Bump Limit start. -->
 				<tr valign="top">

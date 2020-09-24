@@ -83,26 +83,6 @@ if ( empty( $encountered_bump_ids_array ) || ! is_array( $encountered_bump_ids_a
 	return;
 }
 
-// WIW-CC : Exclude products customization. ( Not needed here. )
-// As Order Bump Offer is always shown ( no dependency on target ) so need to hide order bumps for some ( excluded ) products.
-// $only_excluded_products_present = mwb_ubo_lite_hide_offer_for_excluded_products( $mwb_ubo_global_options );
-
-// if( true === $only_excluded_products_present ) {
-
-// 	foreach ( $encountered_bump_ids_array as $key => $value ) {
-
-// 		// Remove Offer Products if they are added.
-// 		if ( null != WC()->session->get( "bump_offer_status_index_" . $key ) ) {
-
-// 			WC()->cart->remove_cart_item( WC()->session->get( "bump_offer_status_index_" . $key ) );
-
-// 			WC()->session->__unset( "bump_offer_status_index_" . $key );
-// 		}
-// 	}
-
-// 	return;
-// }
-
 // Set Session whenever Order Bump Ids are fetched from collection.
 if( null == WC()->session->get( 'encountered_bump_array' ) ) {
 
