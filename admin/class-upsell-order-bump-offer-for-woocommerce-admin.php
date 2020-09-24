@@ -159,22 +159,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 					wp_enqueue_script( 'wp-color-picker' );
 
-					wp_localize_script( 'mwb_ubo_lite_admin_script', 'mwb_ubo_lite_ajaxurl', admin_url( 'admin-ajax.php' ) );
-
-					wp_localize_script( 'mwb_ubo_lite_admin_script', 'mwb_ubo_lite_location', admin_url( 'admin.php' ) . '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting' );
-
 					if ( ! empty( $_GET['mwb-bump-offer-section'] ) ) {
 
 						$bump_offer_section['value'] = sanitize_text_field( wp_unslash( $_GET['mwb-bump-offer-section'] ) );
 
-						wp_localize_script( 'mwb_ubo_lite_admin_script', 'offer_section_obj', $bump_offer_section );
+						wp_localize_script( 'mwb_ubo_lite_admin_script', 'mwb_ubo_lite_offer_section_obj', $bump_offer_section );
 					}
 
 					if ( ! empty( $_GET['mwb-bump-template-section'] ) ) {
 
 						$bump_template_section['value'] = sanitize_text_field( wp_unslash( $_GET['mwb-bump-template-section'] ) );
 
-						wp_localize_script( 'mwb_ubo_lite_admin_script', 'template_section_obj', $bump_template_section );
+						wp_localize_script( 'mwb_ubo_lite_admin_script', 'mwb_ubo_lite_template_section_obj', $bump_template_section );
 					}
 
 					wp_localize_script( 'woocommerce_admin', 'woocommerce_admin', $params );
@@ -183,7 +179,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 					wp_enqueue_script( 'mwb_ubo_lite_add_new_offer_script', plugin_dir_url( __FILE__ ) . 'js/mwb_ubo_lite_add_new_offer_script.js', array( 'woocommerce_admin', 'wc-enhanced-select' ), $this->version, false );
 
-					wp_localize_script( 'mwb_ubo_lite_add_new_offer_script', 'ajax_url', admin_url( 'admin-ajax.php' ) );
+					wp_localize_script( 'mwb_ubo_lite_add_new_offer_script', 'mwb_ubo_lite_ajaxurl', admin_url( 'admin-ajax.php' ) );
 
 					wp_enqueue_script( 'mwb_ubo_lite_sticky_js', plugin_dir_url( __FILE__ ) . 'js/jquery.sticky-sidebar.js', array( 'jquery' ), $this->version, false );
 			}

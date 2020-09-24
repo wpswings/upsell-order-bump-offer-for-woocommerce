@@ -92,10 +92,10 @@
 		});
 
 		// Scroll to bump offer section after Saving product.
-		if( typeof offer_section_obj !== 'undefined' ) {
+		if( typeof mwb_ubo_lite_offer_section_obj !== 'undefined' ) {
 
 			$('html, body').animate({
-			    scrollTop: $('[data-scroll-id="#' + offer_section_obj.value + '"]').offset().top - 50
+			    scrollTop: $('[data-scroll-id="#' + mwb_ubo_lite_offer_section_obj.value + '"]').offset().top - 50
 			}, 'slow');
 
 			// After scrolling remove offer section parameter from url.
@@ -111,10 +111,10 @@
 		}
 
 		// Scroll to respective Template section after clicking Yes for Template change.
-		if( typeof template_section_obj !== 'undefined' ) {
+		if( typeof mwb_ubo_lite_template_section_obj !== 'undefined' ) {
 
 			$('html, body').animate({
-			    scrollTop: $('.mwb_ubo_template_link[data_link="' + template_section_obj.value + '"]').offset().top - 500
+			    scrollTop: $('.mwb_ubo_template_link[data_link="' + mwb_ubo_lite_template_section_obj.value + '"]').offset().top - 500
 			}, 'slow');
 
 			// After scrolling remove offer section parameter from url.

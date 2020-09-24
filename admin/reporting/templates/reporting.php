@@ -132,7 +132,7 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 
 						$conversion_rate = number_format( (float) $conversion_rate, 2 );
 
-						echo '<div class="mwb_ubo_stats_conversion_rate"><p>' . esc_html( $conversion_rate . esc_html__( '%', 'upsell-order-bump-offer-for-woocommerce' ) ) . '</p><div>';
+						echo '<div class="mwb_ubo_stats_conversion_rate"><p>' . esc_html( $conversion_rate ) . esc_html__( '%', 'upsell-order-bump-offer-for-woocommerce' ) . '</p><div>';
 
 						?>
 					

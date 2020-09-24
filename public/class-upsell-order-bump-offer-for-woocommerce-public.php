@@ -92,14 +92,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/upsell-order-bump-offer-for-woocommerce-public.js', array( 'jquery' ), $this->version, false );
-
-		// Public ajax.
-		wp_enqueue_script( 'add_bump_offer_to_cart', plugin_dir_url( __FILE__ ) . 'js/mwb_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false  );
+		// Public Script.
+		wp_enqueue_script( 'mwb-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/mwb_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false  );
 
 		wp_localize_script(
-			'add_bump_offer_to_cart',
-			'mwb',
+			'mwb-ubo-lite-public-script',
+			'mwb_ubo_lite_public',
 			array(
 				'ajaxurl'       => admin_url( 'admin-ajax.php' ),
 				'mobile_view'   => wp_is_mobile(),

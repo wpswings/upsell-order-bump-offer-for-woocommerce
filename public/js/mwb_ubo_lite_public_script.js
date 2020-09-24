@@ -14,7 +14,7 @@ jQuery(document).ready( function($) {
 
     function mwb_ubo_lite_intant_zoom_img( selected_order_bump_popup ) {
 
-        if( mwb.mobile_view != 1 ) {
+        if( mwb_ubo_lite_public.mobile_view != 1 ) {
 
             selected_order_bump_popup.find( '.woocommerce-product-gallery__image' ).zoom();
         }
@@ -48,9 +48,9 @@ jQuery(document).ready( function($) {
 
                 type: 'post',
                 dataType: 'json',
-                url: mwb.ajaxurl,
+                url: mwb_ubo_lite_public.ajaxurl,
                 data: { 
-                    nonce : mwb.auth_nonce,
+                    nonce : mwb_ubo_lite_public.auth_nonce,
                     action: 'add_offer_in_cart',
                     id: bump_id, // offer product id.
                     discount: bump_discount,
@@ -111,9 +111,9 @@ jQuery(document).ready( function($) {
 
                 type: 'post',
                 dataType: 'json',
-                url: mwb.ajaxurl,
+                url: mwb_ubo_lite_public.ajaxurl,
                 data: { 
-                    nonce : mwb.auth_nonce,
+                    nonce : mwb_ubo_lite_public.auth_nonce,
                     action: 'remove_offer_in_cart',
 
                     // Index : index_{ digit }
@@ -209,9 +209,9 @@ jQuery(document).ready( function($) {
 
             type: 'post',
             dataType: 'json',
-            url: mwb.ajaxurl,
+            url: mwb_ubo_lite_public.ajaxurl,
             data: { 
-                nonce : mwb.auth_nonce, 
+                nonce : mwb_ubo_lite_public.auth_nonce, 
                 action: 'search_variation_id_by_select' ,  
                 attributes_selected_options: attributes_selected , 
                 id: bump_id,
@@ -299,9 +299,9 @@ jQuery(document).ready( function($) {
 
             type: 'post',
             dataType: 'json',
-            url: mwb.ajaxurl,
+            url: mwb_ubo_lite_public.ajaxurl,
             data: { 
-                nonce : mwb.auth_nonce, 
+                nonce : mwb_ubo_lite_public.auth_nonce, 
                 action: 'add_variation_offer_in_cart' ,
                 id: variation_selected, // variation offer product id.
                 parent_id: bump_id, // variation offer parent product id.
@@ -374,7 +374,7 @@ jQuery(document).ready( function($) {
 /*==========================================================================
                             Zooming Effect on mobile.
 ============================================================================*/
-    if( mwb.mobile_view != 1 ) {
+    if( mwb_ubo_lite_public.mobile_view != 1 ) {
 
         // Function for zooming image( not for mobile view ).
         $(document).on( 'hover', '.mwb_bump_popup_image', function(e) {
