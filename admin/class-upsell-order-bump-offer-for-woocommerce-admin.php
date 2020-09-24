@@ -583,4 +583,37 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		}
 	}
 
+	/**
+	 * Include Order Bump screen for Onboarding pop-up.
+	 *
+	 * @since    1.5.0
+	 */
+	public function add_mwb_frontend_screens( $valid_screens = array() ) {
+
+		if ( is_array( $valid_screens ) ) {
+
+			// Push your screen here.
+			array_push( $valid_screens, 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' );
+		}
+
+		return $valid_screens;
+	}
+
+	/**
+	 * Include Order Bump plugin for Deactivation pop-up.
+	 *
+	 * @since    1.5.0
+	 */
+	public function add_mwb_deactivation_screens( $valid_screens = array() ) {
+
+		if ( is_array( $valid_screens ) ) {
+
+			// Push your screen here.
+			array_push( $valid_screens, 'upsell-order-bump-offer-for-woocommerce' );
+			array_push( $valid_screens, 'upsell-order-bump-offer-for-woocommerce-pro' );
+		}
+
+		return $valid_screens;
+	}
+
 } // End of class.
