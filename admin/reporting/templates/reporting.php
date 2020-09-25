@@ -33,7 +33,7 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 
 	<hr class="mwb_ubo_reporting_funnel_stats_hr">
 
-	<div class="mwb_ubo_stats_heading" ><h2><?php esc_html_e( 'Sales by Order Bump - Stats', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2></div>
+	<div class="mwb_ubo_stats_heading" ><h2><?php esc_html_e( 'Order Bump - Behavioral Analytics', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2></div>
 
 	<?php if ( empty( $order_bumps ) ) : ?>
 

@@ -201,18 +201,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'upsell-order-bump-offer-for-woocommerce-setting',
 			array( $this, 'mwb_ubo_lite_add_backend' ),
 			'dashicons-yes-alt',
-			56
+			57
 		);
 
 		/**
 		 * Add sub-menu for funnel settings.
 		 */
-		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Order Bump & Settings', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Order Bump & Settings', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-setting' );
+		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Order Bumps & Settings', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Order Bumps & Settings', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-setting' );
 
 		/**
 		 * Add sub-menu for reportings settings.
 		 */
-		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Sales Reports', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Sales Reports', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-reporting', array( $this, 'add_submenu_page_reporting_callback' ) );
+		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-reporting', array( $this, 'add_submenu_page_reporting_callback' ) );
 	}
 
 	/**
