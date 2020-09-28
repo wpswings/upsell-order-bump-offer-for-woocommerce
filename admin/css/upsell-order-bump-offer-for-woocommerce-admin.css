@@ -5,7 +5,8 @@
 
  @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900&display=swap');
- #mwb_upsell_bump_setting_wrapper, #mwb_upsell_bump_setting_wrapper * {
+
+#mwb_upsell_bump_setting_wrapper, #mwb_upsell_bump_setting_wrapper * {
   box-sizing: border-box;
 }
 
@@ -17,9 +18,10 @@
   border-radius: 4px;
   padding: 10px;
   background-color: #ffffff;
+  box-sizing: border-box;
   position: fixed;
   top: 30%;
-  right: -322px;
+  right: -300px;
   transition: 0.3s ease-in-out;
 }
 #mwb_ubo_lite_skype_connect_with_us.show{
@@ -38,7 +40,6 @@
   color: #fff;
   border-radius: 4px 0 0 4px;
   cursor: pointer;
-
 }
 .mwb_ubo_lite_skype_setting span{
   vertical-align: middle;
@@ -73,7 +74,7 @@
   color: #474343;
   margin: 1em 0;
 }
-/* Connect with skype - ends. */
+/* Connect with skype - End */
 
 /* Go pro popup - Start */
 .mwb_ubo_lite_go_pro_popup_wrap.mwb_ubo_lite_go_pro_popup_show {
@@ -188,7 +189,7 @@
 }
 /* Go pro popup - End */
 
-/* Overview section start. */
+/* Overview section - Start */
 #mwb_ubo_lite_video_title {
   background-color: transparent;
   padding: 9px;

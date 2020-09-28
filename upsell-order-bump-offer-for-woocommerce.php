@@ -14,7 +14,7 @@
  * @wordpress-plugin
  * Plugin Name:       Upsell Order Bump Offer for WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/
- * Description:       Increase your cart value by adding bumps that offer additional products or services to customers at checkout page.
+ * Description:       Increase your cart value by adding bumps that offer additional products or services to customers at checkout page. <a target="_blank" href="https://makewebbetter.com/wordpress-plugins/?utm_source=MWB-orderbump-home&utm_medium=MWB-home-page&utm_campaign=MWB-orderbump-home" >Elevate your e-commerce store by exploring more on <strong>MakeWebBetter</strong></a>.
  *
  * Requires at least:       4.4
  * Tested up to:            5.5.1
@@ -123,7 +123,7 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	if ( ! mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
 		// Add settings links.
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'mwb_ubo_lite_plugin_settings_link' );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'mwb_ubo_lite_plugin_action_links' );
 
 		/**
 		 * Add Settings link if premium version is not available.
@@ -131,18 +131,19 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 		 * @since    1.0.0
 		 * @param    string $links link to admin arena of plugin.
 		 */
-		function mwb_ubo_lite_plugin_settings_link( $links ) {
+		function mwb_ubo_lite_plugin_action_links( $links ) {
 
 			$plugin_links = array(
 				'<a href="' . admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting' ) .
 									'">' . esc_html__( 'Settings', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'<a class="mwb-ubo-lite-go-pro" style="background: #05d5d8; color: white; font-weight: 700; padding: 2px 5px; border: 1px solid #05d5d8; border-radius: 5px;" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-orderbump-home&utm_medium=MWB-home-page&utm_campaign=MWB-orderbump-home" target="_blank">' . esc_html__( 'GO PRO', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',		
 			);
 
 			return array_merge( $plugin_links, $links );
 		}
 	}
 
-	add_filter( 'plugin_row_meta', 'mwb_ubo_lite_add_doc_and_premium_link', 10, 2 );
+	add_filter( 'plugin_row_meta', 'mwb_ubo_lite_add_important_links', 10, 2 );
 
 	/**
 	 * Add custom links for getting premium version.
@@ -152,14 +153,14 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	 *
 	 * @since    1.0.0
 	 */
-	function mwb_ubo_lite_add_doc_and_premium_link( $links, $file ) {
+	function mwb_ubo_lite_add_important_links( $links, $file ) {
 
 		if ( strpos( $file, 'upsell-order-bump-offer-for-woocommerce.php' ) !== false ) {
 
 			$row_meta = array(
-				'docs'    => '<a target="_blank" style="color:#FFF;background:linear-gradient(to right,#7a28ff 0,#00a1ff 100%);padding:5px;border-radius:6px;" href="https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-ORG&utm_campaign=MWB-upsell-bump-org">' . esc_html__( 'Go to Docs', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
-
-				'goPro' => '<a target="_blank" style="color:#FFF;background:linear-gradient(to right,#45b649,#dce35b);padding:5px;border-radius:6px;" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-ORG&utm_campaign=MWB-upsell-bump-org"><strong>' . esc_html__( 'Go Premium', 'upsell-order-bump-offer-for-woocommerce' ) . '</strong></a>',
+				'demo' => '<a href="https://demo.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-orderbump-home&utm_medium=MWB-home-page&utm_campaign=MWB-orderbump-home" target="_blank">' . esc_html__( 'Demo', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'doc' => '<a href="https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-orderbump-home&utm_medium=MWB-home-page&utm_campaign=MWB-orderbump-home" target="_blank">' . esc_html__( 'Documentation', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'support' => '<a href="https://makewebbetter.com/submit-query/" target="_blank">' . esc_html__( 'Support', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 			);
 
 			return array_merge( $links, $row_meta );
