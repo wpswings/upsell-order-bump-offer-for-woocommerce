@@ -70,6 +70,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 * class.
 		 */
 
+		// Only enqueue on the Checkout page.
+		if( function_exists( 'is_checkout' ) && ! is_checkout() ) {
+
+			return;
+		}
+
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
 	}
 
@@ -91,6 +97,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+
+		// Only enqueue on the Checkout page.
+		if( function_exists( 'is_checkout' ) && ! is_checkout() ) {
+
+			return;
+		}
 
 		// Public Script.
 		wp_enqueue_script( 'mwb-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/mwb_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false  );
