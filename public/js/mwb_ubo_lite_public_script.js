@@ -38,6 +38,12 @@ jQuery(document).ready( function($) {
 
         if ( $( parent_wrapper_class + ' .add_offer_in_cart' ).is( ':checked' ) ) {
 
+            // Show loader for Variable offers.
+            if( 'variable' == $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.offer_shown_id_type' ).val() ) {
+
+                $( '.mwb_bump_popup_loader' ).css( 'display','flex' );
+            }
+
             bump_id = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.offer_shown_id' ).val(); // offer product id.
             bump_discount = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.offer_shown_discount' ).val();
             bump_target_cart_key = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.target_id_cart_key' ).val();
@@ -76,9 +82,6 @@ jQuery(document).ready( function($) {
                         // Add zoom to defaut image.
                         selected_order_bump_popup = jQuery( '.mwb_bump_popup_' + variation_popup_index );
                         mwb_ubo_lite_intant_zoom_img( selected_order_bump_popup );
-
-                        // hide add to cart button by default.
-                        $( '.mwb_ubo_bump_add_to_cart_button' ).css('display','none');
 
                         if( default_price == '' ) {
                             default_price = $( '.mwb_ubo_price_html_for_variation' ).html();

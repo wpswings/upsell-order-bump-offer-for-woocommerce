@@ -631,11 +631,11 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 
 	$check = '';
 
-	// Check woocommrece class exists.
-	if( function_exists( 'WC' ) && ! empty( WC()->session ) ) {
+	// Retain Checked if offer is added except for admin.
+	if( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
 
-		// Retain Checked if offer is added.
-		if ( ! is_admin() && null != WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		
+		if ( null != WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
 
 			$check = 'checked';
 		}
@@ -660,6 +660,13 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
+
+	$offer_product = wc_get_product( $bump['id'] );
+
+	if ( ! empty( $offer_product ) && is_object( $offer_product ) && $offer_product->has_child() ) {	
+
+		$bumphtml .= '<input type="hidden" class ="offer_shown_id_type" value="variable">';
+	}
 
 	if ( ! empty( $bump['smart_offer_upgrade'] ) && 'yes' == $bump['smart_offer_upgrade'] ) {
 
