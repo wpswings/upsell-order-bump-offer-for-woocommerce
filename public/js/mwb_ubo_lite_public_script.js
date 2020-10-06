@@ -20,6 +20,16 @@ jQuery(document).ready( function($) {
         }
     }
 
+    // Prevent Enter Key Press for checkbox of Order Bump offers.
+    $(document).on( 'keypress', '.add_offer_in_cart', function(e) {
+
+        // The enter key code.
+        if( e.which == 13 ) {
+
+            e.preventDefault();
+        }
+    });   
+
 /*==========================================================================
                         Add to cart checkbox click
 ============================================================================*/
@@ -27,6 +37,8 @@ jQuery(document).ready( function($) {
      * CHECKBOX ADD TO CART [ works with simple product and product variations ].
      */
     $(document).on( 'click', '.add_offer_in_cart', function(e) {
+
+        e.preventDefault();
 
         order_bump_index = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.order_bump_index' ).val();
         parent_wrapper_class = '.mwb_ubo_wrapper_' + order_bump_index;
