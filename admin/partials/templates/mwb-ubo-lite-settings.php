@@ -341,13 +341,13 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				<!-- Order Bump Limit start. -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
-						<label for="mwb_bump_order_bump_limit"><?php esc_html_e( 'Order Bump Limit', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="mwb_bump_order_bump_limit"><?php esc_html_e( 'Multiple Order Bumps Count', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = esc_html__( 'Limit of order bump to be shown.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribute_description = esc_html__( 'Enter the Multiple Order Bumps count that you want to display on the checkout page.', 'upsell-order-bump-offer-for-woocommerce' );
 							mwb_ubo_lite_help_tip( $attribute_description );
 
 						?>

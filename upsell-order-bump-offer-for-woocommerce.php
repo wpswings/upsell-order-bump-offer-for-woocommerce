@@ -14,7 +14,7 @@
  * @wordpress-plugin
  * Plugin Name:       Upsell Order Bump Offer for WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/
- * Description:       Increase your cart value by adding bumps that offer additional products or services to customers at checkout page. <a target="_blank" href="https://makewebbetter.com/wordpress-plugins/?utm_source=MWB-orderbump-home&utm_medium=MWB-home-page&utm_campaign=MWB-orderbump-home" >Elevate your e-commerce store by exploring more on <strong>MakeWebBetter</strong></a>.
+ * Description:       Show exclusive order bump offers on the checkout page to your customers. Offers that are relevant and benefits your customers on the existing purchase and so increase Average Order Value and your Revenue. <a target="_blank" href="https://makewebbetter.com/wordpress-plugins/?utm_source=MWB-orderbump-home&utm_medium=MWB-home-page&utm_campaign=MWB-orderbump-home" >Elevate your e-commerce store by exploring more on <strong>MakeWebBetter</strong></a>.
  *
  * Requires at least:       4.4
  * Tested up to:            5.5.1

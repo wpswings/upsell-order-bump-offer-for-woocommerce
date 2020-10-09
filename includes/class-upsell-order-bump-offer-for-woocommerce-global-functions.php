@@ -339,11 +339,11 @@ function mwb_ubo_lite_offer_default_text() {
 
 		'mwb_ubo_discount_title_for_percent'    => sprintf( '%s %s', '{dc_%}', esc_html__( 'off only for you !!', 'upsell-order-bump-offer-for-woocommerce' ) ),
 
-		'mwb_bump_offer_decsription_text'       => esc_html__( 'A unique and handy product that perfectly fits your personality.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'mwb_bump_offer_decsription_text'       => esc_html__( 'A unique and handy product that will benefit you on your existing purchase.', 'upsell-order-bump-offer-for-woocommerce' ),
 
-		'mwb_upsell_offer_title'                => esc_html__( 'Hurry up. Get this one time offer !!', 'upsell-order-bump-offer-for-woocommerce' ),
+		'mwb_upsell_offer_title'                => esc_html__( 'Get this exclusive offer now !!', 'upsell-order-bump-offer-for-woocommerce' ),
 
-		'mwb_upsell_bump_offer_description'     => esc_html__( 'Hey fella, you can get access to the above offer by just clicking the checkbox over there. Add this offer to your order, you will never get such a discount on any other place on this site.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'mwb_upsell_bump_offer_description'     => esc_html__( 'Hey there, you can get access to this offer by just clicking the checkbox above. Add this offer to your order, you will never get such a discount on any other place on this site.', 'upsell-order-bump-offer-for-woocommerce' ),
 	);
 
 	return $default_default_text;
