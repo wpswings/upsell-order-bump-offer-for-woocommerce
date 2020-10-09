@@ -26,6 +26,30 @@ function mwb_ubo_lite_if_pro_exists() {
 }
 
 /**
+ * Checks Whether if Pro version is incompatible.
+ *
+ * @since    1.0.0
+ */
+function mwb_ubo_lite_pro_version_incompatible() {
+
+	if( mwb_ubo_lite_if_pro_exists() ) {
+
+		// When Pro plugin is outdated.
+		if( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_VERSION' ) && version_compare( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_VERSION, '1.3.0' ) < 0 ) {
+
+			return 'incompatible';
+		}
+
+		else {
+
+			return 'compatible';
+		}
+	}
+
+	return false;
+}
+
+/**
  * If pro Add-on is present and activated/valid.
  *
  * @param   string $description        Tooltip message.

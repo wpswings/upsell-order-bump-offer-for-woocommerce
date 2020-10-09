@@ -207,6 +207,12 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	 */
 	function mwb_ubo_lite_plugin_activation_failure() {
 
+		// To hide Plugin activated notice.
+		if( ! empty( $_GET['activate'] ) ) {
+
+			unset( $_GET['activate'] );
+		}
+
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 	}
 
@@ -221,9 +227,6 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	function mwb_ubo_lite_activation_admin_notice() {
 
 		global $mwb_ubo_lite_plugin_activation;
-
-		// To hide Plugin activated notice.
-		unset( $_GET['activate'] );
 
 		?>
 

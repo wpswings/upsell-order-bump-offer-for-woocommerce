@@ -616,4 +616,76 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		return $valid_screens;
 	}
 
+	/**
+	 * Validate Pro version compatibility.
+	 *
+	 * @since    1.5.0
+	 */
+	public function validate_version_compatibility() {
+
+		$result = mwb_ubo_lite_pro_version_incompatible();
+
+		// When Pro version in incompatible.
+		if( 'incompatible' == $result ) {
+
+			set_transient( 'mwb_ubo_lite_pro_version_incompatible', 'true' );
+
+			// Deactivate Pro Plugin.
+			add_action( 'admin_init', array( $this, 'deactivate_pro_plugin' ) );
+		}
+
+		// When Pro version in compatible and transient is set.
+		elseif( 'compatible' == $result && 'true' == get_transient( 'mwb_ubo_lite_pro_version_incompatible' ) ) {
+
+			delete_transient( 'mwb_ubo_lite_pro_version_incompatible' );
+		}
+
+		if( 'true' == get_transient( 'mwb_ubo_lite_pro_version_incompatible' ) ) {
+
+			// Deactivate Pro Plugin admin notice.
+			add_action( 'admin_notices', array( $this, 'deactivate_pro_admin_notice' ) );
+		}
+	}
+
+	/**
+	 * Deactivate Pro Plugin.
+	 *
+	 * @since    1.5.0
+	 */
+	public function deactivate_pro_plugin() {
+
+		// To hide Plugin activated notice.
+		if( ! empty( $_GET['activate'] ) ) {
+
+			unset( $_GET['activate'] );
+		}
+		
+
+		deactivate_plugins( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' );
+	}
+
+	/**
+	 * Deactivate Pro Plugin admin notice.
+	 *
+	 * @since    1.5.0
+	 */
+	public function deactivate_pro_admin_notice() {
+
+		$screen = get_current_screen();
+
+		$valid_screens = array(
+			'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting',
+			'order-bump_page_upsell-order-bump-offer-for-woocommerce-reporting',
+			'plugins',
+		);
+
+		if ( ! empty( $screen->id ) && in_array( $screen->id, $valid_screens ) ): ?>
+
+			<div class="notice notice-error is-dismissible mwb-notice">
+				<p><strong><?php esc_html_e( 'Upsell Order Bump Offer for WooCommerce Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong> <?php esc_html_e( 'is deactivated, Please Update the PRO version as this version is outdated and will not work with the current', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong> <?php esc_html_e( 'Upsell Order Bump Offer for WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong> <?php esc_html_e( 'Free version.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+			</div>
+
+		<?php endif;
+	}
+
 } // End of class.

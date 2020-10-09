@@ -194,6 +194,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		// Include Order Bump plugin for Deactivation pop-up.
 		$this->loader->add_filter( 'mwb_deactivation_supported_slug', $plugin_admin, 'add_mwb_deactivation_screens' );
 
+		// Validate Pro version compatibility.
+		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'validate_version_compatibility' );
+
 	}
 
 	/**
