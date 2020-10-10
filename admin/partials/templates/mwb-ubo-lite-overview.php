@@ -71,7 +71,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 
 				<!-- Feature - Right Intent -->
+				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_multiple_order_bumps">
+					<div class="mwb_ubo_lite_go_pro_features_wrap">
+						<!-- Pro feature heading. -->
+						<h3><?php esc_html_e( 'Multiple Order Bumps', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+						<!-- Pro feature Content. -->
+						<p><?php esc_html_e( 'Want to show more than one Order Bump on the checkout page, this plugin now supports Multiple Order Bumps.', 'upsell-order-bump-offer-for-woocommerce' ); ?><br>
+						<?php esc_html_e( 'Yes, now you can show Multiple Order Bumps simultaneously on the checkout page so that your customers can have more options to chose from.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+					</div>
+					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/bumps.png' ); ?> "></div>
+				</div>
+
+				<!-- Feature - Right Intent -->
 				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_upgrade_offer">
+
+					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/smart-upgrade.png' ); ?> "></div>
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature Content. -->
 						<h3><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
@@ -86,23 +100,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<br>
 						<?php esc_html_e( 'The Smart Upgrade offer feature will replace the existing product with the offer product as soon as they accept the Order Bump offer.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/smart-upgrade.png' ); ?> "></div>
 				</div>
 
-				<!-- Feature - Left Intent -->
+				<!-- Feature - Right Intent -->
 				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_smart_skip">
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/past-order.png' ); ?> "></div>
-
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature heading. -->
 						<h3><?php esc_html_e( 'Smart Skip if Already Purchased', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 						<!-- Pro feature Content. -->
 						<p><?php esc_html_e( 'This feature will allow you to Skip the Order Bump offer for those customers who have already purchased the offer product anytime before in previous orders.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
+					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/past-order.png' ); ?> "></div>
 				</div>
 
-				<!-- Feature - Right Intent -->
+				<!-- Feature - Left Intent -->
 				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_exclusive_support">
+					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/customer-support.png' ); ?> "></div>
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature Content. -->
 						<h3><?php esc_html_e( 'Exclusive Support', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
@@ -117,7 +130,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<br>
 						<?php esc_html_e( "Our Support is ready to assist you regarding any query, issue or feature request and if that doesn't help our Technical team will connect with you personally and have your query resolved.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/customer-support.png' ); ?> "></div>
 				</div>
 			</div>
 			<!-- Premium feature section ends. -->
