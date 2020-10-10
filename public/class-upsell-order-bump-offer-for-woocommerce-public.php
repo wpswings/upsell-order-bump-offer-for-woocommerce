@@ -71,7 +71,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 */
 
 		// Only enqueue on the Checkout page.
-		if( function_exists( 'is_checkout' ) && ! is_checkout() ) {
+		if( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 
 			return;
 		}
@@ -99,7 +99,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 */
 
 		// Only enqueue on the Checkout page.
-		if( function_exists( 'is_checkout' ) && ! is_checkout() ) {
+		if( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 
 			return;
 		}
@@ -640,6 +640,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function global_custom_css() {
 
+		// Only enqueue on the Checkout page.
+		if( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+
+			return;
+		}
+
 		// Ignore admin, feed, robots or trackbacks.
 		if ( is_admin() || is_feed() || is_robots() || is_trackback() ) {
 
@@ -672,6 +678,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @since    1.0.2
 	 */
 	public function global_custom_js() {
+
+		// Only enqueue on the Checkout page.
+		if( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+
+			return;
+		}
 
 		// Ignore admin, feed, robots or trackbacks.
 		if ( is_admin() || is_feed() || is_robots() || is_trackback() ) {

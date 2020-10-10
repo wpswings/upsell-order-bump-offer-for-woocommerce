@@ -279,6 +279,10 @@ jQuery(document).ready( function($) {
     $(document).on( 'click', '.mwb_ubo_bump_add_to_cart_button', function(e) {
 
         e.preventDefault();
+
+        // Prevent mulitple clicks on this button.
+        $(this).prop( 'disabled', true );
+
         order_bump_index = $(this).attr( 'offer_bump_index' );
         if( typeof order_bump_index === 'undefined' ) {
 
@@ -335,6 +339,7 @@ jQuery(document).ready( function($) {
                 $( 'body' ).trigger( 'update_checkout' );
                 $( parent_wrapper_class ).css( 'pointer-events', 'all' );
                 $( parent_wrapper_class ).css( 'opacity', '1' );
+                $('.mwb_ubo_bump_add_to_cart_button').prop( 'disabled', false );
 
                 // When Reload is required.
                 if( 'subs_reload' == msg ) {
