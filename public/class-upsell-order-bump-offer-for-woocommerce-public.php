@@ -202,7 +202,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$bump_price_html = mwb_ubo_lite_custom_price_html( $bump_product_id, $bump_discounted_price );
 
 			$response = array(
-				'key' => esc_html__( 'true', 'upsell-order-bump-offer-for-woocommerce' ),
+				'key' => 'true',
 				'message' => $bump_price_html,
 			);
 
@@ -266,7 +266,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		WC()->session->__unset( "bump_offer_status_$bump_index" );
 
-		echo json_encode( esc_html__( 'removed', 'upsell-order-bump-offer-for-woocommerce' ) );
+		echo json_encode( 'removed' );
 
 		wp_die();
 	}
