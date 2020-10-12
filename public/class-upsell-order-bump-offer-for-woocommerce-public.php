@@ -379,7 +379,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Contains target cart key.
 		$bump_target_cart_key = ! empty( $_POST['bump_target_cart_key'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_target_cart_key'] ) ) : '';
 
-		$bump_index = ! empty( $_POST['bump_index'] ) || '0' == $_POST['bump_index'] ? $_POST['bump_index'] : '';
+		$bump_index = ! empty( $_POST['bump_index'] ) || '0' == $_POST['bump_index'] ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
 
 		$order_bump_id = ! empty( $_POST['order_bump_id'] ) ? sanitize_text_field( wp_unslash( $_POST['order_bump_id'] ) ) : '';
 		$smart_offer_upgrade = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
