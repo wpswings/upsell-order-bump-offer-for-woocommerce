@@ -237,7 +237,7 @@ class Makewebbetter_Onboarding_Helper {
 
 			rand() => array(
 				'id' => 'monthly-revenue',
-				'label' => esc_html__( 'What is your monthly revenue?', 'makewebbetter-onboarding' ),
+				'label' => esc_html__( 'What is your monthly revenue?', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type' => 'radio',
 				'name' => 'monthly-revenue',
 				'value' => '',
@@ -254,7 +254,7 @@ class Makewebbetter_Onboarding_Helper {
 
 			rand() => array(
 				'id' => 'industry_type',
-				'label' => esc_html__( 'What industry defines your business?', 'makewebbetter-onboarding' ),
+				'label' => esc_html__( 'What industry defines your business?', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type' => 'select',
 				'name' => 'industry_type',
 				'value' => '',
@@ -289,7 +289,7 @@ class Makewebbetter_Onboarding_Helper {
 
 			rand() => array(
 				'id' => 'onboard-email',
-				'label' => esc_html__( 'What is the best email address to contact you?' ),
+				'label' => esc_html__( 'What is the best email address to contact you?', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type' => 'email',
 				'name' => 'onboard-email',
 				'value' => $current_user_email,
@@ -299,7 +299,7 @@ class Makewebbetter_Onboarding_Helper {
 
 			rand() => array(
 				'id' => 'onboard-number',
-				'label' => esc_html__( 'What is your contact number?' ),
+				'label' => esc_html__( 'What is your contact number?', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type' => 'text',
 				'name' => 'onboard-number',
 				'value' => '',
