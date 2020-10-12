@@ -172,13 +172,15 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = sprintf( '<p><span class="mwb_ubo_description">%s</span> <span class="mwb_ubo_tip_tip">%s</span></p><p><span class="mwb_ubo_description">%s</span> <span class="mwb_ubo_tip_tip">%s</span></p>', 
-								esc_html__( 'Remove offer when target product is removed:', 'upsell-order-bump-offer-for-woocommerce' ), 
-								esc_html__( 'As the Target product is removed the offer product associated with the target will also be removed from your customer\'s cart.', 'upsell-order-bump-offer-for-woocommerce' ), 
-								esc_html__( 'Keep offer when target product is removed:', 'upsell-order-bump-offer-for-woocommerce' ), 
-								esc_html__( 'As the Target product is removed the offer product associated with the target will be converted into a normal product in your customer\'s cart.', 'upsell-order-bump-offer-for-woocommerce' ) );
+							$attribute_description = sprintf(
+								'<p><span class="mwb_ubo_description">%s</span> <span class="mwb_ubo_tip_tip">%s</span></p><p><span class="mwb_ubo_description">%s</span> <span class="mwb_ubo_tip_tip">%s</span></p>',
+								esc_html__( 'Remove offer when target product is removed:', 'upsell-order-bump-offer-for-woocommerce' ),
+								esc_html__( 'As the Target product is removed the offer product associated with the target will also be removed from your customer\'s cart.', 'upsell-order-bump-offer-for-woocommerce' ),
+								esc_html__( 'Keep offer when target product is removed:', 'upsell-order-bump-offer-for-woocommerce' ),
+								esc_html__( 'As the Target product is removed the offer product associated with the target will be converted into a normal product in your customer\'s cart.', 'upsell-order-bump-offer-for-woocommerce' )
+							);
 							mwb_ubo_lite_help_tip( $attribute_description );
-						?>
+							?>
 
 						<select id="mwb_ubo_offer_removal_select" name="mwb_ubo_offer_removal" >
 

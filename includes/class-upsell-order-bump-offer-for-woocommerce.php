@@ -339,7 +339,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$single_first_bump = array( key( $mwb_ubo_offer_array_collection ) => $mwb_ubo_offer_array_collection[ key( $mwb_ubo_offer_array_collection ) ] );
 
 			// Unset Smart Offer Upgrade in case as it's a pro feature.
-			$single_first_bump[key( $mwb_ubo_offer_array_collection )]['mwb_ubo_offer_replace_target'] = 'no';
+			$single_first_bump[ key( $mwb_ubo_offer_array_collection ) ]['mwb_ubo_offer_replace_target'] = 'no';
 
 			return $single_first_bump;
 		}

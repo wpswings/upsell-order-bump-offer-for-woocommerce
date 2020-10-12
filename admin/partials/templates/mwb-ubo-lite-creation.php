@@ -426,13 +426,13 @@ $mwb_upsell_bump_schedule_options = array(
 
 						// For earlier versions we will get a string over here.
 						if ( ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) && ! is_array( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ) {
-							
+
 							// Whatever was the selected day, add as an array.
-							$mwb_ubo_selected_schedule = array( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ][ 'mwb_upsell_bump_schedule' ] );
-							
+							$mwb_ubo_selected_schedule = array( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] );
+
 						} else {
 
-							$mwb_ubo_selected_schedule = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ? ( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) : array( '0' ); 
+							$mwb_ubo_selected_schedule = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ? ( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) : array( '0' );
 						}
 
 						?>
@@ -441,7 +441,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 							<?php foreach ( $mwb_upsell_bump_schedule_options as $key => $day ) : ?>
 
-								<option <?php echo in_array( $key, $mwb_ubo_selected_schedule ) ? 'selected' : '' ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $day ); ?></option>
+								<option <?php echo in_array( $key, $mwb_ubo_selected_schedule ) ? 'selected' : ''; ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $day ); ?></option>
 
 							<?php endforeach; ?>
 

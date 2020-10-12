@@ -136,7 +136,7 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 			$plugin_links = array(
 				'<a href="' . admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting' ) .
 									'">' . esc_html__( 'Settings', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
-				'<a class="mwb-ubo-lite-go-pro" style="background: #05d5d8; color: white; font-weight: 700; padding: 2px 5px; border: 1px solid #05d5d8; border-radius: 5px;" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-orderbump-home&utm_medium=MWB-home-page&utm_campaign=MWB-orderbump-home" target="_blank">' . esc_html__( 'GO PRO', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',		
+				'<a class="mwb-ubo-lite-go-pro" style="background: #05d5d8; color: white; font-weight: 700; padding: 2px 5px; border: 1px solid #05d5d8; border-radius: 5px;" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-orderbump-home&utm_medium=MWB-home-page&utm_campaign=MWB-orderbump-home" target="_blank">' . esc_html__( 'GO PRO', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 			);
 
 			return array_merge( $plugin_links, $links );
@@ -208,7 +208,7 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	function mwb_ubo_lite_plugin_activation_failure() {
 
 		// To hide Plugin activated notice.
-		if( ! empty( $_GET['activate'] ) ) {
+		if ( ! empty( $_GET['activate'] ) ) {
 
 			unset( $_GET['activate'] );
 		}

@@ -71,7 +71,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 */
 
 		// Only enqueue on the Checkout page.
-		if( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 
 			return;
 		}
@@ -99,13 +99,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 */
 
 		// Only enqueue on the Checkout page.
-		if( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 
 			return;
 		}
 
 		// Public Script.
-		wp_enqueue_script( 'mwb-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/mwb_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false  );
+		wp_enqueue_script( 'mwb-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/mwb_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
 
 		wp_localize_script(
 			'mwb-ubo-lite-public-script',
@@ -153,7 +153,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		/**
 		 * This adds the bump to checkout page.
 		 */
-		if( function_exists( 'is_checkout' ) && is_checkout() ) {
+		if ( function_exists( 'is_checkout' ) && is_checkout() ) {
 
 			require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-public-display.php';
 		}
@@ -192,7 +192,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$added = 'added';
 
 		if ( mwb_ubo_lite_reload_required_after_adding_offer( $_product ) ) {
-			
+
 			$added = 'subs_reload';
 		}
 
@@ -220,8 +220,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
 			$sales_by_bump->add_offer_accept_count();
 
-			WC()->session->set( 'bump_offer_status' , 'added' );
-			WC()->session->set( "bump_offer_status_$bump_index" , $bump_offer_cart_item_key );
+			WC()->session->set( 'bump_offer_status', 'added' );
+			WC()->session->set( "bump_offer_status_$bump_index", $bump_offer_cart_item_key );
 
 			// Smart offer Upgrade.
 			if ( mwb_ubo_lite_if_pro_exists() && 'yes' == $smart_offer_upgrade ) {
@@ -259,7 +259,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$bump_index = ! empty( $_POST['bump_index'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
 
-		if( null != WC()->session->get( "bump_offer_status_$bump_index" ) ) {
+		if ( null != WC()->session->get( "bump_offer_status_$bump_index" ) ) {
 
 			WC()->cart->remove_cart_item( WC()->session->get( "bump_offer_status_$bump_index" ) );
 		}
@@ -399,7 +399,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$added = 'added';
 
 		if ( mwb_ubo_lite_reload_required_after_adding_offer( $_product ) ) {
-			
+
 			$added = 'subs_reload';
 		}
 
@@ -409,9 +409,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
 		$sales_by_bump->add_offer_accept_count();
 
-		WC()->session->set( "bump_offer_status_index_$bump_index" , $bump_offer_cart_item_key );
+		WC()->session->set( "bump_offer_status_index_$bump_index", $bump_offer_cart_item_key );
 
-		WC()->session->set( 'bump_offer_status' , 'added' );
+		WC()->session->set( 'bump_offer_status', 'added' );
 
 		// Smart offer Upgrade.
 		if ( mwb_ubo_lite_if_pro_exists() && 'yes' == $smart_offer_upgrade ) {
@@ -447,7 +447,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			$cart_item = WC()->cart->cart_contents[ $cart_item_key ];
 
-			if( ! empty( $cart_item['mwb_ubo_offer_product'] ) ) {
+			if ( ! empty( $cart_item['mwb_ubo_offer_product'] ) ) {
 
 				// For Bump product allowed quantity is one.
 				$product_quantity = 1;
@@ -471,7 +471,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function after_remove_product( $key_to_be_removed, $cart_object ) {
 
-		if( empty( $key_to_be_removed ) || empty( WC()->cart->cart_contents ) ) {
+		if ( empty( $key_to_be_removed ) || empty( WC()->cart->cart_contents ) ) {
 
 			return;
 		}
@@ -479,20 +479,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$current_cart_item = ! empty( $cart_object->cart_contents[ $key_to_be_removed ] ) ? $cart_object->cart_contents[ $key_to_be_removed ] : '';
 
 		// When the removed product is an Offer product.
-		if( ! empty( $current_cart_item['mwb_ubo_offer_product'] ) ) {
+		if ( ! empty( $current_cart_item['mwb_ubo_offer_product'] ) ) {
 
 			// Hide Undo notice for Offer Products.
 			add_filter( 'woocommerce_cart_item_removed_notice_type', '__return_null' );
 
-			$bump_index = ! empty( $current_cart_item['mwb_ubo_offer_index'] ) ?  $current_cart_item['mwb_ubo_offer_index'] : '';
-			$bump_id = ! empty( $current_cart_item['mwb_ubo_bump_id'] ) ?  $current_cart_item['mwb_ubo_bump_id'] : '';
+			$bump_index = ! empty( $current_cart_item['mwb_ubo_offer_index'] ) ? $current_cart_item['mwb_ubo_offer_index'] : '';
+			$bump_id = ! empty( $current_cart_item['mwb_ubo_bump_id'] ) ? $current_cart_item['mwb_ubo_bump_id'] : '';
 
 			// Add Order Bump Offer Remove Count for the respective Order Bump.
 			$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $bump_id );
 			$sales_by_bump->add_offer_remove_count();
 
 			// When the removed product is a Smart Offer Upgrade - Offer product.
-			if( ! empty( $current_cart_item['mwb_ubo_sou_offer'] ) && ! empty( $current_cart_item['mwb_ubo_target_key'] ) ) {
+			if ( ! empty( $current_cart_item['mwb_ubo_sou_offer'] ) && ! empty( $current_cart_item['mwb_ubo_target_key'] ) ) {
 
 				// Restore Target product.
 				if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'mwb_ubo_retrieve_target' ) ) {
@@ -500,7 +500,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					Upsell_Order_Bump_Offer_For_Woocommerce_Pro::mwb_ubo_retrieve_target( $current_cart_item['mwb_ubo_target_key'] );
 				}
 			}
-			
+
 			/**
 			 * Unset order bump params from WC cart and index session for the removed offer product.
 			 * Do not unset other session variables.
@@ -508,7 +508,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			/**
 			 * Unset order bump params from WC cart to prevent Offer rollback on undo.
-			 * Commenting : Unset in WC() Cart doesn't work for the current cart item 
+			 * Commenting : Unset in WC() Cart doesn't work for the current cart item
 			 * that is being removed, works with other cart items though.
 			 */
 			// unset( WC()->cart->cart_contents[ $key_to_be_removed ]['mwb_ubo_offer_product'] );
@@ -520,18 +520,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			// As offer product is removed so no need remove encountered session to refetch order bumps.
 			return;
-		
+
 		}
 
 		// When the removed product is a Smart Offer Upgrade - Target product.
-		elseif( ! empty( $current_cart_item['mwb_ubo_sou_target'] ) ) {
+		elseif ( ! empty( $current_cart_item['mwb_ubo_sou_target'] ) ) {
 
 			// Do nothing.
 			return;
 		}
 
 		// When the removed product is a Normal or Target product.
-		elseif( ! empty( $cart_object->cart_contents ) && is_array( $cart_object->cart_contents ) ) {
+		elseif ( ! empty( $cart_object->cart_contents ) && is_array( $cart_object->cart_contents ) ) {
 
 			// Global settings.
 			$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
@@ -539,10 +539,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			foreach ( $cart_object->cart_contents as $cart_offer_item_key => $cart_offer_item ) {
 
 				// Check Offer product and Target keys.
-				if( ! empty( $cart_offer_item['mwb_ubo_offer_product'] ) && ! empty( $cart_offer_item['mwb_ubo_target_key'] ) ) {
+				if ( ! empty( $cart_offer_item['mwb_ubo_offer_product'] ) && ! empty( $cart_offer_item['mwb_ubo_target_key'] ) ) {
 
 					// When Target key matches means Removed product is a Target product.
-					if( $cart_offer_item['mwb_ubo_target_key'] == $key_to_be_removed ) {
+					if ( $cart_offer_item['mwb_ubo_target_key'] == $key_to_be_removed ) {
 
 						// If the same target key is found in order cart item, Handle offer product too.
 						$bump_index = ! empty( $cart_offer_item['mwb_ubo_offer_index'] ) ? $cart_offer_item['mwb_ubo_offer_index'] : '';
@@ -585,7 +585,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 							 * Unset order bump params from WC cart and index session for the dependent offer product.
 							 * Do not unset other session variables.
 							 */
-							if( ! empty( $cart_offer_item_key ) ) {
+							if ( ! empty( $cart_offer_item_key ) ) {
 
 								// Convert Offer product to normal product.
 								unset( WC()->cart->cart_contents[ $cart_offer_item_key ]['mwb_ubo_offer_product'] );
@@ -641,7 +641,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function global_custom_css() {
 
 		// Only enqueue on the Checkout page.
-		if( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 
 			return;
 		}
@@ -680,7 +680,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function global_custom_js() {
 
 		// Only enqueue on the Checkout page.
-		if( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 
 			return;
 		}
@@ -779,17 +779,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$encountered_bump_key_array = array();
 		$encountered_target_key_array = array();
 
-		if( ! empty( $order_bump_collection ) && is_array( $order_bump_collection ) ) {
+		if ( ! empty( $order_bump_collection ) && is_array( $order_bump_collection ) ) {
 
 			foreach ( $order_bump_collection as $single_bump_id => $single_bump_array ) {
 
-
-				if( count( $encountered_bump_key_array ) >= $order_bump_limit ) {
+				if ( count( $encountered_bump_key_array ) >= $order_bump_limit ) {
 					break;
 				}
 
 				// If already encountered and saved. ( Just if happens : Worst case. )
-				if( ! empty( $encountered_bump_key_array ) && in_array( $single_bump_id , $encountered_bump_key_array ) ) {
+				if ( ! empty( $encountered_bump_key_array ) && in_array( $single_bump_id, $encountered_bump_key_array ) ) {
 
 					continue;
 				}
@@ -807,15 +806,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				 * Check for Bump Schedule.
 				 * For earlier versions here we will get a string instaed of array.
 				 */
-				if( empty( $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
+				if ( empty( $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
 
 					// Could be '0' or array( '0' );
 					$single_bump_array['mwb_upsell_bump_schedule'] = array( '0' );
 
-				} 
+				}
 
 				// If is string means for earlier versions.
-				elseif( ! empty( $single_bump_array['mwb_upsell_bump_schedule'] ) && ! is_array( $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
+				elseif ( ! empty( $single_bump_array['mwb_upsell_bump_schedule'] ) && ! is_array( $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
 
 					$single_bump_array['mwb_upsell_bump_schedule'] = array( $single_bump_array['mwb_upsell_bump_schedule'] );
 
@@ -828,7 +827,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				}
 
 				// Got an array. Now check.
-				if( ! in_array( '0', $single_bump_array['mwb_upsell_bump_schedule'] ) && ! in_array( date( 'N' ), $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
+				if ( ! in_array( '0', $single_bump_array['mwb_upsell_bump_schedule'] ) && ! in_array( date( 'N' ), $single_bump_array['mwb_upsell_bump_schedule'] ) ) {
 
 					continue;
 				}
@@ -868,12 +867,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					/**
 					 * MWB Fix :: for mutliple order bump for categories.
 					 */
-					if( ! empty( $encountered_bump_array ) ) {
+					if ( ! empty( $encountered_bump_array ) ) {
 						$encountered_bump_array = 0;
 					}
 
 					// If  target category is present.
-					if( ! empty( $single_bump_array['mwb_upsell_bump_target_ids'] ) && is_array( $single_bump_array['mwb_upsell_bump_target_ids'] ) ) :
+					if ( ! empty( $single_bump_array['mwb_upsell_bump_target_ids'] ) && is_array( $single_bump_array['mwb_upsell_bump_target_ids'] ) ) :
 
 						// Check if these product are present in cart one by one.
 						foreach ( $single_bump_array['mwb_upsell_bump_target_ids'] as $key => $single_target_id ) {
@@ -915,8 +914,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								array_push( $encountered_target_key_array, $mwb_upsell_bump_target_key );
 								break;
 							}
-
-						} 
+						}
 
 					endif;
 
@@ -969,15 +967,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 							}
 						} // Second foreach for category search end.
 					}
-					
 				} else {
 
 					// If offer product is not saved, continue.
 					continue;
 				}
-
 			} // $order_bump_collection foreach end.
-			
+
 		} // Empty and Array Condition check for $order_bump_collection.
 
 		if ( ! empty( $encountered_bump_key_array ) && ! empty( $encountered_target_key_array ) ) {
@@ -999,7 +995,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function woocommerce_init_ubo_functions() {
 
 		// Check woocommrece class exists.
-		if( ! function_exists( 'WC' ) || empty( WC()->session ) ) {
+		if ( ! function_exists( 'WC' ) || empty( WC()->session ) ) {
 
 			return;
 		}
@@ -1044,7 +1040,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$order_items = $order->get_items();
 
-		if( ! empty( $order_items ) && is_array( $order_items ) ) {
+		if ( ! empty( $order_items ) && is_array( $order_items ) ) {
 
 			foreach ( $order_items as $item_key => $single_order_item ) {
 
@@ -1059,7 +1055,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				}
 			}
 		}
-	}	
+	}
 
 	/**
 	 * Hide Order Bump meta from order items.
@@ -1068,7 +1064,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function hide_order_bump_meta( $formatted_meta ) {
 
-		if( ! empty( $formatted_meta ) && is_array( $formatted_meta ) ) {
+		if ( ! empty( $formatted_meta ) && is_array( $formatted_meta ) ) {
 
 			// Hide bump id meta for both Customers and Admin.
 			foreach ( $formatted_meta as $key => $meta ) {
@@ -1080,7 +1076,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			}
 
 			// Hide bump purchase meta only for Customers.
-			if( ! is_admin() ) {
+			if ( ! is_admin() ) {
 
 				foreach ( $formatted_meta as $key => $meta ) {
 
@@ -1106,7 +1102,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$order_items = $order->get_items();
 
-		if( ! empty( $order_items ) && is_array( $order_items ) ) {
+		if ( ! empty( $order_items ) && is_array( $order_items ) ) {
 
 			foreach ( $order_items as $item_id => $single_item ) {
 
@@ -1199,5 +1195,5 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		mwb_ubo_session_destroy();
 	}
 
-// End of class.
+	// End of class.
 }
