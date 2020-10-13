@@ -38,8 +38,6 @@ jQuery(document).ready( function($) {
      */
     $(document).on( 'click', '.add_offer_in_cart', function(e) {
 
-        e.preventDefault();
-
         order_bump_index = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.order_bump_index' ).val();
         parent_wrapper_class = '.mwb_ubo_wrapper_' + order_bump_index;
         order_bump_id = $(this).closest('.mwb_upsell_offer_main_wrapper').find( '.order_bump_id' ).val();
