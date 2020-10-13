@@ -266,14 +266,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				?>
 				<div class="wrap woocommerce" id="mwb_upsell_bump_setting_wrapper">
 
-					<div class="mwb_upsell_bump_setting_title"><?php esc_html_e( 'Upsell Order Bump Offers Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>
-						<span class="mwb_upsell_bump_setting_title_version">
-						<?php
-							esc_html_e( 'v', 'upsell-order-bump-offer-for-woocommerce' );
-							echo esc_html( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_VERSION );
-						?>
-						</span>
-					</div>
+					<div class="mwb_upsell_bump_setting_title"><?php esc_html_e( 'Upsell Order Bump Offers Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 					<?php
 					// Failed Activation.
 					include_once( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/mwb-upsell-bump-license.php' );

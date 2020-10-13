@@ -839,9 +839,6 @@ h1.mwb_upsell_bump_setting_title .mwb-upsell-bump-wrap h1 {
   box-shadow: 0px 0px;
   color: #fff;
 }
-#mwb_upsell_bump_setting_wrapper .mwb_upsell_bump_setting_title span.mwb_upsell_bump_setting_title_version {
-  float: right;
-}
 #mwb_upsell_bump_setting_wrapper nav.nav-tab-wrapper.woo-nav-tab-wrapper {
   margin: 0 -20px;
   padding: 0;
@@ -970,9 +967,6 @@ table.form-table.mwb_upsell_bump_creation_setting tr th label {
 .new_created_offers.mwb_upsell_single_offer table {
   margin-bottom: 30px !important;
   border-collapse: collapse;
-}
-.mwb_upsell_bump_setting_title_version {
-  font-size: 16px;
 }
 #mwb_upsell_bump_setting_wrapper .mwb_upsell_table .new_offers tr td input[type="checkbox"] {
   width: 10px;
