@@ -291,7 +291,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	/**
 	 * Reporting and Funnel Stats Sub menu callback.
 	 *
-	 * @since       1.5.0
+	 * @since       1.4.0
 	 */
 	public function add_submenu_page_reporting_callback() {
 
@@ -515,7 +515,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		/**
 		 * Add Upsell Reporting in Woo Admin reports.
 		 *
-		 * @since       1.5.0
+		 * @since       1.4.0
 		 */
 	public function add_order_bump_reporting( $reports ) {
 
@@ -553,7 +553,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	/**
 	 * Add custom report. callback.
 	 *
-	 * @since       1.5.0
+	 * @since       1.4.0
 	 */
 	public static function order_bump_reporting_callback( $report_type ) {
 
@@ -586,7 +586,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	/**
 	 * Include Order Bump screen for Onboarding pop-up.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 */
 	public function add_mwb_frontend_screens( $valid_screens = array() ) {
 
@@ -602,7 +602,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	/**
 	 * Include Order Bump plugin for Deactivation pop-up.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 */
 	public function add_mwb_deactivation_screens( $valid_screens = array() ) {
 
@@ -619,7 +619,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	/**
 	 * Validate Pro version compatibility.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 */
 	public function validate_version_compatibility() {
 
@@ -650,7 +650,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	/**
 	 * Deactivate Pro Plugin.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 */
 	public function deactivate_pro_plugin() {
 
@@ -666,7 +666,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	/**
 	 * Deactivate Pro Plugin admin notice.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 */
 	public function deactivate_pro_admin_notice() {
 

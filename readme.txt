@@ -7,7 +7,7 @@ Requires at least: 4.0
 Tested up to: 5.5.1
 WC requires at least: 3.0.0
 WC tested up to: 4.5.2
-Stable tag: 1.5.0
+Stable tag: 1.4.0
 Requires PHP: 5.6
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -191,7 +191,7 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Changelog ==
 
-= 1.5.0 =
+= 1.4.0 =
 * New: Compatibility with Subscription products.
 * New: Order Bumps Reporting and Behavioral Analytics.
 * Improved: Better Security and Performance.
@@ -217,7 +217,7 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Upgrade Notice ==
 
-= 1.5.0 =
+= 1.4.0 =
 * New: Compatibility with Subscription products.
 * New: Order Bumps Reporting and Behavioral Analytics.
 * Improved: Better Security and Performance.

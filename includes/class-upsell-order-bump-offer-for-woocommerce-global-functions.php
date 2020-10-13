@@ -1488,7 +1488,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
  * In which Order Bump ids are saved
  * which are displayed from session.
  *
- * @since   1.5.0
+ * @since   1.4.0
  */
 function mwb_ubo_destroy_encountered_session() {
 
@@ -1677,7 +1677,7 @@ function mwb_ubo_lite_getcat_title( $cat_id = '' ) {
  * @param   string $encountered_order_bump_id                  Single order bump id.
  * @param   string $key                                        Key of encountered order bump array.
  * @param   string $encountered_respective_target_key          Target product key for same order bump.
- * @since   1.5.0
+ * @since   1.4.0
  */
 function mwb_ubo_analyse_and_display_order_bump( $encountered_order_bump_id = '', $key, $encountered_respective_target_key ) {
 
@@ -1724,7 +1724,7 @@ function mwb_ubo_analyse_and_display_order_bump( $encountered_order_bump_id = ''
  * @param   string $encountered_order_bump_id          Single order bump id.
  * @param   array  $mwb_ubo_offer_array_collection     Array of all order bumps collection.
  * @param   array  $mwb_ubo_global_options             Array of global settings.
- * @since   1.5.0
+ * @since   1.4.0
  */
 function mwb_ubo_order_bump_session_validations( $encountered_order_bump_id = '', $mwb_ubo_offer_array_collection, $mwb_ubo_global_options ) {
 
@@ -1769,7 +1769,7 @@ function mwb_ubo_order_bump_session_validations( $encountered_order_bump_id = ''
  * If page reload is required when subscription offer is added
  * and according to conditions.
  *
- * @since    1.5.0
+ * @since    1.4.0
  */
 function mwb_ubo_lite_reload_required_after_adding_offer( $product = '' ) {
 

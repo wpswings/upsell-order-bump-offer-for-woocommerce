@@ -5,7 +5,7 @@
  * This file is used for Order Bump Reports and Order Bump Sales by Funnel - Stats.
  *
  * @link       https://makewebbetter.com/
- * @since      1.5.0
+ * @since      1.4.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/admin/reporting/templates

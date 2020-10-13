@@ -4,7 +4,7 @@
  * Sales by Order Bump - Data handling and Stats.
  *
  * @link       https://makewebbetter.com/
- * @since      1.5.0
+ * @since      1.4.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/reporting
@@ -24,7 +24,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Order Bump ID for operations.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 * @access   protected
 	 * @var      int    $bump_id    Order Bump ID.
 	 */
@@ -33,7 +33,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Order Bump Series array.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 * @access   protected
 	 * @var      array    $bump_series    Order Bump Series.
 	 */
@@ -42,7 +42,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Initialize the Class.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 */
 	public function __construct( $bump_id = 0 ) {
 
@@ -54,7 +54,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Get all Order Bumps.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 * @access   protected
 	 */
 	protected function set_bump_series() {
@@ -65,7 +65,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Validate Order Bump series and check for Order Bump ID index.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 * @access   protected
 	 */
 	protected function validate_bump_series() {
@@ -82,7 +82,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Save the Order Bump series with the Updated data.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 * @access   protected
 	 */
 	protected function save_bump_series( $bump_series = array() ) {
@@ -93,7 +93,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Add Offer View Count for the current Order Bump.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 * @access   public
 	 */
 	public function add_offer_view_count() {
@@ -115,7 +115,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Add Offer Accept Count for the current Order Bump.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 * @access   public
 	 */
 	public function add_offer_accept_count() {
@@ -137,7 +137,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Add Offer Remove Count for the current Order Bump.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 * @access   public
 	 */
 	public function add_offer_remove_count() {
@@ -160,7 +160,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	 * Add Order Bump Success Count ( When Payment processes and customer Reaches Thankyou Page
 	 * after Offer is Accepted ).
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 * @access   public
 	 */
 	public function add_bump_success_count() {
@@ -182,7 +182,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Add Order Bump Total Sales ( Order Bump items ) without tax.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 * @access   public
 	 */
 	public function add_bump_total_sales( $order_bump_item_total = 0 ) {

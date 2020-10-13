@@ -1060,7 +1060,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Hide Order Bump meta from order items.
 	 *
-	 * @since       1.5.0
+	 * @since       1.4.0
 	 */
 	public function hide_order_bump_meta( $formatted_meta ) {
 
@@ -1121,7 +1121,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Handle Order Bump Orders on Thankyou for Success Rate and Stats.
 	 *
-	 * @since    1.5.0
+	 * @since    1.4.0
 	 */
 	public function report_sales_by_bump_handling( $order_id ) {
 
