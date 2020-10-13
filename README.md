@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.5.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-4.5.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.5.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-4.5.2-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
 
 ![Upsell Order Bump Offer for Woocommerce](https://mwblive-0obrejwqde.netdna-ssl.com/wp-content/uploads/2019/06/bump-offer-thumbnail.png)
 * Contributors:MakeWebBetter
@@ -20,12 +20,6 @@
 * Develop Interest for the offer by mentioning how the offer will benefit them on their existing purchase.
 * Convince them that this is an Exclusive offer only available here at this Discount.
 * Ask them to Act and Accept the offer.
-
-
-# Premium Addon Features 
-
-* Unlimited numbers of order bumps to be created.
-* Free support till 6 months.
 
 # Benefits 
 

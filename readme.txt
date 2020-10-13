@@ -2,7 +2,7 @@
 
 Contributors: MakeWebBetter
 Donate link: http://makewebbetter.com/
-Tags: woocommerce, upsell, bump, increase sales, order bump, offers, pre purchase 
+Tags: bump, increase sales, upsell, woocommerce, checkout page 
 Requires at least: 4.0
 Tested up to: 5.5.1
 WC requires at least: 3.0.0
@@ -12,128 +12,100 @@ Requires PHP: 5.6
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
+Amplify your store’s average order value and engagement by offering bump offers on the checkout page that customers can buy in one click.
 
 == Description ==
 
-Show special exclusive order bump offers on the checkout page.
+**HIGHEST RATED ORDER BUMP OFFER PLUGIN ON WORDPRESS**
 
-Have you ever analyzed your customer’s buying experience at your online store?
+Upsell order bump offer is an upselling plugin that facilitates store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer’s existing Order in just a single click.
 
-Are you expecting more from your store sales and revenue?
+This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets which will ensure customer satisfaction and thus result in higher conversion rates
 
-If your answer is Yes, then you must install the **Upsell Order Bump Offer for WooCommerce** now.
-
-[youtube https://www.youtube.com/watch?v=p9KIQyXauY4 ]
-
-This is an upselling plugin that facilitates store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer's existing Order in just a single click.
-
-This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets which will ensure customer satisfaction and thus result in higher conversion rates.
-
-* Facilitates special WooCommerce checkout offers to your store customers who are just about to purchase products from your store.
-* Offer Smart Order Bumps on the Checkout page.
-* Customize Offer Layouts specifically according to Products.
-* Offer Gets Accepted in One-Click.
-* Boost eCommerce sales and Increase your revenue.
+[youtube https://www.youtube.com/watch?v=p9KIQyXauY4]
 
 
-See Order Bumps in action - [Live Demo](https://demo.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
+== With the Upsell Order Bump Offer For WooCommerce plugin you can: ==
 
+* Create special offers on the checkout page.
+* Customize Offer Layouts specifically according to your products.
+* Grow your average order value and customer satisfaction rate.
+* Schedule your bump offers for specific days.
+* Edit your offers in Sandbox mode.
+* Skip bump offers if the offer product is already added in the cart.
+* Offer simple, variable, and subscription products as order bump offers.
+* Track order bumps performance with Order Bump Sales Reports and Behavioral Analytics.
 
-== MAIN FEATURES ==
+== WHAT’S INCLUDED IN OUR FREE UPSELL ORDER BUMP OFFER PLUGIN ==
 
-* **Special Offer – On Checkout Page** - Upsell Order Bump Offer for WooCommerce will help to provide a unique form of a well-timed offer as checkout bump and increase conversion rate. This is a one-time exclusive offer that allows the customers to purchase things at a well-valued price.
+**1) Special Offer On the Checkout Page**
 
-* **Just a precious single click to accept the offer** - The Order Bump offer can be accepted in just a single click in which the customer can just simply tick the checkbox to add the offer to their existing order.
+Upsell Order Bump Offer for WooCommerce provides a unique form of a well-timed offer as a checkout bump. This is a one-time exclusive offer that allows the customers to purchase things at a well-valued price.
 
-* **Target Product Category For Triggering Bump Offers** - You can trigger your WooCommerce checkout offers based on the target Category of products, **For example** Electronics, so if anyone purchases a product from Electronics category then your Order Bump Funnel will be triggered and offer will be shown.
+**2) Just a precious single click to accept the offer**
+
+The Order Bump offer can be accepted in just a single click in which the customer can just simply tick the checkbox to add the offer to their existing order.
+
+**3) Category Based Offer Triggering**
+
+You can trigger your WooCommerce checkout offers based on the target Category of products, For example, if anyone purchases a product from the Electronics category then your Order Bump offer will be triggered and the offer will be shown.
+
 Setting up the target category saves a lot of time from adding individual products as targets and you can set up related upsell offers that will show up for the right category.
 
-* **Schedule Bump Offers** - The Order Bumps can be scheduled for specific weekdays which can make them exclusive and available only for a limited time.
+**4) Bump Offer Scheduling**
 
-* **Create Product Specific Bump Offers** - Each of your WooCommerce Order Bumps can be designed and customized differently and specifically according to the offer product.
+The Order Bumps can be scheduled for specific weekdays which can make them exclusive and available only for that set period of time.
 
-* **Template Customization with Live Preview** - Merchant can customize order bump offer and view Live Preview at the same time. Live Preview is available for Template, Design, and Content. Live Preview Customization helps in creating appealing Order Bumps for WooCommerce.
+**5) Product Specific Bump Offers**
 
-* **Multiple Locations on the Checkout page** - The Order Bump offer can be displayed on multiple locations on the Checkout Page. The locations are "Before Order Summary", "Before Payment Gateways", "After Payment Gateways", "Before Place Order Button".
+Each of your WooCommerce Order Bumps can be designed and customized differently and specifically according to the offer product.
 
-* **Bump Offer Sandbox Mode** - The ability to Live Preview and Customize Order Bump Offer layout in sandbox mode and modify every element before going Live.
+**6) Template Customization with Live Preview**
 
-* **Responsive Order Bumps design** - The Order Bump offers are completely responsive so the customer can accept the offer no matter he is on Desktop, Mobile or Tablet.
+Merchants can customize order bump offers and view Live Preview at the same time. Live Preview is available for Template, Design, and Content. Live Preview Customization helps in creating appealing Order Bumps for your WooCommerce store.
 
+**7) Multiple Locations on the Checkout page**
 
-== PRODUCTS ==
+The Order Bump offer can be displayed on multiple locations on the Checkout Page. You can display them “Before Order Summary”, “Before Payment Gateways”, “After Payment Gateways”, “Before Place Order Button”.
 
-* **Supported Products** - Simple, Variable products.
+**8) Sandbox Mode**
 
-== PREMIUM ADDON FEATURES ==
+Our plugin has Sandbox mode that gives you the ability to Live Preview and Customize Order Bump Offer layout and modify every element before making it Live.
 
-* **Unlock the power to create unlimited Order Bumps** - Create multiple Order Bumps. Introduce your customers to the most relevant offers which will benefit them on their existing purchase. Give your sales a great boost ahead.
-* **Smart Offer Upgrade** - Want to Offer an Upgrade on the Existing purchase to your customers.	
-The Smart Upgrade offer feature will replace the existing product with the offer product as soon as they accept the Order Bump offer.
-* **Smart Skip if Already Purchased** - This feature will allow you to Skip the Order Bump offer for those customers who have already purchased the offer product anytime before in previous orders.
-* **Get Premium Support** - Receive dedicated 24*7 Phone, Email & Skype support.
+**9) Responsive Order Bumps design**
 
+The Order Bump offers are completely responsive for every type of device no matter whether it is Desktop, Mobile, or Tablet.
 
-For **Premium Version** [Visit Here](https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
+**10) Behavioral Reporting**
 
+Merchants can analyze the customer behavior for every individual bump offer. With this behavioral report, a merchant can check the number of times a particular offer was viewed, accepted, or removed from the cart. It also shows the conversion rate as well as the total sales for every order bump offer.
 
+**11) Sales Report**
 
-== BENEFITS ==
+With the Order Bump Sales Report, a merchant can track the sale of the products that were sold as a bump offer. It lets you track the sale of those products for a specific time period and also enables you to track the sales as per individual products and product categories.
 
-* Make your customers feel special with exciting pre-checkout offers.
+**12) Major Product Types Support**
 
-* Streamlines to increase sales instantly.
+The plugin comes with full compatibility with simple, variable, and subscription product types. This increases the range of offer products that you can provide to your customers.
 
-* Increase willingness to buy more.
-
-* Hike up the store's average order value by 10%-25%.
-
-* Exposure to higher-margin items and best sellers.
-
-* Significantly increase your customer LTV (Life Time Value).
-
-* Amplify your revenue with smart offers.
-
-* Provides the best Upsell strategy.
+[Free demo of Upsell Order Bump Offer for WooCommerce](https://demo.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
 
 
-== WANT HELP ==
+Visit [Upsell Order Bump Offer for WooCommerce Documentation](https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org) to learn more about the features and working of the plugin.
 
-* For **Plugin Documentation** [visit here](https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
+== WHAT PREMIUM VERSION OF UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE OFFERS ==
 
-* For **More Plugins** [visit here](https://makewebbetter.com/wordpress-plugins/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
+* Create Unlimited Order Bump offers.
+* Show Multiple Order Bumps offers on the checkout page.
+* Smart Offer Upgrade to offer an upgrade on the existing purchase.
+* Smart Skip if Already Purchased to skip the bump offers if already purchased.
+* Premium Support on Phone, Email & Skype.
 
+[WooCommerce Upsell Order Bump Offer Pro](https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
 
 == SUPPORT ==
 
-If you need support or have any question then kindly use our online chat window [here](https://makewebbetter.com/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org) or send us an email at [support@makewebbetter.com](mailto:support@makewebbetter.com)
-
-
-== FOLLOW US ==
-
-* [**Our Official Website**](https://makewebbetter.com/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org) 
-* [**Our Facebook Page**](https://www.facebook.com/makewebbetter)
-* [**Our Twitter Account**](https://twitter.com/makewebbetter)
-* [**Our LinkedIn Account**](https://www.linkedin.com/company/makewebbetter)
-
-
-
-== Installation ==
-
-= Automatic installation =
-
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of Upsell Order Bump Offer for WooCommerce, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
-
-In the search field type **"Upsell Order Bump Offer for WooCommerce"** and click Search Plugins. Once you've found our Upsell Order Bump Offer for WooCommerce plugin you can view details about it such as the point release, rating, and description. Most importantly, of course, you can install it by simply clicking **"Install Now"**.
-
-= Manual installation =
-
-The manual installation method involves downloading our Upsell Order Bump Offer for WooCommerce and uploading it to your webserver via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
-
-= Updating =
-
-Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
-
+If you need support or have questions, kindly use our online chat window [here](https://makewebbetter.com) or connect with us then [Generate a ticket.](https://makewebbetter.com/submit-query/)
 
 == Screenshots ==
 
@@ -148,46 +120,85 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 9.  Order Bump Listing
 10. Global Settings
 11. Order with accepted Order Bump
-
+12. Order Bump - Behavioral Analytics: Check the performance of each Order Bump
+13. Order Bump - Sales Report by date: Check Order Bump sales for a set time period
 
 
 == Frequently Asked Questions ==
 
-=I installed the plugin, created Order Bumps and added the offers too but still, it does not show up on purchasing the targets products, why?=
+=How to Set up WooCommerce Order Bumps?=
 
-Just make sure three things :
+Follow these steps to create an order bump with our plugin:
 
-* Your Order Bump offer is Live and not in sandbox mode.
+1) Navigate to your WordPress dashboard > Order Bump and click on the Order Bump List section.
+2) Click on the “Create New Order Bump” button in this section.
+3) Name your bump offer, select target product, target category, and schedule your offer for specific days accordingly
+4) Add your offer product and discount.
+5) Select the offer template and customize the design and content as you want.
+6) Make the funnel Live and save changes.
 
-* You have added the correct target product or target category product in the cart.
 
-* Your Order Bump Schedule is set to Daily or for the correct weekday that you are checking.
+=I installed the plugin, created Order Bumps, and added the offers too but still, it does not show up on purchasing the target products, why?=
+
+If your order bump offers are not displaying on your site, make sure:
+1. Your Order Bump offer is Live and not in sandbox mode.
+2. You have added the correct target product or target category product in the cart.
+3. Your Order Bump Schedule is set to Daily or for the correct weekday that you are checking.
 
 
-=Are Offer templates Customizable at back-end?=
+=Can I customize the Order Bump Offers?=
 
-Yes, the templates are completely customizable at the back-end. We have given three default offer templates whose Design, Content and Color schemes can be customized with Live Preview functionality.
+Yes, the Order Bump Offers are completely customizable at the admin panel. While creating your order bump offer, you can select the offer layout from three default offer templates, customize its design and content with a live preview feature, as per your needs.
 
-=For variable offer product why there is no drop-down to select variation ?=
+=For variable offer products why there is no drop-down to select variation?=
 
-For Variable Offer product as soon as the customer will tick the checkbox to accept the offer, a variation pop-up will appear with respective variations, variation product images, and offer prices.
+For a Variable Offer product as soon as the customer will tick the checkbox to accept the offer, a variation pop-up will appear with respective variations, variation product images, and offer prices.
 
 =Can I change the location where the offer should be shown?=
 
-Yes, you can change the location of the Order Bump Offer at the Checkout page. Here is the list of the available locations :
+Yes, you can change the location of the Order Bump Offer on the Checkout page. Here is the list of the available locations:
 
-* Before Order Summary.
+1.Before Order Summary.
+2.Before Payment Gateways.
+3.After Payment Gateways.
+4.Before Place Order Button.
 
-* Before Payment Gateways.
+=If the offer product is being added in the cart then isn't that possible that the customer will add more than 1 quantity? This could lead us to a loss in revenue as well as stock. How could I prevent this?=
 
-* After Payment Gateways.
+We have set quantity limit functionality, so the customer can only add a single quantity of the offer product. Also, the offer product quantity can't be updated from the cart page.
 
-* Before Place Order Button.
+=What happens if the customer has already added the product in the cart that I was going to show as a bump offer?=
+
+In this case, you can skip the bump offer. To do this, go to the “Global Settings” of our Order Bump plugin. There you’ll find a feature named “Skip for Same Offers.” Click on the dropdown in front of it and select Yes and save changes. Now if a customer has added an order bump offer product in his cart, the plugin won’t show them the same product as the bump offer.
+
+=What happens to the bump offer product if the customer removes the target product from the cart?=
+
+In this case, you get two options. Either to remove or keep the offer product in the customer's cart. To do this, you need to go to the Order Bump plugin’s 'Global Settings' > 'Offer Target Dependency' feature, you’ll see two options here:
+
+“Remove offer when target product is removed” - As the Target product is removed the offer product associated with the target will also be removed from your customer's cart.
+
+“Keep offer when target product is removed” - As the Target product is removed the offer product associated with the target will be converted into a normal product in your customer's cart.
+
+=Can I offer subscription products as Order bumps?=
+
+Yes, our plugin supports Simple, Variable, and Subscription products.
+
+=Can I track the performance of my Order Bumps?=
+
+Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump Performance metrics such as View Count, Success Count, Offer Accept Count, Offer Remove Count, Conversion Rate, and Total Sales. With the help of these metrics, you can easily figure out how your Order Bumps are performing and make changes accordingly.
+
+
 
 == Changelog ==
 
+= 1.5.0 =
+* New: Compatibility with Subscription products.
+* New: Order Bumps Reporting and Behavioral Analytics.
+* Improved: Better Security and Performance.
+* Other: Issues and Bugs Fixed.
+
 = 1.3.0 =
-* New: Compatibility with latest Wordpress and WooCommerce.
+* New: Compatibility with latest WordPress and WooCommerce.
 * Other: Issues and Bugs Fixed.
 
 = 1.2.0 =
@@ -206,6 +217,8 @@ Yes, you can change the location of the Order Bump Offer at the Checkout page. H
 
 == Upgrade Notice ==
 
-= 1.3.0 =
-* New: Compatibility with latest Wordpress and WooCommerce.
+= 1.5.0 =
+* New: Compatibility with Subscription products.
+* New: Order Bumps Reporting and Behavioral Analytics.
+* Improved: Better Security and Performance.
 * Other: Issues and Bugs Fixed.

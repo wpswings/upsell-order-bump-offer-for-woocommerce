@@ -79,7 +79,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<p><?php esc_html_e( 'Want to show more than one Order Bump on the checkout page, this plugin now supports Multiple Order Bumps.', 'upsell-order-bump-offer-for-woocommerce' ); ?><br>
 						<?php esc_html_e( 'Yes, now you can show Multiple Order Bumps simultaneously on the checkout page so that your customers can have more options to chose from.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/bumps.png' ); ?> "></div>
+					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/multiple-order-bumps.png' ); ?> "></div>
 				</div>
 
 				<!-- Feature - Right Intent -->
