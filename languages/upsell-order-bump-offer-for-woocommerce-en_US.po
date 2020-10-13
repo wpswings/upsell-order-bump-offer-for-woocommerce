@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Upsell Order Bump Offer for WooCommerce 1.4.0\n"
-"POT-Creation-Date: 2020-10-13 20:15+0530\n"
-"PO-Revision-Date: 2020-10-13 20:15+0530\n"
+"POT-Creation-Date: 2020-10-13 20:34+0530\n"
+"PO-Revision-Date: 2020-10-13 20:35+0530\n"
 "Last-Translator: \n"
 "Language-Team: makewebbetter\n"
 "Language: en_US\n"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:198
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:199
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:524
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:517
 #: admin/partials/templates/mwb-ubo-lite-creation.php:272
 msgid "Order Bump"
 msgstr ""
@@ -73,48 +73,42 @@ msgstr ""
 msgid "Upsell Order Bump Offers Pro"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:272
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:32
-#: admin/reporting/upsell-order-bump-reporting-config-panel.php:26
-msgid "v"
-msgstr ""
-
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:506
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:499
 msgid "Order Bump: "
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:528
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:521
 msgid "Order Bump Sales by date"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:535
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:528
 msgid "Order Bump Sales by product"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:542
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:535
 msgid "Order Bump Sales by category"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:579
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:572
 msgid "Some Error Occured while creating report."
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:685
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:678
 msgid "Upsell Order Bump Offer for WooCommerce Pro"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:685
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:678
 msgid ""
 "is deactivated, Please Update the PRO version as this version is outdated "
 "and will not work with the current"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:685
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:678
 #: upsell-order-bump-offer-for-woocommerce.php:236
 msgid "Upsell Order Bump Offer for WooCommerce"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:685
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:678
 msgid "Free version."
 msgstr ""
 
@@ -856,35 +850,35 @@ msgstr ""
 msgid "Don't update"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:40
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:34
 msgid "Save Order Bump"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:42
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:36
 msgid "Order Bumps List"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:44
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:38
 msgid "Global Settings"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:63
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:57
 msgid "License"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:68
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:62
 msgid "Overview"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:123
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:117
 msgid "Connect with Us in one click"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:125
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:119
 msgid "Connect"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:127
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:121
 msgid "Regarding any issue, query or feature request for Order Bump Offers."
 msgstr ""
 
@@ -928,7 +922,7 @@ msgstr ""
 msgid "%"
 msgstr ""
 
-#: admin/reporting/upsell-order-bump-reporting-config-panel.php:34
+#: admin/reporting/upsell-order-bump-reporting-config-panel.php:28
 msgid "Sales Reports"
 msgstr ""
 
