@@ -107,6 +107,22 @@ Visit [Upsell Order Bump Offer for WooCommerce Documentation](https://docs.makew
 
 If you need support or have questions, kindly use our online chat window [here](https://makewebbetter.com) or connect with us then [Generate a ticket.](https://makewebbetter.com/submit-query/)
 
+== Installation ==
+
+= Automatic installation =
+
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of Upsell Order Bump Offer for WooCommerce, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
+
+In the search field type **"Upsell Order Bump Offer for WooCommerce"** and click Search Plugins. Once you've found our Upsell Order Bump Offer for WooCommerce plugin you can view details about it such as the point release, rating, and description. Most importantly, of course, you can install it by simply clicking **"Install Now"**.
+
+= Manual installation =
+
+The manual installation method involves downloading our Upsell Order Bump Offer for WooCommerce and uploading it to your webserver via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
+
+= Updating =
+
+Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
+
 == Screenshots ==
 
 1.  Order bump
