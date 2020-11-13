@@ -15,6 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+define( 'ONBOARD_PLUGIN_NAME', 'Upsell Order Bump Offer for WooCommerce' );
+
+if ( class_exists( 'Makewebbetter_Onboarding_Helper' ) ) {
+	$this->onboard = new Makewebbetter_Onboarding_Helper();
+}
+
 $mwb_ubo_lite_active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'bump-list';
 
 if ( 'overview' == get_transient( 'mwb_ubo_lite_default_settings_tab' ) ) {

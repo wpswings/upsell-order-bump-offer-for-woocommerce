@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Upsell Order Bump Offer for WooCommerce 1.4.1\n"
-"POT-Creation-Date: 2020-11-10 18:47+0530\n"
-"PO-Revision-Date: 2020-11-10 18:47+0530\n"
+"POT-Creation-Date: 2020-11-13 14:21+0530\n"
+"PO-Revision-Date: 2020-11-13 14:22+0530\n"
 "Last-Translator: \n"
 "Language-Team: makewebbetter\n"
 "Language: en_US\n"
@@ -850,35 +850,35 @@ msgstr ""
 msgid "Don't update"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:34
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:40
 msgid "Save Order Bump"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:36
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:42
 msgid "Order Bumps List"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:38
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:44
 msgid "Global Settings"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:57
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:63
 msgid "License"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:62
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:68
 msgid "Overview"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:117
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:123
 msgid "Connect with Us in one click"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:119
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:125
 msgid "Connect"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:121
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:127
 msgid "Regarding any issue, query or feature request for Order Bump Offers."
 msgstr ""
 
@@ -938,19 +938,19 @@ msgstr ""
 msgid "Skip For Now"
 msgstr ""
 
-#: includes/class-makewebbetter-onboarding-helper.php:304
+#: includes/class-makewebbetter-onboarding-helper.php:305
 msgid "What is your monthly revenue?"
 msgstr ""
 
-#: includes/class-makewebbetter-onboarding-helper.php:321
+#: includes/class-makewebbetter-onboarding-helper.php:322
 msgid "What industry defines your business?"
 msgstr ""
 
-#: includes/class-makewebbetter-onboarding-helper.php:356
+#: includes/class-makewebbetter-onboarding-helper.php:357
 msgid "What is the best email address to contact you?"
 msgstr ""
 
-#: includes/class-makewebbetter-onboarding-helper.php:366
+#: includes/class-makewebbetter-onboarding-helper.php:367
 msgid "What is your contact number?"
 msgstr ""
 
