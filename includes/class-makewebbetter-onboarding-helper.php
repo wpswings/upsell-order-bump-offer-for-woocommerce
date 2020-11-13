@@ -5,15 +5,15 @@
  * @link       https://makewebbetter.com
  * @since      1.4.0
  *
- * @package     woo_one_click_upsell_funnel
- * @subpackage 	woo_one_click_upsell_funnel/includes
+ * @package     Upsell_Order_Bump_Offer_For_Woocommerce
+ * @subpackage 	Upsell_Order_Bump_Offer_For_Woocommerce/includes
  */
 
 /**
  * The Onboarding-specific functionality of the plugin admin side.
  *
- * @package     woo_one_click_upsell_funnel
- * @subpackage 	woo_one_click_upsell_funnel/includes
+ * @package     Upsell_Order_Bump_Offer_For_Woocommerce
+ * @subpackage 	Upsell_Order_Bump_Offer_For_Woocommerce/includes
  * @author     	makewebbetter <webmaster@makewebbetter.com>
  */
 if ( class_exists( 'Makewebbetter_Onboarding_Helper' ) ) {
@@ -302,7 +302,7 @@ class Makewebbetter_Onboarding_Helper {
 
 			rand() => array(
 				'id' => 'monthly-revenue',
-				'label' => esc_html__( 'What is your monthly revenue?', 'woo-one-click-upsell-funnel' ),
+				'label' => esc_html__( 'What is your monthly revenue?', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type' => 'radio',
 				'name' => 'monthly_revenue_',
 				'value' => '',
@@ -319,7 +319,7 @@ class Makewebbetter_Onboarding_Helper {
 
 			rand() => array(
 				'id' => 'industry_type',
-				'label' => esc_html__( 'What industry defines your business?', 'woo-one-click-upsell-funnel' ),
+				'label' => esc_html__( 'What industry defines your business?', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type' => 'select',
 				'name' => 'industry_type_',
 				'value' => '',
