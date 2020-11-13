@@ -4,10 +4,10 @@ Contributors: MakeWebBetter
 Donate link: http://makewebbetter.com/
 Tags: bump, increase sales, upsell, woocommerce, checkout page 
 Requires at least: 4.0
-Tested up to: 5.5.1
+Tested up to: 5.5.3
 WC requires at least: 3.0.0
-WC tested up to: 4.5.2
-Stable tag: 1.4.0
+WC tested up to: 4.7.0
+Stable tag: 1.4.1
 Requires PHP: 5.6
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -207,6 +207,10 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Changelog ==
 
+= 1.4.1 =
+* Improved: Compatibility with latest WP(5.5.3) and WC(4.7.0)
+* Improved: Onboarding handling.
+
 = 1.4.0 =
 * New: Compatibility with Subscription products.
 * New: Order Bumps Reporting and Behavioral Analytics.
@@ -233,8 +237,6 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Upgrade Notice ==
 
-= 1.4.0 =
-* New: Compatibility with Subscription products.
-* New: Order Bumps Reporting and Behavioral Analytics.
-* Improved: Better Security and Performance.
-* Other: Issues and Bugs Fixed.
+= 1.4.1 =
+* Improved: Compatibility with latest WP(5.5.3) and WC(4.7.0)
+* Improved: Onboarding handling.
