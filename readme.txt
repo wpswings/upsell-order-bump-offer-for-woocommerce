@@ -7,7 +7,7 @@ Requires at least: 4.0
 Tested up to: 5.6
 WC requires at least: 3.0.0
 WC tested up to: 4.8.0
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 Requires PHP: 5.6
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -105,7 +105,7 @@ Visit [Upsell Order Bump Offer for WooCommerce Documentation](https://docs.makew
 
 == SUPPORT ==
 
-If you need support or have questions, kindly use our online chat window [here](https://makewebbetter.com) or connect with us then [Generate a ticket.](https://makewebbetter.com/submit-query/)
+If you need support or have questions, kindly use our online chat window [here](http://www.makewebbetter.com/?utm_source=MWB-Orderbump-ORG&utm_medium=MWB-ORG&utm_campaign=ORG) or connect with us then [Generate a ticket.](https://makewebbetter.com/submit-query/)
 
 == Installation ==
 
@@ -207,6 +207,9 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Changelog ==
 
+= 1.4.2 =
+* Improved: Compatibility with latest WP(5.6) and WC(4.8.0)
+
 = 1.4.1 =
 * Improved: Compatibility with latest WP(5.5.3) and WC(4.7.0)
 * Improved: Onboarding handling.
@@ -237,6 +240,5 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Upgrade Notice ==
 
-= 1.4.1 =
-* Improved: Compatibility with latest WP(5.5.3) and WC(4.7.0)
-* Improved: Onboarding handling.
+= 1.4.2 =
+* Improved: Compatibility with latest WP(5.6) and WC(4.8.0)
