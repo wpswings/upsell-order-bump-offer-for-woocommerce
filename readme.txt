@@ -207,7 +207,7 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Changelog ==
 
-= 1.4.2 - Released on 18 December 2020 =
+= 1.4.2 - Released on 19 December 2020 =
 * Improved: Compatibility with latest WP(5.6) and WC(4.8.0)
 
 = 1.4.1 =
@@ -240,5 +240,5 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Upgrade Notice ==
 
-= 1.4.2- Released on 18 December 2020 =
+= 1.4.2- Released on 19 December 2020 =
 * Improved: Compatibility with latest WP(5.6) and WC(4.8.0)
