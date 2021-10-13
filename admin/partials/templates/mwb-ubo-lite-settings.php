@@ -4,7 +4,7 @@
  *
  * This file is used to set global settings for the plugin.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -29,13 +29,15 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 	// Enable Plugin.
 	$mwb_bump_upsell_global_options['mwb_bump_enable_plugin'] = ! empty( $_POST['mwb_bump_enable_plugin'] ) ? 'on' : 'off';
 
-	$mwb_bump_upsell_global_options['mwb_bump_skip_offer'] = ! empty( $_POST['mwb_bump_skip_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_skip_offer'] ) ) : esc_html__( 'yes', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_bump_skip_offer'] = ! empty( $_POST['mwb_bump_skip_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_skip_offer'] ) ) : 'yes';
 
-	$mwb_bump_upsell_global_options['mwb_ubo_offer_location'] = ! empty( $_POST['mwb_ubo_offer_location'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_location'] ) ) : esc_html__( '_after_payment_gateways', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_bump_order_bump_limit'] = ! empty( $_POST['mwb_bump_order_bump_limit'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_order_bump_limit'] ) ) : '1';
 
-	$mwb_bump_upsell_global_options['mwb_ubo_temp_adaption'] = ! empty( $_POST['mwb_ubo_temp_adaption'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_temp_adaption'] ) ) : esc_html__( 'yes', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_location'] = ! empty( $_POST['mwb_ubo_offer_location'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_location'] ) ) : '_after_payment_gateways';
 
-	$mwb_bump_upsell_global_options['mwb_ubo_offer_removal'] = ! empty( $_POST['mwb_ubo_offer_removal'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_removal'] ) ) : esc_html__( 'yes', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_ubo_temp_adaption'] = ! empty( $_POST['mwb_ubo_temp_adaption'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_temp_adaption'] ) ) : 'yes';
+
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_removal'] = ! empty( $_POST['mwb_ubo_offer_removal'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_removal'] ) ) : 'yes';
 
 	// After version v1.0.2.
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_global_css'] = ! empty( $_POST['mwb_ubo_offer_global_css'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_ubo_offer_global_css'] ) ) : '';
@@ -44,7 +46,9 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_price_html'] = ! empty( $_POST['mwb_ubo_offer_price_html'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_price_html'] ) ) : '';
 
-	$mwb_bump_upsell_global_options['mwb_ubo_offer_purchased_earlier'] = ! empty( $_POST['mwb_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_purchased_earlier'] ) ) : esc_html__( 'no', 'upsell-order-bump-offer-for-woocommerce' );
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_purchased_earlier'] = ! empty( $_POST['mwb_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_offer_purchased_earlier'] ) ) : 'no';
+
+	$mwb_bump_upsell_global_options['mwb_ubo_offer_restrict_coupons'] = ! empty( $_POST['mwb_ubo_offer_restrict_coupons'] ) ? 'yes' : 'no';
 
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'mwb_ubo_global_options', $mwb_bump_upsell_global_options );
@@ -83,6 +87,11 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$bump_offer_preorder_skip = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_purchased_earlier'] : 'no';
 
+	$bump_offer_coupon_restriction = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_restrict_coupons'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_restrict_coupons'] : 'no';
+
+	// Bump Offer limit.
+	$mwb_bump_order_bump_limit = ! empty( $mwb_ubo_global_options['mwb_bump_order_bump_limit'] ) ? $mwb_ubo_global_options['mwb_bump_order_bump_limit'] : '1';
+
 ?>
 
 <form action="" method="POST">
@@ -115,7 +124,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 						<label for="mwb_ubo_enable_switch" class="mwb_upsell_bump_enable_plugin_label mwb_bump_enable_plugin_support">
 
-							<input id="mwb_ubo_enable_switch" class="mwb_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( 'on' == $mwb_bump_enable_plugin ) ? "checked='checked'" : ''; ?> name="mwb_bump_enable_plugin" >	
+							<input id="mwb_ubo_enable_switch" class="mwb_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( 'on' === $mwb_bump_enable_plugin ) ? "checked='checked'" : ''; ?> name="mwb_bump_enable_plugin" >	
 							<span class="mwb_upsell_bump_enable_plugin_span"></span>
 
 						</label>
@@ -159,7 +168,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 					$mwb_ubo_offer_removal_options = array(
 						'yes' => esc_html__( 'Remove Offer When Target Product is Removed', 'upsell-order-bump-offer-for-woocommerce' ),
-						'no' => esc_html__( 'Keep Offer even When Target is Removed', 'upsell-order-bump-offer-for-woocommerce' ),
+						'no'  => esc_html__( 'Keep Offer even When Target is Removed', 'upsell-order-bump-offer-for-woocommerce' ),
 					);
 
 					?>
@@ -167,16 +176,22 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = esc_html__( 'Choose if Bump Offer product should be removed if Target product is removed from Cart page.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribute_description = sprintf(
+								'<p><span class="mwb_ubo_description">%s</span> <span class="mwb_ubo_tip_tip">%s</span></p><p><span class="mwb_ubo_description">%s</span> <span class="mwb_ubo_tip_tip">%s</span></p>',
+								esc_html__( 'Remove offer when target product is removed:', 'upsell-order-bump-offer-for-woocommerce' ),
+								esc_html__( 'As the Target product is removed the offer product associated with the target will also be removed from your customer\'s cart.', 'upsell-order-bump-offer-for-woocommerce' ),
+								esc_html__( 'Keep offer when target product is removed:', 'upsell-order-bump-offer-for-woocommerce' ),
+								esc_html__( 'As the Target product is removed the offer product associated with the target will be converted into a normal product in your customer\'s cart.', 'upsell-order-bump-offer-for-woocommerce' )
+							);
 							mwb_ubo_lite_help_tip( $attribute_description );
-						?>
+							?>
 
 						<select id="mwb_ubo_offer_removal_select" name="mwb_ubo_offer_removal" >
 
 							<?php foreach ( $mwb_ubo_offer_removal_options as $key => $value ) : ?>
 
 								<option <?php selected( $mwb_ubo_offer_removal, $key ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>
-								
+
 							<?php endforeach; ?>
 
 						</select>
@@ -194,8 +209,8 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<?php
 
 					$mwb_ubo_temp_adaptions_options = array(
-						'yes'   => esc_html__( 'Free Width', 'upsell-order-bump-offer-for-woocommerce' ),
-						'no'    => esc_html__( 'Fixed Width', 'upsell-order-bump-offer-for-woocommerce' ),
+						'yes' => esc_html__( 'Free Width', 'upsell-order-bump-offer-for-woocommerce' ),
+						'no'  => esc_html__( 'Fixed Width', 'upsell-order-bump-offer-for-woocommerce' ),
 					);
 
 					?>
@@ -212,7 +227,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 							<?php foreach ( $mwb_ubo_temp_adaptions_options as $key => $value ) : ?>
 
 								<option <?php selected( $mwb_ubo_temp_adaption, $key ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>
-								
+
 							<?php endforeach; ?>
 
 						</select>
@@ -230,9 +245,9 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					<?php
 
 					$offer_locations_array = array(
-						'_before_order_summary' => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
-						'_before_payment_gateways' => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
-						'_after_payment_gateways' => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+						'_before_order_summary'      => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+						'_before_payment_gateways'   => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+						'_after_payment_gateways'    => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
 						'_before_place_order_button' => esc_html__( 'Before Place Order Button', 'upsell-order-bump-offer-for-woocommerce' ),
 					);
 
@@ -250,7 +265,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 							<?php foreach ( $offer_locations_array as $key => $value ) : ?>
 
 								<option <?php selected( $bump_offer_location, $key ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>	
-								
+
 							<?php endforeach; ?>
 
 						</select>
@@ -281,7 +296,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 					$offer_locations_array = array(
 						'regular_to_offer' => sprintf( '%s&nbsp;&nbsp;%s', esc_html__( '̶R̶e̶g̶u̶l̶a̶r̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
-						'sale_to_offer' => sprintf( '%s&nbsp;&nbsp;%s', esc_html__( ' ̶S̶a̶l̶e̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
+						'sale_to_offer'    => sprintf( '%s&nbsp;&nbsp;%s', esc_html__( ' ̶S̶a̶l̶e̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
 					);
 
 					?>
@@ -322,12 +337,55 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 							mwb_ubo_lite_help_tip( $attribute_description );
 						?>
 						<label class="mwb-upsell-smart-pre-order-skip" for="mwb_ubo_offer_purchased_earlier">
-						<input class="mwb-upsell-smart-pre-order-skip-wrap" type='checkbox' <?php echo mwb_ubo_lite_if_pro_exists() && ! empty( $bump_offer_preorder_skip ) && 'yes' == $bump_offer_preorder_skip ? 'checked' : ''; ?> id='mwb_ubo_offer_purchased_earlier' value='yes' name='mwb_ubo_offer_purchased_earlier'>
+						<input class="mwb-upsell-smart-pre-order-skip-wrap" type='checkbox' <?php echo mwb_ubo_lite_if_pro_exists() && ! empty( $bump_offer_preorder_skip ) && 'yes' === $bump_offer_preorder_skip ? 'checked' : ''; ?> id='mwb_ubo_offer_purchased_earlier' value='yes' name='mwb_ubo_offer_purchased_earlier'>
 						<span class="upsell-smart-pre-order-skip-btn"></span>
 						</label>
 					</td>
 				</tr>
 				<!-- Pre-order feature skip end. -->
+
+				<!-- Restrict external coupons feature skip start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+
+						<label for="mwb_ubo_offer_restrict_coupons"><?php esc_html_e( 'Restrict Woo coupons', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This features removes extra coupon discounts from cart item.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+						<label class="mwb-upsell-smart-pre-order-skip" for="mwb_ubo_offer_restrict_coupons">
+						<input class="mwb-upsell-smart-pre-order-skip-wrap" type='checkbox' <?php echo mwb_ubo_lite_if_pro_exists() && ! empty( $bump_offer_coupon_restriction ) && 'yes' === $bump_offer_coupon_restriction ? 'checked' : ''; ?> id='mwb_ubo_offer_restrict_coupons' value='yes' name='mwb_ubo_offer_restrict_coupons'>
+						<span class="upsell-smart-pre-order-skip-btn"></span>
+						</label>
+					</td>
+				</tr>
+				<!-- Restrict external coupons feature skip end. -->
+
+				<!-- Order Bump Limit start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+						<label for="mwb_bump_order_bump_limit"><?php esc_html_e( 'Multiple Order Bumps Count', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'Enter the Multiple Order Bumps count that you want to display on the checkout page.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+
+						?>
+
+						<input type="number" min="1" id="mwb_bump_order_bump_limit" name="mwb_bump_order_bump_limit" value="<?php echo esc_html( $mwb_bump_order_bump_limit ); ?>">
+
+					</td>
+				</tr>
+				<!-- Order Bump Limit end. -->
 
 				<!-- Custom CSS start. -->
 				<tr valign="top">
@@ -393,7 +451,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 		<!-- Popup body. -->
 		<div class="mwb_ubo_update_popup_content">
 			<div class="mwb_ubo_update_popup_ques">
-				<h5><?php esc_html_e( 'Update Required!', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></h5>
+				<h5><?php esc_html_e( 'Update Required!', 'upsell-order-bump-offer-for-woocommerce' ); ?></h5>
 				<p><?php esc_html_e( "Please Update 'Upsell Order Bump Offer For Woocommerce Pro' to use this feature.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 			</div>
 			<div class="mwb_ubo_update_popup_option">

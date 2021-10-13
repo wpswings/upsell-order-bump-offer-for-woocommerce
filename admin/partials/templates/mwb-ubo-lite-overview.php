@@ -4,7 +4,7 @@
  *
  * This file is used to give an overview of pro version and features.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -12,7 +12,7 @@
  */
 
 /**
- * Exit if accessed directly
+ * Exit if accessed directly.
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="mwb_ubo_lite_overview_pro_version mwb_ubo_lite_go_pro_feature_first">
 		<h2><?php esc_html_e( 'What is Upsell Order Bump Offer for WooCommerce?', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
 
-		<p><?php esc_html_e( "Upsell Order Bump Offer for WooCommerce allows its users to show exclusive special one time offers known as Order Bumps on the checkout page. These Order Bumps can be accepted in just a single click which is added instantly to customer's existing Order.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+		<p><?php esc_html_e( "Upsell Order Bump Offer for WooCommerce allows its users to show exclusive special offers known as Order Bumps on the checkout page. These Order Bumps can be accepted in just a single click which is added instantly to customer's existing Order.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
 		<p><?php esc_html_e( 'The Store owner can set the offers specifically for Target Products or Categories so that relevant Order Bumps can be offered which are hard to resist.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
@@ -71,7 +71,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 
 				<!-- Feature - Right Intent -->
+				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_multiple_order_bumps">
+					<div class="mwb_ubo_lite_go_pro_features_wrap">
+						<!-- Pro feature heading. -->
+						<h3><?php esc_html_e( 'Multiple Order Bumps', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+						<!-- Pro feature Content. -->
+						<p><?php esc_html_e( 'Want to show more than one Order Bump on the checkout page, this plugin now supports Multiple Order Bumps.', 'upsell-order-bump-offer-for-woocommerce' ); ?><br>
+						<?php esc_html_e( 'Yes, now you can show Multiple Order Bumps simultaneously on the checkout page so that your customers can have more options to chose from.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+					</div>
+					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/multiple-order-bumps.png' ); ?> "></div>
+				</div>
+
+				<!-- Feature - Right Intent -->
 				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_upgrade_offer">
+
+					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/smart-upgrade.png' ); ?> "></div>
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature Content. -->
 						<h3><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
@@ -86,23 +100,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<br>
 						<?php esc_html_e( 'The Smart Upgrade offer feature will replace the existing product with the offer product as soon as they accept the Order Bump offer.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/smart-upgrade.png' ); ?> "></div>
 				</div>
 
-				<!-- Feature - Left Intent -->
+				<!-- Feature - Right Intent -->
 				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_smart_skip">
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/past-order.png' ); ?> "></div>
-
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature heading. -->
 						<h3><?php esc_html_e( 'Smart Skip if Already Purchased', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 						<!-- Pro feature Content. -->
 						<p><?php esc_html_e( 'This feature will allow you to Skip the Order Bump offer for those customers who have already purchased the offer product anytime before in previous orders.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
+					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/past-order.png' ); ?> "></div>
 				</div>
 
-				<!-- Feature - Right Intent -->
+				<!-- Feature - Left Intent -->
 				<div class="mwb_ubo_lite_go_pro_features mwb_ubo_lite_go_pro_exclusive_support">
+					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/customer-support.png' ); ?> "></div>
 					<div class="mwb_ubo_lite_go_pro_features_wrap">
 						<!-- Pro feature Content. -->
 						<h3><?php esc_html_e( 'Exclusive Support', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
@@ -117,14 +130,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<br>
 						<?php esc_html_e( "Our Support is ready to assist you regarding any query, issue or feature request and if that doesn't help our Technical team will connect with you personally and have your query resolved.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
-					<div class="mwb_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/customer-support.png' ); ?> "></div>
 				</div>
 			</div>
 			<!-- Premium feature section ends. -->
 
 			<!-- Go pro section starts. -->
 			<div class="mwb_ubo_lite_go_pro_popup_button">
-				<a class="button mwb_ubo_lite_overview_go_pro_button" target="_blank" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-ORG&utm_campaign=MWB-upsell-bump-org">
+				<a class="button mwb_ubo_lite_overview_go_pro_button" target="_blank" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend">
 				<?php
 				esc_html_e( 'Upgrade to Premium', 'upsell-order-bump-offer-for-woocommerce' );
 				echo ' <span class="dashicons dashicons-arrow-right-alt"></span>';
