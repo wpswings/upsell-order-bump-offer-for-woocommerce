@@ -4,7 +4,7 @@
  *
  * This file is used to list all bump offers.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -26,6 +26,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * view/edit and delete option.
  */
 
+$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
+$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+
+if ( ! $id_nonce_verified ) {
+	wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+}
+
 // Delete bumps.
 if ( isset( $_GET['del_bump_id'] ) ) {
 
@@ -36,7 +43,7 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 
 	foreach ( $mwb_upsell_bumps as $single_bump => $data ) {
 
-		if ( $bump_id == $single_bump ) {
+		if ( (string) $bump_id === (string) $single_bump ) {
 
 			unset( $mwb_upsell_bumps[ $single_bump ] );
 			break;
@@ -45,7 +52,7 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 
 	update_option( 'mwb_ubo_bump_list', $mwb_upsell_bumps );
 
-	wp_redirect( admin_url( 'admin.php' ) . '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list' );
+	wp_safe_redirect( admin_url( 'admin.php' ) . '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list' );
 
 	exit();
 }
@@ -64,7 +71,7 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 	<?php endif; ?>
 
 	<?php if ( ! empty( $mwb_upsell_bumps_list ) ) : ?>
-		<?php if ( ! mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && count( $mwb_upsell_bumps_list ) > 1 ) : ?>
+		<?php if ( ! mwb_ubo_lite_if_pro_exists() && count( $mwb_upsell_bumps_list ) > 1 ) : ?>
 
 		<div class="notice notice-warning mwb-notice">
 			<p>
@@ -72,7 +79,6 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 			</p>
 		</div>
 
-			
 	<?php endif; ?>
 		<table>
 			<tr>
@@ -100,7 +106,7 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
 					$bump_status = ! empty( $value['mwb_upsell_bump_status'] ) ? $value['mwb_upsell_bump_status'] : 'no';
 
-				if ( 'yes' == $bump_status ) {
+				if ( 'yes' === $bump_status ) {
 
 					echo '<span class="mwb_upsell_bump_list_live"></span><span class="mwb_upsell_bump_list_live_name">' . esc_html__( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>';
 				} else {
@@ -133,7 +139,7 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 				} else {
 
 					?>
-					<p><i><?php esc_html_e( 'No Product(s) added', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></i></p>
+					<p><i><?php esc_html_e( 'No Product(s) added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
 					<?php
 				}
 
@@ -143,7 +149,7 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
 				if ( ! empty( $value['mwb_upsell_bump_target_categories'] ) ) {
 
-					echo '<p><i>' . esc_html__( 'Target Categories -', 'upsell-order-bump-offer-for-woocommerce-pro' ) . '</i></p>';
+					echo '<p><i>' . esc_html__( 'Target Categories -', 'upsell-order-bump-offer-for-woocommerce' ) . '</i></p>';
 
 					echo '<div class="mwb_upsell_bump_list_targets">';
 
@@ -160,7 +166,7 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 				} else {
 
 					?>
-					<p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></i></p>
+					<p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
 					<?php
 				}
 

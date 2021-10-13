@@ -4,7 +4,7 @@
  *
  * This file is used to create new/update bump offers.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -67,7 +67,7 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 	// When price is saved.
 	if ( empty( $_POST['mwb_upsell_bump_offer_discount_price'] ) ) {
 
-		if ( '' == $_POST['mwb_upsell_bump_offer_discount_price'] ) {
+		if ( '' === $_POST['mwb_upsell_bump_offer_discount_price'] ) {
 
 			$_POST['mwb_upsell_bump_offer_discount_price'] = '20';
 
@@ -80,11 +80,7 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 	// From these versions we will be having multiselect for schedules.
 	if ( empty( $_POST['mwb_upsell_bump_schedule'] ) ) {
 
-		if ( '' == $_POST['mwb_upsell_bump_schedule'] ) {
-
-			$_POST['mwb_upsell_bump_schedule'] = array( '0' );
-
-		}
+		$_POST['mwb_upsell_bump_schedule'] = array( '0' );
 	}
 
 	// New bump to be made.
@@ -132,9 +128,9 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 	} else {    // When design Settings is saved from Post.
 
 		// PARENT WRAPPER DIV CSS( parent_wrapper_div ).
-		$design_settings_post['parent_border_type'] = ! empty( $_POST['parent_border_type'] ) ? sanitize_text_field( wp_unslash( $_POST['parent_border_type'] ) ) : '';
-		$design_settings_post['parent_border_color'] = ! empty( $_POST['parent_border_color'] ) ? sanitize_text_field( wp_unslash( $_POST['parent_border_color'] ) ) : '';
-		$design_settings_post['top_vertical_spacing'] = ! empty( $_POST['top_vertical_spacing'] ) ? sanitize_text_field( wp_unslash( $_POST['top_vertical_spacing'] ) ) : '';
+		$design_settings_post['parent_border_type']      = ! empty( $_POST['parent_border_type'] ) ? sanitize_text_field( wp_unslash( $_POST['parent_border_type'] ) ) : '';
+		$design_settings_post['parent_border_color']     = ! empty( $_POST['parent_border_color'] ) ? sanitize_text_field( wp_unslash( $_POST['parent_border_color'] ) ) : '';
+		$design_settings_post['top_vertical_spacing']    = ! empty( $_POST['top_vertical_spacing'] ) ? sanitize_text_field( wp_unslash( $_POST['top_vertical_spacing'] ) ) : '';
 		$design_settings_post['bottom_vertical_spacing'] = ! empty( $_POST['bottom_vertical_spacing'] ) ? sanitize_text_field( wp_unslash( $_POST['bottom_vertical_spacing'] ) ) : '';
 
 		unset( $_POST['parent_border_type'] );
@@ -144,8 +140,8 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 
 		// DISCOUNT SECTION( discount_section ).
 		$design_settings_post['discount_section_background_color'] = ! empty( $_POST['discount_section_background_color'] ) ? sanitize_text_field( wp_unslash( $_POST['discount_section_background_color'] ) ) : '';
-		$design_settings_post['discount_section_text_color'] = ! empty( $_POST['discount_section_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['discount_section_text_color'] ) ) : '';
-		$design_settings_post['discount_section_text_size'] = ! empty( $_POST['discount_section_text_size'] ) ? sanitize_text_field( wp_unslash( $_POST['discount_section_text_size'] ) ) : '';
+		$design_settings_post['discount_section_text_color']       = ! empty( $_POST['discount_section_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['discount_section_text_color'] ) ) : '';
+		$design_settings_post['discount_section_text_size']        = ! empty( $_POST['discount_section_text_size'] ) ? sanitize_text_field( wp_unslash( $_POST['discount_section_text_size'] ) ) : '';
 
 		unset( $_POST['discount_section_background_color'] );
 		unset( $_POST['discount_section_text_color'] );
@@ -154,15 +150,15 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 
 		// PRODUCT SECTION(product_section).
 		$design_settings_post['product_section_text_color'] = ! empty( $_POST['product_section_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['product_section_text_color'] ) ) : '';
-		$design_settings_post['product_section_text_size'] = ! empty( $_POST['product_section_text_size'] ) ? sanitize_text_field( wp_unslash( $_POST['product_section_text_size'] ) ) : '';
+		$design_settings_post['product_section_text_size']  = ! empty( $_POST['product_section_text_size'] ) ? sanitize_text_field( wp_unslash( $_POST['product_section_text_size'] ) ) : '';
 
 		unset( $_POST['product_section_text_color'] );
 		unset( $_POST['product_section_text_size'] );
 
 		// Accept Offer Section(primary_section).
 		$design_settings_post['primary_section_background_color'] = ! empty( $_POST['primary_section_background_color'] ) ? sanitize_text_field( wp_unslash( $_POST['primary_section_background_color'] ) ) : '';
-		$design_settings_post['primary_section_text_color'] = ! empty( $_POST['primary_section_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['primary_section_text_color'] ) ) : '';
-		$design_settings_post['primary_section_text_size'] = ! empty( $_POST['primary_section_text_size'] ) ? sanitize_text_field( wp_unslash( $_POST['primary_section_text_size'] ) ) : '';
+		$design_settings_post['primary_section_text_color']       = ! empty( $_POST['primary_section_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['primary_section_text_color'] ) ) : '';
+		$design_settings_post['primary_section_text_size']        = ! empty( $_POST['primary_section_text_size'] ) ? sanitize_text_field( wp_unslash( $_POST['primary_section_text_size'] ) ) : '';
 
 		unset( $_POST['primary_section_background_color'] );
 		unset( $_POST['primary_section_text_color'] );
@@ -170,8 +166,8 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 
 		// SECONDARY SECTION(secondary_section).
 		$design_settings_post['secondary_section_background_color'] = ! empty( $_POST['secondary_section_background_color'] ) ? sanitize_text_field( wp_unslash( $_POST['secondary_section_background_color'] ) ) : '';
-		$design_settings_post['secondary_section_text_color'] = ! empty( $_POST['secondary_section_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['secondary_section_text_color'] ) ) : '';
-		$design_settings_post['secondary_section_text_size'] = ! empty( $_POST['secondary_section_text_size'] ) ? sanitize_text_field( wp_unslash( $_POST['secondary_section_text_size'] ) ) : '';
+		$design_settings_post['secondary_section_text_color']       = ! empty( $_POST['secondary_section_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['secondary_section_text_color'] ) ) : '';
+		$design_settings_post['secondary_section_text_size']        = ! empty( $_POST['secondary_section_text_size'] ) ? sanitize_text_field( wp_unslash( $_POST['secondary_section_text_size'] ) ) : '';
 
 		unset( $_POST['secondary_section_background_color'] );
 		unset( $_POST['secondary_section_text_color'] );
@@ -181,15 +177,15 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 
 		$text_settings_post = array(
 
-			'mwb_ubo_discount_title_for_fixed'  => ! empty( $_POST['mwb_ubo_discount_title_for_fixed'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_discount_title_for_fixed'] ) ) : '',
+			'mwb_ubo_discount_title_for_fixed'   => ! empty( $_POST['mwb_ubo_discount_title_for_fixed'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_discount_title_for_fixed'] ) ) : '',
 
-			'mwb_ubo_discount_title_for_percent'    => ! empty( $_POST['mwb_ubo_discount_title_for_percent'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_discount_title_for_percent'] ) ) : '',
+			'mwb_ubo_discount_title_for_percent' => ! empty( $_POST['mwb_ubo_discount_title_for_percent'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_ubo_discount_title_for_percent'] ) ) : '',
 
-			'mwb_bump_offer_decsription_text'   => ! empty( $_POST['mwb_bump_offer_decsription_text'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_bump_offer_decsription_text'] ) ) : '',
+			'mwb_bump_offer_decsription_text'    => ! empty( $_POST['mwb_bump_offer_decsription_text'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_bump_offer_decsription_text'] ) ) : '',
 
-			'mwb_upsell_offer_title'    => ! empty( $_POST['mwb_upsell_offer_title'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_title'] ) ) : '',
+			'mwb_upsell_offer_title'             => ! empty( $_POST['mwb_upsell_offer_title'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_title'] ) ) : '',
 
-			'mwb_upsell_bump_offer_description' => ! empty( $_POST['mwb_upsell_bump_offer_description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_upsell_bump_offer_description'] ) ) : '',
+			'mwb_upsell_bump_offer_description'  => ! empty( $_POST['mwb_upsell_bump_offer_description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mwb_upsell_bump_offer_description'] ) ) : '',
 		);
 
 		unset( $_POST['mwb_ubo_discount_title_for_fixed'] );
@@ -198,6 +194,27 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 		unset( $_POST['mwb_upsell_offer_title'] );
 		unset( $_POST['mwb_upsell_bump_offer_description'] );
 		$mwb_upsell_new_bump['design_text'] = $text_settings_post;
+	}
+
+	// If Order Bump already exists then save Sales By Bump - Stats if present.
+	if ( ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['offer_view_count'] ) ) {
+
+		$sales_stats_bump = $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ];
+
+		// Not Post data, so no need to Sanitize and Strip slashes.
+
+		// Empty for this already checked above.
+		$mwb_upsell_new_bump['offer_view_count'] = $sales_stats_bump['offer_view_count'];
+
+		$mwb_upsell_new_bump['offer_accept_count'] = ! empty( $sales_stats_bump['offer_accept_count'] ) ? $sales_stats_bump['offer_accept_count'] : 0;
+
+		$mwb_upsell_new_bump['offer_remove_count'] = ! empty( $sales_stats_bump['offer_remove_count'] ) ? $sales_stats_bump['offer_remove_count'] : 0;
+
+		$mwb_upsell_new_bump['bump_success_count'] = ! empty( $sales_stats_bump['bump_success_count'] ) ? $sales_stats_bump['bump_success_count'] : 0;
+
+		$mwb_upsell_new_bump['bump_total_sales'] = ! empty( $sales_stats_bump['bump_total_sales'] ) ? $sales_stats_bump['bump_total_sales'] : 0;
+
+		$mwb_upsell_new_bump['bump_orders_count'] = ! empty( $sales_stats_bump['bump_orders_count'] ) ? $sales_stats_bump['bump_orders_count'] : array();
 	}
 
 	// When Bump is saved for the first time so load default text Settings.
@@ -221,17 +238,17 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 
 // Get all Bump.
 $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list', array() );
-$mwb_bump_offer_type = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_offer_price_type'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_offer_price_type'] : '';
+$mwb_bump_offer_type   = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_offer_price_type'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_offer_price_type'] : '';
 
 $mwb_upsell_bump_schedule_options = array(
-	'0'     => __( 'Daily', 'upsell-order-bump-offer-for-woocommerce' ),
-	'1'     => __( 'Monday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'2'     => __( 'Tuesday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'3'     => __( 'Wednesday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'4'     => __( 'Thursday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'5'     => __( 'Friday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'6'     => __( 'Saturday', 'upsell-order-bump-offer-for-woocommerce' ),
-	'7'     => __( 'Sunday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'0' => __( 'Daily', 'upsell-order-bump-offer-for-woocommerce' ),
+	'1' => __( 'Monday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'2' => __( 'Tuesday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'3' => __( 'Wednesday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'4' => __( 'Thursday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'5' => __( 'Friday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'6' => __( 'Saturday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'7' => __( 'Sunday', 'upsell-order-bump-offer-for-woocommerce' ),
 );
 
 ?>
@@ -265,8 +282,8 @@ $mwb_upsell_bump_schedule_options = array(
 							<span class="mwb_upsell_bump_span"></span>
 						</label>
 
-						<span class="mwb_upsell_bump_status_on <?php echo 'yes' == $bump_status ? 'active' : ''; ?>"><?php esc_html_e( 'Live', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-						<span class="mwb_upsell_bump_status_off <?php echo 'no' == $bump_status ? 'active' : ''; ?>"><?php esc_html_e( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<span class="mwb_upsell_bump_status_on <?php echo 'yes' === $bump_status ? 'active' : ''; ?>"><?php esc_html_e( 'Live', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<span class="mwb_upsell_bump_status_off <?php echo 'no' === $bump_status ? 'active' : ''; ?>"><?php esc_html_e( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 					</div>
 				</div>
 
@@ -308,7 +325,7 @@ $mwb_upsell_bump_schedule_options = array(
 						mwb_ubo_lite_help_tip( $description );
 
 						?>
-						
+
 						<select id="mwb_upsell_bump_target_ids_search" class="wc-bump-product-search" multiple="multiple" name="mwb_upsell_bump_target_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a product&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 
 							<?php
@@ -407,13 +424,13 @@ $mwb_upsell_bump_schedule_options = array(
 
 						// For earlier versions we will get a string over here.
 						if ( ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) && ! is_array( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ) {
-							
+
 							// Whatever was the selected day, add as an array.
-							$mwb_ubo_selected_schedule = array( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ][ 'mwb_upsell_bump_schedule' ] );
-							
+							$mwb_ubo_selected_schedule = array( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] );
+
 						} else {
 
-							$mwb_ubo_selected_schedule = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ? ( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) : array( '0' ); 
+							$mwb_ubo_selected_schedule = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) ? ( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_schedule'] ) : array( '0' );
 						}
 
 						?>
@@ -422,7 +439,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 							<?php foreach ( $mwb_upsell_bump_schedule_options as $key => $day ) : ?>
 
-								<option <?php echo in_array( $key, $mwb_ubo_selected_schedule ) ? 'selected' : '' ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $day ); ?></option>
+								<option <?php echo in_array( (string) $key, $mwb_ubo_selected_schedule, true ) ? 'selected' : ''; ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $day ); ?></option>
 
 							<?php endforeach; ?>
 
@@ -434,7 +451,7 @@ $mwb_upsell_bump_schedule_options = array(
 				<!-- Replace with target start. -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
-						
+
 						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
 						<label for="mwb_ubo_offer_replace_target"><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
@@ -448,13 +465,63 @@ $mwb_upsell_bump_schedule_options = array(
 						?>
 
 						<label class="mwb-upsell-smart-offer-upgrade" for="mwb_ubo_offer_replace_target">
-						<input class="mwb-upsell-smart-offer-upgrade-wrap" type='checkbox' id='mwb_ubo_offer_replace_target' value='yes'>
+						<input class="mwb-upsell-smart-offer-upgrade-wrap" type='checkbox' id='mwb_ubo_offer_replace_target' value=''>
 						<span class="upsell-smart-offer-upgrade-btn"></span>
 						</label>
-						
+
 					</td>
 				</tr>
 				<!-- Replace with target end. -->
+
+				<!-- Order Bump Limit start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+
+						<label for="mwb_ubo_offer_exclusive_limit"><?php esc_html_e( 'Exclusive Limits', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This feature allows you to limit Order bump for some exclusive sales/order counts.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label class="mwb-upsell-smart-offer-upgrade" for="mwb_ubo_offer_exclusive_limit">
+						<input class="mwb-upsell-smart-offer-upgrade-wrap" type='checkbox' id='mwb_ubo_offer_exclusive_limit' value=''>
+						<span class="upsell-smart-offer-upgrade-btn"></span>
+						</label>
+
+					</td>
+				</tr>
+				<!-- Order Bump Limit end. -->
+
+				<!-- Meta Forms start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+
+						<label for="mwb_ubo_offer_meta_forms"><?php esc_html_e( 'Meta Forms', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This feature allows you to add a custom form to receive answers before adding Offer product.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label class="mwb-upsell-smart-offer-upgrade" for="mwb_ubo_offer_meta_forms">
+						<input class="mwb-upsell-smart-offer-upgrade-wrap" type='checkbox' id='mwb_ubo_offer_meta_forms' value=''>
+						<span class="upsell-smart-offer-upgrade-btn"></span>
+						</label>
+
+					</td>
+				</tr>
+				<!-- Meta Forms end. -->
 
 			</tbody>
 		</table>
@@ -468,7 +535,7 @@ $mwb_upsell_bump_schedule_options = array(
 		$mwb_upsell_bump_product_in_offer = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_products_in_offer'] ) ? sanitize_text_field( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_products_in_offer'] ) : '';
 
 		// Offers with discount.
-		$mwb_upsell_bump_products_discount = ( ! empty( $mwb_upsell_bumps_list ) && '' != $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_offer_discount_price'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_offer_discount_price'] : '20';
+		$mwb_upsell_bump_products_discount = ( ! empty( $mwb_upsell_bumps_list ) && '' !== $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_offer_discount_price'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_offer_discount_price'] : '20';
 
 		?>
 		<!-- Loader for template generation starts. -->
@@ -476,7 +543,7 @@ $mwb_upsell_bump_schedule_options = array(
 			<img src="images/spinner-2x.gif">
 		</div>
 		<!-- Loader for template generation ends. -->
-		
+
 		<!-- Bump Offers Start.-->
 		<div class="new_offers">
 
@@ -507,7 +574,7 @@ $mwb_upsell_bump_schedule_options = array(
 									$product_title = mwb_ubo_lite_get_title( $current_offer_product_id );
 
 									?>
-										
+
 									<option value="<?php echo esc_html( $current_offer_product_id ); ?>" selected="selected"><?php echo esc_html( $product_title ) . '( #' . esc_html( $current_offer_product_id ) . ' )'; ?>
 									</option>
 
@@ -531,12 +598,12 @@ $mwb_upsell_bump_schedule_options = array(
 						<td class="forminp forminp-text">
 							<select name="mwb_upsell_offer_price_type" id = 'mwb_upsell_offer_price_type_id' >
 
-								<option <?php echo esc_html( '%' == $mwb_bump_offer_type ? 'selected' : '' ); ?> value="%"><?php esc_html_e( 'Discount %', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
-
-								<option <?php echo esc_html( 'fixed' == $mwb_bump_offer_type ? 'selected' : '' ); ?> value="fixed"><?php esc_html_e( 'Fixed price', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option <?php echo esc_html( '%' === $mwb_bump_offer_type ? 'selected' : '' ); ?> value="%"><?php esc_html_e( 'Discount %', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option <?php echo esc_html( 'fixed' === $mwb_bump_offer_type ? 'selected' : '' ); ?> value="fixed"><?php esc_html_e( 'Fixed price', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>	
+								<option <?php echo esc_html( 'no_disc' === $mwb_bump_offer_type ? 'selected' : '' ); ?> value="no_disc"><?php esc_html_e( 'No Discount', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 
 							</select>
-							<input type="text" class = "mwb_upsell_offer_input_type" class="mwb_upsell_offer_price" name="mwb_upsell_bump_offer_discount_price" value="<?php echo esc_html( $mwb_upsell_bump_products_discount ); ?>">
+							<input type="number" min="0" class = "mwb_upsell_offer_input_type" class="mwb_upsell_offer_price" name="mwb_upsell_bump_offer_discount_price" value="<?php echo esc_html( $mwb_upsell_bump_products_discount ); ?>">
 							<span class="mwb_upsell_offer_description"><?php esc_html_e( 'Specify new offer price or discount %', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
 						</td>
@@ -583,7 +650,7 @@ $mwb_upsell_bump_schedule_options = array(
 					<div id="available_tab" class="mwb_ubo_temp_class mwb_upsell_template_select-wrapper" >
 
 						<!-- Template one. -->
-						<div class="mwb_upsell_template_select <?php echo esc_html( 1 == $mwb_ubo_selected_template ? 'mwb_ubo_selected_class' : '' ); ?>">
+						<div class="mwb_upsell_template_select <?php echo esc_html( 1 === (int) $mwb_ubo_selected_template ? 'mwb_ubo_selected_class' : '' ); ?>">
 
 							<input type="hidden" class="mwb_ubo_template" name="mwb_bump_upsell_selected_template" value="<?php echo esc_html( $mwb_bump_upsell_selected_template ); ?>" >
 
@@ -596,17 +663,16 @@ $mwb_upsell_bump_schedule_options = array(
 						</div>
 
 						<!-- Template two. -->
-						<div class="mwb_upsell_template_select <?php echo esc_html( 2 == $mwb_ubo_selected_template ? 'mwb_ubo_selected_class' : '' ); ?> ">
+						<div class="mwb_upsell_template_select <?php echo esc_html( 2 === (int) $mwb_ubo_selected_template ? 'mwb_ubo_selected_class' : '' ); ?> ">
 
 							<p class="mwb_ubo_template_name" ><?php esc_html_e( 'Alluring Lakeside', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 							<a href="javascript:void" class="mwb_ubo_template_link" data_link = '2' >
 								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-2.png' ); ?>">
 							</a>
 						</div>
-					
 
 						<!-- Template three. -->
-						<div class="mwb_upsell_template_select <?php echo esc_html( 3 == $mwb_ubo_selected_template ? 'mwb_ubo_selected_class' : '' ); ?> ">
+						<div class="mwb_upsell_template_select <?php echo esc_html( 3 === (int) $mwb_ubo_selected_template ? 'mwb_ubo_selected_class' : '' ); ?> ">
 
 							<p class="mwb_ubo_template_name" ><?php esc_html_e( 'Elegant Summers', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
@@ -657,15 +723,15 @@ $mwb_upsell_bump_schedule_options = array(
 										?>
 
 										<label>
-											
+
 											<!-- Select options for border. -->
 											<select name="parent_border_type" class="mwb_ubo_preview_select_border_type" >
 
 												<?php
 
 												$border_type_array = array(
-													'none'   => esc_html__( 'No Border', 'upsell-order-bump-offer-for-woocommerce' ),
-													'solid'  => esc_html__( 'Solid', 'upsell-order-bump-offer-for-woocommerce' ),
+													'none' => esc_html__( 'No Border', 'upsell-order-bump-offer-for-woocommerce' ),
+													'solid' => esc_html__( 'Solid', 'upsell-order-bump-offer-for-woocommerce' ),
 													'dashed' => esc_html__( 'Dashed', 'upsell-order-bump-offer-for-woocommerce' ),
 													'double' => esc_html__( 'Double', 'upsell-order-bump-offer-for-woocommerce' ),
 													'dotted' => esc_html__( 'Dotted', 'upsell-order-bump-offer-for-woocommerce' ),
@@ -678,7 +744,7 @@ $mwb_upsell_bump_schedule_options = array(
 												<?php
 												foreach ( $border_type_array as $value => $name ) :
 													?>
-													<option <?php echo esc_html( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['design_css']['parent_border_type'] == $value ? 'selected' : '' ); ?> value="<?php echo esc_html( $value ); ?>" ><?php echo esc_html( $name ); ?></option>
+													<option <?php echo esc_html( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['design_css']['parent_border_type'] === $value ? 'selected' : '' ); ?> value="<?php echo esc_html( $value ); ?>" ><?php echo esc_html( $name ); ?></option>
 												<?php endforeach; ?>
 											</select>
 
@@ -866,7 +932,7 @@ $mwb_upsell_bump_schedule_options = array(
 										?>
 
 										<label>
-											
+
 											<!-- Slider for spacing. -->
 											<input type="range" min="10" value="<?php echo esc_html( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['design_css']['product_section_text_size'] ); ?>"  max="30" value="" name = 'product_section_text_size' class="mwb_ubo_text_slider mwb_ubo_product_slider" />
 
@@ -1093,8 +1159,7 @@ $mwb_upsell_bump_schedule_options = array(
 									$offer_lead_title = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['design_text']['mwb_upsell_offer_title'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['design_text']['mwb_upsell_offer_title'] : '';
 
 								?>
-														
-									
+
 								<input type="text" class="mwb_upsell_offer_input_type" name="mwb_upsell_offer_title" text_id ="lead" value = "<?php echo esc_html( $offer_lead_title ); ?>">
 
 							</td>
@@ -1124,7 +1189,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 				<!-- Preview start -->
 				<div class="mwb_ubo_bump_offer_preview" >
-					
+
 					<?php
 
 					// Send current Bump Offer id.

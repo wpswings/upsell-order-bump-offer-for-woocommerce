@@ -92,10 +92,10 @@
 		});
 
 		// Scroll to bump offer section after Saving product.
-		if( typeof offer_section_obj !== 'undefined' ) {
+		if( typeof mwb_ubo_lite_offer_section_obj !== 'undefined' ) {
 
 			$('html, body').animate({
-			    scrollTop: $('[data-scroll-id="#' + offer_section_obj.value + '"]').offset().top - 50
+			    scrollTop: $('[data-scroll-id="#' + mwb_ubo_lite_offer_section_obj.value.value + '"]').offset().top - 50
 			}, 'slow');
 
 			// After scrolling remove offer section parameter from url.
@@ -111,10 +111,10 @@
 		}
 
 		// Scroll to respective Template section after clicking Yes for Template change.
-		if( typeof template_section_obj !== 'undefined' ) {
+		if( typeof mwb_ubo_lite_template_section_obj !== 'undefined' ) {
 
 			$('html, body').animate({
-			    scrollTop: $('.mwb_ubo_template_link[data_link="' + template_section_obj.value + '"]').offset().top - 500
+			    scrollTop: $('.mwb_ubo_template_link[data_link="' + mwb_ubo_lite_template_section_obj.value.value + '"]').offset().top - 500
 			}, 'slow');
 
 			// After scrolling remove offer section parameter from url.
@@ -230,7 +230,7 @@
 
 			var text_id = $(this).attr('text_id');
 			var msg = '';			// Check which field in changed
-			var price = $('#offer_shown_discount').val().split("+");
+			var price = $('.offer_shown_discount').val().split("+");
 
 			if( text_id == 'fixed' ) {			// Fixed Price Text.
 
@@ -240,7 +240,7 @@
 					var string = $(this).val();
 					if( price[0] == 0 ){
 
-						fixed = '$'+$('#bump_price_at_zero').val();
+						fixed = '$'+$('.bump_price_at_zero').val();
 					}
 
 					msg = string.replace( "{dc_price}", fixed );
@@ -575,7 +575,7 @@ jQuery(document).ready( function($) {
 	/**
 	 * Scripts after v1.0.2
 	 */
-	$('#mwb_ubo_offer_purchased_earlier, #mwb_ubo_offer_replace_target').on( 'click', function (e) {
+	$('#mwb_ubo_offer_purchased_earlier, #mwb_ubo_offer_replace_target, #mwb_ubo_offer_exclusive_limit, #mwb_ubo_offer_meta_forms, #mwb_ubo_offer_restrict_coupons').on( 'click', function (e) {
 
 		// Add popup to unlock pro features.
 		var pro_status = document.getElementById( 'mwb_ubo_pro_status' );
@@ -601,6 +601,18 @@ jQuery(document).ready( function($) {
 		}
 	});
 
+	// If org is updated but pro is not.
+	jQuery( '#mwb_ubo_offer_exclusive_limit' ).on( 'change',function(e){
+
+		var show_limit = jQuery( this ).prop( 'checked' );
+
+		if( true == show_limit ) {
+			jQuery( '.mwb-ubo-offer-exclusive-limit-wrap' ).removeClass( 'keep-hidden' );
+		} else {
+			jQuery( '.mwb-ubo-offer-exclusive-limit-wrap' ).addClass( 'keep-hidden' );
+		}
+	});
+	
 	// Onclick outside the div close for Update popup.
 	jQuery('body').click( function(e) {
 
