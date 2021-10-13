@@ -1315,6 +1315,306 @@ function mwb_ubo_lite_show_variation_dropdown( $args = array() ) {
 	return $html;
 }
 
+/*
+============================================================================
+							// compatibility with role based plugin.
+============================================================================
+*/
+
+
+/**
+ * Function to get the all rule ids depending upon the current user role.
+ */
+function mwb_mrbpfw_get_all_rule_ids_for_current_role() {
+	// Logic for calculating the new price here.
+	if ( ! is_user_logged_in() ) {
+		$current_role = array( 'guest' );
+	} else {
+		$get_current_user_role = wp_get_current_user();
+		$current_role          = $get_current_user_role->roles;
+	}
+	$all_rules_ids = get_posts(
+		array(
+			'fields'         => 'ids',
+			'posts_per_page' => -1,
+			'post_type'      => 'mrbpfw_price_rules',
+			'meta_query'     => array(
+				array(
+					'key'     => 'mwb_mrbpfw_role',
+					'value'   => $current_role[0],
+					'compare' => '==',
+				),
+				array(
+					'key'     => 'mwb_mrbpfw_enable_rule',
+					'value'   => 'on',
+					'compare' => '==',
+				),
+			),
+		)
+	);
+	return $all_rules_ids;
+}
+
+
+/**
+ * Get Total discount for the products
+ *
+ * @param object $product .
+ * @param string $new_price .
+ */
+function mwb_mrbpfw_get_discount_price( $product, $new_price ) {
+	$all_rules_ids         = mwb_mrbpfw_get_all_rule_ids_for_current_role();
+	$priority_wise_rule_id = array();
+	$total_discount        = '';
+	if ( isset( $all_rules_ids ) && ! empty( $all_rules_ids ) && ! empty( $new_price ) ) {
+		foreach ( $all_rules_ids as $key => $id ) {
+			$priority                           = get_post_meta( $id, 'mwb_mrbpfw_priority', true );
+			$priority_wise_rule_id[ $priority ] = $id;
+		}
+		ksort( $priority_wise_rule_id );
+		$count = 0;
+		foreach ( $priority_wise_rule_id as $key => $id ) {
+			++$count;
+			$rule_type       = get_post_meta( $id, 'mwb_mrbpfw_rule_type', true );
+			$discount_type   = get_post_meta( $id, 'mwb_mrbpfw_discount_type', true );
+			$price           = get_post_meta( $id, 'mwb_mrbpfw_price', true );
+			$all_product_ids = get_post_meta( $id, 'mwb_mrbpfw_all_products', true );
+			floatval( $price );
+			if ( $product->is_type( 'variable' ) ) {
+				$product_id = $product->get_parent_id();
+			} elseif ( $product->is_type( 'variation' ) ) {
+				$product_id = $product->get_parent_id();
+			} elseif ( $product->is_type( 'simple' ) ) {
+				$product_id = $product->get_id();
+			}
+			if ( isset( $rule_type ) && ! empty( $rule_type ) && 'all_products' === $rule_type && ( empty( $all_product_ids ) || ( ! empty( $all_product_ids ) && in_array( $product_id, $all_product_ids, false ) ) ) ) {
+				if ( isset( $price ) && ! empty( $price ) ) {
+					if ( 'fixed' === $discount_type ) {
+						$total_discount = $price;
+					} elseif ( 'percentage' === $discount_type ) {
+						$per_price = ( $new_price * $price ) / 100;
+						round( $per_price, 2 );
+						$total_discount = $per_price;
+					}
+				}
+			} elseif ( isset( $rule_type ) && ! empty( $rule_type ) && 'categories' === $rule_type ) {
+				$categories = get_post_meta( $id, 'mwb_mrbpfw_categories', true );
+				if ( isset( $categories ) && ! empty( $categories ) ) {
+					if ( has_term( $categories, 'product_cat', $product->get_parent_id() ) ) {
+						if ( isset( $price ) && ! empty( $price ) ) {
+							if ( 'fixed' === $discount_type ) {
+								$total_discount = $price;
+							} elseif ( 'percentage' === $discount_type ) {
+								$per_price = ( $new_price * $price ) / 100;
+								round( $per_price, 2 );
+								$total_discount = $per_price;
+							}
+						}
+					}
+				}
+			} elseif ( isset( $rule_type ) && ! empty( $rule_type ) && 'tags' === $rule_type ) {
+				$tags = get_post_meta( $id, 'mwb_mrbpfw_tags', true );
+				if ( isset( $tags ) && ! empty( $tags ) ) {
+					if ( has_term( $tags, 'product_tag', $product->get_parent_id() ) ) {
+						if ( isset( $price ) && ! empty( $price ) ) {
+							if ( 'fixed' === $discount_type ) {
+								$total_discount = $price;
+							} elseif ( 'percentage' === $discount_type ) {
+								$per_price = ( $new_price * $price ) / 100;
+								round( $per_price, 2 );
+								$total_discount = $per_price;
+							}
+						}
+					}
+				}
+			}
+			if ( 1 === $count ) {
+				break;
+			}
+		}
+	}
+	return $total_discount;
+}
+
+/**
+ * Function to change the product price for the product
+ *
+ * @param string $original_price is current product product price.
+ * @param object $product is the current product object.
+ * @param object $type .
+ * @return $new_price which can be modify price or original price based the conditions
+ */
+function mwb_mrbpfw_role_based_price( $original_price, $product, $type ) {
+	if ( ! is_user_logged_in() ) {
+		$current_role = array( 'guest' );
+	} else {
+		$get_current_user_role = wp_get_current_user();
+		$current_role          = $get_current_user_role->roles;
+	}
+	if ( class_exists( 'WC_Subscriptions_Product' ) && $product->is_subscription() ) {
+		return $original_price;
+	}
+	$rule_apply  = get_option( 'mwb_mrbpfw_for_price_rule' );
+	$get_options = get_option( 'user_setting_' . $current_role[0] );
+	if ( 'simple' === $product->get_type() ) {
+		if ( 'r_price' === $rule_apply ) {
+			$new_price = $product->get_regular_price();
+		} elseif ( 's_price' === $rule_apply ) {
+			$new_price = $product->get_sale_price();
+		}
+	} elseif ( 'variable' === $product->get_type() ) {
+		if ( 'r_price' === $rule_apply ) {
+			$new_price = $product->get_regular_price();
+		} elseif ( 's_price' === $rule_apply ) {
+			$new_price = $product->get_sale_price();
+		}
+	} elseif ( 'variation' === $product->get_type() ) {
+		if ( 'r_price' === $rule_apply ) {
+			$new_price = $product->get_regular_price();
+		} elseif ( 's_price' === $rule_apply ) {
+			$new_price = $product->get_sale_price();
+		}
+	} else {
+		return $original_price;
+	}
+	if ( empty( $new_price ) ) {
+		return $original_price;
+	}
+	// Logic for calculating the new price here.
+	$total_discount = mwb_mrbpfw_get_discount_price( $product, $new_price );
+	if ( empty( $new_price ) && $new_price < 0 ) {
+		return wc_price( 0 );
+	}
+	$args1 = wp_parse_args(
+		array(
+			'qty'   => '',
+			'price' => $product->get_sale_price(),
+		)
+	);
+	$args2 = wp_parse_args(
+		array(
+			'qty'   => '',
+			'price' => $product->get_regular_price(),
+		)
+	);
+	if ( isset( $rule_apply ) && 's_price' === $rule_apply && $product->is_on_sale() ) {
+		$sale_price_excl_tax    = wc_get_price_excluding_tax( $product, $args1 );
+		$sale_price_incl_tax    = wc_get_price_including_tax( $product, $args1 );
+		$regular_price_excl_tax = wc_get_price_excluding_tax( $product, $args2 );
+		$regular_price_incl_tax = wc_get_price_including_tax( $product, $args2 );
+	} elseif ( isset( $rule_apply ) && 'r_price' === $rule_apply && ( $product->is_on_sale() || ! $product->is_on_sale() ) ) {
+		if ( $product->is_on_sale() ) {
+			$sale_price_excl_tax = wc_get_price_excluding_tax( $product, $args1 );
+			$sale_price_incl_tax = wc_get_price_including_tax( $product, $args1 );
+		}
+		$regular_price_excl_tax = wc_get_price_excluding_tax( $product, $args2 );
+		$regular_price_incl_tax = wc_get_price_including_tax( $product, $args2 );
+	}
+	if ( isset( $get_options ) && ! empty( $get_options ) && in_array( 'show_tax_' . $current_role[0], $get_options, true ) ) {
+		if ( isset( $rule_apply ) && 's_price' === $rule_apply ) {
+			if ( $product->is_on_sale() ) {
+				if ( isset( $total_discount ) && ! empty( $total_discount ) ) {
+					$role_based_pricing = $sale_price_incl_tax - $total_discount;
+				}
+				$sale_price    = $sale_price_incl_tax;
+				$regular_price = $regular_price_incl_tax;
+			}
+		} elseif ( isset( $rule_apply ) && 'r_price' === $rule_apply ) {
+			if ( $product->is_on_sale() || ! $product->is_on_sale() ) {
+				if ( isset( $total_discount ) && ! empty( $total_discount ) ) {
+					$role_based_pricing = $regular_price_incl_tax - $total_discount;
+				}
+				if ( $product->is_on_sale() ) {
+					$sale_price = $sale_price_incl_tax;
+				}
+				$regular_price = $regular_price_incl_tax;
+			}
+		}
+	} else {
+		if ( isset( $rule_apply ) && 's_price' === $rule_apply ) {
+			if ( $product->is_on_sale() ) {
+				if ( isset( $total_discount ) && ! empty( $total_discount ) ) {
+					$role_based_pricing = $sale_price_excl_tax - $total_discount;
+				}
+				$sale_price    = $sale_price_excl_tax;
+				$regular_price = $regular_price_excl_tax;
+			}
+		} elseif ( isset( $rule_apply ) && 'r_price' === $rule_apply ) {
+			if ( $product->is_on_sale() || ! $product->is_on_sale() ) {
+				if ( isset( $total_discount ) && ! empty( $total_discount ) ) {
+					$role_based_pricing = $regular_price_excl_tax - $total_discount;
+				}
+				if ( $product->is_on_sale() ) {
+					$sale_price = $sale_price_excl_tax;
+				}
+				$regular_price = $regular_price_excl_tax;
+			}
+		}
+	}
+	$tax_enable = get_option( 'woocommerce_calc_taxes' );
+	$tax_label  = '';
+	if ( 'yes' === $tax_enable ) {
+		if ( isset( $get_options ) && ! empty( $get_options ) && in_array( 'show_tax_' . $current_role[0], $get_options, true ) ) {
+			$tax_label = apply_filters( 'mwb_mrbpfw_tax_lable', __( 'incl.VAT', 'mwb-role-based-pricing-for-woocommerce' ) );
+		} else {
+			$tax_label = apply_filters( 'mwb_mrbpfw_tax_lable', __( 'excl.VAT', 'mwb-role-based-pricing-for-woocommerce' ) );
+		}
+	}
+	if ( isset( $role_based_pricing ) && $role_based_pricing < 0 ) {
+		return wc_price( 0 );
+	}
+	if ( function_exists( 'mwb_mmcsfw_admin_fetch_currency_rates_from_base_currency' ) && ! is_admin() ) {
+		if ( isset( $role_based_pricing ) ) {
+			$role_based_pricing = mwb_mmcsfw_admin_fetch_currency_rates_from_base_currency( '', $role_based_pricing );
+		}
+		if ( isset( $sale_price ) ) {
+			$sale_price = mwb_mmcsfw_admin_fetch_currency_rates_from_base_currency( '', $sale_price );
+		}
+		if ( isset( $regular_price ) ) {
+			$regular_price = mwb_mmcsfw_admin_fetch_currency_rates_from_base_currency( '', $regular_price );
+		}
+	}
+	if ( isset( $total_discount ) && ! empty( $total_discount ) && ! empty( $get_options ) && in_array( 'role_based_price_' . $current_role[0], $get_options, true ) ) {
+		if ( isset( $sale_price ) && $role_based_pricing > $sale_price && ! empty( $type ) && 'simple' === $type ) {
+			return wc_price( $sale_price ) . ' ' . $tax_label;
+		} else {
+			return wc_price( $role_based_pricing ) . ' ' . $tax_label;
+		}
+	} elseif ( $product->is_on_sale() && ! empty( $get_options ) && in_array( 'on_sale_price_' . $current_role[0], $get_options, true ) ) {
+		return wc_price( $sale_price ) . ' ' . $tax_label;
+	} elseif ( $product->is_on_sale() && ! empty( $get_options ) && in_array( 'regular_price_' . $current_role[0], $get_options, true ) ) {
+		return wc_price( $regular_price ) . ' ' . $tax_label;
+	} elseif ( ! $product->is_on_sale() && ! empty( $get_options ) && in_array( 'regular_price_' . $current_role[0], $get_options, true ) ) {
+		return wc_price( $regular_price ) . ' ' . $tax_label;
+	} else {
+		if ( isset( $get_options ) && ! empty( $get_options ) && in_array( 'show_tax_' . $current_role[0], $get_options, true ) ) {
+			return wc_price( wc_get_price_including_tax( $product ) );
+		} else {
+			return wc_price( wc_get_price_excluding_tax( $product ) );
+		}
+	}
+}
+
+
+
+/**
+ * Function to check whether plugin is active or not.
+ *
+ * @return boolean
+ */
+function is_mwb_role_based_pricing_active() {
+	$active_plugin = get_option( 'active_plugins', false );
+	if ( in_array( 'mwb-role-based-pricing-for-woocommerce/mwb-role-based-pricing-for-woocommerce.php', $active_plugin, true ) && class_exists( 'Mwb_Role_Based_Pricing_For_Woocommerce_Public' ) && mwb_ubo_lite_if_pro_exists() ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+
+
+
 /**
  * Get price html with bump offer discount
  *
@@ -1337,6 +1637,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 	$regular_price = $product->get_regular_price();
 
 	// Case of variable parent product.
+
 	if ( empty( $sale_price ) && empty( $regular_price ) ) {
 
 		if ( 'incl' === get_option( 'woocommerce_tax_display_cart' ) ) {
@@ -1421,8 +1722,14 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 			return $product->get_price_html();
 		}
-
-		return wc_format_sale_price( $default_price, $bump_price );
+		if ( is_mwb_role_based_pricing_active() ) {
+			$prod_obj = wc_get_product( $product_id );
+			$prod_type = $prod_obj->get_type();
+			$mwb_price_role_based = mwb_mrbpfw_role_based_price( $default_price, $prod_obj, $prod_type );
+		} else {
+			$mwb_price_role_based = 'not_active';
+		}
+		return wc_format_sale_price( ( $mwb_price_role_based === 'not_active' ) ? $default_price : $mwb_price_role_based, $bump_price );
 	}
 
 	// Check woocommerce settings for tax display at cart.
@@ -1446,8 +1753,14 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 			return $product->get_price_html();
 		}
-
-		return wc_format_sale_price( $regular_price, $bump_price );
+		if ( is_mwb_role_based_pricing_active() ) {
+			$prod_obj = wc_get_product( $product_id );
+			$prod_type = $prod_obj->get_type();
+			$mwb_price_role_based = mwb_mrbpfw_role_based_price( $regular_price, $prod_obj, $prod_type );
+		} else {
+			$mwb_price_role_based = 'not_active';
+		}
+		return wc_format_sale_price( ( $mwb_price_role_based === 'not_active' ) ? $regular_price : $mwb_price_role_based, $bump_price );
 
 	} elseif ( 'sale_to_offer' === $price_formatting ) {
 
@@ -1459,10 +1772,25 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 				$subscription_details = ! empty( $updated_html['1'] ) ? '<span class="subscription-details">' . $updated_html['1'] : '';
 
-				return wc_format_sale_price( $sale_price, $bump_price ) . $subscription_details;
+				if ( is_mwb_role_based_pricing_active() ) {
+					$prod_obj = wc_get_product( $product_id );
+					$prod_type = $prod_obj->get_type();
+					$mwb_price_role_based = mwb_mrbpfw_role_based_price( $sale_price, $prod_obj, $prod_type );
+				} else {
+					$mwb_price_role_based = 'not_active';
+				}
+				return wc_format_sale_price( ( $mwb_price_role_based === 'not_active' ) ? $sale_price : $mwb_price_role_based, $bump_price ) . $subscription_details;
 			}
 
-			return wc_format_sale_price( $sale_price, $bump_price );
+
+			if ( is_mwb_role_based_pricing_active() ) {
+				$prod_obj = wc_get_product( $product_id );
+				$prod_type = $prod_obj->get_type();
+				$mwb_price_role_based = mwb_mrbpfw_role_based_price( $sale_price, $prod_obj, $prod_type );
+			} else {
+				$mwb_price_role_based = 'not_active';
+			}
+			return wc_format_sale_price( ( $mwb_price_role_based === 'not_active' ) ? $sale_price : $mwb_price_role_based, $bump_price );
 
 		} else {
 
@@ -1471,7 +1799,14 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 				return $product->get_price_html();
 			}
 
-			return wc_format_sale_price( $regular_price, $bump_price );
+			if ( is_mwb_role_based_pricing_active() ) {
+				$prod_obj = wc_get_product( $product_id );
+				$prod_type = $prod_obj->get_type();
+				$mwb_price_role_based = mwb_mrbpfw_role_based_price( $regular_price, $prod_obj, $prod_type );
+			} else {
+				$mwb_price_role_based = 'not_active';
+			}
+			return wc_format_sale_price( ( $mwb_price_role_based === 'not_active' ) ? $regular_price : $mwb_price_role_based, $bump_price );
 		}
 	}
 }

@@ -5,7 +5,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -197,6 +197,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		// Validate Pro version compatibility.
 		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'validate_version_compatibility' );
 
+		// Hook to start a session at the checkout page.
+		$this->loader->add_action( 'woocommerce_after_checkout_form', $plugin_admin, 'start_session_at_checkout_page' );
+
 	}
 
 	/**
@@ -213,7 +216,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		// By default plugin will be enabled.
 		$mwb_upsell_bump_enable_plugin = ! empty( $mwb_ubo_global_options['mwb_bump_enable_plugin'] ) ? $mwb_ubo_global_options['mwb_bump_enable_plugin'] : 'on';
 
-		if ( 'on' === $mwb_upsell_bump_enable_plugin ) {
+		if ( 'on' == $mwb_upsell_bump_enable_plugin ) {
 
 			$plugin_public = new Upsell_Order_Bump_Offer_For_Woocommerce_Public( $this->get_plugin_name(), $this->get_version() );
 
@@ -234,6 +237,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			// Ajax to add bump offer.
 			$this->loader->add_action( 'wp_ajax_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
+
+			// Ajax function to specify whether the Order Bump can be used anymore or not depending on the limit.
+			$this->loader->add_action( 'wp_ajax_check_if_the_bump_can_be_used_anymore', $plugin_public, 'check_if_the_bump_can_be_used_anymore' );
+			$this->loader->add_action( 'wp_ajax_nopriv_check_if_the_bump_can_be_used_anymore', $plugin_public, 'check_if_the_bump_can_be_used_anymore' );
 
 			// Ajax to add bump offer.
 			$this->loader->add_action( 'wp_ajax_add_variation_offer_in_cart', $plugin_public, 'add_variation_offer_in_cart' );
@@ -258,6 +265,41 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 			// Hide Order Bump meta from order items.
 			$this->loader->add_filter( 'woocommerce_order_item_get_formatted_meta_data', $plugin_public, 'hide_order_bump_meta' );
+
+			// Update the values as item meta.
+			$this->loader->add_filter( 'wp_ajax_add_simple_offer_in_cart', $plugin_public, 'add_simple_offer_in_cart' );
+			$this->loader->add_filter( 'wp_ajax_nopriv_add_simple_offer_in_cart', $plugin_public, 'add_simple_offer_in_cart' );
+
+			// Hook to get the Order details when the place order button is clicked.
+			if ( mwb_ubo_lite_if_pro_exists() ) {
+				$this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'temporary_function_to_get_order_id', 10, 1 );
+			}
+
+			// Hook to append the url the parameter count to the URL.Mainly when Order will be placed the function will let us know that
+			// if the Order bump was used or not if used the count of the Variable will be updated else will not be updated.
+
+			// Ajax to remove bump offer.
+			$this->loader->add_action( 'wp_ajax_fetch_options_for_demo_purpose', $plugin_public, 'fetch_options_for_demo_purpose' );
+			$this->loader->add_action( 'wp_ajax_nopriv_fetch_options_for_demo_purpose', $plugin_public, 'fetch_options_for_demo_purpose' );
+
+			// Ajax to store the value of count of bump usage into the session.
+			$this->loader->add_action( 'wp_ajax_send_value_of_count_and_bump_id_start_session', $plugin_public, 'send_value_of_count_and_bump_id_start_session' );
+			$this->loader->add_action( 'wp_ajax_nopriv_send_value_of_count_and_bump_id_start_session', $plugin_public, 'send_value_of_count_and_bump_id_start_session' );
+
+			// Ajax to store the value of count of bump usage into the session.
+			$this->loader->add_action( 'wp_ajax_send_pro_not_activated_message', $plugin_public, 'send_pro_not_activated_message' );
+			$this->loader->add_action( 'wp_ajax_nopriv_send_pro_not_activated_message', $plugin_public, 'send_pro_not_activated_message' );
+
+			// Hook to retrieve the value from the session and increase the count of the order bump being used.
+			$this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'update_the_value_count_for_bump_use' );
+
+			$this->loader->add_action( 'wp_ajax_unset_session_if_bump_unchecked', $plugin_public, 'unset_session_if_bump_unchecked' );
+			$this->loader->add_action( 'wp_ajax_nopriv_unset_session_if_bump_unchecked', $plugin_public, 'unset_session_if_bump_unchecked' );
+
+			$this->loader->add_action( 'wp_ajax_unset_coupon_session_if_bump_not_checked', $plugin_public, 'unset_coupon_session_if_bump_not_checked' );
+			$this->loader->add_action( 'wp_ajax_nopriv_unset_coupon_session_if_bump_not_checked', $plugin_public, 'unset_coupon_session_if_bump_not_checked' );
+
+			// $this->loader->add_action( 'woocommerce_checkout_after_order_review', $plugin_public, 'demo_details_for_the_cart_1' );
 		}
 	}
 
@@ -340,6 +382,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 			// Unset Smart Offer Upgrade in case as it's a pro feature.
 			$single_first_bump[ key( $mwb_ubo_offer_array_collection ) ]['mwb_ubo_offer_replace_target'] = 'no';
+
+			// Unset custom fields if pro verison doesnot exist.
+			$single_first_bump[ key( $mwb_ubo_offer_array_collection ) ]['mwb_ubo_offer_add_custom_fields'] = 'no';
 
 			return $single_first_bump;
 		}

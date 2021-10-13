@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Sales by Order Bump - Data handling and Stats.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://makewebbetter.com/
  * @since      1.4.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -18,13 +19,6 @@ if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Bump' ) ) {
 	return;
 }
 
-/**
- * The Admin-facing reporting functionality of the plugin.
- *
- * @package    Upsell_Order_Bump_Offer_For_Woocommerce
- * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/reporting
- * @author     Make Web Better <webmaster@makewebbetter.com>
- */
 class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 
 	/**
@@ -47,8 +41,6 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 
 	/**
 	 * Initialize the Class.
-	 *
-	 * @param string $bump_id Bump id.
 	 *
 	 * @since    1.4.0
 	 */
@@ -89,8 +81,6 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 
 	/**
 	 * Save the Order Bump series with the Updated data.
-	 *
-	 * @param array $bump_series Bump series.
 	 *
 	 * @since    1.4.0
 	 * @access   protected
@@ -192,7 +182,6 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	/**
 	 * Add Order Bump Total Sales ( Order Bump items ) without tax.
 	 *
-	 * @param string $order_bump_item_total The total.
 	 * @since    1.4.0
 	 * @access   public
 	 */

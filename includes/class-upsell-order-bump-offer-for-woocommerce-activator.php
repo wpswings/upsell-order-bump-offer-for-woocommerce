@@ -2,7 +2,7 @@
 /**
  * Fired during plugin activation.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce

@@ -4,7 +4,7 @@
  *
  * This file is used to list all bump offers.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -26,13 +26,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * view/edit and delete option.
  */
 
-$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
-$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
-
-if ( ! $id_nonce_verified ) {
-	wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-}
-
 // Delete bumps.
 if ( isset( $_GET['del_bump_id'] ) ) {
 
@@ -43,7 +36,7 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 
 	foreach ( $mwb_upsell_bumps as $single_bump => $data ) {
 
-		if ( (string) $bump_id === (string) $single_bump ) {
+		if ( $bump_id == $single_bump ) {
 
 			unset( $mwb_upsell_bumps[ $single_bump ] );
 			break;
@@ -52,7 +45,7 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 
 	update_option( 'mwb_ubo_bump_list', $mwb_upsell_bumps );
 
-	wp_safe_redirect( admin_url( 'admin.php' ) . '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list' );
+	wp_redirect( admin_url( 'admin.php' ) . '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list' );
 
 	exit();
 }
@@ -79,6 +72,7 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 			</p>
 		</div>
 
+			
 	<?php endif; ?>
 		<table>
 			<tr>
@@ -106,7 +100,7 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
 					$bump_status = ! empty( $value['mwb_upsell_bump_status'] ) ? $value['mwb_upsell_bump_status'] : 'no';
 
-				if ( 'yes' === $bump_status ) {
+				if ( 'yes' == $bump_status ) {
 
 					echo '<span class="mwb_upsell_bump_list_live"></span><span class="mwb_upsell_bump_list_live_name">' . esc_html__( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>';
 				} else {

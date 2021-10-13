@@ -4,7 +4,7 @@
  *
  * This file is used for Order Bump Reports and Order Bump Sales by Funnel - Stats.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://makewebbetter.com/
  * @since      1.4.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -75,7 +75,7 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 						echo esc_html( $offer_view_count );
 
 						?>
-
+					
 					</td>
 
 					<!-- Success Count - Offer accepted, Order Placed and reached Thankyou page -->
@@ -88,6 +88,7 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 						echo esc_html( $bump_success_count );
 
 						?>
+					
 					</td>
 
 					<!-- Offer Accepted - Offer added to cart -->
@@ -100,6 +101,7 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 						echo esc_html( $offer_accept_count );
 
 						?>
+					
 					</td>
 
 					<!-- Offer Removed - Offer removed after being added -->
@@ -112,7 +114,7 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 						echo esc_html( $offer_remove_count );
 
 						?>
-
+					
 					</td>
 
 					<!-- Conversion Rate - % ratio of View vs Success count -->
@@ -133,6 +135,7 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 						echo '<div class="mwb_ubo_stats_conversion_rate"><p>' . esc_html( $conversion_rate ) . esc_html__( '%', 'upsell-order-bump-offer-for-woocommerce' ) . '</p><div>';
 
 						?>
+					
 					</td>
 
 					<!-- Total Sales - Total price amount of offers checked out -->
@@ -147,8 +150,10 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 						echo '<div class="mwb_ubo_stats_total_sales"><p>' . get_woocommerce_currency_symbol() . esc_html( $bump_total_sales ) . '</p><div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 						?>
+					
 					</td>
 
+					
 				</tr>
 			<?php endforeach; ?>
 			<!-- Foreach Funnel end -->

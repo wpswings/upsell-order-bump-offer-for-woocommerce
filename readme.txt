@@ -1,28 +1,28 @@
-===  Upsell Order Bump Offer for WooCommerce - Increase Sales,Upsell & Crosssell , Checkout Page  ===
+===  Upsell Order Bump Offer for WooCommerce  ===
 
 Contributors: MakeWebBetter
 Donate link: https://makewebbetter.com/
 Tags: bump, increase sales, upsell, woocommerce, checkout page 
 Requires at least: 4.0
-Tested up to: 5.8.1
+Tested up to: 5.6.2
 WC requires at least: 3.0.0
-WC tested up to: 5.6.0
+WC tested up to: 5.0.0
 Stable tag: 1.4.3
-Requires PHP: 7.0.0
+Requires PHP: 5.6
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-THE ALL-IN-ONE SOLUTION TO INCREASE SALES AND BOOST AOV WITH UPSELL AND CROSS-SELL OFFERS ON THE CHECKOUT PAGE.
+Amplify your store’s average order value and engagement by offering bump offers on the checkout page that customers can buy in one click.
 
 == Description ==
 
-**UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE IS AN EXTENSION THAT LETS THE MERCHANTS SHOW UPSELL AND CROSS-SELL OFFERS ON THE CHECKOUT PAGE TO BOOST AOV AND INCREASE SALES.**
+**HIGHEST RATED ORDER BUMP OFFER PLUGIN ON WORDPRESS**
 
 Upsell order bump offer is an upselling plugin that facilitates store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer’s existing Order in just a single click.
 
 This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets which will ensure customer satisfaction and thus result in higher conversion rates
 
-[youtube https://www.youtube.com/watch?v=p9KIQyXauY4&w=560&h=315&rel=0]
+[youtube https://www.youtube.com/watch?v=p9KIQyXauY4]
 
 
 == With the Upsell Order Bump Offer For WooCommerce plugin you can: ==
@@ -35,11 +35,6 @@ This is a happy moment for your customers and also they trust you as they’re j
 * Skip bump offers if the offer product is already added in the cart.
 * Offer simple, variable, and subscription products as order bump offers.
 * Track order bumps performance with Order Bump Sales Reports and Behavioral Analytics.
-
-== PLUGIN MEETS YOUR REQUIREMENT, SO ==
-[**Download Now!!**](https://downloads.wordpress.org/plugin/upsell-order-bump-offer-for-woocommerce.zip)
-Visit [**Upsell Order Bump Offer for WooCommerce  Documentation**](https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org).
-
 
 == WHAT’S INCLUDED IN OUR FREE UPSELL ORDER BUMP OFFER PLUGIN ==
 
@@ -93,10 +88,10 @@ With the Order Bump Sales Report, a merchant can track the sale of the products 
 
 The plugin comes with full compatibility with simple, variable, and subscription product types. This increases the range of offer products that you can provide to your customers.
 
-[**Free demo of Upsell Order Bump Offer for WooCommerce**](https://demo.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
+[Free demo of Upsell Order Bump Offer for WooCommerce](https://demo.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
 
 
-Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org) to learn more about the features and working of the plugin.
+Visit [Upsell Order Bump Offer for WooCommerce Documentation](https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org) to learn more about the features and working of the plugin.
 
 == WHAT PREMIUM VERSION OF UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE OFFERS ==
 
@@ -106,14 +101,11 @@ Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.m
 * Smart Skip if Already Purchased to skip the bump offers if already purchased.
 * Premium Support on Phone, Email & Skype.
 
-> Note:  Get [WooCommerce Upsell Order Bump Offer Pro](https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
-
-If our documentation doesn't contain the solution to your problem, you can visit the [**MakeWebBetter Forums**](https://forums.makewebbetter.com/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org) with your question.
-
+[WooCommerce Upsell Order Bump Offer Pro](https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
 
 == SUPPORT ==
 
-If you need support or have questions, kindly use our online chat window [**here**](http://www.makewebbetter.com/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org) or connect with us then [**Generate a ticket.**](https://makewebbetter.com/submit-query/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
+If you need support or have questions, kindly use our online chat window [here](http://www.makewebbetter.com/?utm_source=MWB-Orderbump-ORG&utm_medium=MWB-ORG&utm_campaign=ORG) or connect with us then [Generate a ticket.](https://makewebbetter.com/submit-query/)
 
 == Installation ==
 
@@ -215,8 +207,8 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Changelog ==
 
-= 1.4.3 - Released on 16 Sep 2021 =
-* Improved: Compatibility with latest WP(5.8.1) and WC(5.6.0)
+= 1.4.3 =
+* Improved: Compatibility with latest WP(5.6.2) and WC(5.0.0)
 
 = 1.4.2 - Released on 19 December 2020 =
 * Improved: Compatibility with latest WP(5.6) and WC(4.8.0)
@@ -251,8 +243,5 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Upgrade Notice ==
 
-= 1.4.3 - Released on 16 Sep 2021 =
-* Improved: Compatibility with latest WP(5.8.1) and WC(5.6.0)
-
-
-
+= 1.4.3 =
+* Improved: Compatibility with latest WP(5.6.2) and WC(5.0.0)

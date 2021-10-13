@@ -4,7 +4,7 @@
  *
  * This file is used to markup the public-facing aspects of the plugin.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -17,25 +17,25 @@ $mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_def
 $mwb_bump_enable_plugin = ! empty( $mwb_ubo_global_options['mwb_bump_enable_plugin'] ) ? $mwb_ubo_global_options['mwb_bump_enable_plugin'] : 'on';
 
 // Get all saved bumps.
-$mwb_ubo_bump_callback          = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
+$mwb_ubo_bump_callback = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_upsell_bump_list_callback_function;
 $mwb_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$mwb_ubo_bump_callback();
 
-if ( 'on' !== $mwb_bump_enable_plugin || empty( $mwb_ubo_offer_array_collection ) ) {
+if ( 'on' != $mwb_bump_enable_plugin || empty( $mwb_ubo_offer_array_collection ) ) {
 	return;
 }
 
 // Token to fetch order bumps again.
 $fetch_order_bumps = true;
 
-$encountered_bump_ids_array        = array();
+$encountered_bump_ids_array = array();
 $encountered_bump_tarket_key_array = array();
 
 // WIW-CC : First check from session and perform validations.
-if ( null !== WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->session->get( 'encountered_bump_array' ) ) ) {
+if ( null != WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->session->get( 'encountered_bump_array' ) ) ) {
 
 	$fetch_order_bumps = false;
 
-	$encountered_bump_ids_array        = WC()->session->get( 'encountered_bump_array' );
+	$encountered_bump_ids_array = WC()->session->get( 'encountered_bump_array' );
 	$encountered_bump_tarket_key_array = WC()->session->get( 'encountered_bump_tarket_key_array' );
 
 	// For Each Order Bump Ids array from session.
@@ -51,7 +51,7 @@ if ( null !== WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->
 			$fetch_order_bumps = true;
 
 			// In case offer is already added then remove the offer product.
-			if ( null !== WC()->session->get( "bump_offer_status_index_$key" ) ) {
+			if ( null != WC()->session->get( "bump_offer_status_index_$key" ) ) {
 
 				WC()->cart->remove_cart_item( WC()->session->get( "bump_offer_status_index_$key" ) );
 
@@ -84,7 +84,7 @@ if ( empty( $encountered_bump_ids_array ) || ! is_array( $encountered_bump_ids_a
 }
 
 // Set Session whenever Order Bump Ids are fetched from collection.
-if ( null === WC()->session->get( 'encountered_bump_array' ) ) {
+if ( null == WC()->session->get( 'encountered_bump_array' ) ) {
 
 	WC()->session->set( 'encountered_bump_array', $encountered_bump_ids_array );
 	WC()->session->set( 'encountered_bump_tarket_key_array', $encountered_bump_tarket_key_array );
@@ -99,11 +99,11 @@ if ( null === WC()->session->get( 'encountered_bump_array' ) ) {
 
 /**===========================================
 		Order bump html section start
-===========================================*/
+ ===========================================*/
 ?><div class="wrapup_order_bump">
 <?php
 
-// For Each Order Bump Ids array.
+	// For Each Order Bump Ids array.
 foreach ( $encountered_bump_ids_array as $key => $value ) {
 
 	$encountered_order_bump_id = $value;
@@ -125,4 +125,4 @@ foreach ( $encountered_bump_ids_array as $key => $value ) {
 <?php
 /**===========================================
 		Order bump html section ends
-===========================================*/
+ ===========================================*/
