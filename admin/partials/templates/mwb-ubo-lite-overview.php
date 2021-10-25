@@ -4,7 +4,7 @@
  *
  * This file is used to give an overview of pro version and features.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -12,7 +12,7 @@
  */
 
 /**
- * Exit if accessed directly
+ * Exit if accessed directly.
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -136,7 +136,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<!-- Go pro section starts. -->
 			<div class="mwb_ubo_lite_go_pro_popup_button">
-				<a class="button mwb_ubo_lite_overview_go_pro_button" target="_blank" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-ORG&utm_campaign=MWB-upsell-bump-org">
+				<a class="button mwb_ubo_lite_overview_go_pro_button" target="_blank" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend">
 				<?php
 				esc_html_e( 'Upgrade to Premium', 'upsell-order-bump-offer-for-woocommerce' );
 				echo ' <span class="dashicons dashicons-arrow-right-alt"></span>';

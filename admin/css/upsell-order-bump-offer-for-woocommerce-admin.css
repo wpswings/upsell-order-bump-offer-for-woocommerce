@@ -612,7 +612,7 @@
 .mwb_upsell_bumps_list table th {
   border: 1px solid #d0cccc;
 }
-.mwb_upsell_table table tr:nth-child(2n) {
+table.mwb_upsell_bump_creation_setting tr:nth-of-type(even) {
   background-color: #f1f1f1;
 }
 .nav-tab-wrapper.mwb-ubo-appearance-nav-tab {
@@ -785,9 +785,11 @@ h1.mwb_upsell_bump_setting_title .mwb-upsell-bump-wrap h1 {
 .mwb_upsell_bump_list_name {
   font-size: 16px !important;
   font-weight: 200 !important;
+  word-break: break-word;
 }
 .mwb_upsell_bumps_list p {
-  color: #444  ;
+  color: #444;
+  word-break: break-word;
 }
 .mwb_upsell_bump_list_targets {
   background-color: #eaeaea;
@@ -852,15 +854,17 @@ h1.mwb_upsell_bump_setting_title .mwb-upsell-bump-wrap h1 {
   border-left-color: #15ef15;
 }
 #mwb_upsell_bump_setting_wrapper .mwb_upsell_table #mwb_upsell_bump_name_heading h2 {
-  margin: 0;
-  line-height: normal;
-  font-size: 32px;
-  color: #23282d;
   border-radius: 10px 0px;
-  width: calc(100% - 250px);
+  color: #23282d;
   float: left;
+  font-size: 32px;
   font-weight: 400;
+  word-break: break-word;
+  line-height: normal;
+  margin: 0;
   padding: 0;
+  width: calc(100% - 250px);
+  word-break: break-word;
 }
 #mwb_upsell_bump_setting_wrapper table.form-table.mwb_upsell_bump_creation_setting tr th,
 #mwb_upsell_bump_setting_wrapper table.form-table.mwb_upsell_bump_creation_setting tr td {
@@ -979,7 +983,9 @@ table.form-table.mwb_upsell_bump_creation_setting tr th label {
 #mwb_upsell_bump_setting_wrapper #mwb_upsell_offer_price_type_id {
   width: 20%;
 } 
-
+#mwb_upsell_bump_setting_wrapper .mwb_upsell_table .new_offers tr td .select2-container.select2-container--default.select2-container--focus {
+  width: 100% !important;
+}
 #mwb_upsell_bump_setting_wrapper .mwb_upsell_table #mwb_upsell_bump_name_heading div#mwb_upsell_bump_status {
   float: right;
   padding: 10px;
@@ -1405,17 +1411,7 @@ select.mwb_select_for_description_class {
 }
 .mwb-notice {
   display: block;
-  border-left: 3px solid #ffa028;
-  padding: 10px 15px;
-  line-height: 0;
-  margin: 15px 25px 15px 0;
-  background-color: #fff;
 }
-
-.mwb-notice p{
-margin: 0;
-}
-
 .mwb_premium_feature img {
   width: 20px !important;
 }
@@ -1470,6 +1466,9 @@ margin: 0;
   width: 60px;
   height: 34px;
   top: -3px;
+}
+.mwb-upsell-smart-offer-upgrade {
+  margin-bottom: 8px;
 }
 .mwb-upsell-smart-offer-upgrade .mwb-upsell-smart-offer-upgrade-wrap,
 .mwb-upsell-smart-pre-order-skip .mwb-upsell-smart-pre-order-skip-wrap{
@@ -1589,15 +1588,27 @@ margin: 0;
   line-height: initial;
 }
 
+#mwb_upsell_offer_product_select + span.select2-container--default {
+  width: 100% !important;
+  max-width: 400px;
+}
+
 #mwb_upsell_bump_setting_wrapper .mwb_upsell_table .new_offers tr td .mwb_upsell_offer_product ~ .select2.select2-container .select2-selection--single span.select2-selection__placeholder,
 #mwb_upsell_bump_setting_wrapper .mwb_upsell_table .new_offers tr td .mwb_upsell_offer_product ~ .select2.select2-container .select2-selection__rendered {
   line-height: 39px;
 }
-#mwb_upsell_bump_setting_wrapper .mwb_upsell_table .new_offers tr td .mwb_upsell_offer_product ~ .select2.select2-container .select2-selection--single span.select2-selection__arrow {
-  top: 7px;
-}
+
 #mwb_upsell_bump_setting_wrapper .mwb_upsell_table .new_offers tr td .mwb_upsell_offer_product ~ .select2.select2-container .select2-selection--single  {
   height: 39px;
+}
+
+#mwb_upsell_offer_main_id_ .mwb_upsell_offer_product_content h4 {
+  word-break: break-word;
+}
+
+.mwb-ubo-offer-exclusive-limit-wrap {
+  display: inline-block;
+  margin: 0 10px;
 }
 /*==================================
 =            Animation.            =
@@ -1723,7 +1734,11 @@ margin: 0;
   }
   .mwb_upsell_bumps_list table td, .mwb_upsell_bumps_list table th, .mwb_upsell_table table th, .mwb_upsell_table table td {
 	    padding: 10px;
-	}
+  }
+  .mwb-ubo-offer-exclusive-limit {
+    width: calc(100% - 6px);
+    margin: 0 3px;
+  }
   .mwb_ubo_lite_go_pro_features {
     flex-direction: column;
   }
@@ -1754,8 +1769,7 @@ margin: 0;
   table.form-table.mwb_upsell_bump_creation_setting span.select2.select2-container.select2-container--default.select2-container--focus.select2-container--below {
     width: 100% !important;
   }
-  table.form-table.mwb_upsell_bump_creation_setting {}
-  .new_created_offers {
+  table.form-table.mwb_upsell_bump_creation_setting.new_created_offers {
     overflow-x: auto;
     width: 100%;
   }
@@ -1786,13 +1800,17 @@ margin: 0;
   }
   #mwb_upsell_bump_setting_wrapper .mwb_upsell_table .new_created_offers input[type="text"],
   #mwb_upsell_bump_setting_wrapper .mwb_upsell_table .new_created_offers input[type="email"] {
-    width: 85% !important;
+    width: 100% !important;
     font-size: 10px !important;
   }
   #mwb_upsell_bump_setting_wrapper .mwb_upsell_table .new_created_offers select {
     font-size: 11px !important;
     height: 39px !important;
-    width: 80% !important;
+    margin-bottom: 15px;
+    width: 100% !important;
+  }
+  #mwb_upsell_bump_setting_wrapper .mwb_upsell_offer_input_type {
+    width: 100%;
   }
   #mwb_upsell_bump_setting_wrapper .mwb_upsell_table .new_offers .mwb_upsell_offer_title {
     padding: 10px 24px;
@@ -1837,18 +1855,7 @@ margin: 0;
     padding: 8px 10px;
   }
 }
-
-/*Extra CSS for Issue Resolve*/
-
-#mwb_upsell_bump_setting_wrapper {
-  margin-right: 20px;
-}
-
-@media screen and (max-width: 768px) {
-    .forminp select, .forminp input, .forminp .select2 {
-      max-width: 220px;
-      min-width: 200px;
-      margin-bottom: 10px;
-      width: 100%!important;
-  }
+/* Helper Classes. */
+.keep-hidden {
+  display: none;
 }

@@ -2,11 +2,6 @@
 	'use strict';
 	$(document).ready(function(){
 
-		if( $(document).find('#mwb_upsell_offer_price_type_id').val() == 'none' ) {
-			$( "input[name='mwb_upsell_bump_offer_discount_price']" ).val('None');
-			$( "input[name='mwb_upsell_bump_offer_discount_price']" ).prop('disabled', true);
-		}
-
 		// Create new offer bump.
 		$('.mwb_ubo_lite_bump_create_button').on( 'click', function (e) {
 
@@ -30,7 +25,7 @@
 			$( '#mwb_ubo_lite_skype_connect_with_us' ).toggleClass('show');
 		});
 	    // Onclick outside the div close for Go Pro popup.
-		$('.mwb_ubo_lite_go_pro_popup_wrap').click
+	    $('body').click
 	    (
 	      function(e)
 	      { 
@@ -41,16 +36,6 @@
 	        }
 	      }
 	    );
-		// Alternative to body click JS.
-		// $(document).mouseup(function(e){
-		// 	alert('working');
-		// 	var container = $('.mwb_ubo_lite_go_pro_popup');
-		// 	// If anythingoutside the container is clicked.
-		// 	if (!container.is(e.target) && container.has(e.target).length === 0) 
-		// 	{
-		// 		container.hide();
-		// 	}
-		// })
 		
 		// Sticky Offer Preview.
 		$(".mwb_upsell_offer_main_wrapper").stick_in_parent({offset_top: 50});
@@ -226,7 +211,7 @@
 		});
 
 		// Onclick outside the popup close the popup.
-		$('.mwb_ubo_lite_go_pro_popup_wrap').click
+		$('body').click
 		(
 		  function(e)
 		  {
@@ -344,7 +329,10 @@
 
 		$('.mwb_ubo_bottom_vertical_spacing_slider').on('change', function () {
 
-		    VerticalSpacingBottom = $(this).val();2
+		    VerticalSpacingBottom = $(this).val();
+		    BumpOfferBoxMain.css( 'padding-bottom', VerticalSpacingBottom + 'px' );
+
+		    $('.mwb_ubo_bottom_spacing_slider_size').html( VerticalSpacingBottom + 'px' );
 		});
 
 
@@ -572,13 +560,6 @@ jQuery(document).ready( function($) {
 	    $("#mwb_upsell_bump_creation_setting_save").click();
 	});
 
-	$("input[name='mwb_upsell_bump_offer_discount_price']").on('blur',function(){
-		if($(this).val() < 0){
-			$(this).val('');
-			alert('Negative values will not be submitted');
-		}
-	})
-
 	// Reflect bump name input value.
 	$(".mwb_upsell_offer_input_type").on("change paste keyup", function() {
 
@@ -589,14 +570,12 @@ jQuery(document).ready( function($) {
 	    		$(this).val( 100 );
 	    	}
 	    }
-
 	});
 
 	/**
 	 * Scripts after v1.0.2
-	 * #mwb_ubo_offer_replace_target, #mwb_ubo_enable_switch_form are added newly to show form only on pro activation.
 	 */
-	$('#mwb_ubo_offer_purchased_earlier, #mwb_ubo_offer_replace_target, #mwb_ubo_offer_add_custom_fields, #mwb_ubo_enable_switch_form, #mwb_bump_enable_plugin_form').on( 'click', function (e) {
+	$('#mwb_ubo_offer_purchased_earlier, #mwb_ubo_offer_replace_target, #mwb_ubo_offer_exclusive_limit, #mwb_ubo_offer_meta_forms, #mwb_ubo_offer_restrict_coupons').on( 'click', function (e) {
 
 		// Add popup to unlock pro features.
 		var pro_status = document.getElementById( 'mwb_ubo_pro_status' );
@@ -622,6 +601,18 @@ jQuery(document).ready( function($) {
 		}
 	});
 
+	// If org is updated but pro is not.
+	jQuery( '#mwb_ubo_offer_exclusive_limit' ).on( 'change',function(e){
+
+		var show_limit = jQuery( this ).prop( 'checked' );
+
+		if( true == show_limit ) {
+			jQuery( '.mwb-ubo-offer-exclusive-limit-wrap' ).removeClass( 'keep-hidden' );
+		} else {
+			jQuery( '.mwb-ubo-offer-exclusive-limit-wrap' ).addClass( 'keep-hidden' );
+		}
+	});
+	
 	// Onclick outside the div close for Update popup.
 	jQuery('body').click( function(e) {
 
@@ -692,53 +683,5 @@ jQuery(document).ready( function($) {
 		$(".mwb_upsell_offer_secondary_section").hide();
 	}
 
-
-	/*==================================================================================
-		Disable number field on bump creation when no discount or fixed price is chosen
-	===================================================================================*/ 
-	
-		let old_discount_type;
-		let old_discount_value;
-		
-		$(document).on( 'click', '#mwb_upsell_offer_price_type_id' ,function(e){
-			
-			old_discount_type = $(this).val();
-			old_discount_value = $( "input[name='mwb_upsell_bump_offer_discount_price']" ).val();
-
-		}).change(function() {
-
-			new_discount_type = $(document).find('#mwb_upsell_offer_price_type_id').val();
-			
-			if(new_discount_type == 'none' ){
-				$( "input[name='mwb_upsell_bump_offer_discount_price']" ).val('None');
-				$( "input[name='mwb_upsell_bump_offer_discount_price']" ).prop('disabled', true);
-			} 
-			
-			if( ('%' == new_discount_type && 'fixed' == old_discount_type) || ('fixed' == new_discount_type && '%' == old_discount_type) ) {
-				$( "input[name='mwb_upsell_bump_offer_discount_price']" ).val(old_discount_value);
-				$( "input[name='mwb_upsell_bump_offer_discount_price']" ).prop('disabled', false);
-			}
-			if(('fixed' == new_discount_type && 'none' == old_discount_type) || ('%' == new_discount_type && 'none' == old_discount_type) ) {
-				$( "input[name='mwb_upsell_bump_offer_discount_price']" ).val('');
-				$( "input[name='mwb_upsell_bump_offer_discount_price']" ).prop('disabled', false);
-			}
-
-			// Make sure the previous value is updated
-			old_discount_type = $(this).val();
-		});
-
-	/*==================================================================================
-	Do not save until the add fields option is either set or turned off
-	===================================================================================*/ 
-	$(document).on( 'click', '#mwb_upsell_bump_creation_setting_save' ,function(e){
-		//
-		if( $('.fieldtoremove:visible').length ) {
-			// Nothing.
-		} else {
-			$('#mwb_ubo_offer_add_custom_fields').prop( 'checked', false );
-		}
-
-	});
-
-	// End of js.
+// End of js.
 });

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Provide a admin area view for the plugin
  *
@@ -8,14 +7,15 @@
  * @link       https://makewebbetter.com
  * @since      1.0.0
  *
- * @package    Makewebbetter_Onboarding
- * @subpackage Makewebbetter_Onboarding/admin/onboarding
+ * @package    upsell-order-bump-for-woocommerce
+ * @subpackage upsell-order-bump-for-woocommerce/extra-templates
  */
+
 ?>
 <?php
 
 	global $pagenow;
-if ( empty( $pagenow ) || 'plugins.php' != $pagenow ) {
+if ( empty( $pagenow ) || 'plugins.php' !== $pagenow ) {
 	return false;
 }
 

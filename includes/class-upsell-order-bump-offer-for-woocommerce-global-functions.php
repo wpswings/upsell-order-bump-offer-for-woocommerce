@@ -1274,7 +1274,7 @@ function mwb_ubo_lite_show_variation_dropdown( $args = array() ) {
 	$id                    = $args['id'] ? $args['id'] : sanitize_title( $attribute );
 	$class                 = $args['class'];
 	$show_option_none      = $args['show_option_none'] ? true : false;
-	$show_option_none_text = $args['show_option_none'] ? $args['show_option_none'] : __( 'Choose an option', 'upsell-order-bump-offer-for-woocommerce' );
+	$show_option_none_text = $args['show_option_none'] ? $args['show_option_none'] : esc_html__( 'Choose an option', 'upsell-order-bump-offer-for-woocommerce' );
 
 	if ( empty( $options ) && ! empty( $product ) && ! empty( $attribute ) ) {
 		$attributes = $product->get_variation_attributes();
@@ -1333,6 +1333,7 @@ function mwb_mrbpfw_get_all_rule_ids_for_current_role() {
 		$get_current_user_role = wp_get_current_user();
 		$current_role          = $get_current_user_role->roles;
 	}
+	$current_role_val = 0;
 	$all_rules_ids = get_posts(
 		array(
 			'fields'         => 'ids',
@@ -1341,7 +1342,7 @@ function mwb_mrbpfw_get_all_rule_ids_for_current_role() {
 			'meta_query'     => array(
 				array(
 					'key'     => 'mwb_mrbpfw_role',
-					'value'   => $current_role[0],
+					'value'   => $current_role[ $current_role_val ],
 					'compare' => '==',
 				),
 				array(
@@ -1454,8 +1455,9 @@ function mwb_mrbpfw_role_based_price( $original_price, $product, $type ) {
 	if ( class_exists( 'WC_Subscriptions_Product' ) && $product->is_subscription() ) {
 		return $original_price;
 	}
-	$rule_apply  = get_option( 'mwb_mrbpfw_for_price_rule' );
-	$get_options = get_option( 'user_setting_' . $current_role[0] );
+	$current_role_val = 0;
+	$rule_apply  = get_option( 'mwb_mrbpfw_for_price_rule', false );
+	$get_options = get_option( 'user_setting_' . $current_role[ $current_role_val ], false );
 	if ( 'simple' === $product->get_type() ) {
 		if ( 'r_price' === $rule_apply ) {
 			$new_price = $product->get_regular_price();
@@ -1485,32 +1487,33 @@ function mwb_mrbpfw_role_based_price( $original_price, $product, $type ) {
 	if ( empty( $new_price ) && $new_price < 0 ) {
 		return wc_price( 0 );
 	}
-	$args1 = wp_parse_args(
+	$args_saleprice = wp_parse_args(
 		array(
 			'qty'   => '',
 			'price' => $product->get_sale_price(),
 		)
 	);
-	$args2 = wp_parse_args(
+	$args_regularprice = wp_parse_args(
 		array(
 			'qty'   => '',
 			'price' => $product->get_regular_price(),
 		)
 	);
 	if ( isset( $rule_apply ) && 's_price' === $rule_apply && $product->is_on_sale() ) {
-		$sale_price_excl_tax    = wc_get_price_excluding_tax( $product, $args1 );
-		$sale_price_incl_tax    = wc_get_price_including_tax( $product, $args1 );
-		$regular_price_excl_tax = wc_get_price_excluding_tax( $product, $args2 );
-		$regular_price_incl_tax = wc_get_price_including_tax( $product, $args2 );
+		$sale_price_excl_tax    = wc_get_price_excluding_tax( $product, $args_saleprice );
+		$sale_price_incl_tax    = wc_get_price_including_tax( $product, $args_saleprice );
+		$regular_price_excl_tax = wc_get_price_excluding_tax( $product, $args_regularprice );
+		$regular_price_incl_tax = wc_get_price_including_tax( $product, $args_regularprice );
 	} elseif ( isset( $rule_apply ) && 'r_price' === $rule_apply && ( $product->is_on_sale() || ! $product->is_on_sale() ) ) {
 		if ( $product->is_on_sale() ) {
-			$sale_price_excl_tax = wc_get_price_excluding_tax( $product, $args1 );
-			$sale_price_incl_tax = wc_get_price_including_tax( $product, $args1 );
+			$sale_price_excl_tax = wc_get_price_excluding_tax( $product, $args_saleprice );
+			$sale_price_incl_tax = wc_get_price_including_tax( $product, $args_saleprice );
 		}
-		$regular_price_excl_tax = wc_get_price_excluding_tax( $product, $args2 );
-		$regular_price_incl_tax = wc_get_price_including_tax( $product, $args2 );
+		$regular_price_excl_tax = wc_get_price_excluding_tax( $product, $args_regularprice );
+		$regular_price_incl_tax = wc_get_price_including_tax( $product, $args_regularprice );
 	}
-	if ( isset( $get_options ) && ! empty( $get_options ) && in_array( 'show_tax_' . $current_role[0], $get_options, true ) ) {
+	$current_role_val = 0;
+	if ( isset( $get_options ) && ! empty( $get_options ) && in_array( 'show_tax_' . $current_role[ $current_role_val ], $get_options, true ) ) {
 		if ( isset( $rule_apply ) && 's_price' === $rule_apply ) {
 			if ( $product->is_on_sale() ) {
 				if ( isset( $total_discount ) && ! empty( $total_discount ) ) {
@@ -1551,13 +1554,13 @@ function mwb_mrbpfw_role_based_price( $original_price, $product, $type ) {
 			}
 		}
 	}
-	$tax_enable = get_option( 'woocommerce_calc_taxes' );
+	$tax_enable = get_option( 'woocommerce_calc_taxes', false );
 	$tax_label  = '';
 	if ( 'yes' === $tax_enable ) {
-		if ( isset( $get_options ) && ! empty( $get_options ) && in_array( 'show_tax_' . $current_role[0], $get_options, true ) ) {
-			$tax_label = apply_filters( 'mwb_mrbpfw_tax_lable', __( 'incl.VAT', 'mwb-role-based-pricing-for-woocommerce' ) );
+		if ( isset( $get_options ) && ! empty( $get_options ) && in_array( 'show_tax_' . $current_role[ $current_role_val ], $get_options, true ) ) {
+			$tax_label = apply_filters( 'mwb_mrbpfw_tax_lable', esc_html__( 'incl.VAT', 'mwb-role-based-pricing-for-woocommerce' ) );
 		} else {
-			$tax_label = apply_filters( 'mwb_mrbpfw_tax_lable', __( 'excl.VAT', 'mwb-role-based-pricing-for-woocommerce' ) );
+			$tax_label = apply_filters( 'mwb_mrbpfw_tax_lable', esc_html__( 'excl.VAT', 'mwb-role-based-pricing-for-woocommerce' ) );
 		}
 	}
 	if ( isset( $role_based_pricing ) && $role_based_pricing < 0 ) {
@@ -1574,20 +1577,21 @@ function mwb_mrbpfw_role_based_price( $original_price, $product, $type ) {
 			$regular_price = mwb_mmcsfw_admin_fetch_currency_rates_from_base_currency( '', $regular_price );
 		}
 	}
-	if ( isset( $total_discount ) && ! empty( $total_discount ) && ! empty( $get_options ) && in_array( 'role_based_price_' . $current_role[0], $get_options, true ) ) {
+	$current_role_val = 0;
+	if ( isset( $total_discount ) && ! empty( $total_discount ) && ! empty( $get_options ) && in_array( 'role_based_price_' . $current_role[ $current_role_val ], $get_options, true ) ) {
 		if ( isset( $sale_price ) && $role_based_pricing > $sale_price && ! empty( $type ) && 'simple' === $type ) {
 			return wc_price( $sale_price ) . ' ' . $tax_label;
 		} else {
 			return wc_price( $role_based_pricing ) . ' ' . $tax_label;
 		}
-	} elseif ( $product->is_on_sale() && ! empty( $get_options ) && in_array( 'on_sale_price_' . $current_role[0], $get_options, true ) ) {
+	} elseif ( $product->is_on_sale() && ! empty( $get_options ) && in_array( 'on_sale_price_' . $current_role[ $current_role_val ], $get_options, true ) ) {
 		return wc_price( $sale_price ) . ' ' . $tax_label;
-	} elseif ( $product->is_on_sale() && ! empty( $get_options ) && in_array( 'regular_price_' . $current_role[0], $get_options, true ) ) {
+	} elseif ( $product->is_on_sale() && ! empty( $get_options ) && in_array( 'regular_price_' . $current_role[ $current_role_val ], $get_options, true ) ) {
 		return wc_price( $regular_price ) . ' ' . $tax_label;
-	} elseif ( ! $product->is_on_sale() && ! empty( $get_options ) && in_array( 'regular_price_' . $current_role[0], $get_options, true ) ) {
+	} elseif ( ! $product->is_on_sale() && ! empty( $get_options ) && in_array( 'regular_price_' . $current_role[ $current_role_val ], $get_options, true ) ) {
 		return wc_price( $regular_price ) . ' ' . $tax_label;
 	} else {
-		if ( isset( $get_options ) && ! empty( $get_options ) && in_array( 'show_tax_' . $current_role[0], $get_options, true ) ) {
+		if ( isset( $get_options ) && ! empty( $get_options ) && in_array( 'show_tax_' . $current_role[ $current_role_val ], $get_options, true ) ) {
 			return wc_price( wc_get_price_including_tax( $product ) );
 		} else {
 			return wc_price( wc_get_price_excluding_tax( $product ) );
@@ -1610,8 +1614,6 @@ function is_mwb_role_based_pricing_active() {
 		return false;
 	}
 }
-
-
 
 
 
@@ -1640,7 +1642,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 	if ( empty( $sale_price ) && empty( $regular_price ) ) {
 
-		if ( 'incl' === get_option( 'woocommerce_tax_display_cart' ) ) {
+		if ( 'incl' === get_option( 'woocommerce_tax_display_cart', false ) ) {
 
 			$default_price = wc_get_price_including_tax( $product );
 		} else {
@@ -1709,7 +1711,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 	// Case of variable parent product.
 	if ( ! empty( $default_price ) ) {
 
-		if ( get_option( 'woocommerce_tax_display_cart' ) === 'incl' ) {
+		if ( get_option( 'woocommerce_tax_display_cart', false ) === 'incl' ) {
 
 			$bump_price = wc_get_price_including_tax( $product );
 
@@ -1729,11 +1731,11 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		} else {
 			$mwb_price_role_based = 'not_active';
 		}
-		return wc_format_sale_price( ( $mwb_price_role_based === 'not_active' ) ? $default_price : $mwb_price_role_based, $bump_price );
+		return wc_format_sale_price( ( 'not_active' === $mwb_price_role_based ) ? $default_price : $mwb_price_role_based, $bump_price );
 	}
 
 	// Check woocommerce settings for tax display at cart.
-	if ( 'incl' === get_option( 'woocommerce_tax_display_cart' ) ) {
+	if ( 'incl' === get_option( 'woocommerce_tax_display_cart', false ) ) {
 
 		$regular_price = wc_get_price_including_tax( $product, array( 'price' => $regular_price ) );
 
@@ -1760,7 +1762,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		} else {
 			$mwb_price_role_based = 'not_active';
 		}
-		return wc_format_sale_price( ( $mwb_price_role_based === 'not_active' ) ? $regular_price : $mwb_price_role_based, $bump_price );
+		return wc_format_sale_price( ( 'not_active' === $mwb_price_role_based ) ? $regular_price : $mwb_price_role_based, $bump_price );
 
 	} elseif ( 'sale_to_offer' === $price_formatting ) {
 
@@ -1779,7 +1781,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 				} else {
 					$mwb_price_role_based = 'not_active';
 				}
-				return wc_format_sale_price( ( $mwb_price_role_based === 'not_active' ) ? $sale_price : $mwb_price_role_based, $bump_price ) . $subscription_details;
+				return wc_format_sale_price( ( 'not_active' === $mwb_price_role_based ) ? $sale_price : $mwb_price_role_based, $bump_price ) . $subscription_details;
 			}
 
 
@@ -1790,7 +1792,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 			} else {
 				$mwb_price_role_based = 'not_active';
 			}
-			return wc_format_sale_price( ( $mwb_price_role_based === 'not_active' ) ? $sale_price : $mwb_price_role_based, $bump_price );
+			return wc_format_sale_price( ( 'not_active' === $mwb_price_role_based ) ? $sale_price : $mwb_price_role_based, $bump_price );
 
 		} else {
 
@@ -1806,7 +1808,7 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 			} else {
 				$mwb_price_role_based = 'not_active';
 			}
-			return wc_format_sale_price( ( $mwb_price_role_based === 'not_active' ) ? $regular_price : $mwb_price_role_based, $bump_price );
+			return wc_format_sale_price( ( 'not_active' === $mwb_price_role_based ) ? $regular_price : $mwb_price_role_based, $bump_price );
 		}
 	}
 }
@@ -2107,7 +2109,7 @@ function mwb_ubo_order_bump_session_validations( $encountered_order_bump_id = ''
  */
 function mwb_ubo_lite_reload_required_after_adding_offer( $product = '' ) {
 
-	if ( ! empty( $product ) && ! is_user_logged_in() && class_exists( 'WC_Subscriptions_Product' ) && WC_Subscriptions_Product::is_subscription( $product ) && 'yes' !== get_option( 'woocommerce_enable_signup_and_login_from_checkout' ) ) {
+	if ( ! empty( $product ) && ! is_user_logged_in() && class_exists( 'WC_Subscriptions_Product' ) && WC_Subscriptions_Product::is_subscription( $product ) && 'yes' !== get_option( 'woocommerce_enable_signup_and_login_from_checkout', false ) ) {
 
 		return true;
 	} else {

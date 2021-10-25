@@ -1,9 +1,8 @@
 <?php
-
 /**
  * Order Bump Sales by Category Report.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
  * @since      1.4.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -11,7 +10,6 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-
 	exit; // Exit if accessed directly.
 }
 
@@ -19,6 +17,13 @@ if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Category' ) ) {
 	return;
 }
 
+/**
+ * The Admin-facing reporting functionality of the plugin.
+ *
+ * @package    Upsell_Order_Bump_Offer_For_Woocommerce
+ * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/reporting
+ * @author     Make Web Better <webmaster@makewebbetter.com>
+ */
 class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 
 	/**
@@ -53,6 +58,14 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 	 * Constructor.
 	 */
 	public function __construct() {
+
+		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		}
+
 		if ( isset( $_GET['show_categories'] ) ) {
 			$this->show_categories = is_array( $_GET['show_categories'] ) ? array_map( 'absint', $_GET['show_categories'] ) : array( absint( $_GET['show_categories'] ) );
 		}
@@ -124,11 +137,18 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 			'7day'       => __( 'Last 7 days', 'woocommerce' ),
 		);
 
+		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		}
+
 		$this->chart_colours = array( '#8eba36', '#3498db', '#1abc9c', '#34495e', '#2ecc71', '#f1c40f', '#e67e22', '#e74c3c', '#2980b9', '#8e44ad', '#2c3e50', '#16a085', '#27ae60', '#f39c12', '#d35400', '#c0392b' );
 
 		$current_range = ! empty( $_GET['range'] ) ? sanitize_text_field( wp_unslash( $_GET['range'] ) ) : '7day';
 
-		if ( ! in_array( $current_range, array( 'custom', 'year', 'last_month', 'month', '7day' ) ) ) {
+		if ( ! in_array( $current_range, array( 'custom', 'year', 'last_month', 'month', '7day' ), true ) ) {
 			$current_range = '7day';
 		}
 
@@ -140,28 +160,28 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 			$order_items = $this->get_order_report_data(
 				array(
 					'data'         => array(
-						'_product_id' => array(
+						'_product_id'            => array(
 							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
 							'function'        => '',
 							'name'            => 'product_id',
 						),
-						'_line_total' => array(
+						'_line_total'            => array(
 							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
 							'function'        => 'SUM',
 							'name'            => 'order_item_amount',
 						),
-						'post_date'   => array(
+						'post_date'              => array(
 							'type'     => 'post_data',
 							'function' => '',
 							'name'     => 'post_date',
 						),
 						'is_order_bump_purchase' => array(
-							'type'     => 'order_item_meta',
+							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
-							'function' => '',
-							'name'     => 'mwb_upsell_order_bump_item_meta',
+							'function'        => '',
+							'name'            => 'mwb_upsell_order_bump_item_meta',
 						),
 					),
 					'group_by'     => 'ID, product_id, post_date',
@@ -180,11 +200,11 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 
 					switch ( $this->chart_groupby ) {
 						case 'day':
-							$time = strtotime( date( 'Ymd', strtotime( $order_item->post_date ) ) ) * 1000;
+							$time = strtotime( gmdate( 'Ymd', strtotime( $order_item->post_date ) ) ) * 1000;
 							break;
 						case 'month':
 						default:
-							$time = strtotime( date( 'Ym', strtotime( $order_item->post_date ) ) . '01' ) * 1000;
+							$time = strtotime( gmdate( 'Ym', strtotime( $order_item->post_date ) ) . '01' ) * 1000;
 							break;
 					}
 
@@ -221,9 +241,9 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 		$categories = get_terms( 'product_cat', array( 'orderby' => 'name' ) );
 		?>
 	<form method="GET">
-	  <div>
+		<div>
 		<select multiple="multiple" data-placeholder="<?php esc_attr_e( 'Select categories&hellip;', 'woocommerce' ); ?>" class="wc-enhanced-select" id="show_categories" name="show_categories[]" style="width: 205px;">
-		  <?php
+		<?php
 			$r                 = array();
 			$r['pad_counts']   = 1;
 			$r['hierarchical'] = 1;
@@ -234,7 +254,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 			include_once WC()->plugin_path() . '/includes/walkers/class-wc-product-cat-dropdown-walker.php';
 
 			echo wc_walk_category_dropdown_tree( $categories, 0, $r ); // @codingStandardsIgnoreLine
-			?>
+		?>
 		</select>
 		  <?php // @codingStandardsIgnoreStart ?>
 		<a href="#" class="select_none"><?php esc_html_e( 'None', 'woocommerce' ); ?></a>
@@ -247,23 +267,23 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 		<input type="hidden" name="tab" value="<?php echo ( ! empty( $_GET['tab'] ) ) ? esc_attr( wp_unslash( $_GET['tab'] ) ) : ''; ?>" />
 		<input type="hidden" name="report" value="<?php echo ( ! empty( $_GET['report'] ) ) ? esc_attr( wp_unslash( $_GET['report'] ) ) : ''; ?>" />
 		  <?php // @codingStandardsIgnoreEnd ?>
-	  </div>
-	  <script type="text/javascript">
+	</div>
+	<script type="text/javascript">
 		jQuery(function(){
-		  // Select all/None
-		  jQuery( '.chart-widget' ).on( 'click', '.select_all', function() {
-			jQuery(this).closest( 'div' ).find( 'select option' ).attr( 'selected', 'selected' );
-			jQuery(this).closest( 'div' ).find('select').change();
-			return false;
-		  });
+			// Select all/None
+			jQuery( '.chart-widget' ).on( 'click', '.select_all', function() {
+				jQuery(this).closest( 'div' ).find( 'select option' ).attr( 'selected', 'selected' );
+				jQuery(this).closest( 'div' ).find('select').change();
+				return false;
+			});
 
-		  jQuery( '.chart-widget').on( 'click', '.select_none', function() {
-			jQuery(this).closest( 'div' ).find( 'select option' ).removeAttr( 'selected' );
-			jQuery(this).closest( 'div' ).find('select').change();
-			return false;
-		  });
+			jQuery( '.chart-widget').on( 'click', '.select_none', function() {
+				jQuery(this).closest( 'div' ).find( 'select option' ).removeAttr( 'selected' );
+				jQuery(this).closest( 'div' ).find('select').change();
+				return false;
+			});
 		});
-	  </script>
+	</script>
 	</form>
 		<?php
 	}
@@ -273,15 +293,22 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 	 */
 	public function get_export_button() {
 
+		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		}
+
 		$current_range = ! empty( $_GET['range'] ) ? sanitize_text_field( wp_unslash( $_GET['range'] ) ) : '7day';
 		?>
 	<a
-	  href="#"
-	  download="report-<?php echo esc_attr( $current_range ); ?>-<?php echo esc_attr( date_i18n( 'Y-m-d', current_time( 'timestamp' ) ) ); ?>.csv"
-	  class="export_csv"
-	  data-export="chart"
-	  data-xaxes="<?php esc_attr_e( 'Date', 'woocommerce' ); ?>"
-	  data-groupby="<?php echo esc_attr( $this->chart_groupby ); ?>"
+	href="#"
+	download="report-<?php echo esc_attr( $current_range ); ?>-<?php echo esc_attr( date_i18n( 'Y-m-d', time() ) ); ?>.csv"
+	class="export_csv"
+	data-export="chart"
+	data-xaxes="<?php esc_attr_e( 'Date', 'woocommerce' ); ?>"
+	data-groupby="<?php echo esc_attr( $this->chart_groupby ); ?>"
 	>
 		<?php esc_html_e( 'Export CSV', 'woocommerce' ); ?>
 	</a>
@@ -296,9 +323,9 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 
 		if ( empty( $this->show_categories ) ) {
 			?>
-	  <div class="chart-container">
+		<div class="chart-container">
 		<p class="chart-prompt"><?php esc_html_e( 'Choose a category to view stats', 'woocommerce' ); ?></p>
-	  </div>
+		</div>
 			<?php
 		} else {
 			$chart_data = array();
@@ -316,11 +343,11 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 
 					switch ( $this->chart_groupby ) {
 						case 'day':
-							  $time = strtotime( date( 'Ymd', strtotime( "+{$i} DAY", $this->start_date ) ) ) * 1000;
+							$time = strtotime( gmdate( 'Ymd', strtotime( "+{$i} DAY", $this->start_date ) ) ) * 1000;
 							break;
 						case 'month':
 						default:
-							$time = strtotime( date( 'Ym', strtotime( "+{$i} MONTH", $this->start_date ) ) . '01' ) * 1000;
+							$time = strtotime( gmdate( 'Ym', strtotime( "+{$i} MONTH", $this->start_date ) ) . '01' ) * 1000;
 							break;
 					}
 
@@ -340,9 +367,9 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 				$index++;
 			}
 			?>
-	  <div class="chart-container">
-		<div class="chart-placeholder main"></div>
-	  </div>
+	<div class="chart-container">
+	<div class="chart-placeholder main"></div>
+	</div>
 			<?php // @codingStandardsIgnoreStart ?>
 	  <script type="text/javascript">
 		var main_chart;
