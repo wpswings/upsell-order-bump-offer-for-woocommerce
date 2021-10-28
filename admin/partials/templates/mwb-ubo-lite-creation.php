@@ -603,7 +603,7 @@ $mwb_upsell_bump_schedule_options = array(
 								<option <?php echo esc_html( 'no_disc' === $mwb_bump_offer_type ? 'selected' : '' ); ?> value="no_disc"><?php esc_html_e( 'No Discount', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 
 							</select>
-							<input type="number" min="0" class = "mwb_upsell_offer_input_type" class="mwb_upsell_offer_price" name="mwb_upsell_bump_offer_discount_price" value="<?php echo esc_html( $mwb_upsell_bump_products_discount ); ?>">
+							<input type="number" min="0" step="any" class = "mwb_upsell_offer_input_type" class="mwb_upsell_offer_price" name="mwb_upsell_bump_offer_discount_price" value="<?php echo esc_html( $mwb_upsell_bump_products_discount ); ?>">
 							<span class="mwb_upsell_offer_description"><?php esc_html_e( 'Specify new offer price or discount %', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
 						</td>
