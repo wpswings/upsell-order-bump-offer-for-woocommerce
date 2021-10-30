@@ -1608,7 +1608,7 @@ function mwb_mrbpfw_role_based_price( $original_price, $product, $type ) {
  */
 function is_mwb_role_based_pricing_active() {
 	$active_plugin = get_option( 'active_plugins', false );
-	if ( in_array( 'mwb-role-based-pricing-for-woocommerce/mwb-role-based-pricing-for-woocommerce.php', $active_plugin, true ) && class_exists( 'Mwb_Role_Based_Pricing_For_Woocommerce_Public' ) && mwb_ubo_lite_if_pro_exists() ) {
+	if ( in_array( 'mwb-role-based-pricing-for-woocommerce/mwb-role-based-pricing-for-woocommerce.php', $active_plugin, true ) && mwb_ubo_lite_if_pro_exists() ) {
 		return true;
 	} else {
 		return false;
@@ -1634,9 +1634,19 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		return;
 	}
 
-	$orginal_price = $product->get_price();
-	$sale_price    = $product->get_sale_price();
-	$regular_price = $product->get_regular_price();
+	if ( is_mwb_role_based_pricing_active() ) {
+		$prod_obj = wc_get_product( $product_id );
+		$prod_type = $prod_obj->get_type();
+		$mwb_price_role_based = mwb_mrbpfw_role_based_price( $product->get_price(), $prod_obj, $prod_type );
+		$mwb_price_role_based = strip_tags( str_replace( get_woocommerce_currency_symbol(), "", $mwb_price_role_based ) );
+		$orginal_price = $mwb_price_role_based;
+		$sale_price    = $mwb_price_role_based;
+		$regular_price = $mwb_price_role_based;
+	} else {
+		$orginal_price = $product->get_price();
+		$sale_price    = $product->get_sale_price();
+		$regular_price = $product->get_regular_price();
+	}
 
 	// Case of variable parent product.
 
