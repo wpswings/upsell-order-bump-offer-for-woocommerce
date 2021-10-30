@@ -1638,10 +1638,10 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		$prod_obj = wc_get_product( $product_id );
 		$prod_type = $prod_obj->get_type();
 		$mwb_price_role_based = mwb_mrbpfw_role_based_price( $product->get_price(), $prod_obj, $prod_type );
-		$mwb_price_role_based = strip_tags( str_replace( get_woocommerce_currency_symbol(), "", $mwb_price_role_based ) );
-		$orginal_price = $mwb_price_role_based;
-		$sale_price    = $mwb_price_role_based;
-		$regular_price = $mwb_price_role_based;
+		$mwb_price_role_based = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $mwb_price_role_based ) );
+		$orginal_price = floatval( $mwb_price_role_based );
+		$sale_price    = floatval( $mwb_price_role_based );
+		$regular_price = floatval( $mwb_price_role_based );
 	} else {
 		$orginal_price = $product->get_price();
 		$sale_price    = $product->get_sale_price();
@@ -1692,7 +1692,13 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 				$bump_price = $price_discount;
 			}
 		} else {
-			$bump_price = $product->get_price();
+			if ( is_mwb_role_based_pricing_active() ) {
+				$prod_obj = wc_get_product( $product_id );
+				$prod_type = $prod_obj->get_type();
+				$bump_price = mwb_mrbpfw_role_based_price( $product->get_price(), $prod_obj, $prod_type );
+			} else {
+				$bump_price = $product->get_price();
+			}
 		}
 	}
 
