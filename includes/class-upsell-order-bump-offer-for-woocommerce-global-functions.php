@@ -826,18 +826,6 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 		}
 	}
 
-	if ( 'no_disc' !== $price_type ) {
-		$bump_discount          = $price_discount . '+' . $price_type;
-		$bump['discount_price'] = mwb_ubo_lite_custom_price_html( $offer_id, $bump_discount, 'price' );
-		$_product->set_price( $bump['discount_price'] );
-	} else {
-		$prod_obj = wc_get_product( $offer_id );
-		$prod_type = $prod_obj->get_type();
-		$bump['discount_price'] = mwb_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
-		$bump['discount_price'] = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump['discount_price'] ) );
-		$_product->set_price( $bump['discount_price'] );
-	}
-
 	$price_excl_tax = wc_get_price_excluding_tax( $_product );  // Price without tax.
 	$price_incl_tax = wc_get_price_including_tax( $_product );  // Price with tax.
 
