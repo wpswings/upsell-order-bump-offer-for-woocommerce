@@ -696,11 +696,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 					$price_discount = mwb_ubo_lite_custom_price_html( $product_id, $value['mwb_discounted_price'], 'price' );
 					if ( is_mwb_role_based_pricing_active() ) {
-						$prod_obj = wc_get_product( $product_id );
-						$prod_type = $prod_obj->get_type();
-						$bump_price = mwb_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
-						$bump_price = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump_price ) );
-						$value['data']->set_price( $bump_price );
+						if ( ( -1 < strpos( $value['mwb_discounted_price'], 'no_disc' ) ) ) {
+							$prod_obj = wc_get_product( $product_id );
+							$prod_type = $prod_obj->get_type();
+							$bump_price = mwb_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
+							$bump_price = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump_price ) );
+							$value['data']->set_price( $bump_price );
+						} else {
+							$value['data']->set_price( $price_discount );
+						}
 					} else {
 						$value['data']->set_price( $price_discount );
 					}
