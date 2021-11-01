@@ -843,6 +843,12 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 		$bump['design_css'] = $encountered_bump_array['design_css'];
 	}
 
+	if ( is_mwb_role_based_pricing_active() && ( 'no_disc' === $price_type ) ) {
+		$prod_obj = wc_get_product( $offer_id );
+		$prod_type = $prod_obj->get_type();
+		$discount_price = mwb_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
+	}
+
 	if ( '%' === $price_type ) {
 
 		if ( empty( $discount_price ) ) {
