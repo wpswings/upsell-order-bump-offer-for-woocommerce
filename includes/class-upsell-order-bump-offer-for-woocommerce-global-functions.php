@@ -1820,7 +1820,6 @@ function mwb_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 				return wc_format_sale_price( ( 'not_active' === $mwb_price_role_based ) ? $sale_price : $mwb_price_role_based, $bump_price ) . $subscription_details;
 			}
 
-
 			if ( is_mwb_role_based_pricing_active() ) {
 				$prod_obj = wc_get_product( $product_id );
 				$prod_type = $prod_obj->get_type();

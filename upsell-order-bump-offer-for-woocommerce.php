@@ -19,9 +19,9 @@
  * Requires at least:       4.4
  * Tested up to:            5.8.1
  * WC requires at least:    3.0
- * WC tested up to:         5.6.0
+ * WC tested up to:         5.8.0
  *
- * Version:           1.4.3
+ * Version:           2.0.0
  * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
  * License:           GPL-3.0

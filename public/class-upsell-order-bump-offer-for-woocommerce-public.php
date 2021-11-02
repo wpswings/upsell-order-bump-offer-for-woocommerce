@@ -189,9 +189,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'mwb_wgm_price'         => '',
 				'mwb_wgm_selected_temp' => '',
 			);
-			$gift_card_data =  get_post_meta( $bump_product_id, 'mwb_wgm_pricing' );
-			foreach ( $gift_card_data as $key => $value) {
-				$gift_card_form = array_merge( $gift_card_form, array( 'mwb_wgm_price' => $value['default_price'], 'mwb_wgm_selected_temp' => $value['template'][0] ) );
+			$gift_card_data = get_post_meta( $bump_product_id, 'mwb_wgm_pricing' );
+			foreach ( $gift_card_data as $key => $value ) {
+				$gift_card_form = array_merge(
+					$gift_card_form,
+					array(
+						'mwb_wgm_price' => $value['default_price'],
+						'mwb_wgm_selected_temp' => $value['template'][0],
+					)
+				);
 			}
 
 			foreach ( $form_data as $key => $value ) {
