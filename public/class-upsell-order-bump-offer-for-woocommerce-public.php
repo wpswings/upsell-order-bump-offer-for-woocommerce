@@ -180,7 +180,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$form_data             = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : array();
 
 		$active_plugin = get_option( 'active_plugins', false );
-		if ( in_array( 'woo-gift-cards-lite/woocommerce_gift_cards_lite.php', $active_plugin, true ) && mwb_ubo_lite_if_pro_exists() ) {
+		if ( in_array( 'woo-gift-cards-lite/woocommerce_gift_cards_lite.php', $active_plugin, true ) && mwb_ubo_lite_if_pro_exists() && ! empty( $form_data ) ) {
 			$gift_card_form = array(
 				'mwb_wgm_to_email'      => '',
 				'mwb_wgm_from_name'     => '',
