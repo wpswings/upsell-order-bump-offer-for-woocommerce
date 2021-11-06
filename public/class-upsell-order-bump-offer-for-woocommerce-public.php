@@ -179,15 +179,58 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$smart_offer_upgrade   = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
 		$form_data             = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : array();
 
-		$cart_item_data = array(
-			'mwb_ubo_offer_product' => true,
-			'mwb_ubo_offer_index'   => $bump_index,
-			'mwb_ubo_bump_id'       => $order_bump_id,
-			'mwb_discounted_price'  => $bump_discounted_price,
-			'mwb_ubo_target_key'    => $bump_target_cart_key,
-			'flag_' . uniqid()      => true,
-			'mwb_ubo_meta_form'     => $form_data,
-		);
+		$active_plugin = get_option( 'active_plugins', false );
+		if ( in_array( 'woo-gift-cards-lite/woocommerce_gift_cards_lite.php', $active_plugin, true ) && mwb_ubo_lite_if_pro_exists() && ! empty( $form_data ) ) {
+			$gift_card_form = array(
+				'mwb_wgm_to_email'      => '',
+				'mwb_wgm_from_name'     => '',
+				'mwb_wgm_message'       => '',
+				'delivery_method'       => '',
+				'mwb_wgm_price'         => '',
+				'mwb_wgm_selected_temp' => '',
+			);
+			$gift_card_data = get_post_meta( $bump_product_id, 'mwb_wgm_pricing' );
+			foreach ( $gift_card_data as $key => $value ) {
+				$gift_card_form = array_merge(
+					$gift_card_form,
+					array(
+						'mwb_wgm_price' => $value['default_price'],
+						'mwb_wgm_selected_temp' => $value['template'][0],
+					)
+				);
+			}
+
+			foreach ( $form_data as $key => $value ) {
+				if ( 'from' === $value['name'] ) {
+					$gift_card_form = array_merge( $gift_card_form, array( 'mwb_wgm_from_name' => $value['value'] ) );
+				} elseif ( 'gift message' === $value['name'] ) {
+					$gift_card_form = array_merge( $gift_card_form, array( 'mwb_wgm_message' => $value['value'] ) );
+				} elseif ( 'mail to recepient' === $value['name'] ) {
+					$gift_card_form = array_merge( $gift_card_form, array( 'mwb_wgm_to_email' => $value['value'] ) );
+				}
+			}
+
+			$cart_item_data = array(
+				'mwb_ubo_offer_product' => true,
+				'mwb_ubo_offer_index'   => $bump_index,
+				'mwb_ubo_bump_id'       => $order_bump_id,
+				'mwb_discounted_price'  => $bump_discounted_price,
+				'mwb_ubo_target_key'    => $bump_target_cart_key,
+				'flag_' . uniqid()      => true,
+				'mwb_ubo_meta_form'     => $form_data,
+				'product_meta'          => array( 'meta_data' => $gift_card_form ),
+			);
+		} else {
+			$cart_item_data = array(
+				'mwb_ubo_offer_product' => true,
+				'mwb_ubo_offer_index'   => $bump_index,
+				'mwb_ubo_bump_id'       => $order_bump_id,
+				'mwb_discounted_price'  => $bump_discounted_price,
+				'mwb_ubo_target_key'    => $bump_target_cart_key,
+				'flag_' . uniqid()      => true,
+				'mwb_ubo_meta_form'     => $form_data,
+			);
+		}
 
 		$_product = wc_get_product( $bump_product_id );
 
@@ -658,8 +701,19 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					$product_id = ! empty( $value['variation_id'] ) ? $value['variation_id'] : $value['product_id'];
 
 					$price_discount = mwb_ubo_lite_custom_price_html( $product_id, $value['mwb_discounted_price'], 'price' );
-
-					$value['data']->set_price( $price_discount );
+					if ( is_mwb_role_based_pricing_active() ) {
+						if ( ( -1 < strpos( $value['mwb_discounted_price'], 'no_disc' ) ) ) {
+							$prod_obj = wc_get_product( $product_id );
+							$prod_type = $prod_obj->get_type();
+							$bump_price = mwb_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
+							$bump_price = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump_price ) );
+							$value['data']->set_price( $bump_price );
+						} else {
+							$value['data']->set_price( $price_discount );
+						}
+					} else {
+						$value['data']->set_price( $price_discount );
+					}
 				}
 			}
 		}

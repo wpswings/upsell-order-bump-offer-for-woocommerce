@@ -6,26 +6,25 @@ Tags: bump, increase sales, upsell, woocommerce, checkout page
 Requires at least: 4.0
 Tested up to: 5.8.1
 WC requires at least: 3.0.0
-WC tested up to: 5.6.0
-Stable tag: 1.4.3
+WC tested up to: 5.8.0
+Stable tag: 2.0.0
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-THE ALL-IN-ONE SOLUTION TO INCREASE SALES AND BOOST AOV WITH UPSELL AND CROSS-SELL OFFERS ON THE CHECKOUT PAGE.
+THE ALL-IN-ONE SOLUTION TO INCREASE SALES AND BOOST AOV WITH WOOCOMMERCE UPSELL AND CROSS-SELL OFFERS ON THE CHECKOUT PAGE.
 
 == Description ==
 
 **UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE IS AN EXTENSION THAT LETS THE MERCHANTS SHOW UPSELL AND CROSS-SELL OFFERS ON THE CHECKOUT PAGE TO BOOST AOV AND INCREASE SALES.**
 
-Upsell order bump offer is an upselling plugin that facilitates store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer’s existing Order in just a single click.
+WooCommerce Upsell order bump offer is an upselling plugin that facilitates store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer’s existing Order in just a single click.
 
 This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets which will ensure customer satisfaction and thus result in higher conversion rates
 
 [youtube https://www.youtube.com/watch?v=p9KIQyXauY4&w=560&h=315&rel=0]
 
-
-== With the Upsell Order Bump Offer For WooCommerce plugin you can: ==
+== WITH THE UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE PLUGIN YOU CAN: ==
 
 * Create special offers on the checkout page.
 * Customize Offer Layouts specifically according to your products.
@@ -35,6 +34,18 @@ This is a happy moment for your customers and also they trust you as they’re j
 * Skip bump offers if the offer product is already added in the cart.
 * Offer simple, variable, and subscription products as order bump offers.
 * Track order bumps performance with Order Bump Sales Reports and Behavioral Analytics.
+
+== OUR PLUGINS COMPATIBILITY WITH UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE == 
+
+**Subscriptions For WooCommerce**
+The Upsell Order Bump Offer plugin has been made compatible with the Subscriptions plugin . As a result, the merchants can now create upsell bump offers for the subscription-based products too. For example, if you’re selling a movie subscription plan to your customers you can provide a popcorn tub as a bump offer product.
+
+**MWB Role Based Pricing**
+The compatibility of Upsell Order Bump Offer with MWB Role Based Pricing allows the merchants to manage the upsell bump offers for different user roles. This means the merchants can create bump offers that will trigger specific user roles on your eCommerce store. Also, you can give different discounts on bump offer products for different user roles.
+
+**Ultimate Gift Cards**
+The Upsell Order Bump Offer plugin is compatible with the Ultimate Gift Cards plugin that allows your customers to redeem their gift cards and earn even more discounts. This will allow the merchants to offer more payment options to their customers for the bump offers.
+
 
 == PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now!!**](https://downloads.wordpress.org/plugin/upsell-order-bump-offer-for-woocommerce.zip)
@@ -215,6 +226,12 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Changelog ==
 
+= 2.0.0 - Released on 03 Nov 2021 =
+* Bug Fixes
+* Compatibility with Subscriptions For WooCommerce
+* Compatibility with MWB Role Based Pricing for WooCommerce
+* Compatibility with Ultimate Gift Cards For WooCommerce 
+
 = 1.4.3 - Released on 16 Sep 2021 =
 * Improved: Compatibility with latest WP(5.8.1) and WC(5.6.0)
 
@@ -251,8 +268,11 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Upgrade Notice ==
 
-= 1.4.3 - Released on 16 Sep 2021 =
-* Improved: Compatibility with latest WP(5.8.1) and WC(5.6.0)
+= 2.0.0 - Released on 03 Nov 2021 =
+* Bug Fixes
+* Compatibility with Subscriptions For WooCommerce
+* Compatibility with MWB Role Based Pricing for WooCommerce
+* Compatibility with Ultimate Gift Cards For WooCommerce 
 
 
 
