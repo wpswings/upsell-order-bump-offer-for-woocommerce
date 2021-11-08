@@ -1,5 +1,5 @@
 ![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-3000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.8.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
-# Upsell Order Bump Offer for Woocommerce
+# Upsell Order Bump Offer for WooCommerce
 ![Upsell Order Bump Offer for Woocommerce](	https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg)
 * Contributors: MakeWebBetter
 * Author URI: [https://makewebbetter.com/](https://makewebbetter.com/?utm_source=MWB-Orderbump-git&utm_medium=MWB-git&utm_campaign=git)
