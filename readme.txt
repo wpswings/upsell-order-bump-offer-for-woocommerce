@@ -9,7 +9,7 @@ WC requires at least: 3.0.0
 WC tested up to: 5.8.0
 Stable tag: 2.0.0
 Requires PHP: 7.0.0
-License: GPLv3 or later 
+License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 THE ALL-IN-ONE SOLUTION TO INCREASE SALES AND BOOST AOV WITH WOOCOMMERCE UPSELL AND CROSS-SELL OFFERS ON THE CHECKOUT PAGE.
