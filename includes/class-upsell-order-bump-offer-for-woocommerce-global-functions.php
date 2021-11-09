@@ -1291,7 +1291,7 @@ function mwb_ubo_lite_show_variation_dropdown( $args = array() ) {
 	$product               = $args['product'];
 	$attribute             = $args['attribute'];
 	$name                  = $args['name'] ? $args['name'] : 'attribute_' . sanitize_title( $attribute );
-	$id                    = $args['id'] ? $args['id'] : sanitize_title( $attribute );
+	$id                    = $args['id'] ? sanitize_title( $args['id'] ) : sanitize_title( $attribute );
 	$class                 = $args['class'];
 	$show_option_none      = $args['show_option_none'] ? true : false;
 	$show_option_none_text = $args['show_option_none'] ? $args['show_option_none'] : esc_html__( 'Choose an option', 'upsell-order-bump-offer-for-woocommerce' );
@@ -1301,7 +1301,7 @@ function mwb_ubo_lite_show_variation_dropdown( $args = array() ) {
 		$options    = $attributes[ $attribute ];
 	}
 
-	$html = '<select order_bump_index="' . $order_bump_index . '" order="' . esc_attr( $id ) . '" id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . '" name="' . esc_attr( $name ) . '" data-attribute_name="attribute_' . esc_attr( sanitize_title( $attribute ) ) . '" data-show_option_none="' . ( $show_option_none ? 'yes' : 'no' ) . '">';
+	$html = '<select order_bump_index="' . $order_bump_index . '" order="' . esc_attr( $id ) . '" id="' . esc_attr( $id ) . '" class="' . esc_attr( sanitize_title( $class ) ) . '" name="' . esc_attr( $name ) . '" data-attribute_name="attribute_' . esc_attr( sanitize_title( $attribute ) ) . '" data-show_option_none="' . ( $show_option_none ? 'yes' : 'no' ) . '">';
 
 	$html .= '<option value="">' . esc_html( $show_option_none_text ) . '</option>';
 
