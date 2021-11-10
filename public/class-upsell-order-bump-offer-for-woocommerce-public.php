@@ -472,6 +472,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$smart_offer_upgrade = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
 		$form_data           = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : array();
 
+		// variation product data.
+		$mwb_orderbump_any_variation = ! empty( $_POST['mwb_orderbump_any_variation'] ) ? map_deep( wp_unslash( $_POST['mwb_orderbump_any_variation'] ), 'sanitize_text_field' ) : array();
+
 		// Now safe to add to cart.
 		$cart_item_data = array(
 			'mwb_ubo_offer_product' => true,
@@ -492,7 +495,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$added = 'subs_reload';
 		}
 
-		$bump_offer_cart_item_key = WC()->cart->add_to_cart( $variation_parent_id, $quantity = '1', $variation_id, $variation = array(), $cart_item_data );
+		$bump_offer_cart_item_key = WC()->cart->add_to_cart( $variation_parent_id, $quantity = '1', $variation_id, $variation = $mwb_orderbump_any_variation, $cart_item_data );
 
 		// Add Order Bump Offer Accept Count for the respective Order Bump.
 		$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );

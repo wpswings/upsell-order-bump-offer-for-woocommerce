@@ -46,6 +46,14 @@ jQuery(document).ready(function ($) {
     }
 
     /**
+     * Js to get variation product for "any variation" from dropdown in json format.
+     */
+    var mwb_orderbump_any_variation = {};
+    jQuery(document).on('change', 'select.mwb_upsell_offer_variation_select', function () {
+        mwb_orderbump_any_variation[jQuery(this).attr('id')] = jQuery(this).val();
+    });
+
+    /**
      * Process orderbump for variations.
      * 
      * @param {object} object    Bump object
@@ -93,6 +101,7 @@ jQuery(document).ready(function ($) {
                 action: 'add_variation_offer_in_cart',
                 id: variation_selected, // variation offer product id.
                 parent_id: bump_id, // variation offer parent product id.
+                mwb_orderbump_any_variation: mwb_orderbump_any_variation, // variation data from dropdown
                 discount: bump_discount,
                 order_bump_id: order_bump_id,
                 smart_offer_upgrade: smart_offer_upgrade,
@@ -257,7 +266,7 @@ jQuery(document).ready(function ($) {
                     e.preventDefault();
                     let data_arr = [];
                     jQuery('#mwb-meta-form-index-' + order_bump_id).find('.mwb_ubo_custom_meta_field').each(function () {
-                    
+
                         let field_obj = {};
 
                         if ('' == jQuery(this).val()) {
