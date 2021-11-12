@@ -396,6 +396,9 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	$mwb_ubo_global_options    = get_option( 'mwb_ubo_global_options', mwb_ubo_lite_default_global_options() );
 	$mwb_ubo_template_adaption = ! empty( $mwb_ubo_global_options['mwb_ubo_temp_adaption'] ) ? $mwb_ubo_global_options['mwb_ubo_temp_adaption'] : '';
 
+	// Setting to enable disable permalink.
+	$mwb_bump_enable_permalink = ! empty( $mwb_ubo_global_options['mwb_bump_enable_permalink'] ) ? $mwb_ubo_global_options['mwb_bump_enable_permalink'] : '';
+
 	// PARENT WRAPPER DIV CSS( parent_wrapper_div ).
 	$parent_border_type             = ! empty( $bump['design_css']['parent_border_type'] ) ? $bump['design_css']['parent_border_type'] : '';
 	$parent_border_color            = ! empty( $bump['design_css']['parent_border_color'] ) ? $bump['design_css']['parent_border_color'] : '';
@@ -421,6 +424,7 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	$secondary_section_text_color       = ! empty( $bump['design_css']['secondary_section_text_color'] ) ? $bump['design_css']['secondary_section_text_color'] : '';
 	$secondary_section_text_size        = ! empty( $bump['design_css']['secondary_section_text_size'] ) ? $bump['design_css']['secondary_section_text_size'] : '';
 
+	$mwb_bump_target_attr = ! empty( $mwb_ubo_global_options['mwb_bump_target_link_attr_val'] ) ? $mwb_ubo_global_options['mwb_bump_target_link_attr_val'] : '';
 	?>
 
 	<?php $parent_border_width = 'double' === $parent_border_type ? '4px' : '2px'; ?>
@@ -661,6 +665,9 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		}
 	}
 
+	// Add url of the offer product in the bump info.
+	$bump_offer_product_permalink         = esc_url_raw( get_permalink( $bump['id'] ) );
+
 	$check = '';
 
 	// Retain Checked if offer is added except for admin.
@@ -718,15 +725,28 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	// wrapper div start.
 	$bumphtml .= '<div class = "mwb_upsell_offer_wrapper" >';
 
-	// product section start.
-	$bumphtml .= '<div class = "mwb_upsell_offer_product_section" >';
-	$bumphtml .= '<div class = "mwb_upsell_offer_image" >';
-	$bumphtml .= '<img class="mwb_upsell_offer_img" src="' . $image . '" data-id="' . $bump['id'] . '">';
-	$bumphtml .= '</div>';
-	$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4>' . $bump['name'] . '</h4><br>';
-	$bumphtml .= '<p class="mwb_upsell_offer_product_price">' . $bump_offer_price . '</p>';
-	$bumphtml .= '<p class="mwb_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
-	// Product section ends.
+	if ( 'on' === $mwb_bump_enable_permalink ) {
+		// product section start with permalink.
+		$bumphtml .= '<div class = "mwb_upsell_offer_product_section" >';
+		$bumphtml .= '<div class = "mwb_upsell_offer_image" >';
+		$bumphtml .= '<a target="' . $mwb_bump_target_attr . '" href="' . $bump_offer_product_permalink . '"><img class="mwb_upsell_offer_img" src="' . $image . '" data-id="' . $bump['id'] . '"></a>';
+		$bumphtml .= '</div>';
+		$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4><a class="mwb_upsell_product_permalink" href="' . $bump_offer_product_permalink . '">' . $bump['name'] . '</a></h4><br>';
+		$bumphtml .= '<p class="mwb_upsell_offer_product_price">' . $bump_offer_price . '</p>';
+		$bumphtml .= '<p class="mwb_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
+		// Product section ends.
+	} else {
+		// product section start without permalink.
+		$bumphtml .= '<div class = "mwb_upsell_offer_product_section" >';
+		$bumphtml .= '<div class = "mwb_upsell_offer_image" >';
+		$bumphtml .= '<img class="mwb_upsell_offer_img" src="' . $image . '" data-id="' . $bump['id'] . '">';
+		$bumphtml .= '</div>';
+		$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4>' . $bump['name'] . '</h4><br>';
+		$bumphtml .= '<p class="mwb_upsell_offer_product_price">' . $bump_offer_price . '</p>';
+		$bumphtml .= '<p class="mwb_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
+		// Product section ends.
+	}
+
 
 	// Primary section start.
 	$bumphtml .= '<div class = "mwb_upsell_offer_primary_section" >';
