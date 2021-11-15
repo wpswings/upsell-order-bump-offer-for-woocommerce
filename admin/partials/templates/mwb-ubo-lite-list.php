@@ -57,6 +57,24 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 	exit();
 }
 
+// Clone bumps.
+if ( isset( $_GET['clone_bump_id'] ) ) {
+
+	$bump_id = sanitize_text_field( wp_unslash( $_GET['clone_bump_id'] ) );
+
+	// Get all bumps.
+	$mwb_upsell_bumps = get_option( 'mwb_ubo_bump_list' );
+
+	$mwb_clone_bump_data = $mwb_upsell_bumps[ $bump_id ];
+	$mwb_clone_bump_data['mwb_upsell_bump_name'] = 'Clone ' . $mwb_clone_bump_data['mwb_upsell_bump_name'];
+	array_push( $mwb_upsell_bumps, $mwb_clone_bump_data );
+	update_option( 'mwb_ubo_bump_list', $mwb_upsell_bumps );
+
+	wp_safe_redirect( admin_url( 'admin.php' ) . '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list' );
+
+	exit();
+}
+
 // Get all bumps.
 $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
@@ -199,6 +217,9 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 
 					<!-- Bump Delete link. -->
 					<a class="mwb_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list&del_bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+
+					<!-- Bump Clone link. -->
+					<a class="mwb_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list&clone_bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'Clone', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 				</td>
 				<?php do_action( 'mwb_ubo_add_more_col_data' ); ?>
 			</tr>
