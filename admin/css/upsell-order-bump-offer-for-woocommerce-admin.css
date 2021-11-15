@@ -1156,6 +1156,13 @@ table.form-table.mwb_upsell_bump_creation_setting .mwb_upsell_bump_enable_plugin
   height: 34px;
   top: -3px;
 }
+table.form-table.mwb_upsell_bump_creation_setting .mwb_upsell_bump_enable_permalink_label {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  top: -3px;
+}
 .mwb_upsell_slider_wrapper > div {
   margin-left: 15px;
 }
@@ -1164,6 +1171,11 @@ table.form-table.mwb_upsell_bump_creation_setting .mwb_upsell_bump_enable_plugin
   align-items: center;
 }
 table.form-table.mwb_upsell_bump_creation_setting .mwb_upsell_bump_enable_plugin_label .mwb_upsell_bump_enable_plugin_input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+table.form-table.mwb_upsell_bump_creation_setting .mwb_upsell_bump_enable_permalink_label .mwb_upsell_bump_enable_permalink_input {
   opacity: 0;
   width: 0;
   height: 0;
