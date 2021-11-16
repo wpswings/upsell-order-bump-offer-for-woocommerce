@@ -1913,3 +1913,6 @@ select.mwb_select_for_description_class {
 .keep-hidden {
   display: none;
 }
+a.mwb_ubo_upload_image_button {
+  box-shadow: none !important;
+}
