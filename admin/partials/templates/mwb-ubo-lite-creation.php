@@ -526,6 +526,30 @@ $mwb_upsell_bump_schedule_options = array(
 				</tr>
 				<!-- Meta Forms end. -->
 
+				<!-- V2.0.1 with global funnel start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="mwb_ubo_offer_global_funnel"><?php esc_html_e( 'Global Funnel', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This feature allows you to trigger this specific order bump, no matter target product is present or not.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label class="mwb-upsell-smart-offer-upgrade" for="mwb_ubo_offer_global_funnel">
+						<input class="mwb-upsell-smart-offer-upgrade-wrap" type='checkbox' id='mwb_ubo_offer_global_funnel' value=''>
+						<span class="upsell-smart-offer-upgrade-btn"></span>
+						</label>
+
+					</td>
+				</tr>
+				<!-- V2.0.1 with global funnel end. -->
+
 			</tbody>
 		</table>
 
