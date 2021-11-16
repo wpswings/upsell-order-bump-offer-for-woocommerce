@@ -683,5 +683,42 @@ jQuery(document).ready( function($) {
 		$(".mwb_upsell_offer_secondary_section").hide();
 	}
 
+	/**
+	 * Custom Image setup.
+	 * Wordpress image upload.
+	 */
+	 jQuery(function($){
+		/*
+		 * Select/Upload image(s) event.
+		 */
+		jQuery('body').on('click', '.mwb_ubo_upload_image_button', function(e){
+
+			e.preventDefault();
+    		var button = jQuery(this),
+    		custom_uploader = wp.media({
+				title: 'Insert image',
+				library : {
+					type : 'image'
+				},
+				button: {
+					text: 'Use this image' 
+				},
+				multiple: false
+			}).on('select', function() {
+				var attachment = custom_uploader.state().get('selection').first().toJSON();
+				jQuery(button).removeClass('button').html('<img class="true_pre_image" src="' + attachment.url + '" style="max-width:150px;display:block;" />').next().val(attachment.id).next().show();
+			}).open();
+		});
+	 
+		/*
+		 * Remove image event.
+		 */
+		jQuery('body').on('click', '.mwb_ubo_remove_image_button', function(e){
+			e.preventDefault();
+			jQuery(this).hide().prev().val('').prev().addClass('button').html('Upload image');
+			return false;
+		});
+	});
+
 // End of js.
 });

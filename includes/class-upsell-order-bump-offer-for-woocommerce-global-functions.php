@@ -649,7 +649,15 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 
 	$bump['discount_price'] = ! empty( $bump['discount_price'] ) ? sanitize_text_field( $bump['discount_price'] ) : '0';
 
-	$image = wp_get_attachment_image_src( get_post_thumbnail_id( $bump['id'] ), 'single-post-thumbnail' )[0];
+	// After v2.0.1!
+	if ( ! empty( $bump['offer_image'] ) ) {
+		$image = wp_get_attachment_image_src( $bump['offer_image'], 'single-post-thumbnail' )[0];
+	}
+
+	// If still not found.
+	if ( empty( $image ) ) {
+		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $bump['id'] ), 'single-post-thumbnail' )[0];
+	}
 
 	if ( empty( $image ) ) {
 
@@ -666,7 +674,7 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	}
 
 	// Add url of the offer product in the bump info.
-	$bump_offer_product_permalink         = esc_url_raw( get_permalink( $bump['id'] ) );
+	$bump_offer_product_permalink = esc_url_raw( get_permalink( $bump['id'] ) );
 
 	$check = '';
 
@@ -818,6 +826,9 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	$meta_forms_allowed = ! empty( $encountered_bump_array['mwb_ubo_offer_meta_forms'] ) ? $encountered_bump_array['mwb_ubo_offer_meta_forms'] : 'no';
 	$meta_form_fields   = ! empty( $encountered_bump_array['meta_form_fields'] ) ? $encountered_bump_array['meta_form_fields'] : array();
 
+	// after v2.0.1!
+	$mwb_upsell_offer_image = ! empty( $encountered_bump_array['mwb_upsell_offer_image'] ) ? $encountered_bump_array['mwb_upsell_offer_image'] : '';
+
 	$bump = ! empty( $bump ) ? $bump : array();
 
 	// Smart offer upgrade.
@@ -832,8 +843,8 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 			$bump['discount_price'] = mwb_ubo_lite_custom_price_html( $offer_id, $bump_discount, 'price' );
 			$_product->set_price( $bump['discount_price'] );
 		} else {
-			$prod_obj = wc_get_product( $offer_id );
-			$prod_type = $prod_obj->get_type();
+			$prod_obj  				= wc_get_product( $offer_id );
+			$prod_type 				= $prod_obj->get_type();
 			$bump['discount_price'] = mwb_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
 			$bump['discount_price'] = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump['discount_price'] ) );
 			$_product->set_price( $bump['discount_price'] );
@@ -852,6 +863,7 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	// Got all details.
 	$bump['id']                         = $offer_id;
 	$bump['offer_type']                 = $offer_id;
+	$bump['offer_image']                = $mwb_upsell_offer_image;
 	$bump['target_key']                 = $mwb_upsell_bump_target_key;
 	$bump['name']                       = get_the_title( $bump['id'] );
 	$bump['discount_price_without_tax'] = $price_excl_tax;

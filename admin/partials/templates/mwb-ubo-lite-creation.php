@@ -116,6 +116,9 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 
 	$mwb_upsell_new_bump['mwb_upsell_bump_target_ids'] = ! empty( $_POST['mwb_upsell_bump_target_ids'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_upsell_bump_target_ids'] ) ) : '';
 
+	// After v2.0.1!
+	$mwb_upsell_new_bump['mwb_upsell_offer_image'] = ! empty( $_POST['mwb_upsell_offer_image'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_image'] ) ) ) : '';
+
 	// When Bump is saved for the first time so load default Design Settings.
 	if ( empty( $_POST['parent_border_type'] ) ) {
 
@@ -609,7 +612,22 @@ $mwb_upsell_bump_schedule_options = array(
 						</td>
 					</tr>
 					<!-- Offer price end. -->
+					<!-- Offer image start. -->
+					<tr>
+						<th scope="row" class="titledesc">
+							<label for="mwb_upsell_offer_custom_image"><?php esc_html_e( 'Offer Image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></label>
+						</th>
 
+						<td class="forminp forminp-text">
+							<?php
+
+								$image_post_id = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_offer_image'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_offer_image'] : '';
+
+								Upsell_Order_Bump_Offer_For_Woocommerce_Admin::mwb_ubo_image_uploader_field( $image_post_id );
+							?>
+						</td>
+					</tr>
+					<!-- Offer image end. -->
 				</table>
 
 			</div>
