@@ -741,25 +741,31 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 */
 	public static function mwb_ubo_image_uploader_field( $image_post_id = '' ) {
 
-		$image   = ' button">' . esc_html__( 'Upload image', 'upsell-order-bump-offer-for-woocommerce-pro' );
-		$display = 'none'; // Display state ot the "Remove image" button.
-
+		// Image present!
 		if ( ! empty( $image_post_id ) ) {
 
 			// $image_attributes[0] - Image URL.
 			// $image_attributes[1] - Image width.
 			// $image_attributes[2] - Image height.
 			$image_attributes = wp_get_attachment_image_src( $image_post_id, 'thumbnail' );
+			?>
+			<div class="mwb_wocuf_saved_custom_image">
+				<a href="#" class="mwb_ubo_upload_image_button"><img src="<?php echo esc_url( $image_attributes[0] ); ?>" style="max-width:150px;display:block;"></a>
+				<input type="hidden" name="mwb_upsell_offer_image" id="mwb_upsell_offer_image" value="<?php echo esc_attr( $image_post_id ); ?>">
+				<a href="#" class="mwb_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:inline-block;"><?php esc_html_e( 'Remove Image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
+			</div>
+			<?php
 
-			$image   = '"><img src="' . $image_attributes[0] . '" style="max-width:150px;display:block;" />';
-			$display = 'inline-block';
+		} else {
+			// Image not present!
+			?>
+			<div class="mwb_wocuf_saved_custom_image">
+				<a href="#" class="mwb_ubo_upload_image_button button"><?php esc_html_e( 'Upload image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
+				<input type="hidden" name="mwb_upsell_offer_image" id="mwb_upsell_offer_image" value="<?php echo esc_attr( $image_post_id ); ?>">
+				<a href="#" class="mwb_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:none;"><?php esc_html_e( 'Remove Image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
+			</div>
+			<?php
 		}
-
-		echo '<div class="mwb_wocuf_saved_custom_image">
-		<a href="#" class="mwb_ubo_upload_image_button' . $image . '</a>
-		<input type="hidden" name="mwb_upsell_offer_image" id="mwb_upsell_offer_image" value="' . esc_attr( $image_post_id ) . '" />
-		<a href="#" class="mwb_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:' . $display . '">Remove image</a>
-		</div>';
 	}
 
 } // End of class.
