@@ -93,6 +93,8 @@ function mwb_ubo_lite_allowed_html() {
 			'value'         => array(),
 			'type'          => array( 'hidden', 'checkbox' ),
 			'checked'       => array(),
+			'min'           => array(),
+			'max'           => array(),
 		),
 		'label'  => array(
 			'class' => array( 'mwb_upsell_bump_checkbox_container' ),
@@ -188,6 +190,12 @@ function mwb_ubo_lite_allowed_html() {
 			'order_bump_index'      => array(),
 			'order'                 => array(),
 			'attribute_pa_color'    => array(),
+		),
+		'h4' => array(
+			'data-mwb_qty'          => array(),
+			'data-mwb_is_fixed_qty' => array(),
+			'id'                    => array(),
+			'data-qty_allowed'      => array(),
 		),
 		'option' => array(
 			'value'    => array(),
@@ -398,6 +406,13 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 
 	// Setting to enable disable permalink.
 	$mwb_bump_enable_permalink = ! empty( $mwb_ubo_global_options['mwb_bump_enable_permalink'] ) ? $mwb_ubo_global_options['mwb_bump_enable_permalink'] : '';
+
+	// Setting for the offer Quantity.
+	$mwb_upsell_enable_quantity = ! empty( $bump['mwb_upsell_enable_quantity'] ) ? $bump['mwb_upsell_enable_quantity'] : '';
+	$mwb_upsell_bump_products_fixed_quantity = ! empty( $bump['mwb_upsell_bump_products_fixed_quantity'] ) ? $bump['mwb_upsell_bump_products_fixed_quantity'] : '';
+	$mwb_upsell_bump_products_min_quantity = ! empty( $bump['mwb_upsell_bump_products_min_quantity'] ) ? $bump['mwb_upsell_bump_products_min_quantity'] : '';
+	$mwb_upsell_bump_products_max_quantity = ! empty( $bump['mwb_upsell_bump_products_max_quantity'] ) ? $bump['mwb_upsell_bump_products_max_quantity'] : '';
+	$mwb_upsell_offer_quantity_type = ! empty( $bump['mwb_upsell_offer_quantity_type'] ) ? $bump['mwb_upsell_offer_quantity_type'] : '';
 
 	// PARENT WRAPPER DIV CSS( parent_wrapper_div ).
 	$parent_border_type             = ! empty( $bump['design_css']['parent_border_type'] ) ? $bump['design_css']['parent_border_type'] : '';
@@ -730,6 +745,11 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	$bumphtml .= '</div>';
 	// discount section end.
 
+	if ( 'fixed_q' === $mwb_upsell_offer_quantity_type ) {
+		$mwb_is_fixed_qty = 'true';
+	} else {
+		$mwb_is_fixed_qty = 'false';
+	}
 	// wrapper div start.
 	$bumphtml .= '<div class = "mwb_upsell_offer_wrapper" >';
 
@@ -739,8 +759,12 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		$bumphtml .= '<div class = "mwb_upsell_offer_image" >';
 		$bumphtml .= '<a target="' . $mwb_bump_target_attr . '" href="' . $bump_offer_product_permalink . '"><img class="mwb_upsell_offer_img" src="' . $image . '" data-id="' . $bump['id'] . '"></a>';
 		$bumphtml .= '</div>';
-		$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4><a class="mwb_upsell_product_permalink" href="' . $bump_offer_product_permalink . '">' . $bump['name'] . '</a></h4><br>';
+		$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4 id="mwb_bump_name" data-qty_allowed="' . $mwb_upsell_enable_quantity . '" data-mwb_is_fixed_qty="' . $mwb_is_fixed_qty . '" data-mwb_qty="' . $mwb_upsell_bump_products_fixed_quantity . '"><a target="' . $mwb_bump_target_attr . '" class="mwb_upsell_product_permalink" href="' . $bump_offer_product_permalink . '">' . $bump['name'] . '</a></h4><br>';
 		$bumphtml .= '<p class="mwb_upsell_offer_product_price">' . $bump_offer_price . '</p>';
+		if ( 'yes' === $mwb_upsell_enable_quantity && 'variable_q' === $mwb_upsell_offer_quantity_type ) {
+			$bumphtml .= '<label for="mwb_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
+			$bumphtml .= '<input class="mwb_input_quantity" type="number" id="mwb_quantity_input" name="mwb_quantity_offer" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">';
+		}
 		$bumphtml .= '<p class="mwb_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
 		// Product section ends.
 	} else {
@@ -749,12 +773,15 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		$bumphtml .= '<div class = "mwb_upsell_offer_image" >';
 		$bumphtml .= '<img class="mwb_upsell_offer_img" src="' . $image . '" data-id="' . $bump['id'] . '">';
 		$bumphtml .= '</div>';
-		$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4>' . $bump['name'] . '</h4><br>';
+		$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4 id="mwb_bump_name" data-qty_allowed="' . $mwb_upsell_enable_quantity . '" data-mwb_is_fixed_qty="' . $mwb_is_fixed_qty . '" data-mwb_qty="' . $mwb_upsell_bump_products_fixed_quantity . '">' . $bump['name'] . '</h4><br>';
 		$bumphtml .= '<p class="mwb_upsell_offer_product_price">' . $bump_offer_price . '</p>';
+		if ( 'yes' === $mwb_upsell_enable_quantity && 'variable_q' === $mwb_upsell_offer_quantity_type ) {
+			$bumphtml .= '<label for="mwb_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
+			$bumphtml .= '<input class="mwb_input_quantity" type="number" id="mwb_quantity_input" name="mwb_quantity_offer" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">';
+		}
 		$bumphtml .= '<p class="mwb_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
 		// Product section ends.
 	}
-
 
 	// Primary section start.
 	$bumphtml .= '<div class = "mwb_upsell_offer_primary_section" >';
@@ -861,16 +888,21 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	$price_incl_tax = wc_get_price_including_tax( $_product );  // Price with tax.
 
 	// Got all details.
-	$bump['id']                         = $offer_id;
-	$bump['offer_type']                 = $offer_id;
-	$bump['offer_image']                = $mwb_upsell_offer_image;
-	$bump['target_key']                 = $mwb_upsell_bump_target_key;
-	$bump['name']                       = get_the_title( $bump['id'] );
-	$bump['discount_price_without_tax'] = $price_excl_tax;
-	$bump['discount_price_with_tax']    = $price_incl_tax;
-	$bump['price_type']                 = $price_type;
-	$bump['meta_forms_allowed']         = $meta_forms_allowed;
-	$bump['meta_form_fields']           = $meta_form_fields;
+	$bump['id']                                      = $offer_id;
+	$bump['offer_type']                              = $offer_id;
+	$bump['offer_image']                             = $mwb_upsell_offer_image;
+	$bump['target_key']                              = $mwb_upsell_bump_target_key;
+	$bump['name']                                    = get_the_title( $bump['id'] );
+	$bump['discount_price_without_tax']              = $price_excl_tax;
+	$bump['discount_price_with_tax']                 = $price_incl_tax;
+	$bump['price_type']                              = $price_type;
+	$bump['meta_forms_allowed']                      = $meta_forms_allowed;
+	$bump['meta_form_fields']                        = $meta_form_fields;
+	$bump['mwb_upsell_enable_quantity']              = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_enable_quantity'];
+	$bump['mwb_upsell_bump_products_fixed_quantity'] = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_bump_products_fixed_quantity'];
+	$bump['mwb_upsell_bump_products_min_quantity']   = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_bump_products_min_quantity'];
+	$bump['mwb_upsell_bump_products_max_quantity']   = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_bump_products_max_quantity'];
+	$bump['mwb_upsell_offer_quantity_type']          = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_offer_quantity_type'];
 
 	$bump['design_text'] = ! empty( $encountered_bump_array['design_text'] ) ? $encountered_bump_array['design_text'] : array();
 

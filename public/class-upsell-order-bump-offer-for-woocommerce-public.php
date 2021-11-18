@@ -179,6 +179,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$smart_offer_upgrade   = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
 		$form_data             = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : array();
 
+		// Quantity of product
+		$mwb_qty_variable = ! empty( $_POST['mwb_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_qty_variable'] ) ) : '';
+
 		$active_plugin = get_option( 'active_plugins', false );
 		if ( in_array( 'woo-gift-cards-lite/woocommerce_gift_cards_lite.php', $active_plugin, true ) && mwb_ubo_lite_if_pro_exists() && ! empty( $form_data ) ) {
 			$gift_card_form = array(
@@ -259,7 +262,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// If simple product or any single variations.
 			// Add to cart the same.
 
-			$bump_offer_cart_item_key = WC()->cart->add_to_cart( $bump_product_id, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data );
+			$bump_offer_cart_item_key = WC()->cart->add_to_cart( $bump_product_id, $quantity = $mwb_qty_variable, $variation_id = 0, $variation = array(), $cart_item_data );
 
 			// Add Order Bump Offer Accept Count for the respective Order Bump.
 			$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
@@ -475,6 +478,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// variation product data.
 		$mwb_orderbump_any_variation = ! empty( $_POST['mwb_orderbump_any_variation'] ) ? map_deep( wp_unslash( $_POST['mwb_orderbump_any_variation'] ), 'sanitize_text_field' ) : array();
 
+		// Quantity of product
+		$mwb_qty_variable = ! empty( $_POST['mwb_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_qty_variable'] ) ) : '';
+
 		// Now safe to add to cart.
 		$cart_item_data = array(
 			'mwb_ubo_offer_product' => true,
@@ -495,7 +501,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$added = 'subs_reload';
 		}
 
-		$bump_offer_cart_item_key = WC()->cart->add_to_cart( $variation_parent_id, $quantity = '1', $variation_id, $variation = $mwb_orderbump_any_variation, $cart_item_data );
+		$bump_offer_cart_item_key = WC()->cart->add_to_cart( $variation_parent_id, $quantity = $mwb_qty_variable, $variation_id, $variation = $mwb_orderbump_any_variation, $cart_item_data );
 
 		// Add Order Bump Offer Accept Count for the respective Order Bump.
 		$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );

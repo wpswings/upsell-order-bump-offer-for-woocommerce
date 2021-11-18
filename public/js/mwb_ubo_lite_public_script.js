@@ -70,6 +70,15 @@ jQuery(document).ready(function ($) {
             return;
         }
 
+        // Get product Quqntity
+        if ($('#mwb_quantity_input').val() != undefined && $('#mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
+            var mwb_qty_variable = $('#mwb_quantity_input').val();
+        } else if ( $('#mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'true' && $('#mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
+            var mwb_qty_variable = $('#mwb_bump_name').attr("data-mwb_qty");
+        } else {
+            var mwb_qty_variable = 1;
+        }
+
         // Order Bump Object.
         var parent_wrapper_class = '.mwb_ubo_wrapper_index_' + order_bump_index;
         var selected_order_bump = jQuery(parent_wrapper_class);
@@ -105,6 +114,7 @@ jQuery(document).ready(function ($) {
                 discount: bump_discount,
                 order_bump_id: order_bump_id,
                 smart_offer_upgrade: smart_offer_upgrade,
+                mwb_qty_variable: mwb_qty_variable, // Quantity attr
 
                 // Index : { digit }
                 bump_index: order_bump_index,
@@ -140,6 +150,15 @@ jQuery(document).ready(function ($) {
      * @param {array}  formdata  Custom form object.
      */
     function triggerAddOffer(object, formdata) {
+
+        // Get product Quqntity
+        if ($('#mwb_quantity_input').val() != undefined && $('#mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
+            var mwb_qty_variable = $('#mwb_quantity_input').val();
+        } else if ( $('#mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'true' && $('#mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
+            var mwb_qty_variable = $('#mwb_bump_name').attr("data-mwb_qty");
+        } else {
+            var mwb_qty_variable = 1;
+        }
 
         order_bump_index = object.closest('.mwb_upsell_offer_main_wrapper').find('.order_bump_index').val();
         parent_wrapper_class = '.mwb_ubo_wrapper_' + order_bump_index;
@@ -178,6 +197,7 @@ jQuery(document).ready(function ($) {
                     bump_target_cart_key: bump_target_cart_key,
                     order_bump_id: order_bump_id,
                     smart_offer_upgrade: smart_offer_upgrade,
+                    mwb_qty_variable: mwb_qty_variable, // Quantity attr
 
                     // Index : index_{ digit }
                     bump_index: order_bump_index,
