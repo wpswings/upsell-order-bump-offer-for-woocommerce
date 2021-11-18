@@ -29,7 +29,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		$mwb_delete_all_data = get_option('mwb_ubo_global_options');
+		if ( 'on' === $mwb_delete_all_data ) {
+			delete_option( 'mwb_ubo_global_options' );
+			delete_option( 'mwb_ubo_bump_list' );
+		}
 	}
 
 }
