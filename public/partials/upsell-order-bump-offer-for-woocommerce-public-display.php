@@ -66,6 +66,27 @@ if ( null !== WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->
 	}
 }
 
+/**
+ * Function to validate user roles.
+ *
+ * @param int $value
+ * @return boolean
+ */
+function is_valid_user_role( $value ) {
+	$all_bumps_to_get = get_option( 'mwb_ubo_bump_list', array() );
+
+	$mwb_bump_unsupported_roles = $all_bumps_to_get[ $value ]['mwb_upsell_bump_exclude_roles'];
+
+	$user = wp_get_current_user();
+	foreach ( $mwb_bump_unsupported_roles as $key => $value ) {
+		if ( in_array( $value, (array) $user->roles ) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
 if ( $fetch_order_bumps && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'fetch_order_bump_from_collection' ) ) {
 
 	$encountered_bump_result = Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collection( $mwb_ubo_offer_array_collection, $mwb_ubo_global_options );
@@ -119,6 +140,9 @@ foreach ( $mwb_bumps_priority_id as $key => $value ) {
 // For Each Order Bump Ids array.
 foreach ( $new_encountered_bump_ids_array as $key => $value ) {
 
+	if ( is_valid_user_role($value) ) {
+		continue;
+	}
 	$encountered_order_bump_id = $value;
 
 	if ( ! empty( $encountered_bump_tarket_key_array ) ) {

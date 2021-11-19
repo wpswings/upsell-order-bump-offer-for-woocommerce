@@ -119,6 +119,7 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 	// After v2.0.1!
 	$mwb_upsell_new_bump['mwb_upsell_offer_image'] = ! empty( $_POST['mwb_upsell_offer_image'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_image'] ) ) ) : '';
 	$mwb_upsell_new_bump['mwb_upsell_bump_priority'] = ! empty( $_POST['mwb_upsell_bump_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_priority'] ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_bump_exclude_roles'] = ! empty( $_POST['mwb_upsell_bump_exclude_roles'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_upsell_bump_exclude_roles'] ) ) : '';
 
 	// When Bump is saved for the first time so load default Design Settings.
 	if ( empty( $_POST['parent_border_type'] ) ) {
@@ -431,6 +432,54 @@ $mwb_upsell_bump_schedule_options = array(
 					</td>	
 				</tr>
 				<!-- Target category ends. -->
+
+				<!-- Exclude roles starts. -->
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+						<label for="mwb_upsell_bump_exclude_roles"><?php esc_html_e( 'Select roles to exclude', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+
+						$description = esc_html__( 'Order Bumps will not be shown to these roles.', 'upsell-order-bump-offer-for-woocommerce' );
+
+						mwb_ubo_lite_help_tip( $description );
+
+						?>
+
+						<select id="mwb_upsell_bump_exclude_roles" class="wc-bump-exclude-roles-search" multiple="multiple" name="mwb_upsell_bump_exclude_roles[]" data-placeholder="<?php esc_attr_e( 'Search for a role&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
+
+							<?php
+
+							if ( ! empty( $mwb_upsell_bumps_list ) ) {
+
+								$mwb_upsell_bump_exclude_roles = isset( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_exclude_roles'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_exclude_roles'] : array();
+
+								// Array_map with absint converts negative array values to positive, so that we dont get negative ids.
+								// $mwb_upsell_bump_exclude_roles = ! empty( $mwb_upsell_bump_exclude_roles ) ? array_map( 'absint', $mwb_upsell_bump_exclude_roles ) : null;
+								global $wp_roles;
+
+								$all_roles = $wp_roles->roles;
+								$editable_roles = apply_filters( 'editable_roles', $all_roles );
+								if ( $editable_roles ) {
+
+									foreach ( $editable_roles as $key => $value ) {
+
+										?>
+										<option <?php echo in_array( (string) $key, $mwb_upsell_bump_exclude_roles, true ) ? 'selected' : ''; ?> value="<?php echo esc_html( $key ); ?>"><?php echo( esc_html( $value['name'] ) ); ?></option>
+										<?php
+									}
+								}
+							}
+
+							?>
+						</select>		
+					</td>	
+				</tr>
+				<!-- Exclude roles ends. -->
 
 				<!-- Schedule your Bump start. -->
 				<tr valign="top">
