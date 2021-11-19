@@ -118,6 +118,7 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 
 	// After v2.0.1!
 	$mwb_upsell_new_bump['mwb_upsell_offer_image'] = ! empty( $_POST['mwb_upsell_offer_image'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_image'] ) ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_bump_priority'] = ! empty( $_POST['mwb_upsell_bump_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_priority'] ) ) : '';
 
 	// When Bump is saved for the first time so load default Design Settings.
 	if ( empty( $_POST['parent_border_type'] ) ) {
@@ -274,6 +275,8 @@ $mwb_upsell_bump_schedule_options = array(
 
 				$bump_status = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_status'] ) ? sanitize_text_field( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_status'] ) : 'no';
 
+				// Order bump priority v2.0.1
+				$bump_priority = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_priority'] ) ? sanitize_text_field( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_priority'] ) : '99999';
 				?>
 
 				<!-- Bump Header start.-->
@@ -311,6 +314,29 @@ $mwb_upsell_bump_schedule_options = array(
 					</td>
 				</tr>
 				<!-- Bump Name end.-->
+
+				<!-- Bump Priority HTML start.-->
+				<tr valign="top">
+
+						<th scope="row" class="titledesc">
+						<span class="mwb_ubo_premium_strip">Pro</span>
+							<label for="mwb_upsell_bump_priority"><?php esc_html_e( 'Priority of the Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						</th>
+
+						<td class="forminp forminp-text">
+
+							<?php
+
+							$description = esc_html__( 'Priortize Order Bump.', 'upsell-order-bump-offer-for-woocommerce' );
+
+							mwb_ubo_lite_help_tip( $description );
+
+							?>
+
+							<input type="number" id="mwb_upsell_bump_priority" name="mwb_upsell_bump_priority" value="<?php echo esc_attr( $bump_priority ); ?>" class="input-text mwb_upsell_bump_commone_class" maxlength="30">
+						</td>
+				</tr>
+				<!-- Bump Priority HTML end.-->
 
 				<!-- Select Target product start. -->
 				<tr valign="top">

@@ -437,23 +437,6 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 				</tr>
 				<!-- Restrict external coupons feature skip end. -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 				<!-- Delete all the data on uninstall button html start. -->
 				<tr valign="top">
 
@@ -477,37 +460,6 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					</td>
 				</tr>
 				<!-- Delete all the data on uninstall button html end. -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 				<!-- Order Bump Limit start. -->
 				<tr valign="top">

@@ -103,8 +103,21 @@ if ( null === WC()->session->get( 'encountered_bump_array' ) ) {
 ?><div class="wrapup_order_bump">
 <?php
 
-// For Each Order Bump Ids array.
+$all_bumps_to_get = get_option( 'mwb_ubo_bump_list', array() );
+$mwb_bumps_priority_id = array();
+
 foreach ( $encountered_bump_ids_array as $key => $value ) {
+	$mwb_bumps_priority_id[ $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority']] = $value;
+}
+krsort( $mwb_bumps_priority_id );
+$new_encountered_bump_ids_array = array();
+
+foreach ( $mwb_bumps_priority_id as $key => $value ) {
+	array_push( $new_encountered_bump_ids_array, $value );
+}
+
+// For Each Order Bump Ids array.
+foreach ( $new_encountered_bump_ids_array as $key => $value ) {
 
 	$encountered_order_bump_id = $value;
 
