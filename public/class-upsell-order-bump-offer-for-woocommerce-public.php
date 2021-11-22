@@ -179,7 +179,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$smart_offer_upgrade   = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
 		$form_data             = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : array();
 
-		// Quantity of product
+		// Quantity of product.
 		$mwb_qty_variable = ! empty( $_POST['mwb_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_qty_variable'] ) ) : '';
 
 		$active_plugin = get_option( 'active_plugins', false );
@@ -478,7 +478,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// variation product data.
 		$mwb_orderbump_any_variation = ! empty( $_POST['mwb_orderbump_any_variation'] ) ? map_deep( wp_unslash( $_POST['mwb_orderbump_any_variation'] ), 'sanitize_text_field' ) : array();
 
-		// Quantity of product
+		// Quantity of product.
 		$mwb_qty_variable = ! empty( $_POST['mwb_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_qty_variable'] ) ) : '';
 
 		// Now safe to add to cart.

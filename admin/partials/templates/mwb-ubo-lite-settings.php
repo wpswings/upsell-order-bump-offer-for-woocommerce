@@ -50,7 +50,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_restrict_coupons'] = ! empty( $_POST['mwb_ubo_offer_restrict_coupons'] ) ? 'yes' : 'no';
 
-	// After version v2.0.1
+	// After version v2.0.1.
 	$mwb_bump_upsell_global_options['mwb_delete_all_on_uninstall'] = ! empty( $_POST['mwb_delete_all_on_uninstall'] ) ? 'on' : 'off';
 
 	$mwb_bump_upsell_global_options['mwb_bump_enable_permalink'] = ! empty( $_POST['mwb_bump_enable_permalink'] ) ? 'on' : 'off';

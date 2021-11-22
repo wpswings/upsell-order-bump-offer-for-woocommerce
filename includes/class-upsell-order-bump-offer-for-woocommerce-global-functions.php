@@ -870,8 +870,8 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 			$bump['discount_price'] = mwb_ubo_lite_custom_price_html( $offer_id, $bump_discount, 'price' );
 			$_product->set_price( $bump['discount_price'] );
 		} else {
-			$prod_obj  				= wc_get_product( $offer_id );
-			$prod_type 				= $prod_obj->get_type();
+			$prod_obj               = wc_get_product( $offer_id );
+			$prod_type              = $prod_obj->get_type();
 			$bump['discount_price'] = mwb_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
 			$bump['discount_price'] = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump['discount_price'] ) );
 			$_product->set_price( $bump['discount_price'] );
@@ -888,21 +888,24 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	$price_incl_tax = wc_get_price_including_tax( $_product );  // Price with tax.
 
 	// Got all details.
-	$bump['id']                                      = $offer_id;
-	$bump['offer_type']                              = $offer_id;
-	$bump['offer_image']                             = $mwb_upsell_offer_image;
-	$bump['target_key']                              = $mwb_upsell_bump_target_key;
-	$bump['name']                                    = get_the_title( $bump['id'] );
-	$bump['discount_price_without_tax']              = $price_excl_tax;
-	$bump['discount_price_with_tax']                 = $price_incl_tax;
-	$bump['price_type']                              = $price_type;
-	$bump['meta_forms_allowed']                      = $meta_forms_allowed;
-	$bump['meta_form_fields']                        = $meta_form_fields;
-	$bump['mwb_upsell_enable_quantity']              = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_enable_quantity'];
-	$bump['mwb_upsell_bump_products_fixed_quantity'] = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_bump_products_fixed_quantity'];
-	$bump['mwb_upsell_bump_products_min_quantity']   = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_bump_products_min_quantity'];
-	$bump['mwb_upsell_bump_products_max_quantity']   = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_bump_products_max_quantity'];
-	$bump['mwb_upsell_offer_quantity_type']          = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_offer_quantity_type'];
+	$bump['id']                         = $offer_id;
+	$bump['offer_type']                 = $offer_id;
+	$bump['offer_image']                = $mwb_upsell_offer_image;
+	$bump['target_key']                 = $mwb_upsell_bump_target_key;
+	$bump['name']                       = get_the_title( $bump['id'] );
+	$bump['discount_price_without_tax'] = $price_excl_tax;
+	$bump['discount_price_with_tax']    = $price_incl_tax;
+	$bump['price_type']                 = $price_type;
+	$bump['meta_forms_allowed']         = $meta_forms_allowed;
+	$bump['meta_form_fields']           = $meta_form_fields;
+
+	if ( isset( $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_enable_quantity'] ) ) {
+		$bump['mwb_upsell_enable_quantity']              = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_enable_quantity'];
+		$bump['mwb_upsell_bump_products_fixed_quantity'] = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_bump_products_fixed_quantity'];
+		$bump['mwb_upsell_bump_products_min_quantity']   = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_bump_products_min_quantity'];
+		$bump['mwb_upsell_bump_products_max_quantity']   = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_bump_products_max_quantity'];
+		$bump['mwb_upsell_offer_quantity_type']          = $mwb_ubo_offer_array_collection[ $encountered_bump_array_index ]['mwb_upsell_offer_quantity_type'];
+	}
 
 	$bump['design_text'] = ! empty( $encountered_bump_array['design_text'] ) ? $encountered_bump_array['design_text'] : array();
 

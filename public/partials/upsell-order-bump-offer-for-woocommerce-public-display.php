@@ -69,7 +69,7 @@ if ( null !== WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->
 /**
  * Function to validate user roles.
  *
- * @param int $value
+ * @param int $value single bump ids.
  * @return boolean
  */
 function is_valid_user_role( $value ) {
@@ -128,7 +128,7 @@ $all_bumps_to_get = get_option( 'mwb_ubo_bump_list', array() );
 $mwb_bumps_priority_id = array();
 
 foreach ( $encountered_bump_ids_array as $key => $value ) {
-	$mwb_bumps_priority_id[ $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority']] = $value;
+	$mwb_bumps_priority_id[ $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'] ] = $value;
 }
 krsort( $mwb_bumps_priority_id );
 $new_encountered_bump_ids_array = array();
@@ -140,7 +140,7 @@ foreach ( $mwb_bumps_priority_id as $key => $value ) {
 // For Each Order Bump Ids array.
 foreach ( $new_encountered_bump_ids_array as $key => $value ) {
 
-	if ( is_valid_user_role($value) ) {
+	if ( is_valid_user_role( $value ) ) {
 		continue;
 	}
 	$encountered_order_bump_id = $value;

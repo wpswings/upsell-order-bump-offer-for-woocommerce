@@ -256,6 +256,11 @@ $mwb_upsell_bump_schedule_options = array(
 	'7' => __( 'Sunday', 'upsell-order-bump-offer-for-woocommerce' ),
 );
 
+global $wp_roles;
+
+$all_roles = $wp_roles->roles;
+$editable_roles = apply_filters( 'editable_roles', $all_roles );
+
 ?>
 
 <!-- For Single Bump. -->
@@ -276,7 +281,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 				$bump_status = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_status'] ) ? sanitize_text_field( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_status'] ) : 'no';
 
-				// Order bump priority v2.0.1
+				// Order bump priority v2.0.1.
 				$bump_priority = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_priority'] ) ? sanitize_text_field( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_priority'] ) : '99999';
 				?>
 
@@ -334,7 +339,7 @@ $mwb_upsell_bump_schedule_options = array(
 
 							?>
 
-							<input type="number" id="mwb_upsell_bump_priority" name="mwb_upsell_bump_priority" value="<?php echo esc_attr( $bump_priority ); ?>" class="input-text mwb_upsell_bump_commone_class" maxlength="30">
+							<input type="number" id="mwb_upsell_bump_priority" name="mwb_upsell_bump_priority" value="<?php echo esc_attr( $bump_priority ); ?>" class="input-text mwb_upsell_bump_commone_class" max="100000">
 						</td>
 				</tr>
 				<!-- Bump Priority HTML end.-->
@@ -454,25 +459,13 @@ $mwb_upsell_bump_schedule_options = array(
 
 							<?php
 
-							if ( ! empty( $mwb_upsell_bumps_list ) ) {
+							$mwb_upsell_bump_exclude_roles = isset( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_exclude_roles'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_exclude_roles'] : array();
 
-								$mwb_upsell_bump_exclude_roles = isset( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_exclude_roles'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_exclude_roles'] : array();
+							foreach ( $editable_roles as $key => $value ) {
 
-								// Array_map with absint converts negative array values to positive, so that we dont get negative ids.
-								// $mwb_upsell_bump_exclude_roles = ! empty( $mwb_upsell_bump_exclude_roles ) ? array_map( 'absint', $mwb_upsell_bump_exclude_roles ) : null;
-								global $wp_roles;
-
-								$all_roles = $wp_roles->roles;
-								$editable_roles = apply_filters( 'editable_roles', $all_roles );
-								if ( $editable_roles ) {
-
-									foreach ( $editable_roles as $key => $value ) {
-
-										?>
-										<option <?php echo in_array( (string) $key, $mwb_upsell_bump_exclude_roles, true ) ? 'selected' : ''; ?> value="<?php echo esc_html( $key ); ?>"><?php echo( esc_html( $value['name'] ) ); ?></option>
-										<?php
-									}
-								}
+								?>
+								<option <?php echo in_array( (string) $key, (array) $mwb_upsell_bump_exclude_roles, true ) ? 'selected' : ''; ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['name'] ); ?></option>
+								<?php
 							}
 
 							?>
