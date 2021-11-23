@@ -192,10 +192,6 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 								<option value="_blank" <?php selected( $mwb_bump_target_link_attr_val, '_blank' ); ?> ><?php esc_html_e( 'Opens in a new window or tab', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 
-								<option value="_parent" <?php selected( $mwb_bump_target_link_attr_val, '_parent' ); ?> ><?php esc_html_e( 'Opens in the parent frame', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
-
-								<option value="_top" <?php selected( $mwb_bump_target_link_attr_val, '_top' ); ?> ><?php esc_html_e( 'Opens in the full body of the window', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
-
 							</select>
 						</td>
 

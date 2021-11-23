@@ -180,7 +180,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$form_data             = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : array();
 
 		// Quantity of product.
-		$mwb_qty_variable = ! empty( $_POST['mwb_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_qty_variable'] ) ) : '';
+		$mwb_qty_variable = ! empty( $_POST['mwb_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_qty_variable'] ) ) : '1';
 
 		$active_plugin = get_option( 'active_plugins', false );
 		if ( in_array( 'woo-gift-cards-lite/woocommerce_gift_cards_lite.php', $active_plugin, true ) && mwb_ubo_lite_if_pro_exists() && ! empty( $form_data ) ) {
@@ -479,7 +479,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$mwb_orderbump_any_variation = ! empty( $_POST['mwb_orderbump_any_variation'] ) ? map_deep( wp_unslash( $_POST['mwb_orderbump_any_variation'] ), 'sanitize_text_field' ) : array();
 
 		// Quantity of product.
-		$mwb_qty_variable = ! empty( $_POST['mwb_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_qty_variable'] ) ) : '';
+		$mwb_qty_variable = ! empty( $_POST['mwb_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_qty_variable'] ) ) : '1';
 
 		// Now safe to add to cart.
 		$cart_item_data = array(

@@ -259,7 +259,7 @@ $mwb_upsell_bump_schedule_options = array(
 global $wp_roles;
 
 $all_roles = $wp_roles->roles;
-$editable_roles = apply_filters( 'editable_roles', $all_roles );
+$editable_roles = apply_filters( 'mwb_upsell_order_bump_editable_roles', $all_roles );
 
 ?>
 
@@ -282,7 +282,7 @@ $editable_roles = apply_filters( 'editable_roles', $all_roles );
 				$bump_status = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_status'] ) ? sanitize_text_field( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_status'] ) : 'no';
 
 				// Order bump priority v2.0.1.
-				$bump_priority = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_priority'] ) ? sanitize_text_field( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_priority'] ) : '99999';
+				$bump_priority = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_priority'] ) ? sanitize_text_field( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_priority'] ) : '';
 				?>
 
 				<!-- Bump Header start.-->
@@ -461,11 +461,14 @@ $editable_roles = apply_filters( 'editable_roles', $all_roles );
 
 							$mwb_upsell_bump_exclude_roles = isset( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_exclude_roles'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_exclude_roles'] : array();
 
-							foreach ( $editable_roles as $key => $value ) {
+							if ( ! empty( $editable_roles ) && is_array( $editable_roles ) ) {
 
-								?>
-								<option <?php echo in_array( (string) $key, (array) $mwb_upsell_bump_exclude_roles, true ) ? 'selected' : ''; ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['name'] ); ?></option>
-								<?php
+								foreach ( $editable_roles as $key => $value ) {
+
+									?>
+									<option <?php echo in_array( (string) $key, (array) $mwb_upsell_bump_exclude_roles, true ) ? 'selected' : ''; ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['name'] ); ?></option>
+									<?php
+								}
 							}
 
 							?>

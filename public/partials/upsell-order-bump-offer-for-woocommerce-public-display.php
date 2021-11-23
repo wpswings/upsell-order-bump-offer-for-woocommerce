@@ -75,7 +75,7 @@ if ( null !== WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->
 function is_valid_user_role( $value ) {
 	$all_bumps_to_get = get_option( 'mwb_ubo_bump_list', array() );
 
-	$mwb_bump_unsupported_roles = $all_bumps_to_get[ $value ]['mwb_upsell_bump_exclude_roles'];
+	$mwb_bump_unsupported_roles = (array) $all_bumps_to_get[ $value ]['mwb_upsell_bump_exclude_roles'];
 
 	$user = wp_get_current_user();
 	foreach ( $mwb_bump_unsupported_roles as $key => $value ) {
@@ -127,9 +127,19 @@ if ( null === WC()->session->get( 'encountered_bump_array' ) ) {
 $all_bumps_to_get = get_option( 'mwb_ubo_bump_list', array() );
 $mwb_bumps_priority_id = array();
 
+$mwb_handle_duplicate_priority = array();
+
 foreach ( $encountered_bump_ids_array as $key => $value ) {
-	$mwb_bumps_priority_id[ $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'] ] = $value;
+	if ( ! in_array( (string) $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'], ( array ) $mwb_handle_duplicate_priority, true ) ) {
+		array_push( $mwb_handle_duplicate_priority, $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'] );
+		$mwb_bumps_priority_id[ $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'] ] = $value;
+	} else {
+		$mwb_priority_different = $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'] + rand( 50, 100 );
+		array_push( $mwb_handle_duplicate_priority, $mwb_priority_different );
+		$mwb_bumps_priority_id[ $mwb_priority_different ] = $value;
+	}
 }
+
 krsort( $mwb_bumps_priority_id );
 $new_encountered_bump_ids_array = array();
 

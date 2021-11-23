@@ -763,7 +763,7 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		$bumphtml .= '<p class="mwb_upsell_offer_product_price">' . $bump_offer_price . '</p>';
 		if ( 'yes' === $mwb_upsell_enable_quantity && 'variable_q' === $mwb_upsell_offer_quantity_type && mwb_ubo_lite_if_pro_exists() ) {
 			$bumphtml .= '<label for="mwb_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="mwb_input_quantity" type="number" id="mwb_quantity_input" name="mwb_quantity_offer" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">';
+			$bumphtml .= '<input class="mwb_input_quantity" type="number" id="mwb_quantity_input" name="mwb_quantity_offer" value="' . $mwb_upsell_bump_products_min_quantity . '" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">';
 		}
 		$bumphtml .= '<p class="mwb_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
 		// Product section ends.
@@ -777,7 +777,7 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		$bumphtml .= '<p class="mwb_upsell_offer_product_price">' . $bump_offer_price . '</p>';
 		if ( 'yes' === $mwb_upsell_enable_quantity && 'variable_q' === $mwb_upsell_offer_quantity_type && mwb_ubo_lite_if_pro_exists() ) {
 			$bumphtml .= '<label for="mwb_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="mwb_input_quantity" type="number" id="mwb_quantity_input" name="mwb_quantity_offer" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">';
+			$bumphtml .= '<input class="mwb_input_quantity" type="number" id="mwb_quantity_input" name="mwb_quantity_offer" value="' . $mwb_upsell_bump_products_min_quantity . '" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">';
 		}
 		$bumphtml .= '<p class="mwb_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
 		// Product section ends.
