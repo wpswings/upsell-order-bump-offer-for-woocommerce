@@ -1104,8 +1104,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 						$encountered_bump_array = $single_bump_id;
 
 						// Push the data on same index.
-						array_push( $encountered_bump_key_array, $encountered_bump_array );
-						array_push( $encountered_target_key_array, $mwb_upsell_bump_target_key );
+						if ( ! empty( encountered_bump_array ) ) {
+							array_push( $encountered_bump_key_array, $encountered_bump_array );
+						}
+						if ( ! empty( mwb_upsell_bump_target_key ) ) {
+							array_push( $encountered_target_key_array, $mwb_upsell_bump_target_key );
+						}
 						break;
 					}
 				} else {

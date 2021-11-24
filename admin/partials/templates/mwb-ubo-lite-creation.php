@@ -117,8 +117,8 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 	$mwb_upsell_new_bump['mwb_upsell_bump_target_ids'] = ! empty( $_POST['mwb_upsell_bump_target_ids'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_upsell_bump_target_ids'] ) ) : '';
 
 	// After v2.0.1!
-	$mwb_upsell_new_bump['mwb_upsell_offer_image'] = ! empty( $_POST['mwb_upsell_offer_image'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_image'] ) ) ) : '';
-	$mwb_upsell_new_bump['mwb_upsell_bump_priority'] = ! empty( $_POST['mwb_upsell_bump_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_priority'] ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_offer_image']        = ! empty( $_POST['mwb_upsell_offer_image'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_image'] ) ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_bump_priority']      = ! empty( $_POST['mwb_upsell_bump_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_priority'] ) ) : '';
 	$mwb_upsell_new_bump['mwb_upsell_bump_exclude_roles'] = ! empty( $_POST['mwb_upsell_bump_exclude_roles'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_upsell_bump_exclude_roles'] ) ) : '';
 
 	// When Bump is saved for the first time so load default Design Settings.
@@ -259,6 +259,11 @@ $mwb_upsell_bump_schedule_options = array(
 global $wp_roles;
 
 $all_roles = $wp_roles->roles;
+$all_roles['guest'] = array(
+	'name' => esc_html__( 'Guest/Logged Out User' ),
+);
+
+
 $editable_roles = apply_filters( 'mwb_upsell_order_bump_editable_roles', $all_roles );
 
 ?>

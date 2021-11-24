@@ -69,21 +69,21 @@ if ( null !== WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->
 /**
  * Function to validate user roles.
  *
- * @param int $value single bump ids.
+ * @param int $bump_id single bump ids.
  * @return boolean
  */
-function is_valid_user_role( $value ) {
+function is_valid_user_role( $bump_id = '' ) {
 	$all_bumps_to_get = get_option( 'mwb_ubo_bump_list', array() );
 
-	$mwb_bump_unsupported_roles = (array) $all_bumps_to_get[ $value ]['mwb_upsell_bump_exclude_roles'];
+	$mwb_bump_unsupported_roles = ! empty( $all_bumps_to_get[ $bump_id ]['mwb_upsell_bump_exclude_roles'] ) ? $all_bumps_to_get[ $bump_id ]['mwb_upsell_bump_exclude_roles'] : array();
+	$user                       = wp_get_current_user();
+	$user_role                  = ! empty( $user->roles ) ? $user->roles : array( 'guest' );
+	$user_role                  = ! empty( $user_role[0] ) ? $user_role[0] : '';
 
-	$user = wp_get_current_user();
-	foreach ( $mwb_bump_unsupported_roles as $key => $value ) {
-		if ( in_array( $value, (array) $user->roles ) ) {
-			return true;
-		} else {
-			return false;
-		}
+	if ( in_array( $user_role, $mwb_bump_unsupported_roles, true ) ) {
+		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -124,17 +124,17 @@ if ( null === WC()->session->get( 'encountered_bump_array' ) ) {
 ?><div class="wrapup_order_bump">
 <?php
 
-$all_bumps_to_get = get_option( 'mwb_ubo_bump_list', array() );
+$all_bumps_to_get      = get_option( 'mwb_ubo_bump_list', array() );
 $mwb_bumps_priority_id = array();
 
 $mwb_handle_duplicate_priority = array();
 
 foreach ( $encountered_bump_ids_array as $key => $value ) {
-	if ( ! in_array( (string) $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'], ( array ) $mwb_handle_duplicate_priority, true ) ) {
+	if ( ! in_array( (string) $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'], (array) $mwb_handle_duplicate_priority, true ) ) {
 		array_push( $mwb_handle_duplicate_priority, $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'] );
 		$mwb_bumps_priority_id[ $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'] ] = $value;
 	} else {
-		$mwb_priority_different = $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'] + rand( 50, 100 );
+		$mwb_priority_different = $all_bumps_to_get[ $value ]['mwb_upsell_bump_priority'] + wp_rand( 50, 100 );
 		array_push( $mwb_handle_duplicate_priority, $mwb_priority_different );
 		$mwb_bumps_priority_id[ $mwb_priority_different ] = $value;
 	}
@@ -150,13 +150,13 @@ foreach ( $mwb_bumps_priority_id as $key => $value ) {
 // For Each Order Bump Ids array.
 foreach ( $new_encountered_bump_ids_array as $key => $value ) {
 
-	if ( is_valid_user_role( $value ) ) {
+	if ( true === is_valid_user_role( $value ) ) {
 		continue;
 	}
+
 	$encountered_order_bump_id = $value;
 
 	if ( ! empty( $encountered_bump_tarket_key_array ) ) {
-
 		$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
 	}
 
