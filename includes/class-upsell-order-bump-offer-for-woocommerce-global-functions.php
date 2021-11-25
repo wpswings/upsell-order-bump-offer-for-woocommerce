@@ -194,8 +194,8 @@ function mwb_ubo_lite_allowed_html() {
 		'h4' => array(
 			'data-mwb_qty'          => array(),
 			'data-mwb_is_fixed_qty' => array(),
-			'id'                    => array(),
 			'data-qty_allowed'      => array(),
+			'class'                 => array(),
 		),
 		'option' => array(
 			'value'    => array(),
@@ -759,11 +759,11 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		$bumphtml .= '<div class = "mwb_upsell_offer_image" >';
 		$bumphtml .= '<a target="' . $mwb_bump_target_attr . '" href="' . $bump_offer_product_permalink . '"><img class="mwb_upsell_offer_img" src="' . $image . '" data-id="' . $bump['id'] . '"></a>';
 		$bumphtml .= '</div>';
-		$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4 id="mwb_bump_name" data-qty_allowed="' . $mwb_upsell_enable_quantity . '" data-mwb_is_fixed_qty="' . $mwb_is_fixed_qty . '" data-mwb_qty="' . $mwb_upsell_bump_products_fixed_quantity . '"><a target="' . $mwb_bump_target_attr . '" class="mwb_upsell_product_permalink" href="' . $bump_offer_product_permalink . '">' . $bump['name'] . '</a></h4><br>';
+		$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4 class="mwb_bump_name" data-qty_allowed="' . $mwb_upsell_enable_quantity . '" data-mwb_is_fixed_qty="' . $mwb_is_fixed_qty . '" data-mwb_qty="' . $mwb_upsell_bump_products_fixed_quantity . '"><a target="' . $mwb_bump_target_attr . '" class="mwb_upsell_product_permalink" href="' . $bump_offer_product_permalink . '">' . $bump['name'] . '</a></h4><br>';
 		$bumphtml .= '<p class="mwb_upsell_offer_product_price">' . $bump_offer_price . '</p>';
-		if ( 'yes' === $mwb_upsell_enable_quantity && 'variable_q' === $mwb_upsell_offer_quantity_type && mwb_ubo_lite_if_pro_exists() ) {
+		if ( 'yes' === $mwb_upsell_enable_quantity && 'variable_q' === $mwb_upsell_offer_quantity_type && mwb_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="mwb_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="mwb_input_quantity" type="number" id="mwb_quantity_input" name="mwb_quantity_offer" value="' . $mwb_upsell_bump_products_min_quantity . '" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">';
+			$bumphtml .= '<input class="mwb_input_quantity mwb_quantity_input" type="number" name="mwb_quantity_offer" value="' . $mwb_upsell_bump_products_min_quantity . '" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">';
 		}
 		$bumphtml .= '<p class="mwb_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
 		// Product section ends.
@@ -773,11 +773,11 @@ function mwb_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		$bumphtml .= '<div class = "mwb_upsell_offer_image" >';
 		$bumphtml .= '<img class="mwb_upsell_offer_img" src="' . $image . '" data-id="' . $bump['id'] . '">';
 		$bumphtml .= '</div>';
-		$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4 id="mwb_bump_name" data-qty_allowed="' . $mwb_upsell_enable_quantity . '" data-mwb_is_fixed_qty="' . $mwb_is_fixed_qty . '" data-mwb_qty="' . $mwb_upsell_bump_products_fixed_quantity . '">' . $bump['name'] . '</h4><br>';
+		$bumphtml .= '<div class="mwb_upsell_offer_product_content"> <h4 class="mwb_bump_name" data-qty_allowed="' . $mwb_upsell_enable_quantity . '" data-mwb_is_fixed_qty="' . $mwb_is_fixed_qty . '" data-mwb_qty="' . $mwb_upsell_bump_products_fixed_quantity . '">' . $bump['name'] . '</h4><br>';
 		$bumphtml .= '<p class="mwb_upsell_offer_product_price">' . $bump_offer_price . '</p>';
-		if ( 'yes' === $mwb_upsell_enable_quantity && 'variable_q' === $mwb_upsell_offer_quantity_type && mwb_ubo_lite_if_pro_exists() ) {
+		if ( 'yes' === $mwb_upsell_enable_quantity && 'variable_q' === $mwb_upsell_offer_quantity_type && mwb_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="mwb_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="mwb_input_quantity" type="number" id="mwb_quantity_input" name="mwb_quantity_offer" value="' . $mwb_upsell_bump_products_min_quantity . '" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">';
+			$bumphtml .= '<input class="mwb_input_quantity mwb_quantity_input" type="number" name="mwb_quantity_offer" value="' . $mwb_upsell_bump_products_min_quantity . '" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">';
 		}
 		$bumphtml .= '<p class="mwb_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
 		// Product section ends.
@@ -1179,6 +1179,21 @@ function mwb_ubo_lite_already_in_cart( $offer_id ) {
  */
 function mwb_ubo_lite_show_variation_popup( $product = '', $order_bump_index = '', $meta_form_attr = array() ) {
 
+	$mwb_all_bumps_to_check_quantity_setting = get_option( 'mwb_ubo_bump_list', array() );
+
+	// Setting for the offer Quantity.
+	$mwb_upsell_enable_quantity              = ! empty( $mwb_all_bumps_to_check_quantity_setting[ $order_bump_index ]['mwb_upsell_enable_quantity'] ) ? $mwb_all_bumps_to_check_quantity_setting[ $order_bump_index ]['mwb_upsell_enable_quantity'] : '';
+	$mwb_upsell_bump_products_fixed_quantity = ! empty( $mwb_all_bumps_to_check_quantity_setting[ $order_bump_index ]['mwb_upsell_bump_products_fixed_quantity'] ) ? $mwb_all_bumps_to_check_quantity_setting[ $order_bump_index ]['mwb_upsell_bump_products_fixed_quantity'] : '';
+	$mwb_upsell_bump_products_min_quantity   = ! empty( $mwb_all_bumps_to_check_quantity_setting[ $order_bump_index ]['mwb_upsell_bump_products_min_quantity'] ) ? $mwb_all_bumps_to_check_quantity_setting[ $order_bump_index ]['mwb_upsell_bump_products_min_quantity'] : '';
+	$mwb_upsell_bump_products_max_quantity   = ! empty( $mwb_all_bumps_to_check_quantity_setting[ $order_bump_index ]['mwb_upsell_bump_products_max_quantity'] ) ? $mwb_all_bumps_to_check_quantity_setting[ $order_bump_index ]['mwb_upsell_bump_products_max_quantity'] : '';
+	$mwb_upsell_offer_quantity_type          = ! empty( $mwb_all_bumps_to_check_quantity_setting[ $order_bump_index ]['mwb_upsell_offer_quantity_type'] ) ? $mwb_all_bumps_to_check_quantity_setting[ $order_bump_index ]['mwb_upsell_offer_quantity_type'] : '';
+
+	if ( 'fixed_q' === $mwb_upsell_offer_quantity_type ) {
+		$mwb_is_fixed_qty = 'true';
+	} else {
+		$mwb_is_fixed_qty = 'false';
+	}
+
 	?>
 	<!-- HTML for loader starts. -->
 	<div class= "mwb_bump_popup_loader">
@@ -1210,7 +1225,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '', $order_bump_index = '
 
 				<!-- Variation Select starts. -->
 				<div class="mwb_bump_popup_select">
-					<p class="bump_variable_product_title">
+					<p class="bump_variable_product_title mwb_bump_name" data-qty_allowed="<?php esc_attr_e( $mwb_upsell_enable_quantity ) ?>" data-mwb_is_fixed_qty="<?php esc_attr_e( $mwb_is_fixed_qty ) ?>" data-mwb_qty="<?php esc_attr_e( $mwb_upsell_bump_products_fixed_quantity ) ?>" >
 						<?php echo esc_html( $product->get_title() ); ?>
 					</p>
 
@@ -1268,6 +1283,12 @@ function mwb_ubo_lite_show_variation_popup( $product = '', $order_bump_index = '
 
 					<?php apply_filters( 'mwb_meta_variable_forms_allowed_submission', $order_bump_index, $meta_form_attr ); ?>
 
+					<?php
+					if ( 'yes' === $mwb_upsell_enable_quantity && 'variable_q' === $mwb_upsell_offer_quantity_type && mwb_ubo_lite_if_pro_exists() ) {
+						echo wp_kses( '<label for="mwb_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>', $allowed_html );
+						echo wp_kses( '<input class="mwb_input_quantity mwb_quantity_input" type="number" name="mwb_quantity_offer" value="' . $mwb_upsell_bump_products_min_quantity . '" min="' . $mwb_upsell_bump_products_min_quantity . '" max="' . $mwb_upsell_bump_products_max_quantity . '">', $allowed_html );
+					}
+					?>
 					<!-- Add to cart button starts. -->
 					<button name="add-to-cart" class="single_add_to_cart_button button alt mwb_ubo_bump_add_to_cart_button" offer_bump_index = <?php echo esc_html( $order_bump_index ); ?> >
 						<?php esc_html_e( 'Add this offer to cart', 'upsell-order-bump-offer-for-woocommerce' ); ?>

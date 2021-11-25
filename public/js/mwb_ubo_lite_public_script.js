@@ -71,17 +71,17 @@ jQuery(document).ready(function ($) {
         }
 
         // Get product Quantity
-        if ( object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'true' && object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
-            var mwb_qty_variable = object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_bump_name').attr("data-mwb_qty");
-        } else if ( object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_quantity_input').val() != undefined && object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'false' ) {
-            var mwb_qty_variable = object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_quantity_input').val();
+        if ( object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'true' && object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
+            var mwb_qty_variable = object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr("data-mwb_qty");
+        } else if ( object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').val() != undefined && object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'false' ) {
+            var mwb_qty_variable = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').val();
         } else {
             var mwb_qty_variable = 1;
         }
 
-        $value_of_input_field_to_check = object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_quantity_input').val();
-        $min_attr_value = object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_quantity_input').attr('min');
-        $max_attr_value = object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_quantity_input').attr('max');
+        $value_of_input_field_to_check = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').val();
+        $min_attr_value = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').attr('min');
+        $max_attr_value = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').attr('max');
 
         if ( ( $min_attr_value != undefined && $min_attr_value != undefined ) ) {
             if ( (parseInt($value_of_input_field_to_check) >= parseInt($min_attr_value) && parseInt($value_of_input_field_to_check) <= parseInt($max_attr_value) ) ) {
@@ -167,17 +167,17 @@ jQuery(document).ready(function ($) {
     function triggerAddOffer(object, formdata) {
         
         // Get product Quantity
-        if ( object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'true' && object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
-            var mwb_qty_variable = object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_bump_name').attr("data-mwb_qty");
-        } else if ( object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_quantity_input').val() != undefined && object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'false' ) {
-            var mwb_qty_variable = object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_quantity_input').val();
+        if ( object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'true' && object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
+            var mwb_qty_variable = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr("data-mwb_qty");
+        } else if ( object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').val() != undefined && object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'false' ) {
+            var mwb_qty_variable = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').val();
         } else {
             var mwb_qty_variable = 1;
         }
 
-        $value_of_input_field_to_check = object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_quantity_input').val();
-        $min_attr_value = object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_quantity_input').attr('min');
-        $max_attr_value = object.closest('.mwb_upsell_offer_main_wrapper').find('#mwb_quantity_input').attr('max');
+        $value_of_input_field_to_check = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').val();
+        $min_attr_value = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').attr('min');
+        $max_attr_value = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').attr('max');
 
         if ( ( $min_attr_value != undefined && $min_attr_value != undefined ) ) {
             if ( (parseInt($value_of_input_field_to_check) >= parseInt($min_attr_value) && parseInt($value_of_input_field_to_check) <= parseInt($max_attr_value) ) ) {
