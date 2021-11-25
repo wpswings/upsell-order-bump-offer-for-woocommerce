@@ -2219,3 +2219,24 @@ function mwb_ubo_lite_reload_required_after_adding_offer( $product = '' ) {
 		return false;
 	}
 }
+
+/**
+ * Function to validate user roles.
+ *
+ * @param int $bump_id single bump id.
+ * @return boolean
+ */
+function is_valid_user_role( $bump_id = '' ) {
+	$all_bumps_to_get = get_option( 'mwb_ubo_bump_list', array() );
+
+	$mwb_bump_unsupported_roles = ! empty( $all_bumps_to_get[ $bump_id ]['mwb_upsell_bump_exclude_roles'] ) ? $all_bumps_to_get[ $bump_id ]['mwb_upsell_bump_exclude_roles'] : array();
+	$user                       = wp_get_current_user();
+	$user_role                  = ! empty( $user->roles ) ? $user->roles : array( 'guest' );
+	$user_role                  = ! empty( $user_role[0] ) ? $user_role[0] : '';
+
+	if ( in_array( $user_role, $mwb_bump_unsupported_roles, true ) ) {
+		return true;
+	} else {
+		return false;
+	}
+}

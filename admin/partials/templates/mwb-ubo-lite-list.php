@@ -90,14 +90,12 @@ $mwb_upsell_bumps_list = get_option( 'mwb_ubo_bump_list' );
 			</tr>
 
 			<!-- Foreach Bump start. -->
-			<?php
-			foreach ( $mwb_upsell_bumps_list as $key => $value ) :
-
-				?>
-			<tr>		
+			<?php foreach ( $mwb_upsell_bumps_list as $key => $value ) : ?>
+			<tr>
 				<!-- Bump Name. -->
 				<td>
 					<a class="mwb_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['mwb_upsell_bump_name'] ); ?></a>
+					<p><i><?php esc_html_e( 'Priority : ', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?><span class="mwb-bump-priority"><?php echo esc_html( ! empty( $value['mwb_upsell_bump_priority'] ) ? $value['mwb_upsell_bump_priority'] : 'No Priority' ); ?></span></i></p></td>
 				</td>
 
 				<!-- Bump Status. -->

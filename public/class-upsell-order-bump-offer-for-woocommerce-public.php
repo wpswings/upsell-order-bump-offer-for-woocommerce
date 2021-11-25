@@ -197,7 +197,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				$gift_card_form = array_merge(
 					$gift_card_form,
 					array(
-						'mwb_wgm_price' => $value['default_price'],
+						'mwb_wgm_price'         => $value['default_price'],
 						'mwb_wgm_selected_temp' => $value['template'][0],
 					)
 				);
@@ -712,8 +712,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					$price_discount = mwb_ubo_lite_custom_price_html( $product_id, $value['mwb_discounted_price'], 'price' );
 					if ( is_mwb_role_based_pricing_active() ) {
 						if ( ( -1 < strpos( $value['mwb_discounted_price'], 'no_disc' ) ) ) {
-							$prod_obj = wc_get_product( $product_id );
-							$prod_type = $prod_obj->get_type();
+							$prod_obj   = wc_get_product( $product_id );
+							$prod_type  = $prod_obj->get_type();
 							$bump_price = mwb_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
 							$bump_price = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump_price ) );
 							$value['data']->set_price( $bump_price );
@@ -880,7 +880,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			foreach ( $order_bump_collection as $single_bump_id => $single_bump_array ) {
 
 				if ( count( $encountered_bump_key_array ) >= $order_bump_limit ) {
-					break;
+					continue;
 				}
 
 				// If already encountered and saved. ( Just if happens : Worst case. )!
@@ -893,7 +893,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 				// Not live so continue.
 				if ( 'yes' !== $single_bump_status ) {
-
 					continue;
 				}
 
@@ -1018,7 +1017,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								// Push the data on same index.
 								array_push( $encountered_bump_key_array, $encountered_bump_array );
 								array_push( $encountered_target_key_array, $mwb_upsell_bump_target_key );
-								break;
 							}
 						}
 
@@ -1069,7 +1067,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								// Push the data on same index.
 								array_push( $encountered_bump_key_array, $encountered_bump_array );
 								array_push( $encountered_target_key_array, $mwb_upsell_bump_target_key );
-								break;
+
 							}
 						} // Second foreach for category search end.
 					}
@@ -1101,7 +1099,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 						}
 
 						// If everything is good just break !!
-						$encountered_bump_array = $single_bump_id;
+						$encountered_bump_array     = $single_bump_id;
+						$mwb_upsell_bump_target_key = 'NoTarGetProDuctIsGlobalFunnel'; // Just because for global there is not target product.
 
 						// Push the data on same index.
 						if ( ! empty( $encountered_bump_array ) ) {
@@ -1110,7 +1109,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 						if ( ! empty( $mwb_upsell_bump_target_key ) ) {
 							array_push( $encountered_target_key_array, $mwb_upsell_bump_target_key );
 						}
-						break;
 					}
 				} else {
 

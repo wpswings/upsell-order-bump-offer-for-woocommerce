@@ -338,7 +338,7 @@ $editable_roles = apply_filters( 'mwb_upsell_order_bump_editable_roles', $all_ro
 
 							<?php
 
-							$description = esc_html__( 'Priortize Order Bump.', 'upsell-order-bump-offer-for-woocommerce' );
+							$description = esc_html__( 'Priortize Order Bump. Do not use same priority for multiple order bumps, this will override triggered order bump.', 'upsell-order-bump-offer-for-woocommerce' );
 
 							mwb_ubo_lite_help_tip( $description );
 
@@ -607,7 +607,7 @@ $editable_roles = apply_filters( 'mwb_upsell_order_bump_editable_roles', $all_ro
 					<th scope="row" class="titledesc">
 
 						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-						<label for="mwb_ubo_offer_global_funnel"><?php esc_html_e( 'Global Funnel', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="mwb_ubo_offer_global_funnel"><?php esc_html_e( 'Global Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
