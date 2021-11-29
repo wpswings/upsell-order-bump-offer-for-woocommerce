@@ -1225,7 +1225,7 @@ function mwb_ubo_lite_show_variation_popup( $product = '', $order_bump_index = '
 
 				<!-- Variation Select starts. -->
 				<div class="mwb_bump_popup_select">
-					<p class="bump_variable_product_title mwb_bump_name" data-qty_allowed="<?php esc_attr_e( $mwb_upsell_enable_quantity ) ?>" data-mwb_is_fixed_qty="<?php esc_attr_e( $mwb_is_fixed_qty ) ?>" data-mwb_qty="<?php esc_attr_e( $mwb_upsell_bump_products_fixed_quantity ) ?>" >
+					<p class="bump_variable_product_title mwb_bump_name" data-qty_allowed="<?php echo esc_attr( $mwb_upsell_enable_quantity ); ?>" data-mwb_is_fixed_qty="<?php echo esc_attr( $mwb_is_fixed_qty ); ?>" data-mwb_qty="<?php echo esc_attr( $mwb_upsell_bump_products_fixed_quantity ); ?>" >
 						<?php echo esc_html( $product->get_title() ); ?>
 					</p>
 

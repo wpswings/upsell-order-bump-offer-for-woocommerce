@@ -521,7 +521,6 @@
 }
 .mwb_upsell_table {
   margin-top: 25px;
-  /*overflow-x: auto;*/
 }
 .mwb_upsell_table--border h2 {
   margin: 0;
@@ -1969,3 +1968,26 @@ select.mwb_select_for_description_class {
 a.mwb_ubo_upload_image_button {
   box-shadow: none !important;
 }
+
+/* CSS for quantity field */
+/*Fixes v2.0.1*/
+.mwb_upsell_offer_price__wrap {
+  margin-bottom: 10px;
+  }
+  
+  select#mwb_upsell_offer_quantity_type_id {
+  max-width: 300px;
+  }
+  
+  .mwb_upsell_offer_price__wrap input[type=number],input#fixed_quantity {
+  margin-top: 10px;
+  max-width: 150px;
+  height: 40px;
+  display: inline-block;
+  }
+  
+  @media only screen and (max-width: 768px) {
+  .mwb_upsell_offer_price__wrap label {
+  display: block;
+  }
+  }

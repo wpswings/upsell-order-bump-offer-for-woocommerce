@@ -116,7 +116,7 @@ foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
 
 ksort( $bump_priority_collection );
 
-// Merge the 
+// Merge the array.
 $encountered_bump_ids_array = array_merge( $bump_priority_collection, $encountered_bump_ids_array );
 
 // For Each Order Bump Ids array.

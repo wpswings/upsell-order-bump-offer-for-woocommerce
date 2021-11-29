@@ -360,3 +360,13 @@
 		max-width: 300px;
 	 }
  }
+ /*Fixes 2.0.1*/
+
+.mwb_ubo_input_row select,
+input.mwb_input_quantity.mwb_quantity_input {
+max-width: 300px;
+}
+
+.mwb_bump_popup_select label {
+margin: 10px 0;
+}

@@ -6,7 +6,7 @@
  *
  * @link              https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
  * @since             1.0.0
- * @package           Upsell_Order_Bump_Offer_For_Woocommerce_Pro
+ * @package           Upsell_Order_Bump_Offer_For_Woocommerce
  */
 
 $mwb_global_options = get_option( 'mwb_ubo_global_options', array() );
