@@ -95,5 +95,6 @@ jQuery(document).ready( function($) {
 
 	// Target date.
 	jQuery('.wc-bump-schedule-search').select2();
+	jQuery('.wc-bump-exclude-roles-search').select2();
 	
 });

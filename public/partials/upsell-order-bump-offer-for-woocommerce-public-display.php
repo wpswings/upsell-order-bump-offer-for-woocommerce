@@ -103,13 +103,32 @@ if ( null === WC()->session->get( 'encountered_bump_array' ) ) {
 ?><div class="wrapup_order_bump">
 <?php
 
-// For Each Order Bump Ids array.
-foreach ( $encountered_bump_ids_array as $key => $value ) {
+$order_bump_collections   = get_option( 'mwb_ubo_bump_list', array() );
+$bump_priority_collection = array();
 
-	$encountered_order_bump_id = $value;
+foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
+	$bump_priority = ! empty( $order_bump_collections[ $order_bump_id ]['mwb_upsell_bump_priority'] ) ? $order_bump_collections[ $order_bump_id ]['mwb_upsell_bump_priority'] : '';
+	if ( ! empty( $bump_priority ) ) {
+		$bump_priority_collection[ $bump_priority ] = $order_bump_id;
+		unset( $encountered_bump_ids_array[ $key ] );
+	}
+}
+
+ksort( $bump_priority_collection );
+
+// Merge the array.
+$encountered_bump_ids_array = array_merge( $bump_priority_collection, $encountered_bump_ids_array );
+
+// For Each Order Bump Ids array.
+foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
+
+	if ( true === is_valid_user_role( $order_bump_id ) ) {
+		continue;
+	}
+
+	$encountered_order_bump_id = $order_bump_id;
 
 	if ( ! empty( $encountered_bump_tarket_key_array ) ) {
-
 		$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
 	}
 

@@ -46,6 +46,14 @@ jQuery(document).ready(function ($) {
     }
 
     /**
+     * Js to get variation product for "any variation" from dropdown in json format.
+     */
+    var mwb_orderbump_any_variation = {};
+    jQuery(document).on('change', 'select.mwb_upsell_offer_variation_select', function () {
+        mwb_orderbump_any_variation[jQuery(this).attr('id')] = jQuery(this).val();
+    });
+
+    /**
      * Process orderbump for variations.
      * 
      * @param {object} object    Bump object
@@ -60,6 +68,30 @@ jQuery(document).ready(function ($) {
         if (typeof order_bump_index === 'undefined') {
             console.log('order bump not found');
             return;
+        }
+
+        // Get product Quantity
+        if ( object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'true' && object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
+            var mwb_qty_variable = object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr("data-mwb_qty");
+        } else if ( object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').val() != undefined && object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'false' ) {
+            var mwb_qty_variable = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').val();
+        } else {
+            var mwb_qty_variable = 1;
+        }
+
+        $value_of_input_field_to_check = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').val();
+        $min_attr_value = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').attr('min');
+        $max_attr_value = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').attr('max');
+
+        if ( ( $min_attr_value != undefined && $min_attr_value != undefined ) ) {
+            if ( (parseInt($value_of_input_field_to_check) >= parseInt($min_attr_value) && parseInt($value_of_input_field_to_check) <= parseInt($max_attr_value) ) ) {
+                var inLimit = 'true';
+            } else {
+                alert( 'Max Limit ' + $max_attr_value + ' Min Limit ' + $min_attr_value );
+                object.prop('checked', false);
+                location.reload();
+                return;
+            }
         }
 
         // Order Bump Object.
@@ -93,9 +125,11 @@ jQuery(document).ready(function ($) {
                 action: 'add_variation_offer_in_cart',
                 id: variation_selected, // variation offer product id.
                 parent_id: bump_id, // variation offer parent product id.
+                mwb_orderbump_any_variation: mwb_orderbump_any_variation, // variation data from dropdown
                 discount: bump_discount,
                 order_bump_id: order_bump_id,
                 smart_offer_upgrade: smart_offer_upgrade,
+                mwb_qty_variable: mwb_qty_variable, // Quantity attr
 
                 // Index : { digit }
                 bump_index: order_bump_index,
@@ -131,6 +165,30 @@ jQuery(document).ready(function ($) {
      * @param {array}  formdata  Custom form object.
      */
     function triggerAddOffer(object, formdata) {
+        
+        // Get product Quantity
+        if ( object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'true' && object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
+            var mwb_qty_variable = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr("data-mwb_qty");
+        } else if ( object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').val() != undefined && object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'false' ) {
+            var mwb_qty_variable = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').val();
+        } else {
+            var mwb_qty_variable = 1;
+        }
+
+        $value_of_input_field_to_check = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').val();
+        $min_attr_value = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').attr('min');
+        $max_attr_value = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').attr('max');
+
+        if ( ( $min_attr_value != undefined && $min_attr_value != undefined ) ) {
+            if ( (parseInt($value_of_input_field_to_check) >= parseInt($min_attr_value) && parseInt($value_of_input_field_to_check) <= parseInt($max_attr_value) ) ) {
+                var inLimit = 'true';
+            } else {
+                alert( 'Max Limit ' + $max_attr_value + ' Min Limit ' + $min_attr_value );
+                object.prop('checked', false);
+                location.reload();
+                return;
+            }
+        }
 
         order_bump_index = object.closest('.mwb_upsell_offer_main_wrapper').find('.order_bump_index').val();
         parent_wrapper_class = '.mwb_ubo_wrapper_' + order_bump_index;
@@ -169,6 +227,7 @@ jQuery(document).ready(function ($) {
                     bump_target_cart_key: bump_target_cart_key,
                     order_bump_id: order_bump_id,
                     smart_offer_upgrade: smart_offer_upgrade,
+                    mwb_qty_variable: mwb_qty_variable, // Quantity attr
 
                     // Index : index_{ digit }
                     bump_index: order_bump_index,
@@ -257,7 +316,7 @@ jQuery(document).ready(function ($) {
                     e.preventDefault();
                     let data_arr = [];
                     jQuery('#mwb-meta-form-index-' + order_bump_id).find('.mwb_ubo_custom_meta_field').each(function () {
-                    
+
                         let field_obj = {};
 
                         if ('' == jQuery(this).val()) {

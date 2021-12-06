@@ -4,10 +4,10 @@ Contributors: MakeWebBetter
 Donate link: https://makewebbetter.com/
 Tags: bump, increase sales, upsell, woocommerce, checkout page 
 Requires at least: 4.0
-Tested up to: 5.8.1
+Tested up to: 5.8.2
 WC requires at least: 3.0.0
-WC tested up to: 5.8.0
-Stable tag: 2.0.0
+WC tested up to: 5.9.0
+Stable tag: 2.0.1
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -36,9 +36,6 @@ This is a happy moment for your customers and also they trust you as they’re j
 * Track order bumps performance with Order Bump Sales Reports and Behavioral Analytics.
 
 == OUR PLUGINS COMPATIBILITY WITH UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE == 
-
-**Subscriptions For WooCommerce**
-The Upsell Order Bump Offer plugin has been made compatible with the Subscriptions plugin . As a result, the merchants can now create upsell bump offers for the subscription-based products too. For example, if you’re selling a movie subscription plan to your customers you can provide a popcorn tub as a bump offer product.
 
 **MWB Role Based Pricing**
 The compatibility of Upsell Order Bump Offer with MWB Role Based Pricing allows the merchants to manage the upsell bump offers for different user roles. This means the merchants can create bump offers that will trigger specific user roles on your eCommerce store. Also, you can give different discounts on bump offer products for different user roles.
@@ -104,6 +101,15 @@ With the Order Bump Sales Report, a merchant can track the sale of the products 
 
 The plugin comes with full compatibility with simple, variable, and subscription product types. This increases the range of offer products that you can provide to your customers.
 
+**13) Enable Permalink On Product Title And Image**
+
+
+By enabling the permalink option from the Global Settings your customers can view the bump offer product in detail. Customers can click either on the product title or the product image of the bump offer product on the checkout page. As a result, the customer will be redirected to a new page where they can view the complete information.
+
+**14) Add Custom Image**
+
+This is one of our recent features. The admin can change the default bump offer product image from the funnel setting and replace it with a custom image.
+
 [**Free demo of Upsell Order Bump Offer for WooCommerce**](https://demo.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
 
 
@@ -113,9 +119,16 @@ Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.m
 
 * Create Unlimited Order Bump offers.
 * Show Multiple Order Bumps offers on the checkout page.
+* Role-Based Bump Offers
+* Bump Offer Priority
+* Global Order Bump
+* Bump Offer Product Quantity
+* Template Customization with Live Preview
+* Target Product Category For Triggering Bump Offers
 * Smart Offer Upgrade to offer an upgrade on the existing purchase.
 * Smart Skip if Already Purchased to skip the bump offers if already purchased.
 * Premium Support on Phone, Email & Skype.
+
 
 > Note:  Get [WooCommerce Upsell Order Bump Offer Pro](https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-upsell-bump-org&utm_medium=MWB-org-page&utm_campaign=MWB-upsell-bump-org)
 
@@ -226,6 +239,13 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Changelog ==
 
+= 2.0.1 - Released on 6 Dec 2021  =
+* Variation products bug fix
+* Role based skip order bump
+* Single product page link
+* Delete data on uninstall
+* Custom product image
+
 = 2.0.0 - Released on 03 Nov 2021 =
 * Bug Fixes
 * Compatibility with Subscriptions For WooCommerce
@@ -244,7 +264,7 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 = 1.4.0 =
 * New: Compatibility with Subscription products.
-* New: Order Bumps Reporting and Behavioral Analytics.
+* New: Order Bumps Reporting and Behavioral Analytics.
 * Improved: Better Security and Performance.
 * Other: Issues and Bugs Fixed.
 
@@ -268,11 +288,12 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 == Upgrade Notice ==
 
-= 2.0.0 - Released on 03 Nov 2021 =
-* Bug Fixes
-* Compatibility with Subscriptions For WooCommerce
-* Compatibility with MWB Role Based Pricing for WooCommerce
-* Compatibility with Ultimate Gift Cards For WooCommerce 
+= 2.0.1 - Released on 6 Dec 2021 =
+* Variation products bug fix
+* Role based skip order bump
+* Single product page link
+* Delete data on uninstall
+* Custom product image
 
 
 

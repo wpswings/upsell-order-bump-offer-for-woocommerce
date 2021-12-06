@@ -179,6 +179,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$smart_offer_upgrade   = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
 		$form_data             = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : array();
 
+		// Quantity of product.
+		$mwb_qty_variable = ! empty( $_POST['mwb_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_qty_variable'] ) ) : '1';
+
 		$active_plugin = get_option( 'active_plugins', false );
 		if ( in_array( 'woo-gift-cards-lite/woocommerce_gift_cards_lite.php', $active_plugin, true ) && mwb_ubo_lite_if_pro_exists() && ! empty( $form_data ) ) {
 			$gift_card_form = array(
@@ -194,7 +197,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				$gift_card_form = array_merge(
 					$gift_card_form,
 					array(
-						'mwb_wgm_price' => $value['default_price'],
+						'mwb_wgm_price'         => $value['default_price'],
 						'mwb_wgm_selected_temp' => $value['template'][0],
 					)
 				);
@@ -259,7 +262,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// If simple product or any single variations.
 			// Add to cart the same.
 
-			$bump_offer_cart_item_key = WC()->cart->add_to_cart( $bump_product_id, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data );
+			$bump_offer_cart_item_key = WC()->cart->add_to_cart( $bump_product_id, $quantity = $mwb_qty_variable, $variation_id = 0, $variation = array(), $cart_item_data );
 
 			// Add Order Bump Offer Accept Count for the respective Order Bump.
 			$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
@@ -472,6 +475,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$smart_offer_upgrade = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
 		$form_data           = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : array();
 
+		// variation product data.
+		$mwb_orderbump_any_variation = ! empty( $_POST['mwb_orderbump_any_variation'] ) ? map_deep( wp_unslash( $_POST['mwb_orderbump_any_variation'] ), 'sanitize_text_field' ) : array();
+
+		// Quantity of product.
+		$mwb_qty_variable = ! empty( $_POST['mwb_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_qty_variable'] ) ) : '1';
+
 		// Now safe to add to cart.
 		$cart_item_data = array(
 			'mwb_ubo_offer_product' => true,
@@ -492,7 +501,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$added = 'subs_reload';
 		}
 
-		$bump_offer_cart_item_key = WC()->cart->add_to_cart( $variation_parent_id, $quantity = '1', $variation_id, $variation = array(), $cart_item_data );
+		$bump_offer_cart_item_key = WC()->cart->add_to_cart( $variation_parent_id, $quantity = $mwb_qty_variable, $variation_id, $variation = $mwb_orderbump_any_variation, $cart_item_data );
 
 		// Add Order Bump Offer Accept Count for the respective Order Bump.
 		$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
@@ -703,8 +712,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					$price_discount = mwb_ubo_lite_custom_price_html( $product_id, $value['mwb_discounted_price'], 'price' );
 					if ( is_mwb_role_based_pricing_active() ) {
 						if ( ( -1 < strpos( $value['mwb_discounted_price'], 'no_disc' ) ) ) {
-							$prod_obj = wc_get_product( $product_id );
-							$prod_type = $prod_obj->get_type();
+							$prod_obj   = wc_get_product( $product_id );
+							$prod_type  = $prod_obj->get_type();
 							$bump_price = mwb_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
 							$bump_price = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump_price ) );
 							$value['data']->set_price( $bump_price );
@@ -871,7 +880,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			foreach ( $order_bump_collection as $single_bump_id => $single_bump_array ) {
 
 				if ( count( $encountered_bump_key_array ) >= $order_bump_limit ) {
-					break;
+					continue;
 				}
 
 				// If already encountered and saved. ( Just if happens : Worst case. )!
@@ -884,7 +893,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 				// Not live so continue.
 				if ( 'yes' !== $single_bump_status ) {
-
 					continue;
 				}
 
@@ -918,14 +926,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				// WIW-CC : Comment - Don't check target products and categories as we always have to show the offer.
 				// Check if target products or target categories are empty.
 				$single_bump_target_ids = ! empty( $single_bump_array['mwb_upsell_bump_target_ids'] ) ? $single_bump_array['mwb_upsell_bump_target_ids'] : array();
-
 				$single_bump_categories = ! empty( $single_bump_array['mwb_upsell_bump_target_categories'] ) ? $single_bump_array['mwb_upsell_bump_target_categories'] : array();
+				$is_global_funnel       = ! empty( $single_bump_array['mwb_ubo_offer_global_funnel'] ) ? $single_bump_array['mwb_ubo_offer_global_funnel'] : '';
 
 				// When both target products or target categories are empty, continue.
-				if ( empty( $single_bump_target_ids ) && empty( $single_bump_categories ) ) {
-
+				if ( ( empty( $single_bump_target_ids ) && empty( $single_bump_categories ) ) && ( 'yes' !== $is_global_funnel ) ) {
 					continue;
-
 				}
 
 				// Lets check for offer be present.
@@ -965,7 +971,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 					/**
 					 * MWB Fix :: for mutliple order bump for categories.
-					 */
+					*/
 					if ( ! empty( $encountered_bump_array ) ) {
 						$encountered_bump_array = 0;
 					}
@@ -986,7 +992,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								$offer_product = wc_get_product( $single_bump_array['mwb_upsell_bump_products_in_offer'] );
 
 								if ( empty( $offer_product ) ) {
-
 									continue;
 								}
 
@@ -1012,7 +1017,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								// Push the data on same index.
 								array_push( $encountered_bump_key_array, $encountered_bump_array );
 								array_push( $encountered_target_key_array, $mwb_upsell_bump_target_key );
-								break;
 							}
 						}
 
@@ -1063,9 +1067,48 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								// Push the data on same index.
 								array_push( $encountered_bump_key_array, $encountered_bump_array );
 								array_push( $encountered_target_key_array, $mwb_upsell_bump_target_key );
-								break;
+
 							}
 						} // Second foreach for category search end.
+					}
+
+					// If no target product/category not matched/added in bump.
+					if ( empty( $encountered_bump_array ) && 'yes' === $is_global_funnel ) {
+
+						// Check offer product must be in stock.
+						$offer_product = wc_get_product( $single_bump_array['mwb_upsell_bump_products_in_offer'] );
+
+						if ( empty( $offer_product ) ) {
+							continue;
+						}
+
+						if ( 'publish' !== $offer_product->get_status() ) {
+
+							continue;
+						}
+
+						if ( ! $offer_product->is_in_stock() ) {
+
+							continue;
+						}
+
+						// Check if offer product is already in cart.
+						if ( mwb_ubo_lite_already_in_cart( $single_bump_array['mwb_upsell_bump_products_in_offer'] ) && 'yes' === $global_skip_settings ) {
+
+							continue;
+						}
+
+						// If everything is good just break !!
+						$encountered_bump_array     = $single_bump_id;
+						$mwb_upsell_bump_target_key = 'NoTarGetProDuctIsGlobalFunnel'; // Just because for global there is not target product.
+
+						// Push the data on same index.
+						if ( ! empty( $encountered_bump_array ) ) {
+							array_push( $encountered_bump_key_array, $encountered_bump_array );
+						}
+						if ( ! empty( $mwb_upsell_bump_target_key ) ) {
+							array_push( $encountered_target_key_array, $mwb_upsell_bump_target_key );
+						}
 					}
 				} else {
 

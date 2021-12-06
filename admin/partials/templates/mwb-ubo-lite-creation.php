@@ -116,6 +116,11 @@ if ( isset( $_POST['mwb_upsell_bump_creation_setting_save'] ) ) {
 
 	$mwb_upsell_new_bump['mwb_upsell_bump_target_ids'] = ! empty( $_POST['mwb_upsell_bump_target_ids'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_upsell_bump_target_ids'] ) ) : '';
 
+	// After v2.0.1!
+	$mwb_upsell_new_bump['mwb_upsell_offer_image']        = ! empty( $_POST['mwb_upsell_offer_image'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['mwb_upsell_offer_image'] ) ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_bump_priority']      = ! empty( $_POST['mwb_upsell_bump_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_upsell_bump_priority'] ) ) : '';
+	$mwb_upsell_new_bump['mwb_upsell_bump_exclude_roles'] = ! empty( $_POST['mwb_upsell_bump_exclude_roles'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['mwb_upsell_bump_exclude_roles'] ) ) : '';
+
 	// When Bump is saved for the first time so load default Design Settings.
 	if ( empty( $_POST['parent_border_type'] ) ) {
 
@@ -251,6 +256,16 @@ $mwb_upsell_bump_schedule_options = array(
 	'7' => __( 'Sunday', 'upsell-order-bump-offer-for-woocommerce' ),
 );
 
+global $wp_roles;
+
+$all_roles = $wp_roles->roles;
+$all_roles['guest'] = array(
+	'name' => esc_html__( 'Guest/Logged Out User' ),
+);
+
+
+$editable_roles = apply_filters( 'mwb_upsell_order_bump_editable_roles', $all_roles );
+
 ?>
 
 <!-- For Single Bump. -->
@@ -271,6 +286,8 @@ $mwb_upsell_bump_schedule_options = array(
 
 				$bump_status = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_status'] ) ? sanitize_text_field( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_status'] ) : 'no';
 
+				// Order bump priority v2.0.1.
+				$bump_priority = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_priority'] ) ? sanitize_text_field( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_priority'] ) : '';
 				?>
 
 				<!-- Bump Header start.-->
@@ -308,6 +325,29 @@ $mwb_upsell_bump_schedule_options = array(
 					</td>
 				</tr>
 				<!-- Bump Name end.-->
+
+				<!-- Bump Priority HTML start.-->
+				<tr valign="top">
+
+						<th scope="row" class="titledesc">
+						<span class="mwb_ubo_premium_strip">Pro</span>
+							<label for="mwb_upsell_bump_priority"><?php esc_html_e( 'Priority of the Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						</th>
+
+						<td class="forminp forminp-text">
+
+							<?php
+
+							$description = esc_html__( 'Priortize Order Bump. Do not use same priority for multiple order bumps, this will override triggered order bump.', 'upsell-order-bump-offer-for-woocommerce' );
+
+							mwb_ubo_lite_help_tip( $description );
+
+							?>
+
+							<input type="number" id="mwb_upsell_bump_priority" name="mwb_upsell_bump_priority" value="<?php echo esc_attr( $bump_priority ); ?>" class="input-text mwb_upsell_bump_commone_class" max="100000">
+						</td>
+				</tr>
+				<!-- Bump Priority HTML end.-->
 
 				<!-- Select Target product start. -->
 				<tr valign="top">
@@ -402,6 +442,45 @@ $mwb_upsell_bump_schedule_options = array(
 					</td>	
 				</tr>
 				<!-- Target category ends. -->
+
+				<!-- Exclude roles starts. -->
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+						<label for="mwb_upsell_bump_exclude_roles"><?php esc_html_e( 'Select roles to exclude', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+
+						$description = esc_html__( 'Order Bumps will not be shown to these roles.', 'upsell-order-bump-offer-for-woocommerce' );
+
+						mwb_ubo_lite_help_tip( $description );
+
+						?>
+
+						<select id="mwb_upsell_bump_exclude_roles" class="wc-bump-exclude-roles-search" multiple="multiple" name="mwb_upsell_bump_exclude_roles[]" data-placeholder="<?php esc_attr_e( 'Search for a role&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
+
+							<?php
+
+							$mwb_upsell_bump_exclude_roles = isset( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_exclude_roles'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_bump_exclude_roles'] : array();
+
+							if ( ! empty( $editable_roles ) && is_array( $editable_roles ) ) {
+
+								foreach ( $editable_roles as $key => $value ) {
+
+									?>
+									<option <?php echo in_array( (string) $key, (array) $mwb_upsell_bump_exclude_roles, true ) ? 'selected' : ''; ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['name'] ); ?></option>
+									<?php
+								}
+							}
+
+							?>
+						</select>		
+					</td>	
+				</tr>
+				<!-- Exclude roles ends. -->
 
 				<!-- Schedule your Bump start. -->
 				<tr valign="top">
@@ -523,6 +602,30 @@ $mwb_upsell_bump_schedule_options = array(
 				</tr>
 				<!-- Meta Forms end. -->
 
+				<!-- V2.0.1 with global funnel start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="mwb_ubo_offer_global_funnel"><?php esc_html_e( 'Global Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This feature allows you to trigger this specific order bump, no matter target product is present or not.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label class="mwb-upsell-smart-offer-upgrade" for="mwb_ubo_offer_global_funnel">
+						<input class="mwb-upsell-smart-offer-upgrade-wrap" type='checkbox' id='mwb_ubo_offer_global_funnel' value=''>
+						<span class="upsell-smart-offer-upgrade-btn"></span>
+						</label>
+
+					</td>
+				</tr>
+				<!-- V2.0.1 with global funnel end. -->
+
 			</tbody>
 		</table>
 
@@ -609,7 +712,22 @@ $mwb_upsell_bump_schedule_options = array(
 						</td>
 					</tr>
 					<!-- Offer price end. -->
+					<!-- Offer image start. -->
+					<tr>
+						<th scope="row" class="titledesc">
+							<label for="mwb_upsell_offer_custom_image"><?php esc_html_e( 'Offer Image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></label>
+						</th>
 
+						<td class="forminp forminp-text">
+							<?php
+
+								$image_post_id = ! empty( $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_offer_image'] ) ? $mwb_upsell_bumps_list[ $mwb_upsell_bump_id ]['mwb_upsell_offer_image'] : '';
+
+								Upsell_Order_Bump_Offer_For_Woocommerce_Admin::mwb_ubo_image_uploader_field( $image_post_id );
+							?>
+						</td>
+					</tr>
+					<!-- Offer image end. -->
 				</table>
 
 			</div>

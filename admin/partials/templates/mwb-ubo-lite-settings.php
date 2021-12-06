@@ -50,6 +50,13 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	$mwb_bump_upsell_global_options['mwb_ubo_offer_restrict_coupons'] = ! empty( $_POST['mwb_ubo_offer_restrict_coupons'] ) ? 'yes' : 'no';
 
+	// After version v2.0.1.
+	$mwb_bump_upsell_global_options['mwb_delete_all_on_uninstall'] = ! empty( $_POST['mwb_delete_all_on_uninstall'] ) ? 'on' : 'off';
+
+	$mwb_bump_upsell_global_options['mwb_bump_enable_permalink'] = ! empty( $_POST['mwb_bump_enable_permalink'] ) ? 'on' : 'off';
+
+	$mwb_bump_upsell_global_options['mwb_bump_target_link_attr_val'] = ! empty( $_POST['mwb_bump_target_attr'] ) ? sanitize_text_field( wp_unslash( $_POST['mwb_bump_target_attr'] ) ) : 'no';
+
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'mwb_ubo_global_options', $mwb_bump_upsell_global_options );
 
@@ -67,6 +74,12 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	// By default plugin will be enabled.
 	$mwb_bump_enable_plugin = ! empty( $mwb_ubo_global_options['mwb_bump_enable_plugin'] ) ? $mwb_ubo_global_options['mwb_bump_enable_plugin'] : '';
+
+	// Enable permalink setting.
+	$mwb_bump_enable_permalink = ! empty( $mwb_ubo_global_options['mwb_bump_enable_permalink'] ) ? $mwb_ubo_global_options['mwb_bump_enable_permalink'] : '';
+
+	// Selected target attribute value.
+	$mwb_bump_target_link_attr_val = ! empty( $mwb_ubo_global_options['mwb_bump_target_link_attr_val'] ) ? $mwb_ubo_global_options['mwb_bump_target_link_attr_val'] : '';
 
 	// Bump Offer skip.
 	$mwb_bump_enable_skip = ! empty( $mwb_ubo_global_options['mwb_bump_skip_offer'] ) ? $mwb_ubo_global_options['mwb_bump_skip_offer'] : '';
@@ -91,6 +104,9 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	// Bump Offer limit.
 	$mwb_bump_order_bump_limit = ! empty( $mwb_ubo_global_options['mwb_bump_order_bump_limit'] ) ? $mwb_ubo_global_options['mwb_bump_order_bump_limit'] : '1';
+
+	// Delete all data on uninstall.
+	$mwb_delete_all_on_uninstall = ! empty( $mwb_ubo_global_options['mwb_delete_all_on_uninstall'] ) ? $mwb_ubo_global_options['mwb_delete_all_on_uninstall'] : 'no';
 
 ?>
 
@@ -131,6 +147,56 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					</td>
 				</tr>
 				<!-- Enable Plugin end. -->
+
+				<!-- Enable Product page link on title and image start. -->
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+						<label for="mwb_bump_enable_permalink  "><?php esc_html_e( 'Enable permalink on product title and image', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+						<?php
+							$attribute_description = esc_html__( 'Enable permalink on product title and image.', 'upsell-order-bump-offer-for-woocommerce' );
+
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label for="mwb_ubo_enable_permalink_switch" class="mwb_upsell_bump_enable_permalink_label mwb_bump_enable_permalink_support">
+
+							<input id="mwb_ubo_enable_permalink_switch" class="mwb_upsell_bump_enable_permalink_input" type="checkbox" <?php echo ( 'on' === $mwb_bump_enable_permalink ) ? "checked='checked'" : ''; ?> name="mwb_bump_enable_permalink" >	
+							<span class="mwb_upsell_bump_enable_permalink_span"></span>
+
+						</label>
+					</td>
+				</tr>
+				<!-- Enable Product page link on title and image end. -->
+
+				<!-- Permalink target location start. -->
+				<tr valign="top">
+
+						<th scope="row" class="titledesc">
+							<label for="mwb_ubo_permalink_target_attr"><?php esc_html_e( 'Offer product permalink target attribute', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						</th>
+
+						<td class="forminp forminp-text">
+							<?php
+								$attribute_description = esc_html__( 'On clicking on the offer product title or image the product page opens on the same page or new page.', 'upsell-order-bump-offer-for-woocommerce' );
+								mwb_ubo_lite_help_tip( $attribute_description );
+							?>
+
+							<!-- Select options for skipping. -->
+							<select id="mwb_ubo_permalink_target_attr" name="mwb_bump_target_attr">
+
+								<option value="_self" <?php selected( $mwb_bump_target_link_attr_val, '_self' ); ?> ><?php esc_html_e( 'Opens in the same frame as it was clicked', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+
+								<option value="_blank" <?php selected( $mwb_bump_target_link_attr_val, '_blank' ); ?> ><?php esc_html_e( 'Opens in a new window or tab', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+
+							</select>
+						</td>
+
+				</tr>
+				<!--Permalink target location end. -->
 
 				<!-- Skip offer start. -->
 				<tr valign="top">
@@ -366,6 +432,30 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					</td>
 				</tr>
 				<!-- Restrict external coupons feature skip end. -->
+
+				<!-- Delete all the data on uninstall button html start. -->
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+						<label for="mwb_delete_all_on_uninstall  "><?php esc_html_e( 'Enable Delete all data on uninstall.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+						<?php
+							$attribute_description = esc_html__( 'Enable Delete all data on uninstall.', 'upsell-order-bump-offer-for-woocommerce' );
+
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label for="mwb_ubo_enable_switch_delete_data" class="mwb_upsell_bump_enable_deletedata_label mwb_bump_enable_plugin_support">
+
+							<input id="mwb_ubo_enable_switch_delete_data" class="mwb_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( 'on' === $mwb_delete_all_on_uninstall ) ? "checked='checked'" : ''; ?> name="mwb_delete_all_on_uninstall" >	
+							<span class="mwb_upsell_bump_enable_plugin_span"></span>
+
+						</label>
+					</td>
+				</tr>
+				<!-- Delete all the data on uninstall button html end. -->
 
 				<!-- Order Bump Limit start. -->
 				<tr valign="top">

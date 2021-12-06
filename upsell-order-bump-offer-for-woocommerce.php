@@ -17,11 +17,11 @@
  * Description:       Show exclusive order bump offers on the checkout page to your customers. Offers that are relevant and benefits your customers on the existing purchase and so increase Average Order Value and your Revenue. <a target="_blank" href="https://makewebbetter.com/woocommerce-plugins/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend" >Elevate your e-commerce store by exploring more on <strong>MakeWebBetter</strong></a>.
  *
  * Requires at least:       4.4
- * Tested up to:            5.8.1
+ * Tested up to:            5.8.2
  * WC requires at least:    3.0
- * WC tested up to:         5.8.0
+ * WC tested up to:         5.9.0
  *
- * Version:           2.0.0
+ * Version:           2.0.1
  * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
  * License:           GPL-3.0
@@ -63,7 +63,7 @@ function mwb_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 /**
  * Currently plugin version.
  */
-define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '1.4.3' );
+define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.0.1' );
 
 /**
  * The code that runs during plugin activation.
