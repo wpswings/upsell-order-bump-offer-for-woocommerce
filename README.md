@@ -27,7 +27,7 @@ This is a happy moment for your customers and also they trust you as they’re j
 * Skip bump offers if the offer product is already added in the cart.
 * Offer simple, variable, and subscription products as order bump offers.
 * Track order bumps performance with Order Bump Sales Reports and Behavioral Analytics.
-* It’s compatible with our [**One Click Upsell Funnel for WooCommerce **](https://wordpress.org/plugins/woo-one-click-upsell-funnel/)
+* It’s compatible with our [**One Click Upsell Funnel for WooCommerce**](https://wordpress.org/plugins/woo-one-click-upsell-funnel/)
 
 ### PLUGIN MEETS YOUR REQUIREMENT, SO 
 [**Download Now !!**](https://downloads.wordpress.org/plugin/upsell-order-bump-offer-for-woocommerce.zip) 
