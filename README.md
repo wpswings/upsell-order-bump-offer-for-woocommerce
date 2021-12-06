@@ -1,5 +1,5 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-3000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.8.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-5.6-blue)
-# Upsell Order Bump Offer for WooCommerce
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-4000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.2-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.9.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
+# Upsell Order Bump Offer for Woocommerce
 ![Upsell Order Bump Offer for Woocommerce](	https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg)
 * Contributors: MakeWebBetter
 * Author URI: [https://makewebbetter.com/](https://makewebbetter.com/?utm_source=MWB-Orderbump-git&utm_medium=MWB-git&utm_campaign=git)
@@ -27,7 +27,7 @@ This is a happy moment for your customers and also they trust you as they’re j
 * Skip bump offers if the offer product is already added in the cart.
 * Offer simple, variable, and subscription products as order bump offers.
 * Track order bumps performance with Order Bump Sales Reports and Behavioral Analytics.
-* It’s compatible with our [**One Click Upsell Funnel for WooCommerce**](https://wordpress.org/plugins/woo-one-click-upsell-funnel/)
+* It’s compatible with our [**One Click Upsell Funnel for WooCommerce **](https://wordpress.org/plugins/woo-one-click-upsell-funnel/)
 
 ### PLUGIN MEETS YOUR REQUIREMENT, SO 
 [**Download Now !!**](https://downloads.wordpress.org/plugin/upsell-order-bump-offer-for-woocommerce.zip) 
@@ -77,6 +77,16 @@ With the Order Bump Sales Report, a merchant can track the sale of the products 
 **12) Major Product Types Support**
 
 The plugin comes with full compatibility with simple, variable, and subscription product types. This increases the range of offer products that you can provide to your customers.
+
+**13) Enable Permalink On Product Title And Image**
+By enabling the permalink option from the Global Settings your customers can view the bump offer product in detail. Customers can click either on the product title or the product image of the bump offer product on the checkout page. As a result, the customer will be redirected to a new page where they can view the complete information.
+
+**14) Add Custom Image**
+This is one of our recent features. The admin can change the default bump offer product image from the funnel setting and replace it with a custom image.
+
+
+
+
 
 [**Free demo of Upsell Order Bump Offer for WooCommerce**](https://demo.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-Orderbump-git&utm_medium=MWB-git&utm_campaign=git)
 
