@@ -63,7 +63,7 @@ function mwb_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 /**
  * Currently plugin version.
  */
-define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '1.4.3' );
+define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.0.1' );
 
 /**
  * The code that runs during plugin activation.
