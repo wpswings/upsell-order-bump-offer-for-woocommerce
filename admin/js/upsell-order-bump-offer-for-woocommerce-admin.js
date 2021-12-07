@@ -575,7 +575,7 @@ jQuery(document).ready( function($) {
 	/**
 	 * Scripts after v1.0.2
 	 */
-	$('#mwb_ubo_offer_purchased_earlier, #mwb_ubo_offer_replace_target, #mwb_ubo_offer_global_funnel, #mwb_ubo_offer_exclusive_limit, #mwb_ubo_offer_meta_forms, #mwb_ubo_offer_restrict_coupons, #mwb_upsell_bump_priority').on( 'click', function (e) {
+	$('#mwb_ubo_offer_purchased_earlier, #mwb_ubo_offer_replace_target, #mwb_ubo_offer_global_funnel, #mwb_ubo_offer_exclusive_limit, #mwb_ubo_offer_meta_forms, #mwb_ubo_offer_restrict_coupons, #mwb_ubo_exclusive_offer, #mwb_upsell_bump_priority').on( 'click', function (e) {
 
 		// Add popup to unlock pro features.
 		var pro_status = document.getElementById( 'mwb_ubo_pro_status' );
