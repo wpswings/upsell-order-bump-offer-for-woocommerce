@@ -648,5 +648,48 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    /*==========================================================================
+                                Js for excusive offer.
+    ============================================================================*/
+
+	var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
+    if ('yes' == mwb_ubo_lite_public.mwb_ubo_exclusive_offer) {
+
+        setTimeout(function(){ $('#billing_email').keyup(); }, 500);
+
+        $("#billing_email").keyup(function(){
+            var em = $("#billing_email").val();
+            let result = pattern.test(em);
+            if (true == result) {
+                jQuery.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: mwb_ubo_lite_public.ajaxurl,
+                    data: {
+                        nonce: mwb_ubo_lite_public.auth_nonce,
+                        action: 'make_orderbump_exclusive',
+                        bump_billing_email: em, // email id.
+
+                    },
+                    success: function (msg) {
+                        var exclusive = msg.mwb_ubo_bump_exclusive_ids;
+                        var non_exclusive = msg.mwb_ubo_non_exclusive_bump_ids;
+                        exclusive.forEach(hide_bump);
+                        non_exclusive.forEach(show_bump);
+                        
+                    }
+                });
+            }
+           });
+
+        function hide_bump(item, index){
+            $( '#mwb_upsell_offer_main_id_' + item ).hide();
+        }
+        function show_bump(item, index){
+            $( '#mwb_upsell_offer_main_id_' + item ).show();
+        }
+    }
+
     // END OF SCRIPT
 });

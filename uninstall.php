@@ -13,4 +13,5 @@ $mwb_global_options = get_option( 'mwb_ubo_global_options', array() );
 if ( ! empty( $mwb_global_options['mwb_delete_all_on_uninstall'] ) && 'on' === $mwb_global_options['mwb_delete_all_on_uninstall'] ) {
 	delete_option( 'mwb_ubo_global_options' );
 	delete_option( 'mwb_ubo_bump_list' );
+	delete_option( 'mwb_ubo_bumpid_emails_exclusive_offer' );
 }

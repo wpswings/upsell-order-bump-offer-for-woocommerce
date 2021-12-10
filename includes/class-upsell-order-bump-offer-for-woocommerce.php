@@ -247,6 +247,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_remove_offer_in_cart', $plugin_public, 'remove_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_remove_offer_in_cart', $plugin_public, 'remove_offer_in_cart' );
 
+			// Ajax to make orderbump exclusive.
+			$this->loader->add_action( 'wp_ajax_make_orderbump_exclusive', $plugin_public, 'make_orderbump_exclusive' );
+			$this->loader->add_action( 'wp_ajax_nopriv_make_orderbump_exclusive', $plugin_public, 'make_orderbump_exclusive' );
+
 			// Global Custom CSS.
 			$this->loader->add_action( 'wp_head', $plugin_public, 'global_custom_css' );
 

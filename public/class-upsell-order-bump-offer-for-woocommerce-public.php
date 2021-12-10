@@ -104,6 +104,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			return;
 		}
 
+		// Get all global settings.
+		if ( mwb_ubo_lite_if_pro_exists() ) {
+			$mwb_ubo_global_settings = get_option( 'mwb_ubo_global_options', array() );
+		}
+
 		// Public Script.
 		wp_enqueue_script( 'mwb-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/mwb_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
 
@@ -111,9 +116,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			'mwb-ubo-lite-public-script',
 			'mwb_ubo_lite_public',
 			array(
-				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
-				'mobile_view' => wp_is_mobile(),
-				'auth_nonce'  => wp_create_nonce( 'mwb_ubo_lite_nonce' ),
+				'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
+				'mobile_view'              => wp_is_mobile(),
+				'auth_nonce'               => wp_create_nonce( 'mwb_ubo_lite_nonce' ),
+				'mwb_ubo_exclusive_offer'  => empty( $mwb_ubo_global_settings['mwb_ubo_exclusive_offer'] ) ? '' : $mwb_ubo_global_settings['mwb_ubo_exclusive_offer'] ,
 			)
 		);
 
@@ -364,6 +370,41 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		wp_die();
 	}
 
+	/**
+	 * Validate exclusive offer and return bump ids to hide bump.
+	 *
+	 * @return void
+	 */
+	public function make_orderbump_exclusive() {
+		// Nonce verification.
+		check_ajax_referer( 'mwb_ubo_lite_nonce', 'nonce' );
+
+		$bump_billing_email = ! empty( $_POST['bump_billing_email'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_billing_email'] ) ) : '';
+
+		$mwb_ubo_bumpid_emails_exclusive_offer = get_option( 'mwb_ubo_bumpid_emails_exclusive_offer', array() );
+		$mwb_ubo_bump_list                     = get_option( 'mwb_ubo_bump_list', array() );
+
+		$mwb_ubo_bump_exclusive_ids            = array();
+		$mwb_ubo_bump_ids                      = array();
+
+		foreach ( $mwb_ubo_bumpid_emails_exclusive_offer as $bump_id => $email_array ) {
+			if ( in_array( $bump_billing_email, $email_array, true ) ) {
+				array_push( $mwb_ubo_bump_exclusive_ids, $bump_id );
+			}
+		}
+		foreach ( $mwb_ubo_bump_list as $bump_id => $bump_detail ) {
+			array_push( $mwb_ubo_bump_ids, $bump_id );
+		}
+
+		$mwb_ubo_non_exclusive_bump_ids = array_values( array_diff( $mwb_ubo_bump_ids, $mwb_ubo_bump_exclusive_ids ) );
+
+		$mwb_bump_handling_array = array(
+			'mwb_ubo_bump_exclusive_ids'     => $mwb_ubo_bump_exclusive_ids,
+			'mwb_ubo_non_exclusive_bump_ids' => $mwb_ubo_non_exclusive_bump_ids,
+		);
+
+		wp_send_json($mwb_bump_handling_array);
+	}
 
 	/**
 	 * Search selected variation.
@@ -1289,6 +1330,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			return;
 		}
 
+		// Get all global settings.
+		$mwb_ubo_global_settings = get_option( 'mwb_ubo_global_options', array() );
+
+		// Initialize array variable for saving order_bump emails associated with bump ids.
+		$mwb_bump_exclusive_offer_emails = get_option( 'mwb_ubo_bumpid_emails_exclusive_offer', array() );
+
 		// Process once and only for Order Bump orders.
 		$bump_order = get_post_meta( $order_id, 'mwb_bump_order_process_sales_stats', true );
 
@@ -1327,6 +1374,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 					// Add Order Bump Success count and Total Sales for the respective Order Bump.
 					$sales_by_bump = new Mwb_Upsell_Order_Bump_Report_Sales_By_Bump( wc_get_order_item_meta( $item_id, 'mwb_order_bump_id', true ) );
+
+					// Save bump_id->email in options table.
+					if ( 'yes' === $mwb_ubo_global_settings['mwb_ubo_exclusive_offer'] && mwb_ubo_lite_if_pro_exists() ) {
+						$mwb_bump_exclusive_offer_emails[ wc_get_order_item_meta( $item_id, 'mwb_order_bump_id', true ) ][] = $order->get_billing_email();
+						update_option( 'mwb_ubo_bumpid_emails_exclusive_offer', $mwb_bump_exclusive_offer_emails );
+					}
 
 					$sales_by_bump->add_bump_success_count();
 					$sales_by_bump->add_bump_total_sales( $order_bump_item_total );
