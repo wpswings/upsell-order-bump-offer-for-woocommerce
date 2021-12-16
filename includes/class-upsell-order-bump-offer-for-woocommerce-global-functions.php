@@ -968,10 +968,14 @@ function mwb_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 /**
  * Retrieve Bump Offer location details.
  *
- * @param   string $key         The keyword for hook where to implement the order bump.
+ * @param   string $key The keyword for hook where to implement the order bump.
  * @since   1.0.0.
  */
 function mwb_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gateways' ) {
+
+	$mwb_ubo_global_settings = get_option( 'mwb_ubo_global_options', array() );
+
+	$mwb_ubo_popup_enable = empty( $mwb_ubo_global_settings['mwb_ubo_orderbump_popup'] ) ? '' : $mwb_ubo_global_settings['mwb_ubo_exclusive_offer'];
 
 	$location_details = array(
 		'_before_order_summary'      => array(
@@ -996,7 +1000,17 @@ function mwb_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 		),
 	);
 
-	return $location_details[ $key ];
+	$popup_location_detail = array(
+		'hook'     => 'mwb_ubo_popup',
+		'priority' => 31,
+		'name'     => esc_html__( 'Popup', 'upsell-order-bump-offer-for-woocommerce' ),
+	);
+
+	if ( 'yes' === $mwb_ubo_popup_enable ) {
+		return $popup_location_detail;
+	} else {
+		return $location_details[ $key ];
+	}
 
 }
 

@@ -262,6 +262,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 			// Hide Order Bump meta from order items.
 			$this->loader->add_filter( 'woocommerce_order_item_get_formatted_meta_data', $plugin_public, 'hide_order_bump_meta' );
+
+			// Trigger popup.
+			$this->loader->add_action( 'woocommerce_review_order_before_submit', $plugin_public, 'mwb_ubo_orderbump_popup' );
+
+			// Trigger popup.
+			// $this->loader->add_action( 'mwb_ubo_popup', $plugin_public, 'mwb_ubo_orderbump_popup' );
+
 		}
 	}
 

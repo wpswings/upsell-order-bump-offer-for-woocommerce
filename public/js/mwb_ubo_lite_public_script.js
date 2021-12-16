@@ -691,5 +691,24 @@ jQuery(document).ready(function ($) {
         }
     }
 
+        /*==========================================================================
+                                Js for orderbump in dialog box.
+        ============================================================================*/
+
+        jQuery(document).on('click', '#abcd', function(e) {
+            e.preventDefault();
+            $('.mwb-g-modal').show();
+            $('.mwb-g-modal__cover').addClass('show-g_modal_cover');
+            $('.mwb-g-modal__message').addClass('show-g_modal_message');
+
+            // jQuery(document).on( 'click', '.mwb-w-modal__cover', '.mwb-g-modal__close', function() {
+            //     jQuery('.mwb-g-modal__cover').removeClass('show-g_modal_cover');
+            //     jQuery('.mwb-g-modal__message').removeClass('show-g_modal_message');
+            // });
+        });
+        jQuery(document).on('click', '.mwb-g-modal__close', function(){
+            $('.mwb-g-modal').hide();
+        });
+
     // END OF SCRIPT
 });

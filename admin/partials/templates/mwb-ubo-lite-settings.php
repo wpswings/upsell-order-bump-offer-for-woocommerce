@@ -60,6 +60,8 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 	// After version v2.0.2.
 	$mwb_bump_upsell_global_options['mwb_ubo_exclusive_offer'] = ! empty( $_POST['mwb_ubo_exclusive_offer'] ) ? 'yes' : 'no';
 
+	$mwb_bump_upsell_global_options['mwb_ubo_orderbump_popup'] = ! empty( $_POST['mwb_ubo_orderbump_popup'] ) ? 'yes' : 'no';
+
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'mwb_ubo_global_options', $mwb_bump_upsell_global_options );
 
@@ -107,6 +109,9 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 
 	// Exclusive offer.
 	$bump_exclusive_offer = ! empty( $mwb_ubo_global_options['mwb_ubo_exclusive_offer'] ) ? $mwb_ubo_global_options['mwb_ubo_exclusive_offer'] : 'no';
+
+	// Orderbump in popup.
+	$mwb_ubo_orderbump_popup = ! empty( $mwb_ubo_global_options['mwb_ubo_orderbump_popup'] ) ? $mwb_ubo_global_options['mwb_ubo_orderbump_popup'] : 'no';
 
 	// Bump Offer limit.
 	$mwb_bump_order_bump_limit = ! empty( $mwb_ubo_global_options['mwb_bump_order_bump_limit'] ) ? $mwb_ubo_global_options['mwb_bump_order_bump_limit'] : '1';
@@ -461,6 +466,77 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 					</td>
 				</tr>
 				<!-- Exclusive offer end. -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<!-- Exclusive offer start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="mwb_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+
+						<label for="mwb_ubo_orderbump_popup"><?php esc_html_e( 'Orderbump in Popup', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'Enable to show orderbump in popup on time of checkout.', 'upsell-order-bump-offer-for-woocommerce' );
+							mwb_ubo_lite_help_tip( $attribute_description );
+						?>
+						<label class="mwb-upsell-smart-pre-order-skip" for="mwb_ubo_orderbump_popup">
+						<input class="mwb-upsell-smart-pre-order-skip-wrap" type='checkbox' <?php echo mwb_ubo_lite_if_pro_exists() && ! empty( $mwb_ubo_orderbump_popup ) && 'yes' === $mwb_ubo_orderbump_popup ? 'checked' : ''; ?> id='mwb_ubo_orderbump_popup' value='yes' name='mwb_ubo_orderbump_popup'>
+						<span class="upsell-smart-pre-order-skip-btn"></span>
+						</label>
+					</td>
+				</tr>
+				<!-- Exclusive offer end. -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 				<!-- Delete all the data on uninstall button html start. -->
 				<tr valign="top">
