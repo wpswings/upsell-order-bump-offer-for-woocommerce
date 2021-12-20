@@ -695,20 +695,29 @@ jQuery(document).ready(function ($) {
                                 Js for orderbump in dialog box.
         ============================================================================*/
 
-        jQuery(document).on('click', '#abcd', function(e) {
-            e.preventDefault();
-            $('.mwb-g-modal').show();
-            $('.mwb-g-modal__cover').addClass('show-g_modal_cover');
-            $('.mwb-g-modal__message').addClass('show-g_modal_message');
+        $.exitIntent('enable');
 
-            // jQuery(document).on( 'click', '.mwb-w-modal__cover', '.mwb-g-modal__close', function() {
-            //     jQuery('.mwb-g-modal__cover').removeClass('show-g_modal_cover');
-            //     jQuery('.mwb-g-modal__message').removeClass('show-g_modal_message');
-            // });
+        $(document).bind('exitintent',function() {
+            show_popup_mwb();
         });
+
         jQuery(document).on('click', '.mwb-g-modal__close', function(){
+            $('.mwb-g-modal').addClass('mwb_ubo_show_popup_once');
             $('.mwb-g-modal').hide();
         });
+
+        // Script to showpopup when checkout intent.
+        $(document).on('mouseenter','#place_order',function(){
+            show_popup_mwb();
+        });
+
+        function show_popup_mwb(){
+            if (!$('.mwb-g-modal').hasClass('mwb_ubo_show_popup_once')) {
+                $('.mwb-g-modal').show();
+                $('.mwb-g-modal__cover').addClass('show-g_modal_cover');
+                $('.mwb-g-modal__message').addClass('show-g_modal_message');   
+            }
+        }
 
     // END OF SCRIPT
 });

@@ -370,3 +370,116 @@ max-width: 300px;
 .mwb_bump_popup_select label {
 margin: 10px 0;
 }
+
+.mwb-g-modal__cover {
+	background-color: rgba(0, 0, 0, 0.2);
+	bottom: 0;
+	display: none;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
+.mwb-g-modal__close {
+	cursor: pointer;
+	font-size: 24px;
+	font-weight: 600;
+	position: absolute;
+	right: 7px;
+	top: 0;
+	transform: rotate(45deg);
+}
+
+.mwb-g-modal__message {
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	color: #053500;
+	left: -200%;
+	max-width: 600px;
+	min-height: 300px;
+	padding: 15px 20px;
+	position: fixed;
+	text-align: center;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	transition: left 1.2s linear;
+	width: 80%;
+}
+
+.show-g_modal_cover {
+	display: block;
+}
+
+.show-g_modal_message {
+	left: 50%;
+}
+
+/*Fixes v2.0.2*/
+.woocommerce-checkout-payment .mwb-g-modal__close {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.woocommerce-checkout-payment .mwb-g-modal__close:after {
+    display: none;
+}
+
+.woocommerce-checkout-payment .mwb-g-modal__message {
+    top: 0;
+    transform: translate(-50%, 0);
+    bottom: 25px;
+}
+
+.woocommerce-checkout-payment .mwb-g-modal__content-popup {
+    max-height: 380px;
+    overflow: auto;
+}
+
+@keyframes show_down {
+	0%{ opacity:1; bottom: 50px; }
+	50%{ opacity:1; bottom: 25px; }
+	100%{ opacity:1; bottom: 50px; }
+}
+.woocommerce-checkout-payment .mwb-g-modal__arrow {
+    position: fixed;
+    bottom: 25px;
+    background-color: #fff;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+    opacity: 0;
+    animation: show_down 1s linear 5;
+}
+
+@media screen and (max-width:768px){
+	.woocommerce-checkout-payment .mwb-g-modal__message .mwb_upsell_offer_discount_section h3 {
+	    font-size: 24px!important;
+	}
+	.woocommerce-checkout-payment .mwb-g-modal__message .mwb_upsell_offer_product_section {
+		display: block!important;
+	}
+	.woocommerce-checkout-payment .mwb-g-modal__message .mwb_upsell_offer_image {
+   		margin: 0 auto!important;
+	}
+	.woocommerce-checkout-payment .mwb-g-modal__message .mwb_upsell_offer_product_content {
+	    width: calc(100%)!important;
+	}
+	.woocommerce-checkout-payment .mwb-g-modal__message .mwb_upsell_offer_secondary_section p {
+		font-size: 14px!important;
+	}
+}

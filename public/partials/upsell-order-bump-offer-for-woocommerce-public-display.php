@@ -119,6 +119,9 @@ ksort( $bump_priority_collection );
 // Merge the array.
 $encountered_bump_ids_array = array_merge( $bump_priority_collection, $encountered_bump_ids_array );
 
+// Make bump ids array unique.
+$encountered_bump_ids_array = array_unique( $encountered_bump_ids_array );
+
 // For Each Order Bump Ids array.
 foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
 

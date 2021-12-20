@@ -975,7 +975,7 @@ function mwb_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 
 	$mwb_ubo_global_settings = get_option( 'mwb_ubo_global_options', array() );
 
-	$mwb_ubo_popup_enable = empty( $mwb_ubo_global_settings['mwb_ubo_orderbump_popup'] ) ? '' : $mwb_ubo_global_settings['mwb_ubo_exclusive_offer'];
+	$mwb_ubo_popup_enable = empty( $mwb_ubo_global_settings['mwb_ubo_orderbump_popup'] ) ? '' : $mwb_ubo_global_settings['mwb_ubo_orderbump_popup'];
 
 	$location_details = array(
 		'_before_order_summary'      => array(
@@ -1006,7 +1006,8 @@ function mwb_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 		'name'     => esc_html__( 'Popup', 'upsell-order-bump-offer-for-woocommerce' ),
 	);
 
-	if ( 'yes' === $mwb_ubo_popup_enable ) {
+	// Below lines of code will decide the popup array will be returned or position array.
+	if ( mwb_ubo_lite_if_pro_exists() && 'yes' === $mwb_ubo_popup_enable ) {
 		return $popup_location_detail;
 	} else {
 		return $location_details[ $key ];

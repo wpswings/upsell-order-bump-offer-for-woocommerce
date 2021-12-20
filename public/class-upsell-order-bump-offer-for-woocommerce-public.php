@@ -129,6 +129,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			wp_enqueue_script( 'zoom-script', plugins_url( '/js/zoom-script.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 		}
 
+		$mwb_ubo_popup_enable = empty( $mwb_ubo_global_settings['mwb_ubo_orderbump_popup'] ) ? '' : $mwb_ubo_global_settings['mwb_ubo_orderbump_popup'];
+		// Js for exit intent popup.
+		if ( mwb_ubo_lite_if_pro_exists() && 'yes' === $mwb_ubo_popup_enable ) {
+			wp_enqueue_script( 'exit-intent-script', plugins_url( '/js/jquery.exitintent.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
+		}
 	}
 
 	/**
@@ -1433,65 +1438,23 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @return void
 	 */
 	public function mwb_ubo_orderbump_popup() {
-		?>
-			<style>
-			.mwb-g-modal__cover {
-				background-color: rgba(0, 0, 0, 0.2);
-				bottom: 0;
-				display: none;
-				left: 0;
-				position: fixed;
-				right: 0;
-				top: 0;
-			}
+		$mwb_ubo_global_settings = get_option( 'mwb_ubo_global_options', array() );
+		$mwb_ubo_popup_enable = empty( $mwb_ubo_global_settings['mwb_ubo_orderbump_popup'] ) ? '' : $mwb_ubo_global_settings['mwb_ubo_orderbump_popup'];
 
-			.mwb-g-modal__close {
-				cursor: pointer;
-				font-size: 24px;
-				font-weight: 600;
-				position: absolute;
-				right: 7px;
-				top: 0;
-				transform: rotate(45deg);
-			}
-
-			.mwb-g-modal__message {
-				background-color: #fff;
-				border-radius: 5px;
-				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-				color: #053500;
-				left: -200%;
-				max-width: 600px;
-				min-height: 300px;
-				padding: 15px 20px;
-				position: fixed;
-				text-align: center;
-				top: 50%;
-				transform: translate(-50%, -50%);
-				transition: left 1.2s linear;
-				width: 80%;
-			}
-
-			.show-g_modal_cover {
-				display: block;
-			}
-
-			.show-g_modal_message {
-				left: 50%;
-			}
-			</style>
-		<div class="mwb-g-modal">
-			<div class="mwb-g-modal__cover"></div>
-			<div class="mwb-g-modal__message">
+		if ( mwb_ubo_lite_if_pro_exists() && 'yes' === $mwb_ubo_popup_enable ) {
+			?>
+			<div class="mwb-g-modal">
+				<div class="mwb-g-modal__cover"></div>
+				<div class="mwb-g-modal__message">
 				<span class="mwb-g-modal__close">+</span>
-				<div class="mwb-g-modal__content">General Modal Content</div>
-				<div>
-					<?php do_action( 'mwb_ubo_popup' ); ?>
+				<span class="mwb-g-modal__arrow">&#8675;</span>
+					<div class="mwb-g-modal__content-popup">
+						<?php do_action( 'mwb_ubo_popup' ); ?>
+					</div>
 				</div>
 			</div>
-		</div>
-		<button id="abcd">Submit</button>
-		<?php
+			<?php
+		}
 	}
 
 	// End of class.

@@ -237,6 +237,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		 * Add sub-menu for reportings settings.
 		 */
 		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_options', 'upsell-order-bump-offer-for-woocommerce-reporting', array( $this, 'add_submenu_page_reporting_callback' ) );
+
+		/**
+		 * Add sub-menu for Go Pro Link.
+		 */
+		if ( ! mwb_ubo_lite_if_pro_exists() ) {
+			add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( '&#9733; Download Pro', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( '&#9733; Download Pro', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_options', 'upsell-order-bump-offer-for-downloading-pro', array( $this, 'add_submenu_page_download_pro_callback' ) );
+		}
 	}
 
 	/**
@@ -310,11 +317,22 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since       1.4.0
 	 */
+	public function add_submenu_page_download_pro_callback() {
+
+		$url = 'https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend';
+		wp_redirect( $url );
+		exit;
+	}
+
+	/**
+	 * Redirect to download pro landing page callback.
+	 *
+	 * @since       1.0.0
+	 */
 	public function add_submenu_page_reporting_callback() {
 
 		require_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/reporting/upsell-order-bump-reporting-config-panel.php';
 	}
-
 
 	/**
 	 * Select2 search for adding bump target products.
