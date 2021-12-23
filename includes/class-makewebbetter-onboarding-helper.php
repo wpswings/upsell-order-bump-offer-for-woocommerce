@@ -930,7 +930,7 @@ class Makewebbetter_Onboarding_Helper {
 		$url = 'submissions/v3/integration/submit/' . self::$portal_id . '/' . $form_id;
 
 		$headers = array(
-			'Content-Type: application/json',
+			'Content-Type' => 'application/json',
 		);
 
 		$form_data = wp_json_encode(
@@ -947,7 +947,7 @@ class Makewebbetter_Onboarding_Helper {
 		$response = $this->hic_post( $url, $form_data, $headers );
 
 		if ( 200 === $response['status_code'] ) {
-			$result            = wp_json_decode( $response['response'], true );
+			$result            = json_decode( $response['response'], true );
 			$result['success'] = true;
 		} else {
 

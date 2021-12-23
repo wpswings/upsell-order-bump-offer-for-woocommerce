@@ -327,7 +327,7 @@ $editable_roles = apply_filters( 'mwb_upsell_order_bump_editable_roles', $all_ro
 				<!-- Bump Name end.-->
 
 				<!-- Bump Priority HTML start.-->
-				<tr valign="top">
+				<tr valign="top" id="mwb_upsell_bump_priority">
 
 						<th scope="row" class="titledesc">
 						<span class="mwb_ubo_premium_strip">Pro</span>
@@ -344,7 +344,7 @@ $editable_roles = apply_filters( 'mwb_upsell_order_bump_editable_roles', $all_ro
 
 							?>
 
-							<input type="number" id="mwb_upsell_bump_priority" name="mwb_upsell_bump_priority" value="<?php echo esc_attr( $bump_priority ); ?>" class="input-text mwb_upsell_bump_commone_class" max="100000">
+							<input type="number" name="mwb_upsell_bump_priority" value="<?php echo esc_attr( $bump_priority ); ?>" class="input-text mwb_upsell_bump_commone_class" max="100000" disabled>
 						</td>
 				</tr>
 				<!-- Bump Priority HTML end.-->

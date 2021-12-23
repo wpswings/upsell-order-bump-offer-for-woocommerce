@@ -1443,11 +1443,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		if ( mwb_ubo_lite_if_pro_exists() && 'yes' === $mwb_ubo_popup_enable ) {
 			?>
-			<div class="mwb-g-modal">
-				<div class="mwb-g-modal__cover"></div>
-				<div class="mwb-g-modal__message">
-				<span class="mwb-g-modal__close">+</span>
-				<span class="mwb-g-modal__arrow">&#8675;</span>
+			<div class="mwb-g-modal_popup">
+				<div class="mwb-g-modal__cover_popup"></div>
+				<div class="mwb-g-modal__message_popup">
+				<span class="mwb-g-modal__close_popup">+</span>
+				<span class="mwb-g-modal__arrow_popup">&#8675;</span>
 					<div class="mwb-g-modal__content-popup">
 						<?php do_action( 'mwb_ubo_popup' ); ?>
 					</div>

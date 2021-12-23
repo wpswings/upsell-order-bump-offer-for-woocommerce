@@ -701,9 +701,9 @@ jQuery(document).ready(function ($) {
             show_popup_mwb();
         });
 
-        jQuery(document).on('click', '.mwb-g-modal__close', function(){
-            $('.mwb-g-modal').addClass('mwb_ubo_show_popup_once');
-            $('.mwb-g-modal').hide();
+        jQuery(document).on('click', '.mwb-g-modal__close_popup', function(){
+            $('.mwb-g-modal_popup').addClass('mwb_ubo_show_popup_once');
+            $('.mwb-g-modal_popup').hide();
         });
 
         // Script to showpopup when checkout intent.
@@ -712,10 +712,10 @@ jQuery(document).ready(function ($) {
         });
 
         function show_popup_mwb(){
-            if (!$('.mwb-g-modal').hasClass('mwb_ubo_show_popup_once')) {
-                $('.mwb-g-modal').show();
-                $('.mwb-g-modal__cover').addClass('show-g_modal_cover');
-                $('.mwb-g-modal__message').addClass('show-g_modal_message');   
+            if (!$('.mwb-g-modal_popup').hasClass('mwb_ubo_show_popup_once')) {
+                $('.mwb-g-modal_popup').show();
+                $('.mwb-g-modal__cover_popup').addClass('show-g_modal_cover_popup');
+                $('.mwb-g-modal__message_popup').addClass('show-g_modal_message_popup');   
             }
         }
 
