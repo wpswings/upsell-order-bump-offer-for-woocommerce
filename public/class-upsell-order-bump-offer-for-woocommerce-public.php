@@ -1448,7 +1448,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				<div class="mwb-g-modal__message_popup">
 				<span class="mwb-g-modal__close_popup">+</span>
 				<span class="mwb-g-modal__arrow_popup">&#8675;</span>
-					<div class="mwb-g-modal__content-popup">
+					<div class="mwb-g-modal__content_popup">
 						<?php do_action( 'mwb_ubo_popup' ); ?>
 					</div>
 				</div>

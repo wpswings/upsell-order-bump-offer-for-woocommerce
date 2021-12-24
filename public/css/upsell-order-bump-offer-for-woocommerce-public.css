@@ -371,7 +371,7 @@ max-width: 300px;
 margin: 10px 0;
 }
 
-.mwb-g-modal__cover {
+.mwb-g-modal__cover_popup {
 	background-color: rgba(0, 0, 0, 0.2);
 	bottom: 0;
 	display: none;
@@ -381,7 +381,7 @@ margin: 10px 0;
 	top: 0;
 }
 
-.mwb-g-modal__close {
+.mwb-g-modal__close_popup {
 	cursor: pointer;
 	font-size: 24px;
 	font-weight: 600;
@@ -391,7 +391,7 @@ margin: 10px 0;
 	transform: rotate(45deg);
 }
 
-.mwb-g-modal__message {
+.mwb-g-modal__message_popup {
 	background-color: #fff;
 	border-radius: 5px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -408,16 +408,16 @@ margin: 10px 0;
 	width: 80%;
 }
 
-.show-g_modal_cover {
+.show-g_modal_cover_popup {
 	display: block;
 }
 
-.show-g_modal_message {
+.show-g_modal_message_popup {
 	left: 50%;
 }
 
 /*Fixes v2.0.2*/
-.woocommerce-checkout-payment .mwb-g-modal__close {
+.woocommerce-checkout-payment .mwb-g-modal__close_popup {
     position: fixed;
     right: 10px;
     top: 10px;
@@ -427,19 +427,19 @@ margin: 10px 0;
     background-color: #fff;
 }
 
-.woocommerce-checkout-payment .mwb-g-modal__close:after {
+.woocommerce-checkout-payment .mwb-g-modal__close_popup:after {
     display: none;
 }
 
-.woocommerce-checkout-payment .mwb-g-modal__message {
-    top: 0;
+.woocommerce-checkout-payment .mwb-g-modal__message_popup {
+    top: 50px;
     transform: translate(-50%, 0);
-    bottom: 25px;
+	bottom: 25px;
+	overflow: auto;
 }
 
-.woocommerce-checkout-payment .mwb-g-modal__content-popup {
-    max-height: 380px;
-    overflow: auto;
+.woocommerce-checkout-payment .mwb-g-modal__content_popup {
+    max-height: unset;
 }
 
 @keyframes show_down {
@@ -447,7 +447,7 @@ margin: 10px 0;
 	50%{ opacity:1; bottom: 25px; }
 	100%{ opacity:1; bottom: 50px; }
 }
-.woocommerce-checkout-payment .mwb-g-modal__arrow {
+.woocommerce-checkout-payment .mwb-g-modal__arrow_popup {
     position: fixed;
     bottom: 25px;
     background-color: #fff;
@@ -467,19 +467,19 @@ margin: 10px 0;
 }
 
 @media screen and (max-width:768px){
-	.woocommerce-checkout-payment .mwb-g-modal__message .mwb_upsell_offer_discount_section h3 {
+	.woocommerce-checkout-payment .mwb-g-modal__message_popup .mwb_upsell_offer_discount_section h3 {
 	    font-size: 24px!important;
 	}
-	.woocommerce-checkout-payment .mwb-g-modal__message .mwb_upsell_offer_product_section {
+	.woocommerce-checkout-payment .mwb-g-modal__message_popup .mwb_upsell_offer_product_section {
 		display: block!important;
 	}
-	.woocommerce-checkout-payment .mwb-g-modal__message .mwb_upsell_offer_image {
+	.woocommerce-checkout-payment .mwb-g-modal__message_popup .mwb_upsell_offer_image {
    		margin: 0 auto!important;
 	}
-	.woocommerce-checkout-payment .mwb-g-modal__message .mwb_upsell_offer_product_content {
+	.woocommerce-checkout-payment .mwb-g-modal__message_popup .mwb_upsell_offer_product_content {
 	    width: calc(100%)!important;
 	}
-	.woocommerce-checkout-payment .mwb-g-modal__message .mwb_upsell_offer_secondary_section p {
+	.woocommerce-checkout-payment .mwb-g-modal__message_popup .mwb_upsell_offer_secondary_section p {
 		font-size: 14px!important;
 	}
 }
