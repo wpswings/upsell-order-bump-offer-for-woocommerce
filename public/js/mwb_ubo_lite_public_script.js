@@ -38,7 +38,7 @@ jQuery(document).ready(function ($) {
 
             success: function (msg) {
 
-                $('body').trigger('update_checkout');
+                jQuery(document.body).trigger('update_checkout');
                 $('.mwb_ubo_wrapper_' + order_bump_index).css('pointer-events', 'all');
                 $('.mwb_ubo_wrapper_' + order_bump_index).css('opacity', '1');
             }
@@ -142,7 +142,7 @@ jQuery(document).ready(function ($) {
 
                 $('body').removeClass('mwb_upsell_variation_pop_up_body');
                 $('.mwb_bump_popup_wrapper').css('display', 'none');
-                $('body').trigger('update_checkout');
+                jQuery(document.body).trigger('update_checkout');
                 $(parent_wrapper_class).css('pointer-events', 'all');
                 $(parent_wrapper_class).css('opacity', '1');
                 $('.mwb_ubo_bump_add_to_cart_button').prop('disabled', false);
@@ -261,7 +261,7 @@ jQuery(document).ready(function ($) {
                     else {
 
                         $('.mwb_bump_popup_loader').css('display', 'none');
-                        $('body').trigger('update_checkout');
+                        jQuery(document.body).trigger('update_checkout');
                         $('.mwb_ubo_wrapper_' + order_bump_index).css('pointer-events', 'all');
                         $('.mwb_ubo_wrapper_' + order_bump_index).css('opacity', '1');
 
