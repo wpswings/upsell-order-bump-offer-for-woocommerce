@@ -203,6 +203,8 @@ jQuery(document).ready(function ($) {
             // Get Order Bump variation popup ready.
             handle_pre_selected_values();
 
+            jQuery('.mwb-g-modal__message_popup').addClass('offer-in-cart-popup--active');
+
             // Show loader for Variable offers.
             if ('variable' == object.closest('.mwb_upsell_offer_main_wrapper').find('.offer_shown_id_type').val()) {
                 $('.mwb_bump_popup_loader').css('display', 'flex');
@@ -275,6 +277,11 @@ jQuery(document).ready(function ($) {
             });
         }
     }
+    $(document).on('click','.mwb_bump_popup_close',function(){
+        if(jQuery('.mwb-g-modal__message_popup').hasClass('offer-in-cart-popup--active')) {
+        jQuery('.mwb-g-modal__message_popup').removeClass('offer-in-cart-popup--active')
+    }
+    })
 
     // Prevent Enter Key Press for checkbox of Order Bump offers.
     $(document).on('keypress', '.add_offer_in_cart', function (e) {
@@ -397,6 +404,7 @@ jQuery(document).ready(function ($) {
             jQuery('.mwb-g-modal').removeClass('mwb-modal--close');
         }
         form_wrap.addClass('mwb-modal--open');
+        jQuery('.mwb-g-modal__message_popup').addClass('inner-popup--active')
 
         jQuery('.mwb-g-modal__close').on('click', function () {
             order_bump_obj.prop('checked', false);
@@ -409,6 +417,7 @@ jQuery(document).ready(function ($) {
         jQuery('.mwb-g-modal').addClass('mwb-modal--close');
         setTimeout(function () {
             jQuery('.mwb-g-modal').removeClass('mwb-modal--open');
+            jQuery('.mwb-g-modal__message_popup').removeClass('inner-popup--active')
         }, 320);
     }
 
@@ -730,6 +739,5 @@ jQuery(document).ready(function ($) {
         }
 
         }
-
     // END OF SCRIPT
 });

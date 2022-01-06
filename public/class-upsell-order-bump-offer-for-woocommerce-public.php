@@ -77,6 +77,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
+	
 	}
 
 	/**
@@ -1446,7 +1447,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			<div class="mwb-g-modal_popup">
 				<div class="mwb-g-modal__cover_popup"></div>
 				<div class="mwb-g-modal__message_popup">
-				<span class="mwb-g-modal__close_popup">+</span>
+				<span class="mwb-g-modal__close_popup">&#10005;</span>
 				<span class="mwb-g-modal__arrow_popup">&#8675;</span>
 					<div class="mwb-g-modal__content_popup">
 						<?php do_action( 'mwb_ubo_popup' ); ?>
