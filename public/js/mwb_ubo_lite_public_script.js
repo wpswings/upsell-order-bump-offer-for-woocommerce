@@ -721,7 +721,7 @@ jQuery(document).ready(function ($) {
         });
 
         function show_popup_mwb(){
-            if (!$('.mwb-g-modal_popup').hasClass('mwb_ubo_show_popup_once')) {
+            if (!$('.mwb-g-modal_popup').hasClass('mwb_ubo_show_popup_once') && $('div').hasClass('wrapup_order_bump')) {
                 $('.mwb-g-modal_popup').show();
                 $('.mwb-g-modal__cover_popup').addClass('show-g_modal_cover_popup');
                 $('.mwb-g-modal__message_popup').addClass('show-g_modal_message_popup');   
