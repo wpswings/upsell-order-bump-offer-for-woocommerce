@@ -22,7 +22,7 @@
  * WC tested up to:         5.9.0
  *
  * Version:           2.0.1
- * Author:            MakeWebBetter
+ * Author:            WP Swings
  * Author URI:        https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
  * License:           GPL-3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
@@ -171,6 +171,50 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 
 	register_activation_hook( __FILE__, 'activate_upsell_order_bump_offer_for_woocommerce' );
 	register_deactivation_hook( __FILE__, 'deactivate_upsell_order_bump_offer_for_woocommerce' );
+
+
+
+	add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'upsell_orderbump_upgrade_notice', 0, 3 );
+
+	/**
+	 * Displays WP Swings migration notice.
+	 *
+	 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
+	 * @param array $plugin_data An array of plugin data.
+	 * @param string $status Status filter currently applied to the plugin list.
+	 */
+	function upsell_orderbump_upgrade_notice( $plugin_file, $plugin_data, $status ) {
+
+	?>
+	<tr class="plugin-update-tr active notice-warning notice-alt">
+		<td colspan="4" class="plugin-update colspanchange">
+			<div class="notice notice-success inline update-message notice-alt">
+				<div class='wps-notice-title wps-notice-section'>
+					<p><strong>IMPORTANT NOTICE:</strong></p>
+				</div>
+				<div class='wps-notice-content wps-notice-section'>
+					<p>From this update [here] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+					Please connect with us for all setup, support, and update related queries without hesitation.</p>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<style>
+		.wps-notice-section > p:before {
+			content: none;
+		}
+	</style>
+	<?php
+	}
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * The core plugin class that is used to define internationalization,
