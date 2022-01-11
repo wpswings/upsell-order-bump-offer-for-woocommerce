@@ -100,7 +100,8 @@ if ( null === WC()->session->get( 'encountered_bump_array' ) ) {
 /**===========================================
 		Order bump html section start
 ===========================================*/
-?><div class="wrapup_order_bump">
+$ubo_if_popup_enabled = get_option( 'mwb_ubo_global_options' );
+?><div class="wrapup_order_bump <?php echo ( 'yes' !== $ubo_if_popup_enabled['mwb_ubo_orderbump_popup'] ) ? 'ubo_non_popup' : ''; ?>">
 <?php
 
 $order_bump_collections   = get_option( 'mwb_ubo_bump_list', array() );

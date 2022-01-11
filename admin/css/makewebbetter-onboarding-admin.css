@@ -405,3 +405,10 @@ input#s2id_autogen1 {
 }
 /*=====  End of MEDIA QUERIES  ======*/
 
+.ubo_info_icon {
+	vertical-align: middle;
+    display: inline-block;
+    width: 15px;
+    max-width: 100%;
+    margin: 0 1px;
+}

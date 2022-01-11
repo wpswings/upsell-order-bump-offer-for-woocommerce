@@ -1967,6 +1967,9 @@ select.mwb_select_for_description_class {
 }
 a.mwb_ubo_upload_image_button {
   box-shadow: none !important;
+  display: block;
+  max-width: 150px;
+  text-align: center;
 }
 
 /* CSS for quantity field */

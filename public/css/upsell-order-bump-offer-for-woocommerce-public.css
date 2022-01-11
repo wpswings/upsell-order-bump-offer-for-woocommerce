@@ -214,7 +214,24 @@
 .mwb_bump_popup_meta_form textarea {
 	padding: 5px 15px 5px 10px !important;
 	width: 100% !important;
-	max-width: 300px;
+	/* max-width: 300px; */
+}
+
+.ubo_quantity_input_wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.ubo_quantity_input_wrap label {
+	flex: 0 0 100%;
+	max-width: 25%;
+}
+
+.ubo_quantity_input_wrap input.mwb_quantity_input {
+	flex: 0 0 100%;
+	max-width: calc(75% - 10px)!important;
 }
 
 .mwb_bump_popup_meta_form input[type="submit"],
@@ -492,4 +509,21 @@ margin: 10px 0;
 .woocommerce-checkout-payment  .show-g_modal_message_popup.inner-popup--active,
 .show-g_modal_message_popup.offer-in-cart-popup--active {
 	overflow-y: hidden;   
+}
+
+.ubo_non_popup  .mwb_bump_popup_wrapper , 
+.ubo_non_popup .mwb_bump_popup_loader{
+	position: fixed;
+}
+
+@media only screen and (max-width: 576px) {
+	.ubo_quantity_input_wrap label {
+		flex: 0 0 100%;
+		max-width: 40%;
+	}
+	
+	.ubo_quantity_input_wrap input.mwb_quantity_input {
+		flex: 0 0 100%;
+		max-width: calc(60% - 10px)!important;
+	}
 }
