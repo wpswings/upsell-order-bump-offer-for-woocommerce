@@ -1515,7 +1515,7 @@ select.mwb_select_for_description_class {
 .notice {
   display: none;
 }
-.mwb-notice {
+.notice.mwb-notice {
   display: block;
 }
 .mwb_premium_feature img {

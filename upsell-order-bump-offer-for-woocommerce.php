@@ -193,7 +193,7 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 					<p><strong>IMPORTANT NOTICE:</strong></p>
 				</div>
 				<div class='wps-notice-content wps-notice-section'>
-					<p>From this update [v2.0.2] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+					<p>From this update [here] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
 					Please connect with us for all setup, support, and update related queries without hesitation.</p>
 				</div>
 			</div>
@@ -206,6 +206,60 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	</style>
 	<?php
 	}
+
+
+
+
+
+
+
+
+
+
+
+	add_action( 'mwb_ubo_migration_notice', 'upsell_orderbump_upgrade_notice_dashboard' );
+
+	/**
+	 * Displays WP Swings migration notice.
+	 *
+	 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
+	 * @param array $plugin_data An array of plugin data.
+	 * @param string $status Status filter currently applied to the plugin list.
+	 */
+	function upsell_orderbump_upgrade_notice_dashboard() {
+
+	?>
+	<tr class="plugin-update-tr active notice-warning notice-alt">
+		<td colspan="4" class="plugin-update colspanchange">
+			<div class="notice mwb-notice notice-success inline update-message notice-alt">
+				<div class='wps-notice-title wps-notice-section'>
+					<p><strong>IMPORTANT NOTICE:</strong></p>
+				</div>
+				<div class='wps-notice-content wps-notice-section'>
+					<p>From this update [here] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+					Please connect with us for all setup, support, and update related queries without hesitation.</p>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<style>
+		.wps-notice-section > p:before {
+			content: none;
+		}
+	</style>
+	<?php
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
