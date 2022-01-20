@@ -2,7 +2,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://makewebbetter.com
+ * @link       https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * @since      1.4.0
  *
  * @package     Upsell_Order_Bump_Offer_For_Woocommerce
@@ -14,14 +14,14 @@
  *
  * @package     Upsell_Order_Bump_Offer_For_Woocommerce
  * @subpackage  Upsell_Order_Bump_Offer_For_Woocommerce/includes
- * @author      makewebbetter <webmaster@makewebbetter.com>
+ * @author      WP Swings <webmaster@wpswings.com>
  */
 if ( class_exists( 'Makewebbetter_Onboarding_Helper' ) ) {
 	return;
 }
 
 /**
- * Helper module for MakeWebBetter plugins.
+ * Helper module for WP Swings plugins.
  */
 class Makewebbetter_Onboarding_Helper {
 

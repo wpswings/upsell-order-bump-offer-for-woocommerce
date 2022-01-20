@@ -2,7 +2,7 @@
 /**
  * Order Bump Sales by Product Report.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * @since      1.4.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -23,7 +23,7 @@ if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Product' ) ) {
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/reporting
- * @author     Make Web Better <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 
