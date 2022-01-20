@@ -80,7 +80,7 @@ do_action( 'mwb_ubo_lite_tab_active' );
 
 	<!-- For notification control. -->
 	<h1></h1>
-
+	<?php do_action( 'mwb_ubo_migration_notice', '', '', '' ); ?>
 	<?php
 
 	if ( $plugin_version ) {
