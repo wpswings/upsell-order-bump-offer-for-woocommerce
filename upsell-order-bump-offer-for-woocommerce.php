@@ -17,7 +17,7 @@
  * Description:       Show exclusive order bump offers on the checkout page to your customers. Offers that are relevant and benefits your customers on the existing purchase and so increase Average Order Value and your Revenue. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-plugins&utm_medium=order-bump-org-backend&utm_campaign=plugins" >Elevate your e-commerce store by exploring more on <strong>WP Swings</strong></a>.
  *
  * Requires at least:       4.4
- * Tested up to:            5.8.3
+ * Tested up to:            5.9
  * WC requires at least:    3.0.0
  * WC tested up to:         6.1.1
  *
