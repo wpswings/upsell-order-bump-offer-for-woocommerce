@@ -4,7 +4,7 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       https://makewebbetter.com
+ * @link       https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * @since      1.0.0
  *
  * @package    upsell-order-bump-for-woocommerce
@@ -30,7 +30,7 @@ $form_fields = apply_filters( 'mwb_on_boarding_form_fields', array() );
 					<span class="close-form">x</span>
 				</a>
 			</div>
-			<h3 class="mwb-on-boarding-heading">Welcome to MakeWebBetter </h3>
+			<h3 class="mwb-on-boarding-heading">Welcome to WP Swings </h3>
 			<p class="mwb-on-boarding-desc">We love making new friends! Subscribe below and we promise to keep you up-to-date with our latest new plugins, updates, awesome deals and a few special offers.</p>
 			<form action="#" method="post" class="mwb-on-boarding-form">
 				<?php foreach ( $form_fields as $key => $field_attr ) : ?>

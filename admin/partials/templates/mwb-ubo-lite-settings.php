@@ -4,7 +4,7 @@
  *
  * This file is used to set global settings for the plugin.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -547,7 +547,7 @@ if ( isset( $_POST['mwb_upsell_bump_common_settings_save'] ) ) {
 			<div class="mwb_ubo_update_popup_option">
 
 				<!-- Update Button button. -->
-				<a target="_blank" href="https://makewebbetter.com/my-account/downloads" class="mwb_ubo_update_yes"><?php esc_html_e( 'Update Now', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+				<a target="_blank" href="https://wpswings.com/my-account/downloads" class="mwb_ubo_update_yes"><?php esc_html_e( 'Update Now', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 				<a href="javascript:void(0);" class="mwb_ubo_update_no"><?php esc_html_e( "Don't update", 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 			</div>
 		</div>

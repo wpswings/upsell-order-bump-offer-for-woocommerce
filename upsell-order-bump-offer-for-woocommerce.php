@@ -7,23 +7,23 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link              https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * @since             1.0.0
  * @package           Upsell_Order_Bump_Offer_For_Woocommerce
  *
  * @wordpress-plugin
  * Plugin Name:       Upsell Order Bump Offer for WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/
- * Description:       Show exclusive order bump offers on the checkout page to your customers. Offers that are relevant and benefits your customers on the existing purchase and so increase Average Order Value and your Revenue. <a target="_blank" href="https://makewebbetter.com/woocommerce-plugins/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend" >Elevate your e-commerce store by exploring more on <strong>MakeWebBetter</strong></a>.
+ * Description:       Show exclusive order bump offers on the checkout page to your customers. Offers that are relevant and benefits your customers on the existing purchase and so increase Average Order Value and your Revenue. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-plugins&utm_medium=order-bump-org-backend&utm_campaign=plugins" >Elevate your e-commerce store by exploring more on <strong>WP Swings</strong></a>.
  *
  * Requires at least:       4.4
- * Tested up to:            5.8.2
- * WC requires at least:    3.0
- * WC tested up to:         5.9.0
+ * Tested up to:            5.9
+ * WC requires at least:    3.0.0
+ * WC tested up to:         6.1.1
  *
- * Version:           2.0.1
- * Author:            MakeWebBetter
- * Author URI:        https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * Version:           2.0.2
+ * Author:            WP Swings
+ * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       upsell-order-bump-offer-for-woocommerce
@@ -63,7 +63,7 @@ function mwb_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 /**
  * Currently plugin version.
  */
-define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.0.1' );
+define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.0.2' );
 
 /**
  * The code that runs during plugin activation.
@@ -110,6 +110,42 @@ function mwb_ubo_lite_plugin_activation() {
 	return $activation;
 }
 
+// Add ownership changes.
+add_action( 'mwb_ubo_migration_notice', 'upsell_orderbump_upgrade_notice_dashboard', 10, 3 );
+add_filter( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'upsell_orderbump_upgrade_notice_dashboard', 10, 3 );
+
+/**
+ * Displays WP Swings migration notice.
+ *
+ * @param string $plugin_file Path to the plugin file relative to the plugins directory.
+ * @param array  $plugin_data An array of plugin data.
+ * @param string $status Status filter currently applied to the plugin list.
+ */
+function upsell_orderbump_upgrade_notice_dashboard( $plugin_file, $plugin_data, $status ) {
+
+	?>
+	<tr class="plugin-update-tr active notice-warning notice-alt">
+		<td colspan="4" class="plugin-update colspanchange">
+			<div class="notice mwb-notice notice-success inline update-message notice-alt">
+				<div class='wps-notice-title wps-notice-section'>
+					<p><strong>IMPORTANT NOTICE:</strong></p>
+				</div>
+				<div class='wps-notice-content wps-notice-section'>
+					<p>From this update <strong>Version 2.0.2</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+					Please connect with us for all setup, support, and update related queries without hesitation.</p>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<style>
+		.wps-notice-section > p:before {
+			content: none;
+		}
+	</style>
+	<?php
+}
+
+
 $mwb_ubo_lite_plugin_activation = mwb_ubo_lite_plugin_activation();
 
 if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
@@ -136,7 +172,7 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 			$plugin_links = array(
 				'<a href="' . admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting' ) .
 									'">' . esc_html__( 'Settings', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
-				'<a class="mwb-ubo-lite-go-pro" style="background: #05d5d8; color: white; font-weight: 700; padding: 2px 5px; border: 1px solid #05d5d8; border-radius: 5px;" href="https://makewebbetter.com/product/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend" target="_blank">' . esc_html__( 'GO PRO', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'<a class="mwb-ubo-lite-go-pro" style="background: #05d5d8; color: white; font-weight: 700; padding: 2px 5px; border: 1px solid #05d5d8; border-radius: 5px;" href="https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-backend&utm_campaign=MWB-order-bump-pro" target="_blank">' . esc_html__( 'GO PRO', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 			);
 
 			return array_merge( $plugin_links, $links );
@@ -158,9 +194,9 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 		if ( strpos( $file, 'upsell-order-bump-offer-for-woocommerce.php' ) !== false ) {
 
 			$row_meta = array(
-				'demo'    => '<a href="https://demo.makewebbetter.com/woocommerce-upsell-order-bump-offer/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Demo.svg" class="mwb-info-img" alt="Demo image">' . esc_html__( 'Demo', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
-				'doc'     => '<a href="https://docs.makewebbetter.com/woocommerce-upsell-order-bump-offer-pro/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Documentation.svg" class="mwb-info-img" alt="Documentation image">' . esc_html__( 'Documentation', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
-				'support' => '<a href="https://support.makewebbetter.com/wordpress-plugins-knowledge-base/category/woocommerce-upsell-order-bump-offer-pro-kb/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Support.svg" class="mwb-info-img" alt="DeSupportmo image">' . esc_html__( 'Support', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'demo'    => '<a href="https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-backend&utm_campaign=order-bump-demo" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Demo.svg" class="mwb-info-img" alt="Demo image">' . esc_html__( 'Demo', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'doc'     => '<a href="https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-backend&utm_campaign=order-bump-doc" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Documentation.svg" class="mwb-info-img" alt="Documentation image">' . esc_html__( 'Documentation', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'support' => '<a href="https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-kb&utm_medium=order-bump-org-backend&utm_campaign=order-bump-kb" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Support.svg" class="mwb-info-img" alt="DeSupportmo image">' . esc_html__( 'Support', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 			);
 
 			return array_merge( $links, $row_meta );

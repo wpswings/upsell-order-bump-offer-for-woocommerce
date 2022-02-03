@@ -2,7 +2,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://makewebbetter.com
+ * @link       https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * @since      1.4.0
  *
  * @package     Upsell_Order_Bump_Offer_For_Woocommerce
@@ -14,14 +14,14 @@
  *
  * @package     Upsell_Order_Bump_Offer_For_Woocommerce
  * @subpackage  Upsell_Order_Bump_Offer_For_Woocommerce/includes
- * @author      makewebbetter <webmaster@makewebbetter.com>
+ * @author      WP Swings <webmaster@wpswings.com>
  */
 if ( class_exists( 'Makewebbetter_Onboarding_Helper' ) ) {
 	return;
 }
 
 /**
- * Helper module for MakeWebBetter plugins.
+ * Helper module for WP Swings plugins.
  */
 class Makewebbetter_Onboarding_Helper {
 
@@ -44,27 +44,26 @@ class Makewebbetter_Onboarding_Helper {
 	/**
 	 * Portal id of hubspot api.
 	 *
-	 * @since 1.4.0
+	 * @since 3.0.0
 	 * @var string Portal id.
 	 */
-	private static $portal_id = '6493626';
+	private static $portal_id = '25444144'; // Wp Swings portal.
 
 	/**
 	 * Form id of hubspot api.
 	 *
-	 * @since 1.4.0
+	 * @since 3.0.0
 	 * @var string Form id.
 	 */
-	private static $onboarding_form_id = 'd94dcb10-c9c1-4155-a9ad-35354f2c3b52';
+	private static $onboarding_form_id = '2a2fe23c-0024-43f5-9473-cbfefdb06fe2';
 
 	/**
 	 * Form id of hubspot api.
 	 *
-	 * @since 1.4.0
-	 * @var string Form id.
+	 * @since 3.0.0
+	 * @var string deactivation Form id.
 	 */
-	private static $deactivation_form_id = '329ffc7a-0e8c-4e11-8b41-960815c31f8d';
-
+	private static $deactivation_form_id = '67feecaa-9a93-4fda-8f85-f73168da2672';
 
 	/**
 	 * Plugin Name.
@@ -929,9 +928,7 @@ class Makewebbetter_Onboarding_Helper {
 
 		$url = 'submissions/v3/integration/submit/' . self::$portal_id . '/' . $form_id;
 
-		$headers = array(
-			'Content-Type: application/json',
-		);
+		$headers = 'Content-Type: application/json';
 
 		$form_data = wp_json_encode(
 			array(
@@ -947,7 +944,7 @@ class Makewebbetter_Onboarding_Helper {
 		$response = $this->hic_post( $url, $form_data, $headers );
 
 		if ( 200 === $response['status_code'] ) {
-			$result            = wp_json_decode( $response['response'], true );
+			$result            = json_decode( $response['response'], true );
 			$result['success'] = true;
 		} else {
 

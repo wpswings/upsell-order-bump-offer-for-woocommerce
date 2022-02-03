@@ -4,7 +4,7 @@
  *
  * This file is used for Order Bump Reports and Order Bump Sales by Funnel - Stats.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * @since      1.4.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce

@@ -4,7 +4,7 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * @since      1.4.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -38,7 +38,7 @@ $active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['ta
 
 	<!-- For notification control. -->
 	<h1></h1>
-
+	<?php do_action( 'mwb_ubo_migration_notice', '', '', '' ); ?>
 	<?php
 
 	if ( 'reporting' === $active_tab ) {

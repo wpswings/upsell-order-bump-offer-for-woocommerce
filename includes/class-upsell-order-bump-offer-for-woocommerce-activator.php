@@ -2,7 +2,7 @@
 /**
  * Fired during plugin activation.
  *
- * @link       https://makewebbetter.com/?utm_source=MWB-orderbump-backend&utm_medium=MWB-Site-backend&utm_campaign=MWB-backend
+ * @link       https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * @since      1.0.0
  *
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
@@ -17,7 +17,7 @@
  * @since      1.0.0
  * @package    Upsell_Order_Bump_Offer_For_Woocommerce
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/includes
- * @author     Make Web Better <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Upsell_Order_Bump_Offer_For_Woocommerce_Activator {
 
