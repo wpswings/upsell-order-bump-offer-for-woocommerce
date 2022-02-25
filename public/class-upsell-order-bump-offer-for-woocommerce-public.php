@@ -1231,16 +1231,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			}
 
 			// Hide bump purchase meta only for Customers.
-			if ( ! is_admin() ) {
+			// if ( ! is_admin() ) {
 
-				foreach ( $formatted_meta as $key => $meta ) {
+			foreach ( $formatted_meta as $key => $meta ) {
 
-					if ( ! empty( $meta->key ) && 'is_order_bump_purchase' === $meta->key ) {
+				if ( ! empty( $meta->key ) && 'is_order_bump_purchase' === $meta->key ) {
 
-						unset( $formatted_meta[ $key ] );
-					}
+					unset( $formatted_meta[ $key ] );
 				}
 			}
+			// }
 		}
 
 		return $formatted_meta;
