@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
-$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
 if ( ! $id_nonce_verified ) {
 	wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
@@ -26,8 +26,8 @@ $active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['ta
 
 ?>
 
-<div class="wrap woocommerce" id="mwb_upsell_bump_setting_wrapper">
-	<div class="mwb_upsell_bump_setting_title"><?php echo esc_html( apply_filters( 'mwb_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
+<div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
+	<div class="wps_upsell_bump_setting_title"><?php echo esc_html( apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
 	</div>
 
 	<nav class="nav-tab-wrapper woo-nav-tab-wrapper">
@@ -38,7 +38,7 @@ $active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['ta
 
 	<!-- For notification control. -->
 	<h1></h1>
-	<?php do_action( 'mwb_ubo_migration_notice', '', '', '' ); ?>
+	<?php do_action( 'wps_ubo_migration_notice', '', '', '' ); ?>
 	<?php
 
 	if ( 'reporting' === $active_tab ) {

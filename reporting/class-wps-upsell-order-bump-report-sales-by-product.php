@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Product' ) ) {
+if ( class_exists( 'Wps_Upsell_Order_Bump_Report_Sales_By_Product' ) ) {
 	return;
 }
 
@@ -25,7 +25,7 @@ if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Product' ) ) {
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/reporting
  * @author     WP Swings <webmaster@wpswings.com>
  */
-class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
+class Wps_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 
 	/**
 	 * Chart colors.
@@ -87,7 +87,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 						'type'            => 'order_item_meta',
 						'order_item_type' => 'line_item',
 						'function'        => '',
-						'name'            => 'mwb_upsell_order_bump_item_meta',
+						'name'            => 'wps_upsell_order_bump_item_meta',
 					),
 				),
 				'where_meta'   => array(
@@ -120,7 +120,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
 							'function'        => '',
-							'name'            => 'mwb_upsell_order_bump_item_meta',
+							'name'            => 'wps_upsell_order_bump_item_meta',
 						),
 
 					),
@@ -175,8 +175,8 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 			'item_count'   => '#dbe1e3',
 		);
 
-		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
@@ -459,8 +459,8 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 	 */
 	public function get_export_button() {
 
-		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
@@ -519,7 +519,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
 							'function'        => '',
-							'name'            => 'mwb_upsell_order_bump_item_meta',
+							'name'            => 'wps_upsell_order_bump_item_meta',
 						),
 					),
 					'where_meta'   => array(
@@ -564,7 +564,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
 							'function'        => '',
-							'name'            => 'mwb_upsell_order_bump_item_meta',
+							'name'            => 'wps_upsell_order_bump_item_meta',
 						),
 					),
 					'where_meta'   => array(

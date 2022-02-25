@@ -3,7 +3,7 @@ jQuery(document).ready( function($) {
 	// Target product search.
 	jQuery('.wc-bump-product-search').select2({
   		ajax:{
-    			url: mwb_ubo_lite_ajaxurl.ajaxurl,
+    			url: wps_ubo_lite_ajaxurl.ajaxurl,
     			dataType: 'json',
     			delay: 200,
     			data: function (params) {
@@ -34,7 +34,7 @@ jQuery(document).ready( function($) {
 	// Offer product search.
 	jQuery('.wc-offer-product-search').select2({
   		ajax:{
-    			url: mwb_ubo_lite_ajaxurl.ajaxurl,
+    			url: wps_ubo_lite_ajaxurl.ajaxurl,
     			dataType: 'json',
     			delay: 200,
     			data: function (params) {
@@ -65,7 +65,7 @@ jQuery(document).ready( function($) {
 	// Target Categories Search.
 	jQuery('.wc-bump-product-category-search').select2({
   		ajax:{
-    			url: mwb_ubo_lite_ajaxurl.ajaxurl,
+    			url: wps_ubo_lite_ajaxurl.ajaxurl,
     			dataType: 'json',
     			delay: 200,
     			data: function (params) {

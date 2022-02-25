@@ -126,20 +126,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		/**
 		 * The class responsible for the Onboarding functionality.
 		 */
-		if ( ! class_exists( 'Makewebbetter_Onboarding_Helper' ) ) {
+		if ( ! class_exists( 'Wpswings_Onboarding_Helper' ) ) {
 
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-makewebbetter-onboarding-helper.php';
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wpswings-onboarding-helper.php';
 		}
 
-		if ( class_exists( 'Makewebbetter_Onboarding_Helper' ) ) {
+		if ( class_exists( 'Wpswings_Onboarding_Helper' ) ) {
 
-			$this->onboard = new Makewebbetter_Onboarding_Helper();
+			$this->onboard = new Wpswings_Onboarding_Helper();
 		}
 
 		/**
 		 * The class responsible for Sales by Order Bump - Data handling and Stats.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'reporting/class-mwb-upsell-order-bump-report-sales-by-bump.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'reporting/class-wps-upsell-order-bump-report-sales-by-bump.php';
 
 		$this->loader = new Upsell_Order_Bump_Offer_For_Woocommerce_Loader();
 
@@ -172,7 +172,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$plugin_admin = new Upsell_Order_Bump_Offer_For_Woocommerce_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		// Add admin arena.
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'mwb_ubo_lite_admin_menu' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wps_ubo_lite_admin_menu' );
 
 		// Load scripts and styles.
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -189,10 +189,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_filter( 'woocommerce_admin_reports', $plugin_admin, 'add_order_bump_reporting' );
 
 		// Include Order Bump screen for Onboarding pop-up.
-		$this->loader->add_filter( 'mwb_helper_valid_frontend_screens', $plugin_admin, 'add_mwb_frontend_screens' );
+		$this->loader->add_filter( 'wps_helper_valid_frontend_screens', $plugin_admin, 'add_wps_frontend_screens' );
 
 		// Include Order Bump plugin for Deactivation pop-up.
-		$this->loader->add_filter( 'mwb_deactivation_supported_slug', $plugin_admin, 'add_mwb_deactivation_screens' );
+		$this->loader->add_filter( 'wps_deactivation_supported_slug', $plugin_admin, 'add_wps_deactivation_screens' );
 
 		// Validate Pro version compatibility.
 		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'validate_version_compatibility' );
@@ -208,12 +208,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	private function define_public_hooks() {
 
 		// Check enability of the plugin at settings page.
-		$mwb_ubo_global_options = get_option( 'mwb_ubo_global_options', array() );
+		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
 
 		// By default plugin will be enabled.
-		$mwb_upsell_bump_enable_plugin = ! empty( $mwb_ubo_global_options['mwb_bump_enable_plugin'] ) ? $mwb_ubo_global_options['mwb_bump_enable_plugin'] : 'on';
+		$wps_upsell_bump_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : 'on';
 
-		if ( 'on' === $mwb_upsell_bump_enable_plugin ) {
+		if ( 'on' === $wps_upsell_bump_enable_plugin ) {
 
 			$plugin_public = new Upsell_Order_Bump_Offer_For_Woocommerce_Public( $this->get_plugin_name(), $this->get_version() );
 
@@ -224,9 +224,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_before_template_part', $plugin_public, 'add_bump_offer_custom_hook', 10, 2 );
 
 			// Bump Offer location.
-			$bump_offer_location = ! empty( $mwb_ubo_global_options['mwb_ubo_offer_location'] ) ? $mwb_ubo_global_options['mwb_ubo_offer_location'] : '_after_payment_gateways';
+			$bump_offer_location = ! empty( $wps_ubo_global_options['wps_ubo_offer_location'] ) ? $wps_ubo_global_options['wps_ubo_offer_location'] : '_after_payment_gateways';
 
-			$offer_location_details = mwb_ubo_lite_retrieve_bump_location_details( $bump_offer_location );
+			$offer_location_details = wps_ubo_lite_retrieve_bump_location_details( $bump_offer_location );
 
 			// Show bump offer.
 			$this->loader->add_action( $offer_location_details['hook'], $plugin_public, 'show_offer_bump', $offer_location_details['priority'] );
@@ -307,28 +307,28 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @var     callback string
 	 * @since   1.0.0
 	 */
-	public static $mwb_upsell_bump_list_callback_function = 'mwb_upsell_bump_list_callback_return';
+	public static $wps_upsell_bump_list_callback_function = 'wps_upsell_bump_list_callback_return';
 
 	/**
 	 * Validate the use of bump lists at org and pro version.
 	 *
 	 * @since    1.0.0
 	 */
-	public static function mwb_upsell_bump_list_callback_return() {
+	public static function wps_upsell_bump_list_callback_return() {
 
-		$mwb_ubo_offer_array_collection = get_option( 'mwb_ubo_bump_list', array() );
+		$wps_ubo_offer_array_collection = get_option( 'wps_ubo_bump_list', array() );
 
-		if ( mwb_ubo_lite_if_pro_exists() && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+		if ( wps_ubo_lite_if_pro_exists() && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
-			$mwb_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_lic_callback_function;
+			$wps_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_lic_callback_function;
 
-			$mwb_upsell_bump_callname_lic_initial = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_lic_ini_callback_function;
+			$wps_upsell_bump_callname_lic_initial = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_lic_ini_callback_function;
 
-			$day_count = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic_initial();
+			$day_count = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic_initial();
 
-			if ( Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$mwb_upsell_bump_callname_lic() || 0 <= $day_count ) {
+			if ( Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic() || 0 <= $day_count ) {
 
-				return $mwb_ubo_offer_array_collection;
+				return $wps_ubo_offer_array_collection;
 
 			} else {
 
@@ -336,10 +336,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			}
 		} else {
 
-			$single_first_bump = array( key( $mwb_ubo_offer_array_collection ) => $mwb_ubo_offer_array_collection[ key( $mwb_ubo_offer_array_collection ) ] );
+			$single_first_bump = array( key( $wps_ubo_offer_array_collection ) => $wps_ubo_offer_array_collection[ key( $wps_ubo_offer_array_collection ) ] );
 
 			// Unset Smart Offer Upgrade in case as it's a pro feature.
-			$single_first_bump[ key( $mwb_ubo_offer_array_collection ) ]['mwb_ubo_offer_replace_target'] = 'no';
+			$single_first_bump[ key( $wps_ubo_offer_array_collection ) ]['wps_ubo_offer_replace_target'] = 'no';
 
 			return $single_first_bump;
 		}

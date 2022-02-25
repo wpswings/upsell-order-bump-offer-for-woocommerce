@@ -45,7 +45,7 @@ This is a happy moment for your customers and also they trust you as they’re j
 == OUR PLUGINS COMPATIBILITY WITH UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE == 
 
 * **Role Based Pricing**
-The compatibility of Upsell Order Bump Offer with [**Role Based Pricing**](https://wordpress.org/plugins/mwb-role-based-pricing-for-woocommerce/) allows the merchants to manage the upsell bump offers for different user roles. This means the merchants can create bump offers that will trigger specific user roles on your eCommerce store. Also, you can give different discounts on bump offer products for different user roles.
+The compatibility of Upsell Order Bump Offer with [**Role Based Pricing**](https://wordpress.org/plugins/wps-role-based-pricing-for-woocommerce/) allows the merchants to manage the upsell bump offers for different user roles. This means the merchants can create bump offers that will trigger specific user roles on your eCommerce store. Also, you can give different discounts on bump offer products for different user roles.
 
 * **Ultimate Gift Cards**
 The Upsell Order Bump Offer plugin is compatible with the [**Ultimate Gift Cards**](https://wordpress.org/plugins/woo-gift-cards-lite/) plugin that allows your customers to redeem their gift cards and earn even more discounts. This will allow the merchants to offer more payment options to their customers for the bump offers.
@@ -119,7 +119,7 @@ This is one of our recent features. The admin can change the default bump offer 
 [**Free demo of Upsell Order Bump Offer for WooCommerce**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-page&utm_campaign=order-bump-demo)
 
 
-Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-page&utm_campaign=MWB-upsell-bump-org) to learn more about the features and working of the plugin.
+Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-page&utm_campaign=WPS-upsell-bump-org) to learn more about the features and working of the plugin.
 
 Check out [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-kb&utm_medium=order-bump-org-page&utm_campaign=order-bump-kb)
 
@@ -140,9 +140,9 @@ Check out [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://s
 * Premium Support on Phone, Email & Skype.
 
 
-> Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=MWB-order-bump-pro)
+> Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=WPS-order-bump-pro)
 
-Checkout [**Documentation of Premium Version**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=MWB-order-bump-pro)
+Checkout [**Documentation of Premium Version**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=WPS-order-bump-pro)
 
 == SUPPORT ==
 
@@ -263,7 +263,7 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 = 2.0.0 - Released on 03 Nov 2021 =
 * Bug Fixes
 * Compatibility with Subscriptions For WooCommerce
-* Compatibility with MWB Role Based Pricing for WooCommerce
+* Compatibility with WPS Role Based Pricing for WooCommerce
 * Compatibility with Ultimate Gift Cards For WooCommerce 
 
 = 1.4.3 - Released on 16 Sep 2021 =
