@@ -197,6 +197,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		// Validate Pro version compatibility.
 		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'validate_version_compatibility' );
 
+		// Db migration hook.
+		if ( 'deleted' !== get_option( 'mwb_ubo_bump_list', 'deleted' ) ) {
+			$this->loader->add_action( 'init', $plugin_admin, 'wps_migrate_db_keys' );
+		}
+
 	}
 
 	/**

@@ -766,4 +766,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		}
 	}
 
+	/**
+	 * Function to migrate db keys.
+	 *
+	 * @return void
+	 */
+	public function wps_migrate_db_keys() {
+		$wps_ubo_global_options_copy = get_option( 'mwb_ubo_global_options' );
+		$wps_ubo_bump_list_copy = get_option( 'mwb_ubo_bump_list' );
+		update_option( 'wps_ubo_global_options', $wps_ubo_global_options_copy );
+		update_option( 'wps_ubo_bump_list', $wps_ubo_bump_list_copy );
+		delete_option( 'mwb_ubo_global_options' );
+		delete_option( 'mwb_ubo_bump_list' );
+	}
+
 } // End of class.
