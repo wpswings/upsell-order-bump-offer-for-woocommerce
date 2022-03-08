@@ -774,12 +774,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function wps_migrate_db_keys() {
-		$wps_ubo_global_options_copy = get_option( 'mwb_ubo_global_options' );
-		$wps_ubo_bump_list_copy = get_option( 'mwb_ubo_bump_list' );
-		update_option( 'wps_ubo_global_options', $wps_ubo_global_options_copy );
-		update_option( 'wps_ubo_bump_list', $wps_ubo_bump_list_copy );
-		delete_option( 'mwb_ubo_global_options' );
-		delete_option( 'mwb_ubo_bump_list' );
+		if ( 'deleted' !== get_option( 'mwb_ubo_bump_list', 'deleted' ) ) {
+			$wps_ubo_global_options_copy = str_replace( 'mwb', 'wps', json_encode( get_option( 'mwb_ubo_global_options' ) ) );
+			$wps_ubo_bump_list_copy = str_replace( 'mwb', 'wps', json_encode( get_option( 'mwb_ubo_bump_list' ) ) );
+			update_option( 'wps_ubo_global_options', json_decode( $wps_ubo_global_options_copy, true ) );
+			update_option( 'wps_ubo_bump_list', json_decode( $wps_ubo_bump_list_copy, true ) );
+			delete_option( 'mwb_ubo_global_options' );
+			delete_option( 'mwb_ubo_bump_list' );
+		}
 	}
 
 } // End of class.
