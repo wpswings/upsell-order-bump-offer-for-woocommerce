@@ -164,6 +164,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 					wp_enqueue_script( 'wp-color-picker' );
 
+					wp_enqueue_media();
+
 					if ( ! empty( $_GET['wps-bump-offer-section'] ) ) {
 
 						$bump_offer_section['value'] = sanitize_text_field( wp_unslash( $_GET['wps-bump-offer-section'] ) );

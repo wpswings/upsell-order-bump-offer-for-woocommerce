@@ -38,7 +38,6 @@ $active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['ta
 
 	<!-- For notification control. -->
 	<h1></h1>
-	<?php do_action( 'wps_ubo_migration_notice', '', '', '' ); ?>
 	<?php
 
 	if ( 'reporting' === $active_tab ) {
