@@ -405,3 +405,9 @@ input#s2id_autogen1 {
 }
 /*=====  End of MEDIA QUERIES  ======*/
 
+/* Dashboard icon custom css */
+.wps-info-img {
+	width: 20px;
+	vertical-align: middle;
+	padding-right: 2px;
+  }
