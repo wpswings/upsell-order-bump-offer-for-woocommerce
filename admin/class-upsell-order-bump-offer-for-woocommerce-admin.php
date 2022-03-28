@@ -775,12 +775,35 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 */
 	public function wps_migrate_db_keys() {
 		if ( 'deleted' !== get_option( 'mwb_ubo_bump_list', 'deleted' ) ) {
-			$wps_ubo_global_options_copy = str_replace( 'mwb', 'wps', json_encode( get_option( 'mwb_ubo_global_options' ) ) );
-			$wps_ubo_bump_list_copy = str_replace( 'mwb', 'wps', json_encode( get_option( 'mwb_ubo_bump_list' ) ) );
+			$wps_ubo_global_options_copy = str_replace( 'mwb', 'wps', wp_json_encode( get_option( 'mwb_ubo_global_options' ) ) );
+			$wps_ubo_bump_list_copy      = str_replace( 'mwb', 'wps', wp_json_encode( get_option( 'mwb_ubo_bump_list' ) ) );
 			update_option( 'wps_ubo_global_options', json_decode( $wps_ubo_global_options_copy, true ) );
 			update_option( 'wps_ubo_bump_list', json_decode( $wps_ubo_bump_list_copy, true ) );
 			delete_option( 'mwb_ubo_global_options' );
 			delete_option( 'mwb_ubo_bump_list' );
+		}
+
+		$this->import_postmeta( 'mwb_bump_order' );
+		$this->import_postmeta( 'mwb_bump_order_process_sales_stats' );
+
+	}
+
+	/**
+	 * Migration for postmeta.
+	 *
+	 * @param string $meta_key meta key to import.
+	 * @since       3.1.4
+	 */
+	public function import_postmeta( $meta_key = false ) {
+
+		if ( ! empty( $meta_key ) ) {
+
+			$new_meta_key = str_replace( 'mwb', 'wps', $meta_key );
+			global $wpdb;
+			$table_name = $wpdb->prefix . 'postmeta';
+			$sql        = "UPDATE `$table_name` SET `meta_key` = '$new_meta_key' WHERE `meta_key` = '$meta_key'";
+			$result = $wpdb->get_results( $sql, ARRAY_A ); // @codingStandardsIgnoreLine.
+			return $result;
 		}
 	}
 
