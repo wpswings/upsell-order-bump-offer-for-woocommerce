@@ -35,6 +35,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
 /**
  * Plugin Active Detection.
  *
@@ -64,6 +66,56 @@ function wps_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
  * Currently plugin version.
  */
 define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.0.3' );
+
+$old_pro_present   = false;
+$installed_plugins = get_plugins();
+
+if ( array_key_exists( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', $installed_plugins ) ) {
+	$pro_plugin = $installed_plugins['upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php'];
+	if ( version_compare( $pro_plugin['Version'], '2.0.3', '<' ) ) {
+		$old_pro_present = true;
+	}
+}
+
+if ( true === $old_pro_present ) {
+
+	add_action( 'admin_notices', 'check_and_inform_update' );
+
+	/**
+	 * Check update if pro is old.
+	 */
+	function check_and_inform_update() {
+		$update_file = plugin_dir_path( dirname( __FILE__ ) ) . 'upsell-order-bump-offer-for-woocommerce-pro/class-mwb-upsell-bump-update.php';
+
+		// If present but not active.
+		if ( ! wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
+			if ( file_exists( $update_file ) ) {
+
+				$mwb_upsell_bump_purchase_code = get_option( 'wps_upsell_bump_license_key', '' );
+				if ( empty( $mwb_upsell_bump_purchase_code ) ) {
+					$mwb_upsell_bump_purchase_code = get_option( 'mwb_upsell_bump_license_key', '' );
+				}
+				! defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_LICENSE_KEY' ) && define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_LICENSE_KEY', $mwb_upsell_bump_purchase_code );
+				! defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE' ) && define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE', 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' );
+			}
+			require_once $update_file;
+		}
+
+		if ( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE' ) ) {
+			do_action( 'mwb_upsell_bump_check_event' );
+			$is_update_fetched = get_option( 'mwb_bump_plugin_update', 'false' );
+			$plugin_transient  = get_site_transient( 'update_plugins' );
+			$update_obj        = ! empty( $plugin_transient->response[ UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE ] ) ? $plugin_transient->response[ UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE ] : false;
+			if ( ! empty( $update_obj ) ) :
+				?>
+				<div class="notice notice-error is-dismissible">
+					<p><?php esc_html_e( 'Your Upsell Order Bump Offer for WooCommerce Pro plugin update is here! Please Update it now.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+				</div>
+				<?php
+			endif;
+		}
+	}
+}
 
 /**
  * The code that runs during plugin activation.

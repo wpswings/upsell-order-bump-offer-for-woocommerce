@@ -251,8 +251,25 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		$plugin_active = wps_ubo_lite_if_pro_exists();
 		if ( $plugin_active ) {
 
-			$wps_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_lic_callback_function;
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
+			$old_pro_present   = false;
+			$installed_plugins = get_plugins();
+
+			if ( array_key_exists( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', $installed_plugins ) ) {
+				$pro_plugin = $installed_plugins['upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php'];
+				if ( version_compare( $pro_plugin['Version'], '2.0.3', '<' ) ) {
+					$old_pro_present = true;
+				}
+			}
+
+			if ( true === $old_pro_present ) {
+				// With org files only.
+				require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php';
+				return;
+			}
+
+			$wps_upsell_bump_callname_lic         = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_lic_callback_function;
 			$wps_upsell_bump_callname_lic_initial = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_lic_ini_callback_function;
 
 			$day_count = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic_initial();
@@ -777,10 +794,24 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		if ( 'deleted' !== get_option( 'mwb_ubo_bump_list', 'deleted' ) ) {
 			$wps_ubo_global_options_copy = str_replace( 'mwb', 'wps', wp_json_encode( get_option( 'mwb_ubo_global_options' ) ) );
 			$wps_ubo_bump_list_copy      = str_replace( 'mwb', 'wps', wp_json_encode( get_option( 'mwb_ubo_bump_list' ) ) );
+
 			update_option( 'wps_ubo_global_options', json_decode( $wps_ubo_global_options_copy, true ) );
 			update_option( 'wps_ubo_bump_list', json_decode( $wps_ubo_bump_list_copy, true ) );
 			delete_option( 'mwb_ubo_global_options' );
 			delete_option( 'mwb_ubo_bump_list' );
+
+			$meta_keys = array(
+				'mwb_upsell_bump_license_key',
+				'mwb_upsell_bump_license_check',
+				'mwb_upsell_bump_activated_timestamp',
+			);
+
+			foreach ( $meta_keys as $key => $meta_key ) {
+				$new_meta_key = str_replace( 'mwb', 'wps', $meta_key );
+				$meta_value   = get_option( $meta_key, '' );
+				update_option( $new_meta_key, $meta_value );
+				delete_option( $meta_key );
+			}
 		}
 
 		$this->import_postmeta( 'mwb_bump_order' );
