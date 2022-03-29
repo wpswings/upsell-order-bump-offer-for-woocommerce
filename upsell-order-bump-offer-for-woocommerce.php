@@ -79,11 +79,6 @@ if ( array_key_exists( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order
 
 if ( true === $old_pro_present ) {
 
-	if ( wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
-		deactivate_plugins( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' );
-		header( 'Refresh:0' );
-	}
-
 	add_action( 'admin_notices', 'check_and_inform_update' );
 
 	/**
@@ -118,10 +113,6 @@ if ( true === $old_pro_present ) {
 				</div>
 				<?php
 			endif;
-
-			if ( ! wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
-				activate_plugins( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' );
-			}
 		}
 	}
 }
