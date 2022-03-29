@@ -99,11 +99,23 @@ if ( true === $old_pro_present ) {
 				! defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE' ) && define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE', 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' );
 			}
 			require_once $update_file;
+		} else {
+
+			$mwb_upsell_bump_purchase_code = get_option( 'wps_upsell_bump_license_key', '' );
+			if ( empty( $mwb_upsell_bump_purchase_code ) ) {
+				$mwb_upsell_bump_purchase_code = get_option( 'mwb_upsell_bump_license_key', '' );
+			}
+
+			if ( ! empty( $mwb_upsell_bump_purchase_code ) ) {
+				update_option( 'wps_upsell_bump_license_key', $mwb_upsell_bump_purchase_code );
+				update_option( 'mwb_upsell_bump_license_key', $mwb_upsell_bump_purchase_code );
+			}
 		}
 
 		if ( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE' ) ) {
 			do_action( 'mwb_upsell_bump_check_event' );
 			$is_update_fetched = get_option( 'mwb_bump_plugin_update', 'false' );
+
 			$plugin_transient  = get_site_transient( 'update_plugins' );
 			$update_obj        = ! empty( $plugin_transient->response[ UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE ] ) ? $plugin_transient->response[ UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE ] : false;
 			if ( ! empty( $update_obj ) ) :
