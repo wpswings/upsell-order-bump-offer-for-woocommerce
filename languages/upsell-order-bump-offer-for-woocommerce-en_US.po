@@ -1,20 +1,21 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.0.2\n"
-"POT-Creation-Date: 2022-01-20 16:22+0530\n"
-"PO-Revision-Date: 2022-01-20 16:22+0530\n"
+"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.0.3\n"
+"POT-Creation-Date: 2022-03-30 17:18+0530\n"
+"PO-Revision-Date: 2022-03-30 17:18+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 3.0\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;"
-"esc_html__;esc_html_e;esc_html_x;_n_noop;_nx_noop;translate_nooped_plural\n"
+"esc_html;esc_html__;esc_html_e;esc_html_x;_n_noop;_nx_noop;"
+"translate_nooped_plural\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:141
@@ -46,12 +47,13 @@ msgid "Export"
 msgstr ""
 
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:162
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:330
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:401
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:472
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:696
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:349
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:420
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:491
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:715
 #: admin/partials/templates/wps-ubo-lite-list.php:33
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:28
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:28
 #: admin/reporting/upsell-order-bump-reporting-config-panel.php:22
 #: includes/class-wpswings-onboarding-helper.php:828
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:66
@@ -59,90 +61,90 @@ msgstr ""
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:300
 #: reporting/class-wps-upsell-order-bump-report-sales-by-product.php:182
 #: reporting/class-wps-upsell-order-bump-report-sales-by-product.php:466
-#: upsell-order-bump-offer-for-woocommerce.php:250
+#: upsell-order-bump-offer-for-woocommerce.php:278
 msgid "Nonce Not verified"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:222
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:223
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:558
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:224
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:225
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:577
 #: admin/partials/templates/wps-ubo-lite-creation.php:285
 msgid "Order Bump"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:234
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:236
 msgid "Order Bumps & Settings"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:239
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:241
 msgid "Sales Reports & Analytics"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:266
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:285
 #, php-format
 msgid "%s day"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:274
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:293
 msgid "Activate"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:277
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:296
 #, php-format
 msgid ""
 " the license key before %s or you may risk losing data and the plugin will "
 "also become dysfunctional."
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:293
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:312
 msgid "Upsell Order Bump Offers Pro"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:538
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:557
 msgid "Order Bump: "
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:562
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:581
 msgid "Order Bump Sales by date"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:569
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:588
 msgid "Order Bump Sales by product"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:576
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:595
 msgid "Order Bump Sales by category"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:615
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:634
 msgid "Some Error Occured while creating report."
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:727
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:746
 msgid "Upsell Order Bump Offer for WooCommerce Pro"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:727
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:746
 msgid ""
 "is deactivated, Please Update the PRO version as this version is outdated "
 "and will not work with the current"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:727
-#: upsell-order-bump-offer-for-woocommerce.php:279
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:746
+#: upsell-order-bump-offer-for-woocommerce.php:307
 msgid "Upsell Order Bump Offer for WooCommerce"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:727
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:746
 msgid "Free version."
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:753
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:763
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:772
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:782
 msgid "Remove Image"
 msgstr ""
 
-#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:761
+#: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:780
 msgid "Upload image"
 msgstr ""
 
@@ -340,11 +342,24 @@ msgid "Offer Price/Discount"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:704
+#: admin/reporting/templates/reporting.php:133
+msgid "%"
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-creation.php:704
 msgid "Discount %"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:705
+msgid "fixed"
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-creation.php:705
 msgid "Fixed price"
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-creation.php:706
+msgid "no_disc"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:706
@@ -373,6 +388,12 @@ msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:751
 msgid "Content"
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-creation.php:771
+#: admin/partials/templates/wps-ubo-lite-creation.php:784
+#: admin/partials/templates/wps-ubo-lite-creation.php:793
+msgid "wps_ubo_selected_class"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:777
@@ -423,6 +444,10 @@ msgstr ""
 msgid "----Select Border Type----"
 msgstr ""
 
+#: admin/partials/templates/wps-ubo-lite-creation.php:865
+msgid "selected"
+msgstr ""
+
 #: admin/partials/templates/wps-ubo-lite-creation.php:878
 msgid "Select Border Color"
 msgstr ""
@@ -437,6 +462,29 @@ msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:904
 msgid "Add top spacing to the Bump Offer Box."
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-creation.php:911
+#: admin/partials/templates/wps-ubo-lite-creation.php:932
+#: admin/partials/templates/wps-ubo-lite-creation.php:1004
+#: admin/partials/templates/wps-ubo-lite-creation.php:1057
+#: admin/partials/templates/wps-ubo-lite-creation.php:1125
+#: admin/partials/templates/wps-ubo-lite-creation.php:1187
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:462
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:463
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:490
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:510
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:521
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:525
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:530
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:545
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:559
+msgid "px"
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-creation.php:911
+#: admin/partials/templates/wps-ubo-lite-creation.php:932
+msgid "0px"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:920
@@ -637,6 +685,10 @@ msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-list.php:98
 msgid "Priority : "
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-list.php:98
+msgid "No Priority"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-list.php:140
@@ -996,20 +1048,43 @@ msgid "Don't update"
 msgstr ""
 
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:42
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:42
 #: admin/reporting/upsell-order-bump-reporting-config-panel.php:30
 msgid "Upsell Order Bump Offers"
 msgstr ""
 
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:47
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:47
+msgid "creation-setting"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:47
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:47
 msgid "Save Order Bump"
 msgstr ""
 
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:49
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:49
+msgid "bump-list"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:49
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:49
 msgid "Order Bumps List"
 msgstr ""
 
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:51
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:51
+msgid "settings"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:51
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:51
 msgid "Global Settings"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:70
+msgid "license"
 msgstr ""
 
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:70
@@ -1017,18 +1092,27 @@ msgid "License"
 msgstr ""
 
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:75
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:54
+msgid "overview"
+msgstr ""
+
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:75
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:54
 msgid "Overview"
 msgstr ""
 
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:130
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:80
 msgid "Connect with Us in one click"
 msgstr ""
 
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:132
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:82
 msgid "Connect"
 msgstr ""
 
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:134
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:84
 msgid "Regarding any issue, query or feature request for Order Bump Offers."
 msgstr ""
 
@@ -1068,8 +1152,8 @@ msgstr ""
 msgid "Total Sales"
 msgstr ""
 
-#: admin/reporting/templates/reporting.php:133
-msgid "%"
+#: admin/reporting/upsell-order-bump-reporting-config-panel.php:35
+msgid "reporting"
 msgstr ""
 
 #: admin/reporting/upsell-order-bump-reporting-config-panel.php:35
@@ -1086,30 +1170,6 @@ msgstr ""
 
 #: extra-templates/wpswings-onboarding-template-display.php:44
 msgid "Skip For Now"
-msgstr ""
-
-#: includes/class-wpswings-onboarding-helper.php:326
-msgid "What is your monthly revenue?"
-msgstr ""
-
-#: includes/class-wpswings-onboarding-helper.php:343
-msgid "What industry defines your business?"
-msgstr ""
-
-#: includes/class-wpswings-onboarding-helper.php:378
-msgid "What is the best email address to contact you?"
-msgstr ""
-
-#: includes/class-wpswings-onboarding-helper.php:388
-msgid "What is your contact number?"
-msgstr ""
-
-#: includes/class-wpswings-onboarding-helper.php:630
-msgid "Select Any One Option..."
-msgstr ""
-
-#: includes/class-wpswings-onboarding-helper.php:896
-msgid "Unexpected Error Occurred"
 msgstr ""
 
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:351
@@ -1138,6 +1198,10 @@ msgid ""
 "Hey there, you can get access to this offer by just clicking the checkbox "
 "above. Add this offer to your order, you will never get such a discount on "
 "any other place on this site."
+msgstr ""
+
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:467
+msgid " "
 msgstr ""
 
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:765
@@ -1196,6 +1260,30 @@ msgstr ""
 
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2109
 msgid "Category not found"
+msgstr ""
+
+#: includes/class-wpswings-onboarding-helper.php:326
+msgid "What is your monthly revenue?"
+msgstr ""
+
+#: includes/class-wpswings-onboarding-helper.php:343
+msgid "What industry defines your business?"
+msgstr ""
+
+#: includes/class-wpswings-onboarding-helper.php:378
+msgid "What is the best email address to contact you?"
+msgstr ""
+
+#: includes/class-wpswings-onboarding-helper.php:388
+msgid "What is your contact number?"
+msgstr ""
+
+#: includes/class-wpswings-onboarding-helper.php:630
+msgid "Select Any One Option..."
+msgstr ""
+
+#: includes/class-wpswings-onboarding-helper.php:896
+msgid "Unexpected Error Occurred"
 msgstr ""
 
 #: public/class-upsell-order-bump-offer-for-woocommerce-public.php:389
@@ -1381,34 +1469,40 @@ msgstr ""
 msgid "Sales amount"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:174
+#: upsell-order-bump-offer-for-woocommerce.php:124
+msgid ""
+"Your Upsell Order Bump Offer for WooCommerce Pro plugin update is here! "
+"Please Update it now."
+msgstr ""
+
+#: upsell-order-bump-offer-for-woocommerce.php:202
 msgid "Settings"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:175
+#: upsell-order-bump-offer-for-woocommerce.php:203
 msgid "GO PRO"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:197
+#: upsell-order-bump-offer-for-woocommerce.php:225
 msgid "Demo"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:198
+#: upsell-order-bump-offer-for-woocommerce.php:226
 msgid "Documentation"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:199
+#: upsell-order-bump-offer-for-woocommerce.php:227
 msgid "Support"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:279
+#: upsell-order-bump-offer-for-woocommerce.php:307
 msgid "WooCommerce"
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:279
+#: upsell-order-bump-offer-for-woocommerce.php:307
 msgid " is not activated, Please activate WooCommerce first to activate "
 msgstr ""
 
-#: upsell-order-bump-offer-for-woocommerce.php:279
+#: upsell-order-bump-offer-for-woocommerce.php:307
 msgid "."
 msgstr ""
