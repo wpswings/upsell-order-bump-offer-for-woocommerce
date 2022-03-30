@@ -258,7 +258,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 			if ( array_key_exists( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', $installed_plugins ) ) {
 				$pro_plugin = $installed_plugins['upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php'];
-				if ( version_compare( $pro_plugin['Version'], '2.0.3', '<' ) ) {
+				if ( version_compare( $pro_plugin['Version'], '2.1.0', '<' ) ) {
 					$old_pro_present = true;
 				}
 			}
