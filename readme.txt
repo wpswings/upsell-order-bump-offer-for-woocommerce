@@ -1,12 +1,12 @@
 ===  Upsell Order Bump Offer for WooCommerce - Increase Sales,Upsell & Crosssell , Checkout Page  ===
-Contributors: WP Swings
+Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags: bump, increase sales, upsell, woocommerce, checkout page 
-Requires at least: 4.0
-Tested up to: 5.8.3
-WC requires at least: 3.0.0
-WC tested up to: 6.1.0
-Stable tag: 2.0.2
+Tags: bump, increase sales, upsell, woocommerce, checkout page, pre-purchase upsell offers 
+Requires at least: 4.6
+Tested up to: 5.9.2
+WC requires at least: 4.0
+WC tested up to: 6.3.1
+Stable tag: 2.1.0
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -29,7 +29,7 @@ This is a happy moment for your customers and also they trust you as they’re j
 >_**WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end. Please [**Connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact&utm_medium=order-bump-org-page&utm_campaign=contact) for all setup, support, and update related queries without hesitation.**_
 ***
 
-(https://www.youtube.com/watch?v=p9KIQyXauY4&w=560&h=315&rel=0)
+[youtube https://www.youtube.com/watch?v=p9KIQyXauY4&w=560&h=315&rel=0]
 
 == WITH THE UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE PLUGIN YOU CAN: ==
 
@@ -41,14 +41,6 @@ This is a happy moment for your customers and also they trust you as they’re j
 * Skip bump offers if the offer product is already added in the cart.
 * Offer simple, variable, and subscription products as order bump offers.
 * Track order bumps performance with Order Bump Sales Reports and Behavioral Analytics.
-
-== OUR PLUGINS COMPATIBILITY WITH UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE == 
-
-* **Role Based Pricing**
-The compatibility of Upsell Order Bump Offer with [**Role Based Pricing**](https://wordpress.org/plugins/wps-role-based-pricing-for-woocommerce/) allows the merchants to manage the upsell bump offers for different user roles. This means the merchants can create bump offers that will trigger specific user roles on your eCommerce store. Also, you can give different discounts on bump offer products for different user roles.
-
-* **Ultimate Gift Cards**
-The Upsell Order Bump Offer plugin is compatible with the [**Ultimate Gift Cards**](https://wordpress.org/plugins/woo-gift-cards-lite/) plugin that allows your customers to redeem their gift cards and earn even more discounts. This will allow the merchants to offer more payment options to their customers for the bump offers.
 
 
 == PLUGIN MEETS YOUR REQUIREMENT, SO ==
@@ -116,19 +108,27 @@ By enabling the permalink option from the Global Settings your customers can vie
 
 This is one of our recent features. The admin can change the default bump offer product image from the funnel setting and replace it with a custom image.
 
-[**Free demo of Upsell Order Bump Offer for WooCommerce**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-page&utm_campaign=order-bump-demo)
 
-
-Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-page&utm_campaign=WPS-upsell-bump-org) to learn more about the features and working of the plugin.
+Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-page&utm_campaign=order-bump-doc) to learn more about the features and working of the plugin.
 
 Check out [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-kb&utm_medium=order-bump-org-page&utm_campaign=order-bump-kb)
 
 
+== LIVE DEMO OF UPSELL ORDER BUMP OFFER PLUGIN ==
+
+* [**Upsell Order Bump Offer for WooCommerce Frontend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-page&utm_campaign=frontend-demo)
+
+* [**Upsell Order Bump Offer for WooCommerce Backend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/request-for-personal-demo/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-page&utm_campaign=backend-demo)
+
+== PLUGINS COMPATIBILITY WITH UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE == 
+
+* **Ultimate Gift Cards**
+The Upsell Order Bump Offer plugin is compatible with the [**Ultimate Gift Cards**](https://wordpress.org/plugins/woo-gift-cards-lite/) plugin that allows your customers to redeem their gift cards and earn even more discounts. This will allow the merchants to offer more payment options to their customers for the bump offers.
 
 == WHAT PREMIUM VERSION OF UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE OFFERS ==
 
 * Create Unlimited Order Bump offers.
-* Show Multiple Order Bumps offers on the checkout page.
+* Show Multiple Order bump offers on the checkout page.
 * Role-Based Bump Offers
 * Bump Offer Priority
 * Global Order Bump
@@ -140,9 +140,11 @@ Check out [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://s
 * Premium Support on Phone, Email & Skype.
 
 
-> Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=WPS-order-bump-pro)
+> Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=order-bump-pro)
 
-Checkout [**Documentation of Premium Version**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=WPS-order-bump-pro)
+== DOCUMENTATION OF PREMIUM VERSION ==
+
+Checkout [**Documentation of Premium Version**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-page&utm_campaign=order-bump-doc)
 
 == SUPPORT ==
 
@@ -246,7 +248,14 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 
 
+
 == Changelog ==
+
+= 2.1.0 - Released on 30 March 2022 =
+
+* New:  Some substantial changes across different areas of the plugin.
+* New: Minor Bug Fixes
+* New: Compatible with the latest WP and WC
 
 = 2.0.2 - Released on 21 Jan 2022  =
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-page&utm_campaign=official)
@@ -263,7 +272,7 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 = 2.0.0 - Released on 03 Nov 2021 =
 * Bug Fixes
 * Compatibility with Subscriptions For WooCommerce
-* Compatibility with WPS Role Based Pricing for WooCommerce
+* Compatibility with MWB Role Based Pricing for WooCommerce
 * Compatibility with Ultimate Gift Cards For WooCommerce 
 
 = 1.4.3 - Released on 16 Sep 2021 =
@@ -301,8 +310,13 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 
 == Upgrade Notice ==
-= 2.0.2 - Released on 21 Jan 2022  =
-* New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-page&utm_campaign=official)
-* New: Minor Bug fixes
-* New: Compatible with latest WP and WC
+
+= 2.1.0 - Released on 30 March 2022 =
+
+* New:  Some substantial changes across different areas of the plugin.
+* New: Minor Bug Fixes
+* New: Compatible with the latest WP and WC
+
+
+
 
