@@ -79,12 +79,12 @@ if ( array_key_exists( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order
 
 if ( true === $old_pro_present ) {
 
-	add_action( 'admin_notices', 'check_and_inform_update' );
+	add_action( 'admin_notices', 'wps_ubo_check_and_inform_update' );
 
 	/**
 	 * Check update if pro is old.
 	 */
-	function check_and_inform_update() {
+	function wps_ubo_check_and_inform_update() {
 		$update_file = plugin_dir_path( dirname( __FILE__ ) ) . 'upsell-order-bump-offer-for-woocommerce-pro/class-mwb-upsell-bump-update.php';
 
 		// If present but not active.
