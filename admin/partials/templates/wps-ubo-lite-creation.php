@@ -137,7 +137,10 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 		$design_settings_post['parent_border_color']     = ! empty( $_POST['parent_border_color'] ) ? sanitize_text_field( wp_unslash( $_POST['parent_border_color'] ) ) : '';
 		$design_settings_post['top_vertical_spacing']    = ! empty( $_POST['top_vertical_spacing'] ) ? sanitize_text_field( wp_unslash( $_POST['top_vertical_spacing'] ) ) : '';
 		$design_settings_post['bottom_vertical_spacing'] = ! empty( $_POST['bottom_vertical_spacing'] ) ? sanitize_text_field( wp_unslash( $_POST['bottom_vertical_spacing'] ) ) : '';
+		// v2.1.2 version.
+		$design_settings_post['parent_background_color']     = ! empty( $_POST['parent_background_color'] ) ? sanitize_text_field( wp_unslash( $_POST['parent_background_color'] ) ) : '';
 
+		unset( $_POST['parent_background_color'] );
 		unset( $_POST['parent_border_type'] );
 		unset( $_POST['parent_border_color'] );
 		unset( $_POST['top_vertical_spacing'] );
@@ -891,6 +894,53 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 								</tr>
 							<!-- Border color end. -->
+
+
+
+
+
+
+
+
+
+
+
+
+							<!-- Background color start. -->
+								<tr valign="top">
+
+									<th scope="row" class="titledesc">
+										<label><?php esc_html_e( 'Select Background Color', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+									</th>
+
+									<td class="forminp forminp-text">
+									<?php
+										$attribute_description = esc_html__( 'Select Background Color for Bump Offer.', 'upsell-order-bump-offer-for-woocommerce' );
+										wps_ubo_lite_help_tip( $attribute_description );
+									?>
+										<label>
+											<!-- Color picker for description background. -->
+											<input type="text" name="parent_background_color" class="wps_ubo_colorpicker wps_ubo_preview_select_background_color" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['parent_background_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['parent_background_color'] ) : ''; ?>">
+										</label>			
+									</td>
+
+								</tr>
+							<!-- Background color end. -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 							<!-- Top Vertical Spacing control start. -->
 								<tr valign="top">

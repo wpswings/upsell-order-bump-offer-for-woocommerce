@@ -127,7 +127,13 @@ function wps_ubo_lite_allowed_html() {
 				'wps_upsell_offer_product_section',
 				'wps_upsell_offer_image',
 				'wps_upsell_offer_product_content',
-				'wps_upsell_offer_primary_section',
+				'wps_upsell_offer_primary_section' => array(
+					'div' => array(
+						'img' => array(
+							'src',
+						),
+					),
+				),
 				'wps_upsell_offer_secondary_section',
 				'woocommerce-product-gallery__image',
 				'wps_ubo_lite_go_pro_popup_wrap',
@@ -220,6 +226,7 @@ function wps_ubo_lite_offer_template_1() {
 	// Template 1.
 	$wps_bump_upsell_global_css['parent_border_type']      = 'dashed';
 	$wps_bump_upsell_global_css['parent_border_color']     = '#000000';
+	$wps_bump_upsell_global_css['parent_background_color'] = '#ffffff';
 	$wps_bump_upsell_global_css['top_vertical_spacing']    = '10';
 	$wps_bump_upsell_global_css['bottom_vertical_spacing'] = '10';
 
@@ -255,6 +262,7 @@ function wps_ubo_lite_offer_template_2() {
 	// Template 2.
 	$wps_bump_upsell_global_css['parent_border_type']      = 'dashed';
 	$wps_bump_upsell_global_css['parent_border_color']     = '#000000';
+	$wps_bump_upsell_global_css['parent_background_color'] = '#ffffff';
 	$wps_bump_upsell_global_css['top_vertical_spacing']    = '10';
 	$wps_bump_upsell_global_css['bottom_vertical_spacing'] = '10';
 
@@ -290,6 +298,7 @@ function wps_ubo_lite_offer_template_3() {
 	// Template 3.
 	$wps_bump_upsell_global_css['parent_border_type']      = 'dashed';
 	$wps_bump_upsell_global_css['parent_border_color']     = '#000000';
+	$wps_bump_upsell_global_css['parent_background_color'] = '#ffffff';
 	$wps_bump_upsell_global_css['top_vertical_spacing']    = '10';
 	$wps_bump_upsell_global_css['bottom_vertical_spacing'] = '10';
 
@@ -406,7 +415,8 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 
 	// Setting to enable disable permalink.
 	$wps_bump_enable_permalink = ! empty( $wps_ubo_global_options['wps_bump_enable_permalink'] ) ? $wps_ubo_global_options['wps_bump_enable_permalink'] : '';
-
+	// Red arrow setting.
+	$wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red_arrow_feature'] ) ? $wps_ubo_global_options['wps_enable_red_arrow_feature'] : '';
 	// Setting for the offer Quantity.
 	$wps_upsell_enable_quantity = ! empty( $bump['wps_upsell_enable_quantity'] ) ? $bump['wps_upsell_enable_quantity'] : '';
 	$wps_upsell_bump_products_fixed_quantity = ! empty( $bump['wps_upsell_bump_products_fixed_quantity'] ) ? $bump['wps_upsell_bump_products_fixed_quantity'] : '';
@@ -417,6 +427,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	// PARENT WRAPPER DIV CSS( parent_wrapper_div ).
 	$parent_border_type             = ! empty( $bump['design_css']['parent_border_type'] ) ? $bump['design_css']['parent_border_type'] : '';
 	$parent_border_color            = ! empty( $bump['design_css']['parent_border_color'] ) ? $bump['design_css']['parent_border_color'] : '';
+	$parent_background_color        = ! empty( $bump['design_css']['parent_background_color'] ) ? $bump['design_css']['parent_background_color'] : '';
 	$parent_top_vertical_spacing    = ! empty( $bump['design_css']['top_vertical_spacing'] ) ? $bump['design_css']['top_vertical_spacing'] : '';
 	$parent_bottom_vertical_spacing = ! empty( $bump['design_css']['bottom_vertical_spacing'] ) ? $bump['design_css']['bottom_vertical_spacing'] : '0';
 
@@ -474,8 +485,8 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			font-family: 'Source Sans Pro', sans-serif;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_wrapper {
-			background-color: #ffffff;
-			padding: 20px;
+			background-color:<?php echo esc_html(  $parent_background_color ); ?>;
+			padding : 20px;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_discount_section {
 			margin: 0;
@@ -783,8 +794,17 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		// Product section ends.
 	}
 
+	// Creating  red arrow html.
+	if ( 'on' === $wps_enable_red_arrow_feature ) {
+		$wps_ubo_red_arrow_svg = esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/arrow.svg' );
+		$wps_ubo_red_arrow_html = '<div><img src="'. $wps_ubo_red_arrow_svg . '"></div>';
+	} else {
+		$wps_ubo_red_arrow_html = '';
+	}
+
 	// Primary section start.
 	$bumphtml .= '<div class = "wps_upsell_offer_primary_section" >';
+	$bumphtml .= $wps_ubo_red_arrow_html;
 	$bumphtml .= '<label class="wps_upsell_bump_checkbox_container">';
 	$bumphtml .= '<input type="checkbox" ' . $check . ' name="add_offer_in_cart_checkbox" class ="add_offer_in_cart">';
 	$bumphtml .= '<span class="checkmark"></span>';

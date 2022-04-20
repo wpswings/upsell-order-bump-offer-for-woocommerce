@@ -56,7 +56,8 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 	$wps_bump_upsell_global_options['wps_bump_enable_permalink'] = ! empty( $_POST['wps_bump_enable_permalink'] ) ? 'on' : 'off';
 
 	$wps_bump_upsell_global_options['wps_bump_target_link_attr_val'] = ! empty( $_POST['wps_bump_target_attr'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_target_attr'] ) ) : 'no';
-
+	// After v2.1.2
+	$wps_bump_upsell_global_options['wps_enable_red_arrow_feature'] = ! empty( $_POST['wps_enable_red_arrow_feature'] ) ? 'on' : 'off';
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'wps_ubo_global_options', $wps_bump_upsell_global_options );
 
@@ -107,6 +108,9 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 	// Delete all data on uninstall.
 	$wps_delete_all_on_uninstall = ! empty( $wps_ubo_global_options['wps_delete_all_on_uninstall'] ) ? $wps_ubo_global_options['wps_delete_all_on_uninstall'] : 'no';
+
+	// After v2.1.2.
+	$wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red_arrow_feature'] ) ? $wps_ubo_global_options['wps_enable_red_arrow_feature'] : 'no';
 
 ?>
 
@@ -456,6 +460,71 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 					</td>
 				</tr>
 				<!-- Delete all the data on uninstall button html end. -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<!-- Enable/Disable red arrow feature start. -->
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+						<label for="wps_enable_red_arrow_feature"><?php esc_html_e( 'Enable red arrow feature.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+						<?php
+							$attribute_description = esc_html__( 'Enable red arrow feature.', 'upsell-order-bump-offer-for-woocommerce' );
+
+							wps_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label for="wps_enable_red_arrow_feature" class="wps_enable_red_arrow_feature wps_upsell_bump_enable_deletedata_label wps_bump_enable_plugin_support">
+
+							<input id="wps_enable_red_arrow_feature" class="wps_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( 'on' === $wps_enable_red_arrow_feature ) ? "checked='checked'" : ''; ?> name="wps_enable_red_arrow_feature" >	
+							<span class="wps_upsell_bump_enable_plugin_span"></span>
+
+						</label>
+					</td>
+				</tr>
+				<!-- Enable/Disable red arrow feature end. -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 				<!-- Order Bump Limit start. -->
 				<tr valign="top">

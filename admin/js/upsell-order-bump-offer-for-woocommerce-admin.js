@@ -295,6 +295,7 @@
 		var border_type = '';
 		var border_color = '';
 		var border_size = '';
+		var background_color = '';
 
 		$('.wps_ubo_preview_select_border_type').on('change', function () {
 
@@ -310,6 +311,19 @@
             	border_color = ui.color.toString();
 
             	wps_ubo_apply_border_styling( border_color );
+
+            }
+        });
+
+		// Background color.
+		var Backgroundcolorpicker = $('.wps_ubo_preview_select_background_color');
+
+		Backgroundcolorpicker.wpColorPicker({
+            change: (event, ui) => {
+
+            	background_color = ui.color.toString();
+
+            	wps_ubo_apply_background_color_styling( background_color );
 
             }
         });
@@ -509,6 +523,15 @@
 			}
 
 			BumpOfferBox.css( 'border', border_type + ' ' + border_color + ' ' + border_size );
+		}
+
+		// Apply Background color stylings.
+		function wps_ubo_apply_background_color_styling( background_color = '' ) {
+
+			background_color = $('.wps_ubo_preview_select_background_color').val();
+
+
+			$('.wps_upsell_offer_wrapper').css( 'background-color', background_color );
 		}
 
 		// Live Preview JS end.
