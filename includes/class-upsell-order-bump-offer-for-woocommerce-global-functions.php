@@ -611,6 +611,29 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 				box-shadow: 0 0 0 7px transparent;
 			}
 		}
+
+		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow {
+			width: 35px;
+			margin-right: 10px;
+			transform: scaleX(-1);
+		}
+		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow img {
+			width: 100%;
+			height: auto;
+			animation: leftright 0.4s infinite ease;
+		}
+			@keyframes leftright {
+			0% {
+				transform: translateX(-5px);
+			}
+			60% {
+				transform: translateX(-2px)
+			}
+			100% {
+				transform: translateX(-5px);
+			}
+		}
+
 		/* On mouse-over, add a grey background color. */
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_bump_checkbox_container:hover input ~ .checkmark {
 			background-color: #ccc;
@@ -797,7 +820,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	// Creating  red arrow html.
 	if ( 'on' === $wps_enable_red_arrow_feature ) {
 		$wps_ubo_red_arrow_svg = esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/arrow.svg' );
-		$wps_ubo_red_arrow_html = '<div><img src="'. $wps_ubo_red_arrow_svg . '"></div>';
+		$wps_ubo_red_arrow_html = '<div class="wps_upsell_offer_arrow"><img src="' . $wps_ubo_red_arrow_svg . '"></div>';
 	} else {
 		$wps_ubo_red_arrow_html = '';
 	}

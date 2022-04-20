@@ -25,7 +25,7 @@
  .wps_bump_popup_content {
 	 animation:fadein .5s;
 	 background-color: #ffffff;
-	 height: 450px;
+	 max-height: 450px;
 	 margin: 0 auto;
 	 max-width: 875px;
 	 overflow-y: auto;
@@ -35,6 +35,8 @@
  }
  .wps_bump_popup_inner_content {
 	padding-bottom: 20px;
+	display: flex;
+	flex-wrap: wrap;
  }
  p.stock.out-of-stock {
 	margin: 0;
@@ -100,15 +102,33 @@
  .wps_bump_popup_image, 
  .wps_bump_popup_select {
 	 padding: 0px 20px;
-	 width: 50%;
-	 flex: 0 0 47%;
-	 float: left;
+	 flex: 0 0 calc(50% - 40px);
  }
  .wps_bump_popup_inner_content {
-	 display: block;
+	 display: flex;
 	 width: 100%;
  
  }
+ .wps_upsell_offer_arrow {
+	 width: 35px;
+	 margin-right: 10px;
+ }
+ .wps_upsell_offer_arrow img {
+    width: 100%;
+    height: auto;
+animation: slide 2s infinite ease;
+}
+@keyframes slide {
+	0% {
+		transform: translateX(-4px);
+	}
+	60%{
+
+	}
+	100% {
+		transform: translateX(0px);
+	}
+}
  .wps_bump_popup_inner_content:after {
 	 content: "";
 	 clear: both;
@@ -344,7 +364,8 @@
 		margin-top: 20px;
 	 }
 	 .wps_bump_popup_content{
-		height: 320px;
+		height: auto;
+		max-height: unset;
 	 }
 
 	 .wps-ubo-form-grp .meta-form-field-label,
