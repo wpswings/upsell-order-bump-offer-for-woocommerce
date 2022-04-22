@@ -437,6 +437,33 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 				</tr>
 				<!-- Restrict external coupons feature skip end. -->
 
+
+				<!-- Enable/Disable red arrow feature start. -->
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+
+					<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="wps_enable_red_arrow_feature"><?php esc_html_e( 'Enable red arrow feature.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+						<?php
+							$attribute_description = esc_html__( 'Enable red arrow feature.', 'upsell-order-bump-offer-for-woocommerce' );
+
+							wps_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label for="wps_enable_red_arrow_feature" class="wps_enable_red_arrow_feature wps_upsell_bump_enable_deletedata_label wps_bump_enable_plugin_support">
+
+							<input id="wps_enable_red_arrow_feature" class="wps_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( 'on' === $wps_enable_red_arrow_feature ) ? "checked='checked'" : ''; ?> id="wps_enable_red_arrow_feature" name="wps_enable_red_arrow_feature" >	
+							<span class="wps_upsell_bump_enable_plugin_span"></span>
+
+						</label>
+					</td>
+				</tr>
+				<!-- Enable/Disable red arrow feature end. -->
+
 				<!-- Delete all the data on uninstall button html start. -->
 				<tr valign="top">
 
@@ -460,71 +487,6 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 					</td>
 				</tr>
 				<!-- Delete all the data on uninstall button html end. -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				<!-- Enable/Disable red arrow feature start. -->
-				<tr valign="top">
-
-					<th scope="row" class="titledesc">
-						<label for="wps_enable_red_arrow_feature"><?php esc_html_e( 'Enable red arrow feature.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
-					</th>
-
-					<td class="forminp forminp-text">
-						<?php
-							$attribute_description = esc_html__( 'Enable red arrow feature.', 'upsell-order-bump-offer-for-woocommerce' );
-
-							wps_ubo_lite_help_tip( $attribute_description );
-						?>
-
-						<label for="wps_enable_red_arrow_feature" class="wps_enable_red_arrow_feature wps_upsell_bump_enable_deletedata_label wps_bump_enable_plugin_support">
-
-							<input id="wps_enable_red_arrow_feature" class="wps_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( 'on' === $wps_enable_red_arrow_feature ) ? "checked='checked'" : ''; ?> name="wps_enable_red_arrow_feature" >	
-							<span class="wps_upsell_bump_enable_plugin_span"></span>
-
-						</label>
-					</td>
-				</tr>
-				<!-- Enable/Disable red arrow feature end. -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 				<!-- Order Bump Limit start. -->
 				<tr valign="top">

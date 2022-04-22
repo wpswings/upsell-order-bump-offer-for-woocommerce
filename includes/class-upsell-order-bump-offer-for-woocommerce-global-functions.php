@@ -818,7 +818,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	}
 
 	// Creating  red arrow html.
-	if ( 'on' === $wps_enable_red_arrow_feature ) {
+	if ( 'on' === $wps_enable_red_arrow_feature && wps_ubo_lite_if_pro_exists() ) {
 		$wps_ubo_red_arrow_svg = esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/arrow.svg' );
 		$wps_ubo_red_arrow_html = '<div class="wps_upsell_offer_arrow"><img src="' . $wps_ubo_red_arrow_svg . '"></div>';
 	} else {
