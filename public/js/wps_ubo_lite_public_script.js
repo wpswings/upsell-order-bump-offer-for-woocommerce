@@ -648,16 +648,5 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    // same price hide problem
-    setTimeout(hide_del_price_when_same, 300);
-    jQuery(document).on('click','.add_offer_in_cart',function(){
-        setTimeout(hide_del_price_when_same, 500);
-    });
-    function hide_del_price_when_same(){
-        if(jQuery(document).find('del').first('.amount').text() == jQuery(document).find('ins').first('.amount').text()){
-            jQuery(document).find('del').hide();
-        }
-    }
-
     // END OF SCRIPT
 });

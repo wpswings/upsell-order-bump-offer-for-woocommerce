@@ -485,7 +485,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			font-family: 'Source Sans Pro', sans-serif;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_wrapper {
-			background-color:<?php echo esc_html(  $parent_background_color ); ?>;
+			background-color:<?php echo esc_html( $parent_background_color ); ?>;
 			padding : 20px;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_discount_section {
@@ -1859,6 +1859,10 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		return $bump_price;
 	}
 
+	// Fixes for no_disc (when there is no discount).
+	if ( '' === $regular_price && '' === $sale_price ) {
+		return wc_price( $bump_price );
+	}
 	/**
 	 * After v1.2.0 We have option to select the price html format.
 	 * So before returning price html in wc_format_sale_price check the settings and create html accordingly.

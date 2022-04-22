@@ -56,7 +56,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 	$wps_bump_upsell_global_options['wps_bump_enable_permalink'] = ! empty( $_POST['wps_bump_enable_permalink'] ) ? 'on' : 'off';
 
 	$wps_bump_upsell_global_options['wps_bump_target_link_attr_val'] = ! empty( $_POST['wps_bump_target_attr'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_target_attr'] ) ) : 'no';
-	// After v2.1.2
+	// After v2.1.2.
 	$wps_bump_upsell_global_options['wps_enable_red_arrow_feature'] = ! empty( $_POST['wps_enable_red_arrow_feature'] ) ? 'on' : 'off';
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'wps_ubo_global_options', $wps_bump_upsell_global_options );

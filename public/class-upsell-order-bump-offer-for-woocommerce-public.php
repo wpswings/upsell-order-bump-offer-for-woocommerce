@@ -1230,8 +1230,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				}
 			}
 
-			// Hide bump purchase meta only for Customers.
-			// if ( ! is_admin() ) {
+			// To hide bump purchase meta only for Customers place the below foreach loop in a condition( ! is_admin() ).
 
 			foreach ( $formatted_meta as $key => $meta ) {
 
@@ -1240,7 +1239,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					unset( $formatted_meta[ $key ] );
 				}
 			}
-			// }
 		}
 
 		return $formatted_meta;
