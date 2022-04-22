@@ -1860,7 +1860,7 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 	}
 
 	// Fixes for no_disc (when there is no discount).
-	if ( '' === $regular_price && '' === $sale_price ) {
+	if ( $bump_price === $regular_price || $bump_price === $sale_price ) {
 		return wc_price( $bump_price );
 	}
 	/**
