@@ -957,7 +957,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 										<label>
 											<!-- Slider for spacing. -->
-											<input type="range" min="0" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['top_vertical_spacing'] ); ?>"  max="40" value="" name='top_vertical_spacing' class="wps_ubo_top_vertical_spacing_slider" />
+											<input type="range" min="10" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['top_vertical_spacing'] ); ?>"  max="40" value="" name='top_vertical_spacing' class="wps_ubo_top_vertical_spacing_slider" />
 											<span class="wps_ubo_top_spacing_slider_size" ><?php echo esc_html( ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['top_vertical_spacing'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['top_vertical_spacing'] . 'px' ) : '0px' ); ?></span>
 										</label>
 									</td>
@@ -977,7 +977,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 									?>
 									<label>	
 										<!-- Slider for spacing. -->
-										<input type="range" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['bottom_vertical_spacing'] ); ?>" min="0" max="40" value="" name='bottom_vertical_spacing' class="wps_ubo_bottom_vertical_spacing_slider" />
+										<input type="range" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['bottom_vertical_spacing'] ); ?>" min="10" max="40" value="" name='bottom_vertical_spacing' class="wps_ubo_bottom_vertical_spacing_slider" />
 										<span class="wps_ubo_bottom_spacing_slider_size" > 
 										<?php echo esc_html( ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['bottom_vertical_spacing'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['bottom_vertical_spacing'] . 'px' ) : '0px' ); ?>
 											</span>
