@@ -253,9 +253,17 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 
 			include_once WC()->plugin_path() . '/includes/walkers/class-wc-product-cat-dropdown-walker.php';
 
-			echo wc_walk_category_dropdown_tree( $categories, 0, $r );
+			$allowed_html = array(
+				'option' => array(
+					'value'    => array(),
+					'selected' => array(),
+					'class'    => array(),
+				),
+			);
 
-		?>
+			echo wp_kses( wc_walk_category_dropdown_tree( $categories, 0, $r ), $allowed_html );
+
+			?>
 		</select>
 		  <?php // @codingStandardsIgnoreStart ?>
 			<a href="#" class="select_none"><?php esc_html_e( 'None', 'woocommerce' ); ?></a>
