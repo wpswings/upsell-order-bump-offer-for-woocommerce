@@ -830,11 +830,25 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		if ( ! empty( $meta_key ) ) {
 
 			$new_meta_key = str_replace( 'mwb', 'wps', $meta_key );
+
 			global $wpdb;
-			$table_name = $wpdb->prefix . 'postmeta';
-			$sql        = "UPDATE `$table_name` SET `meta_key` = '$new_meta_key' WHERE `meta_key` = '$meta_key'";
-			$result = $wpdb->get_results( $sql, ARRAY_A ); // @codingStandardsIgnoreLine.
-			return $result;
+			wp_cache_delete( 'wps_migration_keys' );
+			if ( empty( wp_cache_get( 'wps_migration_keys' ) || ! empty( wp_cache_get( 'wps_migration_keys' ) ) ) ) {
+
+				$result = $wpdb->get_results( // phpcs:ignore.
+					$wpdb->prepare(
+						'UPDATE ' . $wpdb->prefix . 'postmeta SET `meta_key` = %s WHERE `meta_key` = %s',
+						$new_meta_key,
+						$meta_key
+					),
+					ARRAY_A
+				);
+
+				wp_cache_set(
+					'wps_migration_keys',
+					$result
+				);
+			}
 		}
 	}
 

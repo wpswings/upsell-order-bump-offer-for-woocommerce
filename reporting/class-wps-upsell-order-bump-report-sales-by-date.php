@@ -474,7 +474,7 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Date extends WC_Admin_Report {
 			points: { show: true, radius: 5, lineWidth: 2, fillColor: '#fff', fill: true },
 			lines: { show: true, lineWidth: 3, fill: false },
 			shadowSize: 0,
-			<?php echo $this->get_currency_tooltip(); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
+			prepend_tooltip: "<?php echo esc_html( get_woocommerce_currency_symbol() ); ?>"
 			},
 		];
 

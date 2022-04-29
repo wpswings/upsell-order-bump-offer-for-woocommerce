@@ -143,10 +143,13 @@ $order_bumps = get_option( 'wps_ubo_bump_list' );
 						$bump_total_sales = ! empty( $value['bump_total_sales'] ) ? $value['bump_total_sales'] : 0;
 
 						$bump_total_sales = number_format( (float) $bump_total_sales, 2 );
-
-						echo '<div class="wps_ubo_stats_total_sales"><p>' . get_woocommerce_currency_symbol() . esc_html( $bump_total_sales ) . '</p><div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
 						?>
+						<div class="wps_ubo_stats_total_sales"><p>
+						<?php
+						echo esc_html( get_woocommerce_currency_symbol() );
+						echo esc_html( $bump_total_sales );
+						?>
+						</p><div>
 					</td>
 
 				</tr>
