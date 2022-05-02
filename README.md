@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-4000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.9.3-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.3.1-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-4000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.9.3-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.4.1-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
 # Upsell Order Bump Offer for WooCommerce – Increase Sales, Upsell & Cross-sell, Checkout Page
 ![Upsell Order Bump Offer for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg?rev=2672066)
 * Contributors: WP Swings
@@ -18,7 +18,7 @@ This is a happy moment for your customers and also they trust you as they’re j
 ***
 >**IMPORTANT NOTICE:**
 
->_**From update Version 2.0.2 onwards, the Upsell Order Bump Offer plugin and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-github-page&utm_campaign=official).**_
+>_**From the 2.0.2 Version update onwards, the Upsell Order Bump Offer plugin and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-github-page&utm_campaign=official).**_
 
 >_**WP Swings is just our improvised and rebranded version with all quality solutions and help to be the same, so no worries at your end. Please [**Connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact&utm_medium=order-bump-github-page&utm_campaign=contact) for all setup, support, and update related queries without hesitation.**_
 ***
@@ -35,7 +35,6 @@ This is a happy moment for your customers and also they trust you as they’re j
 * Skip bump offers if the offer product is already added to the cart.
 * Offer simple, variable, and subscription products as order bump offers.
 * Track order bumps performance with Order Bump Sales Reports and Behavioral Analytics.
-* It’s compatible with our [**One Click Upsell Funnel for WooCommerce**](https://wordpress.org/plugins/woo-one-click-upsell-funnel/)
 
 ### PLUGIN MEETS YOUR REQUIREMENT, SO
 [**Download Now !!**](https://downloads.wordpress.org/plugin/upsell-order-bump-offer-for-woocommerce.zip)
@@ -64,30 +63,33 @@ Each of your WooCommerce Order Bumps can be designed and customized differently 
 Merchants can customize order bump offers and view Live Preview at the same time. Live Preview is available for Template, Design, and Content. Live Preview Customization helps in creating appealing Order Bumps for your WooCommerce store.
 
 **7) Multiple Locations on the Checkout page**
-The Order Bump offer can be displayed on multiple locations on the Checkout Page. You can display them as “Before Order Summary”, “Before Payment Gateways”, “After Payment Gateways”, “Before Place Order Button”.
+The additional offers can be displayed on multiple locations on the Checkout Page. You can display them as “Before Order Summary”, “Before Payment Gateways”, “After Payment Gateways”, and “Before Place Order Button”.
 
-**8) Sandbox Mode**
-Our plugin has Sandbox mode that gives you the ability to Live Preview and Customize the Order Bump Offer layout and modify every element before making it Live.
+**8) Choose the Background Color of the Bump Offer Box** 
+Customize the background color of the bump offer box as per liking using the background color feature. Make the offer as attractive as you can by choosing the righteous color combinations and elevate your AOV.
 
-**9) Responsive Order Bumps design**
-The Order Bump offers are completely responsive for every type of device no matter whether it is Desktop, Mobile, or Tablet.
+**9) Sandbox Mode**
+Our WooCommerce Order Bump plugin has Sandbox mode that gives you the ability to Live Preview and Customize the Order Bump Offer layout and modify every element before making it Live.
 
-**10) Behavioral Reporting**
+**10) Responsive Order Bumps design**
+The  WooCommerce upsell offers are completely responsive for every type of device no matter whether it is Desktop, Mobile, or Tablet.
+
+**11) Behavioral Reporting**
 
 Merchants can analyze the customer behavior for every individual bump offer. With this behavioral report, a merchant can check the number of times a particular offer was viewed, accepted, or removed from the cart. It also shows the conversion rate as well as the total sales for every order bump offer.
 
-**11) Sales Report**
+**12) Sales Report**
 
 With the Order Bump Sales Report, a merchant can track the sale of the products that were sold as a bump offer. It lets you track the sale of those products for a specific time period and also enables you to track the sales as per individual products and product categories.
 
-**12) Major Product Types Support**
+**13) Major Product Types Support**
 
-The plugin comes with full compatibility with simple, variable, and subscription product types. This increases the range of product offerings that you can provide to your customers.
+The WooCommerce Order Bump plugin comes with full compatibility with simple, variable, and subscription product types. This increases the range of product offerings that you can provide to your customers.
 
-**13) Enable Permalink On Product Title And Image**
+**14) Enable Permalink On Product Title And Image**
 By enabling the permalink option from the Global Settings your customers can view the bump offer product in detail. Customers can click either on the product title or the product image of the bump offer product on the checkout page. As a result, the customer will be redirected to a new page where they can view the complete information.
 
-**14) Add Custom Image**
+**15) Add Custom Image**
 This is one of our recent features. The admin can change the default bump offer product image from the funnel setting and replace it with a custom image.
 
 
@@ -107,8 +109,15 @@ Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://su
 
 ## WHAT PREMIUM VERSION OF UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE OFFERS
 
-* Create Unlimited Upsell Order Bump offers.
+* Create Unlimited Order Bump offers.
 * Show Multiple Order bump offers on the checkout page.
+* Role-Based Bump Offers
+* Red Arrow on Bump Offer box
+* Bump Offer Priority
+* Global Order Bump
+* Bump Offer Product Quantity
+* Template Customization with Live Preview
+* Target Product Category For Triggering Bump Offers
 * Smart Offer Upgrade to offer an upgrade on the existing purchase.
 * Smart Skip if Already Purchased to skip the bump offers if already purchased.
 * Premium Support on Phone, Email & Skype.
@@ -121,7 +130,7 @@ Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://su
 
 ### DOCUMENTATION OF PREMIUM VERSION
 
-* Checkout [**Upsell Order Bump Offer for WooCommerce Pro Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-github-page&utm_campaign=order-bump-doc)
+* Check out [**Upsell Order Bump Offer for WooCommerce Pro Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-github-page&utm_campaign=order-bump-doc)
 
 ## **SUPPORT**
 
@@ -134,7 +143,3 @@ If you need support or have questions, kindly use our online chat window [**here
 - [**Follow us on Facebook Page**](https://www.facebook.com/wpswings)
 - [**Tweet us on @WPSwings**](https://twitter.com/wpswings)
 - [**Visit our LinkedIn Account**](https://www.linkedin.com/company/wpswings/)
-
-
-
-
