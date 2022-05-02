@@ -50,7 +50,6 @@ The Order Bump offer can be accepted in just a single click in which the custome
 
 **3) Category Based Offer Triggering**
 You can trigger your WooCommerce checkout offers based on the target Category of products, For example, if anyone purchases a product from the Electronics category then your Order Bump offer will be triggered and the offer will be shown.
-
 Setting up the target category saves a lot of time from adding individual products as targets and you can set up related upsell offers that will show up for the right category.
 
 **4) Bump Offer Scheduling**
@@ -75,15 +74,12 @@ Our WooCommerce Order Bump plugin has Sandbox mode that gives you the ability to
 The  WooCommerce upsell offers are completely responsive for every type of device no matter whether it is Desktop, Mobile, or Tablet.
 
 **11) Behavioral Reporting**
-
 Merchants can analyze the customer behavior for every individual bump offer. With this behavioral report, a merchant can check the number of times a particular offer was viewed, accepted, or removed from the cart. It also shows the conversion rate as well as the total sales for every order bump offer.
 
 **12) Sales Report**
-
 With the Order Bump Sales Report, a merchant can track the sale of the products that were sold as a bump offer. It lets you track the sale of those products for a specific time period and also enables you to track the sales as per individual products and product categories.
 
 **13) Major Product Types Support**
-
 The WooCommerce Order Bump plugin comes with full compatibility with simple, variable, and subscription product types. This increases the range of product offerings that you can provide to your customers.
 
 **14) Enable Permalink On Product Title And Image**
