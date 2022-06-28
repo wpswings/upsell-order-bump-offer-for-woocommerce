@@ -777,26 +777,26 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	if ( 'yes' == $bump['counter_timer'] && wps_ubo_lite_if_pro_exists() ) {
 		
 		$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section">
-		<div class = "wps_day_timer_block">
-		<div id ="wps_day_time"></div>
+		<div class = "wps_day_timer_block wps-timer-wrap">
+		<div id ="wps_day_time">0</div>
 		<div id = "wps_day_label">Days</div>
 		</div>
 		<div class ="wps_timer_sept">:</div>
 
-		<div class = "wps_hour_timer_block">
-		<div id ="wps_hour_time"></div>
+		<div class = "wps_hour_timer_block wps-timer-wrap">
+		<div id ="wps_hour_time">0</div>
 		<div id = "wps_hour_label">Hour</div>
 		</div>
 		<div class ="wps_timer_sept">:</div>
 
-		<div class = "wps_min_timer_block">
-		<div id ="wps_min_time"></div>
+		<div class = "wps_min_timer_block wps-timer-wrap">
+		<div id ="wps_min_time">0</div>
 		<div id = "wps_min_label">Min</div>
 		</div>
 		<div class ="wps_timer_sept">:</div>
 
-		<div class = "wps_sec_timer">
-		<div id ="wps_sec_time"></div>
+		<div class = "wps_sec_timer_block wps-timer-wrap">
+		<div id ="wps_sec_time">0</div>
 		<div id = "wps_sec_label">Sec</div>
 		</div>
 		</div>';
