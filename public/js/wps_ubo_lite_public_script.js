@@ -14,7 +14,8 @@ jQuery(document).ready(function ($) {
     document.getElementById("wps_sec_time").innerHTML = seconds;
         if (t < 0) {
             clearInterval(x);
-            document.getElementById("demo").innerHTML = "EXPIRED";
+            document.getElementById("wps_timer").innerHTML = "EXPIRED";
+            $("#wps_timer"). css({backgroundColor: "#333", color: "#FFF"});
             document.getElementById("wps_checkbox_offer").disabled = true;
             $('#wps_checkbox_offer').prop('checked', false);
         }

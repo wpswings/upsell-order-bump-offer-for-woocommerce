@@ -776,7 +776,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	//Countdown Timer Section start.
 	if ( 'yes' == $bump['counter_timer'] && wps_ubo_lite_if_pro_exists() ) {
 		
-		$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section">
+		$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section" id ="wps_timer">
 		<div class = "wps_day_timer_block wps-timer-wrap">
 		<div id ="wps_day_time">0</div>
 		<div id = "wps_day_label">Days</div>
