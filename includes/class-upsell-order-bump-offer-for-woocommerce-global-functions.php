@@ -773,6 +773,35 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 
 	$bumphtml .= '<div class = "wps_upsell_offer_parent_wrapper" >';
 
+	//Countdown Timer Section start.
+	if ( 'yes' == $bump['counter_timer'] && wps_ubo_lite_if_pro_exists() ) {
+		
+		$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section">
+		<div class = "wps_day_timer_block">
+		<div id ="wps_day_time"></div>
+		<div id = "wps_day_label">Days</div>
+		</div>
+		<div class ="wps_timer_sept">:</div>
+
+		<div class = "wps_hour_timer_block">
+		<div id ="wps_hour_time"></div>
+		<div id = "wps_hour_label">Hour</div>
+		</div>
+		<div class ="wps_timer_sept">:</div>
+
+		<div class = "wps_min_timer_block">
+		<div id ="wps_min_time"></div>
+		<div id = "wps_min_label">Min</div>
+		</div>
+		<div class ="wps_timer_sept">:</div>
+
+		<div class = "wps_sec_timer">
+		<div id ="wps_sec_time"></div>
+		<div id = "wps_sec_label">Sec</div>
+		</div>
+		</div>';
+	} 
+	//Countdown Timer Section End.
 	// discount section start.
 	$bumphtml .= '<div class = "wps_upsell_offer_discount_section" >';
 	$bumphtml .= '<h3><b>' . $bump_price_html . '</b></h3>';
@@ -829,7 +858,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	$bumphtml .= '<div class = "wps_upsell_offer_primary_section" >';
 	$bumphtml .= $wps_ubo_red_arrow_html;
 	$bumphtml .= '<label class="wps_upsell_bump_checkbox_container">';
-	$bumphtml .= '<input type="checkbox" ' . $check . ' name="add_offer_in_cart_checkbox" class ="add_offer_in_cart">';
+	$bumphtml .= '<input type="checkbox" ' . $check . ' name="add_offer_in_cart_checkbox" class ="add_offer_in_cart" id ="wps_checkbox_offer" >';
 	$bumphtml .= '<span class="checkmark"></span>';
 	$bumphtml .= '</label>';
 	$bumphtml .= '<h5>' . $title . '</h5>';
@@ -876,6 +905,9 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 
 	$encountered_bump_array = $wps_ubo_offer_array_collection[ $encountered_bump_array_index ];
 
+	//Countdown Timer.
+	$counter_timer = ! empty( $encountered_bump_array['wps_ubo_offer_timer'] ) ? $encountered_bump_array['wps_ubo_offer_timer'] : '';
+
 	// Smart offer Upgrade.
 	$smart_offer_upgrade = ! empty( $encountered_bump_array['wps_ubo_offer_replace_target'] ) ? $encountered_bump_array['wps_ubo_offer_replace_target'] : '';
 
@@ -905,6 +937,12 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	if ( 'yes' === $smart_offer_upgrade ) {
 
 		$bump['smart_offer_upgrade'] = 'yes';
+	}
+
+	// Countdown Timer.
+	if ( 'yes' === $counter_timer ) {
+
+		$bump['counter_timer'] = 'yes';
 	}
 
 	if ( is_wps_role_based_pricing_active() ) {

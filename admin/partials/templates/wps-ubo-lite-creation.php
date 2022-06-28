@@ -629,6 +629,31 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 				</tr>
 				<!-- V2.0.1 with global funnel end. -->
 
+				<!--v2.1.3 Timer Enable/Disable Start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="wps_ubo_offer_timer"><?php esc_html_e( 'Countdown Timer', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This feature allows you to add countdown timer at  specific order bump , when timer end it restrict offer product to add.', 'upsell-order-bump-offer-for-woocommerce' );
+							wps_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label class="wps-upsell-smart-offer-upgrade" for="wps_ubo_offer_timer">
+						<input class="wps-upsell-smart-offer-upgrade-wrap" type='checkbox' id='wps_ubo_offer_timer' value=''>
+						<span class="upsell-smart-offer-upgrade-btn"></span>
+						</label>
+
+					</td>
+				</tr>
+
+				<!--v2.1.3 Timer Enable/Disable End. -->
+
 			</tbody>
 		</table>
 

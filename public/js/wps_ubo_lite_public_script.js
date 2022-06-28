@@ -1,5 +1,25 @@
 jQuery(document).ready(function ($) {
 
+    var deadline = new Date(wps_ubo_lite_public.timer).getTime();
+    var x = setInterval(function() {
+    var now = new Date().getTime();
+    var t = deadline - now;
+    var days = Math.floor(t / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
+    var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((t % (1000 * 60)) / 1000);
+    document.getElementById("wps_day_time").innerHTML = days;
+    document.getElementById("wps_hour_time").innerHTML = hours;
+    document.getElementById("wps_min_time").innerHTML = minutes;
+    document.getElementById("wps_sec_time").innerHTML = seconds;
+        if (t < 0) {
+            clearInterval(x);
+            document.getElementById("demo").innerHTML = "EXPIRED";
+            document.getElementById("wps_checkbox_offer").disabled = true;
+            $('#wps_checkbox_offer').prop('checked', false);
+        }
+    }, 1000);
+
     // When bump is prepared we will get this data.
     var bump_id = '';
     var bump_discount = '';
