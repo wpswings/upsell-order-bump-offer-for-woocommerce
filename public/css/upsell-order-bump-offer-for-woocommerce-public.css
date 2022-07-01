@@ -391,3 +391,26 @@ max-width: 300px;
 .wps_bump_popup_select label {
 margin: 10px 0;
 }
+
+/* Countdown Timer*/
+.wps_timer_count.wps_upsell_offer_discount_section {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    max-width: 210px;
+    margin: 15px auto!important;
+    box-shadow: 0 0 15px #00000012;
+}
+.wps-timer-wrap {
+    font-weight: 600;
+    color: #000000;
+    font-size: 18px;
+    margin: 0 2px;
+    font-family: inherit;
+}
+#wps_error_message_timer {
+    padding: 4px 6px;
+    text-align: center;
+    color: #721c24;
+    font-size: 16px;
+}

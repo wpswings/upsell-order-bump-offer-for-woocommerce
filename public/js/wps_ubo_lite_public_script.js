@@ -1,5 +1,33 @@
 jQuery(document).ready(function ($) {
 
+    var deadline = new Date(wps_ubo_lite_public.timer).getTime();
+    var x = setInterval(function() {
+    var now = new Date().getTime();
+    var t = deadline - now;
+    var days = Math.floor(t / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
+    var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((t % (1000 * 60)) / 1000);
+    document.getElementById("wps_day_time").innerHTML   = getNum( days );
+    document.getElementById("wps_hour_time").innerHTML  = getNum( hours );
+    document.getElementById("wps_min_time").innerHTML   = getNum( minutes);
+    document.getElementById("wps_sec_time").innerHTML   = getNum( seconds );
+    if( ( -1 == Math.sign(days) ) || ( -1 == Math.sign( hours ) ) || (-1 == Math.sign ( minutes ) ) || (-1 == Math.sign ( seconds ) )  ) {
+        document.getElementById('wps_hider_timer').style.display = 'none';
+    }
+        if (t < 0) {
+            clearInterval(x);
+            document.getElementById("wps_error_message_timer").innerText = "Opps Times UP!!!";
+            document.getElementById("wps_checkbox_offer").disabled = true;
+        }
+    }, 1000);
+
+    function getNum(val) {
+        if (isNaN(val) || -1 == Math.sign(val) ) {
+          return 0;
+        }
+        return val;
+     }
     // When bump is prepared we will get this data.
     var bump_id = '';
     var bump_discount = '';
@@ -328,8 +356,7 @@ jQuery(document).ready(function ($) {
                             field_obj.name = jQuery(this).attr('name');
                             field_obj.value = jQuery(this).prop('checked');
                             data_arr[index] = field_obj;
-                            index++;
-                        } else {
+                            index++;g                        } else {
                             // Push the values in an array.
                             field_obj.name = jQuery(this).attr('name');
                             field_obj.value = jQuery(this).val();

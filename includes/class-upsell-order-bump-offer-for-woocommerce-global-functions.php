@@ -117,7 +117,11 @@ function wps_ubo_lite_allowed_html() {
 		'h2'     => '',
 		'h3'     => '',
 		'h4'     => '',
-		'h5'     => '',
+		'h5'     => array(
+			'class' => array(
+				'add_offer_in_cart_text',
+			),
+		),
 		'div'    => array(
 			'class'                              => array(
 				'wps_upsell_offer_main_wrapper',
@@ -126,6 +130,7 @@ function wps_ubo_lite_allowed_html() {
 				'wps_upsell_offer_wrapper',
 				'wps_upsell_offer_product_section',
 				'wps_upsell_offer_image',
+				'wps_upsell_offer_arrow',
 				'wps_upsell_offer_product_content',
 				'wps_upsell_offer_primary_section' => array(
 					'div' => array(
@@ -148,6 +153,19 @@ function wps_ubo_lite_allowed_html() {
 			'data-thumb-alt'                     => array(),
 			'woocommerce-product-gallery__image' => array(),
 			'data-thumb'                         => array(),
+		),
+		'svg'            => array(
+			'xmlns'   => array(),
+			'viewbox' => array(),
+		),
+		'defs'   => array(),
+		'style'  => array(),
+		'g'      => array(
+			'id'  => array(),
+		),
+		'polygon' => array(
+			'class' => array(),
+			'points'=> array(),
 		),
 		'p'      => array(
 			'class' => array(
@@ -242,6 +260,7 @@ function wps_ubo_lite_offer_template_1() {
 	// Accept Offer Section(primary_section).
 	$wps_bump_upsell_global_css['primary_section_background_color'] = '#73cc12';
 	$wps_bump_upsell_global_css['primary_section_text_color']       = '#ffffff';
+	$wps_bump_upsell_global_css['primary_section_arrow_color']      = '#FF0000';
 	$wps_bump_upsell_global_css['primary_section_text_size']        = '18';
 
 	// SECONDARY SECTION(secondary_section).
@@ -277,6 +296,7 @@ function wps_ubo_lite_offer_template_2() {
 
 	// Accept Offer Section(primary_section).
 	$wps_bump_upsell_global_css['primary_section_background_color'] = '#c1f0db';
+	$wps_bump_upsell_global_css['primary_section_arrow_color']      = '#FF0000';
 	$wps_bump_upsell_global_css['primary_section_text_color']       = '#485f75';
 	$wps_bump_upsell_global_css['primary_section_text_size']        = '18';
 
@@ -313,6 +333,7 @@ function wps_ubo_lite_offer_template_3() {
 
 	// Accept Offer Section( primary_section ).
 	$wps_bump_upsell_global_css['primary_section_background_color'] = '#feb800';
+	$wps_bump_upsell_global_css['primary_section_arrow_color']      = '#FF0000';
 	$wps_bump_upsell_global_css['primary_section_text_color']       = '#ffffff';
 	$wps_bump_upsell_global_css['primary_section_text_size']        = '18';
 
@@ -440,9 +461,13 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	$product_section_text_color = ! empty( $bump['design_css']['product_section_text_color'] ) ? $bump['design_css']['product_section_text_color'] : '';
 	$product_section_text_size  = ! empty( $bump['design_css']['product_section_text_size'] ) ? $bump['design_css']['product_section_text_size'] : '';
 
+	$product_section_img_width  = ! empty( $bump['design_css']['product_section_img_width'] ) ? $bump['design_css']['product_section_img_width'] : '';
+	$product_section_img_height = ! empty( $bump['design_css']['product_section_img_height'] ) ? $bump['design_css']['product_section_img_height'] : '';
+
 	// PRIMARY SECTION(primary_section ).
 	$primary_section_background_color = ! empty( $bump['design_css']['primary_section_background_color'] ) ? $bump['design_css']['primary_section_background_color'] : '';
 	$primary_section_text_color       = ! empty( $bump['design_css']['primary_section_text_color'] ) ? $bump['design_css']['primary_section_text_color'] : '';
+	$primary_section_arrow_color      = ! empty( $bump['design_css']['primary_section_arrow_color'] ) ? $bump['design_css']['primary_section_arrow_color'] : '';
 	$primary_section_text_size        = ! empty( $bump['design_css']['primary_section_text_size'] ) ? $bump['design_css']['primary_section_text_size'] : '';
 
 	// SECONDARY SECTION( secondary_section ).
@@ -485,7 +510,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			font-family: 'Source Sans Pro', sans-serif;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_wrapper {
-			background-color:<?php echo esc_html( $parent_background_color ); ?>;
+			background-color:<?php echo esc_html(  $parent_background_color ); ?>;
 			padding : 20px;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_discount_section {
@@ -542,7 +567,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			font-weight: 300;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_product_content {
-			width: calc(100% - 90px);
+			/* width: calc(100% - 90px); */
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_primary_section {
 			align-items: center;
@@ -551,7 +576,8 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			margin: 14px auto;
 			padding: 10px;
 		}
-		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_primary_section h5 {
+		/* <?php // echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_primary_section h5 { */
+		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_primary_section .add_offer_in_cart_text {
 			color: <?php echo esc_html( $primary_section_text_color ); ?>;
 			font-size: <?php echo esc_html( $primary_section_text_size ) . esc_html( 'px' ); ?>;
 			margin: 0 0 0 5px;
@@ -611,29 +637,30 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 				box-shadow: 0 0 0 7px transparent;
 			}
 		}
-
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow {
-			width: 35px;
-			margin-right: 10px;
+			width: 40px;
+			margin-right: 4px;
 			transform: scaleX(-1);
+			animation: leftright 0.4s infinite ease;
+			padding: 0 2px;
 		}
-		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow img {
+		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow svg {
 			width: 100%;
 			height: auto;
-			animation: leftright 0.4s infinite ease;
+			/* fill: #eb483f; */
+			fill: <?php echo esc_html( $primary_section_arrow_color ); ?>
 		}
-			@keyframes leftright {
+		@keyframes leftright {
 			0% {
-				transform: translateX(-5px);
+				transform: translateX(-5px)scaleX(-1);
 			}
 			60% {
-				transform: translateX(-2px)
+				transform: translateX(-2px)scaleX(-1);
 			}
 			100% {
-				transform: translateX(-5px);
+				transform: translateX(-5px)scaleX(-1);
 			}
 		}
-
 		/* On mouse-over, add a grey background color. */
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_bump_checkbox_container:hover input ~ .checkmark {
 			background-color: #ccc;
@@ -665,13 +692,25 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			transform: rotate(45deg);
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_image {
-			width: 90px;
+			/* width: 90px; */
 			margin-right: 10px;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_img {
-			max-height: 120px;
-			width: 90px;
-			max-width: 100px;
+			/* max-height: 120px;
+			width: 90px; */
+			width: <?php echo esc_html( $product_section_img_width . 'px' ); ?>;
+			height: <?php echo esc_html( $product_section_img_height . 'px' ); ?>;
+			max-width: 150px;
+		}
+
+		@media only screen and (min-width : 768px) and (max-width: 1100px) {
+			.wps_upsell_offer_wrapper .wps_upsell_offer_product_section {
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+			.wps_upsell_offer_wrapper .wps_upsell_offer_product_content {
+				width: 100%!important;
+			}
 		}
 
 		@media screen and (max-width: 480px) {
@@ -772,6 +811,34 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	endif;
 
 	$bumphtml .= '<div class = "wps_upsell_offer_parent_wrapper" >';
+	$bumphtml .= '<div id = "wps_admin_timer"></div>';
+		//Countdown Timer Section start.
+		if ( 'yes' == $bump['counter_timer'] && wps_ubo_lite_if_pro_exists() ) {
+			$bumphtml .= '<div id = "wps_error_message_timer"></div>';
+			$bumphtml .= '<div id = "wps_expired_message"></div>';
+			$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section" id="wps_hider_timer">
+			<div class = "wps_day_timer_block wps-timer-wrap" id ="wps_timer">
+			<div id ="wps_day_time">0</div>
+			<div id = "wps_day_label">Days</div>
+			</div>
+			<div class ="wps_timer_sept">:</div>
+			<div class = "wps_hour_timer_block wps-timer-wrap">
+			<div id ="wps_hour_time">0</div>
+			<div id = "wps_hour_label">Hour</div>
+			</div>
+			<div class ="wps_timer_sept">:</div>
+			<div class = "wps_min_timer_block wps-timer-wrap">
+			<div id ="wps_min_time">0</div>
+			<div id = "wps_min_label">Min</div>
+			</div>
+			<div class ="wps_timer_sept">:</div>
+			<div class = "wps_sec_timer wps-timer-wrap">
+			<div id ="wps_sec_time">0</div>
+			<div id = "wps_sec_label">Sec</div>
+			</div>
+			</div>';
+		} 
+		//Countdown Timer Section End.
 
 	// discount section start.
 	$bumphtml .= '<div class = "wps_upsell_offer_discount_section" >';
@@ -818,9 +885,10 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	}
 
 	// Creating  red arrow html.
-	if ( 'on' === $wps_enable_red_arrow_feature && wps_ubo_lite_if_pro_exists() ) {
-		$wps_ubo_red_arrow_svg = esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/arrow.svg' );
-		$wps_ubo_red_arrow_html = '<div class="wps_upsell_offer_arrow"><img src="' . $wps_ubo_red_arrow_svg . '"></div>';
+	if ( 'on' === $wps_enable_red_arrow_feature ) {
+		// $wps_ubo_red_arrow_svg  = esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/arrow.svg' );
+		$wps_ubo_red_arrow_svg  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 198 111.52" demo="0 0 198 111.52"><defs></defs><g id="a"/><g id="b"><g id="c"><polygon class="d" points="198 25.35 198 86.17 96.62 86.17 96.62 111.52 48.36 83.64 0 55.76 48.36 27.88 96.62 0 96.62 25.35 198 25.35"/></g></g></svg>';
+		$wps_ubo_red_arrow_html = '<div class="wps_upsell_offer_arrow">' . $wps_ubo_red_arrow_svg . '</div>';
 	} else {
 		$wps_ubo_red_arrow_html = '';
 	}
@@ -829,10 +897,10 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	$bumphtml .= '<div class = "wps_upsell_offer_primary_section" >';
 	$bumphtml .= $wps_ubo_red_arrow_html;
 	$bumphtml .= '<label class="wps_upsell_bump_checkbox_container">';
-	$bumphtml .= '<input type="checkbox" ' . $check . ' name="add_offer_in_cart_checkbox" class ="add_offer_in_cart">';
+	$bumphtml .= '<input type="checkbox" ' . $check . ' name="add_offer_in_cart_checkbox" class ="add_offer_in_cart" id ="wps_checkbox_offer">';
 	$bumphtml .= '<span class="checkmark"></span>';
 	$bumphtml .= '</label>';
-	$bumphtml .= '<h5>' . $title . '</h5>';
+	$bumphtml .= '<h5 class="add_offer_in_cart_text">' . $title . '</h5>';
 	$bumphtml .= '</div>';
 	// Primary section end.
 
@@ -876,6 +944,9 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 
 	$encountered_bump_array = $wps_ubo_offer_array_collection[ $encountered_bump_array_index ];
 
+	//Countdown Timer.
+	$counter_timer = ! empty( $encountered_bump_array['wps_ubo_offer_timer'] ) ? $encountered_bump_array['wps_ubo_offer_timer'] : '';
+
 	// Smart offer Upgrade.
 	$smart_offer_upgrade = ! empty( $encountered_bump_array['wps_ubo_offer_replace_target'] ) ? $encountered_bump_array['wps_ubo_offer_replace_target'] : '';
 
@@ -905,6 +976,12 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	if ( 'yes' === $smart_offer_upgrade ) {
 
 		$bump['smart_offer_upgrade'] = 'yes';
+	}
+
+	// Countdown Timer.
+	if ( 'yes' === $counter_timer ) {
+
+		$bump['counter_timer'] = 'yes';
 	}
 
 	if ( is_wps_role_based_pricing_active() ) {
@@ -1859,10 +1936,6 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		return $bump_price;
 	}
 
-	// Fixes for no_disc (when there is no discount).
-	if ( $bump_price === $regular_price || $bump_price === $sale_price ) {
-		return wc_price( $bump_price );
-	}
 	/**
 	 * After v1.2.0 We have option to select the price html format.
 	 * So before returning price html in wc_format_sale_price check the settings and create html accordingly.

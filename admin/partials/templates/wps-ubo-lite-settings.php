@@ -444,12 +444,12 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 					<th scope="row" class="titledesc">
 
 					<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-						<label for="wps_enable_red_arrow_feature"><?php esc_html_e( 'Enable red arrow feature.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="wps_enable_red_arrow_feature"><?php esc_html_e( 'Enable Arrow feature.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 						<?php
-							$attribute_description = esc_html__( 'Enable red arrow feature.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribute_description = esc_html__( 'Enable arrow pointing checkbox to add the bump offer.', 'upsell-order-bump-offer-for-woocommerce' );
 
 							wps_ubo_lite_help_tip( $attribute_description );
 						?>

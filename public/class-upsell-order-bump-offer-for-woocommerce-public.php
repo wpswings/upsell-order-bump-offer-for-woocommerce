@@ -104,6 +104,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			return;
 		}
 
+		$encountered_bump_ids_array = array();
+		$encountered_bump_ids_array        = WC()->session->get( 'encountered_bump_array' );
+		if (is_array( $encountered_bump_ids_array ) || is_object( $encountered_bump_ids_array )) {
+			foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
+			$encountered_order_bump_id = $order_bump_id;
+			}
+		}
+		// Get all Bump if already some funnels are present.
+		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
+		$encountered_order_bump_id  = isset($encountered_order_bump_id ) ? $encountered_order_bump_id  : '';
+		$wps_ubo_timer_countdown = ! empty( $wps_upsell_bumps_list[ $encountered_order_bump_id ]['design_text']['wps_upsell_bump_offer_timer'] ) ? $wps_upsell_bumps_list[ $encountered_order_bump_id ]['design_text']['wps_upsell_bump_offer_timer'] : '';
+
 		// Public Script.
 		wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
 
@@ -114,6 +126,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
 				'mobile_view' => wp_is_mobile(),
 				'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce' ),
+				'timer'       => $wps_ubo_timer_countdown,
 			)
 		);
 

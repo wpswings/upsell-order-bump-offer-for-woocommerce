@@ -1,6 +1,33 @@
 (function( $ ) {
 	'use strict';
 	$(document).ready(function(){
+		$('#wps_counter_timer').on( 'change', function (e) {
+// alert('chnage');
+
+document.getElementById("wps_admin_timer").innerHTML = `<div class = "wps_timer_count wps_upsell_offer_discount_section">
+<div class = "wps_day_timer_block wps-timer-wrap" id ="wps_timer">
+<div id ="wps_day_time">0</div>
+<div id = "wps_day_label">Days</div>
+</div>
+<div class ="wps_timer_sept">:</div>
+<div class = "wps_hour_timer_block wps-timer-wrap">
+<div id ="wps_hour_time">0</div>
+<div id = "wps_hour_label">Hour</div>
+</div>
+<div class ="wps_timer_sept">:</div>
+<div class = "wps_min_timer_block wps-timer-wrap">
+<div id ="wps_min_time">0</div>
+<div id = "wps_min_label">Min</div>
+</div>
+<div class ="wps_timer_sept">:</div>
+<div class = "wps_sec_timer wps-timer-wrap">
+<div id ="wps_sec_time">0</div>
+<div id = "wps_sec_label">Sec</div>
+</div>
+</div>`;
+document.getElementById('wps_hider_timer').style.display = 'none';
+		});
+		
 
 		// Create new offer bump.
 		$('.wps_ubo_lite_bump_create_button').on( 'click', function (e) {
@@ -394,8 +421,11 @@
         var ProductpriceP = $('.wps_upsell_offer_product_price p');
         var Productpricedel = $('.wps_upsell_offer_product_price del');
         var ProductSectionH4 = $('.wps_upsell_offer_product_section h4');
+		var ProductSectionImg = $( '.wps_upsell_offer_img' );
 		var product_tcolor = '';
 		var product_tsize = '';
+		var product_img_width = '';
+		var product_img_height = '';
 
 		var ProductTcolorpicker = $('.wps_ubo_select_product_tcolor');
 
@@ -423,15 +453,31 @@
 		    ProductSectionH4.css('font-size', product_tsize + 'px');
 		});
 
+		$( '.wps_ubo_product_img_height_slider' ).on( 'change', function() {
+			product_img_height = $(this).val();
+			ProductSectionImg.css( 'height', product_img_height + 'px' );
+
+			$( '.wps_ubo_product_slider_height' ).html( product_img_height + 'px' );
+		});
+
+		$( '.wps_ubo_product_img_width_slider' ).on( 'change', function() {
+			product_img_width = $(this).val();
+			ProductSectionImg.css( 'width', product_img_width + 'px' );
+
+			$( '.wps_ubo_product_slider_width' ).html( product_img_width + 'px' );
+		});
+
 		// Accept Offer Section stylings.
 		var AcceptOfferSection = $('.wps_upsell_offer_primary_section');
         var AcceptOfferSectionH5 = $('.wps_upsell_offer_primary_section h5');
+        var AcceptOfferSectionA = $('.wps_upsell_offer_primary_section svg');
 		var AcceptOffer_tcolor = '';
 		var AcceptOffer_tsize = '';
 		var AcceptOffer_bcolor = '';
 
 		var AcceptOfferBcolorpicker = $('.wps_ubo_select_accept_offer_bcolor');
 		var AcceptOfferTcolorpicker = $('.wps_ubo_select_accept_offer_tcolor');
+		var AcceptOfferAcolorpicker = $('.wps_ubo_select_accept_offer_acolor');
 
 		AcceptOfferBcolorpicker.wpColorPicker({
             change: (event, ui) => {
@@ -449,6 +495,16 @@
             	AcceptOffer_tcolor = ui.color.toString();
 
             	AcceptOfferSectionH5.css( 'color', AcceptOffer_tcolor );
+
+            }
+        });
+
+		AcceptOfferAcolorpicker.wpColorPicker({
+            change: (event, ui) => {
+
+            	AcceptOffer_tcolor = ui.color.toString();
+
+            	AcceptOfferSectionA.css( 'fill', AcceptOffer_tcolor );
 
             }
         });
@@ -598,7 +654,7 @@ jQuery(document).ready( function($) {
 	/**
 	 * Scripts after v1.0.2
 	 */
-	$('#wps_ubo_offer_purchased_earlier, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature, #wps_ubo_offer_restrict_coupons, #wps_upsell_bump_priority').on( 'click', function (e) {
+	$('#wps_ubo_offer_purchased_earlier,#wps_ubo_offer_timer, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature, #wps_ubo_offer_restrict_coupons, #wps_upsell_bump_priority, #wps_upsell_bump_min_cart').on( 'click', function (e) {
 
 		// Add popup to unlock pro features.
 		var pro_status = document.getElementById( 'wps_ubo_pro_status' );
