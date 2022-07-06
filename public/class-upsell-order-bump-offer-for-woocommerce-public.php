@@ -106,16 +106,21 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$encountered_bump_ids_array = array();
 		$encountered_bump_ids_array        = WC()->session->get( 'encountered_bump_array' );
-		if (is_array( $encountered_bump_ids_array ) || is_object( $encountered_bump_ids_array )) {
+		if ( is_array( $encountered_bump_ids_array ) || is_object( $encountered_bump_ids_array ) ) {
 			foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
-			$encountered_order_bump_id = $order_bump_id;
+				$encountered_order_bump_id[] = $order_bump_id;
 			}
 		}
+
+		$encountered_order_bump_id  = isset( $encountered_order_bump_id ) ? $encountered_order_bump_id : '';
 		// Get all Bump if already some funnels are present.
 		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
-		$encountered_order_bump_id  = isset($encountered_order_bump_id ) ? $encountered_order_bump_id  : '';
-		$wps_ubo_timer_countdown = ! empty( $wps_upsell_bumps_list[ $encountered_order_bump_id ]['design_text']['wps_upsell_bump_offer_timer'] ) ? $wps_upsell_bumps_list[ $encountered_order_bump_id ]['design_text']['wps_upsell_bump_offer_timer'] : '';
-
+		if ( is_array( $encountered_bump_ids_array ) || is_object( $encountered_bump_ids_array ) ) {
+			foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
+				$wps_ubo_timer_countdown[] = ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['design_text']['wps_upsell_bump_offer_timer'] ) ? $wps_upsell_bumps_list[ $order_bump_id ]['design_text']['wps_upsell_bump_offer_timer'] : '';
+			}
+		}
+		$wps_ubo_timer_countdown  = isset( $wps_ubo_timer_countdown ) ? $wps_ubo_timer_countdown : '';
 		// Public Script.
 		wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
 
@@ -127,6 +132,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'mobile_view' => wp_is_mobile(),
 				'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce' ),
 				'timer'       => $wps_ubo_timer_countdown,
+				'check'       => $encountered_order_bump_id,
 			)
 		);
 
@@ -330,6 +336,41 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 
 		wp_die();
+	}
+
+	/**
+	 * Mini Cart Price( checkbox ).
+	 *
+	 * @param string $cart_item_data is an output.
+	 * @param object $cart_item is cart item object.
+	 * @param string $cart_item_key is key.
+	 * @return string
+	 * @since    1.0.0
+	 */
+	public function change_mini_cart_content( $cart_item_data, $cart_item, $cart_item_key ) {
+
+		if ( ! empty( $cart_item['wps_ubo_offer_index'] ) ) {
+			if ( ! empty( $cart_item['wps_discounted_price'] ) ) {
+
+				$product_id = ! empty( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : $cart_item['product_id'];
+
+				$price_discount = wps_ubo_lite_custom_price_html( $product_id, $cart_item['wps_discounted_price'], 'price' );
+				if ( is_wps_role_based_pricing_active() ) {
+					if ( ( -1 < strpos( $cart_item['wps_discounted_price'], 'no_disc' ) ) ) {
+						$prod_obj   = wc_get_product( $product_id );
+						$prod_type  = $prod_obj->get_type();
+						$bump_price = wps_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
+						$bump_price = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump_price ) );
+						$cart_item['data']->set_price( $bump_price );
+					} else {
+						$cart_item['data']->set_price( $price_discount );
+					}
+				} else {
+					$cart_item['data']->set_price( $price_discount );
+				}
+			}
+		}
+		return $cart_item['data'];
 	}
 
 

@@ -414,3 +414,12 @@ margin: 10px 0;
     color: #721c24;
     font-size: 16px;
 }
+.expired_message_class{
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    max-width: 210px;
+    margin: 15px auto!important;
+    box-shadow: 0 0 15px #00000012;
+	color: black;
+}

@@ -1,29 +1,39 @@
 jQuery(document).ready(function ($) {
 
-    var deadline = new Date(wps_ubo_lite_public.timer).getTime();
+    if (window.location.href.indexOf('reload')==-1) {
+        window.location.replace(window.location.href+'?reload');
+   }
+
+    var columns = wps_ubo_lite_public.check;
+    var rows = wps_ubo_lite_public.timer;
+    var result =  rows.reduce(function(result, field, index) {
+  result[columns[index]] = field;
+  return result;
+}, {})
+
     var x = setInterval(function() {
+    for (var key in result) {
+    var deadline = new Date(result[key]).getTime();
     var now = new Date().getTime();
     var t = deadline - now;
     var days = Math.floor(t / (1000 * 60 * 60 * 24));
     var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
     var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((t % (1000 * 60)) / 1000);
-    document.getElementById("wps_day_time").innerHTML   = getNum( days );
-    document.getElementById("wps_hour_time").innerHTML  = getNum( hours );
-    document.getElementById("wps_min_time").innerHTML   = getNum( minutes);
-    document.getElementById("wps_sec_time").innerHTML   = getNum( seconds );
-    if( ( -1 == Math.sign(days) ) || ( -1 == Math.sign( hours ) ) || (-1 == Math.sign ( minutes ) ) || (-1 == Math.sign ( seconds ) )  ) {
-        document.getElementById('wps_hider_timer').style.display = 'none';
+    document.getElementById("wps_day_time_" +  key ).innerHTML   =  getNum( days );
+    document.getElementById("wps_hour_time_"+  key).innerHTML    =  getNum( hours );
+    document.getElementById("wps_min_time_" +  key).innerHTML    =  getNum( minutes );
+    document.getElementById("wps_sec_time_" +  key).innerHTML    =  getNum( seconds );
+    if (t < 0 ) {
+        $("#wps_timer"+ key). css({display: "none"});
+        document.getElementById("expired_message"+ key).innerHTML = "EXPIRED";
+        document.getElementById("wps_checkbox_offer"+ key).disabled = true;
     }
-        if (t < 0) {
-            clearInterval(x);
-            document.getElementById("wps_error_message_timer").innerText = "Opps Times UP!!!";
-            document.getElementById("wps_checkbox_offer").disabled = true;
         }
     }, 1000);
 
     function getNum(val) {
-        if (isNaN(val) || -1 == Math.sign(val) ) {
+        if (isNaN(val) ) {
           return 0;
         }
         return val;

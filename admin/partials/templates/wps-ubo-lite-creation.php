@@ -373,7 +373,8 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 						?>
 
-						<input type="number" id="wps_upsell_bump_min_cart" name="wps_upsell_bump_min_cart" value="<?php echo esc_attr( $min_cart_value ); ?>" class="input-text wps_upsell_bump_commone_class" min="0">
+						<input type="number" id="
+						" name="wps_upsell_bump_min_cart" value="<?php echo esc_attr( $min_cart_value ); ?>" class="input-text wps_upsell_bump_commone_class" min="0">
 					</td>
 				</tr>
 				<!-- Bump Min Cart end.-->
