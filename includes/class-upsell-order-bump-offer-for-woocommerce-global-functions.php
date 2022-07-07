@@ -1796,9 +1796,9 @@ function wps_mrbpfw_role_based_price( $original_price, $product, $type ) {
 	$tax_label  = '';
 	if ( 'yes' === $tax_enable ) {
 		if ( isset( $get_options ) && ! empty( $get_options ) && in_array( 'show_tax_' . $current_role[ $current_role_val ], $get_options, true ) ) {
-			$tax_label = apply_filters( 'wps_mrbpfw_tax_lable', esc_html__( 'incl.VAT', 'wps-role-based-pricing-for-woocommerce' ) );
+			$tax_label = apply_filters( 'wps_mrbpfw_tax_lable', esc_html__( 'incl.VAT', 'upsell-order-bump-offer-for-woocommerce' ) );
 		} else {
-			$tax_label = apply_filters( 'wps_mrbpfw_tax_lable', esc_html__( 'excl.VAT', 'wps-role-based-pricing-for-woocommerce' ) );
+			$tax_label = apply_filters( 'wps_mrbpfw_tax_lable', esc_html__( 'excl.VAT', 'upsell-order-bump-offer-for-woocommerce' ) );
 		}
 	}
 	if ( isset( $role_based_pricing ) && $role_based_pricing < 0 ) {
