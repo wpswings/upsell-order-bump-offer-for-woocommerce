@@ -870,7 +870,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		$bumphtml .= '<div class = "wps_upsell_offer_image" >';
 		$bumphtml .= '<a target="' . $wps_bump_target_attr . '" href="' . $bump_offer_product_permalink . '"><img class="wps_upsell_offer_img" src="' . esc_url( $image ) . '" data-id="' . $bump['id'] . '"></a>';
 		$bumphtml .= '</div>';
-		$bumphtml .= '<div class="wps_upsell_offer_product_content"> <h4 class="wps_bump_name" data-qty_allowed="' . $wps_upsell_enable_quantity . '" data-wps_is_fixed_qty="' . $wps_is_fixed_qty . '" data-wps_qty="' . $wps_upsell_bump_products_fixed_quantity . '"><a target="' . $wps_bump_target_attr . '" class="wps_upsell_product_permalink" href="' . $bump_offer_product_permalink . '">' . $bump['name'] . '</a></h4><br>';
+		$bumphtml .= '<div class="wps_upsell_offer_product_content"> <h4 class="wps_bump_name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '"><a target="' . esc_html( $wps_bump_target_attr ) . '" class="wps_upsell_product_permalink" href="' . esc_url( $bump_offer_product_permalink ) . '">' . esc_html( $bump['name'] ) . '</a></h4><br>';
 		$bumphtml .= '<p class="wps_upsell_offer_product_price">' . $bump_offer_price . '</p>';
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
@@ -882,9 +882,9 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		// product section start without permalink.
 		$bumphtml .= '<div class = "wps_upsell_offer_product_section" >';
 		$bumphtml .= '<div class = "wps_upsell_offer_image" >';
-		$bumphtml .= '<img class="wps_upsell_offer_img" src="' . esc_url( $image ) . '" data-id="' . $bump['id'] . '">';
+		$bumphtml .= '<img class="wps_upsell_offer_img" src="' . esc_url( $image ) . '" data-id="' . esc_html( $bump['id'] ) . '">';
 		$bumphtml .= '</div>';
-		$bumphtml .= '<div class="wps_upsell_offer_product_content"> <h4 class="wps_bump_name" data-qty_allowed="' . $wps_upsell_enable_quantity . '" data-wps_is_fixed_qty="' . $wps_is_fixed_qty . '" data-wps_qty="' . $wps_upsell_bump_products_fixed_quantity . '">' . $bump['name'] . '</h4><br>';
+		$bumphtml .= '<div class="wps_upsell_offer_product_content"> <h4 class="wps_bump_name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '">' . esc_html( $bump['name'] ) . '</h4><br>';
 		$bumphtml .= '<p class="wps_upsell_offer_product_price">' . $bump_offer_price . '</p>';
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';

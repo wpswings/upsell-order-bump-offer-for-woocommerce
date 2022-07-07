@@ -1,34 +1,6 @@
 (function( $ ) {
 	'use strict';
 	$(document).ready(function(){
-		$('#wps_counter_timer').on( 'change', function (e) {
-// alert('chnage');
-
-document.getElementById("wps_admin_timer").innerHTML = `<div class = "wps_timer_count wps_upsell_offer_discount_section">
-<div class = "wps_day_timer_block wps-timer-wrap" id ="wps_timer">
-<div id ="wps_day_time">0</div>
-<div id = "wps_day_label">Days</div>
-</div>
-<div class ="wps_timer_sept">:</div>
-<div class = "wps_hour_timer_block wps-timer-wrap">
-<div id ="wps_hour_time">0</div>
-<div id = "wps_hour_label">Hour</div>
-</div>
-<div class ="wps_timer_sept">:</div>
-<div class = "wps_min_timer_block wps-timer-wrap">
-<div id ="wps_min_time">0</div>
-<div id = "wps_min_label">Min</div>
-</div>
-<div class ="wps_timer_sept">:</div>
-<div class = "wps_sec_timer wps-timer-wrap">
-<div id ="wps_sec_time">0</div>
-<div id = "wps_sec_label">Sec</div>
-</div>
-</div>`;
-document.getElementById('wps_hider_timer').style.display = 'none';
-		});
-		
-
 		// Create new offer bump.
 		$('.wps_ubo_lite_bump_create_button').on( 'click', function (e) {
 
