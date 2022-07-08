@@ -13,17 +13,9 @@
 
 [**Upsell Order Bump Offer for WooCommerce**](https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/) is an upselling plugin that facilitates store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer’s existing Order in just a single click.
 
-This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets which will ensure customer satisfaction and thus result in higher conversion rates
+This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets with [**WooCommerce Upsell Bump offer**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-github-page&utm_campaign=order-bump-pro) plugin which ensures customer satisfaction and thus result in higher conversion rates
 
-***
->**IMPORTANT NOTICE:**
-
->_**From the 2.0.2 Version update onwards, the Upsell Order Bump Offer plugin and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-github-page&utm_campaign=official).**_
-
->_**WP Swings is just our improvised and rebranded version with all quality solutions and help to be the same, so no worries at your end. Please [**Connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact&utm_medium=order-bump-github-page&utm_campaign=contact) for all setup, support, and update related queries without hesitation.**_
-***
-
-[**How To Create Upsell Order Bumps In Your WooCommerce Store?**](https://www.youtube.com/watch?v=p9KIQyXauY4)
+**Video** - [**How To Create Upsell Order Bumps In Your WooCommerce Store?**](https://www.youtube.com/watch?v=p9KIQyXauY4)
 
 **WITH THE UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE PLUGIN YOU CAN:**
 
@@ -88,7 +80,6 @@ By enabling the permalink option from the Global Settings your customers can vie
 **15) Add Custom Image**
 This is one of our recent features. The admin can change the default bump offer product image from the funnel setting and replace it with a custom image.
 
-
 Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-github-page&utm_campaign=order-bump-doc) and learn more about the features and working of the plugin.
 
 Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-kb&utm_medium=order-bump-github-page&utm_campaign=order-bump-kb)
@@ -132,6 +123,7 @@ Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://su
 
 If you need support or have questions, kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-github-page&utm_campaign=official) or connect with us then [**Generate a ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-submit-query&utm_medium=order-bump-github-page&utm_campaign=query)
 
+Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-order-bump-services&utm_medium=order-bump-github-page&utm_campaign=woocommerce-services)
 
 ## **MORE ABOUT WP SWINGS**
 
