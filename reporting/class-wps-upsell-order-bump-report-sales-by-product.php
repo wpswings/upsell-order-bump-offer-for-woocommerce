@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Product' ) ) {
+if ( class_exists( 'Wps_Upsell_Order_Bump_Report_Sales_By_Product' ) ) {
 	return;
 }
 
@@ -25,7 +25,7 @@ if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Product' ) ) {
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/reporting
  * @author     WP Swings <webmaster@wpswings.com>
  */
-class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
+class Wps_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 
 	/**
 	 * Chart colors.
@@ -54,9 +54,9 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 	public function __construct() {
 		// @codingStandardsIgnoreStart
 		if ( isset( $_GET['product_ids'] ) && is_array( $_GET['product_ids'] ) ) {
-			$this->product_ids = array_filter( array_map( 'absint', $_GET['product_ids'] ) );
+			$this->product_ids = array_filter( array_map( 'absint', map_deep( wp_unslash(  $_GET['product_ids'] ), 'sanitize_text_field' ) ) );
 		} elseif ( isset( $_GET['product_ids'] ) ) {
-			$this->product_ids = array_filter( array( absint( $_GET['product_ids'] ) ) );
+			$this->product_ids = array_filter( array( absint( map_deep( wp_unslash(  $_GET['product_ids'] ), 'sanitize_text_field' ) ) ) );
 		}
 		// @codingStandardsIgnoreEnd
 	}
@@ -87,7 +87,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 						'type'            => 'order_item_meta',
 						'order_item_type' => 'line_item',
 						'function'        => '',
-						'name'            => 'mwb_upsell_order_bump_item_meta',
+						'name'            => 'wps_upsell_order_bump_item_meta',
 					),
 				),
 				'where_meta'   => array(
@@ -120,7 +120,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
 							'function'        => '',
-							'name'            => 'mwb_upsell_order_bump_item_meta',
+							'name'            => 'wps_upsell_order_bump_item_meta',
 						),
 
 					),
@@ -175,8 +175,8 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 			'item_count'   => '#dbe1e3',
 		);
 
-		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
@@ -249,17 +249,17 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 	<div class="section">
 	<form method="GET">
 		<div>
-		  <?php // @codingStandardsIgnoreStart ?>
-		  <select class="wc-product-search" style="width:203px;" multiple="multiple" id="product_ids" name="product_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a product&hellip;', 'woocommerce' ); ?>" data-action="woocommerce_json_search_products_and_variations"></select>
-		  <button type="submit" class="submit button" value="<?php esc_attr_e( 'Show', 'woocommerce' ); ?>"><?php esc_html_e( 'Show', 'woocommerce' ); ?></button>
-		  <input type="hidden" name="range" value="<?php echo ( ! empty( $_GET['range'] ) ) ? esc_attr( $_GET['range'] ) : ''; ?>" />
-		  <input type="hidden" name="start_date" value="<?php echo ( ! empty( $_GET['start_date'] ) ) ? esc_attr( $_GET['start_date'] ) : ''; ?>" />
-		  <input type="hidden" name="end_date" value="<?php echo ( ! empty( $_GET['end_date'] ) ) ? esc_attr( $_GET['end_date'] ) : ''; ?>" />
-		  <input type="hidden" name="page" value="<?php echo ( ! empty( $_GET['page'] ) ) ? esc_attr( $_GET['page'] ) : ''; ?>" />
-		  <input type="hidden" name="tab" value="<?php echo ( ! empty( $_GET['tab'] ) ) ? esc_attr( $_GET['tab'] ) : ''; ?>" />
-		  <input type="hidden" name="report" value="<?php echo ( ! empty( $_GET['report'] ) ) ? esc_attr( $_GET['report'] ) : ''; ?>" />
-		  <?php wp_nonce_field( 'custom_range', 'wc_reports_nonce', false ); ?>
-		  <?php // @codingStandardsIgnoreEnd ?>
+		<?php // @codingStandardsIgnoreStart ?>
+		<select class="wc-product-search" style="width:203px;" multiple="multiple" id="product_ids" name="product_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a product&hellip;', 'woocommerce' ); ?>" data-action="woocommerce_json_search_products_and_variations"></select>
+		<button type="submit" class="submit button" value="<?php esc_attr_e( 'Show', 'woocommerce' ); ?>"><?php esc_html_e( 'Show', 'woocommerce' ); ?></button>
+		<input type="hidden" name="range" value="<?php echo ( ! empty( $_GET['range'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['range'] ) ) ) : ''; ?>" />
+		<input type="hidden" name="start_date" value="<?php echo ( ! empty( $_GET['start_date'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['start_date'] ) ) ) : ''; ?>" />
+		<input type="hidden" name="end_date" value="<?php echo ( ! empty( $_GET['end_date'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['end_date'] ) ) ) : ''; ?>" />
+		<input type="hidden" name="page" value="<?php echo ( ! empty( $_GET['page'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) : ''; ?>" />
+		<input type="hidden" name="tab" value="<?php echo ( ! empty( $_GET['tab'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) ) : ''; ?>" />
+		<input type="hidden" name="report" value="<?php echo ( ! empty( $_GET['report'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['report'] ) ) ) : ''; ?>" />
+		<?php wp_nonce_field( 'custom_range', 'wc_reports_nonce', false ); ?>
+		<?php // @codingStandardsIgnoreEnd ?>
 		</div>
 	</form>
 	</div>
@@ -305,10 +305,9 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 		if ( $top_sellers ) {
 			// @codingStandardsIgnoreStart
 			foreach ( $top_sellers as $product ) {
-				echo '<tr class="' . ( in_array( $product->product_id, $this->product_ids ) ? 'active' : '' ) . '">
+				echo '<tr class="' . esc_html( in_array( $product->product_id, $this->product_ids ) ? 'active' : '' ) . '">
               <td class="count">' . esc_html( $product->order_item_qty ) . '</td>
               <td class="name"><a href="' . esc_url( add_query_arg( 'product_ids', $product->product_id ) ) . '">' . esc_html( get_the_title( $product->product_id ) ) . '</a></td>
-              <td class="sparkline">' . $this->sales_sparkline( $product->product_id, 7, 'count' ) . '</td>
             </tr>';
 			}
 			// @codingStandardsIgnoreEnd
@@ -364,10 +363,10 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 		if ( $top_freebies ) {
 			// @codingStandardsIgnoreStart
 			foreach ( $top_freebies as $product ) {
-				echo '<tr class="' . ( in_array( $product->product_id, $this->product_ids ) ? 'active' : '' ) . '">
+				echo '<tr class="' . esc_html( in_array( $product->product_id, $this->product_ids ) ? 'active' : '' ) . '">
               <td class="count">' . esc_html( $product->order_item_qty ) . '</td>
               <td class="name"><a href="' . esc_url( add_query_arg( 'product_ids', $product->product_id ) ) . '">' . esc_html( get_the_title( $product->product_id ) ) . '</a></td>
-              <td class="sparkline">' . $this->sales_sparkline( $product->product_id, 7, 'count' ) . '</td>
+             
             </tr>';
 			}
 			// @codingStandardsIgnoreEnd
@@ -420,9 +419,8 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 			// @codingStandardsIgnoreStart
 			foreach ( $top_earners as $product ) {
 				echo '<tr class="' . ( in_array( $product->product_id, $this->product_ids ) ? 'active' : '' ) . '">
-              <td class="count">' . wc_price( $product->order_item_total ) . '</td>
+              <td class="count">' . esc_html( get_woocommerce_currency_symbol() ) . esc_html( $product->order_item_total ) . '</td>
               <td class="name"><a href="' . esc_url( add_query_arg( 'product_ids', $product->product_id ) ) . '">' . esc_html( get_the_title( $product->product_id ) ) . '</a></td>
-              <td class="sparkline">' . $this->sales_sparkline( $product->product_id, 7, 'sales' ) . '</td>
             </tr>';
 			}
 			// @codingStandardsIgnoreEnd
@@ -459,8 +457,8 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 	 */
 	public function get_export_button() {
 
-		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
@@ -474,7 +472,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 	class="export_csv"
 	data-export="chart"
 	data-xaxes="<?php esc_attr_e( 'Date', 'woocommerce' ); ?>"
-	data-groupby="<?php echo $this->chart_groupby; ?>"<?php // @codingStandardsIgnoreLine ?>
+	data-groupby="<?php echo esc_html( $this->chart_groupby ); ?>"
 	>
 		<?php esc_html_e( 'Export CSV', 'woocommerce' ); ?>
 	</a>
@@ -519,7 +517,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
 							'function'        => '',
-							'name'            => 'mwb_upsell_order_bump_item_meta',
+							'name'            => 'wps_upsell_order_bump_item_meta',
 						),
 					),
 					'where_meta'   => array(
@@ -564,7 +562,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
 							'function'        => '',
-							'name'            => 'mwb_upsell_order_bump_item_meta',
+							'name'            => 'wps_upsell_order_bump_item_meta',
 						),
 					),
 					'where_meta'   => array(
@@ -613,8 +611,8 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 			  {
 				label: "<?php echo esc_js( __( 'Number of items sold', 'woocommerce' ) ); ?>",
 				data: order_data.order_item_counts,
-				color: '<?php echo $this->chart_colours['item_count']; ?>',
-				bars: { fillColor: '<?php echo $this->chart_colours['item_count']; ?>', fill: true, show: true, lineWidth: 0, barWidth: <?php echo $this->barwidth; ?> * 0.5, align: 'center' },
+				color: '<?php echo esc_js( $this->chart_colours['item_count'] ); ?>',
+				bars: { fillColor: '<?php echo esc_js( $this->chart_colours['item_count'] ); ?>', fill: true, show: true, lineWidth: 0, barWidth: <?php echo esc_js( $this->barwidth ); ?> * 0.5, align: 'center' },
 				shadowSize: 0,
 				hoverable: false
 			  },
@@ -622,11 +620,11 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 				label: "<?php echo esc_js( __( 'Sales amount', 'woocommerce' ) ); ?>",
 				data: order_data.order_item_amounts,
 				yaxis: 2,
-				color: '<?php echo $this->chart_colours['sales_amount']; ?>',
+				color: '<?php echo esc_js( $this->chart_colours['sales_amount'] ); ?>',
 				points: { show: true, radius: 5, lineWidth: 3, fillColor: '#fff', fill: true },
 				lines: { show: true, lineWidth: 4, fill: false },
 				shadowSize: 0,
-				<?php echo $this->get_currency_tooltip(); ?>
+				prepend_tooltip: '<?php echo esc_html( get_woocommerce_currency_symbol() ); ?>'
 			  }
 			];
 
@@ -661,10 +659,10 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report {
 				  position: "bottom",
 				  tickColor: 'transparent',
 				  mode: "time",
-				  timeformat: "<?php echo ( 'day' === $this->chart_groupby ) ? '%d %b' : '%b'; ?>",
+				  timeformat: "<?php echo esc_html( ( 'day' === $this->chart_groupby ) ? '%d %b' : '%b' ); ?>",
 				  monthNames: JSON.parse( decodeURIComponent( '<?php echo rawurlencode( wp_json_encode( array_values( $wp_locale->month_abbrev ) ) ); ?>' ) ),
 				  tickLength: 1,
-				  minTickSize: [1, "<?php echo $this->chart_groupby; ?>"],
+				  minTickSize: [1, "<?php echo esc_html( $this->chart_groupby ); ?>"],
 				  font: {
 					color: "#aaa"
 				  }

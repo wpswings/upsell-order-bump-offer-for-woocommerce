@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Bump' ) ) {
+if ( class_exists( 'Wps_Upsell_Order_Bump_Report_Sales_By_Bump' ) ) {
 	return;
 }
 
@@ -25,7 +25,7 @@ if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Bump' ) ) {
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/reporting
  * @author     WP Swings <webmaster@wpswings.com>
  */
-class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
+class Wps_Upsell_Order_Bump_Report_Sales_By_Bump {
 
 	/**
 	 * Order Bump ID for operations.
@@ -67,7 +67,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	 */
 	protected function set_bump_series() {
 
-		$this->bump_series = get_option( 'mwb_ubo_bump_list', array() );
+		$this->bump_series = get_option( 'wps_ubo_bump_list', array() );
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Bump {
 	 */
 	protected function save_bump_series( $bump_series = array() ) {
 
-		update_option( 'mwb_ubo_bump_list', $bump_series );
+		update_option( 'wps_ubo_bump_list', $bump_series );
 	}
 
 	/**

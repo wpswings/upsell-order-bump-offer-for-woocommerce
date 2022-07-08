@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Category' ) ) {
+if ( class_exists( 'Wps_Upsell_Order_Bump_Report_Sales_By_Category' ) ) {
 	return;
 }
 
@@ -24,7 +24,7 @@ if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Category' ) ) {
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/reporting
  * @author     WP Swings <webmaster@wpswings.com>
  */
-class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
+class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 
 	/**
 	 * Chart colors.
@@ -59,8 +59,8 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 	 */
 	public function __construct() {
 
-		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
@@ -137,8 +137,8 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 			'7day'       => __( 'Last 7 days', 'woocommerce' ),
 		);
 
-		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
@@ -181,7 +181,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
 							'function'        => '',
-							'name'            => 'mwb_upsell_order_bump_item_meta',
+							'name'            => 'wps_upsell_order_bump_item_meta',
 						),
 					),
 					'group_by'     => 'ID, product_id, post_date',
@@ -253,19 +253,28 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 
 			include_once WC()->plugin_path() . '/includes/walkers/class-wc-product-cat-dropdown-walker.php';
 
-			echo wc_walk_category_dropdown_tree( $categories, 0, $r ); // @codingStandardsIgnoreLine
-		?>
+			$allowed_html = array(
+				'option' => array(
+					'value'    => array(),
+					'selected' => array(),
+					'class'    => array(),
+				),
+			);
+
+			echo wp_kses( wc_walk_category_dropdown_tree( $categories, 0, $r ), $allowed_html );
+
+			?>
 		</select>
 		  <?php // @codingStandardsIgnoreStart ?>
-		<a href="#" class="select_none"><?php esc_html_e( 'None', 'woocommerce' ); ?></a>
-		<a href="#" class="select_all"><?php esc_html_e( 'All', 'woocommerce' ); ?></a>
-		<button type="submit" class="submit button" value="<?php esc_attr_e( 'Show', 'woocommerce' ); ?>"><?php esc_html_e( 'Show', 'woocommerce' ); ?></button>
-		<input type="hidden" name="range" value="<?php echo ( ! empty( $_GET['range'] ) ) ? esc_attr( wp_unslash( $_GET['range'] ) ) : ''; ?>" />
-		<input type="hidden" name="start_date" value="<?php echo ( ! empty( $_GET['start_date'] ) ) ? esc_attr( wp_unslash( $_GET['start_date'] ) ) : ''; ?>" />
-		<input type="hidden" name="end_date" value="<?php echo ( ! empty( $_GET['end_date'] ) ) ? esc_attr( wp_unslash( $_GET['end_date'] ) ) : ''; ?>" />
-		<input type="hidden" name="page" value="<?php echo ( ! empty( $_GET['page'] ) ) ? esc_attr( wp_unslash( $_GET['page'] ) ) : ''; ?>" />
-		<input type="hidden" name="tab" value="<?php echo ( ! empty( $_GET['tab'] ) ) ? esc_attr( wp_unslash( $_GET['tab'] ) ) : ''; ?>" />
-		<input type="hidden" name="report" value="<?php echo ( ! empty( $_GET['report'] ) ) ? esc_attr( wp_unslash( $_GET['report'] ) ) : ''; ?>" />
+			<a href="#" class="select_none"><?php esc_html_e( 'None', 'woocommerce' ); ?></a>
+			<a href="#" class="select_all"><?php esc_html_e( 'All', 'woocommerce' ); ?></a>
+			<button type="submit" class="submit button" value="<?php esc_attr_e( 'Show', 'woocommerce' ); ?>"><?php esc_html_e( 'Show', 'woocommerce' ); ?></button>
+			<input type="hidden" name="range" value="<?php echo ( ! empty( $_GET['range'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['range'] ) ) ) : ''; ?>" />
+			<input type="hidden" name="start_date" value="<?php echo ( ! empty( $_GET['start_date'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['start_date'] ) ) ) : ''; ?>" />
+			<input type="hidden" name="end_date" value="<?php echo ( ! empty( $_GET['end_date'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['end_date'] ) ) ) : ''; ?>" />
+			<input type="hidden" name="page" value="<?php echo ( ! empty( $_GET['page'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) : ''; ?>" />
+			<input type="hidden" name="tab" value="<?php echo ( ! empty( $_GET['tab'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) ) : ''; ?>" />
+			<input type="hidden" name="report" value="<?php echo ( ! empty( $_GET['report'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['report'] ) ) ) : ''; ?>" />
 		  <?php // @codingStandardsIgnoreEnd ?>
 	</div>
 	<script type="text/javascript">
@@ -293,8 +302,8 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 	 */
 	public function get_export_button() {
 
-		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
@@ -370,18 +379,16 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 	<div class="chart-container">
 	<div class="chart-placeholder main"></div>
 	</div>
-			<?php // @codingStandardsIgnoreStart ?>
-	  <script type="text/javascript">
-		var main_chart;
-
-		jQuery(function(){
-		  var drawGraph = function( highlight ) {
-			var series = [
-			  <?php
+		<script type="text/javascript">
+			var main_chart;
+			jQuery(function(){
+			var drawGraph = function( highlight ) {
+				var series = [
+				<?php
 				$index = 0;
 				foreach ( $chart_data as $data ) {
 					$color  = isset( $this->chart_colours[ $index ] ) ? $this->chart_colours[ $index ] : $this->chart_colours[0];
-					$width  = $this->barwidth / sizeof( $chart_data );
+					$width  = $this->barwidth / count( $chart_data );
 					$offset = ( $width * $index );
 					$series = $data['data'];
 
@@ -392,97 +399,96 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 					$series = wp_json_encode( $series );
 
 					echo '{
-                      label: "' . esc_js( $data['category'] ) . '",
-                      data: JSON.parse( decodeURIComponent( "' . rawurlencode( $series ) . '" ) ),
-                      color: "' . $color . '",
-                      bars: {
-                        fillColor: "' . $color . '",
-                        fill: true,
-                        show: true,
-                        lineWidth: 1,
-                        align: "center",
-                        barWidth: ' . $width * 0.75 . ',
-                        stack: false
-                      },
-                      ' . $this->get_currency_tooltip() . ',
-                      enable_tooltip: true,
-                      prepend_label: true
-                    },';
+					label: "' . esc_js( $data['category'] ) . '",
+					data: JSON.parse( decodeURIComponent( "' . rawurlencode( $series ) . '" ) ),
+					color: "' . esc_html( $color ) . '",
+					bars: {
+						fillColor: "' . esc_html( $color ) . '",
+						fill: true,
+						show: true,
+						lineWidth: 1,
+						align: "center",
+						barWidth: ' . esc_html( $width ) * 0.75 . ',
+						stack: false
+					},
+					prepend_tooltip: "' . esc_html( get_woocommerce_currency_symbol() ) . '",
+					enable_tooltip: true,
+					prepend_label: true
+					},';
 					$index++;
 				}
 				?>
-			];
+				];
 
-			if ( highlight !== 'undefined' && series[ highlight ] ) {
-			  highlight_series = series[ highlight ];
+				if ( highlight !== 'undefined' && series[ highlight ] ) {
+					highlight_series = series[ highlight ];
 
-			  highlight_series.color = '#9c5d90';
+					highlight_series.color = '#9c5d90';
 
-			  if ( highlight_series.bars ) {
-				highlight_series.bars.fillColor = '#9c5d90';
-			  }
+					if ( highlight_series.bars ) {
+						highlight_series.bars.fillColor = '#9c5d90';
+					}
 
-			  if ( highlight_series.lines ) {
-				highlight_series.lines.lineWidth = 5;
-			  }
+					if ( highlight_series.lines ) {
+						highlight_series.lines.lineWidth = 5;
+					}
+				}
+
+				main_chart = jQuery.plot(
+				jQuery('.chart-placeholder.main'),
+				series,
+				{
+					legend: {
+					show: false
+					},
+					grid: {
+					color: '#aaa',
+					borderColor: 'transparent',
+					borderWidth: 0,
+					hoverable: true
+					},
+					xaxes: [ {
+					color: '#aaa',
+					reserveSpace: true,
+					position: "bottom",
+					tickColor: 'transparent',
+					mode: "time",
+					timeformat: "<?php echo ( 'day' === $this->chart_groupby ) ? '%d %b' : '%b'; ?>",
+					monthNames: JSON.parse( decodeURIComponent( '<?php echo rawurlencode( wp_json_encode( array_values( $wp_locale->month_abbrev ) ) ); ?>' ) ),
+					tickLength: 1,
+					minTickSize: [1, "<?php echo esc_html( $this->chart_groupby ); ?>"],
+					tickSize: [1, "<?php echo esc_html( $this->chart_groupby ); ?>"],
+					font: {
+						color: "#aaa"
+					}
+					} ],
+					yaxes: [
+					{
+						min: 0,
+						tickDecimals: 2,
+						color: 'transparent',
+						font: { color: "#aaa" }
+					}
+					],
+				}
+				);
+
+				jQuery('.chart-placeholder').resize();
+
 			}
 
-			main_chart = jQuery.plot(
-			  jQuery('.chart-placeholder.main'),
-			  series,
-			  {
-				legend: {
-				  show: false
+			drawGraph();
+
+			jQuery('.highlight_series').hover(
+				function() {
+				drawGraph( jQuery(this).data('series') );
 				},
-				grid: {
-				  color: '#aaa',
-				  borderColor: 'transparent',
-				  borderWidth: 0,
-				  hoverable: true
-				},
-				xaxes: [ {
-				  color: '#aaa',
-				  reserveSpace: true,
-				  position: "bottom",
-				  tickColor: 'transparent',
-				  mode: "time",
-				  timeformat: "<?php echo ( 'day' === $this->chart_groupby ) ? '%d %b' : '%b'; ?>",
-				  monthNames: JSON.parse( decodeURIComponent( '<?php echo rawurlencode( wp_json_encode( array_values( $wp_locale->month_abbrev ) ) ); ?>' ) ),
-				  tickLength: 1,
-				  minTickSize: [1, "<?php echo $this->chart_groupby; ?>"],
-				  tickSize: [1, "<?php echo $this->chart_groupby; ?>"],
-				  font: {
-					color: "#aaa"
-				  }
-				} ],
-				yaxes: [
-				  {
-					min: 0,
-					tickDecimals: 2,
-					color: 'transparent',
-					font: { color: "#aaa" }
-				  }
-				],
-			  }
+				function() {
+				drawGraph();
+				}
 			);
-
-			jQuery('.chart-placeholder').resize();
-
-		  }
-
-		  drawGraph();
-
-		  jQuery('.highlight_series').hover(
-			function() {
-			  drawGraph( jQuery(this).data('series') );
-			},
-			function() {
-			  drawGraph();
-			}
-		  );
-		});
-	  </script>
-			<?php // @codingStandardsIgnoreEnd ?>
+			});
+			</script>
 			<?php
 		}
 	}

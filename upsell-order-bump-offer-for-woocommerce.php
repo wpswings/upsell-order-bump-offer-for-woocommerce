@@ -14,14 +14,14 @@
  * @wordpress-plugin
  * Plugin Name:       Upsell Order Bump Offer for WooCommerce
  * Plugin URI:        https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/
- * Description:       Show exclusive order bump offers on the checkout page to your customers. Offers that are relevant and benefits your customers on the existing purchase and so increase Average Order Value and your Revenue. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-plugins&utm_medium=order-bump-org-backend&utm_campaign=plugins" >Elevate your e-commerce store by exploring more on <strong>WP Swings</strong></a>.
+ * Description:       <code><strong>Upsell Order Bump Offer for WooCommerce</strong></code> makes special offers on checkout page, enabling to increase conversions & AOV in just a single click. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
  *
  * Requires at least:       4.4
- * Tested up to:            5.9
+ * Tested up to:            6.0.0
  * WC requires at least:    3.0.0
- * WC tested up to:         6.1.1
+ * WC tested up to:         6.6.1
  *
- * Version:           2.0.2
+ * Version:           2.1.3
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -35,13 +35,15 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
 /**
  * Plugin Active Detection.
  *
  * @since    1.0.0
  * @param    string $plugin_slug index file of plugin.
  */
-function mwb_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
+function wps_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 
 	if ( empty( $plugin_slug ) ) {
 
@@ -63,7 +65,68 @@ function mwb_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 /**
  * Currently plugin version.
  */
-define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.0.2' );
+define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.1.3' );
+
+$old_pro_present   = false;
+$installed_plugins = get_plugins();
+
+if ( array_key_exists( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', $installed_plugins ) ) {
+	$pro_plugin = $installed_plugins['upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php'];
+	if ( version_compare( $pro_plugin['Version'], '2.1.0', '<' ) ) {
+		$old_pro_present = true;
+	}
+}
+
+if ( true === $old_pro_present || 1 === $old_pro_present || '1' === $old_pro_present ) {
+
+	add_action( 'admin_notices', 'wps_ubo_check_and_inform_update' );
+
+	/**
+	 * Check update if pro is old.
+	 */
+	function wps_ubo_check_and_inform_update() {
+		$update_file = plugin_dir_path( dirname( __FILE__ ) ) . 'upsell-order-bump-offer-for-woocommerce-pro/class-mwb-upsell-bump-update.php';
+
+		// If present but not active.
+		if ( ! wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
+			if ( file_exists( $update_file ) ) {
+
+				$mwb_upsell_bump_purchase_code = get_option( 'wps_upsell_bump_license_key', '' );
+				if ( empty( $mwb_upsell_bump_purchase_code ) ) {
+					$mwb_upsell_bump_purchase_code = get_option( 'mwb_upsell_bump_license_key', '' );
+				}
+				! defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_LICENSE_KEY' ) && define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_LICENSE_KEY', $mwb_upsell_bump_purchase_code );
+				! defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE' ) && define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE', 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' );
+			}
+			require_once $update_file;
+		} else {
+
+			$mwb_upsell_bump_purchase_code = get_option( 'wps_upsell_bump_license_key', 'wpslicensetest' );
+			if ( empty( $mwb_upsell_bump_purchase_code ) ) {
+				$mwb_upsell_bump_purchase_code = get_option( 'mwb_upsell_bump_license_key', 'wpslicensetest' );
+			}
+
+			if ( ! empty( $mwb_upsell_bump_purchase_code ) ) {
+				update_option( 'wps_upsell_bump_license_key', $mwb_upsell_bump_purchase_code );
+				update_option( 'mwb_upsell_bump_license_key', $mwb_upsell_bump_purchase_code );
+			}
+		}
+
+		if ( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE' ) ) {
+			do_action( 'mwb_upsell_bump_check_event' );
+			$is_update_fetched = get_option( 'mwb_bump_plugin_update', 'false' );
+			$plugin_transient  = get_site_transient( 'update_plugins' );
+			$update_obj        = ! empty( $plugin_transient->response[ UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE ] ) ? $plugin_transient->response[ UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_BASE_FILE ] : false;
+			if ( ! empty( $update_obj ) ) :
+				?>
+				<div class="notice notice-error is-dismissible">
+					<p><?php esc_html_e( 'Your Upsell Order Bump Offer for WooCommerce Pro plugin update is here! Please Update it now.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+				</div>
+				<?php
+			endif;
+		}
+	}
+}
 
 /**
  * The code that runs during plugin activation.
@@ -94,13 +157,13 @@ function deactivate_upsell_order_bump_offer_for_woocommerce() {
  *
  * @since    1.0.0
  */
-function mwb_ubo_lite_plugin_activation() {
+function wps_ubo_lite_plugin_activation() {
 
 	$activation['status']  = true;
 	$activation['message'] = '';
 
 	// Dependant plugin.
-	if ( ! mwb_ubo_lite_is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+	if ( ! wps_ubo_lite_is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 
 		$activation['status']  = false;
 		$activation['message'] = 'woo_inactive';
@@ -110,45 +173,9 @@ function mwb_ubo_lite_plugin_activation() {
 	return $activation;
 }
 
-// Add ownership changes.
-add_action( 'mwb_ubo_migration_notice', 'upsell_orderbump_upgrade_notice_dashboard', 10, 3 );
-add_filter( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'upsell_orderbump_upgrade_notice_dashboard', 10, 3 );
+$wps_ubo_lite_plugin_activation = wps_ubo_lite_plugin_activation();
 
-/**
- * Displays WP Swings migration notice.
- *
- * @param string $plugin_file Path to the plugin file relative to the plugins directory.
- * @param array  $plugin_data An array of plugin data.
- * @param string $status Status filter currently applied to the plugin list.
- */
-function upsell_orderbump_upgrade_notice_dashboard( $plugin_file, $plugin_data, $status ) {
-
-	?>
-	<tr class="plugin-update-tr active notice-warning notice-alt">
-		<td colspan="4" class="plugin-update colspanchange">
-			<div class="notice mwb-notice notice-success inline update-message notice-alt">
-				<div class='wps-notice-title wps-notice-section'>
-					<p><strong>IMPORTANT NOTICE:</strong></p>
-				</div>
-				<div class='wps-notice-content wps-notice-section'>
-					<p>From this update <strong>Version 2.0.2</strong> onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
-					Please connect with us for all setup, support, and update related queries without hesitation.</p>
-				</div>
-			</div>
-		</td>
-	</tr>
-	<style>
-		.wps-notice-section > p:before {
-			content: none;
-		}
-	</style>
-	<?php
-}
-
-
-$mwb_ubo_lite_plugin_activation = mwb_ubo_lite_plugin_activation();
-
-if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
+if ( true === $wps_ubo_lite_plugin_activation['status'] ) {
 
 	// Define all the neccessary details.
 	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL', plugin_dir_url( __FILE__ ) );
@@ -156,10 +183,10 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
 	// If pro version is inactive add setings link to org version.
-	if ( ! mwb_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
+	if ( ! wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
 		// Add settings links.
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'mwb_ubo_lite_plugin_action_links' );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'wps_ubo_lite_plugin_action_links' );
 
 		/**
 		 * Add Settings link if premium version is not available.
@@ -167,19 +194,19 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 		 * @since    1.0.0
 		 * @param    string $links link to admin arena of plugin.
 		 */
-		function mwb_ubo_lite_plugin_action_links( $links ) {
+		function wps_ubo_lite_plugin_action_links( $links ) {
 
 			$plugin_links = array(
 				'<a href="' . admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting' ) .
 									'">' . esc_html__( 'Settings', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
-				'<a class="mwb-ubo-lite-go-pro" style="background: #05d5d8; color: white; font-weight: 700; padding: 2px 5px; border: 1px solid #05d5d8; border-radius: 5px;" href="https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-backend&utm_campaign=MWB-order-bump-pro" target="_blank">' . esc_html__( 'GO PRO', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'<a class="wps-ubo-lite-go-pro" style="background: #05d5d8; color: white; font-weight: 700; padding: 2px 5px; border: 1px solid #05d5d8; border-radius: 5px;" href="https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-backend&utm_campaign=order-bump-pro" target="_blank">' . esc_html__( 'GO PRO', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 			);
 
 			return array_merge( $plugin_links, $links );
 		}
 	}
 
-	add_filter( 'plugin_row_meta', 'mwb_ubo_lite_add_important_links', 10, 2 );
+	add_filter( 'plugin_row_meta', 'wps_ubo_lite_add_important_links', 10, 2 );
 
 	/**
 	 * Add custom links for getting premium version.
@@ -189,14 +216,14 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	 *
 	 * @since    1.0.0
 	 */
-	function mwb_ubo_lite_add_important_links( $links, $file ) {
+	function wps_ubo_lite_add_important_links( $links, $file ) {
 
 		if ( strpos( $file, 'upsell-order-bump-offer-for-woocommerce.php' ) !== false ) {
 
 			$row_meta = array(
-				'demo'    => '<a href="https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-backend&utm_campaign=order-bump-demo" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Demo.svg" class="mwb-info-img" alt="Demo image">' . esc_html__( 'Demo', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
-				'doc'     => '<a href="https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-backend&utm_campaign=order-bump-doc" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Documentation.svg" class="mwb-info-img" alt="Documentation image">' . esc_html__( 'Documentation', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
-				'support' => '<a href="https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-kb&utm_medium=order-bump-org-backend&utm_campaign=order-bump-kb" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Support.svg" class="mwb-info-img" alt="DeSupportmo image">' . esc_html__( 'Support', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'demo'    => '<a href="https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-backend&utm_campaign=order-bump-demo" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Demo.svg" class="wps-info-img" alt="Demo image">' . esc_html__( 'Demo', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'doc'     => '<a href="https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-backend&utm_campaign=order-bump-doc" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Documentation.svg" class="wps-info-img" alt="Documentation image">' . esc_html__( 'Documentation', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'support' => '<a href="https://wpswings.com/submit-query/?utm_source=wpswings-orderbump-support&utm_medium=orderbump-org-backend&utm_campaign=support" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Support.svg" class="wps-info-img" alt="DeSupportmo image">' . esc_html__( 'Support', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 			);
 
 			return array_merge( $links, $row_meta );
@@ -234,17 +261,17 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 
 } else {
 
-	add_action( 'admin_init', 'mwb_ubo_lite_plugin_activation_failure' );
+	add_action( 'admin_init', 'wps_ubo_lite_plugin_activation_failure' );
 
 	/**
 	 * Deactivate this plugin.
 	 *
 	 * @since    1.0.0
 	 */
-	function mwb_ubo_lite_plugin_activation_failure() {
+	function wps_ubo_lite_plugin_activation_failure() {
 
-		$secure_nonce      = wp_create_nonce( 'mwb-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'mwb-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
@@ -260,22 +287,22 @@ if ( true === $mwb_ubo_lite_plugin_activation['status'] ) {
 	}
 
 	// Add admin error notice.
-	add_action( 'admin_notices', 'mwb_ubo_lite_activation_admin_notice' );
+	add_action( 'admin_notices', 'wps_ubo_lite_activation_admin_notice' );
 
 	/**
 	 * This function is used to display plugin activation error notice.
 	 *
 	 * @since    1.0.0
 	 */
-	function mwb_ubo_lite_activation_admin_notice() {
+	function wps_ubo_lite_activation_admin_notice() {
 
-		global $mwb_ubo_lite_plugin_activation;
+		global $wps_ubo_lite_plugin_activation;
 
 		?>
 
-		<?php if ( 'woo_inactive' === $mwb_ubo_lite_plugin_activation['message'] ) : ?>
+		<?php if ( 'woo_inactive' === $wps_ubo_lite_plugin_activation['message'] ) : ?>
 
-			<div class="notice notice-error is-dismissible mwb-notice">
+			<div class="notice notice-error is-dismissible wps-notice">
 				<p><strong><?php esc_html_e( 'WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( ' is not activated, Please activate WooCommerce first to activate ', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong><?php esc_html_e( 'Upsell Order Bump Offer for WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( '.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 			</div>
 

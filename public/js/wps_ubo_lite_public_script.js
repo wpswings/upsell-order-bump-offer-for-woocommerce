@@ -1,5 +1,43 @@
 jQuery(document).ready(function ($) {
 
+    if (window.location.href.indexOf('reload')==-1) {
+        window.location.replace(window.location.href+'?reload');
+   }
+
+    var columns = wps_ubo_lite_public.check;
+    var rows = wps_ubo_lite_public.timer;
+    var result =  rows.reduce(function(result, field, index) {
+  result[columns[index]] = field;
+  return result;
+}, {})
+
+    var x = setInterval(function() {
+    for (var key in result) {
+    var deadline = new Date(result[key]).getTime();
+    var now = new Date().getTime();
+    var t = deadline - now;
+    var days = Math.floor(t / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
+    var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((t % (1000 * 60)) / 1000);
+    document.getElementById("wps_day_time_" +  key ).innerHTML   =  getNum( days );
+    document.getElementById("wps_hour_time_"+  key).innerHTML    =  getNum( hours );
+    document.getElementById("wps_min_time_" +  key).innerHTML    =  getNum( minutes );
+    document.getElementById("wps_sec_time_" +  key).innerHTML    =  getNum( seconds );
+    if (t < 0 ) {
+        $("#wps_timer"+ key). css({display: "none"});
+        document.getElementById("expired_message"+ key).innerHTML = "EXPIRED";
+        document.getElementById("wps_checkbox_offer"+ key).disabled = true;
+    }
+        }
+    }, 1000);
+
+    function getNum(val) {
+        if (isNaN(val) ) {
+          return 0;
+        }
+        return val;
+     }
     // When bump is prepared we will get this data.
     var bump_id = '';
     var bump_discount = '';
@@ -12,9 +50,9 @@ jQuery(document).ready(function ($) {
     var selected_order_bump = '';
     var selected_order_bump_popup = '';
 
-    function mwb_ubo_lite_intant_zoom_img(selected_order_bump_popup) {
+    function wps_ubo_lite_intant_zoom_img(selected_order_bump_popup) {
 
-        if (mwb_ubo_lite_public.mobile_view != 1) {
+        if (wps_ubo_lite_public.mobile_view != 1) {
 
             selected_order_bump_popup.find('.woocommerce-product-gallery__image').zoom();
         }
@@ -26,9 +64,9 @@ jQuery(document).ready(function ($) {
 
             type: 'post',
             dataType: 'json',
-            url: mwb_ubo_lite_public.ajaxurl,
+            url: wps_ubo_lite_public.ajaxurl,
             data: {
-                nonce: mwb_ubo_lite_public.auth_nonce,
+                nonce: wps_ubo_lite_public.auth_nonce,
                 action: 'remove_offer_in_cart',
 
                 // Index : index_{ digit }
@@ -39,8 +77,8 @@ jQuery(document).ready(function ($) {
             success: function (msg) {
 
                 $('body').trigger('update_checkout');
-                $('.mwb_ubo_wrapper_' + order_bump_index).css('pointer-events', 'all');
-                $('.mwb_ubo_wrapper_' + order_bump_index).css('opacity', '1');
+                $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'all');
+                $('.wps_ubo_wrapper_' + order_bump_index).css('opacity', '1');
             }
         });
     }
@@ -48,9 +86,9 @@ jQuery(document).ready(function ($) {
     /**
      * Js to get variation product for "any variation" from dropdown in json format.
      */
-    var mwb_orderbump_any_variation = {};
-    jQuery(document).on('change', 'select.mwb_upsell_offer_variation_select', function () {
-        mwb_orderbump_any_variation[jQuery(this).attr('id')] = jQuery(this).val();
+    var wps_orderbump_any_variation = {};
+    jQuery(document).on('change', 'select.wps_upsell_offer_variation_select', function () {
+        wps_orderbump_any_variation[jQuery(this).attr('id')] = jQuery(this).val();
     });
 
     /**
@@ -71,17 +109,17 @@ jQuery(document).ready(function ($) {
         }
 
         // Get product Quantity
-        if ( object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'true' && object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
-            var mwb_qty_variable = object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr("data-mwb_qty");
-        } else if ( object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').val() != undefined && object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.mwb_bump_popup_select').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'false' ) {
-            var mwb_qty_variable = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').val();
+        if ( object.closest('.wps_bump_popup_select').find('.wps_bump_name').attr("data-wps_is_fixed_qty") == 'true' && object.closest('.wps_bump_popup_select').find('.wps_bump_name').attr( "data-qty_allowed") == 'yes' ) {
+            var wps_qty_variable = object.closest('.wps_bump_popup_select').find('.wps_bump_name').attr("data-wps_qty");
+        } else if ( object.closest('.wps_bump_popup_select').find('.wps_quantity_input').val() != undefined && object.closest('.wps_bump_popup_select').find('.wps_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.wps_bump_popup_select').find('.wps_bump_name').attr("data-wps_is_fixed_qty") == 'false' ) {
+            var wps_qty_variable = object.closest('.wps_bump_popup_select').find('.wps_quantity_input').val();
         } else {
-            var mwb_qty_variable = 1;
+            var wps_qty_variable = 1;
         }
 
-        $value_of_input_field_to_check = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').val();
-        $min_attr_value = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').attr('min');
-        $max_attr_value = object.closest('.mwb_bump_popup_select').find('.mwb_quantity_input').attr('max');
+        $value_of_input_field_to_check = object.closest('.wps_bump_popup_select').find('.wps_quantity_input').val();
+        $min_attr_value = object.closest('.wps_bump_popup_select').find('.wps_quantity_input').attr('min');
+        $max_attr_value = object.closest('.wps_bump_popup_select').find('.wps_quantity_input').attr('max');
 
         if ( ( $min_attr_value != undefined && $min_attr_value != undefined ) ) {
             if ( (parseInt($value_of_input_field_to_check) >= parseInt($min_attr_value) && parseInt($value_of_input_field_to_check) <= parseInt($max_attr_value) ) ) {
@@ -95,7 +133,7 @@ jQuery(document).ready(function ($) {
         }
 
         // Order Bump Object.
-        var parent_wrapper_class = '.mwb_ubo_wrapper_index_' + order_bump_index;
+        var parent_wrapper_class = '.wps_ubo_wrapper_index_' + order_bump_index;
         var selected_order_bump = jQuery(parent_wrapper_class);
 
         // Disable bump div.
@@ -119,17 +157,17 @@ jQuery(document).ready(function ($) {
         jQuery.ajax({
             type: 'post',
             dataType: 'json',
-            url: mwb_ubo_lite_public.ajaxurl,
+            url: wps_ubo_lite_public.ajaxurl,
             data: {
-                nonce: mwb_ubo_lite_public.auth_nonce,
+                nonce: wps_ubo_lite_public.auth_nonce,
                 action: 'add_variation_offer_in_cart',
                 id: variation_selected, // variation offer product id.
                 parent_id: bump_id, // variation offer parent product id.
-                mwb_orderbump_any_variation: mwb_orderbump_any_variation, // variation data from dropdown
+                wps_orderbump_any_variation: wps_orderbump_any_variation, // variation data from dropdown
                 discount: bump_discount,
                 order_bump_id: order_bump_id,
                 smart_offer_upgrade: smart_offer_upgrade,
-                mwb_qty_variable: mwb_qty_variable, // Quantity attr
+                wps_qty_variable: wps_qty_variable, // Quantity attr
 
                 // Index : { digit }
                 bump_index: order_bump_index,
@@ -140,12 +178,12 @@ jQuery(document).ready(function ($) {
             },
             success: function (msg) {
 
-                $('body').removeClass('mwb_upsell_variation_pop_up_body');
-                $('.mwb_bump_popup_wrapper').css('display', 'none');
+                $('body').removeClass('wps_upsell_variation_pop_up_body');
+                $('.wps_bump_popup_wrapper').css('display', 'none');
                 $('body').trigger('update_checkout');
                 $(parent_wrapper_class).css('pointer-events', 'all');
                 $(parent_wrapper_class).css('opacity', '1');
-                $('.mwb_ubo_bump_add_to_cart_button').prop('disabled', false);
+                $('.wps_ubo_bump_add_to_cart_button').prop('disabled', false);
 
                 // When Reload is required.
                 if ('subs_reload' == msg) {
@@ -167,17 +205,17 @@ jQuery(document).ready(function ($) {
     function triggerAddOffer(object, formdata) {
         
         // Get product Quantity
-        if ( object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'true' && object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' ) {
-            var mwb_qty_variable = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr("data-mwb_qty");
-        } else if ( object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').val() != undefined && object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_bump_name').attr("data-mwb_is_fixed_qty") == 'false' ) {
-            var mwb_qty_variable = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').val();
+        if ( object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_is_fixed_qty") == 'true' && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr( "data-qty_allowed") == 'yes' ) {
+            var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_qty");
+        } else if ( object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val() != undefined && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_is_fixed_qty") == 'false' ) {
+            var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val();
         } else {
-            var mwb_qty_variable = 1;
+            var wps_qty_variable = 1;
         }
 
-        $value_of_input_field_to_check = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').val();
-        $min_attr_value = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').attr('min');
-        $max_attr_value = object.closest('.mwb_upsell_offer_main_wrapper').find('.mwb_quantity_input').attr('max');
+        $value_of_input_field_to_check = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val();
+        $min_attr_value = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').attr('min');
+        $max_attr_value = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').attr('max');
 
         if ( ( $min_attr_value != undefined && $min_attr_value != undefined ) ) {
             if ( (parseInt($value_of_input_field_to_check) >= parseInt($min_attr_value) && parseInt($value_of_input_field_to_check) <= parseInt($max_attr_value) ) ) {
@@ -190,13 +228,13 @@ jQuery(document).ready(function ($) {
             }
         }
 
-        order_bump_index = object.closest('.mwb_upsell_offer_main_wrapper').find('.order_bump_index').val();
-        parent_wrapper_class = '.mwb_ubo_wrapper_' + order_bump_index;
-        order_bump_id = object.closest('.mwb_upsell_offer_main_wrapper').find('.order_bump_id').val();
+        order_bump_index = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_index').val();
+        parent_wrapper_class = '.wps_ubo_wrapper_' + order_bump_index;
+        order_bump_id = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_id').val();
 
         // Disable bump div.
-        $('.mwb_ubo_wrapper_' + order_bump_index).css('pointer-events', 'none');
-        $('.mwb_ubo_wrapper_' + order_bump_index).css('opacity', '0.4');
+        $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'none');
+        $('.wps_ubo_wrapper_' + order_bump_index).css('opacity', '0.4');
 
         if ($(parent_wrapper_class + ' .add_offer_in_cart').is(':checked')) {
 
@@ -204,30 +242,30 @@ jQuery(document).ready(function ($) {
             handle_pre_selected_values();
 
             // Show loader for Variable offers.
-            if ('variable' == object.closest('.mwb_upsell_offer_main_wrapper').find('.offer_shown_id_type').val()) {
-                $('.mwb_bump_popup_loader').css('display', 'flex');
+            if ('variable' == object.closest('.wps_upsell_offer_main_wrapper').find('.offer_shown_id_type').val()) {
+                $('.wps_bump_popup_loader').css('display', 'flex');
             }
 
-            bump_id = object.closest('.mwb_upsell_offer_main_wrapper').find('.offer_shown_id').val(); // offer product id.
-            bump_discount = object.closest('.mwb_upsell_offer_main_wrapper').find('.offer_shown_discount').val();
-            bump_target_cart_key = object.closest('.mwb_upsell_offer_main_wrapper').find('.target_id_cart_key').val();
-            smart_offer_upgrade = object.closest('.mwb_upsell_offer_main_wrapper').find('.order_bump_smo').val();
+            bump_id = object.closest('.wps_upsell_offer_main_wrapper').find('.offer_shown_id').val(); // offer product id.
+            bump_discount = object.closest('.wps_upsell_offer_main_wrapper').find('.offer_shown_discount').val();
+            bump_target_cart_key = object.closest('.wps_upsell_offer_main_wrapper').find('.target_id_cart_key').val();
+            smart_offer_upgrade = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_smo').val();
 
             // Add product to cart.
             jQuery.ajax({
 
                 type: 'post',
                 dataType: 'json',
-                url: mwb_ubo_lite_public.ajaxurl,
+                url: wps_ubo_lite_public.ajaxurl,
                 data: {
-                    nonce: mwb_ubo_lite_public.auth_nonce,
+                    nonce: wps_ubo_lite_public.auth_nonce,
                     action: 'add_offer_in_cart',
                     id: bump_id, // offer product id.
                     discount: bump_discount,
                     bump_target_cart_key: bump_target_cart_key,
                     order_bump_id: order_bump_id,
                     smart_offer_upgrade: smart_offer_upgrade,
-                    mwb_qty_variable: mwb_qty_variable, // Quantity attr
+                    wps_qty_variable: wps_qty_variable, // Quantity attr
 
                     // Index : index_{ digit }
                     bump_index: order_bump_index,
@@ -241,27 +279,27 @@ jQuery(document).ready(function ($) {
                     if (msg['key'] == 'true') {
 
                         variation_popup_index = order_bump_index.replace('index_', '');
-                        $('.mwb_ubo_price_html_for_variation').html(msg['message']);
-                        $('.mwb_bump_popup_loader').css('display', 'none');
-                        $('.mwb_bump_popup_' + variation_popup_index).css('display', 'flex');
-                        $('body').addClass('mwb_upsell_variation_pop_up_body');
+                        $('.wps_ubo_price_html_for_variation').html(msg['message']);
+                        $('.wps_bump_popup_loader').css('display', 'none');
+                        $('.wps_bump_popup_' + variation_popup_index).css('display', 'flex');
+                        $('body').addClass('wps_upsell_variation_pop_up_body');
 
                         // Add zoom to defaut image.
-                        selected_order_bump_popup = jQuery('.mwb_bump_popup_' + variation_popup_index);
-                        mwb_ubo_lite_intant_zoom_img(selected_order_bump_popup);
+                        selected_order_bump_popup = jQuery('.wps_bump_popup_' + variation_popup_index);
+                        wps_ubo_lite_intant_zoom_img(selected_order_bump_popup);
 
                         if (default_price == '') {
-                            default_price = $('.mwb_ubo_price_html_for_variation').html();
+                            default_price = $('.wps_ubo_price_html_for_variation').html();
                         }
                     }
 
                     // For simple Products and Variations.
                     else {
 
-                        $('.mwb_bump_popup_loader').css('display', 'none');
+                        $('.wps_bump_popup_loader').css('display', 'none');
                         $('body').trigger('update_checkout');
-                        $('.mwb_ubo_wrapper_' + order_bump_index).css('pointer-events', 'all');
-                        $('.mwb_ubo_wrapper_' + order_bump_index).css('opacity', '1');
+                        $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'all');
+                        $('.wps_ubo_wrapper_' + order_bump_index).css('opacity', '1');
 
                         // When Reload is required.
                         if ('subs_reload' == msg) {
@@ -293,29 +331,29 @@ jQuery(document).ready(function ($) {
     jQuery(document).on('click', '.add_offer_in_cart', function (e) {
 
         order_bump_trigger_obj = jQuery(this);
-        order_bump_index = order_bump_trigger_obj.closest('.mwb_upsell_offer_main_wrapper').find('.order_bump_index').val();
-        parent_wrapper_class = '.mwb_ubo_wrapper_' + order_bump_index;
-        order_bump_id = order_bump_trigger_obj.closest('.mwb_upsell_offer_main_wrapper').find('.order_bump_id').val();
+        order_bump_index = order_bump_trigger_obj.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_index').val();
+        parent_wrapper_class = '.wps_ubo_wrapper_' + order_bump_index;
+        order_bump_id = order_bump_trigger_obj.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_id').val();
 
 
         // When offer is added.
         if (order_bump_trigger_obj.is(':checked')) {
 
             // Check if meta form present.
-            let popup_obj = jQuery('#mwb-meta-form-index-' + order_bump_id);
+            let popup_obj = jQuery('#wps-meta-form-index-' + order_bump_id);
 
             let index = 0;
 
             // Meta form available.
-            if (popup_obj.length > 0 && !popup_obj.hasClass('mwb_bump_popup_variable_meta_form')) {
+            if (popup_obj.length > 0 && !popup_obj.hasClass('wps_bump_popup_variable_meta_form')) {
 
                 open_custom_form(popup_obj, order_bump_trigger_obj);
 
-                jQuery('.mwb-meta-form-submit').on('click', function (e) {
+                jQuery('.wps-meta-form-submit').on('click', function (e) {
 
                     e.preventDefault();
                     let data_arr = [];
-                    jQuery('#mwb-meta-form-index-' + order_bump_id).find('.mwb_ubo_custom_meta_field').each(function () {
+                    jQuery('#wps-meta-form-index-' + order_bump_id).find('.wps_ubo_custom_meta_field').each(function () {
 
                         let field_obj = {};
 
@@ -328,8 +366,7 @@ jQuery(document).ready(function ($) {
                             field_obj.name = jQuery(this).attr('name');
                             field_obj.value = jQuery(this).prop('checked');
                             data_arr[index] = field_obj;
-                            index++;
-                        } else {
+                            index++;g                        } else {
                             // Push the values in an array.
                             field_obj.name = jQuery(this).attr('name');
                             field_obj.value = jQuery(this).val();
@@ -342,7 +379,7 @@ jQuery(document).ready(function ($) {
                     data_arr = data_arr.filter(onlyUnique);
 
                     // All fields are saved!
-                    if (data_arr.length == popup_obj.find('.mwb_ubo_custom_meta_field').length) {
+                    if (data_arr.length == popup_obj.find('.wps_ubo_custom_meta_field').length) {
 
                         // Close popup and send add to cart request.
                         close_custom_form();
@@ -373,7 +410,7 @@ jQuery(document).ready(function ($) {
     ========================================================================*/
 
     function handle_pre_selected_values() {
-        var variations = jQuery('.mwb_upsell_offer_variation_select');
+        var variations = jQuery('.wps_upsell_offer_variation_select');
         if (variations.length > 0) {
             var value_exists = false;
             variations.each(function () {
@@ -384,7 +421,7 @@ jQuery(document).ready(function ($) {
             });
 
             if (true == value_exists) {
-                jQuery('.mwb_upsell_offer_variation_select').trigger('change');
+                jQuery('.wps_upsell_offer_variation_select').trigger('change');
             }
         }
     }
@@ -393,12 +430,12 @@ jQuery(document).ready(function ($) {
 
         let form_wrap = form_obj.parent().parent().parent().parent();
         jQuery('body').css('overflow', 'hidden');
-        if (jQuery('.mwb-g-modal').hasClass('mwb-modal--close')) {
-            jQuery('.mwb-g-modal').removeClass('mwb-modal--close');
+        if (jQuery('.wps-g-modal').hasClass('wps-modal--close')) {
+            jQuery('.wps-g-modal').removeClass('wps-modal--close');
         }
-        form_wrap.addClass('mwb-modal--open');
+        form_wrap.addClass('wps-modal--open');
 
-        jQuery('.mwb-g-modal__close').on('click', function () {
+        jQuery('.wps-g-modal__close').on('click', function () {
             order_bump_obj.prop('checked', false);
             close_custom_form();
         });
@@ -406,9 +443,9 @@ jQuery(document).ready(function ($) {
 
     function close_custom_form() {
         jQuery('body').css('overflow', 'auto');
-        jQuery('.mwb-g-modal').addClass('mwb-modal--close');
+        jQuery('.wps-g-modal').addClass('wps-modal--close');
         setTimeout(function () {
-            jQuery('.mwb-g-modal').removeClass('mwb-modal--open');
+            jQuery('.wps-g-modal').removeClass('wps-modal--open');
         }, 320);
     }
 
@@ -420,20 +457,20 @@ jQuery(document).ready(function ($) {
      * To add the price html and image of selected variation in popup.
      */
 
-    $(document).on('change', '.mwb_upsell_offer_variation_select', function (e) {
+    $(document).on('change', '.wps_upsell_offer_variation_select', function (e) {
 
         var selected_order_bump_index = $(this).attr('order_bump_index');
 
         // Order Bump Object.
-        var parent_wrapper_class = '.mwb_ubo_wrapper_index_' + selected_order_bump_index;
+        var parent_wrapper_class = '.wps_ubo_wrapper_index_' + selected_order_bump_index;
         selected_order_bump = jQuery(parent_wrapper_class);
 
         // Order Bump Popup Object.
-        var popup_wrapper_class = '.mwb_bump_popup_' + selected_order_bump_index;
+        var popup_wrapper_class = '.wps_bump_popup_' + selected_order_bump_index;
         selected_order_bump_popup = jQuery(popup_wrapper_class);
 
         // Fetch selected attributes.
-        var selected_variations = selected_order_bump_popup.find('.mwb_upsell_offer_variation_select');
+        var selected_variations = selected_order_bump_popup.find('.wps_upsell_offer_variation_select');
         var attributes_selected = [];
 
         // Default image handle here.
@@ -455,12 +492,12 @@ jQuery(document).ready(function ($) {
             if (selected_variations[i].value == '') {
 
                 // Default View on no selection.
-                selected_order_bump_popup.find('.mwb_bump_popup_image').html(default_image);
-                mwb_ubo_lite_intant_zoom_img(selected_order_bump_popup);
-                selected_order_bump_popup.find('.mwb_ubo_err_waring_for_variation').css('display', 'none');
-                selected_order_bump_popup.find('.mwb_ubo_price_html_for_variation').css('display', 'block');
-                selected_order_bump_popup.find('.mwb_ubo_bump_add_to_cart_button').css('display', 'none');
-                selected_order_bump_popup.find('.mwb_ubo_price_html_for_variation').html(default_price);
+                selected_order_bump_popup.find('.wps_bump_popup_image').html(default_image);
+                wps_ubo_lite_intant_zoom_img(selected_order_bump_popup);
+                selected_order_bump_popup.find('.wps_ubo_err_waring_for_variation').css('display', 'none');
+                selected_order_bump_popup.find('.wps_ubo_price_html_for_variation').css('display', 'block');
+                selected_order_bump_popup.find('.wps_ubo_bump_add_to_cart_button').css('display', 'none');
+                selected_order_bump_popup.find('.wps_ubo_price_html_for_variation').html(default_price);
 
                 return;
 
@@ -489,9 +526,9 @@ jQuery(document).ready(function ($) {
 
             type: 'post',
             dataType: 'json',
-            url: mwb_ubo_lite_public.ajaxurl,
+            url: wps_ubo_lite_public.ajaxurl,
             data: {
-                nonce: mwb_ubo_lite_public.auth_nonce,
+                nonce: wps_ubo_lite_public.auth_nonce,
                 action: 'search_variation_id_by_select',
                 attributes_selected_options: attributes_selected,
                 id: bump_id,
@@ -501,34 +538,34 @@ jQuery(document).ready(function ($) {
             success: function (msg) {
                 if (msg['key'] == 'stock') {
 
-                    selected_order_bump_popup.find('.mwb_ubo_err_waring_for_variation').css('display', 'flex');
-                    selected_order_bump_popup.find('.mwb_ubo_price_html_for_variation').css('display', 'none');
-                    selected_order_bump_popup.find('.mwb_ubo_bump_add_to_cart_button').css('display', 'none');
+                    selected_order_bump_popup.find('.wps_ubo_err_waring_for_variation').css('display', 'flex');
+                    selected_order_bump_popup.find('.wps_ubo_price_html_for_variation').css('display', 'none');
+                    selected_order_bump_popup.find('.wps_ubo_bump_add_to_cart_button').css('display', 'none');
 
-                    selected_order_bump_popup.find('.mwb_bump_popup_image').html(msg['image']);
-                    mwb_ubo_lite_intant_zoom_img(selected_order_bump_popup);
-                    selected_order_bump_popup.find('.mwb_ubo_err_waring_for_variation').html(msg['message']);
+                    selected_order_bump_popup.find('.wps_bump_popup_image').html(msg['image']);
+                    wps_ubo_lite_intant_zoom_img(selected_order_bump_popup);
+                    selected_order_bump_popup.find('.wps_ubo_err_waring_for_variation').html(msg['message']);
 
                 } else if (msg['key'] == 'not_available') {
 
-                    selected_order_bump_popup.find('.mwb_ubo_err_waring_for_variation').css('display', 'flex');
-                    selected_order_bump_popup.find('.mwb_ubo_price_html_for_variation').css('display', 'none');
-                    selected_order_bump_popup.find('.mwb_ubo_bump_add_to_cart_button').css('display', 'none');
+                    selected_order_bump_popup.find('.wps_ubo_err_waring_for_variation').css('display', 'flex');
+                    selected_order_bump_popup.find('.wps_ubo_price_html_for_variation').css('display', 'none');
+                    selected_order_bump_popup.find('.wps_ubo_bump_add_to_cart_button').css('display', 'none');
 
-                    selected_order_bump_popup.find('.mwb_bump_popup_image').html(msg['image']);
-                    mwb_ubo_lite_intant_zoom_img(selected_order_bump_popup);
-                    selected_order_bump_popup.find('.mwb_ubo_err_waring_for_variation').html(msg['message']);
+                    selected_order_bump_popup.find('.wps_bump_popup_image').html(msg['image']);
+                    wps_ubo_lite_intant_zoom_img(selected_order_bump_popup);
+                    selected_order_bump_popup.find('.wps_ubo_err_waring_for_variation').html(msg['message']);
 
                 } else if (!isNaN(msg['key'])) {
 
-                    selected_order_bump_popup.find('.mwb_ubo_err_waring_for_variation').css('display', 'none');
-                    selected_order_bump_popup.find('.mwb_ubo_price_html_for_variation').css('display', 'block');
-                    selected_order_bump_popup.find('.mwb_ubo_bump_add_to_cart_button').css('display', 'flex');
+                    selected_order_bump_popup.find('.wps_ubo_err_waring_for_variation').css('display', 'none');
+                    selected_order_bump_popup.find('.wps_ubo_price_html_for_variation').css('display', 'block');
+                    selected_order_bump_popup.find('.wps_ubo_bump_add_to_cart_button').css('display', 'flex');
 
-                    selected_order_bump_popup.find('.mwb_bump_popup_image').html(msg['image']);
-                    mwb_ubo_lite_intant_zoom_img(selected_order_bump_popup);
+                    selected_order_bump_popup.find('.wps_bump_popup_image').html(msg['image']);
+                    wps_ubo_lite_intant_zoom_img(selected_order_bump_popup);
                     selected_order_bump_popup.find('.variation_id_selected').val(msg['key']);
-                    selected_order_bump_popup.find('.mwb_ubo_price_html_for_variation').html(msg['message']);
+                    selected_order_bump_popup.find('.wps_ubo_price_html_for_variation').html(msg['message']);
                 }
             }
         });
@@ -541,19 +578,19 @@ jQuery(document).ready(function ($) {
      * POP-UP ADD TO CART BUTTON [ works with variable products].
      * To add the selected js.
      */
-    $(document).on('click', '.mwb_ubo_bump_add_to_cart_button', function (e) {
+    $(document).on('click', '.wps_ubo_bump_add_to_cart_button', function (e) {
         e.preventDefault();
 
         order_bump_index = jQuery(this).attr('offer_bump_index');
 
         // Order Bump Object.
-        var parent_wrapper_class = '.mwb_bump_popup_' + order_bump_index;
+        var parent_wrapper_class = '.wps_bump_popup_' + order_bump_index;
         var popup_obj = jQuery(parent_wrapper_class);
 
         // Meta form exists.
         if (popup_obj.length > 0) {
             let data_arr = [];
-            popup_obj.find('.mwb_ubo_custom_meta_field').each(function (index) {
+            popup_obj.find('.wps_ubo_custom_meta_field').each(function (index) {
 
                 let field_obj = {};
                 if ('' == jQuery(this).val()) {
@@ -577,7 +614,7 @@ jQuery(document).ready(function ($) {
             });
 
             // All fields are saved!
-            if (data_arr.length == popup_obj.find('.mwb_ubo_custom_meta_field').length) {
+            if (data_arr.length == popup_obj.find('.wps_ubo_custom_meta_field').length) {
 
                 // Close popup and send add to cart request.
                 triggerAddOfferVariation(jQuery(this), data_arr);
@@ -594,31 +631,31 @@ jQuery(document).ready(function ($) {
      * POP-UP JS.
      * To hide on click close.
      */
-    $(document).on('click', '.mwb_bump_popup_close', function (e) {
+    $(document).on('click', '.wps_bump_popup_close', function (e) {
 
         order_bump_index = $(this).attr('offer_bump_index');
 
-        $('.mwb_ubo_wrapper_index_' + order_bump_index).css('pointer-events', 'all');
-        $('.mwb_ubo_wrapper_index_' + order_bump_index).css('opacity', '1');
-        $('body').removeClass('mwb_upsell_variation_pop_up_body');
-        $('.mwb_bump_popup_' + order_bump_index).css('display', 'none');
-        $('.mwb_ubo_wrapper_index_' + order_bump_index).find('.add_offer_in_cart').prop('checked', false);
-        $('.mwb_bump_popup_meta_form_fields').css('display', 'none');
+        $('.wps_ubo_wrapper_index_' + order_bump_index).css('pointer-events', 'all');
+        $('.wps_ubo_wrapper_index_' + order_bump_index).css('opacity', '1');
+        $('body').removeClass('wps_upsell_variation_pop_up_body');
+        $('.wps_bump_popup_' + order_bump_index).css('display', 'none');
+        $('.wps_ubo_wrapper_index_' + order_bump_index).find('.add_offer_in_cart').prop('checked', false);
+        $('.wps_bump_popup_meta_form_fields').css('display', 'none');
     });
 
 
     // Onclick outside the div close the popup.
     $('body').click(function (e) {
 
-        if (e.target.className.search('mwb_bump_popup_wrapper') == 0) {
+        if (e.target.className.search('wps_bump_popup_wrapper') == 0) {
 
-            order_bump_index = e.target.className.replace('mwb_bump_popup_wrapper mwb_bump_popup_', '');
+            order_bump_index = e.target.className.replace('wps_bump_popup_wrapper wps_bump_popup_', '');
 
-            $('.mwb_ubo_wrapper_index_' + order_bump_index).css('pointer-events', 'all');
-            $('.mwb_ubo_wrapper_index_' + order_bump_index).css('opacity', '1');
-            $('body').removeClass('mwb_upsell_variation_pop_up_body');
-            $('.mwb_bump_popup_wrapper').hide();
-            $('.mwb_ubo_wrapper_index_' + order_bump_index).find('.add_offer_in_cart').prop('checked', false);
+            $('.wps_ubo_wrapper_index_' + order_bump_index).css('pointer-events', 'all');
+            $('.wps_ubo_wrapper_index_' + order_bump_index).css('opacity', '1');
+            $('body').removeClass('wps_upsell_variation_pop_up_body');
+            $('.wps_bump_popup_wrapper').hide();
+            $('.wps_ubo_wrapper_index_' + order_bump_index).find('.add_offer_in_cart').prop('checked', false);
         }
     }
     );
@@ -627,10 +664,10 @@ jQuery(document).ready(function ($) {
     /*==========================================================================
                                 Zooming Effect on mobile.
     ============================================================================*/
-    if (mwb_ubo_lite_public.mobile_view != 1) {
+    if (wps_ubo_lite_public.mobile_view != 1) {
 
         // Function for zooming image( not for mobile view ).
-        $(document).on('hover', '.mwb_bump_popup_image', function (e) {
+        $(document).on('hover', '.wps_bump_popup_image', function (e) {
 
             // Block opening image.
             e.preventDefault();
@@ -641,7 +678,7 @@ jQuery(document).ready(function ($) {
 
     } else {
 
-        $(document).on('click', '.mwb_bump_popup_image', function (e) {
+        $(document).on('click', '.wps_bump_popup_image', function (e) {
 
             // Block opening image.
             e.preventDefault();

@@ -50,79 +50,29 @@ do_action( 'wps_ubo_lite_tab_active' );
 
 		<a class="nav-tab <?php echo esc_html( 'settings' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=settings"><?php esc_html_e( 'Global Settings', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
-		<?php
-
-		if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
-
-				$wps_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_lic_callback_function;
-
-				$wps_upsell_bump_callname_lic_initial = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_lic_ini_callback_function;
-
-				$day_count = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic_initial();
-		}
-
-		$plugin_version = wps_ubo_lite_if_pro_exists();
-
-		?>
-		<!-- If premium version is available, set license tab. -->
-		<?php if ( $plugin_version && ! Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic() ) : ?>
-
-			<a class="nav-tab <?php echo esc_html( 'license' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=license"><?php esc_html_e( 'License', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-
-		<?php endif; ?>
-
 		<!-- If Org version set overview tab. -->
 		<a class="nav-tab <?php echo esc_html( 'overview' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=overview"><?php esc_html_e( 'Overview', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 		<?php do_action( 'wps_ubo_setting_tab' ); ?>
-
+		<?php
+		$global_custom_css = 'const triggerError = () => {
+            swal({
+                title: "Attention Required!",
+                text: "The premium version you are using is too old! Please Update the plugin. You should be getting the update now button for now.",
+                icon: "error",
+                button: "Go to update page",
+				closeOnClickOutside: false,
+            }).then(function() {
+				window.location = "' . admin_url( 'plugins.php' ) . '";
+			});
+        }
+        triggerError();';
+		wp_register_script( 'wps_upsell_incompatible_css', false, array(), WC_VERSION, 'all' );
+		wp_enqueue_script( 'wps_upsell_incompatible_css' );
+		wp_add_inline_script( 'wps_upsell_incompatible_css', $global_custom_css );
+		?>
 	</nav>
 
-	<!-- For notification control. -->
-	<h1></h1>
-	<?php do_action( 'wps_ubo_migration_notice', '', '', '' ); ?>
-	<?php
-
-	if ( $plugin_version ) {
-
-		// If license is activated or trial period is remaining.
-		if ( 'creation-setting' === $wps_ubo_lite_active_tab ) {
-			// Include creation file from pro version.
-			include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-creation.php';
-		} elseif ( 'bump-list' === $wps_ubo_lite_active_tab ) {
-			// Include listing file from pro version.
-			include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-list.php';
-		} elseif ( 'settings' === $wps_ubo_lite_active_tab ) {
-			// Include setting file from org version.
-			include_once 'templates/wps-ubo-lite-settings.php';
-		} elseif ( 'overview' === $wps_ubo_lite_active_tab ) {
-			// Include setting file from org version.
-			include_once 'templates/wps-ubo-lite-overview.php';
-		}
-
-		if ( ! Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic() ) {
-
-			if ( 'license' === $wps_ubo_lite_active_tab ) {
-				// Include license file from pro version.
-				include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-license.php';
-			}
-		}
-	} else {
-
-		// Org files.
-		if ( 'creation-setting' === $wps_ubo_lite_active_tab ) {
-			include_once 'templates/wps-ubo-lite-creation.php';
-		} elseif ( 'bump-list' === $wps_ubo_lite_active_tab ) {
-			include_once 'templates/wps-ubo-lite-list.php';
-		} elseif ( 'settings' === $wps_ubo_lite_active_tab ) {
-			include_once 'templates/wps-ubo-lite-settings.php';
-		} elseif ( 'overview' === $wps_ubo_lite_active_tab ) {
-			include_once 'templates/wps-ubo-lite-overview.php';
-		}
-	}
-	do_action( 'wps_ubo_lite_setting_tab_html' );
-
-	?>
 </div>
 
 <!-- Connect us on skype. -->

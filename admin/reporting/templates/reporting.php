@@ -20,24 +20,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Get all Order Bumps.
-$order_bumps = get_option( 'mwb_ubo_bump_list' );
+$order_bumps = get_option( 'wps_ubo_bump_list' );
 
 ?>
 
-<div class="mwb_upsell_bumps_list" >
+<div class="wps_upsell_bumps_list" >
 
-	<div class="mwb_ubo_reporting_heading" >
+	<div class="wps_ubo_reporting_heading" >
 		<h2><?php esc_html_e( 'Order Bump Sales - Reports', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
-		<a target="_blank" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-reports&tab=mwb_order_bump' ) ); ?>"><?php esc_html_e( 'Visit here &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a target="_blank" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-reports&tab=wps_order_bump' ) ); ?>"><?php esc_html_e( 'Visit here &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 	</div>
 
-	<hr class="mwb_ubo_reporting_funnel_stats_hr">
+	<hr class="wps_ubo_reporting_funnel_stats_hr">
 
-	<div class="mwb_ubo_stats_heading" ><h2><?php esc_html_e( 'Order Bump - Behavioral Analytics', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2></div>
+	<div class="wps_ubo_stats_heading" ><h2><?php esc_html_e( 'Order Bump - Behavioral Analytics', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2></div>
 
 	<?php if ( empty( $order_bumps ) ) : ?>
 
-		<p class="mwb_upsell_bump_no_bump"><?php esc_html_e( 'No Order Bumps added', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+		<p class="wps_upsell_bump_no_bump"><?php esc_html_e( 'No Order Bumps added', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
 	<?php endif; ?>
 
@@ -62,7 +62,7 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 				<tr>		
 					<!-- Funnel Name -->
 					<td>
-						<a class="mwb_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['mwb_upsell_bump_name'] ); ?></a>
+						<a class="wps_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['wps_upsell_bump_name'] ); ?></a>
 					</td>
 
 					<!-- View Count - Offer viewed on the Checkout page -->
@@ -130,7 +130,7 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 
 						$conversion_rate = number_format( (float) $conversion_rate, 2 );
 
-						echo '<div class="mwb_ubo_stats_conversion_rate"><p>' . esc_html( $conversion_rate ) . esc_html__( '%', 'upsell-order-bump-offer-for-woocommerce' ) . '</p><div>';
+						echo '<div class="wps_ubo_stats_conversion_rate"><p>' . esc_html( $conversion_rate ) . esc_html__( '%', 'upsell-order-bump-offer-for-woocommerce' ) . '</p><div>';
 
 						?>
 					</td>
@@ -143,10 +143,13 @@ $order_bumps = get_option( 'mwb_ubo_bump_list' );
 						$bump_total_sales = ! empty( $value['bump_total_sales'] ) ? $value['bump_total_sales'] : 0;
 
 						$bump_total_sales = number_format( (float) $bump_total_sales, 2 );
-
-						echo '<div class="mwb_ubo_stats_total_sales"><p>' . get_woocommerce_currency_symbol() . esc_html( $bump_total_sales ) . '</p><div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
 						?>
+						<div class="wps_ubo_stats_total_sales"><p>
+						<?php
+						echo esc_html( get_woocommerce_currency_symbol() );
+						echo esc_html( $bump_total_sales );
+						?>
+						</p><div>
 					</td>
 
 				</tr>

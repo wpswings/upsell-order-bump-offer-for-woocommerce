@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Date' ) ) {
+if ( class_exists( 'Wps_Upsell_Order_Bump_Report_Sales_By_Date' ) ) {
 	return;
 }
 
@@ -25,7 +25,7 @@ if ( class_exists( 'Mwb_Upsell_Order_Bump_Report_Sales_By_Date' ) ) {
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/reporting
  * @author     WP Swings <webmaster@wpswings.com>
  */
-class Mwb_Upsell_Order_Bump_Report_Sales_By_Date extends WC_Admin_Report {
+class Wps_Upsell_Order_Bump_Report_Sales_By_Date extends WC_Admin_Report {
 
 	/**
 	 * Chart colors.
@@ -79,7 +79,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Date extends WC_Admin_Report {
 						'type'            => 'order_item_meta',
 						'order_item_type' => 'line_item',
 						'function'        => '',
-						'name'            => 'mwb_upsell_order_bump_item_meta',
+						'name'            => 'wps_upsell_order_bump_item_meta',
 					),
 				),
 				'group_by'     => $this->group_by_query,
@@ -111,7 +111,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Date extends WC_Admin_Report {
 						'type'            => 'order_item_meta',
 						'order_item_type' => 'line_item',
 						'function'        => '',
-						'name'            => 'mwb_upsell_order_bump_item_meta',
+						'name'            => 'wps_upsell_order_bump_item_meta',
 					),
 				),
 				'where'        => array(
@@ -148,7 +148,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Date extends WC_Admin_Report {
 							'type'            => 'order_item_meta',
 							'order_item_type' => 'line_item',
 							'function'        => '',
-							'name'            => 'mwb_upsell_order_bump_item_meta',
+							'name'            => 'wps_upsell_order_bump_item_meta',
 						),
 					),
 					'where'        => array(
@@ -198,7 +198,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Date extends WC_Admin_Report {
 						'type'            => 'order_item_meta',
 						'order_item_type' => 'line_item',
 						'function'        => '',
-						'name'            => 'mwb_upsell_order_bump_item_meta',
+						'name'            => 'wps_upsell_order_bump_item_meta',
 					),
 					'post_date'              => array(
 						'type'     => 'post_data',
@@ -241,7 +241,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Date extends WC_Admin_Report {
 		$this->report_data->total_items = absint( array_sum( wp_list_pluck( $this->report_data->order_items, 'order_item_count' ) ) );
 
 		// 3rd party filtering of report data
-		$this->report_data = apply_filters( 'mwb_upsell_order_bump_sales_report_data', $this->report_data );
+		$this->report_data = apply_filters( 'wps_upsell_order_bump_sales_report_data', $this->report_data );
 	}
 
 	/**
@@ -474,7 +474,7 @@ class Mwb_Upsell_Order_Bump_Report_Sales_By_Date extends WC_Admin_Report {
 			points: { show: true, radius: 5, lineWidth: 2, fillColor: '#fff', fill: true },
 			lines: { show: true, lineWidth: 3, fill: false },
 			shadowSize: 0,
-			<?php echo $this->get_currency_tooltip(); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
+			prepend_tooltip: "<?php echo esc_html( get_woocommerce_currency_symbol() ); ?>"
 			},
 		];
 

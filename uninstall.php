@@ -9,8 +9,8 @@
  * @package           Upsell_Order_Bump_Offer_For_Woocommerce
  */
 
-$mwb_global_options = get_option( 'mwb_ubo_global_options', array() );
-if ( ! empty( $mwb_global_options['mwb_delete_all_on_uninstall'] ) && 'on' === $mwb_global_options['mwb_delete_all_on_uninstall'] ) {
-	delete_option( 'mwb_ubo_global_options' );
-	delete_option( 'mwb_ubo_bump_list' );
+$wps_global_options = get_option( 'wps_ubo_global_options', array() );
+if ( ! empty( $wps_global_options['wps_delete_all_on_uninstall'] ) && 'on' === $wps_global_options['wps_delete_all_on_uninstall'] ) {
+	delete_option( 'wps_ubo_global_options' );
+	delete_option( 'wps_ubo_bump_list' );
 }
