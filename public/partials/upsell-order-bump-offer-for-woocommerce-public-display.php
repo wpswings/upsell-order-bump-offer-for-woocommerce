@@ -24,9 +24,6 @@ if ( 'on' !== $wps_bump_enable_plugin || empty( $wps_ubo_offer_array_collection 
 	return;
 }
 
-// $wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
-
-
 // Token to fetch order bumps again.
 $fetch_order_bumps = true;
 

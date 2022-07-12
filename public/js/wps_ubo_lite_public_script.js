@@ -1,43 +1,55 @@
 jQuery(document).ready(function ($) {
 
-    if (window.location.href.indexOf('reload')==-1) {
-        window.location.replace(window.location.href+'?reload');
-   }
-
-    var columns = wps_ubo_lite_public.check;
-    var rows = wps_ubo_lite_public.timer;
-    var result =  rows.reduce(function(result, field, index) {
-  result[columns[index]] = field;
-  return result;
-}, {})
-
-    var x = setInterval(function() {
-    for (var key in result) {
-    var deadline = new Date(result[key]).getTime();
-    var now = new Date().getTime();
-    var t = deadline - now;
-    var days = Math.floor(t / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
-    var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((t % (1000 * 60)) / 1000);
-    document.getElementById("wps_day_time_" +  key ).innerHTML   =  getNum( days );
-    document.getElementById("wps_hour_time_"+  key).innerHTML    =  getNum( hours );
-    document.getElementById("wps_min_time_" +  key).innerHTML    =  getNum( minutes );
-    document.getElementById("wps_sec_time_" +  key).innerHTML    =  getNum( seconds );
-    if (t < 0 ) {
-        $("#wps_timer"+ key). css({display: "none"});
-        document.getElementById("expired_message"+ key).innerHTML = "EXPIRED";
-        document.getElementById("wps_checkbox_offer"+ key).disabled = true;
-    }
-        }
-    }, 1000);
-
     function getNum(val) {
         if (isNaN(val) ) {
-          return 0;
+        return 0;
         }
         return val;
-     }
+    }
+
+    if ( wps_ubo_lite_public.hasOwnProperty( 'check_if_reload' ) ) {
+
+        if ( 'reload' === wps_ubo_lite_public.check_if_reload ) {
+            location.reload();
+        } else {
+            if ( wps_ubo_lite_public.hasOwnProperty( 'timer' ) ) {
+                var columns = wps_ubo_lite_public.check_if_reload;
+                var rows = wps_ubo_lite_public.timer;
+                var result = [];
+                $.each( rows, function( index, value ) {
+                    if ( columns.indexOf( parseInt( index ) ) >= 0 ) {
+                      result[index] = value;
+                    }
+                } );
+
+                var x = setInterval(function() {
+                    for (var key in result) {
+
+                        if ( 'yes' === result[key].enabled ) {
+
+                            var deadline = new Date(result[key].counter).getTime();
+                            var now = new Date().getTime();
+                            var t = deadline - now;
+                            var days = Math.floor(t / (1000 * 60 * 60 * 24));
+                            var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
+                            var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+                            var seconds = Math.floor((t % (1000 * 60)) / 1000);
+                            document.getElementById("wps_day_time_" +  key ).innerHTML   =  getNum( days );
+                            document.getElementById("wps_hour_time_"+  key).innerHTML    =  getNum( hours );
+                            document.getElementById("wps_min_time_" +  key).innerHTML    =  getNum( minutes );
+                            document.getElementById("wps_sec_time_" +  key).innerHTML    =  getNum( seconds );
+                            if ( t < 0 ) {
+                                $("#wps_timer"+ key). css({display: "none"});
+                                document.getElementById("expired_message"+ key).innerHTML = "EXPIRED";
+                                document.getElementById("wps_checkbox_offer"+ key).disabled = true;
+                            }
+                        }
+                    }
+                }, 1000);
+            }      
+        }
+    }
+  
     // When bump is prepared we will get this data.
     var bump_id = '';
     var bump_discount = '';
