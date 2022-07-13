@@ -10,7 +10,17 @@ jQuery(document).ready(function ($) {
     if ( wps_ubo_lite_public.hasOwnProperty( 'check_if_reload' ) ) {
 
         if ( 'reload' === wps_ubo_lite_public.check_if_reload ) {
-            location.reload();
+        (() => {
+            if (window.localStorage) {
+  
+                if (!localStorage.getItem('reload')) {
+                    localStorage['reload'] = true;
+                    window.location.reload();
+                } else {
+                    localStorage.removeItem('reload');
+                }
+            }
+        })();
         } else {
             if ( wps_ubo_lite_public.hasOwnProperty( 'timer' ) ) {
                 var columns = wps_ubo_lite_public.check_if_reload;
