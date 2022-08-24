@@ -108,15 +108,7 @@ $bump_priority_collection = array();
 
 foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
 	$bump_priority  = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_priority'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_priority'] : '';
-	$min_cart_value = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
 
-	// Minimum Cart value feature.
-	if ( ! empty( $min_cart_value ) ) {
-		$cart_total = WC()->cart->get_cart_contents_total();
-		if ( (int) $cart_total < (int) $min_cart_value ) {
-			return;
-		}
-	}
 	// Bump Priority.
 	if ( ! empty( $bump_priority ) ) {
 		$bump_priority_collection[ $bump_priority ] = $order_bump_id;
@@ -138,6 +130,13 @@ foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
 		continue;
 	}
 
+	$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
+	if ( ! empty( $min_cart_value_wps ) ) {
+		$cart_total = WC()->cart->get_cart_contents_total();
+		if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+			continue;
+		}
+	}
 	$encountered_order_bump_id = $order_bump_id;
 
 	if ( ! empty( $encountered_bump_tarket_key_array ) ) {

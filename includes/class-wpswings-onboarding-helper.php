@@ -496,7 +496,7 @@ class Wpswings_Onboarding_Helper {
 				'type'        => 'textarea',
 				'name'        => 'deactivation_reason_text',
 				'value'       => '',
-				'required'    => '',
+				'required'    => 'yes',
 				'extra-class' => 'wps-keep-hidden',
 			),
 

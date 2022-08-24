@@ -1904,7 +1904,6 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		$price_array    = explode( '+', $bump_discount );
 		$price_type     = $price_array[1];
 		$price_discount = $price_array[0];
-
 		if ( '%' === $price_type ) {
 
 			$price_discount = ( $price_discount > 100 ) ? 100 : $price_discount;
@@ -1985,7 +1984,11 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		} else {
 			$wps_price_role_based = 'not_active';
 		}
+		if ( 'no_disc' == $price_type ) {
+			return $bump_price = $product->get_price_html();
+		} else {
 		return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $default_price : $wps_price_role_based, $bump_price );
+		}
 	}
 
 	// Check woocommerce settings for tax display at cart.
@@ -2016,7 +2019,11 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		} else {
 			$wps_price_role_based = 'not_active';
 		}
-		return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $regular_price : $wps_price_role_based, $bump_price );
+		if ( 'no_disc' == $price_type ) {
+			return $bump_price = $product->get_price_html();
+		} else {
+			return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $regular_price : $wps_price_role_based, $bump_price );
+		}
 
 	} elseif ( 'sale_to_offer' === $price_formatting ) {
 
@@ -2035,7 +2042,11 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 				} else {
 					$wps_price_role_based = 'not_active';
 				}
+				if ( 'no_disc' == $price_type ) {
+					return $bump_price = $product->get_price_html();
+				} else {
 				return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $sale_price : $wps_price_role_based, $bump_price ) . $subscription_details;
+				}
 			}
 
 			if ( is_wps_role_based_pricing_active() ) {
@@ -2045,7 +2056,11 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 			} else {
 				$wps_price_role_based = 'not_active';
 			}
-			return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $sale_price : $wps_price_role_based, $bump_price );
+			if ( 'no_disc' == $price_type ) {
+				return $bump_price = $product->get_price_html();
+			} else {
+				return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $regular_price : $wps_price_role_based, $bump_price );
+			}
 
 		} else {
 
@@ -2061,7 +2076,11 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 			} else {
 				$wps_price_role_based = 'not_active';
 			}
-			return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $regular_price : $wps_price_role_based, $bump_price );
+			if ( 'no_disc' == $price_type ) {
+				return $bump_price = $product->get_price_html();
+			} else {
+				return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $regular_price : $wps_price_role_based, $bump_price );
+			}
 		}
 	}
 }
