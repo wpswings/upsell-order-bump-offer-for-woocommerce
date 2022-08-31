@@ -707,7 +707,8 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			width: 90px; */
 			width: <?php echo esc_html( $product_section_img_width . 'px' ); ?>;
 			height: <?php echo esc_html( $product_section_img_height . 'px' ); ?>;
-			max-width: 150px;
+			max-width: 200px;
+			max-height: 200px;
 		}
 
 		@media only screen and (min-width : 768px) and (max-width: 1100px) {
@@ -867,10 +868,10 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	if ( 'on' === $wps_bump_enable_permalink ) {
 		// product section start with permalink.
 		$bumphtml .= '<div class = "wps_upsell_offer_product_section" >';
+		$bumphtml .= '<div class="wps_upsell_offer_product_content"> <h4 class="wps_bump_name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '"><a target="' . esc_html( $wps_bump_target_attr ) . '" class="wps_upsell_product_permalink" href="' . esc_url( $bump_offer_product_permalink ) . '">' . esc_html( $bump['name'] ) . '</a></h4><br>';
 		$bumphtml .= '<div class = "wps_upsell_offer_image" >';
 		$bumphtml .= '<a target="' . $wps_bump_target_attr . '" href="' . $bump_offer_product_permalink . '"><img class="wps_upsell_offer_img" src="' . esc_url( $image ) . '" data-id="' . $bump['id'] . '"></a>';
 		$bumphtml .= '</div>';
-		$bumphtml .= '<div class="wps_upsell_offer_product_content"> <h4 class="wps_bump_name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '"><a target="' . esc_html( $wps_bump_target_attr ) . '" class="wps_upsell_product_permalink" href="' . esc_url( $bump_offer_product_permalink ) . '">' . esc_html( $bump['name'] ) . '</a></h4><br>';
 		$bumphtml .= '<p class="wps_upsell_offer_product_price">' . $bump_offer_price . '</p>';
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
@@ -881,10 +882,10 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	} else {
 		// product section start without permalink.
 		$bumphtml .= '<div class = "wps_upsell_offer_product_section" >';
+		$bumphtml .= '<div class="wps_upsell_offer_product_content"> <h4 class="wps_bump_name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '">' . esc_html( $bump['name'] ) . '</h4><br>';
 		$bumphtml .= '<div class = "wps_upsell_offer_image" >';
 		$bumphtml .= '<img class="wps_upsell_offer_img" src="' . esc_url( $image ) . '" data-id="' . esc_html( $bump['id'] ) . '">';
 		$bumphtml .= '</div>';
-		$bumphtml .= '<div class="wps_upsell_offer_product_content"> <h4 class="wps_bump_name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '">' . esc_html( $bump['name'] ) . '</h4><br>';
 		$bumphtml .= '<p class="wps_upsell_offer_product_price">' . $bump_offer_price . '</p>';
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
@@ -1911,7 +1912,7 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 			$price_discount = floatval( sanitize_text_field( $price_discount ) );
 
-			$bump_price = $orginal_price - ( $orginal_price * $price_discount / 100 );
+			$bump_price = (int)$orginal_price - ( (int)$orginal_price * (int)$price_discount / 100 );
 
 			$product->set_price( $bump_price );
 
