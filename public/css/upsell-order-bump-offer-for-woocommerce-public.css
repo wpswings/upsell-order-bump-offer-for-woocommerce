@@ -423,3 +423,19 @@ margin: 10px 0;
     box-shadow: 0 0 15px #00000012;
 	color: black;
 }
+
+/*New CSS For Layout Fixes */
+.wps_upsell_offer_product_content {
+    text-align: center;
+}
+.wps_upsell_offer_product_content a.wps_upsell_product_permalink {
+    text-decoration: none !important;
+}
+
+.wps_upsell_offer_image a {
+    display: inline-block;
+}
+
+.wps_upsell_offer_image img.wps_upsell_offer_img {
+    margin: 10px auto;
+}

@@ -17,11 +17,11 @@
  * Description:       <code><strong>Upsell Order Bump Offer for WooCommerce</strong></code> makes special offers on checkout page, enabling to increase conversions & AOV in just a single click. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
  *
  * Requires at least:       4.4
- * Tested up to:            6.0.0
+ * Tested up to:            6.0.2
  * WC requires at least:    3.0.0
- * WC tested up to:         6.6.1
+ * WC tested up to:         6.8.2
  *
- * Version:           2.1.3
+ * Version:           2.1.5
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -65,7 +65,7 @@ function wps_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 /**
  * Currently plugin version.
  */
-define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.1.3' );
+define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.1.5' );
 
 $old_pro_present   = false;
 $installed_plugins = get_plugins();
@@ -224,6 +224,7 @@ if ( true === $wps_ubo_lite_plugin_activation['status'] ) {
 				'demo'    => '<a href="https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-backend&utm_campaign=order-bump-demo" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Demo.svg" class="wps-info-img" alt="Demo image">' . esc_html__( 'Demo', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 				'doc'     => '<a href="https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-backend&utm_campaign=order-bump-doc" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Documentation.svg" class="wps-info-img" alt="Documentation image">' . esc_html__( 'Documentation', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 				'support' => '<a href="https://wpswings.com/submit-query/?utm_source=wpswings-orderbump-support&utm_medium=orderbump-org-backend&utm_campaign=support" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Support.svg" class="wps-info-img" alt="DeSupportmo image">' . esc_html__( 'Support', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
+				'services' => '<a href="https://wpswings.com/woocommerce-services/?utm_source=wpswings-orderbump-services&utm_medium=orderbump-pro-backend&utm_campaign=woocommerce-services" target="_blank"><img src="' . esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL ) . 'admin/resources/icons/Services.svg" class="wps-info-img" alt="DeSupportmo image">' . esc_html__( 'Services', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 			);
 
 			return array_merge( $links, $row_meta );

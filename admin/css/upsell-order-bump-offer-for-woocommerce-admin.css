@@ -2011,3 +2011,18 @@ a.wps_ubo_upload_image_button {
 .wps_upsell_offer_counter_input_type {
   width: 94% !important;
 }
+
+/*New CSS For Layout Fixes */
+.wps_upsell_offer_product_content {
+  text-align: center;
+}
+.wps_upsell_offer_product_content a.wps_upsell_product_permalink {
+  text-decoration: none !important;
+}
+
+.wps_upsell_offer_image a {
+  display: inline-block;
+}
+.wps_upsell_offer_image img.wps_upsell_offer_img {
+  margin: 10px auto;
+}

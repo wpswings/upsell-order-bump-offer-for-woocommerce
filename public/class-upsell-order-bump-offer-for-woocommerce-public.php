@@ -104,36 +104,51 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			return;
 		}
 
-		$encountered_bump_ids_array = array();
-		$encountered_bump_ids_array        = WC()->session->get( 'encountered_bump_array' );
-		if ( is_array( $encountered_bump_ids_array ) || is_object( $encountered_bump_ids_array ) ) {
-			foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
-				$encountered_order_bump_id[] = $order_bump_id;
-			}
-		}
-
-		$encountered_order_bump_id  = isset( $encountered_order_bump_id ) ? $encountered_order_bump_id : '';
-		// Get all Bump if already some funnels are present.
-		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
-		if ( is_array( $encountered_bump_ids_array ) || is_object( $encountered_bump_ids_array ) ) {
-			foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
-				$wps_ubo_timer_countdown[] = ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['design_text']['wps_upsell_bump_offer_timer'] ) ? $wps_upsell_bumps_list[ $order_bump_id ]['design_text']['wps_upsell_bump_offer_timer'] : '';
-			}
-		}
-		$wps_ubo_timer_countdown  = isset( $wps_ubo_timer_countdown ) ? $wps_ubo_timer_countdown : '';
 		// Public Script.
 		wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
+
+		// Localizing Array.
+		$local_arr = array(
+			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
+			'mobile_view' => wp_is_mobile(),
+			'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce' ),
+		);
+
+		// Timer Functionality starts.
+		if ( isset( WC()->session ) && ! empty( WC()->session->get( 'encountered_bump_array' ) ) ) {
+
+			$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
+
+			$wps_ubo_timer_countdown   = array();
+			$encountered_order_bump_id = WC()->session->get( 'encountered_bump_array' );
+			// To fetch the countdown timer for the encountered bump.
+			if ( ! empty( $encountered_order_bump_id ) && ! empty( $wps_upsell_bumps_list ) && ( is_array( $encountered_order_bump_id ) || is_object( $encountered_order_bump_id ) ) ) {
+				foreach ( $encountered_order_bump_id as $key => $order_bump_id ) {
+					if ( ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_ubo_offer_timer'] ) && 'yes' === $wps_upsell_bumps_list[ $order_bump_id ]['wps_ubo_offer_timer'] ) {
+						$wps_ubo_timer_countdown[ $order_bump_id ] = array(
+							'enabled' => 'yes',
+							'counter' => ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['design_text']['wps_upsell_bump_offer_timer'] ) ? $wps_upsell_bumps_list[ $order_bump_id ]['design_text']['wps_upsell_bump_offer_timer'] : '',
+						);
+					}
+				}
+			} elseif ( empty( $encountered_order_bump_id ) ) {
+				$encountered_order_bump_id = 'reload';
+			}
+		}
+		if ( ! empty( $encountered_order_bump_id ) ) {
+			$local_arr['check_if_reload'] = $encountered_order_bump_id;
+		} else {
+			$local_arr['check_if_reload'] = 'reload';
+		}
+		if ( ! empty( $wps_ubo_timer_countdown ) ) {
+			$local_arr['timer'] = $wps_ubo_timer_countdown;
+		}
+		// Timer Functionality ends.
 
 		wp_localize_script(
 			'wps-ubo-lite-public-script',
 			'wps_ubo_lite_public',
-			array(
-				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
-				'mobile_view' => wp_is_mobile(),
-				'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce' ),
-				'timer'       => $wps_ubo_timer_countdown,
-				'check'       => $encountered_order_bump_id,
-			)
+			$local_arr
 		);
 
 		// Do not work in mobile-view mode.
@@ -910,7 +925,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param   array $wps_ubo_global_options  All global collection.
 	 * @since    1.2.0
 	 */
-	public function fetch_order_bump_from_collection( $order_bump_collection = array(), $wps_ubo_global_options = array() ) {
+	public static function fetch_order_bump_from_collection( $order_bump_collection = array(), $wps_ubo_global_options = array() ) {
 
 		/**
 		 * Check enability of the plugin at settings page,

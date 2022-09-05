@@ -1,12 +1,12 @@
 ===  Upsell Order Bump Offer for WooCommerce – Increase Sales, Upsell & Cross-sell, Checkout Page  ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags: bump, increase sales, upsell, order bump, checkout page, pre-purchase upsell offers 
-Requires at least: 4.6
-Tested up to: 5.9.3
-WC requires at least: 4.0
-WC tested up to: 6.4.1
-Stable tag: 2.1.2
+Tags: woocommerce upsell, conversion, upsell, order bump, checkout page, checkout upsell offers 
+Requires at least: 4.4
+Tested up to: 6.0.2
+WC requires at least: 3.0.0
+WC tested up to: 6.8.2
+Stable tag: 2.1.5
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -19,15 +19,8 @@ The All-In-One Solution to Increase Sales and Boost AOV with WooCommerce Upsell 
 
 Upsell Order Bump Offer for WooCommerce is an upselling plugin that facilitates store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer’s existing Order in just a single click.
 
-This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets which will ensure customer satisfaction and thus result in higher conversion rates
+This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets with [**WooCommerce Upsell Bump offer**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=order-bump-pro) plugin which ensures customer satisfaction and thus result in higher conversion rates
 
-***
->**IMPORTANT NOTICE:**
-
->_**From the 2.0.2 Version update onwards, the Upsell Order Bump Offer plugin and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-page&utm_campaign=official).**_
-
->_**WP Swings is just our improvised and rebranded version with all quality solutions and help to be the same, so no worries at your end. Please [**Connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-contact&utm_medium=order-bump-org-page&utm_campaign=contact) for all setup, support, and update related queries without hesitation.**_
-***
 
 [youtube https://www.youtube.com/watch?v=p9KIQyXauY4&w=560&h=315&rel=0]
 
@@ -96,14 +89,14 @@ This is one of our recent features. The admin can change the default bump offer 
 
 Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-page&utm_campaign=order-bump-doc) to learn more about the features and working of the plugin.
 
-Check out [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-kb&utm_medium=order-bump-org-page&utm_campaign=order-bump-kb)
-
-
 == LIVE DEMO OF UPSELL ORDER BUMP OFFER PLUGIN ==
 
 * [**Upsell Order Bump Offer Frontend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-page&utm_campaign=frontend-demo)
 
 * [**Upsell Order Bump Offer Backend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/request-for-personal-demo/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-page&utm_campaign=backend-demo)
+
+
+
 
 == PLUGIN COMPATIBILITIES == 
 
@@ -113,13 +106,17 @@ Check out [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://s
 
 * Create Unlimited Order Bump offers.
 * Show Multiple Order bump offers on the checkout page.
-* Role-Based Bump Offers
-* Red Arrow on Bump Offer box
-* Bump Offer Priority
-* Global Order Bump
-* Bump Offer Product Quantity
-* Template Customization with Live Preview
-* Target Product Category For Triggering Bump Offers
+* Duplicate your upsell order bump offers.
+* Countdown timer on upsell offers to create urgency on your WooCommerce store.
+* Role-Based Upsell Bump Offers.
+* Customize the Arrow on Bump Offer checkbox.
+* Offer Image Size Customization.
+* Set Minimum Cart Value for Order Bump.
+* Bump Offer Priority.
+* Global Order Bump.
+* Bump Offer Product Quantity.
+* Template Customization with Live Preview.
+* Target Product Category For Triggering Bump Offers.
 * Smart Offer Upgrade to offer an upgrade on the existing purchase.
 * Smart Skip if Already Purchased to skip the bump offers if already purchased.
 * Premium Support on Phone, Email & Skype.
@@ -135,6 +132,10 @@ Check out [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://s
 == SUPPORT ==
 
 If you need support or have questions, kindly use our online chat window [**here**](http://www.wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-page&utm_campaign=official) or connect with us then [**Generate a ticket.**](https://wpswings.com/submit-query/?utm_source=wpswings-submit-query&utm_medium=order-bump-org-page&utm_campaign=query)
+
+> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-order-bump-services&utm_medium=order-bump-org-page&utm_campaign=woocommerce-services)
+
+
 
 == Installation ==
 
@@ -175,21 +176,29 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 Follow these steps to create an order bump with our plugin:
 1) Navigate to your WordPress dashboard > Order Bump and click on the Order Bump List section.
 2) Click on the “Create New Order Bump” button in this section.
-3) Name your bump offer, select the target product, target category, and schedule your offer for specific days accordingly
+3) Name your bump offer, select the target product, and target category, and schedule your offer for specific days accordingly
 4) Add your offer product and discount.
 5) Select the offer template and customize the design and content as you want.
 6) Make the funnel Live and save changes.
 
-
-= I installed the plugin, created Order Bumps, and added the offers too but still, it does not show up on purchasing the target products, Why? =
+= My Order Bump Offer not showing? =
 If your order bump offers are not displaying on your site, make sure:
 1. Your Order Bump offer is Live and not in sandbox mode.
 2. You have added the correct target product or target category product in the cart.
 3. Your Order Bump Schedule is set to Daily or for the correct weekday that you are checking.
 
+= Are the offer templates fully customizable? =
+Yes, the offer templates are fully customizable. Admin of the site can change the following as per their needs.
 
-= Are they offer templates customizable from the admin panel? =
-Yes, the templates are completely customizable. GoTo Appearance> Design. You will see an Offer whose design, offer size, offer content, background color, text color, and text size can be changed with the Live Preview functionality instantly.
+* Offer Design
+* Offer Size
+* Offer Content
+* Background color
+* Text size
+* Text color
+* Timer of urgency
+* Arrow pointer
+
 
 = For variable offer products why there is no drop-down to select variation? =
 For a Variable Offer product as soon as the customer will tick the checkbox to accept the offer, a variation pop-up will appear with respective variations, variation product images, and offer prices.
@@ -201,10 +210,6 @@ Yes, you can change the location of the Order Bump Offer on the Checkout page. H
 2. Before Payment Gateways.
 3. After Payment Gateways.
 4. Before Place Order Button.
-
-= If the offered product is being added to the cart then isn't that possible that the customer will add more than 1 quantity? This could lead us to a loss in revenue as well as stock. How could I prevent this? =
-
-We have set quantity limit functionality, so the customer can only add a single quantity of the offered product. Also, the offer product quantity can't be updated from the cart page.
 
 = What happens if the customer has already added the product in the cart that I was going to show as a bump offer? =
 In this case, you can skip the bump offer. To do this, go to the “Global Settings” of our Order Bump plugin. There you’ll find a feature named “Skip for Same Offers.” Click on the dropdown in front of it and select Yes and save changes. Now if a customer has added an order bump offer product in his cart, the plugin won’t show them the same product as the bump offer.
@@ -220,12 +225,29 @@ In this case, you get two options. Either remove or keep the offered product in 
 Yes, our plugin supports Simple, Variable, and Subscription products.
 
 = Can I track the performance of my Order Bumps? =
-Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump Performance metrics such as View Count, Success Count, Offer Accept Count, Offer Remove Count, Conversion Rate, and Total Sales. With the help of these metrics, you can easily figure out how your Order Bumps are performing and make changes accordingly.
+Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump Performance metrics such as View Count, Success Count, Offer to Accept Count, Offer Remove Count, Conversion Rate, and Total Sales. With the help of these metrics, you can easily figure out how your Order Bumps are performing and make changes accordingly.
 
+= My Question is Not Listed? =
+Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-kb&utm_medium=order-bump-org-page&utm_campaign=order-bump-kb)
 
 
 
 == Changelog ==
+
+= 2.1.5 - Released on 05 Sept 2022 =
+* Fixed: No discount Price Feature
+* Fixed: Theme Compatibility.
+* New: Minor Bug fixes and Enhancement
+* New: Compatible with the latest WP and WC
+
+
+= 2.1.4 - Released on 12 July 2022 =
+* New: Minor Bug Fixes
+* New: Compatible with the latest WP and WC
+
+= 2.1.3 - Released on 08 July 2022 =
+* New: Minor Bug Fixes
+* New: Compatible with the latest WP and WC
 
 = 2.1.2 - Released on 29 April 2022 =
 * New: Offer background color now customizable
@@ -277,7 +299,7 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 * Other: Issues and Bugs Fixed.
 
 = 1.3.0 =
-* New: Compatibility with latest WordPress and WooCommerce.
+* New: Compatibility with the latest WordPress and WooCommerce.
 * Other: Issues and Bugs Fixed.
 
 = 1.2.0 =
@@ -296,9 +318,10 @@ Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump 
 
 
 == Upgrade Notice ==
-= 2.1.2 - Released on 29 April 2022 =
-* New: Offer background color now customizable
-* New: Minor Bug Fixes
+= 2.1.5 - Released on 05 Sept 2022 =
+* Fixed: No discount Price Feature
+* Fixed: Theme Compatibility.
+* New: Minor Bug fixes and Enhancement
 * New: Compatible with the latest WP and WC
 
 
