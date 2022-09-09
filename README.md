@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-4000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.0.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.7.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-4000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.0.2-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.8.2-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
 # Upsell Order Bump Offer for WooCommerce – Increase Sales, Upsell & Cross-sell, Checkout Page
 ![Upsell Order Bump Offer for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg?rev=2672066)
 * Contributors: WP Swings
@@ -42,7 +42,7 @@ Upsell Order Bump Offer for WooCommerce provides a unique form of a well-timed o
 **2) Just a precious single click to accept the offer**
 The Order Bump offer can be accepted in just a single click in which the customer can just simply tick the checkbox to add the offer to their existing order.
 
-**3) Category Based Offer Triggering**
+**3) Category-Based Offer Triggering**
 You can trigger your WooCommerce checkout offers based on the target Category of products, For example, if anyone purchases a product from the Electronics category then your Order Bump offer will be triggered and the offer will be shown.
 
 Setting up the target category saves a lot of time from adding individual products as targets and you can set up related upsell offers that will show up for the right category.
@@ -60,7 +60,7 @@ Merchants can customize order bump offers and view Live Preview at the same time
 The additional offers can be displayed on multiple locations on the Checkout Page. You can display them as “Before Order Summary”, “Before Payment Gateways”, “After Payment Gateways”, and “Before Place Order Button”.
 
 **8) Choose the Background Color of the Bump Offer Box** 
-Customize the background color of the bump offer box as per liking using the background color feature. Make the offer as attractive as you can by choosing the righteous color combinations and elevate your AOV.
+Customize the background color of the bump offer box as per liking using the background color feature. Make the offer as attractive as you can by choosing the righteous color combinations and elevating your AOV.
 
 **9) Sandbox Mode**
 Our WooCommerce Order Bump plugin has Sandbox mode that gives you the ability to Live Preview and Customize the Order Bump Offer layout and modify every element before making it Live.
