@@ -1912,7 +1912,7 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 			$price_discount = floatval( sanitize_text_field( $price_discount ) );
 
-			$bump_price = (int)$orginal_price - ( (int)$orginal_price * (int)$price_discount / 100 );
+			$bump_price = $orginal_price - ( $orginal_price * $price_discount / 100 );
 
 			$product->set_price( $bump_price );
 
@@ -2046,7 +2046,7 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 				if ( 'no_disc' == $price_type ) {
 					return $bump_price = $product->get_price_html();
 				} else {
-				return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $sale_price : $wps_price_role_based, $bump_price ) . $subscription_details;
+					return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $sale_price : $wps_price_role_based, $bump_price ) . $subscription_details;
 				}
 			}
 
@@ -2060,7 +2060,7 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 			if ( 'no_disc' == $price_type ) {
 				return $bump_price = $product->get_price_html();
 			} else {
-				return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $regular_price : $wps_price_role_based, $bump_price );
+				return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $sale_price : $wps_price_role_based, $bump_price );
 			}
 
 		} else {
