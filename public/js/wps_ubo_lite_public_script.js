@@ -71,6 +71,10 @@ jQuery(document).ready(function ($) {
     }
 
     const triggerRemoveOffer = (order_bump_index, order_bump_id) => {
+
+        //Getting Current theme Name.
+        var wps_current_theme = wps_ubo_lite_public.current_theme;
+        
         // Remove the same product from cart.
         jQuery.ajax({
 
@@ -89,6 +93,10 @@ jQuery(document).ready(function ($) {
             success: function (msg) {
 
                 $('body').trigger('update_checkout');
+
+                //Mini-Cart Upadte on Checkout depending upon themes.
+                wps_minicart_update(wps_current_theme);
+
                 $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'all');
                 $('.wps_ubo_wrapper_' + order_bump_index).css('opacity', '1');
             }
@@ -148,6 +156,10 @@ jQuery(document).ready(function ($) {
         var parent_wrapper_class = '.wps_ubo_wrapper_index_' + order_bump_index;
         var selected_order_bump = jQuery(parent_wrapper_class);
 
+        //Getting Current theme Name.
+        var wps_current_theme = wps_ubo_lite_public.current_theme;
+
+
         // Disable bump div.
         $(parent_wrapper_class).css('pointer-events', 'none');
         $(parent_wrapper_class).css('opacity', '0.4');
@@ -193,6 +205,10 @@ jQuery(document).ready(function ($) {
                 $('body').removeClass('wps_upsell_variation_pop_up_body');
                 $('.wps_bump_popup_wrapper').css('display', 'none');
                 $('body').trigger('update_checkout');
+
+                //Mini-Cart Upadte on Checkout depending upon themes.
+                wps_minicart_update(wps_current_theme);
+
                 $(parent_wrapper_class).css('pointer-events', 'all');
                 $(parent_wrapper_class).css('opacity', '1');
                 $('.wps_ubo_bump_add_to_cart_button').prop('disabled', false);
@@ -253,6 +269,9 @@ jQuery(document).ready(function ($) {
             // Get Order Bump variation popup ready.
             handle_pre_selected_values();
 
+            //Getting Current theme Name.
+            var wps_current_theme = wps_ubo_lite_public.current_theme;
+
             // Show loader for Variable offers.
             if ('variable' == object.closest('.wps_upsell_offer_main_wrapper').find('.offer_shown_id_type').val()) {
                 $('.wps_bump_popup_loader').css('display', 'flex');
@@ -310,6 +329,10 @@ jQuery(document).ready(function ($) {
 
                         $('.wps_bump_popup_loader').css('display', 'none');
                         $('body').trigger('update_checkout');
+
+                        //Mini-Cart Upadte on Checkout depending upon themes.
+                        wps_minicart_update(wps_current_theme);
+
                         $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'all');
                         $('.wps_ubo_wrapper_' + order_bump_index).css('opacity', '1');
 
@@ -695,6 +718,33 @@ jQuery(document).ready(function ($) {
             // Block opening image.
             e.preventDefault();
         });
+    }
+
+    /*=====================================================================================
+                                Mini Cart Update on Checkout on Adding Bump Offer.
+    ======================================================================================*/
+    /**
+     * Update The Mini-Cart On Adding Bump Offer.
+     * 
+     * @param {string} wps_current_theme    Current Theme Name.
+     */
+    function wps_minicart_update(wps_current_theme){
+
+        if(wps_current_theme == 'Storefront') {
+            $( "#site-header-cart" ).load(window.location.href + " #site-header-cart" );//StoreFront.
+            }
+
+            if(wps_current_theme == 'Betheme') {
+            $( "#header_cart" ).load(window.location.href + " #header_cart" );//Betheme.
+            }
+
+            if(wps_current_theme == 'Flatsome') {
+            $( ".cart-item" ).load(window.location.href + " .cart-item" );//Flatsome.
+            }
+
+            if(wps_current_theme == 'Store Commerce') {
+            $( ".box-icon-cart" ).load(window.location.href + " .box-icon-cart" );//Store Commerce.
+            }
     }
 
     // END OF SCRIPT

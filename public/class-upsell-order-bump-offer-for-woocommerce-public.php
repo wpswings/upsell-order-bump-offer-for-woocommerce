@@ -108,10 +108,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
 
 		// Localizing Array.
+		$current_theme = wp_get_theme();
 		$local_arr = array(
 			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
 			'mobile_view' => wp_is_mobile(),
 			'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce' ),
+			'current_theme'=>$current_theme->get( 'Name'),
 		);
 
 		// Timer Functionality starts.
