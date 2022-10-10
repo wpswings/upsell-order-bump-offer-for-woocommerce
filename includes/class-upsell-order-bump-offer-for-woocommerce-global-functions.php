@@ -1986,9 +1986,10 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 			$wps_price_role_based = 'not_active';
 		}
 		if ( 'no_disc' == $price_type ) {
-			return $bump_price = $product->get_price_html();
+			$bump_price = $product->get_price_html();
+			return $bump_price;
 		} else {
-		return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $default_price : $wps_price_role_based, $bump_price );
+			return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $default_price : $wps_price_role_based, $bump_price );
 		}
 	}
 
@@ -2021,11 +2022,11 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 			$wps_price_role_based = 'not_active';
 		}
 		if ( 'no_disc' == $price_type ) {
-			return $bump_price = $product->get_price_html();
+			$bump_price = $product->get_price_html();
+			return $bump_price;
 		} else {
 			return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $regular_price : $wps_price_role_based, $bump_price );
 		}
-
 	} elseif ( 'sale_to_offer' === $price_formatting ) {
 
 		if ( ! empty( $sale_price ) ) {
@@ -2044,7 +2045,8 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 					$wps_price_role_based = 'not_active';
 				}
 				if ( 'no_disc' == $price_type ) {
-					return $bump_price = $product->get_price_html();
+					$bump_price = $product->get_price_html();
+					return $bump_price;
 				} else {
 					return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $sale_price : $wps_price_role_based, $bump_price ) . $subscription_details;
 				}
@@ -2058,11 +2060,11 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 				$wps_price_role_based = 'not_active';
 			}
 			if ( 'no_disc' == $price_type ) {
-				return $bump_price = $product->get_price_html();
+				$bump_price = $product->get_price_html();
+				return $bump_price;
 			} else {
 				return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $sale_price : $wps_price_role_based, $bump_price );
 			}
-
 		} else {
 
 			if ( true === $is_subscription ) {
@@ -2078,7 +2080,8 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 				$wps_price_role_based = 'not_active';
 			}
 			if ( 'no_disc' == $price_type ) {
-				return $bump_price = $product->get_price_html();
+				$bump_price = $product->get_price_html();
+				return $bump_price;
 			} else {
 				return wc_format_sale_price( ( 'not_active' === $wps_price_role_based ) ? $regular_price : $wps_price_role_based, $bump_price );
 			}
@@ -2277,12 +2280,12 @@ function wps_ubo_lite_getcat_title( $cat_id = '' ) {
 /**
  *  Displays Order bump and its variation popup.
  *
- * @param   string $encountered_order_bump_id                  Single order bump id.
+ * @param   int    $encountered_order_bump_id                  Single order bump id.
  * @param   string $key                                        Key of encountered order bump array.
  * @param   string $encountered_respective_target_key          Target product key for same order bump.
  * @since   1.4.0
  */
-function wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id = '', $key, $encountered_respective_target_key ) {
+function wps_ubo_analyse_and_display_order_bump( int $encountered_order_bump_id = null, $key, $encountered_respective_target_key ) {
 
 	if ( empty( $encountered_order_bump_id ) ) {
 
@@ -2328,12 +2331,12 @@ function wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id = ''
 /**
  *  Live availability Check for order bump offer products.
  *
- * @param   string $encountered_order_bump_id          Single order bump id.
- * @param   array  $wps_ubo_offer_array_collection     Array of all order bumps collection.
- * @param   array  $wps_ubo_global_options             Array of global settings.
+ * @param   int   $encountered_order_bump_id          Single order bump id.
+ * @param   array $wps_ubo_offer_array_collection     Array of all order bumps collection.
+ * @param   array $wps_ubo_global_options             Array of global settings.
  * @since   1.4.0
  */
-function wps_ubo_order_bump_session_validations( $encountered_order_bump_id = '', $wps_ubo_offer_array_collection, $wps_ubo_global_options ) {
+function wps_ubo_order_bump_session_validations( int $encountered_order_bump_id = null, $wps_ubo_offer_array_collection, $wps_ubo_global_options ) {
 
 	if ( empty( $encountered_order_bump_id ) || empty( $wps_ubo_offer_array_collection[ $encountered_order_bump_id ] ) ) {
 
