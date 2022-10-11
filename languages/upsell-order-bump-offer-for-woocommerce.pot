@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.1.5\n"
-"POT-Creation-Date: 2022-09-05 10:51+0530\n"
+"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.1.6\n"
+"POT-Creation-Date: 2022-10-10 18:49+0530\n"
 "PO-Revision-Date: 2022-07-07 19:17+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -866,7 +866,7 @@ msgid ""
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-overview.php:141
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2206
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2209
 msgid "Upgrade to Premium"
 msgstr ""
 
@@ -1266,19 +1266,19 @@ msgstr ""
 msgid "excl.VAT"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2168
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2171
 msgid "Want some more super cool features? Unlock your power to explore more."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2172
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2175
 msgid "Stucked to just one order bump? Unlock your power to explore more."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2183
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2186
 msgid "Want More? Go Pro !!"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2200
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2203
 msgid ""
 "Go with our premium version and make unlimited numbers of order bumps. Get "
 "more smart features and make the most attractive offers with all of your "
@@ -1286,15 +1286,15 @@ msgid ""
 "customer satisfaction and higher conversion rates."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2229
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2232
 msgid "Product not found"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2237
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2240
 msgid "Product Unavailable"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2259
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2262
 msgid "Category not found"
 msgstr ""
 
@@ -1322,15 +1322,15 @@ msgstr ""
 msgid "Unexpected Error Occurred"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:458
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:460
 msgid "Product Not Found."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:485
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:487
 msgid "Sorry, this variation is not available."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:499
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:501
 msgid "Out of stock."
 msgstr ""
 
