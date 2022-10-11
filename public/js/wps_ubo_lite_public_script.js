@@ -733,18 +733,6 @@ jQuery(document).ready(function ($) {
         if(wps_current_theme == 'Storefront') {
             $( "#site-header-cart" ).load(window.location.href + " #site-header-cart" );//StoreFront.
             }
-
-            if(wps_current_theme == 'Betheme') {
-            $( "#header_cart" ).load(window.location.href + " #header_cart" );//Betheme.
-            }
-
-            if(wps_current_theme == 'Flatsome') {
-            $( ".cart-item" ).load(window.location.href + " .cart-item" );//Flatsome.
-            }
-
-            if(wps_current_theme == 'Store Commerce') {
-            $( ".box-icon-cart" ).load(window.location.href + " .box-icon-cart" );//Store Commerce.
-            }
     }
 
     // END OF SCRIPT
