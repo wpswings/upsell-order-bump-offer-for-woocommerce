@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-4000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.0.2-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.8.2-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-5000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.0.2-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.9.4-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
 # Upsell Order Bump Offer for WooCommerce – Increase Sales, Upsell & Cross-sell, Checkout Page
 ![Upsell Order Bump Offer for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg?rev=2672066)
 * Contributors: WP Swings
@@ -9,20 +9,18 @@
 
 # Description
 
-**UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE IS AN EXTENSION THAT LETS THE MERCHANTS SHOW UPSELL AND CROSS-SELL OFFERS ON THE CHECKOUT PAGE TO BOOST AOV AND INCREASE SALES.**
+**UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE IS AN UPSELLING PLUGIN THAT LETS THE MERCHANTS SHOW UPSELL AND CROSS-SELL OFFERS ON THE CHECKOUT PAGE TO BOOST AOV AND INCREASE SALES.**
 
 [**Upsell Order Bump Offer for WooCommerce**](https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/) is an upselling plugin that facilitates WooCommerce store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer’s existing Order in just a single click.
 
-This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets which will ensure customer satisfaction and thus result in higher conversion rates
-
-
+This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets with [**WooCommerce Upsell Bump offer**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-github-page&utm_campaign=order-bump-pro) plugin which ensures customer satisfaction and thus result in higher conversion rates.
 
 [**How To Create Upsell Order Bumps In Your WooCommerce Store?**](https://www.youtube.com/watch?v=p9KIQyXauY4)
 
-**WITH THE UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE PLUGIN YOU CAN:**
+**WITH THE WOOCOMMERCE ORDER BUMP PLUGIN YOU CAN:**
 
 * Create special offers on the checkout page.
-* Customize Offer Layouts specifically according to your products.
+* Customize responsive offer design specifically according to your products.
 * Grow your average order value and customer satisfaction rate.
 * Schedule your bump offers for specific days.
 * Edit your offers in Sandbox mode.
@@ -70,7 +68,7 @@ The  WooCommerce upsell offers are completely responsive for every type of devic
 
 **11) Behavioral Reporting**
 
-Merchants can analyze the customer behavior for every individual bump offer. With this behavioral report, a merchant can check the number of times a particular offer was viewed, accepted, or removed from the cart. It also shows the conversion rate as well as the total sales for every order bump offer.
+Merchants can analyze the customer behavior for every individual bump offer. With this behavioral report, a merchant can check the number of times a particular offer was viewed, accepted, or removed from the cart. It also shows the conversion rate and the total sales for every order bump offer.
 
 **12) Sales Report**
 
@@ -141,5 +139,6 @@ If you need support or have questions, kindly use our online chat window [**here
 - [**Follow us on Facebook Page**](https://www.facebook.com/wpswings)
 - [**Tweet us on @WPSwings**](https://twitter.com/wpswings)
 - [**Visit our LinkedIn Account**](https://www.linkedin.com/company/wpswings/)
+
 
 
