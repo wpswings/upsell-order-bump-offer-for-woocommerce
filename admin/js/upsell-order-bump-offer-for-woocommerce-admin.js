@@ -1,6 +1,12 @@
 (function( $ ) {
 	'use strict';
 	$(document).ready(function(){
+
+		$(document).on('click','.wps_product_info',function(){
+            $(this).toggleClass('accordian--active');
+            $(this).next('p').slideToggle();
+        })
+
 		// Create new offer bump.
 		$('.wps_ubo_lite_bump_create_button').on( 'click', function (e) {
 
@@ -18,6 +24,7 @@
 			// Hide Go pro popup.
 			e.preventDefault();
 			$( '.wps_ubo_lite_go_pro_popup_wrap' ).removeClass('wps_ubo_lite_go_pro_popup_show' );
+			$( '.wps_ubo_lite_go_pro_popup_wrap_template' ).removeClass('wps_ubo_lite_go_pro_popup_show' );
 			$( 'body' ).removeClass( 'wps_ubo_lite_go_pro_popup_body' );
 		});
 		$('.wps_ubo_lite_skype_setting').on( 'click', function () {
@@ -28,9 +35,10 @@
 	    (
 	      function(e)
 	      { 
-	        if( e.target.className == 'wps_ubo_lite_go_pro_popup_wrap wps_ubo_lite_go_pro_popup_show' )
+	        if( e.target.className == 'wps_ubo_lite_go_pro_popup_wrap wps_ubo_lite_go_pro_popup_show' || e.target.className == 'wps_ubo_lite_go_pro_popup_wrap_template wps_ubo_lite_go_pro_popup_show' )
 	        {   
 	            $( '.wps_ubo_lite_go_pro_popup_wrap' ).removeClass( 'wps_ubo_lite_go_pro_popup_show' );
+				$( '.wps_ubo_lite_go_pro_popup_wrap_template' ).removeClass( 'wps_ubo_lite_go_pro_popup_show' );
 	            $( 'body' ).removeClass( 'wps_ubo_lite_go_pro_popup_body' );
 	        }
 	      }
@@ -182,7 +190,7 @@
 		});
 
 		// On yes, reset the css
-		$('.wps_ubo_template_layout_yes').on( 'click', function(e) {
+		$('.wps_ubo_template_layout_yes').on( 'click', function(e) { //Template chnage css and design. 
 
 			e.preventDefault();
 			$( '.wps_ubo_template').val( temp_id );   // Select temp id
@@ -635,6 +643,19 @@ jQuery(document).ready( function($) {
 			// Add a popup over here.
 			$(this).prop("checked", false);
 			$( '.wps_ubo_lite_go_pro_popup_wrap' ).addClass( 'wps_ubo_lite_go_pro_popup_show' );
+			$( 'body' ).addClass( 'wps_ubo_lite_go_pro_popup_body' );
+		}
+	});
+
+	$('#wps_ubo_premium_popup_4_template,#wps_ubo_premium_popup_3_template,#wps_ubo_premium_popup_5_template').on( 'click', function (e) {
+
+		// Add popup to unlock pro features.
+		var pro_status = document.getElementById( 'wps_ubo_pro_status' );
+		if( null != pro_status ) {
+			
+			// Add a popup over here.
+			$(this).prop("checked", false);
+			$( '.wps_ubo_lite_go_pro_popup_wrap_template' ).addClass( 'wps_ubo_lite_go_pro_popup_show' );
 			$( 'body' ).addClass( 'wps_ubo_lite_go_pro_popup_body' );
 		}
 	});

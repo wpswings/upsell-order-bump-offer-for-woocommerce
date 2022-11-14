@@ -844,12 +844,40 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 						</div>
 
 						<!-- Template three. -->
-						<div class="wps_upsell_template_select <?php echo esc_html( 3 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
-
+						<div id="wps_ubo_premium_popup_3_template" class="wps_upsell_template_select <?php echo esc_html( 3 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+							
 							<p class="wps_ubo_template_name" ><?php esc_html_e( 'Elegant Summers', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
-
-							<a href="javascript:void" class="wps_ubo_template_link" data_link = '3' >
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '3' >
 								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-3.png' ); ?>">
+							</a>
+						</div>
+						
+						<!-- Template four. -->
+						<div id="wps_ubo_premium_popup_4_template" class="wps_upsell_template_select  <?php echo esc_html( 4 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p 	class="wps_ubo_template_name" ><?php esc_html_e( 'Winner Jazz ', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '4' >
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-1.png' ) ) : ?>
+						   <img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-4.png' ); ?>">
+							<?php else : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template4.png' ); ?>">
+							<?php endif; ?>
+							</a>
+						</div>
+
+						<!-- Template five. -->
+						<div id="wps_ubo_premium_popup_5_template" class="wps_upsell_template_select  <?php echo esc_html( 5 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p 	class="wps_ubo_template_name" ><?php esc_html_e( 'Summer Cool ', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '5' >
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-1.png' ) ) : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-5.png' ); ?>">
+							<?php else : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template-5.png' ); ?>">
+							<?php endif; ?>
 							</a>
 						</div>
 					</div>

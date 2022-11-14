@@ -77,12 +77,12 @@
 /* Connect with skype - End */
 
 /* Go pro popup - Start */
-.wps_ubo_lite_go_pro_popup_wrap.wps_ubo_lite_go_pro_popup_show {
+.wps_ubo_lite_go_pro_popup_wrap.wps_ubo_lite_go_pro_popup_show , .wps_ubo_lite_go_pro_popup_wrap_template.wps_ubo_lite_go_pro_popup_show{
   opacity: 1;
   visibility: visible;
   transition: 0.3s linear all;
 }
-.wps_ubo_lite_go_pro_popup_wrap {
+.wps_ubo_lite_go_pro_popup_wrap,.wps_ubo_lite_go_pro_popup_wrap_template {
   align-items: center;
   background-color: rgba(0,0,0,0.5); 
   bottom: 0;
@@ -683,6 +683,7 @@ table.wps_upsell_bump_creation_setting tr:nth-of-type(even) {
   padding: 15px 0 !important;
   margin-top: 10px;
   text-align: center;
+  width: 100%;
 }
 h1.wps_upsell_bump_setting_title .wps-upsell-bump-wrap h1 {
   padding: 10px 10px;
@@ -1381,10 +1382,16 @@ select.wps_select_for_description_class {
 .wps_upsell_template_select {
   box-sizing: border-box; 
 }
-
+.wps_upsell_template_select-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+}
 .wps_upsell_template_select-wrapper .wps_upsell_template_select {
-  max-width: 55%;
-  margin: 0 auto;
+  max-width: 45%;
+  flex: 0 0 45%;
   padding: 10px;
   background-color: #eeeeee;
   margin-bottom: 20px;
@@ -1710,6 +1717,7 @@ select.wps_select_for_description_class {
 
 #wps_upsell_offer_main_id_ .wps_upsell_offer_product_content h4 {
   word-break: break-word;
+  font-size: 23px;
 }
 
 .wps-ubo-offer-exclusive-limit-wrap {
@@ -2026,3 +2034,206 @@ a.wps_ubo_upload_image_button {
 .wps_upsell_offer_image img.wps_upsell_offer_img {
   margin: 10px auto;
 }
+
+
+
+  /* Template 4 */
+.upsell-offer-template-2 {
+  text-align: left;
+  border-radius: 0;
+}
+.upsell-offer-template-2 .uspell-offer-discount {
+  display: inline-block;
+}
+.upsell-offer-template-2 .upsell-product-info {
+  display: flex;
+  flex-wrap: wrap;
+}
+.upsell-offer-template-2 .upsell-product-info h4 {
+  flex: 0 0 100%;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.upsell-offer-template-2 .upsell-product-info .product-price,
+.upsell-offer-template-2 .upsell-product-info .quantity {
+  flex: 0 0 50%;
+}
+.upsell-offer-template-2 .upsell-product-info .product-price {
+  text-align: left;
+}
+.upsell-offer-template-2 .upsell-product-info .quantity {
+  text-align: right;
+  justify-content: center;
+}
+.upsell-offer-template-2 .upsell-product-desc {
+  margin: 10px 0;
+}
+.upsell-offer-template {
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.upsell-offer-template .upsell-product-info .quantity {
+display: flex;
+gap: 4px;
+align-items: center;
+}
+.upsell-offer-template .upsell-product-info .quantity input {
+border-radius: 4px;
+max-width: 50px;
+}
+.upsell-offer-template .wps_upsell_offer_product_price {
+margin-bottom: 5px;
+}
+.upsell-offer-template-1 .upsell-product {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 10px 0 15px;
+}
+.upsell-offer-template-1 .upsell-product-img {
+  flex: 0 0 40%;
+}
+.upsell-product-img img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.upsell-offer-template-1 .upsell-offer-desc {
+  background: #EDEDED;
+  padding: 8px 5px;
+  border-radius: 6px;
+}
+.upsell-offer-template-1 .upsell-product-info {
+  flex: 0 0 60%;
+  text-align: left;
+}
+.upsell-offer-template-1 .upsell-order-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 5px;
+}
+.upsell-order-check { 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 5px;
+}
+.upsell-order-check input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+} */
+
+/* Template 2 */
+.upsell-offer-template-2 {
+  text-align: left;
+  border-radius: 0;
+}
+.upsell-offer-template-2 .uspell-offer-discount {
+  display: inline-block;
+}
+.upsell-offer-template-2 .upsell-product-info .wps_upsell_offer_product_content1,.upsell-offer-template-2 .upsell-product-info .wps_upsell_offer_product_content {
+  display: flex;
+  flex-wrap: wrap;
+align-items: center;
+}
+.upsell-offer-template-2 .upsell-product-info h4 {
+  flex: 0 0 100%;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.upsell-offer-template-2 .upsell-product-info .product-price,
+.upsell-offer-template-2 .upsell-product-info .quantity {
+  flex: 0 0 50%;
+}
+.upsell-offer-template-2 .upsell-product-info .product-price {
+  text-align: left;
+}
+.upsell-offer-template-2 .upsell-product-info .product-price p {
+margin: 0;
+}
+.upsell-offer-template-2 .upsell-product-info .quantity {
+text-align: right;
+display: flex;
+gap: 4px;
+align-items: center;
+}
+.upsell-offer-template-2 .upsell-product-info .quantity input {
+border-radius: 4px;
+max-width: 50px;
+}
+.upsell-offer-template-2 .upsell-product-desc {
+  margin: 10px 0;
+}
+/* Template 3 */
+.upsell-offer-template-3 {
+  border-radius: 0;
+  text-align: right;
+}
+.upsell-offer-template-3 .upsell-product {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin: 10px 0 15px;
+}
+.upsell-offer-template-3 .upsell-product-img {
+  flex: 0 0 40%;
+}
+.upsell-offer-template-3 .upsell-product-info {
+  flex: 0 0 60%;
+  text-align: left;
+}
+.upsell-offer-template-3 .quantity {
+justify-content:center;
+}
+.upsell-offer-template-3  .wps_upsell_offer_product_section {
+justify-content: center;
+}
+.upsell-offer-template-3 .upsell-product-desc h5 {
+  position: relative;
+  padding-right: 10px;
+  font-size: 17px;
+  border-bottom: 1px solid #a8a8a8;
+  cursor: pointer;
+}
+.upsell-offer-template-3 .upsell-product-desc h5:after {
+  position: absolute;
+  content: '+';
+  line-height: 0;
+  font-size: inherit;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+}
+.upsell-offer-template-3 .upsell-product-desc h5.accordian--active:after {
+  content: '-';
+}
+.upsell-offer-template-3 .upsell-product-desc p {
+  display: none;
+}
+.upsell-offer-template-3 .upsell-product-desc {
+  margin: 10px 0;
+}
+.upsell-offer-template-3 .uspell-offer-discount {
+  display: inline-block;
+}
+.upsell-offer-desc p {
+  text-align: center;
+}
+.upsell-offer-template .upsell-product-info .quantity label {
+  margin-bottom: 0;
+}
+  #wps_ubo_premium_popup_5_template,  #wps_ubo_premium_popup_3_template,  #wps_ubo_premium_popup_4_template,#wps_ubo_premium_popup_5_template_pro,#wps_ubo_premium_popup_4_template_pro,#wps_ubo_premium_popup_3_template_pro {
+    position: relative;
+  }
+  .wps_upsell_template_select-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+  }

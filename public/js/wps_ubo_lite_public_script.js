@@ -1,5 +1,10 @@
 jQuery(document).ready(function ($) {
 
+        $(document).on('click','.wps_product_info',function(){
+            $(this).toggleClass('accordian--active');
+            $(this).next('p').slideToggle();
+        })
+
     function getNum(val) {
         if (isNaN(val) ) {
         return 0;
