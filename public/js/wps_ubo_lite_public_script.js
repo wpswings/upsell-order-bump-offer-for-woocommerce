@@ -1,5 +1,34 @@
 jQuery(document).ready(function ($) {
+    
 
+    setInterval(function() {
+        $('.wps_product_gallery_wrapper').slick({
+            dots: false,
+            arrows: true,
+            slidesToShow: 1,
+            variableWidth: true,
+            infinite:true,
+            responsive: [{
+                breakpoint: 1080,
+                settings: {
+                    arrows: false,
+                }
+            }]
+        });
+
+        var gallery_img = $('.wps_product_gallery_wrapper img');
+        gallery_img.on('click', function() {
+            var gallery_img_clone = $(this).clone();
+            $('.wps_product_gallery_img_focus_wrapper').show();
+            $('.wps_product_gallery_img_focus_wrapper_box').empty();
+            $(gallery_img_clone).appendTo('.wps_product_gallery_img_focus_wrapper_box');
+            $('.wps_product_gallery_img_focus_wrapper .close').on('click', function() {
+                $('.wps_product_gallery_img_focus_wrapper').hide();
+            });
+        })
+    }, 1000);
+
+     
         $(document).on('click','.wps_product_info',function(){
             $(this).toggleClass('accordian--active');
             $(this).next('p').slideToggle();

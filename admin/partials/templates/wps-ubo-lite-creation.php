@@ -680,6 +680,30 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 				</tr>
 				<!--v2.1.3 Timer Enable/Disable End. -->
 
+				<!--v2.1.7 Product Image Slider Show Enable/Disable Start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="wps_ubo_offer_product_image_slider"><?php esc_html_e( 'Product Gallery Image Slider', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This feature allows you to add Product Gallery Image With Slider  at  specific order bump ', 'upsell-order-bump-offer-for-woocommerce' );
+							wps_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label class="wps-upsell-smart-offer-upgrade" for="wps_ubo_offer_product_image_slider">
+						<input class="wps-upsell-smart-offer-upgrade-wrap" type='checkbox' id='wps_ubo_offer_product_image_slider' value=''>
+						<span class="upsell-smart-offer-upgrade-btn"></span>
+						</label>
+
+					</td>
+				</tr>
+				<!--v2.1.3 Timer Enable/Disable End. -->
+
 			</tbody>
 		</table>
 

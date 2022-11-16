@@ -43,7 +43,7 @@ if ( null !== WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->
 
 		$encountered_order_bump_id = $value;
 
-		$session_validations = wps_ubo_order_bump_session_validations( $encountered_order_bump_id, $wps_ubo_offer_array_collection, $wps_ubo_global_options );
+		$session_validations = wps_ubo_order_bump_session_validations(  $wps_ubo_offer_array_collection, $wps_ubo_global_options ,$encountered_order_bump_id );
 
 		// When session validations fail.
 		if ( false === $session_validations ) {
@@ -147,7 +147,7 @@ foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
 	 * Passing bump id as key ( 2nd param ) also, so that the index is set according to bump id.
 	 * So that right session index is set and right order bumps remain checked.
 	 */
-	wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_order_bump_id, $encountered_respective_target_key );
+	wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key , $encountered_order_bump_id );
 }
 
 ?>

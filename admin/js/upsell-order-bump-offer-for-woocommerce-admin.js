@@ -634,7 +634,7 @@ jQuery(document).ready( function($) {
 	/**
 	 * Scripts after v1.0.2
 	 */
-	$('#wps_ubo_offer_purchased_earlier,#wps_ubo_offer_timer, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature, #wps_ubo_offer_restrict_coupons, #wps_upsell_bump_priority, #wps_upsell_bump_min_cart').on( 'click', function (e) {
+	$('#wps_ubo_offer_purchased_earlier,#wps_ubo_offer_timer,#wps_ubo_offer_product_image_slider, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature, #wps_ubo_offer_restrict_coupons, #wps_upsell_bump_priority, #wps_upsell_bump_min_cart').on( 'click', function (e) {
 
 		// Add popup to unlock pro features.
 		var pro_status = document.getElementById( 'wps_ubo_pro_status' );

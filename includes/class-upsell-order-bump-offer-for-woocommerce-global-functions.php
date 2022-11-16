@@ -974,6 +974,12 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		// Product section ends.
 	}
 
+	// Image Product Gallery.
+	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() ) {
+	$bumphtml  .= wps_product_image_gallery_callback($bump['id']);
+	}
+
 	// Creating  red arrow html.
 	if ( 'on' === $wps_enable_red_arrow_feature ) {
 		// $wps_ubo_red_arrow_svg  = esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/arrow.svg' );
@@ -1040,6 +1046,8 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	// Countdown Timer.
 	$counter_timer = ! empty( $encountered_bump_array['wps_ubo_offer_timer'] ) ? $encountered_bump_array['wps_ubo_offer_timer'] : '';
 
+	$product_image_gallery_slider = ! empty( $encountered_bump_array['wps_ubo_offer_product_image_slider'] ) ? $encountered_bump_array['wps_ubo_offer_product_image_slider'] : '';
+
 	// Smart offer Upgrade.
 	$smart_offer_upgrade = ! empty( $encountered_bump_array['wps_ubo_offer_replace_target'] ) ? $encountered_bump_array['wps_ubo_offer_replace_target'] : '';
 
@@ -1075,6 +1083,12 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	if ( 'yes' === $counter_timer ) {
 
 		$bump['counter_timer'] = 'yes';
+	}
+
+	//Product Image Gallery.
+	if ( 'yes' ===  $product_image_gallery_slider ) {
+
+		$bump['wps_ubo_offer_product_image_slider'] = 'yes';
 	}
 
 	if ( is_wps_role_based_pricing_active() ) {
@@ -2404,7 +2418,7 @@ function wps_ubo_lite_getcat_title( $cat_id = '' ) {
  * @param   string $encountered_respective_target_key          Target product key for same order bump.
  * @since   1.4.0
  */
-function wps_ubo_analyse_and_display_order_bump( int $encountered_order_bump_id = null, $key, $encountered_respective_target_key ) {
+function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_target_key , int $encountered_order_bump_id = null ) {
 
 	if ( empty( $encountered_order_bump_id ) ) {
 
@@ -2475,7 +2489,7 @@ function wps_ubo_analyse_and_display_order_bump( int $encountered_order_bump_id 
  * @param   array $wps_ubo_global_options             Array of global settings.
  * @since   1.4.0
  */
-function wps_ubo_order_bump_session_validations( int $encountered_order_bump_id = null, $wps_ubo_offer_array_collection, $wps_ubo_global_options ) {
+function wps_ubo_order_bump_session_validations(  $wps_ubo_offer_array_collection, $wps_ubo_global_options , int $encountered_order_bump_id = null) {
 
 	if ( empty( $encountered_order_bump_id ) || empty( $wps_ubo_offer_array_collection[ $encountered_order_bump_id ] ) ) {
 
@@ -2554,8 +2568,15 @@ function is_valid_user_role( $bump_id = '' ) {
 	}
 }
 
+/**
+ * Bump Offer Html For Elegant Summers.
+ *
+ * @param   string $bump        Consists all data about order bump.
+ * @param   string $encountered_order_bump_id        Consists all data about order bump.
+ * @param   string $order_bump_key        Consists all data about order bump.
+ * @since   1.0.0
+ */
 function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '', $order_bump_key = '' ) {
-
 
 	/**
 	 * Text fields.
@@ -3056,6 +3077,12 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 	
 	$bumphtml    .= '</div>';
 	
+	// Image Product Gallery.
+	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() ) {
+	$bumphtml  .= wps_product_image_gallery_callback($bump['id']);
+	}
+
 	if ( ! empty( $description ) || is_admin() ) :
 		$bumphtml .= '<div class = "wps_upsell_offer_secondary_section upsell-offer-desc" ><p>' . $description . '</p></div>';
 	endif; 
@@ -3096,7 +3123,7 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 }
 
 /**
- * Bump Offer Html.
+ * Bump Offer Html For Winner Jazz.
  *
  * @param   string $bump        Consists all data about order bump.
  * @param   string $encountered_order_bump_id        Consists all data about order bump.
@@ -3593,7 +3620,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
 			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
 		} else {
-			$bumphtml .= '<h4><label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label></h4>';
+			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label>';
 		}
 		$bumphtml .=   '</div>';
 		$bumphtml .=   '<div class="upsell-product-desc">';
@@ -3622,7 +3649,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
 			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
 		} else {
-			$bumphtml .= '<h4><label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label></h4>';
+			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label>';
 		}
 		$bumphtml .=   '</div>';
 
@@ -3630,6 +3657,12 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 		$bumphtml .= '<p class="wps_upsell_offer_product_description">' . $product_description_text . '</p></div></div></div>';
 		$bumphtml .=   '</div>';
 		$bumphtml .=   '</div>';
+	}
+
+	// Image Product Gallery.
+	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() ) {
+	$bumphtml  .= wps_product_image_gallery_callback($bump['id']);
 	}
 
 	// Secondary section start.
@@ -3685,7 +3718,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 
 
 /**
- * Bump Offer Html.
+ * Bump Offer Html For Summer Cool.
  *
  * @param   string $bump        Consists all data about order bump.
  * @param   string $encountered_order_bump_id        Consists all data about order bump.
@@ -4185,6 +4218,8 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
 			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+		}else {
+			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label>';
 		}
 		$bumphtml .= '</div>';
 
@@ -4216,6 +4251,8 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
 			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+		}else {
+			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label>';
 		}
 		$bumphtml .= '</div>';
 
@@ -4226,6 +4263,12 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 	$bumphtml .= '</div>';
 	$bumphtml .= '</div>';
 	
+	// Image Product Gallery.
+	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() ) {
+	$bumphtml  .= wps_product_image_gallery_callback($bump['id']);
+	}
+
 	// Secondary section start.
 	// When don't show this when empty except for admin as it involves Live Preview.
 	if ( ! empty( $description ) || is_admin() ) :
@@ -4276,4 +4319,29 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 	}
 
 		return $bumphtml;
+}
+
+/**
+ * Bump Offer Product Image Gallery.
+ *
+ * @param   string $bump_id        Product Id.
+ * @since   1.0.0
+ */
+function wps_product_image_gallery_callback($bump_id){
+
+    $product = new WC_product($bump_id);
+    $attachment_ids = $product->get_gallery_image_ids();
+
+	$bumphtml = '';
+
+	$bumphtml .= '<div class="wps_product_gallery_img_focus_wrapper"><div class="wps_product_gallery_img_focus_wrapper_box"></div><span class="close">+</span></div>';
+	$bumphtml .= '<div class="wps_product_gallery_wrapper">';
+	
+    foreach( $attachment_ids as $attachment_id ) 
+        {
+		  $bumphtml .= '<div class="wps_upsell_offer_img_wrap" ><img class="wps_upsell_offer_img_gallery" src="' . esc_url( wp_get_attachment_url( $attachment_id )) . '" data-id="' . $bump_id . '"></div>';
+        }
+		$bumphtml .= '</div>';
+
+	return $bumphtml;
 }

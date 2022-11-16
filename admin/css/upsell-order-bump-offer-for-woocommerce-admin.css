@@ -2237,3 +2237,11 @@ justify-content: center;
     gap: 40px;
     justify-content: center;
   }
+  /* Image Slider Css */
+  .wps_product_gallery_wrapper {
+    display: none;
+  }
+
+  .upsell-offer-template-3 .wps_upsell_offer_product_content{
+    width: calc(100% - 30px);
+  }
