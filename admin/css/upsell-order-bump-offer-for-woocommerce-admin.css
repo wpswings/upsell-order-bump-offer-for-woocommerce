@@ -1414,7 +1414,7 @@ select.wps_select_for_description_class {
 /* Layout change popup. */
 .wps_ubo_skin_popup_wrapper {
   position: fixed;
-  left: 0;
+  left: -30px;
   right: 0;
   top: 0;
   bottom: 0;
@@ -1429,7 +1429,7 @@ select.wps_select_for_description_class {
 .wps_ubo_skin_popup_inner {
   background-color: #ffffff;
   max-width: 550px;
-  width: 100%;
+  width: calc(100% - 70px);
   text-align: center;
   padding: 20px;
   border-radius: 6px;
@@ -2242,3 +2242,42 @@ justify-content: center;
   .upsell-offer-template-3 .wps_upsell_offer_product_content{
     width: calc(100% - 30px);
   }
+
+
+/* New CSS for fixing issues */
+#wps_upsell_offer_main_id_ .wps_upsell_offer_product_content {
+  flex: 1;
+}
+
+.upsell-offer-template-3 .upsell-product-img {
+  flex: 1 0 40%;
+}
+
+@media screen and (max-width:768px) {
+  .nav-tab-wrapper.wps-ubo-appearance-nav-tab {
+      width: 100%;
+  }
+
+  .wps_upsell_template_select-wrapper {
+      gap: 20px;
+  }
+}
+
+@media screen and (max-width:520px) {
+
+  .wps_upsell_template_select-wrapper {
+      gap: 0;
+  }
+
+  .wps_upsell_template_select-wrapper .wps_upsell_template_select {
+      max-width: 100%;
+      flex: 0 0 100%;
+  }
+}
+
+@media screen and (max-width:480px) {
+  .upsell-offer-template-3 .upsell-product-info {
+      flex: 1 0 60%;
+  }
+
+}
