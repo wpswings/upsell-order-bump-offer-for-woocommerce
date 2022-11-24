@@ -1,6 +1,12 @@
 (function( $ ) {
 	'use strict';
 	$(document).ready(function(){
+
+		$(document).on('click','.wps_product_info',function(){
+            $(this).toggleClass('accordian--active');
+            $(this).next('p').slideToggle();
+        })
+
 		// Create new offer bump.
 		$('.wps_ubo_lite_bump_create_button').on( 'click', function (e) {
 
@@ -18,6 +24,7 @@
 			// Hide Go pro popup.
 			e.preventDefault();
 			$( '.wps_ubo_lite_go_pro_popup_wrap' ).removeClass('wps_ubo_lite_go_pro_popup_show' );
+			$( '.wps_ubo_lite_go_pro_popup_wrap_template' ).removeClass('wps_ubo_lite_go_pro_popup_show' );
 			$( 'body' ).removeClass( 'wps_ubo_lite_go_pro_popup_body' );
 		});
 		$('.wps_ubo_lite_skype_setting').on( 'click', function () {
@@ -28,9 +35,10 @@
 	    (
 	      function(e)
 	      { 
-	        if( e.target.className == 'wps_ubo_lite_go_pro_popup_wrap wps_ubo_lite_go_pro_popup_show' )
+	        if( e.target.className == 'wps_ubo_lite_go_pro_popup_wrap wps_ubo_lite_go_pro_popup_show' || e.target.className == 'wps_ubo_lite_go_pro_popup_wrap_template wps_ubo_lite_go_pro_popup_show' )
 	        {   
 	            $( '.wps_ubo_lite_go_pro_popup_wrap' ).removeClass( 'wps_ubo_lite_go_pro_popup_show' );
+				$( '.wps_ubo_lite_go_pro_popup_wrap_template' ).removeClass( 'wps_ubo_lite_go_pro_popup_show' );
 	            $( 'body' ).removeClass( 'wps_ubo_lite_go_pro_popup_body' );
 	        }
 	      }
@@ -182,7 +190,7 @@
 		});
 
 		// On yes, reset the css
-		$('.wps_ubo_template_layout_yes').on( 'click', function(e) {
+		$('.wps_ubo_template_layout_yes').on( 'click', function(e) { //Template chnage css and design. 
 
 			e.preventDefault();
 			$( '.wps_ubo_template').val( temp_id );   // Select temp id
@@ -389,9 +397,13 @@
 		});
 
         // Product Section stylings.
-        var ProductSectionP = $('.wps_upsell_offer_product_section p');
+        var ProductSectionP = $('.wps_upsell_offer_product_section .wps_upsell_offer_product_description'); //2.1.7.
+		var ProductDesSectionP = $('.upsell-product-info .upsell-product-desc p');//2.1.7.
+		var ProductPriceColor = $('.wps_upsell_offer_product_price');//2.1.7.
+		var ProductQty = $('.upsell-offer-template-2 .quantity')//2.1.7.
         var ProductpriceP = $('.wps_upsell_offer_product_price p');
         var Productpricedel = $('.wps_upsell_offer_product_price del');
+		var Productpriceins = $('.wps_upsell_offer_product_price ins');
         var ProductSectionH4 = $('.wps_upsell_offer_product_section h4');
 		var ProductSectionImg = $( '.wps_upsell_offer_img' );
 		var product_tcolor = '';
@@ -401,6 +413,9 @@
 
 		var ProductTcolorpicker = $('.wps_ubo_select_product_tcolor');
 
+		var ProductTcolorPricepicker = $('.wps_ubo_select_product_price_tcolor');//2.1.7.
+		var ProductHeadingH4 = $('.upsell-product-info h4');//2.1.7.
+
 		ProductTcolorpicker.wpColorPicker({
             change: (event, ui) => {
 
@@ -409,20 +424,43 @@
             	ProductSectionP.css( 'color', product_tcolor );
             	ProductSectionH4.css( 'color', product_tcolor );
             	ProductpriceP.css( 'color', product_tcolor );
-
+				ProductDesSectionP.css( 'color', product_tcolor );//2.1.7.
+				ProductHeadingH4.css( 'color', product_tcolor );//2.1.7.
             }
         });
 
-        $('.wps_ubo_product_slider').on('change', function () {
+		ProductTcolorPricepicker.wpColorPicker({ //2.1.7.
+            change: (event, ui) => {
 
-		    product_tsize = $(this).val();
+            	product_tcolor = ui.color.toString();
+				ProductPriceColor.css( 'color', product_tcolor );
+				ProductQty.css( 'color', product_tcolor );
+            }
+        });
+
+		$('.wps_ubo_product_price_slider').on('change', function () {     //2.1.7
+			product_tsize = $(this).val();
+			ProductpriceP.css('font-size', product_tsize + 'px');
+		    Productpricedel.css('font-size', product_tsize + 'px');
+			Productpriceins.css('font-size', product_tsize + 'px');
+			ProductQty.css('font-size', product_tsize + 'px');
+			$('.wps_ubo_product_price_slider_size').html( product_tsize + 'px' );//2.1.7.
+		});
+
+        $('.wps_ubo_product_slider').on('change', function () {
+			product_tsize = $(this).val();
+			ProductDesSectionP.css( 'font-size', product_tsize + 'px' );//2.1.7.
+			ProductHeadingH4.css( 'font-size', product_tsize + 'px' );//2.1.7.
 		    ProductSectionP.css('font-size', product_tsize + 'px');
 
 		    $('.wps_ubo_product_slider_size').html( product_tsize + 'px' );
-		    ProductpriceP.css('font-size', product_tsize + 'px');
-		    Productpricedel.css('font-size', product_tsize + 'px');
 			product_tsize = parseInt( product_tsize ) + 10;
 		    ProductSectionH4.css('font-size', product_tsize + 'px');
+		});
+
+		$('.wps_ubo_product_price_slider').on('change', function () { //2.1.7.
+			product_tsize = $(this).val();
+			$('.wps_ubo_product_price_slider_size').html( product_tsize + 'px' );
 		});
 
 		$( '.wps_ubo_product_img_height_slider' ).on( 'change', function() {
@@ -626,7 +664,7 @@ jQuery(document).ready( function($) {
 	/**
 	 * Scripts after v1.0.2
 	 */
-	$('#wps_ubo_offer_purchased_earlier,#wps_ubo_offer_timer, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature, #wps_ubo_offer_restrict_coupons, #wps_upsell_bump_priority, #wps_upsell_bump_min_cart').on( 'click', function (e) {
+	$('#wps_ubo_offer_purchased_earlier,#wps_ubo_offer_timer,#wps_ubo_offer_product_image_slider, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature, #wps_ubo_offer_restrict_coupons, #wps_upsell_bump_priority, #wps_upsell_bump_min_cart,#wps_ubo_img_width_slider_pop_up,#wps_ubo_img_height_slider_pop_up,#wps_ubo_select_accept_offer_acolor_pop_up').on( 'click', function (e) {
 
 		// Add popup to unlock pro features.
 		var pro_status = document.getElementById( 'wps_ubo_pro_status' );
@@ -635,6 +673,19 @@ jQuery(document).ready( function($) {
 			// Add a popup over here.
 			$(this).prop("checked", false);
 			$( '.wps_ubo_lite_go_pro_popup_wrap' ).addClass( 'wps_ubo_lite_go_pro_popup_show' );
+			$( 'body' ).addClass( 'wps_ubo_lite_go_pro_popup_body' );
+		}
+	});
+
+	$('#wps_ubo_premium_popup_4_template,#wps_ubo_premium_popup_3_template,#wps_ubo_premium_popup_5_template').on( 'click', function (e) {
+
+		// Add popup to unlock pro features.
+		var pro_status = document.getElementById( 'wps_ubo_pro_status' );
+		if( null != pro_status ) {
+			
+			// Add a popup over here.
+			$(this).prop("checked", false);
+			$( '.wps_ubo_lite_go_pro_popup_wrap_template' ).addClass( 'wps_ubo_lite_go_pro_popup_show' );
 			$( 'body' ).addClass( 'wps_ubo_lite_go_pro_popup_body' );
 		}
 	});
