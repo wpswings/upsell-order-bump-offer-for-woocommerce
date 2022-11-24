@@ -435,7 +435,7 @@ jQuery(document).ready(function ($) {
                             field_obj.name = jQuery(this).attr('name');
                             field_obj.value = jQuery(this).prop('checked');
                             data_arr[index] = field_obj;
-                            index++;g                        } else {
+                            index++;                        } else {
                             // Push the values in an array.
                             field_obj.name = jQuery(this).attr('name');
                             field_obj.value = jQuery(this).val();

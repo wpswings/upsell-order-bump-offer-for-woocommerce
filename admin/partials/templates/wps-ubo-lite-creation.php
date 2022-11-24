@@ -1275,7 +1275,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 											<!-- Slider for spacing. -->
 											<input type="range" min="10" value="10"  max="125" name = 'product_section_img_width'  class="wps_ubo_img_width_slider" />
 
-											<span class="wps_ubo_slider_size wps_ubo_product_slider_width" ><?php echo esc_html( '10' . 'px' ); ?> </span>
+											<span class="wps_ubo_slider_size wps_ubo_product_slider_width" ><?php echo esc_html( '10px' ); ?> </span>
 										</label>
 									</td>
 								</tr>
@@ -1299,7 +1299,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 												<!-- Slider for spacing. -->
 												<input type="range" min="10" value="0"  max="150" name='product_section_img_height' class="wps_ubo_img_height_slider" />
 
-												<span class="wps_ubo_slider_size wps_ubo_product_slider_height" ><?php echo esc_html( '10' . 'px' ); ?> </span>
+												<span class="wps_ubo_slider_size wps_ubo_product_slider_height" ><?php echo esc_html( '10px' ); ?> </span>
 											</label>
 									</td>
 								</tr>
