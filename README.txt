@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: woocommerce upsell, conversion, upsell, order bump, checkout page, checkout upsell offers 
 Requires at least: 4.4
-Tested up to: 6.0.2
+Tested up to: 6.1.0
 WC requires at least: 3.0.0
-WC tested up to: 6.9.4
-Stable tag: 2.1.6
+WC tested up to: 7.0.1
+Stable tag: 2.1.7
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -35,7 +35,7 @@ This is a happy moment for your customers and also they trust you as they’re j
 * Offer simple, variable, and subscription products as order bump offers.
 * Track order bumps performance with Order Bump Sales Reports and Behavioral Analytics.
 
-== PLUGIN MEETS YOUR REQUIREMENT, SO ==
+== ORDER BUMP PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now!!**](https://downloads.wordpress.org/plugin/upsell-order-bump-offer-for-woocommerce.zip)
 
 == WHAT’S INCLUDED IN OUR FREE WOOCOMMERCE ORDER BUMP PLUGIN ==
@@ -98,13 +98,15 @@ Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.w
 
 
 
-== PLUGIN COMPATIBILITIES == 
+== UPSELL BUMP PLUGIN COMPATIBILITIES == 
 
 * Our WooCommerce order bump offer plugin is compatible with the [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/) plugin that allows your customers to redeem their gift cards and earn even more discounts. This will allow the merchants to offer more payment options to their customers for the bump offers.
 
 == WHAT PREMIUM VERSION OF UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE OFFERS ==
 
 * Create Unlimited Order Bump offers.
+* Five pre-designed templates
+* Carousel on Offer image
 * Show Multiple Order bump offers on the checkout page.
 * Duplicate your upsell order bump offers.
 * Countdown timer on upsell offers to create urgency on your WooCommerce store.
@@ -133,8 +135,9 @@ Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.w
 
 If you need support or have questions, kindly use our online chat window [**here**](http://www.wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-page&utm_campaign=official) or connect with us then [**Generate a ticket.**](https://wpswings.com/submit-query/?utm_source=wpswings-submit-query&utm_medium=order-bump-org-page&utm_campaign=query)
 
-> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-order-bump-services&utm_medium=order-bump-org-page&utm_campaign=woocommerce-services)
+> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=order-bump-org-page&utm_campaign=forum)
 
+> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-order-bump-services&utm_medium=order-bump-org-page&utm_campaign=woocommerce-services)
 
 
 == Installation ==
@@ -172,6 +175,22 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Frequently Asked Questions ==
 
+= Is order bump compatible with all themes? =
+
+That’s a query which helps us to make it much better now. Although it appears impossible, we have managed to make it compatible with all of the available themes. We have tested our plugin with a large number of themes, and several customers have reported success. In any case, if your theme is incompatible, we would be grateful if you could inform our team so that we could check the compatibility.
+
+= Who can use the upsell order bump plugin? =
+Upsell order bump plugin can be useful to all the store owners on WordPress and WooCommerce who are in search of increasing AOV and sales of their stores whether they are
+
+* Bloggers
+* E-book Sellers
+* E-Commerce Owners 
+* Small and larger-scale businesses
+* Retailers
+* Trainers
+
+Everyone…
+
 = How to Set up WooCommerce Order Bumps? =
 Follow these steps to create an order bump with our plugin:
 1) Navigate to your WordPress dashboard > Order Bump and click on the Order Bump List section.
@@ -198,7 +217,6 @@ Yes, the offer templates are fully customizable. Admin of the site can change th
 * Text color
 * Timer of urgency
 * Arrow pointer
-
 
 = For variable offer products why there is no drop-down to select variation? =
 For a Variable Offer product as soon as the customer will tick the checkbox to accept the offer, a variation pop-up will appear with respective variations, variation product images, and offer prices.
@@ -234,20 +252,23 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Changelog ==
 
+= 2.1.7 - Released on 25 Nov 2022 =
+* Enhancement: Changed the Countdown Offer Location on Admin Setting.
+* Enhancement: Show pro features in free version with an upgrade label [Appearance section].
+* New: To Change the Offer Price size and color individually.
+* New: Compatible with the latest WP and WC
+
 = 2.1.6 - Released on 11 Oct 2022 =
 * Fix: Decimal Point Issue Of Product Price.
 * Fix: Issue Of Offer Price Format.
 * Fix: Improved the compatibility with PHP 8
 * New: Compatible with the latest WP and WC
 
-
-
 = 2.1.5 - Released on 05 Sept 2022 =
 * Fixed: No discount Price Feature
 * Fixed: Theme Compatibility.
 * New: Minor Bug fixes and Enhancement
 * New: Compatible with the latest WP and WC
-
 
 = 2.1.4 - Released on 12 July 2022 =
 * New: Minor Bug Fixes
@@ -324,11 +345,9 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 = 1.0.0 =
 * First version
 
-
 == Upgrade Notice ==
-= 2.1.6 - Released on 11 Oct 2022 =
-* Fix: Decimal Point Issue Of Product Price.
-* Fix: Issue Of Offer Price Format.
-* Fix: Improved the compatibility with PHP 8
-* New: Compatible with the latest WP and WC
-
+= 2.1.7 - Released on 25 Nov 2022 =
+* Enhancement: Changed the Countdown Offer Location on Admin Setting.
+* Enhancement: Show pro features in free version with an upgrade label [Appearance section].
+* New: To Change the Offer Price size and color individually.
+* New: Compatible with the latest WP and WC.
