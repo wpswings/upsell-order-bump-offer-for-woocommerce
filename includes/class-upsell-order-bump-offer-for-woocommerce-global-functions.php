@@ -3129,7 +3129,7 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 	$bumphtml .= '</label>';
 	$bumphtml .= '<h5 class="add_offer_in_cart_text">' . $title . '</h5>';
 	$bumphtml .= '</div></div>';
-	$bumphtml .= '</div></div></div>';
+	$bumphtml .= '</div></div></div></div>';
 
 	// For simple product.
 	if ( wps_ubo_lite_if_pro_exists() && ! empty( $offer_product ) && is_object( $offer_product ) && ! $offer_product->has_child() && ! is_admin() ) {
@@ -3736,7 +3736,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 	$bumphtml .= '</div>';
 
 	// Parent wrapper end.
-	$bumphtml .= '</div>';
+	$bumphtml .= '</div></div>';
 
 	// For simple product.
 	if ( wps_ubo_lite_if_pro_exists() && ! empty( $offer_product ) && is_object( $offer_product ) && ! $offer_product->has_child() && ! is_admin() ) {
@@ -4343,7 +4343,7 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 	$bumphtml .= '</div>';// D.
 
 	// Parent wrapper end.
-	$bumphtml .= '</div>';
+	$bumphtml .= '</div></div>';
 
 	// For simple product.
 	if ( wps_ubo_lite_if_pro_exists() && ! empty( $offer_product ) && is_object( $offer_product ) && ! $offer_product->has_child() && ! is_admin() ) {
