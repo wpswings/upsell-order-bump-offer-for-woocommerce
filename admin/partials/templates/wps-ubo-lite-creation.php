@@ -797,7 +797,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					<!-- Offer image start. -->
 					<tr>
 						<th scope="row" class="titledesc">
-							<label for="wps_upsell_offer_custom_image"><?php esc_html_e( 'Offer Image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></label>
+							<label for="wps_upsell_offer_custom_image"><?php esc_html_e( 'Offer Image', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 						</th>
 
 						<td class="forminp forminp-text">
