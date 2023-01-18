@@ -19,9 +19,9 @@
  * Requires at least:       4.4
  * Tested up to:            6.1.1
  * WC requires at least:    3.0.0
- * WC tested up to:         7.2.2
+ * WC tested up to:         7.3.0
  *
- * Version:           2.1.8
+ * Version:           2.1.9
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -65,7 +65,7 @@ function wps_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 /**
  * Currently plugin version.
  */
-define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.1.8' );
+define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.1.9' );
 
 $old_pro_present   = false;
 $installed_plugins = get_plugins();
