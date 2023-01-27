@@ -385,8 +385,9 @@ animation: slide 2s infinite ease;
 
 .wps_ubo_input_row select,
 input.wps_input_quantity.wps_quantity_input {
-max-width: 300px;
-margin: auto;
+    max-width: 100px;
+    margin: auto;
+    text-align: center;
 }
 
 .wps_bump_popup_select label {
@@ -799,8 +800,10 @@ margin: 10px 0;
 
 
 .wps_upsell_offer_main_wrapper .upsell-product-info input.wps_quantity_input {
-    max-width: 100px;
+    max-width: 42px;
     margin: auto;
+	padding: 2px 3px;
+    text-align: center;
 }
 
 .wps_upsell_offer_main_wrapper .upsell-product-desc {
