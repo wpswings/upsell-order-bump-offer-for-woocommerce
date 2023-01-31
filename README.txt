@@ -2,11 +2,11 @@
 Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: woocommerce upsell, conversion, upsell, order bump, checkout page, checkout upsell offers 
-Requires at least: 4.4
-Tested up to: 6.1.0
-WC requires at least: 3.0.0
-WC tested up to: 7.0.1
-Stable tag: 2.1.7
+Requires at least: 5.5.0
+Tested up to: 6.1.1
+WC requires at least: 5.5.0
+WC tested up to: 7.3.0
+Stable tag: 2.1.9
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -19,7 +19,7 @@ The All-In-One Solution to Increase Sales and Boost AOV with WooCommerce Upsell 
 
 Upsell Order Bump Offer for WooCommerce is an upselling plugin that facilitates store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer’s existing order in just a single click.
 
-This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets with [**WooCommerce Upsell Bump offer**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=order-bump-pro) plugin which ensures customer satisfaction and thus result in higher conversion rates
+This is a happy moment for your customers and also they trust you as they’re just going to purchase something from you. Show them an Exclusive Offer deal at an unbelievable price at this very moment. Relevant offers can be set for specific targets with [**WooCommerce Order Bump Plugin**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=order-bump-pro) which ensures customer satisfaction and thus result in higher conversion rates
 
 
 [youtube https://www.youtube.com/watch?v=p9KIQyXauY4&w=560&h=315&rel=0]
@@ -41,7 +41,7 @@ This is a happy moment for your customers and also they trust you as they’re j
 == WHAT’S INCLUDED IN OUR FREE WOOCOMMERCE ORDER BUMP PLUGIN ==
 
 **1) Special Offer On the Checkout Page**
-WooCommerce order bump plugin provides a unique form of a well-timed offer as a checkout bump. This can also be a one-time exclusive offer that allows the customers to purchase things at a well-valued price.
+The WooCommerce order bump plugin provides a unique form of a well-timed offer as a checkout bump. This can also be a one-time exclusive offer that allows the customers to purchase things at a well-valued price.
 
 **2) Just a precious single click to accept the offer**
 The Order Bump offer can be accepted in just a single click in which the customer can just simply tick the checkbox to add the offer to their existing order.
@@ -54,7 +54,7 @@ Setting up the target category saves a lot of time from adding individual produc
 **4) Bump Offer Scheduling**
 The Order Bumps can be scheduled for specific weekdays which can make them exclusive and available only for that set period of time.
 
-**5) Product Specific Bump Offers**
+**5) Product-Specific Bump Offers**
 Each of your WooCommerce Order Bumps can be designed and customized differently and specifically according to the offered product.
 
 **6) Template Customization with Live Preview**
@@ -150,7 +150,7 @@ In the search field type **"Upsell Order Bump Offer for WooCommerce"** and click
 
 = Manual installation =
 
-The manual installation method involves downloading our Upsell Order Bump Offer for WooCommerce and uploading it to your webserver via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
+The manual installation method involves downloading our Upsell Order Bump Offer for WooCommerce and uploading it to your web server via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
 
 = Updating =
 
@@ -175,9 +175,9 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Frequently Asked Questions ==
 
-= Is order bump compatible with all themes? =
+= Is the order bump compatible with all themes? =
 
-That’s a query which helps us to make it much better now. Although it appears impossible, we have managed to make it compatible with all of the available themes. We have tested our plugin with a large number of themes, and several customers have reported success. In any case, if your theme is incompatible, we would be grateful if you could inform our team so that we could check the compatibility.
+That’s a query that helps us to make it much better now. Although it appears impossible, we have managed to make it compatible with all of the available themes. We have tested our plugin with a large number of themes, and several customers have reported success. In any case, if your theme is incompatible, we would be grateful if you could inform our team so that we could check the compatibility.
 
 = Who can use the upsell order bump plugin? =
 Upsell order bump plugin can be useful to all the store owners on WordPress and WooCommerce who are in search of increasing AOV and sales of their stores whether they are
@@ -251,6 +251,11 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 
 == Changelog ==
+= 2.1.9 - Released on 31 Jan 2023 =
+* New: Compatible with the latest WP and WC
+
+= 2.1.8 - Released on 23 Dec 2022 =
+* New: Compatible with the latest WP and WC
 
 = 2.1.7 - Released on 25 Nov 2022 =
 * Enhancement: Changed the Countdown Offer Location on Admin Setting.
@@ -346,8 +351,5 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 * First version
 
 == Upgrade Notice ==
-= 2.1.7 - Released on 25 Nov 2022 =
-* Enhancement: Changed the Countdown Offer Location on Admin Setting.
-* Enhancement: Show pro features in free version with an upgrade label [Appearance section].
-* New: To Change the Offer Price size and color individually.
-* New: Compatible with the latest WP and WC.
+= 2.1.9 - Released on 31 Jan 2023 =
+* New: Compatible with the latest WP and WC
