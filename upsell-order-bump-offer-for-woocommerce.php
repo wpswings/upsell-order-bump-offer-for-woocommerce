@@ -21,7 +21,7 @@
  * WC requires at least:    3.0.0
  * WC tested up to:         7.3.0
  *
- * Version:           2.1.9
+ * Version:           2.2.0
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
