@@ -105,6 +105,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			return;
 		}
+		$wps_is_checkout_page = false;
+		$wps_popup_body_class = 'No';
+
+		//To check the checkout page is there or not for jquery.
+		if( function_exists('is_checkout') || is_checkout()){
+			$wps_is_checkout_page = true;
+		}
+
+		//Enable the bump offer with or without pop-up.
+		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
+		$wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : 'on';
+		if('without_popup' == $wps_bump_target_popup_bump && isset($wps_bump_target_popup_bump)){
+		$wps_popup_body_class = 'yes';
+		}
 
 		// Public Script.
 		wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
@@ -116,6 +130,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			'mobile_view' => wp_is_mobile(),
 			'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce' ),
 			'current_theme' => $current_theme->get( 'Name' ),
+			'is_checkout_page'=> $wps_is_checkout_page,
+			'wps_popup_body_class' =>$wps_popup_body_class,
 		);
 
 		// Timer Functionality starts.

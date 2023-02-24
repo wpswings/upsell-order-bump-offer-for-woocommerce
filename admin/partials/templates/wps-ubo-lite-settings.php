@@ -55,7 +55,11 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 	$wps_bump_upsell_global_options['wps_bump_enable_permalink'] = ! empty( $_POST['wps_bump_enable_permalink'] ) ? 'on' : 'off';
 
+	// In Version 2.1.9.
 	$wps_bump_upsell_global_options['wps_bump_target_link_attr_val'] = ! empty( $_POST['wps_bump_target_attr'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_target_attr'] ) ) : 'no';
+
+
+	$wps_bump_upsell_global_options['wps_bump_popup_bump_offer'] = ! empty( $_POST['wps_bump_popup_bump_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_popup_bump_offer'] ) ) : 'no';
 	// After v2.1.2.
 	$wps_bump_upsell_global_options['wps_enable_red_arrow_feature'] = ! empty( $_POST['wps_enable_red_arrow_feature'] ) ? 'on' : 'off';
 	// SAVE GLOBAL OPTIONS.
@@ -81,6 +85,9 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 	// Selected target attribute value.
 	$wps_bump_target_link_attr_val = ! empty( $wps_ubo_global_options['wps_bump_target_link_attr_val'] ) ? $wps_ubo_global_options['wps_bump_target_link_attr_val'] : '';
+
+	// Selected bump offer appearance with or without pop-up.
+	$wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : '';
 
 	// Bump Offer skip.
 	$wps_bump_enable_skip = ! empty( $wps_ubo_global_options['wps_bump_skip_offer'] ) ? $wps_ubo_global_options['wps_bump_skip_offer'] : '';
@@ -175,6 +182,36 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 					</td>
 				</tr>
 				<!-- Enable Product page link on title and image end. -->
+
+
+				<!-- Enable the Pop Up for bump Offer start. -->
+				<tr  valign="top">
+				<th scope="row" class="titledesc wps_bump_offer_popup_case">
+				<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+				<label for="1"><?php esc_html_e( 'Bump Offer Appearance', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+				</th>
+
+				<td class="wps_bump_offer_popup_case" class="forminp forminp-text">
+				<?php
+				$attribute_description = esc_html__( 'On clicking on the offer product title or image the product page opens on the same page or new page.', 'upsell-order-bump-offer-for-woocommerce' );
+				wps_ubo_lite_help_tip( $attribute_description );
+				?>
+
+				<!-- Select options for skipping. -->
+				<select class="wps_bump_offer_popup_case" name="wps_bump_popup_bump_offer">
+
+						<?php if ( wps_ubo_lite_if_pro_exists() ) { ?>
+							<option value="with_popup" <?php selected( $wps_bump_target_popup_bump, 'with_popup' ); ?> ><?php esc_html_e( 'Opens with pop-up', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+
+							<option value="without_popup" <?php selected( $wps_bump_target_popup_bump, 'without_popup' ); ?> ><?php esc_html_e( 'Opens without pop-up', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+						<?php } else { ?>
+							<option value="with_popup" <?php selected( '', 'with_popup' ); ?> ><?php esc_html_e( 'Opens with pop-up', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+							<option value="without_popup" <?php selected( '', 'without_popup' ); ?> ><?php esc_html_e( 'Opens without pop-up', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+						<?php } ?>
+				</select>
+			</td>
+			</tr>
+				<!--Enable the Pop Up for bump Offer end. -->
 
 				<!-- Permalink target location start. -->
 				<tr valign="top">

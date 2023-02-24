@@ -1,5 +1,10 @@
 jQuery(document).ready(function ($) {
     
+    if( 'yes' == wps_ubo_lite_public.wps_popup_body_class && (null == wps_ubo_lite_public.wps_popup_body_class)){
+        var body = document.body;
+
+        body.classList.remove("wps_body_class_popup");
+    }
 
     setInterval(function() {
         $('.wps_product_gallery_wrapper').slick({
@@ -133,6 +138,8 @@ jQuery(document).ready(function ($) {
 
                 $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'all');
                 $('.wps_ubo_wrapper_' + order_bump_index).css('opacity', '1');
+                var body = document.body;
+                body.classList.remove("wps_body_class_popup");
             }
         });
     }
@@ -254,6 +261,9 @@ jQuery(document).ready(function ($) {
                     $("html, body").scrollTop(300);
                     location.reload();
                 }
+
+                var body = document.body;
+                body.classList.remove("wps_body_class_popup");
             }
         });
     }
@@ -265,7 +275,6 @@ jQuery(document).ready(function ($) {
      * @param {array}  formdata  Custom form object.
      */
     function triggerAddOffer(object, formdata) {
-        
         // Get product Quantity
         if ( object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_is_fixed_qty") == 'true' && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr( "data-qty_allowed") == 'yes' ) {
             var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_qty");
@@ -297,7 +306,6 @@ jQuery(document).ready(function ($) {
         // Disable bump div.
         $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'none');
         $('.wps_ubo_wrapper_' + order_bump_index).css('opacity', '0.4');
-
         if ($(parent_wrapper_class + ' .add_offer_in_cart').is(':checked')) {
 
             // Get Order Bump variation popup ready.
@@ -377,6 +385,9 @@ jQuery(document).ready(function ($) {
                             $("html, body").scrollTop(300);
                             location.reload();
                         }
+
+                        var body = document.body;
+                        body.classList.remove("wps_body_class_popup");
                     }
                 }
             });
@@ -769,5 +780,52 @@ jQuery(document).ready(function ($) {
             }
     }
 
+    setTimeout(function() { wps_show_pop_up(); }, 1500);
+
+    function wps_show_pop_up(){
+         $('[popup-name="' + 'popup-1' + '"]').fadeIn(300);
+         var body = document.body;
+
+        body.classList.add("wps_body_class_popup");
+
+         $('.wps-popup-content').slick({
+            slidesToShow: 1,
+            autoplay:false,
+            autoplaySpeed:1500,
+            lazyLoad: 'ondemand',
+            prevArrow: '<span class="slide-arrow prev-arrow"></span>',
+            nextArrow: '<span class="slide-arrow next-arrow"></span>',
+            slidesToScroll:1,
+            cssEase:'ease',
+            useTransform:true,
+            useCSS:true,
+
+          });
+
+    }
+    
+        // Open Popup  
+        $(document).on('click', '.open-button', function (e) {
+            var popup_name = $(this).attr('popup-open');
+            $('[popup-name="' + popup_name + '"]').fadeIn(300);
+            });
+        
+            // Close Popup  
+             $(document).on('click', '.close-button', function (e) {
+            var popup_name = $(this).attr('popup-close');
+            console.log(popup_name);
+            $('[popup-name="' + popup_name + '"]').fadeOut(300);
+            var body = document.body;
+
+            body.classList.remove("wps_body_class_popup");
+            });
+            
+            // Close Popup When Click Outside
+            $('.popup').on('click', function() {
+            var popup_name = $(this).find('[popup-close]').attr('popup-close');
+            $('[popup-name="' + popup_name + '"]').fadeOut(300);
+            }).children().click(function() {
+            return false;
+            });
     // END OF SCRIPT
 });

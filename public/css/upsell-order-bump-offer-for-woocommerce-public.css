@@ -822,3 +822,124 @@ margin: 10px 0;
 .wps_upsell_offer_main_wrapper .wps_upsell_offer_secondary_section p {
     line-height: 1.25;
 }
+
+/* Popup Open button */	
+.open-button{
+    color:#FFF;
+    background:#0066CC;
+    padding:10px;
+    text-decoration:none;
+    border:1px solid #0157ad;
+    border-radius:3px;
+}
+
+.open-button:hover{
+    background:#01478e;
+}
+
+.wrapup_order_bump .popup {
+    position:fixed;
+    top:0px;
+    left:0px;
+		background: rgb(0 0 0 / 75%);
+    width:100%;
+    height:100%;
+    display:none;
+    overflow: auto;
+    z-index: 999;
+}
+/* .modal-body{
+    height: 80vh;
+    overflow-y: auto;
+} */
+.next-arrow {
+	right: -40px;
+	width: 0;
+	height: 0;
+	border-right: 0 solid transparent;
+	border-left: 15px solid #ffffff;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+}
+.prev-arrow {
+	left: -40px;
+	width: 0;
+	height: 0;
+	border-left: 0 solid transparent;
+	border-right: 15px solid #ffffff;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+}
+.slide-arrow {
+	position: absolute;
+	top: 20%;
+	margin-top: -15px;
+	padding: 0;
+  background: transparent;
+	outline: none;
+}
+.slide-arrow.prev-arrow:hover {
+	border-color: transparent !important;
+	background-color: transparent !important;
+	border-left: 0 solid transparent;
+	border-right: 15px solid #ffffff !important;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+}
+.slide-arrow.next-arrow:hover {
+	border-color: transparent !important;
+	background-color: transparent !important;
+	border-right: 0 solid transparent;
+	border-left: 15px solid #ffffff !important;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+}
+/* Popup inner div */
+.wps-popup-content {
+	max-width: 1080px;
+	margin: 0 auto;
+	box-sizing: border-box;
+	padding: 40px;
+	border-radius: 3px;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+.wps-popup-content .slick-list {
+	margin: 0px 20px;
+}
+/* Popup close button */
+.wps_body_class_popup {
+	overflow: hidden;
+}
+.wps_close_modal{
+	position: absolute;
+	top: 40px;
+  right: 60px;
+}
+.wps_close_modal .close-button {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background: rgba(0,0,0,0.8);
+	font-size: 26px;
+	text-align: center;
+	color: rgb(255 255 255);
+	text-decoration: none !important;
+	display: block;
+	line-height: 42px;
+}
+
+.wps_close_modal .close-button:hover {
+    background: rgba(0,0,0,1);
+}
+
+@media screen and (max-width: 720px) {
+.wps-popup-content {
+    width:90%;
+    }	
+}
+
+#wps_open_modal{
+	display: none;
+}
