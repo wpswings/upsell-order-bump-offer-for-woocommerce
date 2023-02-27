@@ -784,10 +784,6 @@ jQuery(document).ready(function ($) {
 
     function wps_show_pop_up(){
          $('[popup-name="' + 'popup-1' + '"]').fadeIn(300);
-         var body = document.body;
-
-        body.classList.add("wps_body_class_popup");
-
          $('.wps-popup-content').slick({
             slidesToShow: 1,
             autoplay:false,
@@ -799,15 +795,15 @@ jQuery(document).ready(function ($) {
             cssEase:'ease',
             useTransform:true,
             useCSS:true,
-
           });
-
     }
     
         // Open Popup  
         $(document).on('click', '.open-button', function (e) {
             var popup_name = $(this).attr('popup-open');
             $('[popup-name="' + popup_name + '"]').fadeIn(300);
+            var body = document.body;
+            body.classList.add("wps_body_class_popup");
             });
         
             // Close Popup  
@@ -816,7 +812,6 @@ jQuery(document).ready(function ($) {
             console.log(popup_name);
             $('[popup-name="' + popup_name + '"]').fadeOut(300);
             var body = document.body;
-
             body.classList.remove("wps_body_class_popup");
             });
             

@@ -76,7 +76,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			return;
 		}
 
+		$current_theme = wp_get_theme();
+		if('Avada' != $current_theme->get( 'Name' )){
 		wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
+		}
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
 	}
@@ -113,10 +116,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_is_checkout_page = true;
 		}
 
+		$current_theme = wp_get_theme();
+
 		//Enable the bump offer with or without pop-up.
 		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
 		$wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : 'on';
-		if('without_popup' == $wps_bump_target_popup_bump && isset($wps_bump_target_popup_bump)){
+		if('without_popup' == $wps_bump_target_popup_bump){
 		$wps_popup_body_class = 'yes';
 		}
 
@@ -124,7 +129,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
 
 		// Localizing Array.
-		$current_theme = wp_get_theme();
 		$local_arr = array(
 			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
 			'mobile_view' => wp_is_mobile(),
@@ -177,7 +181,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			wp_enqueue_script( 'zoom-script', plugins_url( '/js/zoom-script.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 		}
 
+		if('Avada' != $current_theme->get( 'Name' )){
 		wp_enqueue_script( 'script_slick_js', plugins_url( '/js/slick.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
+		}
 
 	}
 
