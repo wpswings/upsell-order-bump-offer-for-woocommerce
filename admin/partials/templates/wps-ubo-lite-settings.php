@@ -528,6 +528,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 				<!-- Order Bump Limit start. -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
+						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 						<label for="wps_bump_order_bump_limit"><?php esc_html_e( 'Multiple Order Bumps Count', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
