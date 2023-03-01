@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.1.9\n"
-"POT-Creation-Date: 2023-01-31 13:40+0530\n"
+"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.2.0\n"
+"POT-Creation-Date: 2023-03-01 10:29+0530\n"
 "PO-Revision-Date: 2022-07-07 19:17+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -150,7 +150,7 @@ msgid "Upload image"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:245
-#: admin/partials/templates/wps-ubo-lite-settings.php:67
+#: admin/partials/templates/wps-ubo-lite-settings.php:71
 msgid "Settings saved"
 msgstr ""
 
@@ -289,9 +289,10 @@ msgstr ""
 #: admin/partials/templates/wps-ubo-lite-creation.php:878
 #: admin/partials/templates/wps-ubo-lite-creation.php:888
 #: admin/partials/templates/wps-ubo-lite-creation.php:902
-#: admin/partials/templates/wps-ubo-lite-settings.php:398
-#: admin/partials/templates/wps-ubo-lite-settings.php:421
-#: admin/partials/templates/wps-ubo-lite-settings.php:446
+#: admin/partials/templates/wps-ubo-lite-settings.php:190
+#: admin/partials/templates/wps-ubo-lite-settings.php:435
+#: admin/partials/templates/wps-ubo-lite-settings.php:458
+#: admin/partials/templates/wps-ubo-lite-settings.php:483
 msgid "Pro"
 msgstr ""
 
@@ -764,7 +765,7 @@ msgid "Offer Preview"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:1602
-#: admin/partials/templates/wps-ubo-lite-settings.php:556
+#: admin/partials/templates/wps-ubo-lite-settings.php:593
 msgid "Save Changes"
 msgstr ""
 
@@ -777,12 +778,12 @@ msgid "Changing layout will reset Design settings back to default."
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:1622
-#: admin/partials/templates/wps-ubo-lite-settings.php:221
+#: admin/partials/templates/wps-ubo-lite-settings.php:258
 msgid "Yes"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:1624
-#: admin/partials/templates/wps-ubo-lite-settings.php:223
+#: admin/partials/templates/wps-ubo-lite-settings.php:260
 msgid "No"
 msgstr ""
 
@@ -946,7 +947,7 @@ msgid ""
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-overview.php:109
-#: admin/partials/templates/wps-ubo-lite-settings.php:400
+#: admin/partials/templates/wps-ubo-lite-settings.php:437
 msgid "Smart Skip if Already Purchased"
 msgstr ""
 
@@ -978,216 +979,231 @@ msgstr ""
 msgid "Upgrade to Premium"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:135
+#: admin/partials/templates/wps-ubo-lite-settings.php:142
 msgid "Enable Upsell Order Bumps"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:140
+#: admin/partials/templates/wps-ubo-lite-settings.php:147
 msgid "Enable Upsell Order Bump Offer plugin."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:159
+#: admin/partials/templates/wps-ubo-lite-settings.php:166
 msgid "Enable permalink on product title and image"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:164
+#: admin/partials/templates/wps-ubo-lite-settings.php:171
 msgid "Enable permalink on product title and image."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:183
-msgid "Offer product permalink target attribute"
+#: admin/partials/templates/wps-ubo-lite-settings.php:191
+msgid "Bump Offer Appearance"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:188
+#: admin/partials/templates/wps-ubo-lite-settings.php:196
+#: admin/partials/templates/wps-ubo-lite-settings.php:225
 msgid ""
 "On clicking on the offer product title or image the product page opens on "
 "the same page or new page."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:195
+#: admin/partials/templates/wps-ubo-lite-settings.php:204
+#: admin/partials/templates/wps-ubo-lite-settings.php:208
+msgid "Opens with pop-up"
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-settings.php:206
+#: admin/partials/templates/wps-ubo-lite-settings.php:209
+msgid "Opens without pop-up"
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-settings.php:220
+msgid "Offer product permalink target attribute"
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-settings.php:232
 msgid "Opens in the same frame as it was clicked"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:197
+#: admin/partials/templates/wps-ubo-lite-settings.php:234
 msgid "Opens in a new window or tab"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:209
+#: admin/partials/templates/wps-ubo-lite-settings.php:246
 msgid "Skip for Same Offers"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:214
+#: admin/partials/templates/wps-ubo-lite-settings.php:251
 msgid "Skip Bump offer if offer product is already present in cart."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:234
+#: admin/partials/templates/wps-ubo-lite-settings.php:271
 msgid "Offer Target Dependency"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:240
+#: admin/partials/templates/wps-ubo-lite-settings.php:277
 msgid "Remove Offer When Target Product is Removed"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:241
+#: admin/partials/templates/wps-ubo-lite-settings.php:278
 msgid "Keep Offer even When Target is Removed"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:251
+#: admin/partials/templates/wps-ubo-lite-settings.php:288
 msgid "Remove offer when target product is removed:"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:252
+#: admin/partials/templates/wps-ubo-lite-settings.php:289
 msgid ""
 "As the Target product is removed the offer product associated with the "
 "target will also be removed from your customer's cart."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:253
+#: admin/partials/templates/wps-ubo-lite-settings.php:290
 msgid "Keep offer when target product is removed:"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:254
+#: admin/partials/templates/wps-ubo-lite-settings.php:291
 msgid ""
 "As the Target product is removed the offer product associated with the "
 "target will be converted into a normal product in your customer's cart."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:276
+#: admin/partials/templates/wps-ubo-lite-settings.php:313
 msgid "Offer Adaption settings"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:282
+#: admin/partials/templates/wps-ubo-lite-settings.php:319
 msgid "Free Width"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:283
+#: admin/partials/templates/wps-ubo-lite-settings.php:320
 msgid "Fixed Width"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:291
+#: admin/partials/templates/wps-ubo-lite-settings.php:328
 msgid ""
 "If Free Width, the Order Bump Offer will adapt to the complete width of it's "
 "parent location area else it will be fixed."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:312
+#: admin/partials/templates/wps-ubo-lite-settings.php:349
 msgid "Offer Location"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:318
+#: admin/partials/templates/wps-ubo-lite-settings.php:355
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1220
 msgid "Before Order Summary"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:319
+#: admin/partials/templates/wps-ubo-lite-settings.php:356
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1225
 msgid "Before Payment Gateways"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:320
+#: admin/partials/templates/wps-ubo-lite-settings.php:357
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1230
 msgid "After Payment Gateways"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:321
+#: admin/partials/templates/wps-ubo-lite-settings.php:358
 msgid "Before Place Order Button"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:329
+#: admin/partials/templates/wps-ubo-lite-settings.php:366
 msgid ""
 "Choose the location where the Bump Offer will be displayed on the Checkout "
 "page."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:362
+#: admin/partials/templates/wps-ubo-lite-settings.php:399
 msgid "Offer Price Format"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:368
+#: admin/partials/templates/wps-ubo-lite-settings.php:405
 msgid "̶R̶e̶g̶u̶l̶a̶r̶ ̶P̶r̶i̶c̶e̶"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:368
-#: admin/partials/templates/wps-ubo-lite-settings.php:369
+#: admin/partials/templates/wps-ubo-lite-settings.php:405
+#: admin/partials/templates/wps-ubo-lite-settings.php:406
 msgid "Offer Price"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:369
+#: admin/partials/templates/wps-ubo-lite-settings.php:406
 msgid " ̶S̶a̶l̶e̶ ̶P̶r̶i̶c̶e̶"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:377
+#: admin/partials/templates/wps-ubo-lite-settings.php:414
 msgid "Select the way to display Offer Price in Order Bumps."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:406
+#: admin/partials/templates/wps-ubo-lite-settings.php:443
 msgid ""
 "Skip the Order Bump offer for those customers who have already purchased the "
 "offer product anytime before in previous orders."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:423
+#: admin/partials/templates/wps-ubo-lite-settings.php:460
 msgid "Restrict Woo coupons"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:429
+#: admin/partials/templates/wps-ubo-lite-settings.php:466
 msgid "This features removes extra coupon discounts from cart item."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:447
+#: admin/partials/templates/wps-ubo-lite-settings.php:484
 msgid "Enable Arrow feature."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:452
+#: admin/partials/templates/wps-ubo-lite-settings.php:489
 msgid "Enable arrow pointing checkbox to add the bump offer."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:471
-#: admin/partials/templates/wps-ubo-lite-settings.php:476
+#: admin/partials/templates/wps-ubo-lite-settings.php:508
+#: admin/partials/templates/wps-ubo-lite-settings.php:513
 msgid "Enable Delete all data on uninstall."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:494
+#: admin/partials/templates/wps-ubo-lite-settings.php:531
 msgid "Multiple Order Bumps Count"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:500
+#: admin/partials/templates/wps-ubo-lite-settings.php:537
 msgid ""
 "Enter the Multiple Order Bumps count that you want to display on the "
 "checkout page."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:514
+#: admin/partials/templates/wps-ubo-lite-settings.php:551
 msgid "Global Custom CSS"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:520
+#: admin/partials/templates/wps-ubo-lite-settings.php:557
 msgid "Add your Custom CSS without style tags."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:533
+#: admin/partials/templates/wps-ubo-lite-settings.php:570
 msgid "Global Custom JS"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:539
+#: admin/partials/templates/wps-ubo-lite-settings.php:576
 msgid "Add your Custom JS without script tags."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:575
+#: admin/partials/templates/wps-ubo-lite-settings.php:612
 msgid "Update Required!"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:576
+#: admin/partials/templates/wps-ubo-lite-settings.php:613
 msgid ""
 "Please Update 'Upsell Order Bump Offer For Woocommerce Pro' to use this "
 "feature."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:581
+#: admin/partials/templates/wps-ubo-lite-settings.php:618
 msgid "Update Now"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:582
+#: admin/partials/templates/wps-ubo-lite-settings.php:619
 msgid "Don't update"
 msgstr ""
 
@@ -1448,15 +1464,15 @@ msgstr ""
 msgid "Unexpected Error Occurred"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:464
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:486
 msgid "Product Not Found."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:491
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:513
 msgid "Sorry, this variation is not available."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:505
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:527
 msgid "Out of stock."
 msgstr ""
 
