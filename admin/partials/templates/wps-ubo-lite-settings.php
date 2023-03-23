@@ -193,7 +193,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 				<td class="wps_bump_offer_popup_case" class="forminp forminp-text">
 				<?php
-				$attribute_description = esc_html__( 'On clicking on the offer product title or image the product page opens on the same page or new page.', 'upsell-order-bump-offer-for-woocommerce' );
+				$attribute_description = esc_html__( 'Show the order bump in popup and without popup form.', 'upsell-order-bump-offer-for-woocommerce' );
 				wps_ubo_lite_help_tip( $attribute_description );
 				?>
 
