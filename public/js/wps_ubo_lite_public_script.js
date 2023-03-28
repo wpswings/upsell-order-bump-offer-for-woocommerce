@@ -784,6 +784,7 @@ jQuery(document).ready(function ($) {
 
     function wps_show_pop_up(){
          $('[popup-name="' + 'popup-1' + '"]').fadeIn(300);
+         $(".fusion-header-wrapper").css("display","none");///Avada header hidden on popup.
          $('.wps-popup-content').slick({
             slidesToShow: 1,
             autoplay:false,
@@ -796,6 +797,14 @@ jQuery(document).ready(function ($) {
             useTransform:true,
             useCSS:true,
           });
+          //Hide the header on popup open.
+          if('Divi' == wps_ubo_lite_public.current_theme ){
+          $("#main-header").css("display","none");
+          }
+
+          if('Avada' == wps_ubo_lite_public.current_theme ){
+          $(".fusion-header-wrapper").css("display","none");
+        }
     }
     
         // Open Popup  
@@ -808,8 +817,14 @@ jQuery(document).ready(function ($) {
         
             // Close Popup  
              $(document).on('click', '.close-button', function (e) {
+
+            $(".fusion-header-wrapper").css("display","block");///Avada header hidden on popup.
+            //Hide the header on popup open.
+             if('Divi' == wps_ubo_lite_public.current_theme ) {
+            $("#main-header").css("display","none");
+            }
+
             var popup_name = $(this).attr('popup-close');
-            console.log(popup_name);
             $('[popup-name="' + popup_name + '"]').fadeOut(300);
             var body = document.body;
             body.classList.remove("wps_body_class_popup");
@@ -817,6 +832,7 @@ jQuery(document).ready(function ($) {
             
             // Close Popup When Click Outside
             $('.popup').on('click', function() {
+            $(".fusion-header-wrapper").css("display","block");
             var popup_name = $(this).find('[popup-close]').attr('popup-close');
             $('[popup-name="' + popup_name + '"]').fadeOut(300);
             }).children().click(function() {
