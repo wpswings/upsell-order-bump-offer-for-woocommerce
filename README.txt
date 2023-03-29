@@ -5,8 +5,8 @@ Tags: woocommerce upsell, conversion, upsell, order bump, checkout page, checkou
 Requires at least: 5.5.0
 Tested up to: 6.1.1
 WC requires at least: 5.5.0
-WC tested up to: 7.4.1
-Stable tag: 2.2.0
+WC tested up to: 7.5.1
+Stable tag: 2.2.1
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -84,7 +84,7 @@ The WooCommerce Order Bump plugin comes with full compatibility with simple, var
 **14) Enable Permalink On Product Title And Image**
 By enabling the permalink option from the Global Settings your customers can view the bump offer product in detail. Customers can click either on the product title or the product image of the bump offer product on the checkout page. As a result, the customer will be redirected to a new page to view the complete information.
 
-**15) Add Custom Image**
+**15) Add a Custom Image**
 This is one of our recent features. The admin can change the default bump offer product image from the funnel setting and replace it with a custom image.
 
 Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-page&utm_campaign=order-bump-doc) to learn more about the features and to work of the plugin.
@@ -102,6 +102,13 @@ Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.w
 
 * Our WooCommerce order bump offer plugin is compatible with the [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/) plugin that allows your customers to redeem their gift cards and earn even more discounts. This will allow the merchants to offer more payment options to their customers for the bump offers.
 
+* The Upsell Order Bump Offer plugin is compatible with the [**One Click Upsell Funnel For WooCommerce**](https://wordpress.org/plugins/woo-one-click-upsell-funnel/) which allows customers to create post-purchase upselling offers to increase average order value (AOV) and boost sales.
+
+* The plugin Upsell Order Bump is compatible with the [**Subscriptions For WooCommerce**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) which allows your customers to create upsell offers on subscription products.
+
+* Upsell Order Bump plugin is compatible with **WPML** which enables your users to access content in their native language. So whether it is in Arabic or Hebrew language, this plugin will support it.
+
+
 == WHAT PREMIUM VERSION OF UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE OFFERS ==
 
 * WooCommerce upsell popup
@@ -110,7 +117,7 @@ Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.w
 * Carousel on Offer image
 * Show Multiple Order bump offers on the checkout page.
 * Duplicate your upsell order bump offers.
-* Countdown timer on upsell offers to create urgency on your WooCommerce store.
+* A countdown timer on upsell offers to create urgency on your WooCommerce store.
 * Role-Based Upsell Bump Offers.
 * Customize the Arrow on Bump Offer checkbox.
 * Offer Image Size Customization.
@@ -124,17 +131,17 @@ Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.w
 * Smart Skip if Already Purchased to skip the bump offers if already purchased.
 * Premium Support on Phone, Email & Skype.
 
-== TAKE ADVANTAGE OF EXCLUSIVE FEATURES OF UPSELL BUMP OFFER PLUGIN ==
+== TAKE ADVANTAGE OF THE EXCLUSIVE FEATURES OF UPSELL BUMP OFFER PLUGIN ==
 
 > Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=order-bump-pro)
 
-== DOCUMENTATION OF PREMIUM VERSION ==
+== DOCUMENTATION OF THE PREMIUM VERSION ==
 
 * [**Upsell Bump Offer Pro Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-page&utm_campaign=order-bump-doc)
 
 == SUPPORT ==
 
-If you need support or have questions, kindly use our online chat window [**here**](http://www.wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-page&utm_campaign=official) or connect with us then [**Generate a ticket.**](https://wpswings.com/submit-query/?utm_source=wpswings-submit-query&utm_medium=order-bump-org-page&utm_campaign=query)
+If you need support or have questions, kindly use our online chat window [**here**](http://www.wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-page&utm_campaign=official) or connect with us and then [**Generate a ticket.**](https://wpswings.com/submit-query/?utm_source=wpswings-submit-query&utm_medium=order-bump-org-page&utm_campaign=query)
 
 > If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=order-bump-org-page&utm_campaign=forum)
 
@@ -255,6 +262,11 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 
 == Changelog ==
+= 2.2.1 - Released on 29 March 2023 =
+* New: WPML Compatibility.
+* New: Compatibility with latest WP(6.1.1) and WC(7.5.1).
+* Fixes: POP-UP Issue on the checkout page.
+
 = 2.2.0 - Released on 01 March 2023 =
 * New: Compatible with the latest WP (6.1.1) and WC (7.4.1)
 
@@ -358,5 +370,7 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 * First version
 
 == Upgrade Notice ==
-= 2.2.0 - Released on 01 March 2023 =
-* New: Compatible with the latest WP (6.1.1) and WC (7.4.1)
+= 2.2.1 - Released on 29 March 2023 =
+* New: WPML Compatibility.
+* New: Compatibility with latest WP(6.1.1) and WC(7.5.1).
+* Fixes: POP-UP Issue on the checkout page.
