@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.2.0\n"
-"POT-Creation-Date: 2023-03-01 10:29+0530\n"
-"PO-Revision-Date: 2023-03-01 10:38+0530\n"
+"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.2.1\n"
+"POT-Creation-Date: 2023-03-29 14:18+0530\n"
+"PO-Revision-Date: 2023-03-29 14:20+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
 "Language: en_US\n"
@@ -292,6 +292,7 @@ msgstr ""
 #: admin/partials/templates/wps-ubo-lite-settings.php:435
 #: admin/partials/templates/wps-ubo-lite-settings.php:458
 #: admin/partials/templates/wps-ubo-lite-settings.php:483
+#: admin/partials/templates/wps-ubo-lite-settings.php:531
 msgid "Pro"
 msgstr ""
 
@@ -764,7 +765,7 @@ msgid "Offer Preview"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:1602
-#: admin/partials/templates/wps-ubo-lite-settings.php:593
+#: admin/partials/templates/wps-ubo-lite-settings.php:594
 msgid "Save Changes"
 msgstr ""
 
@@ -999,10 +1000,7 @@ msgid "Bump Offer Appearance"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-settings.php:196
-#: admin/partials/templates/wps-ubo-lite-settings.php:225
-msgid ""
-"On clicking on the offer product title or image the product page opens on "
-"the same page or new page."
+msgid "Show the order bump in popup and without popup form."
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-settings.php:204
@@ -1017,6 +1015,12 @@ msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-settings.php:220
 msgid "Offer product permalink target attribute"
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-settings.php:225
+msgid ""
+"On clicking on the offer product title or image the product page opens on "
+"the same page or new page."
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-settings.php:232
@@ -1162,47 +1166,47 @@ msgstr ""
 msgid "Enable Delete all data on uninstall."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:531
+#: admin/partials/templates/wps-ubo-lite-settings.php:532
 msgid "Multiple Order Bumps Count"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:537
+#: admin/partials/templates/wps-ubo-lite-settings.php:538
 msgid ""
 "Enter the Multiple Order Bumps count that you want to display on the "
 "checkout page."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:551
+#: admin/partials/templates/wps-ubo-lite-settings.php:552
 msgid "Global Custom CSS"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:557
+#: admin/partials/templates/wps-ubo-lite-settings.php:558
 msgid "Add your Custom CSS without style tags."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:570
+#: admin/partials/templates/wps-ubo-lite-settings.php:571
 msgid "Global Custom JS"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:576
+#: admin/partials/templates/wps-ubo-lite-settings.php:577
 msgid "Add your Custom JS without script tags."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:612
+#: admin/partials/templates/wps-ubo-lite-settings.php:613
 msgid "Update Required!"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:613
+#: admin/partials/templates/wps-ubo-lite-settings.php:614
 msgid ""
 "Please Update 'Upsell Order Bump Offer For Woocommerce Pro' to use this "
 "feature."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:618
+#: admin/partials/templates/wps-ubo-lite-settings.php:619
 msgid "Update Now"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-settings.php:619
+#: admin/partials/templates/wps-ubo-lite-settings.php:620
 msgid "Don't update"
 msgstr ""
 
