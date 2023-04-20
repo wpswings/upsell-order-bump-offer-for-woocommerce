@@ -87,7 +87,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 	$wps_bump_target_link_attr_val = ! empty( $wps_ubo_global_options['wps_bump_target_link_attr_val'] ) ? $wps_ubo_global_options['wps_bump_target_link_attr_val'] : '';
 
 	// Selected bump offer appearance with or without pop-up.
-	$wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : '';
+	$wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : 'without_popup';
 
 	// Bump Offer skip.
 	$wps_bump_enable_skip = ! empty( $wps_ubo_global_options['wps_bump_skip_offer'] ) ? $wps_ubo_global_options['wps_bump_skip_offer'] : '';
@@ -186,7 +186,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 				<!-- Enable the Pop Up for bump Offer start. -->
 				<tr  valign="top">
-				<th scope="row" class="titledesc wps_bump_offer_popup_case">
+				<th scope="row" class="titledesc wps_bump_offer_popup_case" id="m1">
 				<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 				<label for="1"><?php esc_html_e( 'Bump Offer Appearance', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 				</th>
@@ -197,18 +197,16 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 				wps_ubo_lite_help_tip( $attribute_description );
 				?>
 
+                <div>
+				<label class="form-control">
+  				<input type="radio" id="wps_Offer_With_Pop_Up_id" name="wps_bump_popup_bump_offer" value="with_popup" <?php checked( $wps_bump_target_popup_bump, 'with_popup' ); ?>/>Offer With Pop-Up</label>
+
+				<label class="form-control">
+				<input type="radio" name="wps_bump_popup_bump_offer"  id="wps_Offer_Without_Pop_Up_id" value="without_popup" <?php checked( $wps_bump_target_popup_bump, 'without_popup' ); ?>/>Offer Without Pop-Up</label>
+				 </div>
+
 				<!-- Select options for skipping. -->
-				<select class="wps_bump_offer_popup_case" name="wps_bump_popup_bump_offer">
 
-						<?php if ( wps_ubo_lite_if_pro_exists() ) { ?>
-							<option value="with_popup" <?php selected( $wps_bump_target_popup_bump, 'with_popup' ); ?> ><?php esc_html_e( 'Opens with pop-up', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
-
-							<option value="without_popup" <?php selected( $wps_bump_target_popup_bump, 'without_popup' ); ?> ><?php esc_html_e( 'Opens without pop-up', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
-						<?php } else { ?>
-							<option value="with_popup" <?php selected( '', 'with_popup' ); ?> ><?php esc_html_e( 'Opens with pop-up', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
-							<option value="without_popup" <?php selected( '', 'without_popup' ); ?> ><?php esc_html_e( 'Opens without pop-up', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
-						<?php } ?>
-				</select>
 			</td>
 			</tr>
 				<!--Enable the Pop Up for bump Offer end. -->
