@@ -822,21 +822,10 @@ jQuery(document).ready( function($) {
 		});
 	});
 
-	//get the selected value from the dropdown list
 	var pro_status = document.getElementById( 'wps_ubo_pro_status' );
 	if (null != pro_status) {
-		//disable all the radio button. 
-		radiobtn = document.getElementById("wps_Offer_Without_Pop_Up_id");
-		radiobtn.checked = true;
-		// $('#wps_upsell_bump_creation_setting_save').trigger( "click" );
-		document.getElementById("wps_Offer_With_Pop_Up_id").disabled = true;
-		document.getElementById("wps_Offer_Without_Pop_Up_id").disabled = true;
-	}else{
-		//enable all the radio button. 
-		document.getElementById("wps_Offer_With_Pop_Up_id").disabled = false;
-		document.getElementById("wps_Offer_Without_Pop_Up_id").disabled = false;
+		document.getElementById("wps_Offer_Without_Pop_Up_id_org_2").checked = true;
+		document.getElementById("wps_Offer_With_Pop_Up_id_org_2").checked = false;
 	}
-
-
 // End of js.
 });

@@ -186,12 +186,12 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 				<!-- Enable the Pop Up for bump Offer start. -->
 				<tr  valign="top">
-				<th scope="row" class="titledesc wps_bump_offer_popup_case" id="m1">
+				<th scope="row" class="titledesc">
 				<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 				<label for="1"><?php esc_html_e( 'Bump Offer Appearance', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 				</th>
 
-				<td class="wps_bump_offer_popup_case" class="forminp forminp-text">
+				<td class="wps_bump_offer_popup_cases" class="forminp forminp-text">
 				<?php
 				$attribute_description = esc_html__( 'Show the order bump in popup and without popup form.', 'upsell-order-bump-offer-for-woocommerce' );
 				wps_ubo_lite_help_tip( $attribute_description );
@@ -199,11 +199,17 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
                 <div>
 				<label class="form-control">
-  				<input type="radio" id="wps_Offer_With_Pop_Up_id" name="wps_bump_popup_bump_offer" value="with_popup" <?php checked( $wps_bump_target_popup_bump, 'with_popup' ); ?>/>Offer With Pop-Up</label>
+				<?php if ( wps_ubo_lite_if_pro_exists() ) { ?>
+  				<input type="radio" id="wps_Offer_With_Pop_Up_id_pro_1" name="wps_bump_popup_bump_offer" value="with_popup" <?php checked( $wps_bump_target_popup_bump, 'with_popup' ); ?>/>Offer With Pop-Up</label>
 
 				<label class="form-control">
-				<input type="radio" name="wps_bump_popup_bump_offer"  id="wps_Offer_Without_Pop_Up_id" value="without_popup" <?php checked( $wps_bump_target_popup_bump, 'without_popup' ); ?>/>Offer Without Pop-Up</label>
-				 </div>
+				<input type="radio" name="wps_bump_popup_bump_offer"  id="wps_Offer_Without_Pop_Up_id_pro_1" value="without_popup" <?php checked( $wps_bump_target_popup_bump, 'without_popup' ); ?>/>Offer Without Pop-Up</label>
+				<?php } else { ?>
+				<input type="radio" id="wps_Offer_With_Pop_Up_id_org_2" class="wps_bump_offer_popup_case" name="wps_check_bump" value="" <?php checked( $wps_bump_target_popup_bump, 'with_popup' ); ?>/>Offer With Pop-Up</label>
+				<label class="form-control">
+				<input type="radio" name="wps_bump_popup_bump_offer"  id="wps_Offer_Without_Pop_Up_id_org_2" value="without_popup" <?php checked( $wps_bump_target_popup_bump, 'without_popup' ); ?>/>Offer Without Pop-Up</label>
+				<?php } ?>
+			</div>
 
 				<!-- Select options for skipping. -->
 
