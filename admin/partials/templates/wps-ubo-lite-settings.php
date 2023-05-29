@@ -197,10 +197,10 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 				wps_ubo_lite_help_tip( $attribute_description );
 				?>
 
-                <div>
+				<div>
 				<label class="form-control">
 				<?php if ( wps_ubo_lite_if_pro_exists() ) { ?>
-  				<input type="radio" id="wps_Offer_With_Pop_Up_id_pro_1" name="wps_bump_popup_bump_offer" value="with_popup" <?php checked( $wps_bump_target_popup_bump, 'with_popup' ); ?>/>Offer With Pop-Up</label>
+				  <input type="radio" id="wps_Offer_With_Pop_Up_id_pro_1" name="wps_bump_popup_bump_offer" value="with_popup" <?php checked( $wps_bump_target_popup_bump, 'with_popup' ); ?>/>Offer With Pop-Up</label>
 
 				<label class="form-control">
 				<input type="radio" name="wps_bump_popup_bump_offer"  id="wps_Offer_Without_Pop_Up_id_pro_1" value="without_popup" <?php checked( $wps_bump_target_popup_bump, 'without_popup' ); ?>/>Offer Without Pop-Up</label>
@@ -354,14 +354,28 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 					</th>
 
 					<?php
+					$wps_plugin_list = get_option( 'active_plugins' );
+					$wps_is_pro_active = false;
+					$wps_plugin = 'checkout-for-woocommerce/checkout-for-woocommerce.php';
+					if ( in_array( $wps_plugin, $wps_plugin_list ) ) {
+						$wps_is_pro_active = true;
+					}
 
-					$offer_locations_array = array(
-						'_before_order_summary'      => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
-						'_before_payment_gateways'   => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
-						'_after_payment_gateways'    => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
-						'_before_place_order_button' => esc_html__( 'Before Place Order Button', 'upsell-order-bump-offer-for-woocommerce' ),
-					);
-
+					if ( ! $wps_is_pro_active ) {
+						$offer_locations_array = array(
+							'_before_order_summary'      => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_before_payment_gateways'   => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_after_payment_gateways'    => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_before_place_order_button' => esc_html__( 'Before Place Order Button', 'upsell-order-bump-offer-for-woocommerce' ),
+						);
+					} else { //Code For Comapatibility With CheckoutWC plugin.
+						$offer_locations_array = array(
+							'_cart_summary'      => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_payment_method_heading'   => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_after_payment_methods'    => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_review_order_before_submit' => esc_html__( 'Before Place Order Button', 'upsell-order-bump-offer-for-woocommerce' ),
+						);
+					}
 					?>
 
 					<td class="forminp forminp-text">
