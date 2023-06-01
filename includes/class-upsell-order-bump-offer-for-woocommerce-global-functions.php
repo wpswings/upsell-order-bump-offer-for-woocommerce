@@ -1243,24 +1243,24 @@ function wps_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 				'name'     => esc_html__( 'Before Place order button', 'upsell-order-bump-offer-for-woocommerce' ),
 			),
 		);
-	} else {   //Code For Comapatibility With CheckoutWC plugin.
+	} else {   // Code For Comapatibility With CheckoutWC plugin.
 		$location_details = array(
-			'_cart_summary'      => array(
+			'_before_order_summary'      => array(
 				'hook'     => 'cfw_checkout_cart_summary',
 				'priority' => 10,
 				'name'     => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
 			),
-			'_payment_method_heading'   => array(
+			'_before_payment_gateways'   => array(
 				'hook'     => 'cfw_before_payment_method_heading',
 				'priority' => 11,
 				'name'     => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
 			),
-			'_after_payment_methods'    => array(
+			'_after_payment_gateways'    => array(
 				'hook'     => 'cfw_checkout_after_payment_methods',
 				'priority' => 19,
 				'name'     => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
 			),
-			'_review_order_before_submit' => array(
+			'_before_place_order_button' => array(
 				'hook'     => 'woocommerce_review_order_before_submit',
 				'priority' => 21,
 				'name'     => esc_html__( 'Before Place order button', 'upsell-order-bump-offer-for-woocommerce' ),
