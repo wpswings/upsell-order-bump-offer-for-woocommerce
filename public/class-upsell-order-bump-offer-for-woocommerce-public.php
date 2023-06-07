@@ -126,7 +126,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 
 		// Public Script.
-		wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), time(), false );
 
 		// Localizing Array.
 		$local_arr = array(
@@ -178,11 +178,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Do not work in mobile-view mode.
 		if ( ! wp_is_mobile() ) {
 
-			wp_enqueue_script( 'zoom-script', plugins_url( '/js/zoom-script.js', __FILE__ ), array( 'jquery' ), $this->version, true );
+			wp_enqueue_script( 'zoom-script', plugins_url( '/js/zoom-script.js', __FILE__ ), array( 'jquery' ), time(), true );
 		}
 
 		if('Avada' != $current_theme->get( 'Name' )){
-		wp_enqueue_script( 'script_slick_js', plugins_url( '/js/slick.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( 'script_slick_js', plugins_url( '/js/slick.min.js', __FILE__ ), array( 'jquery' ), time(), true );
 		}
 
 	}

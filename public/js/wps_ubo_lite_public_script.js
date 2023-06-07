@@ -780,6 +780,10 @@ jQuery(document).ready(function ($) {
             }
     }
 
+    $(document).on('click','.cfw-continue-to-payment-btn', function(e){
+        window.location.reload();
+    })
+
     setTimeout(function() { wps_show_pop_up(); }, 1500);
 
     function wps_show_pop_up(){
