@@ -2225,7 +2225,8 @@ justify-content: center;
 .upsell-offer-template .upsell-product-info .quantity label {
   margin-bottom: 0;
 }
-  #wps_ubo_premium_popup_5_template,  #wps_ubo_premium_popup_3_template,  #wps_ubo_premium_popup_4_template,#wps_ubo_premium_popup_5_template_pro,#wps_ubo_premium_popup_4_template_pro,#wps_ubo_premium_popup_3_template_pro {
+  #wps_ubo_premium_popup_5_template,#wps_ubo_premium_popup_6_template_pro
+  #wps_ubo_premium_popup_3_template,  #wps_ubo_premium_popup_4_template,#wps_ubo_premium_popup_5_template_pro,#wps_ubo_premium_popup_4_template_pro,#wps_ubo_premium_popup_3_template_pro {
     position: relative;
   }
   .wps_upsell_template_select-wrapper {
@@ -2284,3 +2285,416 @@ justify-content: center;
 #wps_ubo_premium_popup_4_template_pro {
   order: 1;
 }
+
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+/* Styling for all Four Templates start */
+
+/* Animations start */
+@keyframes show_slow {
+  0% {
+      opacity: 0;
+  }
+
+  100% {
+      opacity: 1;
+  }
+}
+
+/* Animations end */
+.wps-ubo__temp article.wps-ubo__temp-in {
+  padding: 20px 10px;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-wrap {
+  padding: 0 0 32px;
+  margin: 0 0 32px;
+  border-bottom: 1px solid #ddd;
+}
+
+.wps-ubo__temp .wps-ubo__temp-head {
+  margin: 0 0 32px;
+}
+
+.wps-ubo__temp .wps-ubo__temp-title {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.25;
+  margin: 0 0 15px;
+}
+
+.wps-ubo__temp .wps-ubo__temp-desc {
+  font-size: 16px;
+  color: #4b4b4b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod {
+  background: #F1F8FF;
+  border-radius: 16px;
+  padding: 16px;
+  position: relative;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-img {
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: 8px;
+}
+
+#wps-ubo__temp-sec .wps-ubo__temp-prod-img img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-check {
+  display: none;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-offer {
+  background: #218D26;
+  color: #fff;
+  padding: 19px 4px 24px;
+  position: absolute;
+  top: 0;
+  left: 25px;
+  clip-path: polygon(100% 0, 100% 100%, 50% 85%, 0 100%, 0 0);
+  font-weight: 800;
+  font-size: 10px;
+  text-align: center;
+  letter-spacing: 0.4px;
+  line-height: 1.5;
+  max-width: 55px;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-title {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 16px 0 0;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-rate {
+  margin: 8px 0 0;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-rate-value {
+  display: inline-block;
+  padding: 4px;
+  background: #218D26;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-rate-value i.dashicons {
+  font-size: 12px;
+  margin: 0 0 0 2px;
+  padding: 0;
+  line-height: 1;
+  width: auto;
+  height: auto;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-rate-usr {
+  color: #4B4B4B;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 0 0 8px;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-desc {
+  font-weight: 500;
+  font-size: 14px;
+  margin: 16px 0 0;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-price {
+  margin: 18px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-price-new {
+  font-weight: 700;
+  font-size: 20px;
+  color: #1E1E1E;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-price-old {
+  font-weight: 400;
+  font-size: 20px;
+  color: #8f8f8f;
+  margin: 0;
+  flex: 1;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-price-qty-change {
+  position: relative;
+  padding: 0 30px;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-price-qty-change input[type=number] {
+  background: #fff;
+  box-shadow: none;
+  border: 1px solid #ddd;
+  min-width: 50px;
+  max-width: 70px;
+  padding: 8px 10px;
+  line-height: 1;
+  font-size: 16px;
+  color: #1e1e1e;
+  border-radius: 0;
+  margin: 0;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-price-qty-change input[type=number]:focus {
+  box-shadow: none;
+  outline: none;
+  background: #fff;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-price-qty-change .wps-ubo__qty-btn {
+  width: 30px;
+  display: inline-flex;
+  background: #fff;
+  line-height: 1;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid #dddd;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-price-qty-change .wps-ubo__qty-btn:hover {
+  color: #1e1e1e;
+  background: #ddd;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-price-qty-change .wps-ubo__temp-prod-price-qty-sub {
+  left: 0;
+  border-radius: 5px 0 0 5px;
+  border-right: none;
+}
+
+.wps-ubo__temp .wps-ubo__temp-prod-price-qty-change .wps-ubo__temp-prod-price-qty-add {
+  right: 0;
+  border-radius: 0 5px 5px 0;
+  border-left: none;
+}
+
+.wps-ubo__temp .wps-ubo__temp-btn-wrap .wps-ubo__btn {
+  border-radius: 8px;
+  min-height: 40px;
+  margin: 0;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 8px 16px;
+  background: #0693e322;
+  color: #0693e3;
+  display: none;
+}
+
+.wps-ubo__temp .wps-ubo__btn.wps-active {
+  display: inline-flex;
+  animation: show_slow forwards 1.2s 1;
+  align-items: center;
+}
+
+
+.wps-ubo__temp .wps-ubo__temp-btn-wrap .wps-ubo__btn i {
+  font-size: 24px;
+  margin: 0 10px 0 0;
+  font-weight: 400;
+}
+
+.wps-ubo__temp .wps-ubo__temp-btn-notice {
+  align-items: center;
+  display: none;
+  gap: 5px;
+  color: #4BB543;
+  font-size: 14px;
+}
+
+.wps-ubo__temp .wps-ubo__temp-btn-notice.wps-success {
+  color: #4BB543;
+  display: block;
+  animation: show_slow forwards 1.2s 1;
+}
+
+.wps-ubo__temp .wps-ubo__temp-btn-notice.failure {
+  color: #DC3545;
+  display: block;
+  animation: show_slow forwards 1.2s 1;
+}
+
+/* button position center */
+.wps-ubo__temp .wps-ubo__temp-btn-wrap.wps-center {
+  text-align: center;
+}
+
+/* button position left */
+.wps-ubo__temp .wps-ubo__temp-btn-wrap.wps-left {
+  text-align: left;
+}
+
+/* button position right */
+.wps-ubo__temp .wps-ubo__temp-btn-wrap.wps-right {
+  text-align: right;
+}
+
+
+@media screen and (max-width:768px) {
+  .wps-ubo__temp .wps-ubo__temp-title {
+      font-size: 24px;
+  }
+}
+
+/* Layout Horizontal-LTR & RTL start */
+
+.wps-ubo__temp.wps-horizontal-ltr .wps-ubo__temp-prod-title,
+.wps-ubo__temp.wps-horizontal-rtl .wps-ubo__temp-prod-title {
+  margin: 0;
+}
+
+.wps-ubo__temp.wps-horizontal-rtl .wps-ubo__temp-prod,
+.wps-ubo__temp.wps-horizontal-ltr .wps-ubo__temp-prod {
+  display: flex;
+  gap: 20px;
+  padding: 0;
+}
+
+.wps-ubo__temp.wps-horizontal-ltr .wps-ubo__temp-prod-content,
+.wps-ubo__temp.wps-horizontal-rtl .wps-ubo__temp-prod-content {
+  flex: 1 0 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.wps-ubo__temp.wps-horizontal-ltr .wps-ubo__temp-prod-desc,
+.wps-ubo__temp.wps-horizontal-rtl .wps-ubo__temp-prod-desc {
+  flex: 1;
+}
+
+/* Layout Horizontal-LTR & RTL end */
+
+/* Layout Horizontal-LTR start */
+.wps-ubo__temp.wps-horizontal-ltr .wps-ubo__temp-prod {
+  flex-direction: row-reverse;
+}
+
+.wps-ubo__temp.wps-ubo__temp.wps-horizontal-ltr .wps-ubo__temp-prod-offer {
+  left: unset;
+  right: 25px;
+}
+
+.wps-ubo__temp.wps-horizontal-ltr .wps-ubo__temp-prod-content {
+  padding: 15px 0 15px 15px;
+}
+
+/* Layout Horizontal-LTR end */
+/* Layout Horizontal-RTL start */
+
+.wps-ubo__temp.wps-horizontal-rtl .wps-ubo__temp-prod-content {
+  padding: 15px 15px 15px 0;
+}
+
+/* Layout Horizontal-RTL end */
+/* Layout hybrid start */
+
+
+.wps-ubo__temp.wps-hybrid article.wps-ubo__temp-in {
+  padding: 15px 15px 25px;
+  display: flex;
+}
+
+.wps-ubo__temp.wps-hybrid .wps-ubo__temp-main {
+  display: flex;
+  gap: 18px;
+  position: relative;
+}
+
+.wps-ubo__temp.wps-hybrid .wps-ubo__temp-head {
+  margin: 0 0 70px;
+  padding: 0;
+  border-bottom: 1px solid #ddd;
+  flex: 1 0 50%;
+}
+
+.wps-ubo__temp.wps-hybrid .wps-ubo__temp-foot {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.wps-ubo__temp.wps-hybrid .wps-ubo__temp-prod-wrap {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.wps-ubo__temp.wps-hybrid .wps-ubo__temp-btn-wrap {
+  position: relative;
+}
+
+.wps-ubo__temp.wps-hybrid .wps-ubo__temp-btn-notice {
+  position: absolute;
+  bottom: -22px;
+  left: 0;
+}
+
+/* Layout hybrid end */
+/* Layout all start */
+
+@media screen and (max-width:768px) {
+
+  .wps-ubo__temp.wps-horizontal-ltr .wps-ubo__temp-prod,
+  .wps-ubo__temp.wps-horizontal-rtl .wps-ubo__temp-prod {
+      flex-direction: column;
+  }
+
+  .wps-ubo__temp.wps-horizontal-ltr .wps-ubo__temp-prod-content,
+  .wps-ubo__temp.wps-horizontal-rtl .wps-ubo__temp-prod-content {
+      padding: 15px;
+  }
+
+  .wps-ubo__temp.wps-hybrid .wps-ubo__temp-main {
+      display: block;
+  }
+
+  .wps-ubo__temp.wps-hybrid .wps-ubo__temp-head {
+      margin: 0 0 24px;
+      border: none;
+  }
+
+  .wps-ubo__temp.wps-hybrid .wps-ubo__temp-prod-wrap {
+      padding: 0 0 32px;
+      margin: 0 0 32px;
+      border-bottom: 1px solid #ddd;
+  }
+
+  .wps-ubo__temp.wps-hybrid .wps-ubo__temp-foot {
+      position: relative;
+  }
+}
+
+/* Layout all end */
+/* Styling for all Four Templates end */

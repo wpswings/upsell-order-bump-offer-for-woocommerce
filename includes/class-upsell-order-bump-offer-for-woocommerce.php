@@ -239,6 +239,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_nopriv_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
 
 			// Ajax to add bump offer.
+			$this->loader->add_action( 'wp_ajax_m1', $plugin_public, 'm1' );
+			$this->loader->add_action( 'wp_ajax_nopriv_m1', $plugin_public, 'm1' );
+
+			// Ajax to remove bump offer.
+			$this->loader->add_action( 'wp_ajax_m2', $plugin_public, 'm2' );
+			$this->loader->add_action( 'wp_ajax_nopriv_m2', $plugin_public, 'm2' );
+
+			// Ajax to varaition bump offer popup.
+			$this->loader->add_action( 'wp_ajax_m3', $plugin_public, 'm3' );
+			$this->loader->add_action( 'wp_ajax_nopriv_m3', $plugin_public, 'm3' );
+
+			// Ajax to add bump offer.
 			$this->loader->add_action( 'wp_ajax_add_variation_offer_in_cart', $plugin_public, 'add_variation_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_variation_offer_in_cart', $plugin_public, 'add_variation_offer_in_cart' );
 

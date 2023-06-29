@@ -1,5 +1,4 @@
 jQuery(document).ready(function ($) {
-    
     if( 'yes' == wps_ubo_lite_public.wps_popup_body_class && (null == wps_ubo_lite_public.wps_popup_body_class)){
         var body = document.body;
 
@@ -81,6 +80,7 @@ jQuery(document).ready(function ($) {
                                 $("#wps_timer"+ key). css({display: "none"});
                                 document.getElementById("expired_message"+ key).innerHTML = "EXPIRED";
                                 document.getElementById("wps_checkbox_offer"+ key).disabled = true;
+                                $('.wps-ubo__temp-foot').hide();
                             }
                         }
                     }
@@ -507,8 +507,9 @@ jQuery(document).ready(function ($) {
     }
 
     function open_custom_form(form_obj, order_bump_obj) {
-
+        // debugger;
         let form_wrap = form_obj.parent().parent().parent().parent();
+        console.log(form_wrap);
         jQuery('body').css('overflow', 'hidden');
         if (jQuery('.wps-g-modal').hasClass('wps-modal--close')) {
             jQuery('.wps-g-modal').removeClass('wps-modal--close');
@@ -780,10 +781,6 @@ jQuery(document).ready(function ($) {
             }
     }
 
-    $(document).on('click','.cfw-continue-to-payment-btn', function(e){
-        window.location.reload();
-    })
-
     setTimeout(function() { wps_show_pop_up(); }, 1500);
 
     function wps_show_pop_up(){
@@ -841,6 +838,14 @@ jQuery(document).ready(function ($) {
             $('[popup-name="' + popup_name + '"]').fadeOut(300);
             }).children().click(function() {
             return false;
+            });
+
+            //Increase and descrease the quantity value on bump offer.
+            $(document).on('click', '.wps-ubo__temp-prod-price-qty-add', function (e) {
+            document.getElementById("inputtag").value++;;
+            });
+            $(document).on('click', '.wps-ubo__temp-prod-price-qty-sub', function (e) {
+            document.getElementById("inputtag").value--;
             });
     // END OF SCRIPT
 });
