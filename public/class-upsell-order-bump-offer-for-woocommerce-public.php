@@ -77,8 +77,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 
 		$current_theme = wp_get_theme();
-		if('Avada' != $current_theme->get( 'Name' )){
-		wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
+		if ( 'Avada' != $current_theme->get( 'Name' ) ) {
+			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
 		}
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
@@ -111,32 +111,32 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$wps_is_checkout_page = false;
 		$wps_popup_body_class = 'No';
 
-		//To check the checkout page is there or not for jquery.
-		if( function_exists('is_checkout') || is_checkout()){
+		// To check the checkout page is there or not for jquery.
+		if ( function_exists( 'is_checkout' ) || is_checkout() ) {
 			$wps_is_checkout_page = true;
 		}
 
 		$current_theme = wp_get_theme();
 
-		//Enable the bump offer with or without pop-up.
+		// Enable the bump offer with or without pop-up.
 		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
 		$wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : 'on';
-		if('without_popup' == $wps_bump_target_popup_bump){
-		$wps_popup_body_class = 'yes';
+		if ( 'without_popup' == $wps_bump_target_popup_bump ) {
+			$wps_popup_body_class = 'yes';
 		}
 
 		// Public Script.
 		wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( 'wps-ubo-lite-public-script-new', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script_new_template.js', array( 'jquery' ), $this->version, false );
-		
+
 		// Localizing Array.
 		$local_arr = array(
 			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
 			'mobile_view' => wp_is_mobile(),
 			'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce' ),
 			'current_theme' => $current_theme->get( 'Name' ),
-			'is_checkout_page'=> $wps_is_checkout_page,
-			'wps_popup_body_class' =>$wps_popup_body_class,
+			'is_checkout_page' => $wps_is_checkout_page,
+			'wps_popup_body_class' => $wps_popup_body_class,
 		);
 
 		// Timer Functionality starts.
@@ -186,8 +186,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			wp_enqueue_script( 'zoom-script', plugins_url( '/js/zoom-script.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 		}
 
-		if('Avada' != $current_theme->get( 'Name' )){
-		wp_enqueue_script( 'script_slick_js', plugins_url( '/js/slick.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
+		if ( 'Avada' != $current_theme->get( 'Name' ) ) {
+			wp_enqueue_script( 'script_slick_js', plugins_url( '/js/slick.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 		}
 
 	}
@@ -557,7 +557,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function add_variation_offer_in_cart() {
 
-		// check_ajax_referer( 'wps_ubo_lite_nonce', 'nonce' );
+		check_ajax_referer( 'wps_ubo_lite_nonce', 'nonce' );
 
 		// Contains selected variation ID.
 		$variation_id = ! empty( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';
@@ -1473,268 +1473,283 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		wps_ubo_session_destroy();
 	}
 
-public function m1(){
-// The id of the offer to be added.
-$bump_product_id = ! empty( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';
-
-$bump_discounted_price = ! empty( $_POST['discount'] ) ? sanitize_text_field( wp_unslash( $_POST['discount'] ) ) : '';
-$bump_index            = ! empty( $_POST['bump_index'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
-$bump_target_cart_key  = ! empty( $_POST['bump_target_cart_key'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_target_cart_key'] ) ) : '';
-$order_bump_id         = ! empty( $_POST['order_bump_id'] ) ? sanitize_text_field( wp_unslash( $_POST['order_bump_id'] ) ) : '';
-$smart_offer_upgrade   = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
-$form_data             = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : array();
-
-// Quantity of product.
-$wps_qty_variable = ! empty( $_POST['wps_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_qty_variable'] ) ) : '1';
-
-$active_plugin = get_option( 'active_plugins', false );
-if ( in_array( 'woo-gift-cards-lite/woocommerce_gift_cards_lite.php', $active_plugin, true ) && wps_ubo_lite_if_pro_exists() && ! empty( $form_data ) ) {
-	$gift_card_form = array(
-		'wps_wgm_to_email'      => '',
-		'wps_wgm_from_name'     => '',
-		'wps_wgm_message'       => '',
-		'delivery_method'       => '',
-		'wps_wgm_price'         => '',
-		'wps_wgm_selected_temp' => '',
-	);
-	$gift_card_data = get_post_meta( $bump_product_id, 'wps_wgm_pricing' );
-	foreach ( $gift_card_data as $key => $value ) {
-		$gift_card_form = array_merge(
-			$gift_card_form,
-			array(
-				'wps_wgm_price'         => $value['default_price'],
-				'wps_wgm_selected_temp' => $value['template'][0],
-			)
-		);
-	}
-
-	foreach ( $form_data as $key => $value ) {
-		if ( 'from' === $value['name'] ) {
-			$gift_card_form = array_merge( $gift_card_form, array( 'wps_wgm_from_name' => $value['value'] ) );
-		} elseif ( 'gift message' === $value['name'] ) {
-			$gift_card_form = array_merge( $gift_card_form, array( 'wps_wgm_message' => $value['value'] ) );
-		} elseif ( 'mail to recepient' === $value['name'] ) {
-			$gift_card_form = array_merge( $gift_card_form, array( 'wps_wgm_to_email' => $value['value'] ) );
-		}
-	}
-
-	$cart_item_data = array(
-		'wps_ubo_offer_product' => true,
-		'wps_ubo_offer_index'   => $bump_index,
-		'wps_ubo_bump_id'       => $order_bump_id,
-		'wps_discounted_price'  => $bump_discounted_price,
-		'wps_ubo_target_key'    => $bump_target_cart_key,
-		'flag_' . uniqid()      => true,
-		'wps_ubo_meta_form'     => $form_data,
-		'product_meta'          => array( 'meta_data' => $gift_card_form ),
-	);
-} else {
-	$cart_item_data = array(
-		'wps_ubo_offer_product' => true,
-		'wps_ubo_offer_index'   => $bump_index,
-		'wps_ubo_bump_id'       => $order_bump_id,
-		'wps_discounted_price'  => $bump_discounted_price,
-		'wps_ubo_target_key'    => $bump_target_cart_key,
-		'flag_' . uniqid()      => true,
-		'wps_ubo_meta_form'     => $form_data,
-	);
-}
-
-$_product = wc_get_product( $bump_product_id );
-
-$added = 'added';
-
-if ( wps_ubo_lite_reload_required_after_adding_offer( $_product ) ) {
-
-	$added = 'subs_reload';
-}
-
-if ( ! empty( $_product ) && $_product->has_child() ) {
-
-	// Generate default price html.
-	$bump_price_html = wps_ubo_lite_custom_price_html( $bump_product_id, $bump_discounted_price );
-
-	$response = array(
-		'key'     => 'true',
-		'message' => $bump_price_html,
-	);
-
-	// Now we have to add a pop up.
-	echo wp_json_encode( $response );
-
-} elseif ( ! empty( $_product ) ) {
-
-	// If simple product or any single variations.
-	// Add to cart the same.
-
-	$bump_offer_cart_item_key = WC()->cart->add_to_cart( $bump_product_id, $quantity = $wps_qty_variable, $variation_id = 0, $variation = array(), $cart_item_data );
-
-	// Add Order Bump Offer Accept Count for the respective Order Bump.
-	$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
-	$sales_by_bump->add_offer_accept_count();
-
-	WC()->session->set( 'bump_offer_status', 'added' );
-	WC()->session->set( "bump_offer_status_$bump_index", $bump_offer_cart_item_key );
-
-	// Smart offer Upgrade.
-	if ( wps_ubo_lite_if_pro_exists() && 'yes' === $smart_offer_upgrade ) {
-
-		// Get all saved bumps.
-		$wps_ubo_bump_callback          = Upsell_Order_Bump_Offer_For_Woocommerce::$wps_upsell_bump_list_callback_function;
-		$wps_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$wps_ubo_bump_callback();
-
-		$encountered_bump_array = ! empty( $wps_ubo_offer_array_collection[ $order_bump_id ] ) ? $wps_ubo_offer_array_collection[ $order_bump_id ] : array();
-
-		$wps_upsell_bump_replace_target = ! empty( $encountered_bump_array['wps_ubo_offer_replace_target'] ) ? $encountered_bump_array['wps_ubo_offer_replace_target'] : '';
-
-		if ( 'yes' === $wps_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'wps_ubo_upgrade_offer' ) ) {
-
-			Upsell_Order_Bump_Offer_For_Woocommerce_Pro::wps_ubo_upgrade_offer( $bump_offer_cart_item_key, $bump_target_cart_key );
-		}
-	}
-
 	/**
-	 * After v1.3.0 (pro)
-	 * Apply Exclusive Limits in case of pro is active.
+	 * Add selected product product to cart ( by button )
+	 *
+	 * @since    1.0.0
 	 */
-	if ( wps_ubo_lite_if_pro_exists() ) {
-		if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
-			if ( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'wps_ubo_manage_exclusive_limit' ) ) {
-				$single_bump_id = str_replace( 'index_', '', $bump_index );
-				if ( true === Upsell_Order_Bump_Offer_For_Woocommerce_Pro::wps_ubo_manage_exclusive_limit( $single_bump_id ) ) {
-					$associations = WC()->session->get( 'bump_offer_associations' );
+	public function wps_add_the_product() {
+		// The id of the offer to be added.
+		check_ajax_referer( 'wps_ubo_lite_nonce', 'nonce' );
+		$bump_product_id = ! empty( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';
 
-					if ( null !== $associations ) {
-						$associations .= '___';
-					} else {
-						$associations = '';
-					}
+		$bump_discounted_price = ! empty( $_POST['discount'] ) ? sanitize_text_field( wp_unslash( $_POST['discount'] ) ) : '';
+		$bump_index            = ! empty( $_POST['bump_index'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
+		$bump_target_cart_key  = ! empty( $_POST['bump_target_cart_key'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_target_cart_key'] ) ) : '';
+		$order_bump_id         = ! empty( $_POST['order_bump_id'] ) ? sanitize_text_field( wp_unslash( $_POST['order_bump_id'] ) ) : '';
+		$smart_offer_upgrade   = ! empty( $_POST['smart_offer_upgrade'] ) ? sanitize_text_field( wp_unslash( $_POST['smart_offer_upgrade'] ) ) : '';
+		$form_data             = ! empty( $_POST['form_data'] ) ? map_deep( wp_unslash( $_POST['form_data'] ), 'sanitize_text_field' ) : array();
 
-					$associations .= $bump_index;
+		// Quantity of product.
+		$wps_qty_variable = ! empty( $_POST['wps_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_qty_variable'] ) ) : '1';
 
-					WC()->session->set( 'bump_offer_associations', $associations );
+		$active_plugin = get_option( 'active_plugins', false );
+		if ( in_array( 'woo-gift-cards-lite/woocommerce_gift_cards_lite.php', $active_plugin, true ) && wps_ubo_lite_if_pro_exists() && ! empty( $form_data ) ) {
+			$gift_card_form = array(
+				'wps_wgm_to_email'      => '',
+				'wps_wgm_from_name'     => '',
+				'wps_wgm_message'       => '',
+				'delivery_method'       => '',
+				'wps_wgm_price'         => '',
+				'wps_wgm_selected_temp' => '',
+			);
+			$gift_card_data = get_post_meta( $bump_product_id, 'wps_wgm_pricing' );
+			foreach ( $gift_card_data as $key => $value ) {
+				$gift_card_form = array_merge(
+					$gift_card_form,
+					array(
+						'wps_wgm_price'         => $value['default_price'],
+						'wps_wgm_selected_temp' => $value['template'][0],
+					)
+				);
+			}
+
+			foreach ( $form_data as $key => $value ) {
+				if ( 'from' === $value['name'] ) {
+					$gift_card_form = array_merge( $gift_card_form, array( 'wps_wgm_from_name' => $value['value'] ) );
+				} elseif ( 'gift message' === $value['name'] ) {
+					$gift_card_form = array_merge( $gift_card_form, array( 'wps_wgm_message' => $value['value'] ) );
+				} elseif ( 'mail to recepient' === $value['name'] ) {
+					$gift_card_form = array_merge( $gift_card_form, array( 'wps_wgm_to_email' => $value['value'] ) );
 				}
 			}
+
+			$cart_item_data = array(
+				'wps_ubo_offer_product' => true,
+				'wps_ubo_offer_index'   => $bump_index,
+				'wps_ubo_bump_id'       => $order_bump_id,
+				'wps_discounted_price'  => $bump_discounted_price,
+				'wps_ubo_target_key'    => $bump_target_cart_key,
+				'flag_' . uniqid()      => true,
+				'wps_ubo_meta_form'     => $form_data,
+				'product_meta'          => array( 'meta_data' => $gift_card_form ),
+			);
+		} else {
+			$cart_item_data = array(
+				'wps_ubo_offer_product' => true,
+				'wps_ubo_offer_index'   => $bump_index,
+				'wps_ubo_bump_id'       => $order_bump_id,
+				'wps_discounted_price'  => $bump_discounted_price,
+				'wps_ubo_target_key'    => $bump_target_cart_key,
+				'flag_' . uniqid()      => true,
+				'wps_ubo_meta_form'     => $form_data,
+			);
 		}
-	}
 
-	echo wp_json_encode( $added );
-}
+		$_product = wc_get_product( $bump_product_id );
 
-wp_die();
-}
+		$added = 'added';
 
+		if ( wps_ubo_lite_reload_required_after_adding_offer( $_product ) ) {
 
-public function m2(){
-	$bump_index = ! empty( $_POST['bump_index'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
-
-	if ( null !== WC()->session->get( "bump_offer_status_$bump_index" ) ) {
-
-		WC()->cart->remove_cart_item( WC()->session->get( "bump_offer_status_$bump_index" ) );
-	}
-
-	WC()->session->__unset( "bump_offer_status_$bump_index" );
-
-	/**
-	 * After v1.3.0 (pro)
-	 * Apply Exclusive Limits in case of pro is active.
-	 */
-	if ( wps_ubo_lite_if_pro_exists() ) {
-
-		if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
-			if ( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'wps_ubo_manage_exclusive_limit' ) ) {
-				$single_bump_id = str_replace( 'index_', '', $bump_index );
-				if ( true === Upsell_Order_Bump_Offer_For_Woocommerce_Pro::wps_ubo_manage_exclusive_limit( $single_bump_id ) ) {
-					$associations = WC()->session->get( 'bump_offer_associations' );
-					$associations = array_unique( explode( '___', $associations ) );
-					$key          = array_search( $bump_index, $associations, true );
-					unset( $associations[ $key ] );
-					WC()->session->set( 'bump_offer_associations', implode( '___', $associations ) );
-				}
-			}
+			$added = 'subs_reload';
 		}
-	}
 
-	echo wp_json_encode( 'removed' );
+		if ( ! empty( $_product ) && $_product->has_child() ) {
 
-	wp_die();
-}
+			// Generate default price html.
+			$bump_price_html = wps_ubo_lite_custom_price_html( $bump_product_id, $bump_discounted_price );
 
-public function m3(){
-
-	$bump_offer_id = ! empty( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';  // variation parent.
-
-	$bump_offer_discount = ! empty( $_POST['discount'] ) ? sanitize_text_field( wp_unslash( $_POST['discount'] ) ) : '';
-
-	$attributes_selected_options = ! empty( $_POST['attributes_selected_options'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['attributes_selected_options'] ) ) : array();
-
-	// Got all values to search for variation id from selected attributes.
-	$product = wc_get_product( $bump_offer_id );
-
-	if ( empty( $product ) ) {
-
-		echo wp_json_encode( esc_html__( 'Product Not Found.', 'upsell-order-bump-offer-for-woocommerce' ) );
-		return;
-	}
-
-	$product_data_store         = new WC_Product_Data_Store_CPT();
-	$variation_id               = $product_data_store->find_matching_product_variation( $product, $attributes_selected_options );
-	$selected_variation_product = wc_get_product( $variation_id );
-
-	// Image to reflect on select change.
-	$image_id = get_post_thumbnail_id( $variation_id );
-
-	if ( ! empty( $image_id ) ) {
-
-		$html           = wc_get_gallery_image_html( $image_id, true );
-		$bump_var_image = apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, $image_id );
-
-	} else {
-
-		// If no variation image is present show default one.
-		$bump_var_image = wps_ubo_lite_get_bump_image( $bump_offer_id );
-	}
-
-	// Variation id will be empty if selected variation is not available.
-	if ( empty( $variation_id ) || empty( $selected_variation_product ) ) {
-
-		$response = array(
-			'key'     => 'not_available',
-			'message' => '<p class="stock out-of-stock">' . esc_html__( 'Sorry, this variation is not available.', 'upsell-order-bump-offer-for-woocommerce' ) . '</p>',
-			'image'   => $bump_var_image,
-		);
-		echo wp_json_encode( $response );
-
-	} else {
-
-		// Check if in stock?
-		if ( ! $selected_variation_product->is_in_stock() ) {
-
-			// Out of stock.
 			$response = array(
-
-				'key'     => 'stock',
-				'message' => '<p class="stock out-of-stock">' . esc_html__( 'Out of stock.', 'upsell-order-bump-offer-for-woocommerce' ) . '</p>',
-				'image'   => $bump_var_image,
+				'key'     => 'true',
+				'message' => $bump_price_html,
 			);
 
+			// Now we have to add a pop up.
+			echo wp_json_encode( $response );
+
+		} elseif ( ! empty( $_product ) ) {
+
+			// If simple product or any single variations.
+			// Add to cart the same.
+
+			$bump_offer_cart_item_key = WC()->cart->add_to_cart( $bump_product_id, $quantity = $wps_qty_variable, $variation_id = 0, $variation = array(), $cart_item_data );
+
+			// Add Order Bump Offer Accept Count for the respective Order Bump.
+			$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
+			$sales_by_bump->add_offer_accept_count();
+
+			WC()->session->set( 'bump_offer_status', 'added' );
+			WC()->session->set( "bump_offer_status_$bump_index", $bump_offer_cart_item_key );
+
+			// Smart offer Upgrade.
+			if ( wps_ubo_lite_if_pro_exists() && 'yes' === $smart_offer_upgrade ) {
+
+				// Get all saved bumps.
+				$wps_ubo_bump_callback          = Upsell_Order_Bump_Offer_For_Woocommerce::$wps_upsell_bump_list_callback_function;
+				$wps_ubo_offer_array_collection = Upsell_Order_Bump_Offer_For_Woocommerce::$wps_ubo_bump_callback();
+
+				$encountered_bump_array = ! empty( $wps_ubo_offer_array_collection[ $order_bump_id ] ) ? $wps_ubo_offer_array_collection[ $order_bump_id ] : array();
+
+				$wps_upsell_bump_replace_target = ! empty( $encountered_bump_array['wps_ubo_offer_replace_target'] ) ? $encountered_bump_array['wps_ubo_offer_replace_target'] : '';
+
+				if ( 'yes' === $wps_upsell_bump_replace_target && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) && method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'wps_ubo_upgrade_offer' ) ) {
+
+					Upsell_Order_Bump_Offer_For_Woocommerce_Pro::wps_ubo_upgrade_offer( $bump_offer_cart_item_key, $bump_target_cart_key );
+				}
+			}
+
+			/**
+			 * After v1.3.0 (pro)
+			 * Apply Exclusive Limits in case of pro is active.
+			 */
+			if ( wps_ubo_lite_if_pro_exists() ) {
+				if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+					if ( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'wps_ubo_manage_exclusive_limit' ) ) {
+						$single_bump_id = str_replace( 'index_', '', $bump_index );
+						if ( true === Upsell_Order_Bump_Offer_For_Woocommerce_Pro::wps_ubo_manage_exclusive_limit( $single_bump_id ) ) {
+							$associations = WC()->session->get( 'bump_offer_associations' );
+
+							if ( null !== $associations ) {
+								$associations .= '___';
+							} else {
+								$associations = '';
+							}
+
+							$associations .= $bump_index;
+
+							WC()->session->set( 'bump_offer_associations', $associations );
+						}
+					}
+				}
+			}
+
+			echo wp_json_encode( $added );
+		}
+
+		wp_die();
+	}
+
+	/**
+	 * Remove the selected variation as bump offer product to cart ( by button )
+	 *
+	 * @since    1.0.0
+	 */
+	public function wps_remove_offer_product() {
+		check_ajax_referer( 'wps_ubo_lite_nonce', 'nonce' );
+		$bump_index = ! empty( $_POST['bump_index'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
+
+		if ( null !== WC()->session->get( "bump_offer_status_$bump_index" ) ) {
+
+			WC()->cart->remove_cart_item( WC()->session->get( "bump_offer_status_$bump_index" ) );
+		}
+
+		WC()->session->__unset( "bump_offer_status_$bump_index" );
+
+		/**
+		 * After v1.3.0 (pro)
+		 * Apply Exclusive Limits in case of pro is active.
+		 */
+		if ( wps_ubo_lite_if_pro_exists() ) {
+
+			if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+				if ( method_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro', 'wps_ubo_manage_exclusive_limit' ) ) {
+					$single_bump_id = str_replace( 'index_', '', $bump_index );
+					if ( true === Upsell_Order_Bump_Offer_For_Woocommerce_Pro::wps_ubo_manage_exclusive_limit( $single_bump_id ) ) {
+						$associations = WC()->session->get( 'bump_offer_associations' );
+						$associations = array_unique( explode( '___', $associations ) );
+						$key          = array_search( $bump_index, $associations, true );
+						unset( $associations[ $key ] );
+						WC()->session->set( 'bump_offer_associations', implode( '___', $associations ) );
+					}
+				}
+			}
+		}
+
+		echo wp_json_encode( 'removed' );
+
+		wp_die();
+	}
+
+	/**
+	 * Add selected variation as bump offer product to cart ( by button )
+	 *
+	 * @since    1.0.0
+	 */
+	public function wps_variation_select_added() {
+		check_ajax_referer( 'wps_ubo_lite_nonce', 'nonce' );
+		$bump_offer_id = ! empty( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';  // variation parent.
+
+		$bump_offer_discount = ! empty( $_POST['discount'] ) ? sanitize_text_field( wp_unslash( $_POST['discount'] ) ) : '';
+
+		$attributes_selected_options = ! empty( $_POST['attributes_selected_options'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['attributes_selected_options'] ) ) : array();
+
+		// Got all values to search for variation id from selected attributes.
+		$product = wc_get_product( $bump_offer_id );
+
+		if ( empty( $product ) ) {
+
+			echo wp_json_encode( esc_html__( 'Product Not Found.', 'upsell-order-bump-offer-for-woocommerce' ) );
+			return;
+		}
+
+		$product_data_store         = new WC_Product_Data_Store_CPT();
+		$variation_id               = $product_data_store->find_matching_product_variation( $product, $attributes_selected_options );
+		$selected_variation_product = wc_get_product( $variation_id );
+
+		// Image to reflect on select change.
+		$image_id = get_post_thumbnail_id( $variation_id );
+
+		if ( ! empty( $image_id ) ) {
+
+			$html           = wc_get_gallery_image_html( $image_id, true );
+			$bump_var_image = apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, $image_id );
+
+		} else {
+
+			// If no variation image is present show default one.
+			$bump_var_image = wps_ubo_lite_get_bump_image( $bump_offer_id );
+		}
+
+		// Variation id will be empty if selected variation is not available.
+		if ( empty( $variation_id ) || empty( $selected_variation_product ) ) {
+
+			$response = array(
+				'key'     => 'not_available',
+				'message' => '<p class="stock out-of-stock">' . esc_html__( 'Sorry, this variation is not available.', 'upsell-order-bump-offer-for-woocommerce' ) . '</p>',
+				'image'   => $bump_var_image,
+			);
 			echo wp_json_encode( $response );
 
 		} else {
 
-			$response = array(
-				'key'     => $variation_id,
-				'message' => wps_ubo_lite_custom_price_html( $variation_id, $bump_offer_discount ),
-				'image'   => $bump_var_image,
-			);
+			// Check if in stock?
+			if ( ! $selected_variation_product->is_in_stock() ) {
 
-			echo wp_json_encode( $response );
+				// Out of stock.
+				$response = array(
+
+					'key'     => 'stock',
+					'message' => '<p class="stock out-of-stock">' . esc_html__( 'Out of stock.', 'upsell-order-bump-offer-for-woocommerce' ) . '</p>',
+					'image'   => $bump_var_image,
+				);
+
+				echo wp_json_encode( $response );
+
+			} else {
+
+				$response = array(
+					'key'     => $variation_id,
+					'message' => wps_ubo_lite_custom_price_html( $variation_id, $bump_offer_discount ),
+					'image'   => $bump_var_image,
+				);
+
+				echo wp_json_encode( $response );
+			}
 		}
+
+		wp_die();
 	}
-
-
-	wp_die();
-}
 
 	// End of class.
 }

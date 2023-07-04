@@ -1021,7 +1021,7 @@ margin: 10px 0;
     padding: 19px 4px 24px;
     position: absolute;
     top: 0;
-    left: 25px;
+    left: -30px;
     clip-path: polygon(100% 0, 100% 100%, 50% 85%, 0 100%, 0 0);
     font-weight: 800;
     font-size: 10px;
@@ -1357,3 +1357,9 @@ margin: 10px 0;
 
 /* Layout all end */
 /* Styling for all Four Templates end */
+.wps-ubo__temp-in {
+    background-color : white !important
+    }
+    .wps_hide_checkbox {
+    display : none !important 
+    }

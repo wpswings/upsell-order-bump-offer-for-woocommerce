@@ -239,16 +239,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_nopriv_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
 
 			// Ajax to add bump offer.
-			$this->loader->add_action( 'wp_ajax_m1', $plugin_public, 'm1' );
-			$this->loader->add_action( 'wp_ajax_nopriv_m1', $plugin_public, 'm1' );
+			$this->loader->add_action( 'wp_ajax_wps_add_the_product', $plugin_public, 'wps_add_the_product' );
+			$this->loader->add_action( 'wp_ajax_nopriv_wps_add_the_product', $plugin_public, 'wps_add_the_product' );
 
 			// Ajax to remove bump offer.
-			$this->loader->add_action( 'wp_ajax_m2', $plugin_public, 'm2' );
-			$this->loader->add_action( 'wp_ajax_nopriv_m2', $plugin_public, 'm2' );
+			$this->loader->add_action( 'wp_ajax_wps_remove_offer_product', $plugin_public, 'wps_remove_offer_product' );
+			$this->loader->add_action( 'wp_ajax_nopriv_wps_remove_offer_product', $plugin_public, 'wps_remove_offer_product' );
 
 			// Ajax to varaition bump offer popup.
-			$this->loader->add_action( 'wp_ajax_m3', $plugin_public, 'm3' );
-			$this->loader->add_action( 'wp_ajax_nopriv_m3', $plugin_public, 'm3' );
+			$this->loader->add_action( 'wp_ajax_wps_variation_select_added', $plugin_public, 'wps_variation_select_added' );
+			$this->loader->add_action( 'wp_ajax_nopriv_wps_variation_select_added', $plugin_public, 'wps_variation_select_added' );
 
 			// Ajax to add bump offer.
 			$this->loader->add_action( 'wp_ajax_add_variation_offer_in_cart', $plugin_public, 'add_variation_offer_in_cart' );

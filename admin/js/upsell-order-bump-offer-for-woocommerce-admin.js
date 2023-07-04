@@ -696,7 +696,7 @@ jQuery(document).ready( function($) {
 		}
 	});
 
-	$('#wps_ubo_premium_popup_4_template,#wps_ubo_premium_popup_3_template,#wps_ubo_premium_popup_5_template').on( 'click', function (e) {
+	$('#wps_ubo_premium_popup_4_template,#wps_ubo_premium_popup_3_template,#wps_ubo_premium_popup_5_template,#wps_ubo_premium_popup_6_template,#wps_ubo_premium_popup_7_template,#wps_ubo_premium_popup_8_template,#wps_ubo_premium_popup_9_template').on( 'click', function (e) {
 
 		// Add popup to unlock pro features.
 		var pro_status = document.getElementById( 'wps_ubo_pro_status' );

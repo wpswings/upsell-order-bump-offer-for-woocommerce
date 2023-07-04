@@ -16,7 +16,7 @@ $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_def
 // Check enability of the plugin at settings page. By default plugin will be enabled.
 $wps_bump_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : 'on';
 
-//Enable the bump offer with or without pop-up.
+// Enable the bump offer with or without pop-up.
 $wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : 'on';
 // Get all saved bumps.
 $wps_ubo_bump_callback          = Upsell_Order_Bump_Offer_For_Woocommerce::$wps_upsell_bump_list_callback_function;
@@ -123,118 +123,118 @@ $encountered_bump_ids_array = array_merge( $bump_priority_collection, $encounter
 
 $encountered_bump_ids_array = array_unique( $encountered_bump_ids_array );
 
-if('without_popup' == $wps_bump_target_popup_bump){
+if ( 'without_popup' == $wps_bump_target_popup_bump ) {
 
-//Bump offer html section without popup function.
-foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
+	// Bump offer html section without popup function.
+	foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
 
-	if ( true === is_valid_user_role( $order_bump_id ) ) {
-		continue;
-	}
-
-	$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
-	if ( ! empty( $min_cart_value_wps ) ) {
-		$cart_total = WC()->cart->get_cart_contents_total();
-		if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+		if ( true === is_valid_user_role( $order_bump_id ) ) {
 			continue;
 		}
+
+		$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
+		if ( ! empty( $min_cart_value_wps ) ) {
+			$cart_total = WC()->cart->get_cart_contents_total();
+			if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+				continue;
+			}
+		}
+		$encountered_order_bump_id = $order_bump_id;
+
+		if ( ! empty( $encountered_bump_tarket_key_array ) ) {
+			$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
+		}
+
+		$wps_offer_product = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
+		$offer_product = wc_get_product( $wps_offer_product );
+
+		wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
 	}
-	$encountered_order_bump_id = $order_bump_id;
-
-	if ( ! empty( $encountered_bump_tarket_key_array ) ) {
-		$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
-	}
-
-	$wps_offer_product= ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
-	$offer_product = wc_get_product( $wps_offer_product );
-
-	wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
 }
-}
 
-//Bump offer html section with popup function.
-if('with_popup' == $wps_bump_target_popup_bump){
+// Bump offer html section with popup function.
+if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 
-//Only Varaible Bump offer to be show normal even in popup function enable.
-foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
+	// Only Varaible Bump offer to be show normal even in popup function enable.
+	foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
 
-	if ( true === is_valid_user_role( $order_bump_id ) ) {
-		continue;
-	}
-
-	$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
-	if ( ! empty( $min_cart_value_wps ) ) {
-		$cart_total = WC()->cart->get_cart_contents_total();
-		if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+		if ( true === is_valid_user_role( $order_bump_id ) ) {
 			continue;
 		}
+
+		$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
+		if ( ! empty( $min_cart_value_wps ) ) {
+			$cart_total = WC()->cart->get_cart_contents_total();
+			if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+				continue;
+			}
+		}
+		$encountered_order_bump_id = $order_bump_id;
+
+		if ( ! empty( $encountered_bump_tarket_key_array ) ) {
+			$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
+		}
+
+		$wps_offer_product = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
+		$offer_product = wc_get_product( $wps_offer_product );
+
+		if ( $offer_product->is_type( 'variable' ) ) {
+			wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
+		}
 	}
-	$encountered_order_bump_id = $order_bump_id;
 
-	if ( ! empty( $encountered_bump_tarket_key_array ) ) {
-		$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
-	}
-
-	$wps_offer_product= ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
-	$offer_product = wc_get_product( $wps_offer_product );
-
-	if ( $offer_product->is_type( 'variable' ) ) {
-	wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
-	}
-}
-
-//Below is bump offer in pop-up except variable.
-?>
+	// Below is bump offer in pop-up except variable.
+	?>
 <a class="open-button" id="wps_open_modal" popup-open="popup-1" href="javascript:void(0)">click</a>
 
 <div class="popup" id="wps_slider" popup-name="popup-1">
 	<div class="wps-popup-content">
-<?php
-// For Each Order Bump Ids array.
-foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
+	<?php
+	// For Each Order Bump Ids array.
+	foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
 
-	if ( true === is_valid_user_role( $order_bump_id ) ) {
-		continue;
-	}
-
-	$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
-	if ( ! empty( $min_cart_value_wps ) ) {
-		$cart_total = WC()->cart->get_cart_contents_total();
-		if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+		if ( true === is_valid_user_role( $order_bump_id ) ) {
 			continue;
 		}
-	}
 
-	$encountered_order_bump_id = $order_bump_id;
+		$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
+		if ( ! empty( $min_cart_value_wps ) ) {
+			$cart_total = WC()->cart->get_cart_contents_total();
+			if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+				continue;
+			}
+		}
 
-	if ( ! empty( $encountered_bump_tarket_key_array ) ) {
-		$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
-	}
+		$encountered_order_bump_id = $order_bump_id;
 
-	$wps_offer_id = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
-	$offer_product = wc_get_product( $wps_offer_id );
+		if ( ! empty( $encountered_bump_tarket_key_array ) ) {
+			$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
+		}
 
-	if ( ! $offer_product->is_type( 'variable' ) ) {
-		/**
-		 * Passing bump id as key ( 2nd param ) also, so that the index is set according to bump id.
-		 * So that right session index is set and right order bumps remain checked.
-		 */
-		?>
+		$wps_offer_id = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
+		$offer_product = wc_get_product( $wps_offer_id );
+
+		if ( ! $offer_product->is_type( 'variable' ) ) {
+			/**
+			 * Passing bump id as key ( 2nd param ) also, so that the index is set according to bump id.
+			 * So that right session index is set and right order bumps remain checked.
+			 */
+			?>
 		<div class ="wps_bump_offer_modal_wrapper">
-		<?php
-		wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
-		?>
+			<?php
+			wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
+			?>
 	</div>
-		<?php
+			<?php
+		}
 	}
-}
-?>
+	?>
 </div>
 <div class="wps_close_modal">
 <a class="close-button" popup-close="popup-1" href="javascript:void(0)">x</a>
 </div>
 </div>
-<?php
+	<?php
 }
 /**===========================================
 		Order bump html section ends

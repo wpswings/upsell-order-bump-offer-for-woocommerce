@@ -1,20 +1,17 @@
 
 jQuery(document).ready(function ($) {
 function addProduct() {
-    
+    $('.wps_hide_checkbox').hide();
     $(document).on('click', '.wps-ubo__temp-add-btn', function() {
-        // const get= document.getElementById('btn');
-        // get.click();
+
         console.log($(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-prod-check'));
-        // $(this).siblings('.wps-ubo__temp-prod-check').attr('checked', true);  
+ 
         $(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-prod-check').attr('checked', true);
-        // $(this).removeClass('wps-active');
-        $(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-add-btn').removeClass('wps-active');
-        $(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-rmv-btn').addClass('wps-active');
-        // $('.wps-ubo__temp-rmv-btn').addClass('wps-active');
-        // $(this).nextAll('.wps-ubo__temp-btn-notice').children('.wps-notice').html('Product Added!');
+
+        // $(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-add-btn').removeClass('wps-active');
+        // $(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-rmv-btn').addClass('wps-active');
         $(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-btn-notice').children('.wps-notice').html('Product Added!');
-        // $(this).nextAll('.wps-ubo__temp-btn-notice').addClass('wps-success');
+
         $(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-btn-notice').addClass('wps-success');
         setTimeout(function() {
             $(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-btn-notice').removeClass('wps-success');
@@ -36,11 +33,6 @@ function addProduct() {
 
 $(document).ready(function() {
     addProduct();
-//    var m1 =  $('#wps_checkbox_tick_2').is(":checked");
-//    if(m1 == true){
-//     $('.wps-ubo_remove_prod2').addClass('wps-active');
-//     $('.wps-ubo__temp-add-btn').removeClass('wps-active');
-//    }
 });
 
 
@@ -58,28 +50,14 @@ function wps_ubo_lite_intant_zoom_img(selected_order_bump_popup) {
 
 jQuery(document).on('click', '.wps-ubo__temp-add-btn', function (e) {
     order_bump_trigger_obj = jQuery(this);
-    // console.log(order_bump_trigger_obj.closest('.wps-ubo__temp').find('.target_id_cart_key').val());
-    // console.log(order_bump_trigger_obj.closest('.wps-ubo__temp').find('.wps_checkbox_tick'));   wps_checkbox_offer
-    // console.log(order_bump_trigger_obj.closest('.wps-ubo__temp').find('.order_bump_index').val());
-    // console.log(order_bump_trigger_obj.closest('.wps-ubo__temp').find('.order_bump_id').val());
     var order_bump_index = order_bump_trigger_obj.closest('.wps-ubo__temp').find('.order_bump_index').val();
     var order_bump_id = order_bump_trigger_obj.closest('.wps-ubo__temp').find('.order_bump_id').val();
 
     // open_custom_form('', order_bump_trigger_obj);
     $("#wps_checkbox_offer" + order_bump_id).prop("checked", true);
 
-    // var wps_m1 = "#wps_checkbox_tick_" + order_bump_id;
-    // console.log(wps_m1);
-    // console.log( document.getElementById('wps_checkbox_offer1').checked);
     if($("#wps_checkbox_offer" + order_bump_id).prop('checked') == true){
-        //do something
-        // alert('checked');
-    //     if ($('#wps_checkbox_tick_' + order_bump_id).is(":checked")) {
-    //       alert('under checked');
-    //       $('.wps-ubo_remove_prod2').addClass('wps-active');
-    //       $('.wps-ubo__temp-add-btn').removeClass('wps-active');
-    // }
-   
+
             // Check if meta form present.
             let popup_obj = jQuery('#wps-meta-form-index-' + order_bump_id);
 
@@ -179,8 +157,8 @@ function triggerAddOffer(order_bump_trigger_obj){
                     dataType: 'json',
                     url: wps_ubo_lite_public_new.ajaxurl,
                     data: {
-                        // nonce: wps_ubo_lite_public_new.auth_nonce,
-                        action: 'm1',
+                        nonce: wps_ubo_lite_public_new.auth_nonce,
+                        action: 'wps_add_the_product',
                         id: bump_id, // offer product id.
                         discount: bump_discount,
                         bump_target_cart_key: bump_target_cart_key,
@@ -262,8 +240,8 @@ const triggerRemoveOffer = (order_bump_index, order_bump_id) => {
         dataType: 'json',
         url: wps_ubo_lite_public_new.ajaxurl,
         data: {
-            // nonce: wps_ubo_lite_public.auth_nonce,
-            action: 'm2',
+            nonce: wps_ubo_lite_public.auth_nonce,
+            action: 'wps_remove_offer_product',
 
             // Index : index_{ digit }
             bump_index: order_bump_index,
@@ -374,8 +352,8 @@ const triggerRemoveOffer = (order_bump_index, order_bump_id) => {
             dataType: 'json',
             url: wps_ubo_lite_public_new.ajaxurl,
             data: {
-                // nonce: wps_ubo_lite_public.auth_nonce,
-                action: 'm3',
+                nonce: wps_ubo_lite_public.auth_nonce,
+                action: 'wps_variation_select_added',
                 attributes_selected_options: attributes_selected,
                 id: bump_id,
                 discount: bump_discount,
@@ -487,7 +465,6 @@ const triggerRemoveOffer = (order_bump_index, order_bump_id) => {
      * @param {array}  formdata  Custom form object.
      */
          function triggerAddOfferVariation(object, form_data) {
-            alert('yes it is clicked');
             // Prevent mulitple clicks on this button.
             object.prop('disabled', true);
     
@@ -510,8 +487,7 @@ const triggerRemoveOffer = (order_bump_index, order_bump_id) => {
             $value_of_input_field_to_check = object.closest('.wps_bump_popup_select').find('.wps_quantity_input').val();
             $min_attr_value = object.closest('.wps_bump_popup_select').find('.wps_quantity_input').attr('min');
             $max_attr_value = object.closest('.wps_bump_popup_select').find('.wps_quantity_input').attr('max');
-    
-            console.log($value_of_input_field_to_check);
+
 
 
             // if ( ( $min_attr_value != undefined && $min_attr_value != undefined ) ) {
@@ -556,7 +532,7 @@ const triggerRemoveOffer = (order_bump_index, order_bump_id) => {
                 dataType: 'json',
                 url: wps_ubo_lite_public.ajaxurl,
                 data: {
-                    // nonce: wps_ubo_lite_public.auth_nonce,
+                    nonce: wps_ubo_lite_public.auth_nonce,
                     action: 'add_variation_offer_in_cart',
                     id: variation_selected, // variation offer product id.
                     parent_id: bump_id, // variation offer parent product id.
