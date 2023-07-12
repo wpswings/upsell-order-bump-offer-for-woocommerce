@@ -4602,6 +4602,9 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 
 	$product_description_text = $bump['design_text']['wps_bump_offer_decsription_text'];
 
+	// Setting to enable disable permalink.
+	$wps_bump_enable_permalink = ! empty( $wps_ubo_global_options['wps_bump_enable_permalink'] ) ? $wps_ubo_global_options['wps_bump_enable_permalink'] : '';
+
 	$description = $bump['design_text']['wps_upsell_bump_offer_description'];
 
 	// DISCOUNT SECTION( discount_section ).
@@ -4623,10 +4626,17 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 	$secondary_section_text_size        = ! empty( $bump['design_css']['secondary_section_text_size'] ) ? $bump['design_css']['secondary_section_text_size'] : '';
 
 	// SET THE CLASS FOR THE TEMPLATE.
-	$wps_bump_upsell_global_css['wps_class_template_pro']  = 'wps-hybrid';
-	$wps_class_template_pro = ! empty( $bump['design_css']['wps_class_template_pro'] ) ? $bump['design_css']['wps_class_template_pro'] : '';
+	// $wps_bump_upsell_global_css['wps_class_template_pro']  = 'wps-hybrid';.
+	$wps_class_template_pro = ! empty( $bump['design_css']['wps_class_template_pro'] ) ? esc_html( $bump['design_css']['wps_class_template_pro'] ) : '';
 
 	$order_bump_div_id = '#wps_upsell_offer_main_id_' . $encountered_order_bump_id;
+
+	// Add url of the offer product in the bump info.
+	if ( 'on' == $wps_bump_enable_permalink ) {
+		$bump_offer_product_permalink = esc_url_raw( get_permalink( $bump['id'] ) );
+	} else {
+		$bump_offer_product_permalink = '';
+	}
 	?>
 	<!--  CSS goes down here. --> 
 	<style type="text/css">

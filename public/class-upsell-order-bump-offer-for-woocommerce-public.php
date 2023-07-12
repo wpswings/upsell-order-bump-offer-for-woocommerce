@@ -71,17 +71,19 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 */
 
 		// Only enqueue on the Checkout page.
-		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+		if ( is_product() || is_shop() ) {
 
-			return;
+		wp_enqueue_style( $this->plugin_name.'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
+	
 		}
-
+		if ( is_checkout() ) {
 		$current_theme = wp_get_theme();
 		if ( 'Avada' != $current_theme->get( 'Name' ) ) {
 			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
 		}
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
+		}
 	}
 
 	/**
@@ -104,10 +106,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 */
 
 		// Only enqueue on the Checkout page.
-		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+		if ( is_checkout() ) {
 
-			return;
-		}
+
 		$wps_is_checkout_page = false;
 		$wps_popup_body_class = 'No';
 
@@ -190,6 +191,23 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			wp_enqueue_script( 'script_slick_js', plugins_url( '/js/slick.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 		}
 
+	}
+	    if(is_shop() || is_product()){
+		// Localizing Array.
+		$local_arr = array(
+			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
+			'mobile_view' => wp_is_mobile(),
+			'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce_recommend' ),
+		);
+		
+		//Public facing regarding popup.
+		wp_enqueue_script( 'wps-ubo-lite-public-script-for-recommdation', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_recommdation_popup.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script(
+			'wps-ubo-lite-public-script-for-recommdation',
+			'wps_ubo_lite_public_recommendated',
+			$local_arr
+		);
+	}
 	}
 
 	/**
@@ -1750,6 +1768,79 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		wp_die();
 	}
+
+	/**
+	 * Add selected variation as bump offer product to cart ( by button )
+	 *
+	 * @since    1.0.0
+	 */
+	public function wps_add_recommendated_offer_in_popup() {
+		check_ajax_referer( 'wps_ubo_lite_nonce_recommend', 'nonce' );
+        $wps_target_product = isset($_POST['target_product_id']) ? absint($_POST['target_product_id']) : '';
+		$wps_product_id_shop = isset($_POST['wps_product_id_shop']) ? absint($_POST['wps_product_id_shop']) : '';
+		$wps_targeted_varaition_id = isset($_POST['wps_targeted_varaition_id']) ? absint($_POST['wps_targeted_varaition_id']) : '';
+		$wps_show_recommend_product_in_popup = false;
+
+		$wps_product_id_set = '';
+        // var_dump($wps_product_id_shop);
+		if(isset($wps_product_id_shop) && ! empty($wps_product_id_shop)){
+			// var_dump($wps_product_id_shop);
+		 	// die('shop');
+		 $wps_product_id_set = $wps_product_id_shop;
+		} elseif(isset($wps_target_product) && ! empty($wps_target_product)) {
+			// var_dump($wps_target_product);
+			// die('product');
+		 $wps_product_id_set = $wps_target_product;
+		} elseif(isset($wps_targeted_varaition_id) && ! empty($wps_targeted_varaition_id)){
+			$wps_product_id = $wps_targeted_varaition_id;
+			$variation = wc_get_product($wps_product_id);
+			$wps_product_id_set = $variation->get_parent_id();
+		}
+
+        // var_dump($wps_product_id_set);
+		if(isset($wps_product_id_set) && ! empty($wps_product_id_set)){
+			$wps_is_recommendation_enable = get_post_meta( $wps_product_id_set, 'is_recommendation_enable' );
+			$wps_selected_recommendated_product = get_post_meta( $wps_product_id_set,'wps_recommendated_product_ids');
+
+			var_dump($wps_is_recommendation_enable);
+			var_dump($wps_selected_recommendated_product);
+
+			if(( 'yes' == $wps_is_recommendation_enable[0]) && is_array($wps_selected_recommendated_product) && isset($wps_selected_recommendated_product)){
+				$wps_show_recommend_product_in_popup = true;
+			}
+		}
+
+		$response = array(
+			'wps_target_product' => $wps_product_id_set,
+			'wps_show_recommend_product_in_popup'   => $wps_show_recommend_product_in_popup,
+			'cart_item_number' => WC()->cart->get_cart_contents_count(),
+		);
+
+		echo wp_json_encode( $response );
+		wp_die();
+
+	}
+
+	function ql_woocommerce_ajax_add_to_cart() {
+		$product_id = apply_filters('ql_woocommerce_add_to_cart_product_id', absint($_POST['product_id']));
+		$quantity = empty($_POST['quantity']) ? 1 : wc_stock_amount($_POST['quantity']);
+		$variation_id = absint($_POST['variation_id']);
+		$passed_validation = apply_filters('ql_woocommerce_add_to_cart_validation', true, $product_id, $quantity);
+		$product_status = get_post_status($product_id); 
+		if ($passed_validation && WC()->cart->add_to_cart($product_id, $quantity, $variation_id) && 'publish' === $product_status) { 
+			do_action('ql_woocommerce_ajax_added_to_cart', $product_id);
+				if ('yes' === get_option('ql_woocommerce_cart_redirect_after_add')) { 
+					wc_add_to_cart_message(array($product_id => $quantity), true); 
+				}
+				WC_AJAX :: get_refreshed_fragments();
+				} else { 
+					$data = array(
+						'error' => true,
+						'product_url' => apply_filters('ql_woocommerce_cart_redirect_after_error', get_permalink($product_id), $product_id));
+					echo wp_send_json($data);
+				}
+				wp_die();
+			}
 
 	// End of class.
 }

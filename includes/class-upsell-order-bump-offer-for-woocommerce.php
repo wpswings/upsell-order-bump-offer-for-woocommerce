@@ -238,6 +238,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
 
+			//Ajax for the recommdation product.
+			$this->loader->add_action( 'wp_ajax_add_recommendated_offer_in_popup', $plugin_public, 'wps_add_recommendated_offer_in_popup' );
+			$this->loader->add_action( 'wp_ajax_nopriv_add_recommendated_offer_in_popup', $plugin_public, 'wps_add_recommendated_offer_in_popup' );
+
+			//Ajax for Ajac Woocommerce Cart.
+			$this->loader->add_action('wp_ajax_ql_woocommerce_ajax_add_to_cart', $plugin_public,'ql_woocommerce_ajax_add_to_cart'); 
+			$this->loader->add_action('wp_ajax_nopriv_ql_woocommerce_ajax_add_to_cart',$plugin_public, 'ql_woocommerce_ajax_add_to_cart');         
+
 			// Ajax to add bump offer.
 			$this->loader->add_action( 'wp_ajax_wps_add_the_product', $plugin_public, 'wps_add_the_product' );
 			$this->loader->add_action( 'wp_ajax_nopriv_wps_add_the_product', $plugin_public, 'wps_add_the_product' );
