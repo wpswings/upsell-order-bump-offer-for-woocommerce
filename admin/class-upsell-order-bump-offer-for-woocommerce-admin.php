@@ -129,6 +129,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 			if ( 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' === $pagescreen ) {
 
+				$wps_plugin_list = get_option( 'active_plugins' );
+				$wps_is_pro_active = false;
+				$wps_plugin = 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php';
+				if ( in_array( $wps_plugin, $wps_plugin_list ) ) {
+					$wps_is_pro_active = true;
+				}
+
 				wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/select2.min.js', array( 'jquery' ), $this->version, false );
 				wp_enqueue_script( $this->plugin_name . '_sweet_alert', plugin_dir_url( __FILE__ ) . 'js/swal.js', array( 'jquery' ), $this->version, false );
 				wp_enqueue_script( 'wps_ubo_lite_admin_script', plugin_dir_url( __FILE__ ) . 'js/upsell-order-bump-offer-for-woocommerce-admin.js', array( 'jquery' ), $this->version, false );
@@ -153,6 +160,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 							'import_products' => esc_url_raw( admin_url( 'edit.php?post_type=product&page=product_importer' ) ),
 							'export_products' => esc_url_raw( admin_url( 'edit.php?post_type=product&page=product_exporter' ) ),
 						),
+						'is_pro_active' => $wps_is_pro_active ,
 					);
 
 					$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );

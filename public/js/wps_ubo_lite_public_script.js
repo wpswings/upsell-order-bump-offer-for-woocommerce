@@ -849,3 +849,53 @@ jQuery(document).ready(function ($) {
             });
     // END OF SCRIPT
 });
+
+// Evergreen timer Start here.
+jQuery(document).ready(function($) {
+
+    function startTimer(duration, display) {
+        var timer = duration, minutes, seconds;
+        setInterval(function () {
+            hours = parseInt(timer / 3600, 10);
+            minutes = parseInt((timer % 3600) / 60, 10);
+            seconds = parseInt((timer % 3600) % 60, 10);
+        
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          jQuery('#wps_hour_time_' + display).html(hours);
+          jQuery('#wps_min_time_' + display).html(minutes);
+          jQuery('#wps_sec_time_' + display).html(seconds);
+
+          console.log(timer);
+          if (--timer < 0) {
+            // timer = duration;
+            $("#wps_timer"+ display). css({display: "none"});
+            document.getElementById("expired_message"+ display).innerHTML = "EXPIRED";
+            document.getElementById("wps_checkbox_offer"+ display).disabled = true;
+            $('.wps-ubo__temp-foot').hide();
+          }
+        }, 1000);
+      }
+      
+      window.onload = function() {
+        var columns = wps_ubo_lite_public.check_if_reload;
+        var rows = wps_ubo_lite_public.evergreen_timer;
+        var result = [];
+        $.each( rows, function( index, value ) {
+            if ( columns.indexOf( parseInt( index ) ) >= 0 ) {
+              result[index] = value;
+            }
+        } );
+        
+        for (var key in result) {
+            display = key ;
+            var Minutes = result[key]['evegreen_counter'] * 60; //minutes to seconds.
+            startTimer(Minutes, display);
+        } 
+      };
+});
+// Evergreen timer end here.
+
+//Script end here.

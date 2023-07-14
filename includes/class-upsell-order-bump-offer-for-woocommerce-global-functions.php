@@ -1088,8 +1088,9 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	$bumphtml                .= '<div class = "wps_upsell_offer_parent_wrapper" >';
 	$bumphtml                .= '<div id = "wps_admin_timer"></div>';
 	$wps_counter_timer_enable = isset( $bump['counter_timer'] ) ? $bump['counter_timer'] : '';
+	$wps_evergreencounter_timer_enable = isset( $bump['evergreen_counter_timer'] ) ? $bump['evergreen_counter_timer'] : '';
 	// Countdown Timer Section start.
-	if ( 'yes' === $wps_counter_timer_enable && wps_ubo_lite_if_pro_exists() ) {
+	if ( ( 'yes' === $wps_counter_timer_enable || 'yes' == $wps_evergreencounter_timer_enable ) && wps_ubo_lite_if_pro_exists() ) {
 		$bumphtml .= '<div class="expired_message_class" id = "expired_message' . esc_html( $order_bump_key ) . '"></div>';
 		$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section" id ="wps_timer' . esc_html( $order_bump_key ) . '">
 		<div class = "wps_day_timer_block wps-timer-wrap" >
@@ -1234,6 +1235,9 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	// Countdown Timer.
 	$counter_timer = ! empty( $encountered_bump_array['wps_ubo_offer_timer'] ) ? $encountered_bump_array['wps_ubo_offer_timer'] : '';
 
+	//evergreen countdown timer.
+	$evergreen_counter_timer = ! empty( $encountered_bump_array['wps_evergreen_timer_switch'] ) ? $encountered_bump_array['wps_evergreen_timer_switch'] : '';
+
 	$product_image_gallery_slider = ! empty( $encountered_bump_array['wps_ubo_offer_product_image_slider'] ) ? $encountered_bump_array['wps_ubo_offer_product_image_slider'] : '';
 
 	// Smart offer Upgrade.
@@ -1271,6 +1275,11 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	if ( 'yes' === $counter_timer ) {
 
 		$bump['counter_timer'] = 'yes';
+	}
+    // Evergreen Timer.
+	if ( 'yes' === $evergreen_counter_timer ) {
+
+		$bump['evergreen_counter_timer'] = 'yes';
 	}
 
 	// Product Image Gallery.
@@ -3243,8 +3252,9 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 	$bumphtml                .= '<div class="upsell-offer-time">';
 	$bumphtml                .= '<div id = "wps_admin_timer"></div>';
 	$wps_counter_timer_enable = isset( $bump['counter_timer'] ) ? $bump['counter_timer'] : '';
+	$wps_evergreencounter_timer_enable = isset( $bump['evergreen_counter_timer'] ) ? $bump['evergreen_counter_timer'] : '';
 	// Countdown Timer Section start.
-	if ( 'yes' === $wps_counter_timer_enable && wps_ubo_lite_if_pro_exists() ) {
+	if ( ( 'yes' === $wps_counter_timer_enable || 'yes' == $wps_evergreencounter_timer_enable ) && wps_ubo_lite_if_pro_exists() ) {
 		$bumphtml .= '<div class="expired_message_class" id = "expired_message' . esc_html( $order_bump_key ) . '"></div>';
 		$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section" id ="wps_timer' . esc_html( $order_bump_key ) . '">
 		<div class = "wps_day_timer_block wps-timer-wrap" >
@@ -3815,8 +3825,9 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 
 	$bumphtml .= '<div id = "wps_admin_timer"></div>';
 	$wps_counter_timer_enable = isset( $bump['counter_timer'] ) ? $bump['counter_timer'] : '';
+	$wps_evergreencounter_timer_enable = isset( $bump['evergreen_counter_timer'] ) ? $bump['evergreen_counter_timer'] : '';
 	// Countdown Timer Section start.
-	if ( 'yes' === $wps_counter_timer_enable && wps_ubo_lite_if_pro_exists() ) {
+	if ( ( 'yes' === $wps_counter_timer_enable || 'yes' == $wps_evergreencounter_timer_enable ) && wps_ubo_lite_if_pro_exists() ) {
 		$bumphtml .= '<div class="expired_message_class" id = "expired_message' . esc_html( $order_bump_key ) . '"></div>';
 		$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section" id ="wps_timer' . esc_html( $order_bump_key ) . '">
 		<div class = "wps_day_timer_block wps-timer-wrap" >
@@ -4410,8 +4421,9 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 	$bumphtml .= '<div class="upsell-offer-time">';
 	$bumphtml                .= '<div id = "wps_admin_timer"></div>';
 	$wps_counter_timer_enable = isset( $bump['counter_timer'] ) ? $bump['counter_timer'] : '';
+	$wps_evergreencounter_timer_enable = isset( $bump['evergreen_counter_timer'] ) ? $bump['evergreen_counter_timer'] : '';
 	// Countdown Timer Section start.
-	if ( 'yes' === $wps_counter_timer_enable && wps_ubo_lite_if_pro_exists() ) {
+	if ( ( 'yes' === $wps_counter_timer_enable || 'yes' == $wps_evergreencounter_timer_enable ) && wps_ubo_lite_if_pro_exists() ) {
 		$bumphtml .= '<div class="expired_message_class" id = "expired_message' . esc_html( $order_bump_key ) . '"></div>';
 		$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section" id ="wps_timer' . esc_html( $order_bump_key ) . '">
 		<div class = "wps_day_timer_block wps-timer-wrap" >
@@ -4767,8 +4779,9 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 	$bumphtml .= '<div class="upsell-offer-time">';
 	$bumphtml                .= '<div id = "wps_admin_timer"></div>';
 	$wps_counter_timer_enable = isset( $bump['counter_timer'] ) ? $bump['counter_timer'] : '';
+	$wps_evergreencounter_timer_enable = isset( $bump['evergreen_counter_timer'] ) ? $bump['evergreen_counter_timer'] : '';
 	// Countdown Timer Section start.
-	if ( 'yes' === $wps_counter_timer_enable && wps_ubo_lite_if_pro_exists() ) {
+	if ( ( 'yes' === $wps_counter_timer_enable || 'yes' == $wps_evergreencounter_timer_enable ) && wps_ubo_lite_if_pro_exists() ) {
 		$bumphtml .= '<div class="expired_message_class" id = "expired_message' . esc_html( $order_bump_key ) . '"></div>';
 		$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section" id ="wps_timer' . esc_html( $order_bump_key ) . '">
 		<div class = "wps_day_timer_block wps-timer-wrap" >

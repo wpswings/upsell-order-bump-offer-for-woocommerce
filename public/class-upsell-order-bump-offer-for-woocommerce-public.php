@@ -111,6 +111,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$wps_is_checkout_page = false;
 		$wps_popup_body_class = 'No';
+		$wps_ubo_timer_evegreen_countdown = array();
 
 		// To check the checkout page is there or not for jquery.
 		if ( function_exists( 'is_checkout' ) || is_checkout() ) {
@@ -146,6 +147,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
 
 			$wps_ubo_timer_countdown   = array();
+			
 			$encountered_order_bump_id = WC()->session->get( 'encountered_bump_array' );
 			// To fetch the countdown timer for the encountered bump.
 			if ( ! empty( $encountered_order_bump_id ) && ! empty( $wps_upsell_bumps_list ) && ( is_array( $encountered_order_bump_id ) || is_object( $encountered_order_bump_id ) ) ) {
@@ -155,7 +157,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 							'enabled' => 'yes',
 							'counter' => ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_timer'] ) ? $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_timer'] : '',
 						);
+					} elseif ( ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_evergreen_timer_switch'] ) && 'yes' === $wps_upsell_bumps_list[ $order_bump_id ]['wps_evergreen_timer_switch'] ) {
+						$wps_ubo_timer_evegreen_countdown[ $order_bump_id ] = array(
+							'enabled' => 'yes',
+							'evegreen_counter' => ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_evergreen_timer'] ) ? $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_evergreen_timer'] : '',
+						);
 					}
+
 				}
 			} elseif ( empty( $encountered_order_bump_id ) ) {
 				$encountered_order_bump_id = 'reload';
@@ -169,6 +177,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		if ( ! empty( $wps_ubo_timer_countdown ) ) {
 			$local_arr['timer'] = $wps_ubo_timer_countdown;
 		}
+			$local_arr['evergreen_timer'] = $wps_ubo_timer_evegreen_countdown;
 		// Timer Functionality ends.
 
 		wp_localize_script(

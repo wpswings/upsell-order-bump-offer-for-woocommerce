@@ -2,6 +2,11 @@
 	'use strict';
 	$(document).ready(function(){
 
+		var wps_is_pro_active = woocommerce_admin.is_pro_active;
+		if(1 == wps_is_pro_active){
+			$('.wps_ubo_premium_strip').hide()
+		}
+
 		$(document).on('click','.wps_product_info',function(){
             $(this).toggleClass('accordian--active');
             $(this).next('p').slideToggle();
