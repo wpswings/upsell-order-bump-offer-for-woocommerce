@@ -73,16 +73,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Only enqueue on the Checkout page.
 		if ( is_product() || is_shop() ) {
 
-		wp_enqueue_style( $this->plugin_name.'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
-	
+			wp_enqueue_style( $this->plugin_name . 'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
+
 		}
 		if ( is_checkout() ) {
-		$current_theme = wp_get_theme();
-		if ( 'Avada' != $current_theme->get( 'Name' ) ) {
-			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
-		}
+			$current_theme = wp_get_theme();
+			if ( 'Avada' != $current_theme->get( 'Name' ) ) {
+				wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
+			}
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
 		}
 	}
 
@@ -108,115 +108,112 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Only enqueue on the Checkout page.
 		if ( is_checkout() ) {
 
+			$wps_is_checkout_page = false;
+			$wps_popup_body_class = 'No';
+			$wps_ubo_timer_evegreen_countdown = array();
 
-		$wps_is_checkout_page = false;
-		$wps_popup_body_class = 'No';
-		$wps_ubo_timer_evegreen_countdown = array();
+			// To check the checkout page is there or not for jquery.
+			if ( function_exists( 'is_checkout' ) || is_checkout() ) {
+				$wps_is_checkout_page = true;
+			}
 
-		// To check the checkout page is there or not for jquery.
-		if ( function_exists( 'is_checkout' ) || is_checkout() ) {
-			$wps_is_checkout_page = true;
-		}
+			$current_theme = wp_get_theme();
 
-		$current_theme = wp_get_theme();
+			// Enable the bump offer with or without pop-up.
+			$wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
+			$wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : 'on';
+			if ( 'without_popup' == $wps_bump_target_popup_bump ) {
+				$wps_popup_body_class = 'yes';
+			}
 
-		// Enable the bump offer with or without pop-up.
-		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
-		$wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : 'on';
-		if ( 'without_popup' == $wps_bump_target_popup_bump ) {
-			$wps_popup_body_class = 'yes';
-		}
+			// Public Script.
+			wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( 'wps-ubo-lite-public-script-new', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script_new_template.js', array( 'jquery' ), $this->version, false );
 
-		// Public Script.
-		wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( 'wps-ubo-lite-public-script-new', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script_new_template.js', array( 'jquery' ), $this->version, false );
+			// Localizing Array.
+			$local_arr = array(
+				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
+				'mobile_view' => wp_is_mobile(),
+				'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce' ),
+				'current_theme' => $current_theme->get( 'Name' ),
+				'is_checkout_page' => $wps_is_checkout_page,
+				'wps_popup_body_class' => $wps_popup_body_class,
+			);
 
-		// Localizing Array.
-		$local_arr = array(
-			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
-			'mobile_view' => wp_is_mobile(),
-			'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce' ),
-			'current_theme' => $current_theme->get( 'Name' ),
-			'is_checkout_page' => $wps_is_checkout_page,
-			'wps_popup_body_class' => $wps_popup_body_class,
-		);
+			// Timer Functionality starts.
+			if ( isset( WC()->session ) && ! empty( WC()->session->get( 'encountered_bump_array' ) ) ) {
 
-		// Timer Functionality starts.
-		if ( isset( WC()->session ) && ! empty( WC()->session->get( 'encountered_bump_array' ) ) ) {
+				$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
 
-			$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
+				$wps_ubo_timer_countdown   = array();
 
-			$wps_ubo_timer_countdown   = array();
-			
-			$encountered_order_bump_id = WC()->session->get( 'encountered_bump_array' );
-			// To fetch the countdown timer for the encountered bump.
-			if ( ! empty( $encountered_order_bump_id ) && ! empty( $wps_upsell_bumps_list ) && ( is_array( $encountered_order_bump_id ) || is_object( $encountered_order_bump_id ) ) ) {
-				foreach ( $encountered_order_bump_id as $key => $order_bump_id ) {
-					if ( ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_ubo_offer_timer'] ) && 'yes' === $wps_upsell_bumps_list[ $order_bump_id ]['wps_ubo_offer_timer'] ) {
-						$wps_ubo_timer_countdown[ $order_bump_id ] = array(
-							'enabled' => 'yes',
-							'counter' => ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_timer'] ) ? $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_timer'] : '',
-						);
-					} elseif ( ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_evergreen_timer_switch'] ) && 'yes' === $wps_upsell_bumps_list[ $order_bump_id ]['wps_evergreen_timer_switch'] ) {
-						$wps_ubo_timer_evegreen_countdown[ $order_bump_id ] = array(
-							'enabled' => 'yes',
-							'evegreen_counter' => ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_evergreen_timer'] ) ? $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_evergreen_timer'] : '',
-						);
+				$encountered_order_bump_id = WC()->session->get( 'encountered_bump_array' );
+				// To fetch the countdown timer for the encountered bump.
+				if ( ! empty( $encountered_order_bump_id ) && ! empty( $wps_upsell_bumps_list ) && ( is_array( $encountered_order_bump_id ) || is_object( $encountered_order_bump_id ) ) ) {
+					foreach ( $encountered_order_bump_id as $key => $order_bump_id ) {
+						if ( ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_ubo_offer_timer'] ) && 'yes' === $wps_upsell_bumps_list[ $order_bump_id ]['wps_ubo_offer_timer'] ) {
+							$wps_ubo_timer_countdown[ $order_bump_id ] = array(
+								'enabled' => 'yes',
+								'counter' => ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_timer'] ) ? $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_timer'] : '',
+							);
+						} elseif ( ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_evergreen_timer_switch'] ) && 'yes' === $wps_upsell_bumps_list[ $order_bump_id ]['wps_evergreen_timer_switch'] ) {
+							$wps_ubo_timer_evegreen_countdown[ $order_bump_id ] = array(
+								'enabled' => 'yes',
+								'evegreen_counter' => ! empty( $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_evergreen_timer'] ) ? $wps_upsell_bumps_list[ $order_bump_id ]['wps_upsell_bump_offer_evergreen_timer'] : '',
+							);
+						}
 					}
-
+				} elseif ( empty( $encountered_order_bump_id ) ) {
+					$encountered_order_bump_id = 'reload';
 				}
-			} elseif ( empty( $encountered_order_bump_id ) ) {
-				$encountered_order_bump_id = 'reload';
+			}
+			if ( ! empty( $encountered_order_bump_id ) ) {
+				$local_arr['check_if_reload'] = $encountered_order_bump_id;
+			} else {
+				$local_arr['check_if_reload'] = 'reload';
+			}
+			if ( ! empty( $wps_ubo_timer_countdown ) ) {
+				$local_arr['timer'] = $wps_ubo_timer_countdown;
+			}
+			$local_arr['evergreen_timer'] = $wps_ubo_timer_evegreen_countdown;
+			// Timer Functionality ends.
+
+			wp_localize_script(
+				'wps-ubo-lite-public-script',
+				'wps_ubo_lite_public',
+				$local_arr
+			);
+			wp_localize_script(
+				'wps-ubo-lite-public-script-new',
+				'wps_ubo_lite_public_new',
+				$local_arr
+			);
+			// Do not work in mobile-view mode.
+			if ( ! wp_is_mobile() ) {
+
+				wp_enqueue_script( 'zoom-script', plugins_url( '/js/zoom-script.js', __FILE__ ), array( 'jquery' ), $this->version, true );
+			}
+
+			if ( 'Avada' != $current_theme->get( 'Name' ) ) {
+				wp_enqueue_script( 'script_slick_js', plugins_url( '/js/slick.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 			}
 		}
-		if ( ! empty( $encountered_order_bump_id ) ) {
-			$local_arr['check_if_reload'] = $encountered_order_bump_id;
-		} else {
-			$local_arr['check_if_reload'] = 'reload';
-		}
-		if ( ! empty( $wps_ubo_timer_countdown ) ) {
-			$local_arr['timer'] = $wps_ubo_timer_countdown;
-		}
-			$local_arr['evergreen_timer'] = $wps_ubo_timer_evegreen_countdown;
-		// Timer Functionality ends.
+		if ( is_shop() || is_product() ) {
+			// Localizing Array.
+			$local_arr = array(
+				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
+				'mobile_view' => wp_is_mobile(),
+				'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce_recommend' ),
+			);
 
-		wp_localize_script(
-			'wps-ubo-lite-public-script',
-			'wps_ubo_lite_public',
-			$local_arr
-		);
-		wp_localize_script(
-			'wps-ubo-lite-public-script-new',
-			'wps_ubo_lite_public_new',
-			$local_arr
-		);
-		// Do not work in mobile-view mode.
-		if ( ! wp_is_mobile() ) {
-
-			wp_enqueue_script( 'zoom-script', plugins_url( '/js/zoom-script.js', __FILE__ ), array( 'jquery' ), $this->version, true );
+			// Public facing regarding popup.
+			wp_enqueue_script( 'wps-ubo-lite-public-script-for-recommdation', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_recommdation_popup.js', array( 'jquery' ), $this->version, false );
+			wp_localize_script(
+				'wps-ubo-lite-public-script-for-recommdation',
+				'wps_ubo_lite_public_recommendated',
+				$local_arr
+			);
 		}
-
-		if ( 'Avada' != $current_theme->get( 'Name' ) ) {
-			wp_enqueue_script( 'script_slick_js', plugins_url( '/js/slick.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
-		}
-
-	}
-	    if(is_shop() || is_product()){
-		// Localizing Array.
-		$local_arr = array(
-			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
-			'mobile_view' => wp_is_mobile(),
-			'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce_recommend' ),
-		);
-		
-		//Public facing regarding popup.
-		wp_enqueue_script( 'wps-ubo-lite-public-script-for-recommdation', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_recommdation_popup.js', array( 'jquery' ), $this->version, false );
-		wp_localize_script(
-			'wps-ubo-lite-public-script-for-recommdation',
-			'wps_ubo_lite_public_recommendated',
-			$local_arr
-		);
-	}
 	}
 
 	/**
@@ -1785,37 +1782,36 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function wps_add_recommendated_offer_in_popup() {
 		check_ajax_referer( 'wps_ubo_lite_nonce_recommend', 'nonce' );
-        $wps_target_product = isset($_POST['target_product_id']) ? absint($_POST['target_product_id']) : '';
-		$wps_product_id_shop = isset($_POST['wps_product_id_shop']) ? absint($_POST['wps_product_id_shop']) : '';
-		$wps_targeted_varaition_id = isset($_POST['wps_targeted_varaition_id']) ? absint($_POST['wps_targeted_varaition_id']) : '';
+		$wps_target_product = isset( $_POST['target_product_id'] ) ? absint( $_POST['target_product_id'] ) : '';
+		$wps_product_id_shop = isset( $_POST['wps_product_id_shop'] ) ? absint( $_POST['wps_product_id_shop'] ) : '';
+		$wps_targeted_varaition_id = isset( $_POST['wps_targeted_varaition_id'] ) ? absint( $_POST['wps_targeted_varaition_id'] ) : '';
 		$wps_show_recommend_product_in_popup = false;
 
-		$wps_product_id_set = '';
-        // var_dump($wps_product_id_shop);
-		if(isset($wps_product_id_shop) && ! empty($wps_product_id_shop)){
-			// var_dump($wps_product_id_shop);
-		 	// die('shop');
-		 $wps_product_id_set = $wps_product_id_shop;
-		} elseif(isset($wps_target_product) && ! empty($wps_target_product)) {
-			// var_dump($wps_target_product);
-			// die('product');
-		 $wps_product_id_set = $wps_target_product;
-		} elseif(isset($wps_targeted_varaition_id) && ! empty($wps_targeted_varaition_id)){
+		if ( isset( $wps_product_id_shop ) && ! empty( $wps_product_id_shop ) ) {
+
+			$wps_product_id_set = $wps_product_id_shop;
+
+		} elseif ( isset( $wps_target_product ) && ! empty( $wps_target_product ) ) {
+
+			$wps_product_id_set = $wps_target_product;
+
+		} elseif ( isset( $wps_targeted_varaition_id ) && ! empty( $wps_targeted_varaition_id ) ) {
+
 			$wps_product_id = $wps_targeted_varaition_id;
-			$variation = wc_get_product($wps_product_id);
+			$variation = wc_get_product( $wps_product_id );
 			$wps_product_id_set = $variation->get_parent_id();
 		}
 
-        // var_dump($wps_product_id_set);
-		if(isset($wps_product_id_set) && ! empty($wps_product_id_set)){
+		if ( isset( $wps_product_id_set ) && ! empty( $wps_product_id_set ) ) {
 			$wps_is_recommendation_enable = get_post_meta( $wps_product_id_set, 'is_recommendation_enable' );
-			$wps_selected_recommendated_product = get_post_meta( $wps_product_id_set,'wps_recommendated_product_ids');
+			$wps_selected_recommendated_product = get_post_meta( $wps_product_id_set, 'wps_recommendated_product_ids' );
 
-			var_dump($wps_is_recommendation_enable);
-			var_dump($wps_selected_recommendated_product);
-
-			if(( 'yes' == $wps_is_recommendation_enable[0]) && is_array($wps_selected_recommendated_product) && isset($wps_selected_recommendated_product)){
-				$wps_show_recommend_product_in_popup = true;
+			if ( ! empty( $wps_is_recommendation_enable ) ) {
+				if ( ( 'yes' == $wps_is_recommendation_enable[0] ) && isset( $wps_is_recommendation_enable[0] ) && ! empty( $wps_selected_recommendated_product ) && is_array( $wps_selected_recommendated_product ) && isset( $wps_selected_recommendated_product ) ) {
+					$wps_show_recommend_product_in_popup = true;
+				} else {
+					$wps_show_recommend_product_in_popup = false;
+				}
 			}
 		}
 
@@ -1830,26 +1826,33 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 	}
 
-	function ql_woocommerce_ajax_add_to_cart() {
-		$product_id = apply_filters('ql_woocommerce_add_to_cart_product_id', absint($_POST['product_id']));
-		$quantity = empty($_POST['quantity']) ? 1 : wc_stock_amount($_POST['quantity']);
-		$variation_id = absint($_POST['variation_id']);
-		$passed_validation = apply_filters('ql_woocommerce_add_to_cart_validation', true, $product_id, $quantity);
-		$product_status = get_post_status($product_id); 
-		if ($passed_validation && WC()->cart->add_to_cart($product_id, $quantity, $variation_id) && 'publish' === $product_status) { 
-			do_action('ql_woocommerce_ajax_added_to_cart', $product_id);
-				if ('yes' === get_option('ql_woocommerce_cart_redirect_after_add')) { 
-					wc_add_to_cart_message(array($product_id => $quantity), true); 
-				}
-				WC_AJAX :: get_refreshed_fragments();
-				} else { 
-					$data = array(
-						'error' => true,
-						'product_url' => apply_filters('ql_woocommerce_cart_redirect_after_error', get_permalink($product_id), $product_id));
-					echo wp_send_json($data);
-				}
-				wp_die();
+	/**
+	 * Ajax add to cart.
+	 *
+	 * @since    1.0.0
+	 */
+	public function ql_woocommerce_ajax_add_to_cart() {
+		check_ajax_referer( 'wps_ubo_lite_nonce_recommend', 'nonce' );
+		$product_id = apply_filters( 'ql_woocommerce_add_to_cart_product_id', isset( $_POST['product_id'] ) ? absint( $_POST['product_id'] ) : '' );
+		$quantity = empty( $_POST['quantity'] ) ? 1 : wc_stock_amount( sanitize_text_field( wp_unslash( $_POST['quantity'] ) ) );
+		$variation_id = isset( $_POST['variation_id'] ) ? absint( $_POST['variation_id'] ) : '';
+		$passed_validation = apply_filters( 'ql_woocommerce_add_to_cart_validation', true, $product_id, $quantity );
+		$product_status = get_post_status( $product_id );
+		if ( $passed_validation && WC()->cart->add_to_cart( $product_id, $quantity, $variation_id ) && 'publish' === $product_status ) {
+			do_action( 'ql_woocommerce_ajax_added_to_cart', $product_id );
+			if ( 'yes' === get_option( 'ql_woocommerce_cart_redirect_after_add' ) ) {
+				wc_add_to_cart_message( array( $product_id => $quantity ), true );
 			}
+				WC_AJAX::get_refreshed_fragments();
+		} else {
+			$data = array(
+				'error' => true,
+				'product_url' => apply_filters( 'ql_woocommerce_cart_redirect_after_error', get_permalink( $product_id ), $product_id ),
+			);
+			echo wp_json_encode( $data );
+		}
+				wp_die();
+	}
 
 	// End of class.
 }

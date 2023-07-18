@@ -852,7 +852,6 @@ jQuery(document).ready( function($) {
 		document.getElementById("wps_Offer_With_Pop_Up_id_org_2").checked = false;
 	}
 
-	console.log($('#wps_templete_select_id').val());
 	var wps_selected_template_id = $('#wps_templete_select_id').val();
 	if(6 == wps_selected_template_id || (7 == wps_selected_template_id) || (8 == wps_selected_template_id) || (9 == wps_selected_template_id)){
 		$('.wps_new_template_pro').hide();

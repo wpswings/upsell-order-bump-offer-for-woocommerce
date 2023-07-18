@@ -160,7 +160,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 							'import_products' => esc_url_raw( admin_url( 'edit.php?post_type=product&page=product_importer' ) ),
 							'export_products' => esc_url_raw( admin_url( 'edit.php?post_type=product&page=product_exporter' ) ),
 						),
-						'is_pro_active' => $wps_is_pro_active ,
+						'is_pro_active' => $wps_is_pro_active,
 					);
 
 					$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );

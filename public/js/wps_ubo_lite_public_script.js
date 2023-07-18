@@ -60,7 +60,7 @@ jQuery(document).ready(function ($) {
                     }
                 } );
 
-                var x = setInterval(function() {
+                window.onload = setInterval(function() {
                     for (var key in result) {
 
                         if ( 'yes' === result[key].enabled ) {
@@ -509,7 +509,7 @@ jQuery(document).ready(function ($) {
     function open_custom_form(form_obj, order_bump_obj) {
         // debugger;
         let form_wrap = form_obj.parent().parent().parent().parent();
-        console.log(form_wrap);
+        // console.log(form_wrap);
         jQuery('body').css('overflow', 'hidden');
         if (jQuery('.wps-g-modal').hasClass('wps-modal--close')) {
             jQuery('.wps-g-modal').removeClass('wps-modal--close');
@@ -867,14 +867,11 @@ jQuery(document).ready(function($) {
           jQuery('#wps_hour_time_' + display).html(hours);
           jQuery('#wps_min_time_' + display).html(minutes);
           jQuery('#wps_sec_time_' + display).html(seconds);
-
-          console.log(timer);
+          console.log(display);
           if (--timer < 0) {
-            // timer = duration;
             $("#wps_timer"+ display). css({display: "none"});
             document.getElementById("expired_message"+ display).innerHTML = "EXPIRED";
-            document.getElementById("wps_checkbox_offer"+ display).disabled = true;
-            $('.wps-ubo__temp-foot').hide();
+            $("#wps_button_id_"+ display).hide();
           }
         }, 1000);
       }

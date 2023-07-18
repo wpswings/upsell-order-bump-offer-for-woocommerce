@@ -2698,3 +2698,7 @@ justify-content: center;
 
 /* Layout all end */
 /* Styling for all Four Templates end */
+input#wps_upsell_bump_offer_evergreen_timer {
+  max-width: 167px;
+  min-height: 30px;
+}

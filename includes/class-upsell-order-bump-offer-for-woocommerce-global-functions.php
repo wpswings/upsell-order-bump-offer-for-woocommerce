@@ -1235,7 +1235,7 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 	// Countdown Timer.
 	$counter_timer = ! empty( $encountered_bump_array['wps_ubo_offer_timer'] ) ? $encountered_bump_array['wps_ubo_offer_timer'] : '';
 
-	//evergreen countdown timer.
+	// evergreen countdown timer.
 	$evergreen_counter_timer = ! empty( $encountered_bump_array['wps_evergreen_timer_switch'] ) ? $encountered_bump_array['wps_evergreen_timer_switch'] : '';
 
 	$product_image_gallery_slider = ! empty( $encountered_bump_array['wps_ubo_offer_product_image_slider'] ) ? $encountered_bump_array['wps_ubo_offer_product_image_slider'] : '';
@@ -1276,7 +1276,7 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 
 		$bump['counter_timer'] = 'yes';
 	}
-    // Evergreen Timer.
+	// Evergreen Timer.
 	if ( 'yes' === $evergreen_counter_timer ) {
 
 		$bump['evergreen_counter_timer'] = 'yes';
@@ -4615,6 +4615,7 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 	$product_description_text = $bump['design_text']['wps_bump_offer_decsription_text'];
 
 	// Setting to enable disable permalink.
+	$wps_ubo_global_options    = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
 	$wps_bump_enable_permalink = ! empty( $wps_ubo_global_options['wps_bump_enable_permalink'] ) ? $wps_ubo_global_options['wps_bump_enable_permalink'] : '';
 
 	$description = $bump['design_text']['wps_upsell_bump_offer_description'];
@@ -4643,11 +4644,11 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 
 	$order_bump_div_id = '#wps_upsell_offer_main_id_' . $encountered_order_bump_id;
 
+	$bump_offer_product_permalink = '';
+
 	// Add url of the offer product in the bump info.
 	if ( 'on' == $wps_bump_enable_permalink ) {
 		$bump_offer_product_permalink = esc_url_raw( get_permalink( $bump['id'] ) );
-	} else {
-		$bump_offer_product_permalink = '';
 	}
 	?>
 	<!--  CSS goes down here. --> 
@@ -4893,7 +4894,7 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 	$bumphtml .= '</div>';
 	$bumphtml .= '</div>';
 	$bumphtml .= '<div class="wps-ubo__temp-foot">';
-	$bumphtml .= '<div class="wps-ubo__temp-btn-wrap wps-left">';
+	$bumphtml .= '<div class="wps-ubo__temp-btn-wrap wps-left" id="wps_button_id_' . esc_html( $order_bump_key ) . '">';
 	$bumphtml .= '<input name="add_offer_in_cart_checkbox"  type="checkbox" id ="wps_checkbox_offer' . esc_html( $order_bump_key ) . '" class="wps-ubo__temp-prod-check add_offer_in_cart">';
 
 	$bumphtml .= '<button type ="button" class="wps-ubo__temp-add-btn wps-ubo__btn wps-active wps-ubo_add_prod' . esc_html( $order_bump_key ) . '"><i class="dashicons dashicons-cart"></i> Add item to cart</button>';

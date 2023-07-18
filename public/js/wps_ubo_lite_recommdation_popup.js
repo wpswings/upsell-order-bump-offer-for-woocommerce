@@ -1,4 +1,5 @@
 jQuery(document).ready(function() {
+    jQuery('.wps-obop__open-pop').hide();
     jQuery(document).on('click', '.wps-obop__open-pop', function() {
         jQuery('.w-obop__bg').show();
         jQuery('.w-obop__wrap').addClass('w-obop__show-wrap');
@@ -28,17 +29,30 @@ jQuery(document).ready(function() {
                 },
                 success: function (msg) {
                     // alert('ajax run');
-                    
                     // console.log(msg.wps_show_recommend_product_in_popup);
-                    if(true == msg.wps_show_recommend_product_in_popup){
-                    // e.preventDefault();
-                    // jQuery('#w-obop__popup_' + wps_product_id_shop  + ' ' +'.w-obop__bg').show();
+
+                    // Get the current page URL
+                    var currentPageURL = window.location.href;
+                    var wps_is_shop_page = currentPageURL.includes('/shop/');
+    
+                    if(true == msg.wps_show_recommend_product_in_popup && false == wps_is_shop_page){
+
                     jQuery('.w-obop__bg').show();
                     jQuery('.w-obop__wrap').addClass('w-obop__show-wrap');
-                    } else {
-                        console.log('Error in displaying the recommend in the pop up');
                     }
+
+                    if(true == msg.wps_show_recommend_product_in_popup && true == wps_is_shop_page){
+                        jQuery('#w-obop__popup_' + msg.wps_target_product  + ' ' +'.w-obop__bg').show();
+                        jQuery('#w-obop__popup_' + msg.wps_target_product  + ' ' +'.w-obop__wrap').addClass('w-obop__show-wrap');
+                        } else {
+                            console.log('Error in displaying the recommend in the pop up');
+                        }
+
+                        if(false == msg.wps_show_recommend_product_in_popup){
+                            console.log('select option clicked');
+                        }
                 }
+              
             });
 
         });
@@ -58,6 +72,7 @@ jQuery(document).ready(function() {
                     product_sku: '',
                     quantity: product_qty,
                     variation_id: variation_id,
+                    nonce: wps_ubo_lite_public_recommendated.auth_nonce,
                 };
             jQuery.ajax({
                     type: 'post',
