@@ -1,5 +1,6 @@
 jQuery(document).ready(function() {
     jQuery('.wps-obop__open-pop').hide();
+    
     jQuery(document).on('click', '.wps-obop__open-pop', function() {
         jQuery('.w-obop__bg').show();
         jQuery('.w-obop__wrap').addClass('w-obop__show-wrap');
@@ -14,7 +15,7 @@ jQuery(document).ready(function() {
         var wps_product_id = jQuery('.single_add_to_cart_button').val();
         var wps_product_id_shop = jQuery(this).attr('data-product_id');
         var wps_targeted_varaition_id = jQuery('.variation_id').val();
-        // console.log(wps_product_id_shop);
+
             // Add recommandated product to popup.
             jQuery.ajax({
                 type: 'post',
@@ -28,8 +29,6 @@ jQuery(document).ready(function() {
                     wps_targeted_varaition_id : wps_targeted_varaition_id,
                 },
                 success: function (msg) {
-                    // alert('ajax run');
-                    // console.log(msg.wps_show_recommend_product_in_popup);
 
                     // Get the current page URL
                     var currentPageURL = window.location.href;
@@ -58,7 +57,6 @@ jQuery(document).ready(function() {
         });
 
         jQuery('.single_add_to_cart_button').on('click', function(e){ 
-            // alert('prince');
             e.preventDefault();
             $thisbutton = jQuery(this),
                         $form = $thisbutton.closest('form.cart'),

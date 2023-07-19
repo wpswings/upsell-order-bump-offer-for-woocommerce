@@ -695,7 +695,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					<td class="forminp forminp-text">
 
 						<?php
-							$attribute_description = esc_html__( 'This feature allows you to add evergreen countdown timer at  specific order bump , when timer end it restrict offer product to add.Its priority is less than countdown timer.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribute_description = esc_html__( 'This feature allows you to add evergreen countdown timer at  specific order bump  , timer start on every reload and when timer end it restrict offer product to add.Its priority is less than countdown timer.', 'upsell-order-bump-offer-for-woocommerce' );
 							wps_ubo_lite_help_tip( $attribute_description );
 						?>
 

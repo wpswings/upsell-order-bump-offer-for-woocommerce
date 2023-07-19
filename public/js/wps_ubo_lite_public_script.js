@@ -76,11 +76,16 @@ jQuery(document).ready(function ($) {
                             document.getElementById("wps_hour_time_"+  key).innerHTML    =  getNum( hours );
                             document.getElementById("wps_min_time_" +  key).innerHTML    =  getNum( minutes );
                             document.getElementById("wps_sec_time_" +  key).innerHTML    =  getNum( seconds );
+
+                            const element = document.getElementById('wps_timer'+key);
+                            const element_error = document.getElementById('expired_message'+ key);
+                            element.style.backgroundColor = 'white';
+                            element_error.style.backgroundColor = 'white';
                             if ( t < 0 ) {
                                 $("#wps_timer"+ key). css({display: "none"});
                                 document.getElementById("expired_message"+ key).innerHTML = "EXPIRED";
                                 document.getElementById("wps_checkbox_offer"+ key).disabled = true;
-                                $('.wps-ubo__temp-foot').hide();
+                                $("#wps_button_id_"+ key).hide();
                             }
                         }
                     }
