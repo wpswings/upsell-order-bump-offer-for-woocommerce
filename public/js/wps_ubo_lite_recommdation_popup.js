@@ -77,17 +77,15 @@ jQuery(document).ready(function() {
                     url: wps_ubo_lite_public_recommendated.ajaxurl,
                     data: data,
                     beforeSend: function (response) {
-                        // console.log(response);
+
                         $thisbutton.removeClass('added').addClass('loading');
                     },
                     complete: function (response) {
-                        // console.log(response);
+
                         $thisbutton.addClass('added').removeClass('loading');
                     }, 
                     success: function (response) { 
-                        // console.log(response);
-                        jQuery('.w-obop__bg').show();
-                        jQuery('.w-obop__wrap').addClass('w-obop__show-wrap');
+
                         if (response.error & response.product_url) {
                             window.location = response.product_url;
                             return;

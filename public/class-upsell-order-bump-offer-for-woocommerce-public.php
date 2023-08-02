@@ -198,21 +198,36 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				wp_enqueue_script( 'script_slick_js', plugins_url( '/js/slick.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 			}
 		}
-		if ( is_shop() || is_product() ) {
-			// Localizing Array.
-			$local_arr = array(
-				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
-				'mobile_view' => wp_is_mobile(),
-				'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce_recommend' ),
-			);
+		if ( is_product() ) {
+			$wps_plugin_list = get_option( 'active_plugins' );
+			$wps_is_pro_active = false;
+			$wps_plugin = 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php';
+			if ( in_array( $wps_plugin, $wps_plugin_list ) ) {
+				$wps_is_pro_active = true;
+			}
 
-			// Public facing regarding popup.
-			wp_enqueue_script( 'wps-ubo-lite-public-script-for-recommdation', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_recommdation_popup.js', array( 'jquery' ), $this->version, false );
-			wp_localize_script(
-				'wps-ubo-lite-public-script-for-recommdation',
-				'wps_ubo_lite_public_recommendated',
-				$local_arr
-			);
+			$wps_is_recommendation_enable = get_post_meta( get_the_ID(), 'is_recommendation_enable' );
+			$wps_selected_recommendated_product = get_post_meta( get_the_ID(), 'wps_recommendated_product_ids' );
+
+			if ( ! empty( $wps_is_recommendation_enable ) && ( true == $wps_is_pro_active ) ) {
+				if ( ( 'yes' == $wps_is_recommendation_enable[0] ) && isset( $wps_is_recommendation_enable[0] ) && ! empty( $wps_selected_recommendated_product ) && is_array( $wps_selected_recommendated_product ) && isset( $wps_selected_recommendated_product ) ) {
+					// Localizing Array.
+					$local_arr = array(
+						'ajaxurl'     => admin_url( 'admin-ajax.php' ),
+						'mobile_view' => wp_is_mobile(),
+						'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce_recommend' ),
+						'product_id'  => get_the_ID(),
+					);
+
+					// Public facing regarding popup.
+					wp_enqueue_script( 'wps-ubo-lite-public-script-for-recommdation', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_recommdation_popup.js', array( 'jquery' ), $this->version, false );
+					wp_localize_script(
+						'wps-ubo-lite-public-script-for-recommdation',
+						'wps_ubo_lite_public_recommendated',
+						$local_arr
+					);
+				}
+			}
 		}
 	}
 

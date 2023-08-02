@@ -367,3 +367,6 @@
     }
 
 }
+button.wps-obop__open-pop {
+    display: none;
+}
