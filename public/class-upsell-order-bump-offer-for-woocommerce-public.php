@@ -1314,6 +1314,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		add_action( 'woocommerce_cart_emptied', array( $this, 'reset_order_bump' ), 11 );
 		add_action( 'woocommerce_thankyou', array( $this, 'reset_session_variable' ), 55 );
 
+		// Add the custom price for the recommendation product on product page.
+		add_action( 'woocommerce_before_calculate_totals', array( $this, 'wps_add_custom_price_to_cart_item' ) );
+
 	}
 
 	/**
@@ -1867,6 +1870,70 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			echo wp_json_encode( $data );
 		}
 				wp_die();
+	}
+
+
+	/**
+	 * Add selected variation as bump offer product to cart ( by button )
+	 *
+	 * @since    1.0.0
+	 */
+	public function wps_add_to_cart_recommendation() {
+		check_ajax_referer( 'wps_ubo_lite_nonce_recommend', 'nonce' );
+		if ( isset( $_POST['wps_product_id'] ) ) {
+
+			$wps_product_id = isset( $_POST['wps_product_id'] ) ? absint( $_POST['wps_product_id'] ) : '';
+			$wps_product_price = isset( $_POST['wps_product_price'] ) ? absint( $_POST['wps_product_price'] ) : '';
+
+			$wps_target_product_id = isset( $_POST['wps_target_product_id'] ) ? absint( $_POST['wps_target_product_id'] ) : '';
+
+			$wps_select_option_discount = get_post_meta( $wps_target_product_id, 'wps_select_option_discount', true );
+			$wps_recommendation_discount_val = get_post_meta( $wps_target_product_id, 'wps_recommendation_discount_val', true );
+
+			if ( 'no_disc' == $wps_select_option_discount ) {
+
+				// Add the product to the cart when no discount is set.
+				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'misha_custom_price' => $wps_product_price ) );
+
+			} elseif ( 'wps_percent' == $wps_select_option_discount ) {
+
+				// Get the discounted price.
+				$discount_percentage = $wps_recommendation_discount_val / 100;
+				$custom_discounted_price = $wps_product_price * ( 1 - $discount_percentage );
+
+				// Add the product to the cart with Discounted Price.
+				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'misha_custom_price' => $custom_discounted_price ) );
+
+			} elseif ( 'wps_fixed' == $wps_select_option_discount ) {
+
+				// Add the product to the cart with Fixed Price.
+				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'misha_custom_price' => $wps_recommendation_discount_val ) );
+
+			}
+			// Return a success response.
+			wp_send_json_success();
+
+		} else {
+
+			// Return an error response.
+			wp_send_json_error();
+		}
+
+	}
+
+	/**
+	 * Change price at last for bump offer product.
+	 *
+	 * @param   object $cart_object The cart object.
+	 * @since    1.0.0
+	 */
+	public function wps_add_custom_price_to_cart_item( $cart_object ) {
+		foreach ( $cart_object->get_cart() as $item ) {
+
+			if ( array_key_exists( 'misha_custom_price', $item ) ) {
+				$item['data']->set_price( $item['misha_custom_price'] );
+			}
+		}
 	}
 
 	// End of class.

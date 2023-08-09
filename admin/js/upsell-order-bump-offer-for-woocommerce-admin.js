@@ -2,6 +2,47 @@
 	'use strict';
 	$(document).ready(function(){
 
+		var myDiv = document.getElementById("wps_ubo_lite_save_changes_bump");
+
+		let isHidden = false; // Flag to track if the div is hidden
+
+		// Function to check if the user has reached the bottom of the page
+		function isBottomOfPage() {
+		const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+		const documentHeight = Math.max(
+			document.body.scrollHeight,
+			document.body.offsetHeight,
+			document.documentElement.clientHeight,
+			document.documentElement.scrollHeight,
+			document.documentElement.offsetHeight
+		);
+
+		const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+		return documentHeight - (scrollPosition + windowHeight) < 50; // Adjust the value as needed
+		}
+
+		// Function to hide the div
+		function hideDiv() {
+		myDiv.style.display = "none";
+		isHidden = true;
+		}
+
+		// Function to show the div
+		function showDiv() {
+		myDiv.style.display = "block";
+		isHidden = false;
+		}
+
+		// Listen for the scroll event
+		window.addEventListener("scroll", function() {
+		if (isBottomOfPage() && !isHidden) {
+			hideDiv();
+		} else if (!isBottomOfPage() && isHidden) {
+			showDiv();
+		}
+		});
+
 		var wps_is_pro_active = woocommerce_admin.is_pro_active;
 		if(1 == wps_is_pro_active){
 			$('.wps_ubo_premium_strip').hide()
@@ -10,6 +51,10 @@
 		$(document).on('click','.wps_product_info',function(){
             $(this).toggleClass('accordian--active');
             $(this).next('p').slideToggle();
+        })
+
+		$(document).on('click','.wps-save-changes-ubo',function(){
+		document.getElementById("wps_upsell_bump_creation_setting_save").click();
         })
 
 		// Create new offer bump.

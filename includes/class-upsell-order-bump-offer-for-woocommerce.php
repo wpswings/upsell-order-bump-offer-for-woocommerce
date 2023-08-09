@@ -254,6 +254,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_wps_remove_offer_product', $plugin_public, 'wps_remove_offer_product' );
 			$this->loader->add_action( 'wp_ajax_nopriv_wps_remove_offer_product', $plugin_public, 'wps_remove_offer_product' );
 
+			// Ajax to add to cart the recommendation.
+			$this->loader->add_action( 'wp_ajax_add_to_cart_recommendation', $plugin_public, 'wps_add_to_cart_recommendation' );
+			$this->loader->add_action( 'wp_ajax_nopriv_add_to_cart_recommendation', $plugin_public, 'wps_add_to_cart_recommendation' );
+			
 			// Ajax to varaition bump offer popup.
 			$this->loader->add_action( 'wp_ajax_wps_variation_select_added', $plugin_public, 'wps_variation_select_added' );
 			$this->loader->add_action( 'wp_ajax_nopriv_wps_variation_select_added', $plugin_public, 'wps_variation_select_added' );

@@ -95,4 +95,37 @@ jQuery(document).ready(function() {
                     }, 
                 }); 
              });
+
+             jQuery('.wps-add-to-cart-button').on('click', function(e){ 
+
+                //For the other simple product type.
+                var productId = this.getAttribute('data-product-id');
+                var product_price_id = this.getAttribute('data-price');
+                var wps_target_product_id = jQuery('.single_add_to_cart_button').val();
+  
+                //For variation product.
+                var wps_variation_product_id = jQuery('input[name="product_id"]').val();
+  
+  
+  
+                console.log(wps_variation_product_id + ' ' + wps_target_product_id + ' ' + productId + ' ' +product_price_id);
+  
+              jQuery.ajax({
+                  type: 'post',
+                  dataType: 'json',
+                  url: wps_ubo_lite_public_recommendated.ajaxurl,
+                  data: {
+                      nonce: wps_ubo_lite_public_recommendated.auth_nonce,
+                      action: 'add_to_cart_recommendation',
+                      wps_product_id : productId,
+                      wps_product_price : product_price_id,
+                      wps_target_product_id : wps_target_product_id,
+                  },
+                  success: function (msg) {
+                   console.log(msg);
+                  }
+                
+              });
+  
+      });
 });
