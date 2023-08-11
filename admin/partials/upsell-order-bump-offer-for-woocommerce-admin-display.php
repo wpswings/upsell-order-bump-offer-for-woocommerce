@@ -138,8 +138,5 @@ do_action( 'wps_ubo_lite_tab_active' );
 
 <!--Save Changes -->
 <div id="wps_ubo_lite_save_changes_bump">
-<p>	
-<input type="submit" value="Save Changes" class="button-primary woocommerce-save-button wps-save-changes-ubo" name="wps_upsell_bump_creation_setting_save" id="wps_upsell_bump_creation_setting_save">
-</p>
-<div class="wps_ubo_lite__setting"><span class="dashicons dashicons-save-generic"></span></div>
+<input type="submit" value="Save Changes" class="button-primary woocommerce-save-button wps-save-changes-ubo" name="wps_upsell_bump_creation_setting_save" id="wps_upsell_bump_creation_setting_save"><span class="dashicons dashicons-saved"></span>
 </div>

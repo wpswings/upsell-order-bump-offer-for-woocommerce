@@ -30,7 +30,7 @@
 
 		// Function to show the div
 		function showDiv() {
-		myDiv.style.display = "block";
+		myDiv.style.display = "inline-flex";
 		isHidden = false;
 		}
 

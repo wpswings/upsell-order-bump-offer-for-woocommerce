@@ -820,18 +820,6 @@
      opacity: 0.8;
  }
  
- #wps_upsell_bump_creation_setting_save {
-     background-color: #1d424b;
-     border: medium none;
-     box-shadow: 0 1px 0 #c1c3c0;
-     color: #fff;
-     text-shadow: none;
- }
- 
- #wps_upsell_bump_creation_setting_save:hover {
-     opacity: 0.75
- }
- 
  #wps_upsell_bump_setting_wrapper p.submit {
      padding: 15px 0 !important;
      margin-top: 10px;
@@ -1807,8 +1795,8 @@
  }
  
  /*==================================
- =     After version v1.0.2         =
- ===================================*/
+  =     After version v1.0.2         =
+  ===================================*/
  /* No other plugin notices on order bump page. */
  .notice {
      display: none;
@@ -1932,8 +1920,8 @@
  }
  
  /*===================================
- =            After v1.2.0           =
- ===================================*/
+  =            After v1.2.0           =
+  ===================================*/
  .wps_ubo_update_popup_wrapper {
      position: fixed;
      left: 0;
@@ -2044,8 +2032,8 @@
  }
  
  /*==================================
- =            Animation.            =
- ===================================*/
+  =            Animation.            =
+  ===================================*/
  @keyframes popupskow {
  
      0% {
@@ -2103,8 +2091,8 @@
  }
  
  /*===================================
- =            Media Query            =
- ===================================*/
+  =            Media Query            =
+  ===================================*/
  @media only screen and (max-width: 960px) {
      .wps_ubo_lite_go_pro_popup {
          margin-left: 30px !important;
@@ -2709,9 +2697,9 @@
  }
  
  /**
-  * All of the CSS for your public-facing functionality should be
-  * included in this file.
-  */
+   * All of the CSS for your public-facing functionality should be
+   * included in this file.
+   */
  
  /* Styling for all Four Templates start */
  
@@ -3123,4 +3111,44 @@
  input#wps_upsell_bump_offer_evergreen_timer {
      max-width: 167px;
      min-height: 30px;
+ }
+ 
+ /* Floating button start */
+ 
+ #wps_ubo_lite_save_changes_bump {
+     display: inline-flex;
+     align-items: center;
+     padding: 0 10px 0 0;
+     background: #78c900;
+     border-radius: 5px 0 0 5px;
+     position: fixed;
+     bottom: 50px;
+     right: 0;
+ }
+ 
+ #wps_ubo_lite_save_changes_bump #wps_upsell_bump_creation_setting_save {
+     border-radius: 0;
+     background: transparent;
+     color: #fff;
+     border: none;
+     font-size: 16px;
+     font-weight: 500;
+     padding: 20px 10px;
+     margin: 0;
+     line-height: 1;
+ }
+
+ #wps_ubo_lite_save_changes_bump #wps_upsell_bump_creation_setting_save:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+ 
+#wps_ubo_lite_save_changes_bump:hover {
+    box-shadow: -2px 2px 5px rgba(0,0,0,0.2);
+}
+
+ #wps_ubo_lite_save_changes_bump .dashicons {
+     color: #fff;
+     font-size: 24px;
  }

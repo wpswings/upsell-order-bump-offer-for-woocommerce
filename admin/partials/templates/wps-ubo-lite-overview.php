@@ -72,8 +72,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<!-- Pro feature heading. -->
 						<h3><?php esc_html_e( 'Multiple Order Bumps', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 						<!-- Pro feature Content. -->
-						<p><?php esc_html_e( 'Want to show more than one Order Bump on the checkout page, this plugin now supports Multiple Order Bumps.', 'upsell-order-bump-offer-for-woocommerce' ); ?><br>
-						<?php esc_html_e( 'Yes, now you can show Multiple Order Bumps simultaneously on the checkout page so that your customers can have more options to chose from.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+						<p><?php esc_html_e( 'Show more than one Order Bump on the checkout page. This plugin now supports Multiple Order Bumps.', 'upsell-order-bump-offer-for-woocommerce' ); ?><br>
+						<?php esc_html_e( 'Yes, now you can show Multiple Order Bumps simultaneously on the checkout page so that your customers can have more options to choose from.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
 				</div>
 
@@ -88,12 +88,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<p>
 						<?php
 						esc_html_e(
-							'Want to Offer an Upgrade on the Existing purchase to your customers.',
+							'Upgrade the Existing purchase to your customers.',
 							'upsell-order-bump-offer-for-woocommerce'
 						);
 						?>
 						<br>
-						<?php esc_html_e( 'The Smart Upgrade offer feature will replace the existing product with the offer product as soon as they accept the Order Bump offer.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+						<?php esc_html_e( ' The Smart Upgrade offer feature will replace the existing product with the offer product as soon as they accept the Order Bump offer. If the customer accepts the offer, the initial product will be replaced with the upgraded product.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
 				</div>
 
@@ -123,7 +123,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						);
 						?>
 						<br>
-						<?php esc_html_e( "Our Support is ready to assist you regarding any query, issue or feature request and if that doesn't help our Technical team will connect with you personally and have your query resolved.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+						<?php esc_html_e( "Our Support is ready to assist you regarding any query, issue, or feature request and if that doesn't help our Technical team will connect with you personally and have your query resolved.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -138,9 +138,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<div class="wps_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/bumps-1.png' ); ?> "></div>
 						<div class="wps_ubo_lite_go_pro_features_wrap">
 							<!-- Pro feature heading. -->
-							<h3><?php esc_html_e( 'This is first upcomming feature', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+							<h3><?php esc_html_e( 'Display Product Bump On Cart', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 							<!-- Pro feature Content. -->
-							<p><?php esc_html_e( 'Lorem ipsum dolor sit amet consectetur adipisicing, elit. Adipisci consectetur quam amet quas? Magnam voluptate, ad laudantium consequatur eligendi amet nemo maxime, fugiat, iure ex, error vero possimus eaque molestias?', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+							<p><?php esc_html_e( 'Merchants can show offers as product order bumps on a cart page. They can create WooCommerce bump offer funnels for every product on their WooCommerce store by displaying various WooCommerce order bumps.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 						</div>
 					</div>
 
@@ -149,9 +149,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<div class="wps_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/bumps-2.png' ); ?> "></div>
 						<div class="wps_ubo_lite_go_pro_features_wrap">
 							<!-- Pro feature heading. -->
-							<h3><?php esc_html_e( 'This is first upcomming feature', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+							<h3><?php esc_html_e( 'Popup-alert on Exit Intent', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 							<!-- Pro feature Content. -->
-							<p><?php esc_html_e( 'Lorem ipsum dolor sit amet consectetur adipisicing, elit. Adipisci consectetur quam amet quas? Magnam voluptate, ad laudantium consequatur eligendi amet nemo maxime, fugiat, iure ex, error vero possimus eaque molestias?', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+							<p><?php esc_html_e( 'This feature gives, merchants the option to display the product order bump on the pop-up screen of the WooCommerce upsell products image or title as per your choice at the checkout page', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 						</div>
 					</div>
 
@@ -160,9 +160,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<div class="wps_ubo_lite_go_pro_feature_image"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/bumps-3.png' ); ?> "></div>
 						<div class="wps_ubo_lite_go_pro_features_wrap">
 							<!-- Pro feature heading. -->
-							<h3><?php esc_html_e( 'This is first upcomming feature', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+							<h3><?php esc_html_e( 'Multiple Checkout Plugin Compatibility', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 							<!-- Pro feature Content. -->
-							<p><?php esc_html_e( 'Lorem ipsum dolor sit amet consectetur adipisicing, elit. Adipisci consectetur quam amet quas? Magnam voluptate, ad laudantium consequatur eligendi amet nemo maxime, fugiat, iure ex, error vero possimus eaque molestias?', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+							<p><?php esc_html_e( 'Our Upsell Order Bump plugin will also be fully compatible with different custom checkout plugins or templates of various eCommerce or WooCommerce stores. So, that plugin runs smoothly without any difficulties.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 						</div>
 					</div>
 				</div>
