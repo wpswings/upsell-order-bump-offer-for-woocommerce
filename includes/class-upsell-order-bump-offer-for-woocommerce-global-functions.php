@@ -115,7 +115,7 @@ function wps_ubo_lite_allowed_html() {
 		'ins'     => '',
 		'del'     => '',
 		'h2'      => '',
-		'h3'      => '',
+		'h3' => array(),
 		'h4'      => '',
 		'h5'      => array(
 			'class' => array(
@@ -147,7 +147,9 @@ function wps_ubo_lite_allowed_html() {
 				'wps_ubo_lite_go_pro_popup_content',
 				'wps_ubo_lite_go_pro_popup_button',
 			),
-			'id'                                 => array(),
+			'id'                                 => array(
+				'wps-ubo__temp-sec',
+			),
 			'value'                              => array(),
 			'data-thumb'                         => array(),
 			'data-thumb-alt'                     => array(),
@@ -224,6 +226,23 @@ function wps_ubo_lite_allowed_html() {
 		'option'  => array(
 			'value'    => array(),
 			'selected' => array(),
+		),
+		'section' => array(
+			'id' => array(),
+			'class' => array(),
+		),
+		'article' => array(
+			'class' => array(),
+		),
+		'button' => array(
+			'type' => array(),
+			'class' => array(),
+		),
+		'i' => array(
+			'class' => array(),
+		),
+		'label' => array(
+			'for' => array(),
 		),
 	);
 	?>
@@ -2715,8 +2734,7 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
 
 	$allowed_html = wps_ubo_lite_allowed_html();
 
-	echo $bumphtml;
-	// echo wp_kses( $bumphtml, $allowed_html );.
+	echo wp_kses( $bumphtml, $allowed_html );
 
 	$offer_product = wc_get_product( $bump['id'] );
 

@@ -33,6 +33,8 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 	$wps_bump_upsell_global_options['wps_bump_order_bump_limit'] = ! empty( $_POST['wps_bump_order_bump_limit'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_order_bump_limit'] ) ) : '1';
 
+	$wps_bump_upsell_global_options['wps_custom_order_success_page'] = ! empty( $_POST['wps_custom_order_success_page'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_custom_order_success_page'] ) ) : '';
+
 	$wps_bump_upsell_global_options['wps_ubo_offer_location'] = ! empty( $_POST['wps_ubo_offer_location'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_offer_location'] ) ) : '_after_payment_gateways';
 
 	$wps_bump_upsell_global_options['wps_ubo_temp_adaption'] = ! empty( $_POST['wps_ubo_temp_adaption'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_temp_adaption'] ) ) : 'yes';
@@ -112,6 +114,8 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 	// Bump Offer limit.
 	$wps_bump_order_bump_limit = ! empty( $wps_ubo_global_options['wps_bump_order_bump_limit'] ) ? $wps_ubo_global_options['wps_bump_order_bump_limit'] : '1';
+
+	$wps_custom_order_success_page = ! empty( $wps_ubo_global_options['wps_custom_order_success_page'] ) ? $wps_ubo_global_options['wps_custom_order_success_page'] : '';
 
 	// Delete all data on uninstall.
 	$wps_delete_all_on_uninstall = ! empty( $wps_ubo_global_options['wps_delete_all_on_uninstall'] ) ? $wps_ubo_global_options['wps_delete_all_on_uninstall'] : 'no';
@@ -563,6 +567,25 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 					</td>
 				</tr>
 				<!-- Order Bump Limit end. -->
+				<!-- Set Order Success Page Start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+						<label for="wps_bump_order_bump_limit"><?php esc_html_e( 'Set Custom Order Success Page', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'Set Any Page As The Order Success Page By Placing The Page Slug.', 'upsell-order-bump-offer-for-woocommerce' );
+							wps_ubo_lite_help_tip( $attribute_description );
+
+						?>
+
+						<input type="text" min="1" id="wps_bump_order_bump_limit" name="wps_custom_order_success_page" value="<?php echo esc_html( $wps_custom_order_success_page ); ?>">
+						<a href="<?php esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" style="text-decoration: none;"><i><?php esc_html_e( 'From here ,create custom order success page', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></a>
+					</td>
+				</tr>
+				<!-- Set Order Success Page End. -->
 
 				<!-- Custom CSS start. -->
 				<tr valign="top">

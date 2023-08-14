@@ -70,12 +70,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 * class.
 		 */
 
-		// Only enqueue on the Checkout page.
-		if ( is_product() || is_shop() ) {
+		wp_enqueue_style( $this->plugin_name . 'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
 
-			wp_enqueue_style( $this->plugin_name . 'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
-
-		}
 		if ( is_checkout() ) {
 			$current_theme = wp_get_theme();
 			if ( 'Avada' != $current_theme->get( 'Name' ) ) {
@@ -1825,7 +1821,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_selected_recommendated_product = get_post_meta( $wps_product_id_set, 'wps_recommendated_product_ids' );
 
 			if ( ! empty( $wps_is_recommendation_enable ) ) {
-				if ( ( 'yes' == $wps_is_recommendation_enable[0] ) && isset( $wps_is_recommendation_enable[0] ) && ! empty( $wps_selected_recommendated_product ) && is_array( $wps_selected_recommendated_product ) && isset( $wps_selected_recommendated_product ) ) {
+				if ( ( 'yes' == $wps_is_recommendation_enable[0] ) && isset( $wps_is_recommendation_enable[0] ) && ( 0 < count( $wps_selected_recommendated_product ) ) && is_array( $wps_selected_recommendated_product ) && isset( $wps_selected_recommendated_product ) ) {
 					$wps_show_recommend_product_in_popup = true;
 				} else {
 					$wps_show_recommend_product_in_popup = false;
@@ -1936,5 +1932,72 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 	}
 
+	/**
+	 * Set The Order Success Page On Placing Order.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wps_redirect_custom_thank_you() {
+
+		// Saved Global Options.
+		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
+		$wps_custom_order_success_page = ! empty( $wps_ubo_global_options['wps_custom_order_success_page'] ) ? $wps_ubo_global_options['wps_custom_order_success_page'] : '';
+
+		// Do nothing if we are not on the order received page.
+		if ( ! is_wc_endpoint_url( 'order-received' ) || empty( $_GET['key'] ) ) {
+			return;
+		}
+		if ( ! empty( $wps_custom_order_success_page ) || '' != $wps_custom_order_success_page ) {
+			wp_safe_redirect( site_url( $wps_custom_order_success_page ) );
+		} else {
+			return;
+		}
+	}
+
+	/**
+	 * Triggered The Shortcode On Placing Order.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wps_triggered_shortcode_page() {
+		add_shortcode( 'wps_order_details', array( $this, 'wps_display_order_details_shortcode' ), 10 );
+	}
+
+	/**
+	 * Shortcode callback On Placing Order.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wps_display_order_details_shortcode() {
+
+		if ( ! is_admin() ) {
+			$stored_order_id = WC()->session->get( 'custom_order_id' );
+			$order_id = absint( $stored_order_id );
+			if ( ! empty( $order_id ) ) {
+				ob_start();
+
+				// Load WooCommerce templates for order details.
+				wc_get_template( 'order/order-details.php', array( 'order_id' => $order_id ) );
+
+				// Now that you've used the value, you can remove it from the session.
+				return ob_get_clean();
+			}
+		}
+	}
+
+	/**
+	 * Set the Order ID On Placing Order.
+	 *
+	 * @param   int $order_id The cart object.
+	 * @since    1.0.0
+	 */
+	public function wps_custom_get_current_order_id( $order_id ) {
+
+		// This action hook fires when a new order is created.
+		// The $order_id parameter contains the ID of the newly created order.
+		WC()->session->set( 'custom_order_id', $order_id );
+
+		return $order_id;
+	}
 	// End of class.
 }

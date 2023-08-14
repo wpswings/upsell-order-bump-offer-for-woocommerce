@@ -1660,9 +1660,8 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 					<!-- Generate a live preview. -->
 					<?php
-						// $allowed_html = wps_ubo_lite_allowed_html();.
-						echo $bumphtml;
-						// echo wp_kses( $bumphtml, $allowed_html );.
+						$allowed_html = wps_ubo_lite_allowed_html();
+						echo wp_kses( $bumphtml, $allowed_html );
 					?>
 				</div>
 				<!-- Preview end -->

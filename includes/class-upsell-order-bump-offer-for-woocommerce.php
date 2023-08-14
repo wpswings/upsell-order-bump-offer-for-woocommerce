@@ -257,7 +257,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			// Ajax to add to cart the recommendation.
 			$this->loader->add_action( 'wp_ajax_add_to_cart_recommendation', $plugin_public, 'wps_add_to_cart_recommendation' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_to_cart_recommendation', $plugin_public, 'wps_add_to_cart_recommendation' );
-			
+
 			// Ajax to varaition bump offer popup.
 			$this->loader->add_action( 'wp_ajax_wps_variation_select_added', $plugin_public, 'wps_variation_select_added' );
 			$this->loader->add_action( 'wp_ajax_nopriv_wps_variation_select_added', $plugin_public, 'wps_variation_select_added' );
@@ -288,6 +288,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 			// Hide Order Bump meta from order items.
 			$this->loader->add_filter( 'woocommerce_order_item_get_formatted_meta_data', $plugin_public, 'hide_order_bump_meta' );
+
+			// Set any page as order success page.
+			$this->loader->add_action( 'template_redirect', $plugin_public, 'wps_redirect_custom_thank_you' );
+			$this->loader->add_action( 'init', $plugin_public, 'wps_triggered_shortcode_page' );
+			$this->loader->add_action( 'woocommerce_new_order', $plugin_public, 'wps_custom_get_current_order_id', 10, 1 );
 		}
 	}
 
