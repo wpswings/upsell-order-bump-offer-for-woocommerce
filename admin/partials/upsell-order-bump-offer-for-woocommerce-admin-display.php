@@ -137,6 +137,8 @@ do_action( 'wps_ubo_lite_tab_active' );
 </div>
 
 <!--Save Changes -->
+<?php if ( 'creation-setting' === $wps_ubo_lite_active_tab ) { ?>
 <div id="wps_ubo_lite_save_changes_bump">
 <input type="submit" value="Save Changes" class="button-primary woocommerce-save-button wps-save-changes-ubo" name="wps_upsell_bump_creation_setting_save" id="wps_upsell_bump_creation_setting_save"><span class="dashicons dashicons-saved"></span>
 </div>
+<?php } ?>
