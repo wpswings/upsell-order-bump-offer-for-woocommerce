@@ -100,6 +100,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			}
 		}
 
+		if ( $screen && 'product' === $screen->post_type && 'post' === $screen->base ) {
+
+			wp_register_style( 'wps_ubo_lite_admin_product_edit_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-product-edit-admin.css', array(), $this->version, 'all' );
+
+			wp_enqueue_style( 'wps_ubo_lite_admin_product_edit_style' );
+		}
+
 	}
 
 	/**

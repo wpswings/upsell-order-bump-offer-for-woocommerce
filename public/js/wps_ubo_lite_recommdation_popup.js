@@ -34,13 +34,13 @@ jQuery(document).ready(function() {
                     var currentPageURL = window.location.href;
                     var wps_is_shop_page = currentPageURL.includes('/shop/');
     
-                    if(true == msg.wps_show_recommend_product_in_popup && false == wps_is_shop_page){
+                    if(true == msg.wps_show_recommend_product_in_popup && false == wps_is_shop_page && (! msg.count.includes('empty bump recommendation'))){
 
                     jQuery('.w-obop__bg').show();
                     jQuery('.w-obop__wrap').addClass('w-obop__show-wrap');
                     }
 
-                    if(true == msg.wps_show_recommend_product_in_popup && true == wps_is_shop_page){
+                    if(true == msg.wps_show_recommend_product_in_popup && true == wps_is_shop_page && (! msg.count.includes('empty bump recommendation'))){
                         jQuery('#w-obop__popup_' + msg.wps_target_product  + ' ' +'.w-obop__bg').show();
                         jQuery('#w-obop__popup_' + msg.wps_target_product  + ' ' +'.w-obop__wrap').addClass('w-obop__show-wrap');
                         } else {

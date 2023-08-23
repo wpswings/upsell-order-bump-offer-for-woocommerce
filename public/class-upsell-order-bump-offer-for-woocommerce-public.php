@@ -1833,6 +1833,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			'wps_target_product' => $wps_product_id_set,
 			'wps_show_recommend_product_in_popup'   => $wps_show_recommend_product_in_popup,
 			'cart_item_number' => WC()->cart->get_cart_contents_count(),
+			'count' => $wps_selected_recommendated_product,
 		);
 
 		echo wp_json_encode( $response );

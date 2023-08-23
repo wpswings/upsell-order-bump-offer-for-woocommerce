@@ -60,7 +60,8 @@ jQuery(document).ready(function ($) {
                     }
                 } );
 
-                window.onload = setInterval(function() {
+                setTimeout(function() { 
+                    setInterval(function() {
                     for (var key in result) {
 
                         if ( 'yes' === result[key].enabled ) {
@@ -90,6 +91,7 @@ jQuery(document).ready(function ($) {
                         }
                     }
                 }, 1000);
+            },1000);
             }      
         }
     }
@@ -872,7 +874,7 @@ jQuery(document).ready(function($) {
           jQuery('#wps_hour_time_' + display).html(hours);
           jQuery('#wps_min_time_' + display).html(minutes);
           jQuery('#wps_sec_time_' + display).html(seconds);
-          console.log(display);
+
           if (--timer < 0) {
             $("#wps_timer"+ display). css({display: "none"});
             document.getElementById("expired_message"+ display).innerHTML = "EXPIRED";
@@ -881,7 +883,7 @@ jQuery(document).ready(function($) {
         }, 1000);
       }
       
-      window.onload = function() {
+      setTimeout(function() {
         var columns = wps_ubo_lite_public.check_if_reload;
         var rows = wps_ubo_lite_public.evergreen_timer;
         var result = [];
@@ -896,7 +898,7 @@ jQuery(document).ready(function($) {
             var Minutes = result[key]['evegreen_counter'] * 60; //minutes to seconds.
             startTimer(Minutes, display);
         } 
-      };
+      }, 1000);
 });
 // Evergreen timer end here.
 

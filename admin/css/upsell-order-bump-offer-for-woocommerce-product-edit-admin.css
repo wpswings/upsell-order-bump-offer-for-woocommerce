@@ -1,0 +1,11 @@
+/**
+ * All of the CSS for your product edit admin-specific functionality should be
+ * included in this file.
+ */
+
+.wps_select_disc_for_recommdation select {
+    margin: 4px !important;
+  }
+  .wps_select_disc_for_recommdation input {
+    margin: 4px !important;
+  }
