@@ -241,9 +241,6 @@ function wps_ubo_lite_allowed_html() {
 		'i' => array(
 			'class' => array(),
 		),
-		'label' => array(
-			'for' => array(),
-		),
 	);
 	?>
 
