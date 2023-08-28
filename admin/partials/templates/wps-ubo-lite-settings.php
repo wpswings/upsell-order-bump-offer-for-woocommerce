@@ -582,7 +582,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 						?>
 
 						<input type="text" min="1" id="wps_bump_order_bump_limit" name="wps_custom_order_success_page" value="<?php echo esc_html( $wps_custom_order_success_page ); ?>">
-						<a href="<?php esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" style="text-decoration: none;"><i><?php esc_html_e( 'From here ,create custom order success page', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></a>
+						<a href="<?php echo( admin_url( 'edit.php?post_type=page' ) ); // phpcs:ignore. ?>" style="text-decoration: none;"><i><?php esc_html_e( 'From here ,create custom order success page', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></a>
 					</td>
 				</tr>
 				<!-- Set Order Success Page End. -->
