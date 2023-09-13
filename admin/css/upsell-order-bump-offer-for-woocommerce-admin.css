@@ -3117,6 +3117,10 @@
      max-width: 167px;
      min-height: 30px;
  }
+ input#wps_upsell_bump_cart_offer_quantity {
+    max-width: 167px;
+    min-height: 30px;
+}
  
  /* Floating button start */
  

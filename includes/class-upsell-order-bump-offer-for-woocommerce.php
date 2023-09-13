@@ -293,6 +293,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'template_redirect', $plugin_public, 'wps_redirect_custom_thank_you' );
 			$this->loader->add_action( 'init', $plugin_public, 'wps_triggered_shortcode_page' );
 			$this->loader->add_action( 'woocommerce_new_order', $plugin_public, 'wps_custom_get_current_order_id', 10, 1 );
+
+			/* Discount at cart section.*/
+			$this->loader->add_action( 'woocommerce_before_cart_table', $plugin_public, 'wps_woo_cart_discount_section', 10);
+			// $this->loader->add_action( 'woocommerce_cart_contents', $plugin_public, 'wps_woo_cart_discount_section');
+			// $this->loader->add_action( 'woocommerce_after_cart_table', $plugin_public, 'wps_woo_cart_discount_section', 10);
+
+            //Ajax to add the cart discount product in the cart.
+			$this->loader->add_action( 'wp_ajax_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
+			$this->loader->add_action( 'wp_ajax_nopriv_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
+
+
+
 		}
 	}
 

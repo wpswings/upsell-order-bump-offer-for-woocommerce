@@ -1363,3 +1363,8 @@ margin: 10px 0;
     .wps_hide_checkbox {
     display : none !important 
     }
+
+    .wps_product_discount {
+        width: 333px !important;
+        /* background-color: red; */
+    }
