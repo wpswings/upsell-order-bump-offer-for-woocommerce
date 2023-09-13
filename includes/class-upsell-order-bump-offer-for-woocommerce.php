@@ -302,6 +302,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
             //Ajax to add the cart discount product in the cart.
 			$this->loader->add_action( 'wp_ajax_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
+			$this->loader->add_action( 'woocommerce_before_calculate_totals', $plugin_public , 'rudr_custom_price_refresh' );
 
 
 

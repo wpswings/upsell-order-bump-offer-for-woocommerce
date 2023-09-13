@@ -20,7 +20,8 @@
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/public
  * @author     WP Swings <webmaster@wpswings.com>
  */
-class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
+class Upsell_Order_Bump_Offer_For_Woocommerce_Public
+{
 
 	/**
 	 * The ID of this plugin.
@@ -45,7 +46,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param      string $plugin_name       The name of the plugin.
 	 * @param      string $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
@@ -2059,58 +2061,97 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$wps_target_product_array = array();
 		$wps_target_categories_array = array();
-		$wps_offer_product_array = '';
+		$wps_offer_product_array = array();
 		$wps_cart_offer_quantity = '';
+		$wps_cart_offer_discount_type = '';
+		$wps_categories_product_array = array();
 
 
 		//Get all the target product id and categories id.
+		echo '<pre>';
 		// print_r($order_bump_collections);
+		echo '</pre>';
 		foreach ($order_bump_collections as $key => $value) {
 			if ($condition($value)) {
 				$wps_target_product_array[] = $value['wps_upsell_bump_target_ids'];
 				$wps_target_categories_array[] = $value['wps_upsell_bump_target_categories'];
-				$wps_offer_product_array = $value['wps_upsell_bump_products_in_offer'];
+				$wps_offer_product_array[] = $value['wps_upsell_bump_products_in_offer'];
 				$wps_cart_offer_quantity = $value['wps_upsell_bump_cart_offer_quantity'];
+				$wps_cart_offer_discount_type = $value['wps_upsell_bump_offer_discount_price'] . '#' . $value['wps_upsell_offer_price_type'];
+			}
+		}
+		// var_dump(preg_split("/[#]/", $wps_cart_offer_discount_type));
+
+		$product_term_ids = $wps_target_categories_array;
+
+		$product_term_args = array(
+			'taxonomy' => 'product_cat',
+			'include' => $product_term_ids,
+			// 'orderby'  => 'include'
+		);
+		$product_terms = get_terms($product_term_args);
+
+		$product_term_slugs = [];
+		foreach ($product_terms as $product_term) {
+			$product_term_slugs[] = $product_term->slug;
+		}
+
+		$product_args = array(
+			'post_status' => 'publish',
+			'limit' => -1,
+			'category' => $product_term_slugs,
+			//more options according to wc_get_products() docs
+		);
+		$products = wc_get_products($product_args);
+
+		foreach ($products as $product) {
+			$wps_categories_product_array[] = $product->get_id();
+		}
+		// var_dump($wps_categories_product_array);
+		$merged_array = array_merge($wps_target_product_array, $wps_categories_product_array);
+
+		// Extract the subarray at position 0 and merge it into the main array
+		$newArray = array_merge($merged_array[0], array_slice($merged_array, 1));
+
+		// Initialize an empty array to store converted integers
+		$intArray = array();
+
+		// Loop through the original array
+		foreach ($newArray as $element) {
+			// Attempt to convert each element to an integer
+			$intElement = intval($element);
+
+			// Check if the conversion was successful and the integer is not already in the array
+			if (is_int($intElement) && !in_array($intElement, $intArray)) {
+				$intArray[] = $intElement;
 			}
 		}
 
-		$args = array(
-			'post_type' => 'product', // WooCommerce products are of post type 'product'.
-			'posts_per_page' => -1, // Retrieve all products.
-			'tax_query' => array(
-				array(
-					'taxonomy' => 'product_cat', // WooCommerce product category taxonomy.
-					'field' => 'id',
-					'terms' => $wps_target_categories_array,
-					'operator' => 'IN',
-				),
-			),
-		);
-
-		$product_query = new WP_Query($args);
-
-		if ($product_query->have_posts()) {
-			$wps_categories_product_array = wp_list_pluck($product_query->posts, 'ID');
-		}
-
-		$merged_array = array_merge($wps_target_product_array, $wps_target_categories_array);
+		// var_dump($intArray);
+		// var_dump($newArray);
+		// die();
 		$wps_html_discount_section = '';
 
 		// Get the cart contents
 		$cart_contents = WC()->cart->get_cart();
 
-		if (!empty($merged_array) && is_array($merged_array)) {
-			foreach ($merged_array as $outerArray) {
-				foreach ($outerArray as $element) {
+		if (!empty($intArray) && is_array($intArray)) {
+			foreach ($intArray as $outerArray) {
+				// foreach ($outerArray as $element) {
 
 
-					// Check if the product ID is in the cart
-					foreach ($cart_contents as $cart_item) {
-						if ($cart_item['product_id'] == $element) {
+				// Check if the product ID is in the cart
+				foreach ($cart_contents as $cart_item) {
 
-							$product = wc_get_product($wps_offer_product_array);
+					if ($cart_item['product_id'] == $outerArray) {
+						// echo 1;
+						// var_dump($wps_offer_product_array);
+						foreach ($wps_offer_product_array as $value) {
+							// echo $value;
+							// echo 2;
+							$product = wc_get_product($value);
 
-							$image = wp_get_attachment_image_src(get_post_thumbnail_id($wps_offer_product_array), 'single-post-thumbnail');
+							$image = wp_get_attachment_image_src(get_post_thumbnail_id($value), 'single-post-thumbnail');
 
 							$wps_html_discount_section .= '<div class="wps_main_class_order">';
 							$wps_html_discount_section .= '<div class ="wps_product_image"><img width="100" height="300" src =' . esc_url($image[0]) . ' /></div>';
@@ -2120,7 +2161,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								// Get all variations of the parent product
 								$variations = $product->get_available_variations();
 
-								$wps_html_discount_section .= '<div class ="wps_product_name"> <select name="select-category" id="wps-order-bump-child-id">';
+								$wps_html_discount_section .= '<div class ="wps_product_select"> <select name="select-category" id="wps-order-bump-child-id">';
 
 								foreach ($variations as $variation) {
 
@@ -2135,14 +2176,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 								$wps_html_discount_section .= '</div>';
 							}
 
-							$wps_html_discount_section .= '<div class ="wps_discounted_price">' .  $product->get_price() . '</div>';
-							$wps_html_discount_section .= '<div class ="wps_discounted_qty">Quantity : 1</div>';
-							$wps_html_discount_section .= '<div class ="wps_product_discount" value =' . $wps_offer_product_array . '><button type="button">Add Discount!</button></div>';
+							$wps_html_discount_section .= '<div class ="wps_discounted_price">' . esc_html__('Price: ', 'upsell-order-bump-offer-for-woocommerce') . '' .  $product->get_price() . '</div>';
+							$wps_html_discount_section .= '<div class ="wps_discounted_qty">' . esc_html__('Quantity: 01', 'upsell-order-bump-offer-for-woocommerce') . '</div>';
+							$wps_html_discount_section .= '<div class ="wps_discounted_offer_title">' . esc_html__('Offer!', 'upsell-order-bump-offer-for-woocommerce') . '</div>';
+							$wps_html_discount_section .= '<div class ="wps_product_discount" value =' . $value . '><button type="button" class="button">' . esc_html__('Add to Cart', 'upsell-order-bump-offer-for-woocommerce') . '</button></div>';
 							$wps_html_discount_section .= '<input id="wps_cart_offer_quantity" type="hidden" value =' . $wps_cart_offer_quantity . '>';
+							$wps_html_discount_section .= '<input id="wps_cart_offer_discount_type" type="hidden" value =' . $wps_cart_offer_discount_type . '>';
+							$wps_html_discount_section .= '<input id="wps_cart_offer_product_price" type="hidden" value =' . $product->get_price() . '>';
 							$wps_html_discount_section .= '</div>';
 						}
 					}
 				}
+				// }
 			}
 		}
 		echo $wps_html_discount_section;
@@ -2158,17 +2203,46 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		check_ajax_referer('wps_ubo_lite_nonce_recommend', 'nonce');
 		$parent_product_id = isset($_POST['parent_product_id']) ? absint($_POST['parent_product_id']) : '';
 		$child_product_id = isset($_POST['child_product_id']) ? absint($_POST['child_product_id']) : '';
-		$child_product_id = isset($_POST['child_product_id']) ? absint($_POST['child_product_id']) : '';
+		$wps_cart_offer_product_price = isset($_POST[' wps_cart_offer_product_price']) ? absint($_POST[' wps_cart_offer_product_price']) : '';
+		$wps_cart_offer_quantity_value = isset($_POST['wps_cart_offer_quantity_value']) ? absint($_POST['wps_cart_offer_quantity_value']) : '';
+		$wps_cart_offer_discount_type_value = !empty($_POST['wps_cart_offer_discount_type_value']) ? sanitize_text_field(wp_unslash($_POST['wps_cart_offer_discount_type_value'])) : '';
 
 		$message = '';
+		$wps_discounted_price = '';
+
+		// $wps_cart_discounted_value = $this->wps_get_cart_offer_discount_value($wps_cart_offer_discount_type_value, $wps_cart_offer_product_price);
+
+		$wps_array_of_discount_detail = preg_split("/[#]/", $wps_cart_offer_discount_type_value);
+
+		if (is_array($wps_array_of_discount_detail) && !empty($wps_array_of_discount_detail)) {
+
+			if ('%' == $wps_array_of_discount_detail[1]) {   //For the Percentaged count.
+				// Get the product's regular price
+				$regular_price = ($wps_cart_offer_product_price);
+
+				$wps_discounted_price = $regular_price - ($regular_price * ((int)$wps_array_of_discount_detail[0] / 100));
+
+				// $cart_item_data = array(
+				// 	'_price' => 100, // Set the discounted price
+				// );
+				// // Add the product to the cart
+				// $result =  WC()->cart->add_to_cart($parent_product_id, $wps_cart_offer_quantity_value, 0, array(), $cart_item_data);
+				var_dump($wps_discounted_price);
+			}
+		}
+
 
 		$product = wc_get_product($parent_product_id);
 
 		if ($product->is_type('variable')) {
 			try {
 				if (!empty($child_product_id)) {
+					// Create an array of product data to add to the cart
+					$cart_item_data = array(
+						'_price' => $wps_discounted_price, // Set the discounted price
+					);
 					// Add the product to the cart
-					$result = WC()->cart->add_to_cart($child_product_id, 1);
+					$result =  WC()->cart->add_to_cart($child_product_id, $wps_cart_offer_quantity_value, 0, array(), $cart_item_data);
 				}
 
 				if ($result) {
@@ -2188,7 +2262,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			try {
 				if (!empty($parent_product_id)) {
 					// Add the product to the cart
-					$result = WC()->cart->add_to_cart($parent_product_id, 1);
+					// Create an array of product data to add to the cart
+					$cart_item_data = array(
+						'_price' => $wps_discounted_price, // Set the discounted price
+					);
+					// Add the product to the cart
+					$result =  WC()->cart->add_to_cart($parent_product_id, $wps_cart_offer_quantity_value, 0, array(), $cart_item_data);
 				}
 
 				if ($result) {
@@ -2213,5 +2292,41 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		echo wp_json_encode($response);
 		wp_die();
 	}
+
+	/**
+	 * Get the discounted price on cart offer.
+	 *
+	 * @param   string $$wps_discount_price The discount string.
+	 * @since    1.0.0
+	 */
+	public function wps_get_cart_offer_discount_value($wps_discount_price, $wps_product_price)
+	{
+
+		$wps_array_of_discount_detail = preg_split("/[#]/", $wps_discount_price);
+
+		if (is_array($wps_array_of_discount_detail) && !empty($wps_array_of_discount_detail)) {
+			if ('%' == $wps_array_of_discount_detail[1]) {   //For the Percentaged count.
+				// Get the product's regular price
+				$regular_price = floatval($wps_product_price);
+
+				$wps_discounted_price = $regular_price - ($regular_price * ($wps_array_of_discount_detail[0] / 100));
+			}
+		}
+
+		return $wps_discounted_price;
+	}
+
+
+	function rudr_custom_price_refresh($cart_object)
+	{
+
+		foreach ($cart_object->get_cart() as $item) {
+
+			if (array_key_exists('_price', $item)) {
+				$item['data']->set_price($item['_price']);
+			}
+		}
+	}
+
 	// End of class.
 }
