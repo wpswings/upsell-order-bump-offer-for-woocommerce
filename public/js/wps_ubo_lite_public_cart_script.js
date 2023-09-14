@@ -15,9 +15,9 @@ jQuery(document).ready(function ($) {
         var wps_cart_offer_quantity = document.querySelector('#wps_cart_offer_quantity');
         var wps_cart_offer_quantity_value = wps_cart_offer_quantity.value;
 
-        //Get the discount type of the cart offer.
-        var wps_cart_offer_discount_type = document.querySelector('#wps_cart_offer_discount_type');
-        var wps_cart_offer_discount_type_value = wps_cart_offer_discount_type.value;
+        //Get the product id  of the cart offer.
+        var wps_cart_offer_product_id = document.querySelector('#wps_cart_offer_product_id');
+        var wps_cart_offer_product_id_value = wps_cart_offer_product_id.value;
 
         //Get the product price  for the cart offer.
         var wps_cart_offer_product_price = document.querySelector('#wps_cart_offer_product_price');
@@ -43,7 +43,7 @@ jQuery(document).ready(function ($) {
                 parent_product_id: parent_product_id,
                 child_product_id: child_variation_id,
                 wps_cart_offer_quantity_value: wps_cart_offer_quantity_value,
-                wps_cart_offer_discount_type_value: wps_cart_offer_discount_type_value,
+                wps_cart_offer_product_id_value: wps_cart_offer_product_id_value,
                 wps_cart_offer_product_price: wps_cart_offer_product_price
             },
             success: function (msg) {
