@@ -3,7 +3,6 @@ jQuery(document).ready(function ($) {
 
     $('.wps_product_discount').on('click', function () {
 
-
         jQuery(document).trigger('wc_fragment_refresh');
         // Get the div element by its class name
         var parent_element = document.querySelector(".wps_product_discount");
@@ -29,6 +28,8 @@ jQuery(document).ready(function ($) {
         if (null != child_variation_id_element) {
             // Get the currently selected value
             var child_variation_id = child_variation_id_element.value;
+        } else {
+            var child_variation_id = '';
         }
     
         console.log(child_variation_id_element);

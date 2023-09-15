@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file that defines the core plugin class
  *
@@ -27,6 +28,7 @@
  * @author     WP Swings <webmaster@wpswings.com>
  */
 class Upsell_Order_Bump_Offer_For_Woocommerce {
+
 
 
 	/**
@@ -94,9 +96,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 */
 	private function load_dependencies() {
 		/**
-		 * The class responsible for orchestrating the actions and filters of the
-		 * core plugin.
-		 */
+		   * The class responsible for orchestrating the actions and filters of the
+		   * core plugin.
+		   */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-loader.php';
 
 		/**
@@ -152,7 +154,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @since    1.0.0
 	 */
 	private function set_locale() {
-		$plugin_i18n = new Upsell_Order_Bump_Offer_For_Woocommerce_I18n();
+		 $plugin_i18n = new Upsell_Order_Bump_Offer_For_Woocommerce_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
@@ -164,7 +166,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @since    1.0.0
 	 */
 	private function define_admin_hooks() {
-		$plugin_admin = new Upsell_Order_Bump_Offer_For_Woocommerce_Admin( $this->get_plugin_name(), $this->get_version() );
+		 $plugin_admin = new Upsell_Order_Bump_Offer_For_Woocommerce_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		// Add admin arena.
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wps_ubo_lite_admin_menu' );
@@ -292,14 +294,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_new_order', $plugin_public, 'wps_custom_get_current_order_id', 10, 1 );
 
 			/* Discount at cart section.*/
-			$this->loader->add_action( 'woocommerce_before_cart_table', $plugin_public, 'wps_woo_cart_discount_section', 10 );
-			// $this->loader->add_action( 'woocommerce_cart_contents', $plugin_public, 'wps_woo_cart_discount_section');
-			// $this->loader->add_action( 'woocommerce_after_cart_table', $plugin_public, 'wps_woo_cart_discount_section', 10);
+			$this->loader->add_action( 'woocommerce_after_cart_table', $plugin_public, 'wps_woo_cart_discount_section' );
 
 			// Ajax to add the cart discount product in the cart.
 			$this->loader->add_action( 'wp_ajax_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
-			$this->loader->add_action( 'woocommerce_before_calculate_totals', $plugin_public, 'rudr_custom_price_refresh' );
+			$this->loader->add_action( 'woocommerce_before_calculate_totals', $plugin_public, 'wps_order_cart_custom_price_refresh' );
 		}
 	}
 
@@ -357,7 +357,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @since    1.0.0
 	 */
 	public static function wps_upsell_bump_list_callback_return() {
-		$wps_ubo_offer_array_collection = get_option( 'wps_ubo_bump_list', array() );
+		 $wps_ubo_offer_array_collection = get_option( 'wps_ubo_bump_list', array() );
 
 		if ( wps_ubo_lite_if_pro_exists() && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
