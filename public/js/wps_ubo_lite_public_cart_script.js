@@ -1,8 +1,8 @@
 jQuery(document).ready(function ($) {
 
 
-    $('.wps_product_discount').on('click', function () {
-
+    $(document).on('click','.wps_product_discount', function () {
+      
         jQuery(document).trigger('wc_fragment_refresh');
         // Get the div element by its class name
         var parent_element = document.querySelector(".wps_product_discount");
