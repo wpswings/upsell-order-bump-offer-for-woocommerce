@@ -139,6 +139,8 @@ jQuery(document).ready(function ($) {
             success: function (msg) {
 
                 $('body').trigger('update_checkout');
+                $(document.body).trigger('added_to_cart', {});
+                $(document.body).trigger('update_checkout');
 
                 //Mini-Cart Upadte on Checkout depending upon themes.
                 wps_minicart_update(wps_current_theme);
@@ -253,6 +255,8 @@ jQuery(document).ready(function ($) {
                 $('body').removeClass('wps_upsell_variation_pop_up_body');
                 $('.wps_bump_popup_wrapper').css('display', 'none');
                 $('body').trigger('update_checkout');
+                $(document.body).trigger('added_to_cart', {});
+                $(document.body).trigger('update_checkout');
 
                 //Mini-Cart Upadte on Checkout depending upon themes.
                 wps_minicart_update(wps_current_theme);
@@ -378,6 +382,8 @@ jQuery(document).ready(function ($) {
 
                         $('.wps_bump_popup_loader').css('display', 'none');
                         $('body').trigger('update_checkout');
+                        $(document.body).trigger('added_to_cart', {});
+                        $(document.body).trigger('update_checkout');
 
                         //Mini-Cart Upadte on Checkout depending upon themes.
                         wps_minicart_update(wps_current_theme);
@@ -788,7 +794,16 @@ jQuery(document).ready(function ($) {
             }
     }
 
-    setTimeout(function() { wps_show_pop_up(); }, 1500);
+  
+    if ('on' == wps_ubo_lite_public.wps_popup_exit_intent) {
+        $("html").bind("mouseleave", function () {
+            wps_show_pop_up();
+            $("html").unbind("mouseleave");
+        });
+    } else {
+        setTimeout(function () { wps_show_pop_up(); }, 1500);
+    }
+        
 
     function wps_show_pop_up(){
          $('[popup-name="' + 'popup-1' + '"]').fadeIn(300);
@@ -844,7 +859,7 @@ jQuery(document).ready(function ($) {
             var popup_name = $(this).find('[popup-close]').attr('popup-close');
             $('[popup-name="' + popup_name + '"]').fadeOut(300);
             }).children().click(function() {
-            return false;
+            // return false;
             });
 
             //Increase and descrease the quantity value on bump offer.
