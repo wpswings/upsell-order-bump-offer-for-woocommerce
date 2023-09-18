@@ -2109,7 +2109,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 												$variation_obj = wc_get_product( $variation_id );
 												$variation_name = $variation_obj->get_name();
 												$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $variation_obj->get_price() );
-												$wps_html_discount_section .= ' <option value="' . $variation_id . '">' . $variation_name .' - ' .wc_price( $wps_discount_price ).'</option>';
+												$wps_html_discount_section .= ' <option value="' . $variation_id . '">' . $variation_name . ' - ' . wc_price( $wps_discount_price ) . '</option>';
 											}
 
 											$wps_html_discount_section .= '</select>';
@@ -2159,13 +2159,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$wps_offer_product_discount_type = get_post_meta( $wps_cart_offer_product_id_value, 'wps_select_option_discount' );
 		$wps_offer_product_discount_val = get_post_meta( $wps_cart_offer_product_id_value, 'wps_recommendation_discount_val' );
 
-		$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $wps_cart_offer_product_price );
-
 		$product = wc_get_product( $parent_product_id );
 
 		if ( $product->is_type( 'variable' ) ) {
 			try {
 				if ( ! empty( $child_product_id ) ) {
+					// Get the variation object.
+					$variation_product = wc_get_product( $child_product_id );
+					// Get the price of the variation.
+					$variation_price = $variation_product->get_price();
+					$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $variation_price );
 					// Create an array of product data to add to the cart.
 					$cart_item_data = array(
 						'_price' => $wps_discount_price, // Set the discounted price.
@@ -2190,6 +2193,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			try {
 				if ( ! empty( $parent_product_id ) ) {
+					$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $wps_cart_offer_product_price );
 					$cart_item_data = array(
 						'_price' => $wps_discount_price, // Set the discounted price.
 					);
