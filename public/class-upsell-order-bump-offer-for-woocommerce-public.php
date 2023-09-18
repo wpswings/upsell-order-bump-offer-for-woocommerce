@@ -2080,6 +2080,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					if ( $cart_item['product_id'] == $wps_outer_array ) {
 
 						$wps_offer_product_array = get_post_meta( $cart_item['product_id'], 'wps_recommendated_product_ids' );
+						$wps_offer_product_discount_type = get_post_meta( $cart_item['product_id'], 'wps_select_option_discount' );
+						$wps_offer_product_discount_val = get_post_meta( $cart_item['product_id'], 'wps_recommendation_discount_val' );
 
 						if ( is_array( $wps_offer_product_array ) && ! empty( $wps_offer_product_array ) ) {
 
@@ -2106,16 +2108,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 												$variation_id = $variation['variation_id'];
 												$variation_obj = wc_get_product( $variation_id );
 												$variation_name = $variation_obj->get_name();
-
-												$wps_html_discount_section .= ' <option value="' . $variation_id . '">' . $variation_name . '</option>';
+												$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $variation_obj->get_price() );
+												$wps_html_discount_section .= ' <option value="' . $variation_id . '">' . $variation_name .' - ' .wc_price( $wps_discount_price ).'</option>';
 											}
 
 											$wps_html_discount_section .= '</select>';
 											$wps_html_discount_section .= '</div>';
 										}
 
-										$wps_offer_product_discount_type = get_post_meta( $cart_item['product_id'], 'wps_select_option_discount' );
-										$wps_offer_product_discount_val = get_post_meta( $cart_item['product_id'], 'wps_recommendation_discount_val' );
 										$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $product->get_price() );
 
 										$wps_html_discount_section .= '<div class ="wps_discounted_price">' . esc_html__( 'Price:', 'upsell-order-bump-offer-for-woocommerce' ) . '<strike>' . wc_price( $product->get_price() ) . '</strike>' . wc_price( $wps_discount_price ) . '</div>';
