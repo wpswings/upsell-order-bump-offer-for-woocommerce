@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The public-facing functionality of the plugin.
  *
@@ -10,6 +9,7 @@
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/public
  */
 
+use Automattic\WooCommerce\Utilities\OrderUtil;
 /**
  * The public-facing functionality of the plugin.
  *
@@ -20,11 +20,7 @@
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/public
  * @author     WP Swings <webmaster@wpswings.com>
  */
-
-use Automattic\WooCommerce\Utilities\OrderUtil;
-
 class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
-
 
 
 	/**
@@ -2095,7 +2091,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 										$image = wp_get_attachment_image_src( get_post_thumbnail_id( $value ), 'single-post-thumbnail' );
 
-										$wps_html_discount_section .= '<div class="wps_main_class_order">';
+										$wps_html_discount_section .= '<div class="wps_main_class_order" id="wps_main_class_id_' . $value . '">';
 										$wps_html_discount_section .= '<div class ="wps_product_image"><img width="100" height="300" src =' . esc_url( $image[0] ) . ' /></div>';
 										$wps_html_discount_section .= '<div class ="wps_product_name">' . $product->get_name() . '</div>';
 
@@ -2103,7 +2099,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 											// Get all variations of the parent product.
 											$variations = $product->get_available_variations();
 
-											$wps_html_discount_section .= '<div class ="wps_product_select"> <select name="select-category" id="wps-order-bump-child-id">';
+											$wps_html_discount_section .= '<div class ="wps_product_select"> <select name="select-category" id="wps-order-bump-child-id_' . $value . '">';
 
 											foreach ( $variations as $variation ) {
 
@@ -2127,8 +2123,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 										$wps_html_discount_section .= '<div class ="wps_discounted_offer_title">' . esc_html__( 'Offer!', 'upsell-order-bump-offer-for-woocommerce' ) . '</div>';
 										$wps_html_discount_section .= '<div class ="wps_product_discount" value =' . $value . '><button type="button" class="button">' . esc_html__( 'Add to Cart', 'upsell-order-bump-offer-for-woocommerce' ) . '</button></div>';
 										$wps_html_discount_section .= '<input id="wps_cart_offer_quantity" type="hidden" value ="1">';
-										$wps_html_discount_section .= '<input id="wps_cart_offer_product_id" type="hidden" value =' . $cart_item['product_id'] . '>';
-										$wps_html_discount_section .= '<input id="wps_cart_offer_product_price" type="hidden" value =' . $product->get_price() . '>';
+										$wps_html_discount_section .= '<input id="wps_cart_offer_product_id_' . $value . '" type="hidden" value =' . $cart_item['product_id'] . '>';
+										$wps_html_discount_section .= '<input class ="wps_offered_product_id" type="hidden" value =' . $value . '>';
+										$wps_html_discount_section .= '<input id="wps_cart_offer_product_price_' . $value . '" type="hidden" value =' . $product->get_price() . '>';
 										$wps_html_discount_section .= '</div>';
 									}
 								}
@@ -2162,7 +2159,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$wps_offer_product_discount_type = get_post_meta( $wps_cart_offer_product_id_value, 'wps_select_option_discount' );
 		$wps_offer_product_discount_val = get_post_meta( $wps_cart_offer_product_id_value, 'wps_recommendation_discount_val' );
 
-		$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $_POST['wps_cart_offer_product_price'] );
+		$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $wps_cart_offer_product_price );
 
 		$product = wc_get_product( $parent_product_id );
 

@@ -1,29 +1,25 @@
 jQuery(document).ready(function ($) {
 
-
     $(document).on('click','.wps_product_discount', function () {
       
         jQuery(document).trigger('wc_fragment_refresh');
-        // Get the div element by its class name
-        var parent_element = document.querySelector(".wps_product_discount");
-    
         // Get the value attribute from the div
-        var parent_product_id = parent_element.getAttribute("value");
+        var parent_product_id = jQuery(this).closest('.wps_main_class_order').find('.wps_offered_product_id').val();
     
         //Get the quanity of the cart offer.
         var wps_cart_offer_quantity = document.querySelector('#wps_cart_offer_quantity');
         var wps_cart_offer_quantity_value = wps_cart_offer_quantity.value;
 
         //Get the product id  of the cart offer.
-        var wps_cart_offer_product_id = document.querySelector('#wps_cart_offer_product_id');
+        var wps_cart_offer_product_id = document.querySelector('#wps_cart_offer_product_id_' + parent_product_id);
         var wps_cart_offer_product_id_value = wps_cart_offer_product_id.value;
 
         //Get the product price  for the cart offer.
-        var wps_cart_offer_product_price = document.querySelector('#wps_cart_offer_product_price');
+        var wps_cart_offer_product_price = document.querySelector('#wps_cart_offer_product_price_' + parent_product_id );
         var wps_cart_offer_product_price = wps_cart_offer_product_price.value;
     
         // Get the select element by its ID
-        var child_variation_id_element = document.querySelector("#wps-order-bump-child-id");
+        var child_variation_id_element = document.querySelector("#wps-order-bump-child-id_" + parent_product_id);
             
         if (null != child_variation_id_element) {
             // Get the currently selected value
@@ -31,8 +27,6 @@ jQuery(document).ready(function ($) {
         } else {
             var child_variation_id = '';
         }
-    
-        console.log(child_variation_id_element);
     
         jQuery.ajax({
             type: 'post',
@@ -52,9 +46,10 @@ jQuery(document).ready(function ($) {
                 $(document.body).trigger('added_to_cart', {});
                 $(document.body).trigger('update_checkout');
                 if (msg.message == 'remove') {
-                    setTimeout(function () {
-                        $(".wps_main_class_order").remove();
-                    }, 1100);
+                    //Below code is to hide the offer section on adding to cart.
+                    // setTimeout(function () {
+                    //     $("#wps_main_class_id_" + parent_product_id).remove();
+                    // }, 1100);
                 }
             }
         });
