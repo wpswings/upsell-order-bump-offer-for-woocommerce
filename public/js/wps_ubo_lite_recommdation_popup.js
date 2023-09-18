@@ -92,6 +92,11 @@ jQuery(document).ready(function() {
                         } else { 
                             jQuery(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, $thisbutton]);
                         } 
+                        // Get the <span> element by its ID
+                        var wps_my_span = document.getElementById("wps_cart_content");
+
+                        // Update the text content
+                        wps_my_span.textContent = response;
                     }, 
                 }); 
              });
@@ -104,9 +109,7 @@ jQuery(document).ready(function() {
                 var wps_target_product_id = jQuery('.single_add_to_cart_button').val();
   
                 //For variation product.
-                var wps_variation_product_id = jQuery('input[name="product_id"]').val();
-  
-  
+                 var wps_variation_product_id = jQuery('input[name="product_id"]').val();
   
                 console.log(wps_variation_product_id + ' ' + wps_target_product_id + ' ' + productId + ' ' +product_price_id);
   
@@ -122,7 +125,22 @@ jQuery(document).ready(function() {
                       wps_target_product_id : wps_target_product_id,
                   },
                   success: function (msg) {
-                   console.log(msg);
+                      
+                        var loader = document.querySelector('.wps_loader_' + msg.product_id);
+                        // Show the loader
+                       loader.style.display = 'block';
+                      
+                        // Simulate a delay (remove this in your actual code)
+                        setTimeout(function() {
+                            // Hide the loader when the action is complete
+                            loader.style.display = 'none';
+                        }, 1100); 
+                      
+                        // Get the <span> element by its ID
+                         var wps_my_span = document.getElementById("wps_cart_content");
+
+                         // Update the text content
+                         wps_my_span.textContent = msg.cart_count;       
                   }
                 
               });

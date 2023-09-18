@@ -1892,14 +1892,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			if ( 'yes' === get_option( 'ql_woocommerce_cart_redirect_after_add' ) ) {
 				wc_add_to_cart_message( array( $product_id => $quantity ), true );
 			}
-			WC_AJAX::get_refreshed_fragments();
 		} else {
 			$data = array(
 				'error' => true,
 				'product_url' => apply_filters( 'ql_woocommerce_cart_redirect_after_error', get_permalink( $product_id ), $product_id ),
 			);
-			echo wp_json_encode( $data );
 		}
+		echo wp_json_encode( WC()->cart->get_cart_contents_count() );
 		wp_die();
 	}
 
@@ -1939,12 +1938,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'wps_cart_offer_custom_price' => $wps_recommendation_discount_val ) );
 			}
 			// Return a success response.
-			wp_send_json_success();
+			$data = array(
+				'cart_count' =>  WC()->cart->get_cart_contents_count(),
+				'product_id' => $wps_product_id,
+			);
+			echo wp_json_encode($data);
 		} else {
 
 			// Return an error response.
 			wp_send_json_error();
 		}
+		wp_die();
 	}
 
 	/**

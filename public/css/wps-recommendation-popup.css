@@ -389,3 +389,6 @@ button.w-add-prod{
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
+    .wps_loader_main_class {
+        display: none;
+    }
