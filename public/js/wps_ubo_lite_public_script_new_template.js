@@ -169,7 +169,6 @@ jQuery(document).ready(function ($) {
                         if (msg['key'] == 'true') {
     
                             variation_popup_index = order_bump_index.replace('index_', '');
-                            console.log(variation_popup_index);
                             $('.wps_ubo_price_html_for_variation').html(msg['message']);
                             $('.wps_bump_popup_loader').css('display', 'none');
                             $('.wps_bump_popup_' + variation_popup_index).css('display', 'flex');
@@ -181,7 +180,8 @@ jQuery(document).ready(function ($) {
 
                         } else {
                         $('body').trigger('update_checkout');
-    
+                        $(document.body).trigger('added_to_cart', {});
+                        $(document.body).trigger('update_checkout');
                             // When Reload is required.
                             if ('subs_reload' == msg) {
     
@@ -234,7 +234,8 @@ jQuery(document).ready(function ($) {
                 localStorage.removeItem("checkbox1");
                 wps_is_checkbox_checked();
                 $('body').trigger('update_checkout');
-                console.log(msg);
+                $(document.body).trigger('added_to_cart', {});
+                $(document.body).trigger('update_checkout');
                 //Mini-Cart Upadte on Checkout depending upon themes.
                 // wps_minicart_update(wps_current_theme);
     
@@ -513,6 +514,8 @@ jQuery(document).ready(function ($) {
                         $('body').removeClass('wps_upsell_variation_pop_up_body');
                         $('.wps_bump_popup_wrapper').css('display', 'none');
                         $('body').trigger('update_checkout');
+                        $(document.body).trigger('added_to_cart', {});
+                        $(document.body).trigger('update_checkout');
         
                         $(parent_wrapper_class).css('pointer-events', 'all');
                         $(parent_wrapper_class).css('opacity', '1');

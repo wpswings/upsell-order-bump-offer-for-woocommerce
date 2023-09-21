@@ -117,6 +117,7 @@ function wps_ubo_lite_allowed_html() {
 		'h2'      => '',
 		'h3' => array(),
 		'h4'      => '',
+		'strike' => array(),
 		'h5'      => array(
 			'class' => array(
 				'add_offer_in_cart_text',

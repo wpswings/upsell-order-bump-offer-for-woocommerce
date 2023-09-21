@@ -1939,10 +1939,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			}
 			// Return a success response.
 			$data = array(
-				'cart_count' =>  WC()->cart->get_cart_contents_count(),
+				'cart_count' => WC()->cart->get_cart_contents_count(),
 				'product_id' => $wps_product_id,
 			);
-			echo wp_json_encode($data);
+			echo wp_json_encode( $data );
 		} else {
 
 			// Return an error response.
@@ -2141,7 +2141,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				}
 			}
 		}
-		echo $wps_html_discount_section;
+		$allowed_html = wps_ubo_lite_allowed_html();
+		echo wp_kses( $wps_html_discount_section, $allowed_html );
 	}
 
 	/**
@@ -2184,7 +2185,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				if ( $result ) {
 					// Product added to the cart successfully.
 					$message = 'remove';
-					wc_add_notice( 'Cart Offer Successfully To cart.', 'success' );
+					wc_add_notice( 'Cart Offer Successfully Added To cart.', 'success' );
 				} else {
 					// Product could not be added to the cart (e.g., if it's out of stock).
 					$message = 'Product could not be added to the cart.';
@@ -2208,7 +2209,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				if ( $result ) {
 					// Product added to the cart successfully.
 					$message = 'remove';
-					wc_add_notice( 'Cart Offer Successfully To cart.', 'success' );
+					wc_add_notice( 'Cart Offer Successfully Added To cart.', 'success' );
 				} else {
 					// Product could not be added to the cart (e.g., if it's out of stock).
 					$message = 'Product could not be added to the cart.';

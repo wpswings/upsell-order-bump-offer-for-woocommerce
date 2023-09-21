@@ -45,7 +45,7 @@ add_action(
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 		}
 	}
-); 
+);
 
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
