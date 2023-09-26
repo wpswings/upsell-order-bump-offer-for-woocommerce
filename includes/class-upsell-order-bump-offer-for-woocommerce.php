@@ -224,7 +224,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$bump_offer_location = ! empty( $wps_ubo_global_options['wps_ubo_offer_location'] ) ? $wps_ubo_global_options['wps_ubo_offer_location'] : '_after_payment_gateways';
 			$bump_cart_offer_location = ! empty( $wps_ubo_global_options['wps_enable_cart_upsell_location'] ) ? $wps_ubo_global_options['wps_enable_cart_upsell_location'] : '';
 
-			$offer_location_details = wps_ubo_lite_retrieve_bump_location_details( $bump_offer_location );
+			$plugin_path = 'woocommerce-germanized/woocommerce-germanized.php';
+
+			if ( is_plugin_active( $plugin_path ) ) {
+				$offer_location_details = wps_ubo_lite_retrieve_bump_location_details_for_wc_germanized_compatibility( $bump_offer_location );
+			} else {
+				$offer_location_details = wps_ubo_lite_retrieve_bump_location_details( $bump_offer_location );
+			}
 
 			// Show bump offer.
 			$this->loader->add_action( $offer_location_details['hook'], $plugin_public, 'show_offer_bump', $offer_location_details['priority'] );

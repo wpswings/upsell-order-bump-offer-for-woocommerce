@@ -1486,6 +1486,40 @@ function wps_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 }
 
 /**
+ * Retrieve Bump Offer location details For the plugin Germanized for WooCommerce.
+ *
+ * @param   string $key         The keyword for hook where to implement the order bump.
+ * @since   1.0.0.
+ */
+function wps_ubo_lite_retrieve_bump_location_details_for_wc_germanized_compatibility( $key = '_before_place_order_button' ) {
+
+	$location_details = array(
+		'_before_order_summary'      => array(
+			'hook'     => 'woocommerce_checkout_order_review',
+			'priority' => 10,
+			'name'     => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+		),
+		'_before_payment_gateways'   => array(
+			'hook'     => 'woocommerce_checkout_order_review',
+			'priority' => 11,
+			'name'     => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+		),
+		'_after_payment_gateways'    => array(
+			'hook'     => 'woocommerce_review_order_after_payment', // here is the changes.
+			'priority' => 19,
+			'name'     => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+		),
+		'_before_place_order_button' => array(
+			'hook'     => 'woocommerce_gzd_review_order_before_submit',
+			'priority' => 10,
+			'name'     => esc_html__( 'Before Place order button', 'upsell-order-bump-offer-for-woocommerce' ),
+		),
+	);
+
+	return $location_details[ $key ];
+}
+
+/**
  * Function for search through category.
  *
  * @param   string $category_target_id          The category id we are looking for order bump.

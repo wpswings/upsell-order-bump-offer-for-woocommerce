@@ -838,7 +838,7 @@ jQuery(document).ready(function ($) {
             body.classList.add("wps_body_class_popup");
             });
         
-            // Close Popup  
+            // Close Popup. 
              $(document).on('click', '.close-button', function (e) {
 
             $(".fusion-header-wrapper").css("display","block");///Avada header hidden on popup.
@@ -854,12 +854,10 @@ jQuery(document).ready(function ($) {
             });
             
             // Close Popup When Click Outside
-            $('.popup').on('click', function() {
-            $(".fusion-header-wrapper").css("display","block");
-            var popup_name = $(this).find('[popup-close]').attr('popup-close');
-            $('[popup-name="' + popup_name + '"]').fadeOut(300);
-            }).children().click(function() {
-            // return false;
+            $('.popup').on('click', function () {
+                $(".fusion-header-wrapper").css("display", "block");
+                // var popup_name = $(this).find('[popup-close]').attr('popup-close');
+                // $('[popup-name="' + popup_name + '"]').fadeOut(300);
             });
 
             //Increase and descrease the quantity value on bump offer.
@@ -869,7 +867,7 @@ jQuery(document).ready(function ($) {
             $(document).on('click', '.wps-ubo__temp-prod-price-qty-sub', function (e) {
             document.getElementById("inputtag").value--;
             });
-    // END OF SCRIPT
+    // END OF SCRIPT.
 });
 
 // Evergreen timer Start here.
