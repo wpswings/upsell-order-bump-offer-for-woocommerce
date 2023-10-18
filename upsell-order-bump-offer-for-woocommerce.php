@@ -17,11 +17,11 @@
  * Description:       <code><strong>Upsell Order Bump Offer for WooCommerce</strong></code> makes special offers on checkout page, enabling to increase conversions & AOV in just a single click. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
  *
  * Requires at least:       5.5.0
- * Tested up to:            6.3.1
+ * Tested up to:            6.3.2
  * WC requires at least:    5.5.0
- * WC tested up to:         8.1.1
+ * WC tested up to:         8.2.1
  *
- * Version:           2.2.7
+ * Version:           2.2.8
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -77,7 +77,7 @@ function wps_ubo_lite_is_plugin_active( $plugin_slug = '' ) {
 /**
  * Currently plugin version.
  */
-define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.2.7' );
+define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.2.8' );
 
 $old_pro_present   = false;
 $installed_plugins = get_plugins();
@@ -324,3 +324,80 @@ if ( true === $wps_ubo_lite_plugin_activation['status'] ) {
 		endif;
 	}
 }
+
+add_action( 'admin_notices', 'wps_banner_notification_plugin_html' );
+if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
+	/**
+	 * Common Function To show banner image.
+	 *
+	 * @return void
+	 */
+	function wps_banner_notification_plugin_html() {
+
+		$screen = get_current_screen();
+		if ( isset( $screen->id ) ) {
+			$pagescreen = $screen->id;
+		}
+		if ( ( isset( $pagescreen ) && 'plugins' === $pagescreen ) || ( 'wp-swings_page_home' == $pagescreen ) ) {
+			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+			if ( isset( $banner_id ) && '' !== $banner_id ) {
+				$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
+				$banner_image = get_option( 'wps_wgm_notify_new_banner_image', '' );
+
+				$banner_url = get_option( 'wps_wgm_notify_new_banner_url', '' );
+				if ( isset( $hidden_banner_id ) && $hidden_banner_id < $banner_id ) {
+
+					if ( '' !== $banner_image && '' !== $banner_url ) {
+
+						?>
+						   <div class="wps-offer-notice notice notice-warning is-dismissible">
+							   <div class="notice-container">
+								   <a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Subscription cards"/></a>
+							   </div>
+							   <button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+						   </div>
+						  
+						<?php
+					}
+				}
+			}
+		}
+	}
+}
+
+add_action( 'admin_notices', 'wps_ubo_banner_notification_html' );
+/**
+ * Function to show banner image based on subscription.
+ *
+ * @return void
+ */
+function wps_ubo_banner_notification_html() {
+	$screen = get_current_screen();
+	if ( isset( $screen->id ) ) {
+		$pagescreen = $screen->id;
+	}
+	if ( ( isset( $_GET['page'] ) && 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' === $_GET['page'] ) ) {
+		$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+		if ( isset( $banner_id ) && '' !== $banner_id ) {
+			$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
+			$banner_image = get_option( 'wps_wgm_notify_new_banner_image', '' );
+			$banner_url = get_option( 'wps_wgm_notify_new_banner_url', '' );
+			if ( isset( $hidden_banner_id ) && $hidden_banner_id < $banner_id ) {
+
+				if ( '' !== $banner_image && '' !== $banner_url ) {
+
+					?>
+							<div class="wps-offer-notice notice notice-warning is-dismissible">
+								<div class="notice-container">
+									<a href="<?php echo esc_url( $banner_url ); ?>"target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Subscription cards"/></a>
+								</div>
+								<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+							</div>
+						   
+						<?php
+				}
+			}
+		}
+	}
+}
+

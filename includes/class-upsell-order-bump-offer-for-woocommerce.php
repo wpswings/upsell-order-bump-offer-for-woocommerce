@@ -195,6 +195,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 		// Db migration hook.
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_migrate_db_keys' );
+
+		// Set The Cron For Banner Image.
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_uob_set_cron_for_plugin_notification' );
+
+		$this->loader->add_action( 'wps_wgm_check_for_notification_update', $plugin_admin, 'wps_uob_save_notice_message' );
+
+		$this->loader->add_action( 'wp_ajax_wps_sfw_dismiss_notice_banner', $plugin_admin, 'wps_uob_dismiss_notice_banner_callback' );
 	}
 
 	/**

@@ -1076,3 +1076,31 @@ jQuery( document ).ready(
 		// End of js.
 	}
 );
+//Banner Image.
+jQuery( document ).ready(
+	function($){
+		$( document ).on(
+			'click',
+			'#dismiss-banner',
+			function(e){
+				e.preventDefault();
+				var data = {
+					action:'wps_sfw_dismiss_notice_banner',
+					wps_nonce:wps_ubo_lite_offer_section_obj.auth_nonce
+				};
+				$.ajax(
+					{
+						url: wps_ubo_lite_offer_section_obj.ajaxurl,
+						type: "POST",
+						data: data,
+						success: function(response)
+						{
+							window.location.reload();
+						}
+					}
+				);
+			}
+		);
+	}
+ );
+ 

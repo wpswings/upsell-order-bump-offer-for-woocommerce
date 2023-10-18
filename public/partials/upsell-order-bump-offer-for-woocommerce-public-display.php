@@ -187,7 +187,7 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 	?>
 <a class="open-button" id="wps_open_modal" popup-open="popup-1" href="javascript:void(0)">click</a>
 
-<div class="popup" id="wps_slider" popup-name="popup-1">
+<div class="popup wps_uobo_product_popup" id="wps_slider" popup-name="popup-1">
 	<div class="wps-popup-content">
 	<?php
 	// For Each Order Bump Ids array.
@@ -231,7 +231,7 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 	?>
 </div>
 <div class="wps_close_modal">
-<a class="close-button" popup-close="popup-1" href="javascript:void(0)">x</a>
+<a class="close-button" popup-close="popup-1" href="javascript:void(0)"></a>
 </div>
 </div>
 	<?php

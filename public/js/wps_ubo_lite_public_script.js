@@ -819,6 +819,13 @@ jQuery(document).ready(function ($) {
             cssEase:'ease',
             useTransform:true,
             useCSS:true,
+            responsive: [
+                {
+                  breakpoint: 768,
+                  settings: {
+                    arrows: false,
+                  }
+                }]
           });
           //Hide the header on popup open.
           if('Divi' == wps_ubo_lite_public.current_theme ){
