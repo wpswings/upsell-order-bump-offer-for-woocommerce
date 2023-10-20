@@ -794,18 +794,17 @@ jQuery(document).ready(function ($) {
             }
     }
 
-  
-    if ('on' == wps_ubo_lite_public.wps_popup_exit_intent) {
-        $("html").bind("mouseleave", function () {
-            wps_show_pop_up();
-            $("html").unbind("mouseleave");
-        });
-    } else {
-        setTimeout(function () { wps_show_pop_up(); }, 1500);
-    }
+        if ('on' == wps_ubo_lite_public.wps_popup_exit_intent) {
+            $("html").bind("mouseleave", function () {
+                wps_show_pop_up();
+                $("html").unbind("mouseleave");
+            });
+        } else {
+            setTimeout(function () { wps_show_pop_up(); }, 1500);
+        }
         
 
-    function wps_show_pop_up(){
+    function wps_show_pop_up() {
          $('[popup-name="' + 'popup-1' + '"]').fadeIn(300);
          $(".fusion-header-wrapper").css("display","none");///Avada header hidden on popup.
          $('.wps-popup-content').slick({

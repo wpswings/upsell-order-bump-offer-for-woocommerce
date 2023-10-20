@@ -73,11 +73,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		wp_enqueue_style( $this->plugin_name . 'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
 
 		if ( is_checkout() || is_cart() ) {
-			$current_theme = wp_get_theme();
-			if ( 'Avada' != $current_theme->get( 'Name' ) ) {
-				wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
-			}
-
+			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
 		}
 	}
@@ -193,9 +189,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				wp_enqueue_script( 'zoom-script', plugins_url( '/js/zoom-script.js', __FILE__ ), array( 'jquery' ), $this->version, true );
 			}
 
-			if ( 'Avada' != $current_theme->get( 'Name' ) ) {
 				wp_enqueue_script( 'script_slick_js', plugins_url( '/js/slick.min.js', __FILE__ ), array( 'jquery' ), $this->version, true );
-			}
 		}
 		if ( is_product() ) {
 			$wps_plugin_list = get_option( 'active_plugins' );
