@@ -1798,11 +1798,11 @@
   =     After version v1.0.2         =
   ===================================*/
  /* No other plugin notices on order bump page. */
- .notice {
+ #wps_upsell_bump_setting_wrapper .notice {
 	 display: none;
  }
 
- .wps-notice {
+ #wps_upsell_bump_setting_wrapper .wps-notice {
 	 display: block;
  }
 
@@ -3164,23 +3164,23 @@
  .wp-admin.wp-core-ui .select2-container--default .select2-results__option--highlighted[aria-selected] {
 	background-color: #7f527d;
   }
-.wps-offer-notice.notice.notice-warning {
+.wps-offer-notice.wps-notice.notice-warning {
 	padding: 0;
 	border: none;
   }
-  .wps-offer-notice.notice.notice-warning a img {
+  .wps-offer-notice.wps-notice.notice-warning a img {
 	display: block;
 	width: 100%;
 	height: auto;
   }
 
-  .wps-offer-notice.notice.notice-warning {
+  .wps-offer-notice.wps-notice.notice-warning {
 	padding: 0;
 	border: none;
 	margin-left: 2px;
-	margin-right: 20px;
+	margin-right: 0px;
   }
-  .wps-offer-notice.notice.notice-warning a img {
+  .wps-offer-notice.wps-notice.notice-warning a img {
 	display: block;
 	width: 100%;
 	height: auto;

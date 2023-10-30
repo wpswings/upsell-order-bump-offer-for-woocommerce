@@ -134,7 +134,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 			$pagescreen = $screen->id;
 
-			if ( 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' === $pagescreen || 'plugins' === $pagescreen ) {
+			if ( 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' === $pagescreen || 'plugins' === $pagescreen || 'order-bump_page_upsell-order-bump-offer-for-woocommerce-reporting' == $pagescreen ) {
 
 				$wps_plugin_list = get_option( 'active_plugins' );
 				$wps_is_pro_active = false;
@@ -196,18 +196,27 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 						);
 					}
 
-					if ( ! empty( $_GET['wps-bump-template-section'] ) ) {
+					wp_localize_script(
+						'wps_ubo_lite_admin_script',
+						'wps_ubo_lite_banner_offer_section_obj',
+						array(
+							'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+							'auth_nonce' => wp_create_nonce( 'wps_admin_nonce' ),
+						)
+					);
 
-						$bump_template_section['value'] = sanitize_text_field( wp_unslash( $_GET['wps-bump-template-section'] ) );
+				if ( ! empty( $_GET['wps-bump-template-section'] ) ) {
 
-						wp_localize_script(
-							'wps_ubo_lite_admin_script',
-							'wps_ubo_lite_template_section_obj',
-							array(
-								'value' => $bump_template_section,
-							)
-						);
-					}
+					$bump_template_section['value'] = sanitize_text_field( wp_unslash( $_GET['wps-bump-template-section'] ) );
+
+					wp_localize_script(
+						'wps_ubo_lite_admin_script',
+						'wps_ubo_lite_template_section_obj',
+						array(
+							'value' => $bump_template_section,
+						)
+					);
+				}
 
 					wp_localize_script( 'woocommerce_admin', 'woocommerce_admin', $params );
 

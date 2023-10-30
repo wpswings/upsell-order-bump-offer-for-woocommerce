@@ -1086,11 +1086,11 @@ jQuery( document ).ready(
 				e.preventDefault();
 				var data = {
 					action:'wps_sfw_dismiss_notice_banner',
-					wps_nonce:wps_ubo_lite_offer_section_obj.auth_nonce
+					wps_nonce:wps_ubo_lite_banner_offer_section_obj.auth_nonce
 				};
 				$.ajax(
 					{
-						url: wps_ubo_lite_offer_section_obj.ajaxurl,
+						url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
 						type: "POST",
 						data: data,
 						success: function(response)

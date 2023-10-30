@@ -338,7 +338,7 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 		if ( isset( $screen->id ) ) {
 			$pagescreen = $screen->id;
 		}
-		if ( ( isset( $pagescreen ) && 'plugins' === $pagescreen ) || ( 'wp-swings_page_home' == $pagescreen ) ) {
+		if ( 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' === $pagescreen || 'plugins' === $pagescreen || 'order-bump_page_upsell-order-bump-offer-for-woocommerce-reporting' == $pagescreen ) {
 			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
 			if ( isset( $banner_id ) && '' !== $banner_id ) {
 				$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
@@ -350,7 +350,7 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 					if ( '' !== $banner_image && '' !== $banner_url ) {
 
 						?>
-						   <div class="wps-offer-notice notice notice-warning is-dismissible">
+						   <div class="wps-offer-notice wps-notice notice notice-warning is-dismissible">
 							   <div class="notice-container">
 								   <a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Subscription cards"/></a>
 							   </div>
