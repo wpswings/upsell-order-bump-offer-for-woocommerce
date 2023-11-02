@@ -304,11 +304,14 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 				<div id="wps_upsell_bump_name_heading">
 					<h2><?php echo esc_html( $bump_name ); ?></h2>
 					<div id="wps_upsell_bump_status" >
+						<?php
+						$description = esc_html__( 'Bump Offer will be displayed : Sandbox Mode -> For Admin only. Live Mode -> For All.', 'upsell-order-bump-offer-for-woocommerce' );
+						wps_ubo_lite_help_tip( $description );
+						?>
 						<label>
 							<input type="checkbox" id="wps_upsell_bump_status_input" name="wps_upsell_bump_status" value="yes" <?php checked( 'yes', $bump_status ); ?> >
 							<span class="wps_upsell_bump_span"></span>
 						</label>
-
 						<span class="wps_upsell_bump_status_on <?php echo 'yes' === $bump_status ? 'active' : ''; ?>"><?php esc_html_e( 'Live', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 						<span class="wps_upsell_bump_status_off <?php echo 'no' === $bump_status ? 'active' : ''; ?>"><?php esc_html_e( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 					</div>

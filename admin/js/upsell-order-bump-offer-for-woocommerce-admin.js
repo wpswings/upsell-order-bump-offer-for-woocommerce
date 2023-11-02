@@ -1102,5 +1102,37 @@ jQuery( document ).ready(
 			}
 		);
 	}
- );
+);
  
+jQuery(document).ready(function () {
+
+
+  // Function to validate the form on submission
+	function wps_validate_quantity(event) {
+
+		const wps_quantity_setting = document.querySelector('#wps_ubo_enable_switch');
+
+		if (wps_quantity_setting.checked) {
+		
+		// Get the minimum and maximum input elements by their names.
+		const wps_mini_input = document.querySelector('input[name="wps_upsell_bump_offer_min_q"]');
+		const wps_max_input = document.querySelector('input[name="wps_upsell_bump_offer_max_q');
+
+		const wps_min_quantity = parseInt(wps_mini_input.value, 10);
+		const wps_max_quantity = parseInt(wps_max_input.value, 10);
+
+		if (wps_min_quantity >= wps_max_quantity) {
+				event.preventDefault(); // Prevent the form from submitting.
+				alert("Minimum quantity must be less than the maximum quantity.");
+			}
+
+		if (wps_max_quantity <= wps_min_quantity) {
+				event.preventDefault(); // Prevent the form from submitting
+				alert("Maximum quantity must be greater than the minimum quantity.");
+			}
+		}
+	}
+ 
+	// Add a form submit event listener
+	document.getElementById("wps_upsell_bump_creation_setting_save").addEventListener("click", wps_validate_quantity);
+});

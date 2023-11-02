@@ -2754,19 +2754,13 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
 
 	} elseif ( '7' == $wps_bump_upsell_selected_template ) {
 
-		// $bumphtml = wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id, $key );
-
 		$bumphtml = wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id, $key );
 
 	} elseif ( '8' == $wps_bump_upsell_selected_template ) {
 
-		// $bumphtml = wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id, $key );
-
 		$bumphtml = wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id, $key );
 
 	} elseif ( '9' == $wps_bump_upsell_selected_template ) {
-
-		// $bumphtml = wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id, $key );
 
 		$bumphtml = wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id, $key );
 
@@ -4928,12 +4922,6 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 	endif;
 
 	$bumphtml .= '<p class="wps-ubo__temp-prod-desc">' . $product_description_text . '</p>'; // Product description.
-
-	// Image Product Gallery.
-	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
-	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() ) {
-		$bumphtml  .= wps_product_image_gallery_callback( $bump['id'] );
-	}
 
 	$bumphtml .= ' <div class="wps-ubo__temp-prod-price">';
 	$bumphtml .= '<span class="wps-ubo__temp-prod-price-new">' . $bump_offer_price . '</span>';
