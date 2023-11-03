@@ -3162,7 +3162,7 @@
 	 font-size: 24px;
  }
  .wp-admin.wp-core-ui .select2-container--default .select2-results__option--highlighted[aria-selected] {
-	background-color: #7f527d;
+	background-color: #7f527d !important;
   }
 .wps-offer-notice.wps-notice.notice-warning {
 	padding: 0;
