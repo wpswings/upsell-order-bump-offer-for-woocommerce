@@ -1113,23 +1113,33 @@ jQuery(document).ready(function () {
 		const wps_quantity_setting = document.querySelector('#wps_ubo_enable_switch');
 
 		if (wps_quantity_setting.checked) {
-		
-		// Get the minimum and maximum input elements by their names.
-		const wps_mini_input = document.querySelector('input[name="wps_upsell_bump_offer_min_q"]');
-		const wps_max_input = document.querySelector('input[name="wps_upsell_bump_offer_max_q');
 
-		const wps_min_quantity = parseInt(wps_mini_input.value, 10);
-		const wps_max_quantity = parseInt(wps_max_input.value, 10);
+			// Get the select element by its ID
+			var wps_select_element = document.getElementById("wps_upsell_offer_quantity_type_id");
 
-		if (wps_min_quantity >= wps_max_quantity) {
+			// Get the selected option's value
+			var wps_selected_value = wps_select_element.value;
+			
+			if('variable_q' == wps_selected_value){
+
+			// Get the minimum and maximum input elements by their names.
+			const wps_mini_input = document.querySelector('input[name="wps_upsell_bump_offer_min_q"]');
+			const wps_max_input = document.querySelector('input[name="wps_upsell_bump_offer_max_q');
+
+			const wps_min_quantity = parseInt(wps_mini_input.value, 10);
+			const wps_max_quantity = parseInt(wps_max_input.value, 10);
+
+			if (wps_min_quantity >= wps_max_quantity) {
 				event.preventDefault(); // Prevent the form from submitting.
 				alert("Minimum quantity must be less than the maximum quantity.");
 			}
 
-		if (wps_max_quantity <= wps_min_quantity) {
+			if (wps_max_quantity <= wps_min_quantity) {
 				event.preventDefault(); // Prevent the form from submitting
 				alert("Maximum quantity must be greater than the minimum quantity.");
 			}
+		}
+			
 		}
 	}
  
