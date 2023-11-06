@@ -120,7 +120,6 @@ function wps_ubo_lite_allowed_html() {
 		'del'     => '',
 		'h2'      => '',
 		'h3' => array(),
-		'h4'      => '',
 		'strike' => array(),
 		'h5'      => array(
 			'class' => array(
@@ -159,7 +158,6 @@ function wps_ubo_lite_allowed_html() {
 			'data-thumb'                         => array(),
 			'data-thumb-alt'                     => array(),
 			'woocommerce-product-gallery__image' => array(),
-			'data-thumb'                         => array(),
 		),
 		'svg'     => array(
 			'xmlns'   => array(),
@@ -196,8 +194,6 @@ function wps_ubo_lite_allowed_html() {
 			'id'                      => array(),
 			'src'                     => array(),
 			'style'                   => array(),
-			'data-id'                 => array(),
-			'data-id'                 => array(),
 			'data-id'                 => array(),
 			'width'                   => array(),
 			'height'                  => array(),

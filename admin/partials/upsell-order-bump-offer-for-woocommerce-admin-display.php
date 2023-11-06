@@ -107,7 +107,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 				include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-license.php';
 			}
 		}
-	} else {
+	} else if ( ! $plugin_version ) {
 
 		// Org files.
 		if ( 'creation-setting' === $wps_ubo_lite_active_tab ) {

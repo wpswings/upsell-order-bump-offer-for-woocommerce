@@ -590,7 +590,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'image'   => $bump_var_image,
 			);
 			echo wp_json_encode( $response );
-		} else {
+		} else if ( ! empty( $variation_id ) || ! empty( $selected_variation_product ) ) {
 
 			// Check if in stock?
 			if ( ! $selected_variation_product->is_in_stock() ) {
@@ -1791,7 +1791,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'image'   => $bump_var_image,
 			);
 			echo wp_json_encode( $response );
-		} else {
+		} else if ( ! empty( $variation_id ) || ! empty( $selected_variation_product ) ) {
 
 			// Check if in stock?
 			if ( ! $selected_variation_product->is_in_stock() ) {
