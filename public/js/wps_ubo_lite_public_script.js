@@ -862,8 +862,6 @@ jQuery(document).ready(function ($) {
             // Close Popup When Click Outside
             $('.popup').on('click', function () {
                 $(".fusion-header-wrapper").css("display", "block");
-                // var popup_name = $(this).find('[popup-close]').attr('popup-close');
-                // $('[popup-name="' + popup_name + '"]').fadeOut(300);
             });
 
             //Increase and descrease the quantity value on bump offer.

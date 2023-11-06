@@ -67,7 +67,6 @@ jQuery( document ).ready(
 				var order_bump_index = order_bump_trigger_obj.closest( '.wps-ubo__temp' ).find( '.order_bump_index' ).val();
 				var order_bump_id = order_bump_trigger_obj.closest( '.wps-ubo__temp' ).find( '.order_bump_id' ).val();
 
-				// open_custom_form('', order_bump_trigger_obj);
 				$( "#wps_checkbox_offer" + order_bump_id ).prop( "checked", true );
 
 				if ($( "#wps_checkbox_offer" + order_bump_id ).prop( 'checked' ) == true) {
@@ -160,7 +159,7 @@ jQuery( document ).ready(
 					var smart_offer_upgrade = order_bump_trigger_obj.closest( '.wps-ubo__temp' ).find( '.order_bump_smo' ).val()
 
 					var order_bump_index = order_bump_trigger_obj.closest( '.wps-ubo__temp' ).find( '.order_bump_index' ).val()
-					var wps_qty_variable = 1; // $('.offer_shown_id').val();
+					var wps_qty_variable = 1;
 
 					// Show loader for Variable offers.
 			if ('variable' == order_bump_trigger_obj.closest( '.wps-ubo__temp' ).find( '.offer_shown_id_type' ).val()) { // decide the product type.
@@ -182,7 +181,6 @@ jQuery( document ).ready(
 								smart_offer_upgrade: smart_offer_upgrade,
 								wps_qty_variable: wps_qty_variable, // Quantity attr
 
-								// Index : index_{ digit }
 								bump_index: order_bump_index,
 								// Form data.
 								form_data: '',
@@ -256,8 +254,6 @@ jQuery( document ).ready(
 					data: {
 						nonce: wps_ubo_lite_public.auth_nonce,
 						action: 'wps_remove_offer_product',
-
-						// Index : index_{ digit }
 						bump_index: order_bump_index,
 						order_bump_id: order_bump_id,
 					},
@@ -269,7 +265,6 @@ jQuery( document ).ready(
 						$( document.body ).trigger( 'added_to_cart', {} );
 						$( document.body ).trigger( 'update_checkout' );
 						// Mini-Cart Upadte on Checkout depending upon themes.
-						// wps_minicart_update(wps_current_theme);
 
 						$( '.wps_parent_wrapper_order_bump_' + order_bump_index ).css( 'pointer-events', 'all' );
 						$( '.wps_parent_wrapper_order_bump_' + order_bump_index ).css( 'opacity', '1' );
@@ -292,10 +287,8 @@ jQuery( document ).ready(
 			'change',
 			'.wps_upsell_offer_variation_select',
 			function (e) {
-				// alert('prince');
-				var selected_order_bump_index = $( this ).attr( 'order_bump_index' );
 
-				// alert(selected_order_bump_index);
+				var selected_order_bump_index = $( this ).attr( 'order_bump_index' );
 
 				// Order Bump Object.
 				var parent_wrapper_class = '.wps_parent_wrapper_order_bump_' + selected_order_bump_index;

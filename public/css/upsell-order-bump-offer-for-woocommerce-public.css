@@ -984,18 +984,6 @@ input.wps_input_quantity.wps_quantity_input {
     border-radius: 10px;
 }
 
-/*.wps_uobo_product_popup #wps_upsell_offer_main_id_1,
-.wps_uobo_product_popup #wps_upsell_offer_main_id_2,
-.wps_uobo_product_popup #wps_upsell_offer_main_id_3,
-.wps_uobo_product_popup #wps_upsell_offer_main_id_4,
-.wps_uobo_product_popup #wps_upsell_offer_main_id_8,
-.wps_uobo_product_popup #wps_upsell_offer_main_id_9 {
-    max-width: 340px;
-    margin: 0 auto;
-    padding: 0;
-}
-*/
-
 .wps_uobo_product_popup #wps_upsell_offer_main_id_3 .upsell-product,
 .wps_uobo_product_popup #wps_upsell_offer_main_id_4 .upsell-product {
     gap: 10px;

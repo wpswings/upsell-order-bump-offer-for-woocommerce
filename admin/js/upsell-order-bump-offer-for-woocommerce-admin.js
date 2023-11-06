@@ -355,7 +355,6 @@
 
 							msg = string.replace( "{dc_price}", fixed );
 							$( ".wps_upsell_offer_discount_section h3" ).html( msg );
-							// $(".wps-ubo__temp-head h3").html( msg );
 							$( ".wps-ubo__temp-prod-offer" ).html( msg );
 						}
 					}
@@ -368,7 +367,6 @@
 							var string = $( this ).val();
 							msg = string.replace( "{dc_%}", percent );
 							$( ".wps_upsell_offer_discount_section h3" ).html( msg );
-							// $(".wps-ubo__temp-head h3").html( msg );
 							$( ".wps-ubo__temp-prod-offer" ).html( msg );
 						}
 					}

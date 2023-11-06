@@ -52,9 +52,6 @@ jQuery( document ).ready(
 							$( document.body ).trigger( 'update_checkout' );
 							if (msg.message == 'remove') {
 								// Below code is to hide the offer section on adding to cart.
-								// setTimeout(function () {
-								// $("#wps_main_class_id_" + parent_product_id).remove();
-								// }, 1100);
 							}
 						}
 					}

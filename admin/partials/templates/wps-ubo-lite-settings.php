@@ -622,7 +622,6 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 						'woocommerce_after_cart_totals' => esc_html__( 'After Cart Totals', 'upsell-order-bump-offer-for-woocommerce' ),
 						'woocommerce_cart_collaterals'  => esc_html__( 'After Cart Section', 'upsell-order-bump-offer-for-woocommerce' ),
 						'woocommerce_before_cart_totals' => esc_html__( 'Before Cart Total', 'upsell-order-bump-offer-for-woocommerce' ),
-						// '_before_place_order_button'    => esc_html__('Before Place Order Button', 'upsell-order-bump-offer-for-woocommerce'),
 					);
 					?>
 

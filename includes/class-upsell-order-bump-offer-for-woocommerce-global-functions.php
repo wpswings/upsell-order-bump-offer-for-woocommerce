@@ -991,12 +991,9 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			transform: rotate(45deg);
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_image {
-			/* width: 90px; */
 			margin-right: 10px;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_img {
-			/* max-height: 120px;
-			width: 90px; */
 			width: <?php echo esc_html( $product_section_img_width . 'px' ); ?>;
 			height: <?php echo esc_html( $product_section_img_height . 'px' ); ?>;
 			max-width: 200px;
@@ -1195,7 +1192,6 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 
 	// Creating  red arrow html.
 	if ( 'on' === $wps_enable_red_arrow_feature ) {
-		// $wps_ubo_red_arrow_svg  = esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/arrow.svg' );
 		$wps_ubo_red_arrow_svg  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 198 111.52" demo="0 0 198 111.52"><defs></defs><g id="a"/><g id="b"><g id="c"><polygon class="d" points="198 25.35 198 86.17 96.62 86.17 96.62 111.52 48.36 83.64 0 55.76 48.36 27.88 96.62 0 96.62 25.35 198 25.35"/></g></g></svg>';
 		$wps_ubo_red_arrow_html = '<div class="wps_upsell_offer_arrow">' . $wps_ubo_red_arrow_svg . '</div>';
 	} else {
@@ -3634,7 +3630,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 			margin: 14px auto;
 			padding: 10px;
 		}
-		/* <?php // echo esc_html( $order_bump_div_id );. ?> .wps_upsell_offer_primary_section h5 {. */
+
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_primary_section .add_offer_in_cart_text {
 			color: <?php echo esc_html( $primary_section_text_color ); ?>;
 			font-size: <?php echo esc_html( $primary_section_text_size ) . esc_html( 'px' ); ?>;
@@ -4220,7 +4216,6 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 			font-weight: 300;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_product_content {
-			/* width: calc(100% - 90px); */
 			word-break: break-word;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_primary_section {
@@ -4609,7 +4604,6 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 
 	// Creating  red arrow html.
 	if ( 'on' === $wps_enable_red_arrow_feature ) {
-		// $wps_ubo_red_arrow_svg  = esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'public/resources/icons/arrow.svg' );
 		$wps_ubo_red_arrow_svg  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 198 111.52" demo="0 0 198 111.52"><defs></defs><g id="a"/><g id="b"><g id="c"><polygon class="d" points="198 25.35 198 86.17 96.62 86.17 96.62 111.52 48.36 83.64 0 55.76 48.36 27.88 96.62 0 96.62 25.35 198 25.35"/></g></g></svg>';
 		$wps_ubo_red_arrow_html = '<div class="wps_upsell_offer_arrow">' . $wps_ubo_red_arrow_svg . '</div>';
 	} else {
@@ -4690,7 +4684,6 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 	$secondary_section_text_size        = ! empty( $bump['design_css']['secondary_section_text_size'] ) ? $bump['design_css']['secondary_section_text_size'] : '';
 
 	// SET THE CLASS FOR THE TEMPLATE.
-	// $wps_bump_upsell_global_css['wps_class_template_pro']  = 'wps-hybrid';.
 	$wps_class_template_pro = ! empty( $bump['design_css']['wps_class_template_pro'] ) ? esc_html( $bump['design_css']['wps_class_template_pro'] ) : '';
 
 	$order_bump_div_id = '#wps_upsell_offer_main_id_' . $encountered_order_bump_id;
@@ -4883,8 +4876,6 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 
 	$bumphtml .= '<input class="wps_hide_checkbox" type="checkbox" ' . $check . ' id ="wps_checkbox_tick_' . $order_bump_key . '" value="">';
 
-	// $bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encoun . '">';.
-
 	if ( ! empty( $bump['smart_offer_upgrade'] ) && 'yes' === $bump['smart_offer_upgrade'] ) {    // smart offer upgrade.
 
 		$bumphtml .= '<input type="hidden" class="order_bump_smo" value=' . $bump['smart_offer_upgrade'] . '>';
@@ -4921,7 +4912,6 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 
 	$bumphtml .= ' <div class="wps-ubo__temp-prod-price">';
 	$bumphtml .= '<span class="wps-ubo__temp-prod-price-new">' . $bump_offer_price . '</span>';
-	// $bumphtml .=  '<del class="wps-ubo__temp-prod-price-old">&#8377; 1,999</del>';.
 
 	if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 		$bumphtml .= '<div class="wps-ubo__temp-prod-price-qty">';
