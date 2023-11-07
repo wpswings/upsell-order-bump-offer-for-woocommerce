@@ -1666,7 +1666,7 @@ function wps_ubo_lite_already_in_cart( $offer_id ) {
 
 				return true;
 			}
-		} else {
+		} else if ( ! $offer_product->has_child() ) {
 
 			// If offer id is variation or simple product.
 			if ( ( ( (string) $cart_item['product_id'] === (string) $offer_id ) || ( (string) $cart_item['variation_id'] === (string) $offer_id ) ) && empty( $cart_item['wps_discounted_price'] ) ) {

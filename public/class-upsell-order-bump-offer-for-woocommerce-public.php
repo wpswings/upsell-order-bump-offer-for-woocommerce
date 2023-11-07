@@ -830,7 +830,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 								WC()->session->__unset( 'bump_offer_status_' . $bump_index );
 							}
-						} else { // When Target dependency is set to Keep Offer product.
+						} else if ( empty( $wps_ubo_global_options['wps_ubo_offer_removal'] ) && 'yes' !== $wps_ubo_global_options['wps_ubo_offer_removal'] ) { // When Target dependency is set to Keep Offer product.
 
 							/**
 							 * Convert Target dependent Offer product into Normal product.
