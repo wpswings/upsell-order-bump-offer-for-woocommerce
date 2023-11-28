@@ -124,6 +124,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
 			wp_enqueue_script( 'wps-ubo-lite-public-script-new', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script_new_template.js', array( 'jquery' ), $this->version, false );
 
+			// Checkout Block and Cart block Comaptibility.
+			$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
+			$bump_offer_location = ! empty( $wps_ubo_global_options['wps_ubo_offer_location'] ) ? $wps_ubo_global_options['wps_ubo_offer_location'] : '_before_order_summary';
+			$bump_cart_offer_location = ! empty( $wps_ubo_global_options['wps_enable_cart_upsell_location'] ) ? $wps_ubo_global_options['wps_enable_cart_upsell_location'] : '';
+			$bump_cart_offer_enable = ! empty( $wps_ubo_global_options['wps_enable_cart_upsell_feature'] ) ? $wps_ubo_global_options['wps_enable_cart_upsell_feature'] : '';
+
 			// Localizing Array.
 			$local_arr = array(
 				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
@@ -133,6 +139,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'is_checkout_page' => $wps_is_checkout_page,
 				'wps_popup_body_class' => $wps_popup_body_class,
 				'wps_popup_exit_intent' => $wps_bump_popup_exit_intent,
+				'wps_order_bump_location_on_checkout' => $bump_offer_location,
+				'wps_order_bump_location_on_cart' => $bump_cart_offer_location,
+				'wps_enable_cart_upsell' => $bump_cart_offer_enable,
 			);
 
 			// Timer Functionality starts.
@@ -2269,5 +2278,42 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 	}
 
+	/**
+	 * Show Order Bump On Checkout Block.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wps_show_bump_on_checkout_block_callback() {
+		// Get the ID of the selected checkout page from WooCommerce settings.
+		$checkout_page_id = get_option( 'woocommerce_checkout_page_id' );
+
+		// Get the content of the checkout page.
+		$checkout_page_content = get_post_field( 'post_content', $checkout_page_id );
+
+		// Check if the content contains a class associated with the block editor.
+		if ( strpos( $checkout_page_content, 'wp-block-woocommerce-checkout' ) !== false ) {
+			require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-public-display.php';
+		}
+	}
+
+	/**
+	 * Show Order Bump On Cart Block.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wps_show_bump_on_cart_block_callback() {
+		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
+		// Get the ID of the selected cart page from WooCommerce settings.
+		$cart_page_id = get_option( 'woocommerce_cart_page_id' );
+
+		// Get the content of the checkout page.
+		$cart_page_content = get_post_field( 'post_content', $cart_page_id );
+
+		// Check cart upsell enabled.
+		$wps_enable_cart_upsell_feature = ! empty( $wps_ubo_global_options['wps_enable_cart_upsell_feature'] ) ? $wps_ubo_global_options['wps_enable_cart_upsell_feature'] : 'on';
+		if ( 'on' == $wps_enable_cart_upsell_feature && strpos( $cart_page_content, 'wp-block-woocommerce-cart' ) !== false ) {
+			require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-public-display.php';
+		}
+	}
 	// End of class.
 }

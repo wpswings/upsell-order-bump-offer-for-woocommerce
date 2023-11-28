@@ -1186,7 +1186,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 
 	// Image Product Gallery.
 	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
-	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() ) {
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ((is_cart()) || (is_checkout()))) {
 		$bumphtml  .= wps_product_image_gallery_callback( $bump['id'] );
 	}
 
@@ -1220,7 +1220,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	$bumphtml .= '</div>';
 
 	// Parent wrapper end.
-	$bumphtml .= '</div></div>';
+	$bumphtml .= '</div></div></div>';
 
 	// For simple product.
 	if ( wps_ubo_lite_if_pro_exists() && ! empty( $offer_product ) && is_object( $offer_product ) && ! $offer_product->has_child() && ! is_admin() ) {
@@ -1442,12 +1442,25 @@ function wps_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 				'priority' => 19,
 				'name'     => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
 			),
-			'_before_place_order_button' => array(
+		);
+		
+		// Check if the Stripe plugin is active.
+		if (is_plugin_active('woocommerce-paypal-payments/woocommerce-paypal-payments.php')) {
+			// If active, add the hook for Paypal.
+			$location_details['_before_place_order_button'] = array(
+				'hook'     => 'woocommerce_review_order_after_payment',
+				'priority' => 10,
+				'name'     => esc_html__( 'Before Place order button', 'upsell-order-bump-offer-for-woocommerce' ),
+			);
+
+		} else {
+			// If not active, add the default hook.
+			$location_details['_before_place_order_button'] = array(
 				'hook'     => 'woocommerce_review_order_before_submit',
 				'priority' => 21,
 				'name'     => esc_html__( 'Before Place order button', 'upsell-order-bump-offer-for-woocommerce' ),
-			),
-		);
+			);
+		}
 	} else {   // Code For Comapatibility With CheckoutWC plugin.
 		$location_details = array(
 			'_before_order_summary'      => array(
@@ -3387,7 +3400,7 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 
 	// Image Product Gallery.
 	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
-	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() ) {
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ((is_cart()) || (is_checkout()))) {
 		$bumphtml  .= wps_product_image_gallery_callback( $bump['id'] );
 	}
 
@@ -3983,7 +3996,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 
 	// Image Product Gallery.
 	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
-	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() ) {
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ((is_cart()) || (is_checkout()))) {
 		$bumphtml  .= wps_product_image_gallery_callback( $bump['id'] );
 	}
 
@@ -4587,7 +4600,7 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 
 	// Image Product Gallery.
 	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
-	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() ) {
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ((is_cart()) || (is_checkout()))) {
 		$bumphtml  .= wps_product_image_gallery_callback( $bump['id'] );
 	}
 

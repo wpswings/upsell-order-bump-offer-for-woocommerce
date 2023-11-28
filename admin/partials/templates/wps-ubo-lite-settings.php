@@ -398,19 +398,39 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 					<?php
 					$wps_plugin_list = get_option( 'active_plugins' );
 					$wps_is_pro_active = false;
+					$wps_traditional_checkout = true;
 					$wps_plugin = 'checkout-for-woocommerce/checkout-for-woocommerce.php';
+
+					// Get the ID of the selected checkout page from WooCommerce settings.
+					$checkout_page_id = get_option( 'woocommerce_checkout_page_id' );
+
+					// Get the content of the checkout page.
+					$checkout_page_content = get_post_field( 'post_content', $checkout_page_id );
+
+					// Check if the content contains a class associated with the block editor.
+					if ( strpos( $checkout_page_content, 'wp-block-woocommerce-checkout' ) !== false ) {
+						$wps_traditional_checkout = false;
+					} else {
+						$wps_traditional_checkout = true;
+					}
+
 					if ( in_array( $wps_plugin, $wps_plugin_list ) ) {
 						$wps_is_pro_active = true;
 					}
 
-					if ( ! $wps_is_pro_active ) {
+					if ( ! $wps_is_pro_active && $wps_traditional_checkout ) {
 						$offer_locations_array = array(
 							'_before_order_summary'      => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
 							'_before_payment_gateways'   => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
 							'_after_payment_gateways'    => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
 							'_before_place_order_button' => esc_html__( 'Before Place Order Button', 'upsell-order-bump-offer-for-woocommerce' ),
 						);
-					} else { // Code For Comapatibility With CheckoutWC plugin.
+					} elseif ( ! $wps_is_pro_active && ! $wps_traditional_checkout ) { // Code For Comapatibility With Checkout Block plugin.
+						$offer_locations_array = array(
+							'_before_order_summary'      => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_before_payment_gateways'    => esc_html__( 'After Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+						);
+					} elseif ( $wps_is_pro_active ) {  // Code For Comapatibility With CheckoutWC plugin.
 						$offer_locations_array = array(
 							'_before_order_summary'      => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
 							'_before_payment_gateways'   => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
@@ -618,11 +638,33 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 					</th>
 
 					<?php
-					$offer_locations_array = array(
-						'woocommerce_after_cart_totals' => esc_html__( 'After Cart Totals', 'upsell-order-bump-offer-for-woocommerce' ),
-						'woocommerce_cart_collaterals'  => esc_html__( 'After Cart Section', 'upsell-order-bump-offer-for-woocommerce' ),
-						'woocommerce_before_cart_totals' => esc_html__( 'Before Cart Total', 'upsell-order-bump-offer-for-woocommerce' ),
-					);
+					$wps_traditional_cart = true;
+
+					// Get the ID of the selected cart page from WooCommerce settings.
+					$cart_page_id = get_option( 'woocommerce_cart_page_id' );
+
+					// Get the content of the checkout page.
+					$cart_page_content = get_post_field( 'post_content', $cart_page_id );
+
+					// Check if the content contains a class associated with the block editor.
+					if ( strpos( $cart_page_content, 'wp-block-woocommerce-cart' ) !== false ) {
+						$wps_traditional_cart = false;
+					} else {
+						$wps_traditional_cart = true;
+					}
+
+					if ( $wps_traditional_cart ) {
+						$offer_locations_array = array(
+							'woocommerce_after_cart_totals' => esc_html__( 'After Cart Totals', 'upsell-order-bump-offer-for-woocommerce' ),
+							'woocommerce_cart_collaterals'  => esc_html__( 'After Cart Section', 'upsell-order-bump-offer-for-woocommerce' ),
+							'woocommerce_before_cart_totals' => esc_html__( 'Before Cart Total', 'upsell-order-bump-offer-for-woocommerce' ),
+						);
+					} else {
+						$offer_locations_array = array(
+							'woocommerce_after_cart_totals' => esc_html__( 'After Cart Section', 'upsell-order-bump-offer-for-woocommerce' ),
+							'woocommerce_cart_collaterals'  => esc_html__( 'Before Cart Section', 'upsell-order-bump-offer-for-woocommerce' ),
+						);
+					}
 					?>
 
 					<td class="forminp forminp-text">

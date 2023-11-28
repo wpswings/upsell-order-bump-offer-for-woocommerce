@@ -312,6 +312,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
 			$this->loader->add_action( 'woocommerce_before_calculate_totals', $plugin_public, 'wps_order_cart_custom_price_refresh' );
+
+			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_after', $plugin_public, 'wps_show_bump_on_checkout_block_callback' );
+
+			$this->loader->add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', $plugin_public, 'wps_show_bump_on_cart_block_callback' );
+
+
 		}
 	}
 
