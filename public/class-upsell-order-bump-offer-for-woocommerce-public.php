@@ -1299,12 +1299,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function woocommerce_init_ubo_functions() {
 		// Check woocommrece class exists.
-		if ( ! function_exists( 'WC' ) || empty( WC()->session ) ) {
+		// if ( ! function_exists( 'WC' ) || empty( WC()->session ) ) {.
 
-			return;
-		}
+		// return;.
+		// }.
 
-		if ( 'true' === WC()->session->get( 'encountered_bump_array_display' ) ) {
+		// if ( 'true' === WC()->session->get( 'encountered_bump_array_display' ) ) {.
 
 			// Cost calculations only when the offer is added.
 			add_action( 'woocommerce_before_calculate_totals', array( $this, 'woocommerce_custom_price_to_cart_item' ) );
@@ -1325,7 +1325,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			// Add Order Bump - Order Post meta.
 			add_action( 'woocommerce_checkout_order_processed', array( $this, 'add_bump_order_post_meta' ), 10 );
-		}
+		// }
 
 		// Handle Order Bump Orders on Thankyou for Success Rate and Stats.
 		add_action( 'woocommerce_thankyou', array( $this, 'report_sales_by_bump_handling' ), 15 );

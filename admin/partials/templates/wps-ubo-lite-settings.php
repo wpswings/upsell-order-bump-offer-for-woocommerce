@@ -211,7 +211,7 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 
 					<td class="forminp forminp-text">
 						<?php
-						$attribute_description = esc_html__( 'Triggered the popup on leavng checkout or cart page.', 'upsell-order-bump-offer-for-woocommerce' );
+						$attribute_description = esc_html__( 'Triggered the popup on leaving the checkout or cart page.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
@@ -427,8 +427,8 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 						);
 					} elseif ( ! $wps_is_pro_active && ! $wps_traditional_checkout ) { // Code For Comapatibility With Checkout Block plugin.
 						$offer_locations_array = array(
-							'_before_order_summary'      => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
-							'_before_payment_gateways'    => esc_html__( 'After Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_before_order_summary'      => esc_html__( 'After Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_before_payment_gateways'    => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
 						);
 					} elseif ( $wps_is_pro_active ) {  // Code For Comapatibility With CheckoutWC plugin.
 						$offer_locations_array = array(

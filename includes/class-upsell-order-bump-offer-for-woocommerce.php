@@ -317,7 +317,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 			$this->loader->add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', $plugin_public, 'wps_show_bump_on_cart_block_callback' );
 
-
 		}
 	}
 

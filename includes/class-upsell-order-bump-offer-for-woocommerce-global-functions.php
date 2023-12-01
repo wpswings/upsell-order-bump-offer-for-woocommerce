@@ -1186,7 +1186,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 
 	// Image Product Gallery.
 	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
-	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ((is_cart()) || (is_checkout()))) {
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ( ( is_cart() ) || ( is_checkout() ) ) ) {
 		$bumphtml  .= wps_product_image_gallery_callback( $bump['id'] );
 	}
 
@@ -1443,9 +1443,9 @@ function wps_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 				'name'     => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
 			),
 		);
-		
+
 		// Check if the Stripe plugin is active.
-		if (is_plugin_active('woocommerce-paypal-payments/woocommerce-paypal-payments.php')) {
+		if ( is_plugin_active( 'woocommerce-paypal-payments/woocommerce-paypal-payments.php' ) ) {
 			// If active, add the hook for Paypal.
 			$location_details['_before_place_order_button'] = array(
 				'hook'     => 'woocommerce_review_order_after_payment',
@@ -3400,7 +3400,7 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 
 	// Image Product Gallery.
 	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
-	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ((is_cart()) || (is_checkout()))) {
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ( ( is_cart() ) || ( is_checkout() ) ) ) {
 		$bumphtml  .= wps_product_image_gallery_callback( $bump['id'] );
 	}
 
@@ -3996,7 +3996,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 
 	// Image Product Gallery.
 	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
-	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ((is_cart()) || (is_checkout()))) {
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ( ( is_cart() ) || ( is_checkout() ) ) ) {
 		$bumphtml  .= wps_product_image_gallery_callback( $bump['id'] );
 	}
 
@@ -4600,7 +4600,7 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 
 	// Image Product Gallery.
 	$wps_product_image_slider = isset( $bump['wps_ubo_offer_product_image_slider'] ) ? $bump['wps_ubo_offer_product_image_slider'] : '';
-	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ((is_cart()) || (is_checkout()))) {
+	if ( 'yes' === $wps_product_image_slider && wps_ubo_lite_if_pro_exists() && ( ( is_cart() ) || ( is_checkout() ) ) ) {
 		$bumphtml  .= wps_product_image_gallery_callback( $bump['id'] );
 	}
 
