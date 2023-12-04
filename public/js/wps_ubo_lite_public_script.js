@@ -1,5 +1,54 @@
 jQuery(document).ready(function ($) {
 
+    setTimeout(function () {
+
+        var wps_is_checkout_block_use = wps_ubo_lite_public.wps_is_checkout_block_use;
+
+        if (wps_is_checkout_block_use) {
+            var data = jQuery('.wrapup_order_bump').html();
+            console.log(wps_ubo_lite_public.wps_order_bump_location_on_checkout);
+
+            if ('_before_place_order_button' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+ 
+                jQuery('.wp-block-woocommerce-checkout-order-summary-block').append('<div class = "wrapup_order_bump">' + data + '</div>');
+                $(".wp-block-woocommerce-checkout").siblings().remove()
+            } else if ('_after_payment_gateways' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+
+                jQuery('.wc-block-checkout__payment-method').append('<div class = "wrapup_order_bump">' + data + '</div>');
+                $(".wp-block-woocommerce-checkout").siblings().remove()
+            } else if ('_before_order_summary' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+            
+                jQuery('.wp-block-woocommerce-checkout-order-summary-coupon-form-block').append('<div class = "wrapup_order_bump">' + data + '</div>');
+                $(".wp-block-woocommerce-checkout").siblings().remove();
+
+            }
+        }
+
+        var wps_is_cart_block_use = wps_ubo_lite_public.wps_is_cart_block_use;
+
+        if ('on' == wps_ubo_lite_public.wps_enable_cart_upsell && wps_is_cart_block_use) {
+
+            var data = jQuery('.wrapup_order_bump').html();
+
+            if ( 'woocommerce_after_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
+
+                jQuery('.wp-block-woocommerce-cart-totals-block').append('<div class = "wrapup_order_bump">' + data + '</div>'); //after cart total.
+                $(".wp-block-woocommerce-cart").siblings().remove();
+
+            } else if('woocommerce_cart_collaterals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
+                
+                jQuery('.wc-block-components-totals-footer-item').append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
+                $(".wp-block-woocommerce-cart").siblings().remove();
+            }
+  
+        }
+
+
+    },1000)
+    
+
+    
+
     $(document).on('click', '.wc-block-cart-item__remove-link', function () {
         setTimeout(function() {
             location.reload();
@@ -924,42 +973,43 @@ jQuery(document).ready(function($) {
         } 
       }, 1000);
 
-//////////Comaptibility With Checkout & Cart Blocks Start Here/////////////////////////////////
-if ('_before_payment_gateways' != wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
-
-    var sourceDivs = document.getElementsByClassName('wrapup_order_bump');
-    var targetDivs = document.getElementsByClassName('wp-block-woocommerce-checkout');
-
-    // Assuming there's only one div with the class, you can directly access the first element.
-    var sourceDiv = sourceDivs[0];
-    var targetDiv = targetDivs[0];
-
-    if (targetDiv) {
-        // Append the source div to the target div.
-        targetDiv.appendChild(sourceDiv);
-    } else {
-        console.error('Parent element not found.');
-    }
-}
-
-if ('woocommerce_after_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart && 'on' == wps_ubo_lite_public.wps_enable_cart_upsell) {
-
-    var sourceDivs = document.getElementsByClassName('wrapup_order_bump');
-    var targetDivs = document.getElementsByClassName('wp-block-woocommerce-cart');
-
-    // Assuming there's only one div with the class, you can directly access the first element.
-    var sourceDiv = sourceDivs[0];
-    var targetDiv = targetDivs[0];
-    if (targetDiv) {
-        // Append the source div to the target div.
-        targetDiv.appendChild(sourceDiv);
-    } else {
-        console.error('Parent element not found.');
-    }
-}
-    //////////Comaptibility With Checkout & Cart Blocks Start End/////////////////////////////////
+    //////////Comaptibility With Checkout & Cart Blocks Start Here/////////////////////////////////
+    
     
 
+// if ('_before_payment_gateways' != wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+
+//     var sourceDivs = document.getElementsByClassName('wrapup_order_bump');
+//     var targetDivs = document.getElementsByClassName('wp-block-woocommerce-checkout');
+
+//     // Assuming there's only one div with the class, you can directly access the first element.
+//     var sourceDiv = sourceDivs[0];
+//     var targetDiv = targetDivs[0];
+
+//     if (targetDiv) {
+//         // Append the source div to the target div.
+//         targetDiv.appendChild(sourceDiv);
+//     } else {
+//         console.error('Parent element not found.');
+//     }
+// }
+
+// if ('woocommerce_after_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart && 'on' == wps_ubo_lite_public.wps_enable_cart_upsell) {
+
+//     var sourceDivs = document.getElementsByClassName('wrapup_order_bump');
+//     var targetDivs = document.getElementsByClassName('wp-block-woocommerce-cart');
+
+//     // Assuming there's only one div with the class, you can directly access the first element.
+//     var sourceDiv = sourceDivs[0];
+//     var targetDiv = targetDivs[0];
+//     if (targetDiv) {
+//         // Append the source div to the target div.
+//         targetDiv.appendChild(sourceDiv);
+//     } else {
+//         console.error('Parent element not found.');
+//     }
+// }
+    //////////Comaptibility With Checkout & Cart Blocks Start End/////////////////////////////////
 
 });
 // Evergreen timer end here.

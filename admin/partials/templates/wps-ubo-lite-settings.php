@@ -427,8 +427,10 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 						);
 					} elseif ( ! $wps_is_pro_active && ! $wps_traditional_checkout ) { // Code For Comapatibility With Checkout Block plugin.
 						$offer_locations_array = array(
-							'_before_order_summary'      => esc_html__( 'After Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
-							'_before_payment_gateways'    => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_before_order_summary'      => esc_html__( 'After Coupon Box', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_before_payment_gateways'    => esc_html__( 'Before Checkout Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_after_payment_gateways'    => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+							'_before_place_order_button' => esc_html__( 'After Checkout Total', 'upsell-order-bump-offer-for-woocommerce' ),
 						);
 					} elseif ( $wps_is_pro_active ) {  // Code For Comapatibility With CheckoutWC plugin.
 						$offer_locations_array = array(
@@ -661,8 +663,8 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 						);
 					} else {
 						$offer_locations_array = array(
-							'woocommerce_after_cart_totals' => esc_html__( 'After Cart Section', 'upsell-order-bump-offer-for-woocommerce' ),
-							'woocommerce_cart_collaterals'  => esc_html__( 'Before Cart Section', 'upsell-order-bump-offer-for-woocommerce' ),
+							'woocommerce_after_cart_totals' => esc_html__( 'After Cart Total', 'upsell-order-bump-offer-for-woocommerce' ),
+							'woocommerce_cart_collaterals'  => esc_html__( 'Before Cart Total', 'upsell-order-bump-offer-for-woocommerce' ),
 						);
 					}
 					?>

@@ -2305,7 +2305,7 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 			$price_discount = floatval( sanitize_text_field( $price_discount ) );
 
-			$bump_price = $orginal_price - ( $orginal_price * $price_discount / 100 );
+			$bump_price = (float) $orginal_price - ( (float) $orginal_price * (float) $price_discount / 100 );
 
 			$product->set_price( $bump_price );
 

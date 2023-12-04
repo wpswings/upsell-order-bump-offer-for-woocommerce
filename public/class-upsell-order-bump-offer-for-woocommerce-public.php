@@ -102,11 +102,41 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_is_checkout_page = false;
 			$wps_popup_body_class = 'No';
 			$wps_ubo_timer_evegreen_countdown = array();
-
+			$wps_traditional_checkout = false;
+			$wps_traditional_cart = false;
 			// To check the checkout page is there or not for jquery.
 			if ( ( function_exists( 'is_checkout' ) || is_checkout() ) || ( function_exists( 'is_cart' ) || is_cart() ) ) {
 				$wps_is_checkout_page = true;
 			}
+
+			// To Check whther checkout or cart block Start Here.
+
+					// Get the ID of the selected checkout page from WooCommerce settings.
+					$checkout_page_id = get_option( 'woocommerce_checkout_page_id' );
+
+					// Get the content of the checkout page.
+					$checkout_page_content = get_post_field( 'post_content', $checkout_page_id );
+
+					// Check if the content contains a class associated with the block editor.
+			if ( strpos( $checkout_page_content, 'wp-block-woocommerce-checkout' ) !== false ) {
+				$wps_traditional_checkout = true;
+			} else {
+				$wps_traditional_checkout = false;
+			}
+
+					// Get the ID of the selected cart page from WooCommerce settings.
+					$cart_page_id = get_option( 'woocommerce_cart_page_id' );
+
+					// Get the content of the checkout page.
+					$cart_page_content = get_post_field( 'post_content', $cart_page_id );
+
+					// Check if the content contains a class associated with the block editor.
+			if ( strpos( $cart_page_content, 'wp-block-woocommerce-cart' ) !== false ) {
+				$wps_traditional_cart = false;
+			} else {
+				$wps_traditional_cart = true;
+			}
+			// To Check whther checkout or cart block End Here.
 
 			$current_theme = wp_get_theme();
 
@@ -142,6 +172,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'wps_order_bump_location_on_checkout' => $bump_offer_location,
 				'wps_order_bump_location_on_cart' => $bump_cart_offer_location,
 				'wps_enable_cart_upsell' => $bump_cart_offer_enable,
+				'wps_is_checkout_block_use' => $wps_traditional_checkout,
+				'wps_is_cart_block_use' => $wps_traditional_cart,
 			);
 
 			// Timer Functionality starts.

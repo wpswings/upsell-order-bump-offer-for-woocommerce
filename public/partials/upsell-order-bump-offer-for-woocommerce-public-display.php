@@ -122,7 +122,9 @@ ksort( $bump_priority_collection );
 $encountered_bump_ids_array = array_merge( $bump_priority_collection, $encountered_bump_ids_array );
 
 $encountered_bump_ids_array = array_unique( $encountered_bump_ids_array );
-
+?>
+<div class="wps_order_bump_without_popup_wrap" >
+<?php
 if ( 'without_popup' == $wps_bump_target_popup_bump ) {
 
 	// Bump offer html section without popup function.
@@ -151,6 +153,9 @@ if ( 'without_popup' == $wps_bump_target_popup_bump ) {
 		wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
 	}
 }
+?>
+</div>
+<?php
 
 // Bump offer html section with popup function.
 if ( 'with_popup' == $wps_bump_target_popup_bump ) {
@@ -236,6 +241,9 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 </div>
 	<?php
 }
+?>
+  </div>
+<?php
 /**===========================================
 		Order bump html section ends
 ===========================================*/
