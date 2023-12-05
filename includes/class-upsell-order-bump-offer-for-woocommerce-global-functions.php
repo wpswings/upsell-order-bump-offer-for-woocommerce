@@ -865,7 +865,6 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			font-weight: 300;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_product_content {
-			/* width: calc(100% - 90px); */
 			word-break: break-word;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_primary_section {
@@ -875,7 +874,6 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			margin: 14px auto;
 			padding: 10px;
 		}
-		/* <?php // echo esc_html( $order_bump_div_id );. ?> .wps_upsell_offer_primary_section h5 {. */
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_primary_section .add_offer_in_cart_text {
 			color: <?php echo esc_html( $primary_section_text_color ); ?>;
 			font-size: <?php echo esc_html( $primary_section_text_size ) . esc_html( 'px' ); ?>;
