@@ -1031,9 +1031,10 @@ input.wps_input_quantity.wps_quantity_input {
 }
 
 .wps_close_modal {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 999999;
 }
 
 .wps_close_modal .close-button {
@@ -1047,6 +1048,7 @@ input.wps_input_quantity.wps_quantity_input {
     justify-content: center;
     background-position: center;
     background-size: contain;
+    filter: invert(1);
 }
 
 .wps_close_modal .close-button:focus {
