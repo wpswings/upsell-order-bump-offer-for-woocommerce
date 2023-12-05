@@ -242,14 +242,14 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 						<div>
 							<label class="form-control">
 								<?php if ( wps_ubo_lite_if_pro_exists() ) { ?>
-									<input type="radio" id="wps_Offer_With_Pop_Up_id_pro_1" name="wps_bump_popup_bump_offer" value="with_popup" <?php checked( $wps_bump_target_popup_bump, 'with_popup' ); ?> />Offer With Pop-Up</label>
+									<input type="radio" id="wps_Offer_With_Pop_Up_id_pro_1" name="wps_bump_popup_bump_offer" value="with_popup" <?php checked( $wps_bump_target_popup_bump, 'with_popup' ); ?> /><?php echo esc_html_e( 'Offer With Pop-Up', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 
 							<label class="form-control">
-								<input type="radio" name="wps_bump_popup_bump_offer" id="wps_Offer_Without_Pop_Up_id_pro_1" value="without_popup" <?php checked( $wps_bump_target_popup_bump, 'without_popup' ); ?> />Offer Without Pop-Up</label>
+								<input type="radio" name="wps_bump_popup_bump_offer" id="wps_Offer_Without_Pop_Up_id_pro_1" value="without_popup" <?php checked( $wps_bump_target_popup_bump, 'without_popup' ); ?> /><?php echo esc_html_e( 'Offer Without Pop-Up', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 						<?php } else { ?>
-							<input type="radio" id="wps_Offer_With_Pop_Up_id_org_2" class="wps_bump_offer_popup_case" name="wps_check_bump" value="" <?php checked( $wps_bump_target_popup_bump, 'with_popup' ); ?> />Offer With Pop-Up</label>
+							<input type="radio" id="wps_Offer_With_Pop_Up_id_org_2" class="wps_bump_offer_popup_case" name="wps_check_bump" value="" <?php checked( $wps_bump_target_popup_bump, 'with_popup' ); ?> /><?php echo esc_html_e( 'Offer With Pop-Up', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 							<label class="form-control">
-								<input type="radio" name="wps_bump_popup_bump_offer" id="wps_Offer_Without_Pop_Up_id_org_2" value="without_popup" <?php checked( $wps_bump_target_popup_bump, 'without_popup' ); ?> />Offer Without Pop-Up</label>
+								<input type="radio" name="wps_bump_popup_bump_offer" id="wps_Offer_Without_Pop_Up_id_org_2" value="without_popup" <?php checked( $wps_bump_target_popup_bump, 'without_popup' ); ?> /><?php echo esc_html_e( 'Offer Without Pop-Up', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 						<?php } ?>
 						</div>
 
