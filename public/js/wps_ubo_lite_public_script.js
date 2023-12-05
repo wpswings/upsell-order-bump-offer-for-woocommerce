@@ -5,41 +5,45 @@ jQuery(document).ready(function ($) {
         var wps_is_checkout_block_use = wps_ubo_lite_public.wps_is_checkout_block_use;
 
         if (wps_is_checkout_block_use) {
-            var data = jQuery('.wrapup_order_bump').html();
+            if (jQuery('.wrapup_order_bump').length > 0) {
+                var data = jQuery('.wrapup_order_bump').html();
 
-            if ('_before_place_order_button' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+                if ('_before_place_order_button' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
  
-                jQuery('.wp-block-woocommerce-checkout-order-summary-block').append('<div class = "wrapup_order_bump">' + data + '</div>');
-                $(".wp-block-woocommerce-checkout").siblings().remove()
-            } else if ('_after_payment_gateways' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+                    jQuery('.wp-block-woocommerce-checkout-order-summary-block').append('<div class = "wrapup_order_bump">' + data + '</div>');
+                    $(".wp-block-woocommerce-checkout").siblings().remove()
+                } else if ('_after_payment_gateways' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
 
-                jQuery('.wc-block-checkout__payment-method').append('<div class = "wrapup_order_bump">' + data + '</div>');
-                $(".wp-block-woocommerce-checkout").siblings().remove()
-            } else if ('_before_order_summary' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+                    jQuery('.wc-block-checkout__payment-method').append('<div class = "wrapup_order_bump">' + data + '</div>');
+                    $(".wp-block-woocommerce-checkout").siblings().remove()
+                } else if ('_before_order_summary' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
             
-                jQuery('.wp-block-woocommerce-checkout-order-summary-coupon-form-block').append('<div class = "wrapup_order_bump">' + data + '</div>');
-                $(".wp-block-woocommerce-checkout").siblings().remove();
+                    jQuery('.wp-block-woocommerce-checkout-order-summary-coupon-form-block').append('<div class = "wrapup_order_bump">' + data + '</div>');
+                    $(".wp-block-woocommerce-checkout").siblings().remove();
 
+                }
             }
         }
 
         var wps_is_cart_block_use = wps_ubo_lite_public.wps_is_cart_block_use;
 
         if ('on' == wps_ubo_lite_public.wps_enable_cart_upsell && wps_is_cart_block_use) {
+            if (jQuery('.wrapup_order_bump').length > 0) {
 
-            var data = jQuery('.wrapup_order_bump').html();
+                var data = jQuery('.wrapup_order_bump').html();
 
-            if ( 'woocommerce_after_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
+                if ('woocommerce_after_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
 
-                jQuery('.wp-block-woocommerce-cart-totals-block').append('<div class = "wrapup_order_bump">' + data + '</div>'); //after cart total.
-                $(".wp-block-woocommerce-cart").siblings().remove();
+                    jQuery('.wp-block-woocommerce-cart-totals-block').append('<div class = "wrapup_order_bump">' + data + '</div>'); //after cart total.
+                    $(".wp-block-woocommerce-cart").siblings().remove();
 
-            } else if('woocommerce_cart_collaterals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
+                } else if ('woocommerce_cart_collaterals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
                 
-                jQuery('.wc-block-components-totals-footer-item').append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
-                $(".wp-block-woocommerce-cart").siblings().remove();
-            }
+                    jQuery('.wc-block-components-totals-footer-item').append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
+                    $(".wp-block-woocommerce-cart").siblings().remove();
+                }
   
+            }
         }
 
     },1000)
