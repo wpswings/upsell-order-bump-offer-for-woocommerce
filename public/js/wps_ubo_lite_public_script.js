@@ -6,7 +6,6 @@ jQuery(document).ready(function ($) {
 
         if (wps_is_checkout_block_use) {
             var data = jQuery('.wrapup_order_bump').html();
-            console.log(wps_ubo_lite_public.wps_order_bump_location_on_checkout);
 
             if ('_before_place_order_button' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
  
@@ -43,11 +42,7 @@ jQuery(document).ready(function ($) {
   
         }
 
-
     },1000)
-    
-
-    
 
     $(document).on('click', '.wc-block-cart-item__remove-link', function () {
         setTimeout(function() {
@@ -852,11 +847,13 @@ jQuery(document).ready(function ($) {
 
         if ('on' == wps_ubo_lite_public.wps_popup_exit_intent) {
             $("html").bind("mouseleave", function () {
+                $('.close-button').parent().show();
                 wps_show_pop_up();
                 $("html").unbind("mouseleave");
             });
         } else {
-            setTimeout(function () { wps_show_pop_up(); }, 1500);
+            $('.close-button').parent().show();
+            setTimeout(function () { wps_show_pop_up(); }, 1000);
         }
         
 
@@ -901,8 +898,8 @@ jQuery(document).ready(function ($) {
             });
         
             // Close Popup. 
-             $(document).on('click', '.close-button', function (e) {
-
+             $(document).on('click', '.close-button ', function (e) {
+             $('.close-button').hide();
             $(".fusion-header-wrapper").css("display","block");///Avada header hidden on popup.
             //Hide the header on popup open.
              if('Divi' == wps_ubo_lite_public.current_theme ) {

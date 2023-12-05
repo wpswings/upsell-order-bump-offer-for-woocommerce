@@ -132,9 +132,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 					// Check if the content contains a class associated with the block editor.
 			if ( strpos( $cart_page_content, 'wp-block-woocommerce-cart' ) !== false ) {
-				$wps_traditional_cart = false;
-			} else {
 				$wps_traditional_cart = true;
+			} else {
+				$wps_traditional_cart = false;
 			}
 			// To Check whther checkout or cart block End Here.
 

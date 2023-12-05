@@ -1034,7 +1034,8 @@ input.wps_input_quantity.wps_quantity_input {
     position: fixed;
     top: 30px;
     right: 30px;
-    z-index: 999999;
+    z-index: 9999999;
+    display: none;
 }
 
 .wps_close_modal .close-button {
