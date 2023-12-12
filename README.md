@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg)![Active installs](https://img.shields.io/badge/Active-5000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.3.0-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-8.0.2-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg)![Active installs](https://img.shields.io/badge/Active-5000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.4.1-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-8.3.1-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
 # Upsell Order Bump Offer for WooCommerce – Increase Sales and AOV, Upsell & Cross-sell Offers  on Checkout Page
 ![Upsell Order Bump Offer for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg?rev=2672066)
 * Contributors: WP Swings
@@ -25,7 +25,7 @@ Relevant offers can be set for specific targets with [**WooCommerce Upsell Bump 
 * Schedule your bump offers for specific days.
 * Edit your offers in Sandbox mode.
 * Skip bump offers if the offer product is already added to the cart.
-* Offer simple, variable, and subscription products as WooCommerce order bump upsell offers..
+* Offer simple, variable, and subscription products as WooCommerce order bump upsell offers.
 * Track order bumps performance with Upsell Order Bump Sales Reports and Behavioral Analytics.
 
 ### ORDER BUMP PLUGIN MEETS YOUR REQUIREMENT, SO
@@ -40,7 +40,7 @@ Relevant offers can be set for specific targets with [**WooCommerce Upsell Bump 
 
 **3) Just a Precious Single Click to Accept the Offer**: The Upsell Order Bump offer can be accepted in just a single click in which the customer can simply tick the checkbox to add the offer to their existing order.
 
-**4) WooCommerce Upsell Popup**: You have the choice to display the sales pop-up screen of the WooCommerce order bump product image or title at the checkout page thanks to the WooCommerce upsell popup feature. You can choose whether to display an upsell popup or not using the radio button. You can show the items that go with your transaction using the WooCommerce  checkout popup. 
+**4) WooCommerce Upsell Popup**: You have the choice to display the sales pop-up screen of the WooCommerce order bump product image or title at the checkout page thanks to the WooCommerce upsell popup feature. You can choose whether to display an upsell popup or not using the radio button. You can show the items that go with your transaction using the WooCommerce checkout popup. 
 
 **5) Category-Based Offer Triggering**: You can trigger your WooCommerce checkout upsell offers based on the target category of products. For example, if anyone purchases a product from the Electronics category then your Order Bump Upsell offer will be triggered and the offer will be shown. Setting up the target category saves a lot of time from adding individual products as targets and you can set up related upsell WooCommerce offers that will show up for the right category.
 
@@ -102,9 +102,9 @@ Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://su
 
 **4) Unlimited & Multiple Order Bumps**: The merchants can create just a single order bump offer with the WooCommerce upsell plugin free version. However, the pro version provides the ability to create unlimited WooCommerce bump offers. 
 
-**5) Bump Offer Product Quantity**: The WooCommerce upsell plugin, has two ways to show and set the quantity on order bump offer. The static and the variable quantity change. The first means there is no option to increase or decrease the quantity number on the bump offer and static one quantity will be added on accepting the bump offer. For a later change, you set to max and min to change the quantity number by the user.
+**5) Bump Offer Product Quantity**: The WooCommerce upsell plugin, has two ways to show and set the quantity on an order bump offer. The static and the variable quantity change. The first means there is no option to increase or decrease the quantity number on the bump offer and static one quantity will be added on accepting the bump offer. For a later change, you set to max and min to change the quantity number by the user.
 
-**6) Arrow on Offer Box**: Merchants can utilize this feature of the Upsell Order Bump Plugin WooCommerce’s pro version to add an arrow on the offering box for WooCommerce at checkout to emphasize more on the offer more and make it attractive to customers. Transform the arrow into a variety of colors and catch your user’s attention while browsing.
+**6) Arrow on Offer Box**: Merchants can utilize this feature of the Upsell Order Bump Plugin WooCommerce’s pro version to add an arrow on the offering box for WooCommerce at checkout to emphasize more on the offer and make it attractive to customers. Transform the arrow into a variety of colors and catch your user’s attention while browsing.
 
 **7) Global Order Bump**: With this feature, you can add all the WooCommerce upsell products on your site for order bump offers. This feature will show the bump offer by selecting all the products on your site.
 
@@ -122,9 +122,11 @@ I’m happy with the outcomes I’m getting using the Upsell Order Bump Offer fo
 
 ## SUPPORT
 
-If you need support or have questions, kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-github-page&utm_campaign=official) or connect with us then [**Generate a ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-submit-query&utm_medium=order-bump-github-page&utm_campaign=query)
+If you need support or have questions, kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-github-page&utm_campaign=official) 
 
-> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=order-bump-github-page&utm_campaign=forum)
+> Get Huge Discounts on WooCommerce Subscriptions plugin during Christmas Sales 2023 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-subs-offers&utm_medium=subs-github-page&utm_campaign=offers)
+
+> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=order-bump-github-page&utm_campaign=forum) or [**Generate a ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-submit-query&utm_medium=order-bump-github-page&utm_campaign=query)
 
 > Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-order-bump-services&utm_medium=order-bump-github-page&utm_campaign=woocommerce-services)
 
