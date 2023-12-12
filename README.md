@@ -124,7 +124,7 @@ I’m happy with the outcomes I’m getting using the Upsell Order Bump Offer fo
 
 If you need support or have questions, kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-github-page&utm_campaign=official) 
 
-> Get Huge Discounts on WooCommerce Subscriptions plugin during Christmas Sales 2023 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-subs-offers&utm_medium=subs-github-page&utm_campaign=offers)
+> Get Huge Discounts on WooCommerce Order bump plugin during Christmas Sales 2023 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-order-bump-offers&utm_medium=order-bump-github-page&utm_campaign=offers)
 
 > If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=order-bump-github-page&utm_campaign=forum) or [**Generate a ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-submit-query&utm_medium=order-bump-github-page&utm_campaign=query)
 
