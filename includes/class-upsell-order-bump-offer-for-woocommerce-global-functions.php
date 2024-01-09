@@ -5182,6 +5182,10 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 			fill: <?php echo esc_html( $primary_section_arrow_color ); ?>
 		}
 
+		.wps_upsell_product_permalink {
+			text-decoration: none !important;
+		}
+
  .wps-ob-st {
 		padding: 15px;
 		border: 1px solid #dcdcdc;
@@ -5439,7 +5443,7 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 	$bumphtml .= '</div>';
 
 	$bumphtml .= '<div class="wps-ob-st__main">';
-	$bumphtml .= ' <div class="wps-ob-st__m-title">' . esc_html__( $bump_price_html, 'upsell-order-bump-offer-for-woocommerce' ) . '</div>';
+	$bumphtml .= ' <div class="wps-ob-st__m-title">' . $bump_price_html . '</div>';
 	$bumphtml .= '<div class="wps-ob-st__m-in">';
 
 	if ( 'on' === $wps_bump_enable_permalink ) {      // Permalinks Fro The Product Image.
@@ -5467,7 +5471,9 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 	$bumphtml .= ' <div class="wps-ob-st__m-c-p">' . $description . '</div>';
 	$bumphtml .= ' <div class="wps-ob-st__m-c-price">';
 	$bumphtml .= $bump_offer_price;
+	$bumphtml .= '</div>';
 
+	$bumphtml .= ' <div class="wps-ob-st__m-c-price">';
 	if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 		$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
 		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
