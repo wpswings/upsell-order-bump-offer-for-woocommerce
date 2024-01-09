@@ -179,7 +179,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'wps_enable_cart_upsell' => $bump_cart_offer_enable,
 				'wps_is_checkout_block_use' => $wps_traditional_checkout,
 				'wps_is_cart_block_use' => $wps_traditional_cart,
-				'wps_on_checkout_page' =>  $wps_on_checkout_page,
 			);
 
 			// Timer Functionality starts.
