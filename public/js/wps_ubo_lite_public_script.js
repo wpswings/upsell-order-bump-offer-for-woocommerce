@@ -232,9 +232,6 @@ jQuery(document).ready(function ($) {
 
         // Prevent mulitple clicks on this button.
         object.prop('disabled', true);
-
-        console.log(object);
-
         order_bump_index = object.attr('offer_bump_index');
         if (typeof order_bump_index === 'undefined') {
             console.log('order bump not found');
@@ -285,25 +282,13 @@ jQuery(document).ready(function ($) {
         smart_offer_upgrade = selected_order_bump.find('.order_bump_smo').val();
 
         var variation_selected = '';
-        // console.log(object.attr('offer_bump_index'));
-        // console.log(order_bump_index);
         jQuery('body').find('.variation_id_selected').each(function () {
-            // if (object.attr('offer_bump_index') == order_bump_index) {
+            if (object.attr('offer_bump_index') == order_bump_index) {
                 variation_selected = jQuery('input.variation_id_selected').val();
-                console.log(jQuery(this));
-            // }
+            }
         });
 
         console.log(variation_selected); //No data is coming.
-        // console.log(bump_id);
-        // console.log(wps_orderbump_any_variation);
-        // console.log(bump_discount);
-        // console.log(order_bump_id);
-        // console.log(smart_offer_upgrade);
-        // console.log(wps_qty_variable);
-        // console.log(order_bump_index);
-        // console.log(bump_target_cart_key);
-
 
         jQuery.ajax({
             type: 'post',
@@ -363,8 +348,6 @@ jQuery(document).ready(function ($) {
      * @param {array}  formdata  Custom form object.
      */
     function triggerAddOffer(object, formdata) {
-        // console.log(object);
-        // console.log(formdata);
         // Get product Quantity
         if ( object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_is_fixed_qty") == 'true' && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr( "data-qty_allowed") == 'yes' ) {
             var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_qty"); //check whether qty variable or not.
@@ -393,8 +376,6 @@ jQuery(document).ready(function ($) {
         order_bump_index = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_index').val();
         parent_wrapper_class = '.wps_ubo_wrapper_' + order_bump_index;
         order_bump_id = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_id').val();
-
-        // console.log(parent_wrapper_class);
 
         // Disable bump div.
         $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'none');
@@ -441,7 +422,6 @@ jQuery(document).ready(function ($) {
                 },
 
                 success: function (msg) {
-                    // alert('offer added in the cart');
                     // For variable product.
                     if (msg['key'] == 'true') {
 
@@ -505,16 +485,10 @@ jQuery(document).ready(function ($) {
      * CHECKBOX ADD TO CART [ works with simple product and product variations ].
      */
     jQuery(document).on('click', '.add_offer_in_cart', function (e) {
-        alert('checkbox is clicked now');
         order_bump_trigger_obj = jQuery(this);
         order_bump_index = order_bump_trigger_obj.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_index').val();
         parent_wrapper_class = '.wps_ubo_wrapper_' + order_bump_index;
         order_bump_id = order_bump_trigger_obj.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_id').val();
-
-        console.log(order_bump_trigger_obj);
-        console.log(order_bump_index);
-        console.log(parent_wrapper_class);
-        console.log(order_bump_id);
 
         // When offer is added.
         if (order_bump_trigger_obj.is(':checked')) {
@@ -523,8 +497,6 @@ jQuery(document).ready(function ($) {
             let popup_obj = jQuery('#wps-meta-form-index-' + order_bump_id);
 
             let index = 0;
-
-            console.log(popup_obj);
 
             // Meta form available.
             if (popup_obj.length > 0 && !popup_obj.hasClass('wps_bump_popup_variable_meta_form')) {
@@ -609,9 +581,8 @@ jQuery(document).ready(function ($) {
     }
 
     function open_custom_form(form_obj, order_bump_obj) {
-        // debugger;
+
         let form_wrap = form_obj.parent().parent().parent().parent();
-        // console.log(form_wrap);
         jQuery('body').css('overflow', 'hidden');
         if (jQuery('.wps-g-modal').hasClass('wps-modal--close')) {
             jQuery('.wps-g-modal').removeClass('wps-modal--close');
@@ -763,7 +734,6 @@ jQuery(document).ready(function ($) {
      */
     $(document).on('click', '.wps_ubo_bump_add_to_cart_button', function (e) {       //This for the add to cart on the varaition popup.
         e.preventDefault();
-        // alert('varaition popup selected');
         order_bump_index = jQuery(this).attr('offer_bump_index');
 
         // Order Bump Object.
