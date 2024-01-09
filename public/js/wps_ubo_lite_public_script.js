@@ -2,11 +2,11 @@ jQuery(document).ready(function ($) {
 
     setTimeout(function () {
 
-        //For the new template 10 js.
-        var wps_ob_con = jQuery('.wps-ob-st');
-        if (wps_ob_con.width() < 380) {
-            wps_ob_con.addClass('ob_cont-full');
-        }
+            //For the new template 10 js.
+            var wps_ob_con = jQuery('.wps-ob-st');
+            if (wps_ob_con.width() < 743) {
+                wps_ob_con.addClass('ob_cont-full');
+            }
 
         var wps_is_checkout_block_use = wps_ubo_lite_public.wps_is_checkout_block_use;
 
@@ -46,6 +46,9 @@ jQuery(document).ready(function ($) {
                 } else if ('woocommerce_cart_collaterals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
                 
                     jQuery('.wc-block-components-totals-footer-item').append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
+                    $(".wp-block-woocommerce-cart").siblings().remove();
+                } else if('woocommerce_before_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
+                    jQuery(jQuery('.wp-block-woocommerce-cart-line-items-block').parent()).append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
                     $(".wp-block-woocommerce-cart").siblings().remove();
                 }
   

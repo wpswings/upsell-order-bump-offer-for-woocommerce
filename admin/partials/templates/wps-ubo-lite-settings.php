@@ -202,6 +202,32 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 				</tr>
 				<!-- Enable Product page link on title and image end. -->
 
+				<!-- Enable order bump shortcode start. -->
+
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+						<label for="wps_bump_enable_permalink  "><?php esc_html_e( 'Shortcode Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+						<?php
+						$attribute_description = esc_html__( 'Use this shortcode to show bump offer on page.', 'upsell-order-bump-offer-for-woocommerce' );
+
+						wps_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label for="wps_ubo_enable_permalink_switch" class="wps_upsell_bump_enable_permalink_label wps_bump_enable_permalink_support">
+
+							
+							<span>[wps_bump_offer_shortcode]</span>
+
+						</label>
+					</td>
+				</tr>
+
+				<!-- Enable order bump shortcode start end. -->
+                
 				<!-- Enable/disable Popup exit intent feature start -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
@@ -665,6 +691,7 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 						$offer_locations_array = array(
 							'woocommerce_after_cart_totals' => esc_html__( 'After Cart Total', 'upsell-order-bump-offer-for-woocommerce' ),
 							'woocommerce_cart_collaterals'  => esc_html__( 'Before Cart Total', 'upsell-order-bump-offer-for-woocommerce' ),
+							'woocommerce_before_cart_totals'  => esc_html__( 'After Cart Line Item', 'upsell-order-bump-offer-for-woocommerce' ),
 						);
 					}
 					?>
