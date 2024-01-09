@@ -2,6 +2,12 @@ jQuery(document).ready(function ($) {
 
     setTimeout(function () {
 
+        //For the new template 10 js.
+        var wps_ob_con = jQuery('.wps-ob-st');
+        if (wps_ob_con.width() < 380) {
+            wps_ob_con.addClass('ob_cont-full');
+        }
+
         var wps_is_checkout_block_use = wps_ubo_lite_public.wps_is_checkout_block_use;
 
         if (wps_is_checkout_block_use) {
@@ -227,6 +233,8 @@ jQuery(document).ready(function ($) {
         // Prevent mulitple clicks on this button.
         object.prop('disabled', true);
 
+        console.log(object);
+
         order_bump_index = object.attr('offer_bump_index');
         if (typeof order_bump_index === 'undefined') {
             console.log('order bump not found');
@@ -277,11 +285,25 @@ jQuery(document).ready(function ($) {
         smart_offer_upgrade = selected_order_bump.find('.order_bump_smo').val();
 
         var variation_selected = '';
+        // console.log(object.attr('offer_bump_index'));
+        // console.log(order_bump_index);
         jQuery('body').find('.variation_id_selected').each(function () {
-            if (object.attr('offer_bump_index') == order_bump_index) {
-                variation_selected = jQuery(this).val();
-            }
+            // if (object.attr('offer_bump_index') == order_bump_index) {
+                variation_selected = jQuery('input.variation_id_selected').val();
+                console.log(jQuery(this));
+            // }
         });
+
+        console.log(variation_selected); //No data is coming.
+        // console.log(bump_id);
+        // console.log(wps_orderbump_any_variation);
+        // console.log(bump_discount);
+        // console.log(order_bump_id);
+        // console.log(smart_offer_upgrade);
+        // console.log(wps_qty_variable);
+        // console.log(order_bump_index);
+        // console.log(bump_target_cart_key);
+
 
         jQuery.ajax({
             type: 'post',
@@ -341,11 +363,13 @@ jQuery(document).ready(function ($) {
      * @param {array}  formdata  Custom form object.
      */
     function triggerAddOffer(object, formdata) {
+        // console.log(object);
+        // console.log(formdata);
         // Get product Quantity
         if ( object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_is_fixed_qty") == 'true' && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr( "data-qty_allowed") == 'yes' ) {
-            var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_qty");
+            var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_qty"); //check whether qty variable or not.
         } else if ( object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val() != undefined && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_is_fixed_qty") == 'false' ) {
-            var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val();
+            var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val(); //in these condition we check for min and max quantity.
         } else {
             var wps_qty_variable = 1;
         }
@@ -353,6 +377,7 @@ jQuery(document).ready(function ($) {
         $value_of_input_field_to_check = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val();
         $min_attr_value = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').attr('min');
         $max_attr_value = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').attr('max');
+        //In Above get max , min and actual inside the input box.
 
         if ( ( $min_attr_value != undefined && $min_attr_value != undefined ) ) {
             if ( (parseInt($value_of_input_field_to_check) >= parseInt($min_attr_value) && parseInt($value_of_input_field_to_check) <= parseInt($max_attr_value) ) ) {
@@ -363,11 +388,13 @@ jQuery(document).ready(function ($) {
                 location.reload();
                 return;
             }
-        }
+        }  //This will check valida value in the input box.
 
         order_bump_index = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_index').val();
         parent_wrapper_class = '.wps_ubo_wrapper_' + order_bump_index;
         order_bump_id = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_id').val();
+
+        // console.log(parent_wrapper_class);
 
         // Disable bump div.
         $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'none');
@@ -390,6 +417,7 @@ jQuery(document).ready(function ($) {
             bump_target_cart_key = object.closest('.wps_upsell_offer_main_wrapper').find('.target_id_cart_key').val();
             smart_offer_upgrade = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_smo').val();
 
+            
             // Add product to cart.
             jQuery.ajax({
 
@@ -413,7 +441,7 @@ jQuery(document).ready(function ($) {
                 },
 
                 success: function (msg) {
-
+                    // alert('offer added in the cart');
                     // For variable product.
                     if (msg['key'] == 'true') {
 
@@ -477,12 +505,16 @@ jQuery(document).ready(function ($) {
      * CHECKBOX ADD TO CART [ works with simple product and product variations ].
      */
     jQuery(document).on('click', '.add_offer_in_cart', function (e) {
-
+        alert('checkbox is clicked now');
         order_bump_trigger_obj = jQuery(this);
         order_bump_index = order_bump_trigger_obj.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_index').val();
         parent_wrapper_class = '.wps_ubo_wrapper_' + order_bump_index;
         order_bump_id = order_bump_trigger_obj.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_id').val();
 
+        console.log(order_bump_trigger_obj);
+        console.log(order_bump_index);
+        console.log(parent_wrapper_class);
+        console.log(order_bump_id);
 
         // When offer is added.
         if (order_bump_trigger_obj.is(':checked')) {
@@ -491,6 +523,8 @@ jQuery(document).ready(function ($) {
             let popup_obj = jQuery('#wps-meta-form-index-' + order_bump_id);
 
             let index = 0;
+
+            console.log(popup_obj);
 
             // Meta form available.
             if (popup_obj.length > 0 && !popup_obj.hasClass('wps_bump_popup_variable_meta_form')) {
@@ -727,9 +761,9 @@ jQuery(document).ready(function ($) {
      * POP-UP ADD TO CART BUTTON [ works with variable products].
      * To add the selected js.
      */
-    $(document).on('click', '.wps_ubo_bump_add_to_cart_button', function (e) {
+    $(document).on('click', '.wps_ubo_bump_add_to_cart_button', function (e) {       //This for the add to cart on the varaition popup.
         e.preventDefault();
-
+        // alert('varaition popup selected');
         order_bump_index = jQuery(this).attr('offer_bump_index');
 
         // Order Bump Object.

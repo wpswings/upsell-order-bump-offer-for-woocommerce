@@ -337,7 +337,6 @@
 			$( ".wps_upsell_offer_input_type" ).on(
 				"change paste keyup",
 				function() {
-					// console.log('typingg......');
 					var text_id = $( this ).attr( 'text_id' );
 					var msg = '';			// Check which field in changed
 					var price = $( '.offer_shown_discount' ).val().split( "+" );
@@ -355,7 +354,9 @@
 
 							msg = string.replace( "{dc_price}", fixed );
 							$( ".wps_upsell_offer_discount_section h3" ).html( msg );
-							$( ".wps-ubo__temp-prod-offer" ).html( msg );
+							$(".wps-ubo__temp-prod-offer").html(msg);
+							$( ".wps-ob-st__m-title" ).html( msg );
+							
 						}
 					}
 
@@ -367,7 +368,8 @@
 							var string = $( this ).val();
 							msg = string.replace( "{dc_%}", percent );
 							$( ".wps_upsell_offer_discount_section h3" ).html( msg );
-							$( ".wps-ubo__temp-prod-offer" ).html( msg );
+							$(".wps-ubo__temp-prod-offer").html(msg);
+							$( ".wps-ob-st__m-title" ).html( msg );
 						}
 					}
 
@@ -375,7 +377,8 @@
 
 						msg = $( this ).val();
 						$( ".wps_upsell_offer_primary_section h5" ).html( msg );
-						$( ".wps-ubo__temp-head h3" ).html( msg );
+						$(".wps-ubo__temp-head h3").html(msg);
+						$( ".wps_head_check_ubo" ).html( msg );
 					}
 
 				}
@@ -394,14 +397,14 @@
 						msg = $( this ).val();
 						$( ".wps_upsell_offer_secondary_section" ).show();
 						$( ".wps_upsell_offer_secondary_section p" ).html( msg );
-						$( ".wps-ubo__temp-desc" ).html( msg );
+						$(".wps-ubo__temp-desc").html(msg);
+						$( ".wps-ob-st__m-c-p" ).html( msg );
 					}
 
-					if ( text_id == 'pro_desc' ) {			// Product Description.
+					if ( text_id == 'pro_desc' ) {		// Product Description.
 
 						msg = $( this ).val();
-						$( ".wps_upsell_offer_product_description" ).html( msg );
-						$( ".wps-ubo__temp-prod-desc" ).html( msg );
+						$(".wps_upsell_offer_product_description").html(msg);
 					}
 
 				}
@@ -430,9 +433,8 @@
 			Bordercolorpicker.wpColorPicker(
 				{
 					change: (event, ui) => {
-
+                       
 						border_color = ui.color.toString();
-
 						wps_ubo_apply_border_styling( border_color );
 
 					}
@@ -498,7 +500,7 @@
 
 						DiscountSection.css( 'background-color', discount_bcolor );
 						$( '.wps-ubo__temp-prod-offer' ).css( 'background-color', discount_bcolor );
-
+						$( '.wps-ob-st__m-title' ).css( 'background-color', discount_bcolor );
 					}
 				}
 			);
@@ -513,6 +515,7 @@
 
 						DiscountSectionH3.css( 'color', discount_tcolor );
 						$( '.wps-ubo__temp-prod-offer' ).css( 'color', discount_tcolor );
+						$( '.wps-ob-st__m-title' ).css( 'color', discount_tcolor );
 
 					}
 				}
@@ -524,7 +527,7 @@
 
 					discount_tsize = $( this ).val();
 					DiscountSectionH3.css( 'font-size', discount_tsize + 'px' );
-
+					$('.wps-ob-st__m-title').css( 'font-size', discount_tsize + 'px' );
 					$( '.wps_ubo_discount_slider_size' ).html( discount_tsize + 'px' );
 				}
 			);
@@ -562,6 +565,7 @@
 						ProductHeadingH4.css( 'color', product_tcolor );// 2.1.7.
 
 						$( '.wps-ubo__temp-prod-desc' ).css( 'color', product_tcolor );
+						$('.wps-ob-st__m-c-p').css( 'color', product_tcolor );
 					}
 				}
 			);
@@ -574,6 +578,7 @@
 						ProductPriceColor.css( 'color', product_tcolor );
 						ProductQty.css( 'color', product_tcolor );
 						$( '.wps-ubo__temp-prod-price-new' ).css( 'color', product_tcolor );
+						$( '.wps-ob-st__m-c-price' ).css( 'color', product_tcolor );
 					}
 				}
 			);
@@ -585,7 +590,8 @@
 					ProductpriceP.css( 'font-size', product_tsize + 'px' );
 					Productpricedel.css( 'font-size', product_tsize + 'px' );
 					Productpriceins.css( 'font-size', product_tsize + 'px' );
-					ProductQty.css( 'font-size', product_tsize + 'px' );
+					ProductQty.css('font-size', product_tsize + 'px');
+					$( '.wps-ob-st__m-c-price' ).css( 'font-size', product_tsize + 'px' );
 					$( '.wps_ubo_product_price_slider_size' ).html( product_tsize + 'px' );// 2.1.7.
 				}
 			);
@@ -597,10 +603,11 @@
 					ProductDesSectionP.css( 'font-size', product_tsize + 'px' );// 2.1.7.
 					ProductHeadingH4.css( 'font-size', product_tsize + 'px' );// 2.1.7.
 					ProductSectionP.css( 'font-size', product_tsize + 'px' );
-
+					$('.wps-ob-st__m-c-p').css( 'font-size', product_tsize + 'px' );
 					$( '.wps_ubo_product_slider_size' ).html( product_tsize + 'px' );
 					product_tsize = parseInt( product_tsize ) + 10;
-					ProductSectionH4.css( 'font-size', product_tsize + 'px' );
+					ProductSectionH4.css('font-size', product_tsize + 'px');
+					
 				}
 			);
 
@@ -652,7 +659,7 @@
 
 						AcceptOfferSection.css( 'background-color', AcceptOffer_bcolor );
 						$( '.wps-ubo__temp-title' ).css( 'background-color', AcceptOffer_bcolor );
-
+						$( '.wps-ob-st__head' ).css( 'background-color', AcceptOffer_bcolor );
 					}
 				}
 			);
@@ -664,7 +671,8 @@
 						AcceptOffer_tcolor = ui.color.toString();
 
 						AcceptOfferSectionH5.css( 'color', AcceptOffer_tcolor );
-						$( '.wps-ubo__temp-title' ).css( 'color', AcceptOffer_tcolor );
+						$('.wps-ubo__temp-title').css('color', AcceptOffer_tcolor);
+						$( '.wps-ob-st__head' ).css( 'color', AcceptOffer_tcolor );
 					}
 				}
 			);
@@ -676,7 +684,7 @@
 						AcceptOffer_tcolor = ui.color.toString();
 
 						AcceptOfferSectionA.css( 'fill', AcceptOffer_tcolor );
-
+						$( '.wps_upsell_offer_arrow svg' ).css( 'fill', AcceptOffer_tcolor );
 					}
 				}
 			);
@@ -686,7 +694,8 @@
 				function () {
 
 					AcceptOffer_tsize = $( this ).val();
-					AcceptOfferSectionH5.css( 'font-size', AcceptOffer_tsize + 'px' );
+					AcceptOfferSectionH5.css('font-size', AcceptOffer_tsize + 'px');
+					$( '.wps-ob-st__head' ).css( 'font-size', AcceptOffer_tsize + 'px' );
 					$( '.wps-ubo__temp-title' ).css( 'font-size', AcceptOffer_tsize + 'px' );
 					$( '.wps_ubo_accept_offer_slider_size' ).html( AcceptOffer_tsize + 'px' );
 				}
@@ -771,6 +780,7 @@
 				background_color = $( '.wps_ubo_preview_select_background_color' ).val();
 
 				$( '.wps_upsell_offer_wrapper' ).css( 'background-color', background_color );
+			    $('.wps-ob-st').css( 'background-color', background_color );
 			}
 
 			// Live Preview JS end.
@@ -833,7 +843,6 @@ jQuery( document ).ready(
 		$( ".wps_upsell_offer_input_type" ).on(
 			"change paste keyup",
 			function() {
-
 				if ( '%' == $( "#wps_upsell_offer_price_type_id" ).val() ) {
 
 					if ( $( this ).val() > 100 ) {
@@ -1143,4 +1152,14 @@ jQuery(document).ready(function () {
  
 	// Add a form submit event listener
 	document.getElementById("wps_upsell_bump_creation_setting_save").addEventListener("click", wps_validate_quantity);
+	jQuery(document).ready(function() {
+		var $grid = jQuery('#available_tab');
+		// Initialize Masonry with jQuery
+		$grid.masonry({
+			itemSelector: '.wps_upsell_template_select',
+			columnWidth: '.wps_upsell_template_select',
+			gutter: 10, // Adjust spacing between items
+			fitWidth: true // Adjusts the container width to fit items
+		});
+	});
 });
