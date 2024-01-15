@@ -49,10 +49,8 @@ jQuery(document).ready(function ($) {
             }
         }
 
-        console.log($(".wp-block-woocommerce-cart").siblings());
         //For the new template 10 js.
         var wps_ob_con = jQuery('.wps-ob-st');
-        // console.log(wps_ob_con.width());
                     if (wps_ob_con.width() < 396) {
                         wps_ob_con.addClass('ob_cont-full');
                 }
