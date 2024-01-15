@@ -105,6 +105,7 @@ function wps_ubo_lite_allowed_html() {
 		),
 		'span'    => array(
 			'class' => array(
+				'wps_upsell_offer_arrow',
 				'woocommerce-Price-amount',
 				'amount',
 				'woocommerce-Price-currencySymbol',
@@ -5171,10 +5172,24 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 			color: <?php echo esc_html( $primary_section_text_color ); ?>
 		}
 
+
+		@keyframes leftright {
+			0% {
+				transform: translateX(-5px)scaleX(-1);
+			}
+			60% {
+				transform: translateX(-2px)scaleX(-1);
+			}
+			100% {
+				transform: translateX(-5px)scaleX(-1);
+			}
+		}
+
 		<?php echo esc_html( $order_bump_div_id ); ?> span.wps_upsell_offer_arrow {
 			display: inline-block;
 			transform: rotate(180deg);
-		 animation: rightleft 0.4s infinite ease;
+		 	animation: leftright 0.4s infinite ease;
+			width: 20px;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow svg {
 			/* fill: #eb483f; */
@@ -5276,6 +5291,8 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 			flex-direction: column;
 		}
 	}
+
+
 
 	</style>
 
