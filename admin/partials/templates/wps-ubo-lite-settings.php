@@ -227,7 +227,7 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 				</tr>
 
 				<!-- Enable order bump shortcode start end. -->
-                
+				
 				<!-- Enable/disable Popup exit intent feature start -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
@@ -689,8 +689,8 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 						);
 					} else {
 						$offer_locations_array = array(
-							'woocommerce_after_cart_totals' => esc_html__( 'After Cart Total', 'upsell-order-bump-offer-for-woocommerce' ),
-							'woocommerce_cart_collaterals'  => esc_html__( 'Before Cart Total', 'upsell-order-bump-offer-for-woocommerce' ),
+							'woocommerce_after_cart_totals' => esc_html__( 'After Checkout Button', 'upsell-order-bump-offer-for-woocommerce' ),
+							'woocommerce_cart_collaterals'  => esc_html__( 'Before Checkout Button', 'upsell-order-bump-offer-for-woocommerce' ),
 							'woocommerce_before_cart_totals'  => esc_html__( 'After Cart Line Item', 'upsell-order-bump-offer-for-woocommerce' ),
 						);
 					}

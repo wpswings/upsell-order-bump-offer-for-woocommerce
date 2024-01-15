@@ -71,12 +71,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		   */
 		  global $post;
 		  $shortcode_name = 'wps_bump_offer_shortcode';
-		  $wps_is_shortcode = has_shortcode($post->post_content, $shortcode_name);
+		  $wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
 		  WC()->session->set( 'wps_is_shortcode', $wps_is_shortcode );
 
 		wp_enqueue_style( $this->plugin_name . 'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
 
-		if ( is_checkout() || is_cart() || has_shortcode($post->post_content, $shortcode_name)) {
+		if ( is_checkout() || is_cart() || has_shortcode( $post->post_content, $shortcode_name ) ) {
 			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
 		}
@@ -102,7 +102,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
 		// Only enqueue on the Checkout page.
-		if ( is_checkout() || is_cart() || has_shortcode($post->post_content, $shortcode_name)) {
+		if ( is_checkout() || is_cart() || has_shortcode( $post->post_content, $shortcode_name ) ) {
 
 			$wps_is_checkout_page = false;
 			$wps_popup_body_class = 'No';
@@ -110,7 +110,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_traditional_checkout = false;
 			$wps_traditional_cart = false;
 			// To check the checkout page is there or not for jquery.
-			if ( ( function_exists( 'is_checkout' ) || is_checkout() ) || ( function_exists( 'is_cart' ) || is_cart() ) || has_shortcode($post->post_content, $shortcode_name) ) {
+			if ( ( function_exists( 'is_checkout' ) || is_checkout() ) || ( function_exists( 'is_cart' ) || is_cart() ) || has_shortcode( $post->post_content, $shortcode_name ) ) {
 				$wps_is_checkout_page = true;
 			}
 
@@ -333,7 +333,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 *
 	 * @since    2.2.9
 	 */
-	public function wps_show_offer_bump_shortcode(){
+	public function wps_show_offer_bump_shortcode() {
 		add_shortcode( 'wps_bump_offer_shortcode', array( $this, 'wps_bump_offer_shortcode_callback' ) );
 	}
 
@@ -342,13 +342,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 *
 	 * @since    2.2.9
 	 */
-	public function wps_bump_offer_shortcode_callback(){
-		if(! is_admin()){
-		ob_start();
-		require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-public-display.php';
-		?>
-		<?php
-		return ob_get_clean();
+	public function wps_bump_offer_shortcode_callback() {
+		if ( ! is_admin() ) {
+			ob_start();
+			require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-public-display.php';
+			?>
+			<?php
+			return ob_get_clean();
 		}
 	}
 
@@ -975,10 +975,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
-	  //   if (has_shortcode($post->post_content, $shortcode_name)) {
+		// if (has_shortcode($post->post_content, $shortcode_name)) {
 
 		// Only enqueue on the cart,shortcode and checkout page.
-		if ( is_cart() || is_checkout() || has_shortcode($post->post_content, $shortcode_name)) {
+		if ( is_cart() || is_checkout() || has_shortcode( $post->post_content, $shortcode_name ) ) {
 
 			// Ignore admin, feed, robots or trackbacks.
 			if ( is_admin() || is_feed() || is_robots() || is_trackback() ) {
@@ -1013,10 +1013,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function global_custom_js() {
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
-	  //   if (has_shortcode($post->post_content, $shortcode_name)) {
+		// if (has_shortcode($post->post_content, $shortcode_name)) {
 
 		// Only enqueue on the cart,shortcode and checkout page.
-		if ( is_cart() || is_checkout() || has_shortcode($post->post_content, $shortcode_name)) {
+		if ( is_cart() || is_checkout() || has_shortcode( $post->post_content, $shortcode_name ) ) {
 
 			// Ignore admin, feed, robots or trackbacks.
 			if ( is_admin() || is_feed() || is_robots() || is_trackback() ) {
@@ -1303,9 +1303,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 							}
 						} // Second foreach for category search end.
 					}
-					$wps_is_shortcode = WC()->session->get('wps_is_shortcode');
+					$wps_is_shortcode = WC()->session->get( 'wps_is_shortcode' );
 					// If no target product/category not matched/added in bump.
-					if ( empty( $encountered_bump_array ) && ('yes' === $is_global_funnel || true == $wps_is_shortcode )) {
+					if ( empty( $encountered_bump_array ) && ( 'yes' === $is_global_funnel || true == $wps_is_shortcode ) ) {
 
 						// Check offer product must be in stock.
 						$offer_product = wc_get_product( $single_bump_array['wps_upsell_bump_products_in_offer'] );

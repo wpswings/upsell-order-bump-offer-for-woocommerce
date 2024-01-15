@@ -871,7 +871,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 						$wps_bump_upsell_selected_template = ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_bump_upsell_selected_template'] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_bump_upsell_selected_template'] : '';
 
 						$wps_ubo_selected_template = ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_ubo_selected_template'] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_ubo_selected_template'] : '1';
-                        
+
 						// var_dump($wps_ubo_selected_template);
 					?>
 
@@ -1677,13 +1677,13 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					$encountered_bump_array = $wps_ubo_offer_array_collection[ $wps_upsell_bump_id ];
 					$wps_bump_upsell_selected_template = ! empty( $encountered_bump_array['wps_ubo_selected_template'] ) ? sanitize_text_field( $encountered_bump_array['wps_ubo_selected_template'] ) : '';
 
-					if( '10' == $wps_bump_upsell_selected_template ) {
+					if ( '10' == $wps_bump_upsell_selected_template ) {
 
-					$bumphtml = wps_ubo_lite_bump_offer_html_10( $bump );
+						$bumphtml = wps_ubo_lite_bump_offer_html_10( $bump );
 
 					} else {
 
-					$bumphtml = wps_ubo_lite_bump_offer_html( $bump );
+						$bumphtml = wps_ubo_lite_bump_offer_html( $bump );
 
 					}
 

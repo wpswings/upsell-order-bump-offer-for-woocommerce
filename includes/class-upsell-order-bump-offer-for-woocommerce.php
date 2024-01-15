@@ -242,7 +242,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			// Show bump offer.
 			$this->loader->add_action( $offer_location_details['hook'], $plugin_public, 'show_offer_bump', $offer_location_details['priority'] );
 
-			//bump shortcode for all page.
+			// bump shortcode for all page.
 			$this->loader->add_action( 'init', $plugin_public, 'wps_show_offer_bump_shortcode', 999 );
 
 			// Show bump offer on cart.

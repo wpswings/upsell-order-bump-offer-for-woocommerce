@@ -5172,8 +5172,8 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 		}
 
 		<?php echo esc_html( $order_bump_div_id ); ?> span.wps_upsell_offer_arrow {
-   		 display: inline-block;
-   		 transform: rotate(180deg);
+			display: inline-block;
+			transform: rotate(180deg);
 		 animation: rightleft 0.4s infinite ease;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow svg {
@@ -5437,10 +5437,10 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 	$bumphtml .= '<div class="wps-ob-st__head">';
 	$bumphtml .= '<label for="wps-ob-st__head-check" class = "wps_head_check_ubo">';
 	$bumphtml .= $wps_ubo_red_arrow_html;
-	$bumphtml .= '<input type="checkbox" ' . $check . ' class ="add_offer_in_cart" id ="wps_checkbox_offer' . esc_html( $order_bump_key ) . ' />' . esc_html__( $title, 'upsell-order-bump-offer-for-woocommerce' ) ;
+	$bumphtml .= '<input type="checkbox" ' . $check . ' class ="add_offer_in_cart" id ="wps_checkbox_offer' . esc_html( $order_bump_key ) . ' />' . esc_html__( $title, 'upsell-order-bump-offer-for-woocommerce' );
 
-	$bumphtml .='</label>';
-	
+	$bumphtml .= '</label>';
+
 	$bumphtml .= '</div>';
 
 	$bumphtml .= '<div class="wps-ob-st__main">';
