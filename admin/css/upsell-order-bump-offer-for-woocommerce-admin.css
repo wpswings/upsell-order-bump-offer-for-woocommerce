@@ -3186,3 +3186,8 @@
 	height: auto;
   }
  
+  /*Template 10 backend image css*/
+  #wps-ob-st a {
+    margin-top: 29px;
+    width: 453px;
+}

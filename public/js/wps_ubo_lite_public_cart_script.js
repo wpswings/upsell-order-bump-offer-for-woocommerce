@@ -62,12 +62,3 @@ jQuery( document ).ready(
 	}
 );
 
-
-jQuery( document ).ready(
-	function($) {
-		var width_of_main = jQuery( '.wps_main_class_order' ).width();
-		if ( width_of_main < 767 ) {
-			jQuery( '.wps_main_class_order' ).addClass( 'wps_mobile-width' );
-		}
-	}
-);

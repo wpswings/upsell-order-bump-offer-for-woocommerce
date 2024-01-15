@@ -5171,11 +5171,10 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 			color: <?php echo esc_html( $primary_section_text_color ); ?>
 		}
 
-		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow {
-			transform: scaleX(-1);
-			animation: leftright 0.4s infinite ease;
-			width: 35px;
-   		    margin-right: 10px;
+		<?php echo esc_html( $order_bump_div_id ); ?> span.wps_upsell_offer_arrow {
+   		 display: inline-block;
+   		 transform: rotate(180deg);
+		 animation: rightleft 0.4s infinite ease;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow svg {
 			/* fill: #eb483f; */
@@ -5429,7 +5428,7 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 	// Creating  red arrow html.
 	if ( 'on' === $wps_enable_red_arrow_feature ) {
 		$wps_ubo_red_arrow_svg  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 198 111.52" demo="0 0 198 111.52"><defs></defs><g id="a"/><g id="b"><g id="c"><polygon class="d" points="198 25.35 198 86.17 96.62 86.17 96.62 111.52 48.36 83.64 0 55.76 48.36 27.88 96.62 0 96.62 25.35 198 25.35"/></g></g></svg>';
-		$wps_ubo_red_arrow_html = '<div class="wps_upsell_offer_arrow">' . $wps_ubo_red_arrow_svg . '</div>';
+		$wps_ubo_red_arrow_html = '<span class="wps_upsell_offer_arrow">' . $wps_ubo_red_arrow_svg . '</span>';
 	} else {
 		$wps_ubo_red_arrow_html = '';
 	}
@@ -5437,9 +5436,11 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 	$bumphtml .= '<div id="wps-ob-st" class="wps-ob-st">';
 	$bumphtml .= '<div class="wps-ob-st__head">';
 	$bumphtml .= '<label for="wps-ob-st__head-check" class = "wps_head_check_ubo">';
-	
-	$bumphtml .= '<input type="checkbox" ' . $check . ' class ="add_offer_in_cart" id ="wps_checkbox_offer' . esc_html( $order_bump_key ) . ' />' . esc_html__( $title, 'upsell-order-bump-offer-for-woocommerce' ) . '</label>';
 	$bumphtml .= $wps_ubo_red_arrow_html;
+	$bumphtml .= '<input type="checkbox" ' . $check . ' class ="add_offer_in_cart" id ="wps_checkbox_offer' . esc_html( $order_bump_key ) . ' />' . esc_html__( $title, 'upsell-order-bump-offer-for-woocommerce' ) ;
+
+	$bumphtml .='</label>';
+	
 	$bumphtml .= '</div>';
 
 	$bumphtml .= '<div class="wps-ob-st__main">';
