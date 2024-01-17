@@ -975,7 +975,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
-		// if (has_shortcode($post->post_content, $shortcode_name)) {
 
 		// Only enqueue on the cart,shortcode and checkout page.
 		if ( is_cart() || is_checkout() || has_shortcode( $post->post_content, $shortcode_name ) ) {
@@ -1013,7 +1012,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function global_custom_js() {
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
-		// if (has_shortcode($post->post_content, $shortcode_name)) {
 
 		// Only enqueue on the cart,shortcode and checkout page.
 		if ( is_cart() || is_checkout() || has_shortcode( $post->post_content, $shortcode_name ) ) {

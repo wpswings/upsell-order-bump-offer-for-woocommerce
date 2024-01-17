@@ -1,5 +1,11 @@
 jQuery(document).ready(function ($) {
 
+    if (document.querySelector('.woocommerce-order-received')) {
+        // You are on the cart page
+        $('.wrapup_order_bump').hide();
+    }
+
+    
     setTimeout(function () {
 
         var wps_is_checkout_block_use = wps_ubo_lite_public.wps_is_checkout_block_use;
@@ -11,11 +17,12 @@ jQuery(document).ready(function ($) {
                 if ('_before_place_order_button' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
  
                     jQuery('.wp-block-woocommerce-checkout-order-summary-block').append('<div class = "wrapup_order_bump">' + data + '</div>');
-                    $(".wp-block-woocommerce-checkout").siblings().remove()
+                    $(".wp-block-woocommerce-checkout").siblings().remove();
+
                 } else if ('_after_payment_gateways' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
 
                     jQuery('.wc-block-checkout__payment-method').append('<div class = "wrapup_order_bump">' + data + '</div>');
-                    $(".wp-block-woocommerce-checkout").siblings().remove()
+                    $(".wp-block-woocommerce-checkout").siblings().remove();
                 } else if ('_before_order_summary' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
             
                     jQuery('.wp-block-woocommerce-checkout-order-summary-coupon-form-block').append('<div class = "wrapup_order_bump">' + data + '</div>');
@@ -27,7 +34,7 @@ jQuery(document).ready(function ($) {
 
         var wps_is_cart_block_use = wps_ubo_lite_public.wps_is_cart_block_use;
 
-        if ('on' == wps_ubo_lite_public.wps_enable_cart_upsell && wps_is_cart_block_use) {
+        if ('on' == wps_ubo_lite_public.wps_enable_cart_upsell && wps_is_cart_block_use && (document.querySelector('.woocommerce-cart'))) {
             if (jQuery('.wrapup_order_bump').length > 0) {
 
                 var data = jQuery('.wrapup_order_bump').html();
@@ -41,14 +48,15 @@ jQuery(document).ready(function ($) {
                 
                     jQuery('.wc-block-components-totals-footer-item').append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
                     $(".wp-block-woocommerce-cart").siblings().remove();
-                } else if('woocommerce_before_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
+
+                } else if ('woocommerce_before_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
+                    
                     jQuery(jQuery('.wp-block-woocommerce-cart-line-items-block').parent()).append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
                     $(".wp-block-woocommerce-cart").siblings().remove();
                 }
   
             }
-        }
-
+        }    
         //For the new template 10 js.
         var wps_ob_con = jQuery('.wps-ob-st');
                     if (wps_ob_con.width() < 396) {
@@ -149,8 +157,9 @@ jQuery(document).ready(function ($) {
                             if ( t < 0 ) {
                                 $("#wps_timer"+ key). css({display: "none"});
                                 document.getElementById("expired_message"+ key).innerHTML = "EXPIRED";
-                                document.getElementById("wps_checkbox_offer"+ key).disabled = true;
-                                $("#wps_button_id_"+ key).hide();
+                                document.getElementById("wps_checkbox_offer" + key).disabled = true;
+                                $("#wps_button_id_" + key).hide();
+                                $("#expired_message" + key).parent().css("pointer-events", "none");
                             }
                         }
                     }
@@ -959,7 +968,8 @@ jQuery(document).ready(function($) {
           if (--timer < 0) {
             $("#wps_timer"+ display). css({display: "none"});
             document.getElementById("expired_message"+ display).innerHTML = "EXPIRED";
-            $("#wps_button_id_"+ display).hide();
+              $("#wps_button_id_" + display).hide();
+              $("#expired_message" + display).parent().css("pointer-events", "none");
           }
         }, 1000);
       }

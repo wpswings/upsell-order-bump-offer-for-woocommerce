@@ -217,7 +217,7 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
 
-						<label for="wps_ubo_enable_permalink_switch" class="wps_upsell_bump_enable_permalink_label wps_bump_enable_permalink_support">
+						<label for="wps_ubo_enable_shortcode_switch" class="wps_upsell_bump_enable_permalink_label wps_bump_enable_permalink_support">
 
 							
 							<span>[wps_bump_offer_shortcode]</span>

@@ -644,7 +644,11 @@ function wps_ubo_lite_offer_template_9() {
 	return $wps_bump_upsell_global_css;
 }
 
-
+/**
+ * Bump offer template 5.
+ *
+ * @since    1.0.0
+ */
 function wps_ubo_lite_offer_template_10() {
 
 	// Template 10.
@@ -5188,7 +5192,7 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 		<?php echo esc_html( $order_bump_div_id ); ?> span.wps_upsell_offer_arrow {
 			display: inline-block;
 			transform: rotate(180deg);
-		 	animation: leftright 0.4s infinite ease;
+			 animation: leftright 0.4s infinite ease;
 			width: 20px;
 		}
 		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow svg {
@@ -5454,7 +5458,8 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 	$bumphtml .= '<div class="wps-ob-st__head">';
 	$bumphtml .= '<label for="wps-ob-st__head-check" class = "wps_head_check_ubo">';
 	$bumphtml .= $wps_ubo_red_arrow_html;
-	$bumphtml .= '<input type="checkbox" ' . $check . ' class ="add_offer_in_cart" id ="wps_checkbox_offer' . esc_html( $order_bump_key ) . ' />' . esc_html__( $title, 'upsell-order-bump-offer-for-woocommerce' );
+	$bumphtml .= '<input type="checkbox" ' . $check . ' class="add_offer_in_cart" id="wps_checkbox_offer' . esc_html( $order_bump_key ) . '" />';
+	$bumphtml .= $title;
 
 	$bumphtml .= '</label>';
 
@@ -5479,9 +5484,9 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 	$bumphtml .= '<div class="wps-ob-st__m-c">';
 	$bumphtml .= ' <div class="wps-ob-st__m-c-h2">';  // Permalinks For Product Name.
 	if ( 'on' === $wps_bump_enable_permalink ) {
-		$bumphtml .= '<h4 class="wps_bump_name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '"><a target="' . esc_html( $wps_bump_target_attr ) . '" class="wps_upsell_product_permalink" href="' . esc_url( $bump_offer_product_permalink ) . '">' . esc_html__( $bump['name'], 'upsell-order-bump-offer-for-woocommerce' ) . '</a></h4>';
+		$bumphtml .= '<h4 class="wps_bump_name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '"><a target="' . esc_html( $wps_bump_target_attr ) . '" class="wps_upsell_product_permalink" href="' . esc_url( $bump_offer_product_permalink ) . '">' . $bump['name'] . '</a></h4>';
 	} else {
-		$bumphtml .= '<h4 class="wps_bump_name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '">' . esc_html__( $bump['name'], 'upsell-order-bump-offer-for-woocommerce' ) . '</h4>';
+		$bumphtml .= '<h4 class="wps_bump_name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '">' . $bump['name'] . '</h4>';
 	}
 
 	$bumphtml .= '</div>';
@@ -5506,7 +5511,7 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 	$bumphtml .= '</div>';
 
 	$bumphtml .= '</div>';
-	$bumphtml .= '</div>';// extra
+	$bumphtml .= '</div>';
 
 	// For simple product.
 	if ( wps_ubo_lite_if_pro_exists() && ! empty( $offer_product ) && is_object( $offer_product ) && ! $offer_product->has_child() && ! is_admin() ) {
