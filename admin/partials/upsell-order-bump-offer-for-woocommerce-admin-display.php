@@ -47,7 +47,9 @@ do_action( 'wps_ubo_lite_tab_active' );
 		<a class="nav-tab <?php echo esc_html( 'creation-setting' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting"><?php esc_html_e( 'Save Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 		<a class="nav-tab <?php echo esc_html( 'bump-list' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=bump-list"><?php esc_html_e( 'Order Bumps List', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-
+		
+		<a class="nav-tab <?php echo esc_html( 'AB-Method-list' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=AB-Method-list"><?php esc_html_e( 'AB Method List', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		
 		<a class="nav-tab <?php echo esc_html( 'settings' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=settings"><?php esc_html_e( 'Global Settings', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 		<?php
@@ -98,6 +100,9 @@ do_action( 'wps_ubo_lite_tab_active' );
 		} elseif ( 'overview' === $wps_ubo_lite_active_tab ) {
 			// Include setting file from org version.
 			include_once 'templates/wps-ubo-lite-overview.php';
+		} elseif('AB-Method-list' === $wps_ubo_lite_active_tab){
+            //Include setting file from org version.
+			include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-ab-method-list.php';
 		}
 
 		if ( ! Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic() ) {
