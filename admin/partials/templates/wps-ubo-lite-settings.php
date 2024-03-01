@@ -70,6 +70,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 	$wps_bump_upsell_global_options['wps_enable_cart_upsell_location'] = ! empty( $_POST['wps_enable_cart_upsell_location'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_enable_cart_upsell_location'] ) ) : 'woocommerce_before_cart_totals';
 	$wps_bump_upsell_global_options['wps_ubo_enable_popup_exit_intent'] = ! empty( $_POST['wps_ubo_enable_popup_exit_intent'] ) ? 'on' : 'off';
 
+	$wps_bump_upsell_global_options['wps_ubo_offer_ab_method'] = ! empty( $_POST['wps_ubo_offer_ab_method'] ) ? 'on' : 'off';
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'wps_ubo_global_options', $wps_bump_upsell_global_options );
 
@@ -138,6 +139,7 @@ $wps_ubo_enable_popup_exit_intent = ! empty( $wps_ubo_global_options['wps_ubo_en
 // After v2.1.2.
 $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red_arrow_feature'] ) ? $wps_ubo_global_options['wps_enable_red_arrow_feature'] : 'no';
 
+$bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_method'] ) ? $wps_ubo_global_options['wps_ubo_offer_ab_method'] : 'no';
 ?>
 
 <form action="" method="POST">
@@ -558,6 +560,30 @@ $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red
 					</td>
 				</tr>
 				<!-- Pre-order feature skip end. -->
+
+
+				<!-- AB feature skip start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+
+						<label for="wps_ubo_offer_ab_method"><?php esc_html_e( 'AB Method', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+						$attribute_description = esc_html__( 'Enable this feature to have the facility of AB method to show the bump with data.', 'upsell-order-bump-offer-for-woocommerce' );
+						wps_ubo_lite_help_tip( $attribute_description );
+						?>
+						<label class="wps-upsell-smart-pre-order-skip" for="wps_ubo_offer_ab_method">
+							<input class="wps-upsell-smart-pre-order-skip-wrap" type='checkbox' <?php echo wps_ubo_lite_if_pro_exists() && ! empty( $bump_offer_ab_method ) && 'on' === $bump_offer_ab_method ? 'checked' : ''; ?> id='wps_ubo_offer_ab_method' value='yes' name='wps_ubo_offer_ab_method'>
+							<span class="upsell-smart-pre-order-skip-btn"></span>
+						</label>
+					</td>
+				</tr>
+				<!-- AB feature skip end. -->
 
 				<!-- Restrict external coupons feature skip start. -->
 				<tr valign="top">
