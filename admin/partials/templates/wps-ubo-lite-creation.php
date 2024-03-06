@@ -227,6 +227,9 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 		$wps_upsell_new_bump['bump_total_sales'] = ! empty( $sales_stats_bump['bump_total_sales'] ) ? $sales_stats_bump['bump_total_sales'] : 0;
 
 		$wps_upsell_new_bump['bump_orders_count'] = ! empty( $sales_stats_bump['bump_orders_count'] ) ? $sales_stats_bump['bump_orders_count'] : array();
+
+		$wps_upsell_new_bump['offer_accept_count_pro'] = ! empty( $sales_stats_bump['offer_accept_count_pro'] ) ? $sales_stats_bump['offer_accept_count_pro'] : 0;
+
 	}
 
 	// When Bump is saved for the first time so load default text Settings.

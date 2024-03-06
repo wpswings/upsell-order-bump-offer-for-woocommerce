@@ -479,6 +479,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
 			$sales_by_bump->add_offer_accept_count();
 
+			if(is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')){
+
+				$sales_by_bump->add_offer_accept_count_pro();	
+			}
+
+
+
 			WC()->session->set( 'bump_offer_status', 'added' );
 			WC()->session->set( "bump_offer_status_$bump_index", $bump_offer_cart_item_key );
 
@@ -746,6 +753,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Add Order Bump Offer Accept Count for the respective Order Bump.
 		$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
 		$sales_by_bump->add_offer_accept_count();
+
+		if(is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')){
+
+			$sales_by_bump->add_offer_accept_count_pro();	
+		}
 
 		WC()->session->set( "bump_offer_status_index_$bump_index", $bump_offer_cart_item_key );
 
@@ -1367,12 +1379,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function woocommerce_init_ubo_functions() {
 		// Check woocommrece class exists.
-		if ( ! function_exists( 'WC' ) || empty( WC()->session ) ) {
+		// if ( ! function_exists( 'WC' ) || empty( WC()->session ) ) {
 
-			return;
-		}
+		// 	return;
+		// }
 
-		if ( 'true' === WC()->session->get( 'encountered_bump_array_display' ) ) {
+		// if ( 'true' === WC()->session->get( 'encountered_bump_array_display' ) ) {
 
 			// Cost calculations only when the offer is added.
 			add_action( 'woocommerce_before_calculate_totals', array( $this, 'woocommerce_custom_price_to_cart_item' ) );
@@ -1393,7 +1405,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			// Add Order Bump - Order Post meta.
 			add_action( 'woocommerce_checkout_order_processed', array( $this, 'add_bump_order_post_meta' ), 10 );
-		}
+		// }
 
 		// Handle Order Bump Orders on Thankyou for Success Rate and Stats.
 		add_action( 'woocommerce_thankyou', array( $this, 'report_sales_by_bump_handling' ), 15 );
@@ -1727,6 +1739,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// Add Order Bump Offer Accept Count for the respective Order Bump.
 			$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
 			$sales_by_bump->add_offer_accept_count();
+
+			if(is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')){
+
+				$sales_by_bump->add_offer_accept_count_pro();	
+			}
 
 			WC()->session->set( 'bump_offer_status', 'added' );
 			WC()->session->set( "bump_offer_status_$bump_index", $bump_offer_cart_item_key );
