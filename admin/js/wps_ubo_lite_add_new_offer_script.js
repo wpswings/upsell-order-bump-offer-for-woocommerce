@@ -97,4 +97,31 @@ jQuery(document).ready( function($) {
 	jQuery('.wc-bump-schedule-search').select2();
 	jQuery('.wc-bump-exclude-roles-search').select2();
 	
+	$(document).on(
+		'click',
+		'#wps_one_click_upsell',
+		function (e) {
+			e.preventDefault();
+
+			$.ajax({
+				url: ajaxurl,
+				type: 'POST',
+				data: {
+					action: 'wps_install_and_redirect_upsell_plugin'
+				},
+				success: function (response) {
+					console.log(response);
+					if (response.success) {
+						window.location.href = response.data.redirect_url;
+					} else {
+						alert('Error: ' + response.error);
+					}
+				},
+				error: function(error) {
+					console.log(error); // Log the error for debugging
+				}
+			});
+
+
+		});
 });

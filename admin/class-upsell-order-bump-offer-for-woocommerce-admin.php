@@ -944,4 +944,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			wp_send_json_success();
 		}
 	}
+
+	/**
+	 * Ajax Callback For One Click Upsell.
+	 *
+	 * @since 2.2.8
+	 */
+	public function wps_install_and_redirect_upsell_plugin_callback(){
+
+	wp_send_json_success(array('redirect_url' => 'https://wordpress.org/plugins/woo-one-click-upsell-funnel/'));
+    wp_die();
+
+}
 } // End of class.
