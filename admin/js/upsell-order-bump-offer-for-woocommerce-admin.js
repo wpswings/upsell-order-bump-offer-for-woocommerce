@@ -378,7 +378,7 @@
 						msg = $( this ).val();
 						$( ".wps_upsell_offer_primary_section h5" ).html( msg );
 						$(".wps-ubo__temp-head h3").html(msg);
-						$( ".wps_head_check_ubo" ).html( msg );
+						$(".wps_head_check_ubo span").html(msg);
 					}
 
 				}
