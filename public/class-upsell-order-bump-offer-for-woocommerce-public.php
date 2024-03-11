@@ -562,7 +562,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 						$prod_obj   = wc_get_product( $product_id );
 						$prod_type  = $prod_obj->get_type();
 						$bump_price = wps_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
-						$bump_price = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump_price ) );
+						$bump_price = wp_strip_all_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump_price ) );
+
 						$cart_item['data']->set_price( $bump_price );
 					} else {
 						$cart_item['data']->set_price( $price_discount );
@@ -968,7 +969,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 							$prod_obj   = wc_get_product( $product_id );
 							$prod_type  = $prod_obj->get_type();
 							$bump_price = wps_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
-							$bump_price = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump_price ) );
+							$bump_price = wp_strip_all_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump_price ) );
+
 							$value['data']->set_price( $bump_price );
 						} else {
 							$value['data']->set_price( $price_discount );
@@ -2062,6 +2064,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @since    1.0.0
 	 */
 	public function wps_redirect_custom_thank_you() {
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		}
 		// Saved Global Options.
 		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
 		$wps_custom_order_success_page = ! empty( $wps_ubo_global_options['wps_custom_order_success_page'] ) ? $wps_ubo_global_options['wps_custom_order_success_page'] : '';

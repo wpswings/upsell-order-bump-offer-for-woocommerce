@@ -1362,7 +1362,7 @@ function wps_ubo_lite_fetch_bump_offer_details( $encountered_bump_array_index, $
 			$prod_obj               = wc_get_product( $offer_id );
 			$prod_type              = $prod_obj->get_type();
 			$bump['discount_price'] = wps_mrbpfw_role_based_price( $prod_obj->get_price(), $prod_obj, $prod_type );
-			$bump['discount_price'] = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump['discount_price'] ) );
+			$bump['discount_price'] = wp_strip_all_tags( str_replace( get_woocommerce_currency_symbol(), '', $bump['discount_price'] ) );
 			$_product->set_price( $bump['discount_price'] );
 		}
 	} else {
@@ -2315,7 +2315,7 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 		$prod_obj = wc_get_product( $product_id );
 		$prod_type = $prod_obj->get_type();
 		$wps_price_role_based = wps_mrbpfw_role_based_price( $product->get_price(), $prod_obj, $prod_type );
-		$wps_price_role_based = strip_tags( str_replace( get_woocommerce_currency_symbol(), '', $wps_price_role_based ) );
+		$wps_price_role_based = wp_strip_all_tags( str_replace( get_woocommerce_currency_symbol(), '', $wps_price_role_based ) );
 		$orginal_price = floatval( $wps_price_role_based );
 		$sale_price    = floatval( $wps_price_role_based );
 		$regular_price = floatval( $wps_price_role_based );

@@ -375,6 +375,14 @@ use Automattic\WooCommerce\Utilities\OrderUtil;
 	 * @return void
 	 */
 	function wps_ubo_banner_notification_html() {
+
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		}
+
 		$screen = get_current_screen();
 		if ( isset( $screen->id ) ) {
 			$pagescreen = $screen->id;
