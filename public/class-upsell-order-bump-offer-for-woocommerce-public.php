@@ -71,10 +71,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		   */
 		  global $post;
 		  $shortcode_name = 'wps_bump_offer_shortcode';
-		  if ($post !== null) {
-		  $wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
-		  WC()->session->set( 'wps_is_shortcode', $wps_is_shortcode );
-		  }
+		if ( null !== $post ) {
+			$wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
+			WC()->session->set( 'wps_is_shortcode', $wps_is_shortcode );
+		}
 
 		wp_enqueue_style( $this->plugin_name . 'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
 
@@ -103,9 +103,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 */
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
-		if ($post !== null) {
+		if ( null !== $post ) {
 			$wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
-			}
+		}
 		// Only enqueue on the Checkout page.
 		if ( is_checkout() || is_cart() || $wps_is_shortcode ) {
 
@@ -990,9 +990,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
-		if ($post !== null) {
+		if ( null !== $post ) {
 			$wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
-			}
+		}
 
 		// Only enqueue on the cart,shortcode and checkout page.
 		if ( is_cart() || is_checkout() || $wps_is_shortcode ) {
@@ -1030,9 +1030,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function global_custom_js() {
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
-		if ($post !== null) {
+		if ( null !== $post ) {
 			$wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
-			}
+		}
 
 		// Only enqueue on the cart,shortcode and checkout page.
 		if ( is_cart() || is_checkout() || $wps_is_shortcode ) {

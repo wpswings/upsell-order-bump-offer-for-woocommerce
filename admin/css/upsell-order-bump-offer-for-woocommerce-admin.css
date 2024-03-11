@@ -200,7 +200,7 @@
  }
 
  .wps_ubo_lite_go_pro_popup_head h2 {
-	 background-color: #7979f6;
+	 background-color: #2196f3;
 	 border-radius: 5px 5px 0 0;
 	 color: #ffffff;
 	 font-size: 30px;
@@ -570,7 +570,7 @@
  }
 
  #wps_upsell_bump_setting_wrapper tr td .wps_upsell_bump_links {
-	 background-color: #7979f6;
+	 background-color: #2196f3;
 	 display: inline-block;
 	 padding: 6px 10px;
 	 margin: 5px 0px
@@ -688,7 +688,7 @@
  }
 
  #wps_upsell_bump_setting_wrapper .nav-tab {
-	 background-color: #7979f6;
+	 background-color: #2196f3;
 	 border: 0;
 	 padding: 20px;
 	 flex: 1;
@@ -705,7 +705,7 @@
  }
 
  #wps_upsell_bump_setting_wrapper .nav-tab.nav-tab-active {
-	 background-color: #9f9ff5;
+	 background-color:#3854bb;
 	 color: #fff;
  }
 
@@ -733,7 +733,7 @@
  }
 
  #wps_upsell_bump_setting_wrapper .nav-tab-wrapper.wps-ubo-appearance-nav-tab .nav-tab.nav-tab-active::before {
-	 border-top: 2px solid #7979f6;
+	 border-top: 2px solid #2196f3;
 	 content: "";
 	 left: 0;
 	 position: absolute;
@@ -798,7 +798,7 @@
  }
 
  .wps_upsell_bump_create_new_bump a {
-	 background-color: #7979f6;
+	 background-color: #2196f3;
 	 box-sizing: border-box;
 	 display: inline-block;
 	 font-size: 14px;
@@ -1092,7 +1092,7 @@
  #wps_upsell_bump_setting_wrapper .wps_upsell_bump_setting_title {
 	 font-size: 25px;
 	 text-align: left;
-	 background-color: #7979f6;
+	 background-color:#2196f3;
 	 color: #ffffff;
 	 padding: 20px;
 	 margin: -20px -20px 0 -20px;
@@ -1102,7 +1102,7 @@
 
  #wps_upsell_bump_setting_wrapper .wps_upsell_table .wps_upsell_bump_offers h1 {
 	 font-size: 23px;
-	 background-color: #7979f6;
+	 background-color: #2196f3;
 	 padding: 20px 15px;
 	 text-align: center;
 	 text-transform: uppercase;
@@ -1112,7 +1112,7 @@
 
  #wps_upsell_bump_setting_wrapper .wps_upsell_table p.submit #wps_upsell_bump_creation_setting_save,
  #wps_upsell_bump_setting_wrapper .submit #wps_upsell_bump_creation_setting_save {
-	 background-color: #7979f6;
+	 background-color: #2196f3;
 	 padding: 10px 28px;
 	 height: auto;
 	 font-size: 14px;
@@ -1130,7 +1130,7 @@
  #wps_upsell_bump_setting_wrapper .wps_upsell_table .new_offers .wps_upsell_offer_title {
 	 padding: 20px;
 	 background-color: #eeeeee;
-	 color: #7979f6;
+	 color: #2196f3;
 	 font-size: 20px;
 	 margin: 20px 0;
 	 text-align: left;
@@ -1597,7 +1597,7 @@
  .wps_upsell_offer_sections {
 	 padding: 20px;
 	 background-color: #eeeeee;
-	 color: #7979f6;
+	 color: #2196f3;
 	 font-size: 20px;
 	 text-align: left;
  }
@@ -1607,7 +1607,7 @@
 	 font-size: 20px;
 	 text-align: left;
 	 margin-bottom: 0;
-	 background-color: #7979f6;
+	 background-color: #2196f3;
 	 color: #ffffff;
 	 text-align: center;
 	 margin-top: 25px;
@@ -1775,7 +1775,7 @@
 
  .wps_upsell_template_select.wps_ubo_selected_class {
 	 background-color: #ffffff;
-	 border: 6px solid #7979f6;
+	 border: 6px solid #2196f3;
  }
 
  .wps-ubo-text-section.wps_upsell_table--border.wps_upsell_table .wps_upsell_offer_input_type,
