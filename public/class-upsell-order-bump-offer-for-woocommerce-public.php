@@ -71,12 +71,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		   */
 		  global $post;
 		  $shortcode_name = 'wps_bump_offer_shortcode';
+		  if ($post !== null) {
 		  $wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
 		  WC()->session->set( 'wps_is_shortcode', $wps_is_shortcode );
+		  }
 
 		wp_enqueue_style( $this->plugin_name . 'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
 
-		if ( is_checkout() || is_cart() || has_shortcode( $post->post_content, $shortcode_name ) ) {
+		if ( is_checkout() || is_cart() || $wps_is_shortcode ) {
 			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
 		}
@@ -101,8 +103,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 */
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
+		if ($post !== null) {
+			$wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
+			}
 		// Only enqueue on the Checkout page.
-		if ( is_checkout() || is_cart() || has_shortcode( $post->post_content, $shortcode_name ) ) {
+		if ( is_checkout() || is_cart() || $wps_is_shortcode ) {
 
 			$wps_is_checkout_page = false;
 			$wps_popup_body_class = 'No';
@@ -110,7 +115,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_traditional_checkout = false;
 			$wps_traditional_cart = false;
 			// To check the checkout page is there or not for jquery.
-			if ( ( function_exists( 'is_checkout' ) || is_checkout() ) || ( function_exists( 'is_cart' ) || is_cart() ) || has_shortcode( $post->post_content, $shortcode_name ) ) {
+			if ( ( function_exists( 'is_checkout' ) || is_checkout() ) || ( function_exists( 'is_cart' ) || is_cart() ) || $wps_is_shortcode ) {
 				$wps_is_checkout_page = true;
 			}
 
@@ -479,12 +484,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
 			$sales_by_bump->add_offer_accept_count();
 
-			if(is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')){
+			if ( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
-				$sales_by_bump->add_offer_accept_count_pro();	
+				$sales_by_bump->add_offer_accept_count_pro();
 			}
-
-
 
 			WC()->session->set( 'bump_offer_status', 'added' );
 			WC()->session->set( "bump_offer_status_$bump_index", $bump_offer_cart_item_key );
@@ -754,9 +757,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
 		$sales_by_bump->add_offer_accept_count();
 
-		if(is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')){
+		if ( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
-			$sales_by_bump->add_offer_accept_count_pro();	
+			$sales_by_bump->add_offer_accept_count_pro();
 		}
 
 		WC()->session->set( "bump_offer_status_index_$bump_index", $bump_offer_cart_item_key );
@@ -987,9 +990,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
+		if ($post !== null) {
+			$wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
+			}
 
 		// Only enqueue on the cart,shortcode and checkout page.
-		if ( is_cart() || is_checkout() || has_shortcode( $post->post_content, $shortcode_name ) ) {
+		if ( is_cart() || is_checkout() || $wps_is_shortcode ) {
 
 			// Ignore admin, feed, robots or trackbacks.
 			if ( is_admin() || is_feed() || is_robots() || is_trackback() ) {
@@ -1024,9 +1030,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function global_custom_js() {
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
+		if ($post !== null) {
+			$wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
+			}
 
 		// Only enqueue on the cart,shortcode and checkout page.
-		if ( is_cart() || is_checkout() || has_shortcode( $post->post_content, $shortcode_name ) ) {
+		if ( is_cart() || is_checkout() || $wps_is_shortcode ) {
 
 			// Ignore admin, feed, robots or trackbacks.
 			if ( is_admin() || is_feed() || is_robots() || is_trackback() ) {
@@ -1379,12 +1388,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function woocommerce_init_ubo_functions() {
 		// Check woocommrece class exists.
-		// if ( ! function_exists( 'WC' ) || empty( WC()->session ) ) {
-
-		// 	return;
-		// }
-
-		// if ( 'true' === WC()->session->get( 'encountered_bump_array_display' ) ) {
 
 			// Cost calculations only when the offer is added.
 			add_action( 'woocommerce_before_calculate_totals', array( $this, 'woocommerce_custom_price_to_cart_item' ) );
@@ -1405,7 +1408,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			// Add Order Bump - Order Post meta.
 			add_action( 'woocommerce_checkout_order_processed', array( $this, 'add_bump_order_post_meta' ), 10 );
-		// }
 
 		// Handle Order Bump Orders on Thankyou for Success Rate and Stats.
 		add_action( 'woocommerce_thankyou', array( $this, 'report_sales_by_bump_handling' ), 15 );
@@ -1740,9 +1742,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
 			$sales_by_bump->add_offer_accept_count();
 
-			if(is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')){
+			if ( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
-				$sales_by_bump->add_offer_accept_count_pro();	
+				$sales_by_bump->add_offer_accept_count_pro();
 			}
 
 			WC()->session->set( 'bump_offer_status', 'added' );

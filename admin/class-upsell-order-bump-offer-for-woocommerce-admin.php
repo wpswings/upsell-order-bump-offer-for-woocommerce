@@ -950,10 +950,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since 2.2.8
 	 */
-	public function wps_install_and_redirect_upsell_plugin_callback(){
+	public function wps_install_and_redirect_upsell_plugin_callback() {
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
-	wp_send_json_success(array('redirect_url' => 'https://wordpress.org/plugins/woo-one-click-upsell-funnel/'));
-    wp_die();
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		}
+		wp_send_json_success( array( 'redirect_url' => 'https://wordpress.org/plugins/woo-one-click-upsell-funnel/' ) );
+		wp_die();
 
-}
+	}
 } // End of class.

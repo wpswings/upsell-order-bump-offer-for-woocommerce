@@ -151,7 +151,7 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Bump {
 	 * @since    1.4.0
 	 * @access   public
 	 */
-	public function add_offer_accept_count_pro(){
+	public function add_offer_accept_count_pro() {
 		if ( $this->validate_bump_series() ) {
 
 			if ( ! empty( $this->bump_series[ $this->bump_id ]['offer_accept_count_pro'] ) ) {
@@ -163,7 +163,7 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Bump {
 			}
 
 			$this->save_bump_series( $this->bump_series );
-		}	
+		}
 	}
 
 	/**

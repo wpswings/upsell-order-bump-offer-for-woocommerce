@@ -86,18 +86,15 @@ if ( empty( $encountered_bump_ids_array ) || ! is_array( $encountered_bump_ids_a
 }
 
 // Set Session whenever Order Bump Ids are fetched from collection.
-// if ( null === WC()->session->get( 'encountered_bump_array' ) ) {
-
 	WC()->session->set( 'encountered_bump_array', $encountered_bump_ids_array );
 	WC()->session->set( 'encountered_bump_tarket_key_array', $encountered_bump_tarket_key_array );
 
 	// Add Order Bump Offer View Count for the respective Order Bump.
-	foreach ( $encountered_bump_ids_array as $order_bump_id ) {
+foreach ( $encountered_bump_ids_array as $order_bump_id ) {
 
-		$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
-		$sales_by_bump->add_offer_view_count();
-	}
-// }
+	$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
+	$sales_by_bump->add_offer_view_count();
+}
 
 /**===========================================
 		Order bump html section start
