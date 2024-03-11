@@ -957,7 +957,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
 		}
-		wp_send_json_success( array( 'redirect_url' => 'https://wordpress.org/plugins/woo-one-click-upsell-funnel/' ) );
+		wp_send_json_success( array( 'redirect_url' => admin_url( 'plugin-install.php?s=upsell%20funnel&tab=search&type=term' ) ) );
 		wp_die();
 
 	}
