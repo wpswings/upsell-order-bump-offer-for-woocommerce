@@ -2016,6 +2016,18 @@ function wps_mrbpfw_get_all_rule_ids_for_current_role() {
 			'fields'         => 'ids',
 			'posts_per_page' => 10,
 			'post_type'      => 'mrbpfw_price_rules',
+			'meta_query'     => array(
+				array(
+					'key'     => 'wps_mrbpfw_role',
+					'value'   => $current_role[ $current_role_val ],
+					'compare' => '==',
+				),
+				array(
+					'key'     => 'wps_mrbpfw_enable_rule',
+					'value'   => 'on',
+					'compare' => '==',
+				),
+			),
 		)
 	);
 	return $all_rules_ids;

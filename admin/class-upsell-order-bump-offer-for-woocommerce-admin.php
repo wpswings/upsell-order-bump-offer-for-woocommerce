@@ -957,7 +957,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
 		}
-		wp_send_json_success( array( 'redirect_url' => admin_url( 'plugin-install.php?s=upsell%2520funnel%2520wp%2520swings&tab=search&type=term' ) ) );
+		wp_send_json_success( array( 'redirect_url' => admin_url( 'plugin-install.php?s=Upsell%2520Order%2520Bump%2520Offer%2520for%2520WooCommerce%2520%25E2%2580%2593%2520Increase%2520Sales%2520and%2520AOV%252C%2520Upsell%2520%2526%2520Cross-sell%2520Offers%2520on%2520Checkout%2520Page%2520%2520wp%2520swings&tab=search&type=term' ) ) );
 		wp_die();
 
 	}

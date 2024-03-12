@@ -18,7 +18,7 @@
  *
  * Requires at least:       5.5.0
  * Tested up to:            6.4.3
- * WC requires at least:    5.5.0
+ * WC requires at least:    6.1.0
  * WC tested up to:         8.6.1
  *
  * Version:           2.3.1
