@@ -392,3 +392,91 @@ button.w-add-prod{
 	.wps_loader_main_class {
 		display: none;
 	}
+
+	/* CSS For frequently bought together*/
+	.wps-frequently-bought-container {
+		margin: 20px 0;
+		background-color: #f8f8f8;
+		border-radius: 10px;
+		padding: 20px;
+	}
+	
+	/* Title styles */
+	.wps-title {
+		font-size: 24px;
+		margin-bottom: 10px;
+		color: #333;
+	}
+	
+	/* Product list styles */
+	.wps-product-list {
+		display: flex;
+		align-items: center;
+	}
+	
+	/* Product styles */
+	.wps-product {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: 0 20px;
+	}
+	
+	.wps-product img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 5px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		transition: transform 0.3s ease;
+	}
+	
+	.wps-product img:hover {
+		transform: scale(1.05);
+	}
+	
+	.wps-product-title {
+		font-size: 18px;
+		margin: 10px 0;
+		color: #333;
+	}
+	
+	.wps-price {
+		font-size: 16px;
+		color: #007bff;
+	}
+	
+	/* Plus sign styles */
+	.wps-plus {
+		font-size: 24px;
+		color: #007bff;
+	}
+	
+	/* Add to Cart button styles */
+	.wps-add-to-cart {
+		background-color: #007bff;
+		color: #fff;
+		border: none;
+		padding: 8px 16px;
+		border-radius: 5px;
+		cursor: pointer;
+		margin-top: 10px;
+		transition: background-color 0.3s ease;
+	}
+	
+	.wps-add-to-cart:hover {
+		background-color: #0056b3;
+	}
+	
+	/* Summary styles */
+	.wps-summary {
+		margin-top: 20px;
+	}
+	
+	.wps-summary span {
+		margin-right: 10px;
+	}
+	
+	.wps-total-price,
+	.wps-savings {
+		font-weight: bold;
+	}
