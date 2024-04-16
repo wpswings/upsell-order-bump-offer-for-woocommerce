@@ -3191,3 +3191,103 @@
     margin-top: 29px;
     width: 453px;
 }
+
+/*Overview popup css */
+.mwb_pop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: none;
+	z-index: 999999;
+}
+
+.mwb_pop .mwb_pop-shad {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.mwb_pop .mwb_pop-con {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	border-radius: 8px;
+	max-width: 600px;
+	width: 100%;
+	max-height: 350px;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+	text-align: center;
+	overflow: hidden;
+}
+
+.mwb_pop .mwb_pop-con .mwb_pop-close {
+	font-size: 32px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	line-height: 18px;
+	cursor: pointer;
+	color: #6e6e6e;
+	font-weight: 400;
+	z-index: 2;
+}
+
+.mwb_pop .mwb_pop-con .mwb_pop-close:hover {
+	color: #1e1e1e;
+}
+
+.mwb_pop .mwb_pop-con h2 {
+	font-size: 32px;
+	font-weight: 500;
+	margin: 0;
+	line-height: 1.25;
+}
+
+.mwb_pop .mwb_pop-con p {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.25;
+	color: #414141;
+	max-width: 350px;
+	margin: 15px auto 25px;
+}
+
+.mwb_pop .mwb_pop-con a {
+	background: #2F6FF1;
+	color: #fff;
+	text-decoration: none;
+	padding: 12px 16px;
+	display: inline-block;
+	line-height: 1.5;
+	border-radius: 5px;
+	border: 1px solid #2f6ff1;
+	transition: 0.2s all linear;
+	position: relative;
+	z-index: 2;
+}
+
+.mwb_pop .mwb_pop-con a:hover {
+	background: transparent;
+	color: #2f6ff1;
+}
+
+.mwb_pop-con img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+@media screen and (max-width: 520px) {
+	.mwb_pop .mwb_pop-con {
+		padding: 30px;
+		width: calc(100% - 90px);
+	}
+
+}

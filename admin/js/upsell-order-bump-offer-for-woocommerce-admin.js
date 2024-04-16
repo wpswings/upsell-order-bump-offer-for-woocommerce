@@ -1172,3 +1172,17 @@ jQuery(document).ready(function () {
 		}
 	}, 1000);
 });
+
+jQuery(document).ready(function () {
+	// Without Local.
+	function openPopupAfterDelay() {
+	    setTimeout(function () {
+			jQuery("#mwb_pop").fadeIn();
+			console.log('checkit');
+	    }, 1000);
+	}
+	openPopupAfterDelay();
+	jQuery(".mwb_pop-close,.mwb_pop-shad").click(function () {
+		jQuery("#mwb_pop").fadeOut();
+	});
+});
