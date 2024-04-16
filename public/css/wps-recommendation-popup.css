@@ -412,6 +412,7 @@ button.w-add-prod{
 	.wps-product-list {
 		display: flex;
 		align-items: center;
+		overflow-x: auto;
 	}
 	
 	/* Product styles */
@@ -420,6 +421,7 @@ button.w-add-prod{
 		flex-direction: column;
 		align-items: center;
 		margin: 0 20px;
+		flex: 0 0 auto;
 	}
 	
 	.wps-product img {
@@ -446,9 +448,13 @@ button.w-add-prod{
 	}
 	
 	/* Plus sign styles */
-	.wps-plus {
+	.wps-order-bump-fbt-plus {
 		font-size: 24px;
 		color: #007bff;
+	}
+	
+	.wps-order-bump-fbt-plus:last-of-type {
+		display: none;
 	}
 	
 	/* Add to Cart button styles */

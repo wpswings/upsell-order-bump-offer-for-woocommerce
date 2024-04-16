@@ -298,6 +298,23 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				);
 			}
 		}
+
+		//JS Enqueue For The Product Page.
+		// Localizing Array.
+		$local_arr = array(
+		'ajaxurl'     => admin_url( 'admin-ajax.php' ),
+		'mobile_view' => wp_is_mobile(),
+		'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce_recommend' ),
+		'product_id'  => get_the_ID(),
+		);
+
+		// Public facing regarding popup.
+		wp_enqueue_script( 'wps-ubo-lite-public-script-for-fbt', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_fbt.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script(
+		'wps-ubo-lite-public-script-for-fbt',
+		'wps_ubo_lite_public_fbt',
+		$local_arr
+		);
 	}
 
 	/**
@@ -2410,5 +2427,57 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-public-display.php';
 		}
 	}
+
+	public function wps_add_to_cart_fbt_product_callback(){
+	
+
+        // Add the product to the cart
+        // WC()->cart->add_to_cart( intval(270) );
+		WC()->cart->add_to_cart( 270, 1, 0, array(), array() );
+        
+        // Apply discount if the added product matches the specific product
+        // $specific_product_id = YOUR_SPECIFIC_PRODUCT_ID;
+        // if ( $product_id == $specific_product_id ) {
+            // $discount = 7;
+            // WC()->cart->add_fee( __( 'Discount', 'your-text-domain' ), -$discount );
+        // }
+		            // Get cart items
+					// $cart_items = WC()->cart->get_cart();
+            
+					// // Loop through cart items
+					// foreach ( $cart_items as $cart_item_key => $cart_item ) {
+					// 	// if ( $cart_item['product_id'] == $specific_product_id ) {
+					// 		// Apply discount directly to cart item
+					// 		$cart_item['data']->set_price( 300 - $discount );
+					// 		break;
+					// 	// }
+					// }
+        
+        // Return a success response
+        // wp_send_json_success( 'Product added to cart successfully!' );
+
+
+		// WC()->cart->add_to_cart( 270, 1, 0, array(), array() ); 
+		// add_action( 'woocommerce_cart_calculate_fees', array($this, 'apply_discount_on_specific_product'),10,1 );
+		// add_action( 'woocommerce_cart_calculate_fees', array($this,'woo_add_cart_fee') );
+
+		$this->woo_add_cart_fee();
+
+			$data = array(
+			'cart_count' => '',
+			'product_id' => '',
+		);
+		echo wp_json_encode( $data );
+		wp_die();
+	}
+
+	function woo_add_cart_fee() {
+ 
+		global $woocommerce;
+		  
+		$woocommerce->cart->add_fee( __('Custom', 'woocommerce'), 5 );
+		  
+	  }
+
 	// End of class.
 }
