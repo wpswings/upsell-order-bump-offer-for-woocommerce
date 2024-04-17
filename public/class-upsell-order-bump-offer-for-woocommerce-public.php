@@ -2072,6 +2072,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			if ( array_key_exists( 'wps_cart_offer_custom_price', $item ) ) {
 				$item['data']->set_price( $item['wps_cart_offer_custom_price'] );
 			}
+			if ( array_key_exists( 'fbt_price', $item ) ) {
+				$item['data']->set_price( $item['fbt_price'] );
+			}
 		}
 	}
 
@@ -2428,56 +2431,57 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 	}
 
-	public function wps_add_to_cart_fbt_product_callback(){
 	
 
-        // Add the product to the cart
-        // WC()->cart->add_to_cart( intval(270) );
-		WC()->cart->add_to_cart( 270, 1, 0, array(), array() );
-        
-        // Apply discount if the added product matches the specific product
-        // $specific_product_id = YOUR_SPECIFIC_PRODUCT_ID;
-        // if ( $product_id == $specific_product_id ) {
-            // $discount = 7;
-            // WC()->cart->add_fee( __( 'Discount', 'your-text-domain' ), -$discount );
-        // }
-		            // Get cart items
-					// $cart_items = WC()->cart->get_cart();
-            
-					// // Loop through cart items
-					// foreach ( $cart_items as $cart_item_key => $cart_item ) {
-					// 	// if ( $cart_item['product_id'] == $specific_product_id ) {
-					// 		// Apply discount directly to cart item
-					// 		$cart_item['data']->set_price( 300 - $discount );
-					// 		break;
-					// 	// }
-					// }
-        
-        // Return a success response
-        // wp_send_json_success( 'Product added to cart successfully!' );
-
-
-		// WC()->cart->add_to_cart( 270, 1, 0, array(), array() ); 
-		// add_action( 'woocommerce_cart_calculate_fees', array($this, 'apply_discount_on_specific_product'),10,1 );
-		// add_action( 'woocommerce_cart_calculate_fees', array($this,'woo_add_cart_fee') );
-
-		$this->woo_add_cart_fee();
-
-			$data = array(
-			'cart_count' => '',
-			'product_id' => '',
+	public function wps_add_to_cart_fbt_product_callback(){
+		// Loop through each product and add it to the cart
+		foreach ($_POST['wps_product_id'] as $product_id) {
+			$product = wc_get_product( $product_id );
+			$price = $product->get_price();
+			$discount = $this->wps_custom_discount_price($price, 270 , $wps_method_upsell = 'yes');
+			// Add the product to the cart.
+			WC()->cart->add_to_cart($product_id, 1, 0, array(), array('fbt_price' => $discount));
+		}
+		$data = array(
+        'wps_product_added'  => 'yes'
 		);
 		echo wp_json_encode( $data );
 		wp_die();
 	}
 
-	function woo_add_cart_fee() {
- 
-		global $woocommerce;
-		  
-		$woocommerce->cart->add_fee( __('Custom', 'woocommerce'), 5 );
-		  
-	  }
+
+
+
+
+		/**
+		 * Bump Offer Discount Price.
+		 *
+		 * @param   int $wps_product_price       current product price.
+		 * @param   int $wps_target_product_id        target product id.
+		 * @since   1.0.0
+		 */
+		public function wps_custom_discount_price( $wps_product_price, $wps_target_product_id =270 , $wps_method_upsell = '') {
+			$wps_select_option_discount = get_post_meta( $wps_target_product_id, 'wps_fbt_select_option_discount', true );
+			$wps_recommendation_discount_val = get_post_meta( $wps_target_product_id, 'wps_fbt_discount_val', true );
+	
+			$wps_discounted_price = '';
+			if ( 'no_disc' == $wps_select_option_discount ) {
+	
+				$wps_discounted_price = $wps_product_price;
+			} elseif ( 'wps_percent' == $wps_select_option_discount ) {
+	
+				// Get the discounted price whediscount is percentage.
+				$discount_percentage = $wps_recommendation_discount_val / 100;
+				$custom_discounted_price = $wps_product_price * ( 1 - $discount_percentage );
+	
+				$wps_discounted_price = $custom_discounted_price;
+			} elseif ( 'wps_fixed' == $wps_select_option_discount ) {
+	
+				// Get the discounted price whediscount is fixed.
+				$wps_discounted_price = $wps_recommendation_discount_val;
+			}
+			return $wps_discounted_price;
+		}
 
 	// End of class.
 }
