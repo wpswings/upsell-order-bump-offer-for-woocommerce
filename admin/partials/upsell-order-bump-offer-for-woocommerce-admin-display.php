@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'ONBOARD_PLUGIN_NAME', 'Upsell Order Bump Offer for WooCommerce' );
 
 if ( class_exists( 'Wpswings_Onboarding_Helper' ) ) {
-	$this->onboard = new Wpswings_Onboarding_Helper();
+	// $this->onboard = new Wpswings_Onboarding_Helper();
 }
 
 $secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );

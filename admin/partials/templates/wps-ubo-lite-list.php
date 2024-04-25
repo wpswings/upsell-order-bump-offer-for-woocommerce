@@ -221,7 +221,7 @@ $wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list' );
 	<?php if ( is_plugin_active( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) && ! is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) { ?>
 	<a href="?page=wps-wocuf-setting&tab=funnels-list"><?php esc_html_e( '+Create New Post Order Bump', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
 	<?php } elseif ( ! array_key_exists( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php', $installed_plugins ) ) { ?>
-	<a id = "wps_one_click_upsell" href="#"><?php esc_html_e( '+Creat New Funnel', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
+	<a id = "wps_one_click_upsell" href="#"><?php esc_html_e( '+Create New Funnel', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
 	<?php } elseif(is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' )){ ?>
 	<a href="?page=wps-wocuf-pro-setting&tab=funnels-list"><?php esc_html_e( '+Create New Post Order Bump', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
 	<?php  } ?>

@@ -3236,7 +3236,7 @@
 	cursor: pointer;
 	color: #6e6e6e;
 	font-weight: 400;
-	z-index: 2;
+	z-index: 9;
 }
 
 .mwb_pop .mwb_pop-con .mwb_pop-close:hover {
@@ -3260,10 +3260,8 @@
 }
 
 .mwb_pop .mwb_pop-con a {
-	background: #2F6FF1;
 	color: #fff;
 	text-decoration: none;
-	padding: 12px 16px;
 	display: inline-block;
 	line-height: 1.5;
 	border-radius: 5px;

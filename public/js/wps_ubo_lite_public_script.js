@@ -42,17 +42,17 @@ jQuery(document).ready(function ($) {
                 if ('woocommerce_after_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
 
                     jQuery('.wp-block-woocommerce-cart-totals-block').append('<div class = "wrapup_order_bump">' + data + '</div>'); //after cart total.
-                    $(".wp-block-woocommerce-cart").siblings().remove();
+                    $(".wp-block-woocommerce-cart").prev().remove();
 
                 } else if ('woocommerce_cart_collaterals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
                 
                     jQuery('.wc-block-components-totals-footer-item').append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
-                    $(".wp-block-woocommerce-cart").siblings().remove();
+                    $(".wp-block-woocommerce-cart").prev().remove();
 
                 } else if ('woocommerce_before_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
                     
                     jQuery(jQuery('.wp-block-woocommerce-cart-line-items-block').parent()).append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
-                    $(".wp-block-woocommerce-cart").siblings().remove();
+                    $(".wp-block-woocommerce-cart").prev().remove();
                 }
   
             }

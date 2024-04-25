@@ -9,3 +9,8 @@
   .wps_select_disc_for_recommdation input {
 	margin: 4px !important;
   }
+
+  input.wps_upsell_offer_input_type_recommendation {
+    width: 100%;
+    max-width: 194px;
+}
