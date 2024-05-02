@@ -3289,3 +3289,10 @@
 	}
 
 }
+
+/* Dashboard icon custom css */
+.wps-info-img {
+	width: 15px;
+	vertical-align: middle;
+	padding-right: 2px;
+  }

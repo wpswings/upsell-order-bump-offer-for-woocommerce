@@ -5,6 +5,14 @@ jQuery(document).ready(function ($) {
         $('.wrapup_order_bump').hide();
     }
 
+    var bodyElements = document.getElementsByTagName('body')[0].getElementsByTagName('*');
+    for (var i = 0; i < bodyElements.length; i++) {
+        if (bodyElements[i].classList.contains('wrapup_order_bump')) {
+            bodyElements[i].style.display = 'none';
+            console.log('First occurrence of the specific class found:', bodyElements[i]);
+            break;
+        }
+    }
     
     setTimeout(function () {
 

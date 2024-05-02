@@ -2432,9 +2432,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	}
 
 	
-
+	/**
+	 * Show Order Bump On Cart Block.
+	 *
+	 * @since    1.0.0
+	 */
 	public function wps_add_to_cart_fbt_product_callback(){
-		// Loop through each product and add it to the cart
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+        $id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+        if ( ! $id_nonce_verified ) {
+            wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+        }
+		// Loop through each product and add it to the cart.
 		foreach ($_POST['wps_product_id'] as $product_id) {
 			$product = wc_get_product( $product_id );
 			$price = $product->get_price();
