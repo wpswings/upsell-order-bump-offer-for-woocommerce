@@ -2220,9 +2220,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 										$product = wc_get_product( $value );
 
 										$image = wp_get_attachment_image_src( get_post_thumbnail_id( $value ), 'single-post-thumbnail' );
+										if ( is_array( $image ) && isset( $image[0] ) ) {
+											$wps_image_url = esc_url( $image[0] );
+										} else {
+											$wps_image_url = '';
+										}
 
 										$wps_html_discount_section .= '<div class="wps_main_class_order" id="wps_main_class_id_' . $value . '">';
-										$wps_html_discount_section .= '<div class ="wps_product_image"><img width="100" height="300" src =' . esc_url( $image[0] ) . ' /></div>';
+										$wps_html_discount_section .= '<div class ="wps_product_image"><img width="100" height="300" src =' . esc_url( $wps_image_url ) . ' /></div>';
 										$wps_html_discount_section .= '<div class ="wps_product_name">' . $product->get_name() . '</div>';
 
 										if ( $product->is_type( 'variable' ) ) {
@@ -2454,7 +2459,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		if ( ! $id_nonce_verified ) {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
 		}
-		$wps_product_id = isset( $_POST['wps_product_id'] ) ? absint( $_POST['wps_product_id'] ) : '';
+		$wps_product_id = isset( $_POST['wps_product_id'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['wps_product_id'] ) ) : array();
 		// Loop through each product and add it to the cart.
 		foreach ( $wps_product_id as $product_id ) {
 			$product = wc_get_product( $product_id );
