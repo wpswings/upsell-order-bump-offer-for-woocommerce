@@ -131,10 +131,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wpswings-onboarding-helper.php';
 		}
 
-		if ( class_exists( 'Wpswings_Onboarding_Helper' ) ) {
-
-			$this->onboard = new Wpswings_Onboarding_Helper();
-		}
 
 		/**
 		 * The class responsible for Sales by Order Bump - Data handling and Stats.
