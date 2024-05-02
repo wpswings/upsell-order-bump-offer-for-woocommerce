@@ -133,7 +133,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 		if ( class_exists( 'Wpswings_Onboarding_Helper' ) ) {
 
-			// $this->onboard = new Wpswings_Onboarding_Helper();
+			$this->onboard = new Wpswings_Onboarding_Helper();
 		}
 
 		/**
@@ -311,7 +311,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_new_order', $plugin_public, 'wps_custom_get_current_order_id', 10, 1 );
 
 			/* Discount at cart section.*/
-			$this->loader->add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', $plugin_public, 'wps_woo_cart_discount_section' );   //cart discount.
+			$this->loader->add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', $plugin_public, 'wps_woo_cart_discount_section' );   // cart discount.
 
 			// Ajax to add the cart discount product in the cart.
 			$this->loader->add_action( 'wp_ajax_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
@@ -321,7 +321,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_after', $plugin_public, 'wps_show_bump_on_checkout_block_callback' );
 
 			$this->loader->add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', $plugin_public, 'wps_show_bump_on_cart_block_callback' );
-
 
 			// Ajax to add to cart the recommendation.
 			$this->loader->add_action( 'wp_ajax_add_to_cart_fbt_product', $plugin_public, 'wps_add_to_cart_fbt_product_callback' );
