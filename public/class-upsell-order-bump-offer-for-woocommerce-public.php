@@ -2460,11 +2460,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
 		}
 		$wps_product_id = isset( $_POST['wps_product_id'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['wps_product_id'] ) ) : array();
+		$wps_main_product_id = isset( $_POST['wps_main_prod_id'] ) ? absint( $_POST['wps_main_prod_id'] ) : '';
 		// Loop through each product and add it to the cart.
 		foreach ( $wps_product_id as $product_id ) {
 			$product = wc_get_product( $product_id );
 			$price = $product->get_price();
-			$discount = $this->wps_custom_discount_price( $price, 270, $wps_method_upsell = 'yes' );
+			$discount = $this->wps_custom_discount_price( $price, $wps_main_product_id, $wps_method_upsell = 'yes' );
 			// Add the product to the cart.
 			WC()->cart->add_to_cart( $product_id, 1, 0, array(), array( 'fbt_price' => $discount ) );
 		}
@@ -2505,7 +2506,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		} elseif ( 'wps_fixed' == $wps_select_option_discount ) {
 
 			// Get the discounted price whediscount is fixed.
-			$wps_discounted_price = $wps_recommendation_discount_val;
+			$wps_discounted_price = $wps_product_price - $wps_recommendation_discount_val;
+			if ( $wps_discounted_price < 0 ) {
+				$wps_discounted_price = 0;
+			}
 		}
 		return $wps_discounted_price;
 	}
