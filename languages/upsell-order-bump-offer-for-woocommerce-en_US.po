@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.3.1\n"
-"POT-Creation-Date: 2024-03-12 10:36+0530\n"
-"PO-Revision-Date: 2024-03-12 10:36+0530\n"
+"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.3.2\n"
+"POT-Creation-Date: 2024-05-03 17:10+0530\n"
+"PO-Revision-Date: 2024-05-03 17:10+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
 "Language: en_US\n"
@@ -53,11 +53,12 @@ msgstr ""
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:727
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:958
 #: admin/partials/templates/wps-ubo-lite-list.php:33
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:28
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:24
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:28
 #: admin/reporting/upsell-order-bump-reporting-config-panel.php:22
 #: includes/class-wpswings-onboarding-helper.php:828
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2071
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2097
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2460
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:66
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:144
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:309
@@ -593,49 +594,49 @@ msgstr ""
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:940
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1042
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1043
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3024
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3025
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3052
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3072
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3083
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3089
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3092
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3096
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3102
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3118
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3132
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3233
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3234
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3585
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3586
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3613
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3633
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3036
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3037
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3064
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3084
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3095
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3101
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3104
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3108
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3114
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3130
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3144
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3245
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3246
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3597
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3598
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3625
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3645
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3650
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3655
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3660
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3669
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3686
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3700
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3802
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3803
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4195
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4196
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4223
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4243
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3657
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3662
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3667
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3672
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3681
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3698
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3712
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3814
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3815
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4207
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4208
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4235
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4255
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4260
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4265
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4281
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4295
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4397
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4398
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5111
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5112
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5139
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5148
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5153
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5159
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4267
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4272
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4277
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4292
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4306
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4408
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4409
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5121
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5122
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5149
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5158
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5163
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5169
 msgid "px"
 msgstr ""
 
@@ -916,11 +917,12 @@ msgid "+Create New Order Bump"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-list.php:222
+#: admin/partials/templates/wps-ubo-lite-list.php:226
 msgid "+Create New Post Order Bump"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-list.php:224
-msgid "+Creat New Funnel"
+msgid "+Create New Funnel"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-overview.php:28
@@ -1012,73 +1014,73 @@ msgid ""
 "product."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:105
+#: admin/partials/templates/wps-ubo-lite-overview.php:106
 #: admin/partials/templates/wps-ubo-lite-settings.php:547
 msgid "Smart Skip if Already Purchased"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:107
+#: admin/partials/templates/wps-ubo-lite-overview.php:108
 msgid ""
 "This feature will allow you to Skip the Order Bump offer for those customers "
 "who have already purchased the offer product anytime before in previous "
 "orders."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:116
+#: admin/partials/templates/wps-ubo-lite-overview.php:117
 msgid "Exclusive Support"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:121
+#: admin/partials/templates/wps-ubo-lite-overview.php:122
 msgid "Receive dedicated 24*7 Phone, Email & Skype support."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:126
+#: admin/partials/templates/wps-ubo-lite-overview.php:127
 msgid ""
 "Our Support is ready to assist you regarding any query, issue, or feature "
 "request and if that doesn't help our Technical team will connect with you "
 "personally and have your query resolved."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:133
+#: admin/partials/templates/wps-ubo-lite-overview.php:135
 msgid "Upcoming Plugin Features"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:141
+#: admin/partials/templates/wps-ubo-lite-overview.php:143
 msgid "Display Product Bump On Cart"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:143
+#: admin/partials/templates/wps-ubo-lite-overview.php:145
 msgid ""
 "Merchants can show offers as product order bumps on a cart page. They can "
 "create WooCommerce bump offer funnels for every product on their WooCommerce "
 "store by displaying various WooCommerce order bumps."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:152
+#: admin/partials/templates/wps-ubo-lite-overview.php:154
 msgid "Popup-alert on Exit Intent"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:154
+#: admin/partials/templates/wps-ubo-lite-overview.php:156
 msgid ""
 "This feature gives, merchants the option to display the product order bump "
 "on the pop-up screen of the WooCommerce upsell products image or title as "
 "per your choice at the checkout page"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:163
+#: admin/partials/templates/wps-ubo-lite-overview.php:165
 msgid "Multiple Checkout Plugin Compatibility"
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:165
+#: admin/partials/templates/wps-ubo-lite-overview.php:167
 msgid ""
 "Our Upsell Order Bump plugin will also be fully compatible with different "
 "custom checkout plugins or templates of various eCommerce or WooCommerce "
 "stores. So, that plugin runs smoothly without any difficulties."
 msgstr ""
 
-#: admin/partials/templates/wps-ubo-lite-overview.php:176
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2635
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2671
+#: admin/partials/templates/wps-ubo-lite-overview.php:178
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2647
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2683
 msgid "Upgrade to Premium"
 msgstr ""
 
@@ -1415,71 +1417,71 @@ msgstr ""
 msgid "Don't update"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:42
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:38
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:42
 #: admin/reporting/upsell-order-bump-reporting-config-panel.php:30
 msgid "Upsell Order Bump Offers"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:47
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:43
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:47
 msgid "creation-setting"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:47
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:43
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:47
 msgid "Save Order Bump"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:49
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:45
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:49
 msgid "bump-list"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:49
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:45
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:49
 msgid "Order Bumps List"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:51
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:47
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:51
 msgid "settings"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:51
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:47
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:51
 msgid "Global Settings"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:70
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:66
 msgid "license"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:70
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:66
 msgid "License"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:75
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:71
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:54
 msgid "overview"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:75
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:71
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:54
 msgid "Overview"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:131
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:127
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:80
 msgid "Connect with Us in one click"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:133
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:129
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:82
 msgid "Connect"
 msgstr ""
 
-#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:135
+#: admin/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php:131
 #: admin/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php:84
 msgid "Regarding any issue, query or feature request for Order Bump Offers."
 msgstr ""
@@ -1569,28 +1571,28 @@ msgid ""
 msgstr ""
 
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:847
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3029
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3590
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4200
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5117
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3041
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3602
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4212
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5127
 msgid " "
 msgstr ""
 
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1211
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1225
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:1857
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3411
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3427
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3992
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3995
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4021
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4024
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4592
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4595
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4624
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4627
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4975
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5489
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3423
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:3439
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4004
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4007
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4033
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4036
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4603
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4606
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4635
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4638
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:4986
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:5499
 msgid "Quantity"
 msgstr ""
 
@@ -1609,28 +1611,28 @@ msgstr ""
 msgid "Choose an option"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2226
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2238
 msgid "incl.VAT"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2228
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2240
 msgid "excl.VAT"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2597
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2609
 msgid "Want some more super cool features? Unlock your power to explore more."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2601
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2613
 msgid "Stucked to just one order bump? Unlock your power to explore more."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2612
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2624
 msgid "Want More? Go Pro !!"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2629
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2665
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2641
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2677
 msgid ""
 "Go with our premium version and make unlimited numbers of order bumps. Get "
 "more smart features and make the most attractive offers with all of your "
@@ -1638,19 +1640,19 @@ msgid ""
 "customer satisfaction and higher conversion rates."
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2648
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2660
 msgid "Want More Templates? Go Pro !!"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2694
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2706
 msgid "Product not found"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2702
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2714
 msgid "Product Unavailable"
 msgstr ""
 
-#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2724
+#: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:2736
 msgid "Category not found"
 msgstr ""
 
@@ -1678,34 +1680,35 @@ msgstr ""
 msgid "Unexpected Error Occurred"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:644
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:1862
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:665
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:1885
 msgid "Product Not Found."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:670
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:1888
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:691
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:1911
 msgid "Sorry, this variation is not available."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:683
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:1901
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:704
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:1924
 msgid "Out of stock."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2223
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2255
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2257
 msgid "Price:"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2224
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2260
 msgid "Quantity: 01"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2225
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2261
 msgid "Offer!"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2226
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2262
 msgid "Add to Cart"
 msgstr ""
 

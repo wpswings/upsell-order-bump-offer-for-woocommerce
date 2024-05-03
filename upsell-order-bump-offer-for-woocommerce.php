@@ -19,7 +19,7 @@
  * Requires at least:       5.5.0
  * Tested up to:            6.5.2
  * WC requires at least:    6.1.0
- * WC tested up to:         8.7.0
+ * WC tested up to:         8.8.3
  *
  * Version:           2.3.2
  * Author:            WP Swings
