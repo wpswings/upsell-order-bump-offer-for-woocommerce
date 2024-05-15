@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: upsell, ab testing offers, order bump, frequently bought together, upsell offers, cross-sell, sales funnels
 Requires at least: 5.5.0
-Tested up to: 6.5.2
+Tested up to: 6.5.3
 WC requires at least: 5.5.0
-WC tested up to: 8.8.3
-Stable tag: 2.3.2
+WC tested up to: 8.9.0
+Stable tag: 2.3.3
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -20,7 +20,6 @@ The All-In-One Solution to Increase Sales and Boost AOV with WooCommerce Upsell 
 The Upsell Order Bump plugin facilitates store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer’s existing order in just a single click, which enables them to order bump upsell.
 
 Show your customers an exclusive offer deal at an unbelievable price at the very moment that they are checking out. 
-
 
 Relevant offers can be set for specific targets with [**WooCommerce Order Bump**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=order-bump-pro) which ensures customer satisfaction and thus results in improved sales improvements.
 
@@ -263,6 +262,10 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Changelog ==
 
+= 2.3.3 - Released on 15 May 2024 = 
+* Fixes: Offer not show "Before Payment Gateway" location on checkout.
+* New: Compatibility with WP (6.5.3) and WC (8.9.0) 
+
 = 2.3.2 - Released on 03 May 2024 = 
 * New: Compatibility with WP (6.5.2) and WC (8.8.3) 
 * Added: Banner Image in Overview Section
@@ -422,6 +425,6 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 2.3.2 - Released on 03 May 2024 = 
-* New: Compatibility with WP (6.5.2) and WC (8.8.3) 
-* Added: Banner Image in Overview Section 
+= 2.3.3 - Released on 15 May 2024 = 
+* Fixes: Offer not show "Before Payment Gateway" location on checkout.
+* New: Compatibility with WP (6.5.3) and WC (8.9.0) 
