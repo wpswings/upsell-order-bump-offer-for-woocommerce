@@ -913,6 +913,18 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 							</a>
 						</div>
 
+						<!-- Template eleven. -->
+						<div class="wps_upsell_template_select <?php echo esc_html( 11 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+						<p class="wps_ubo_template_name"><?php esc_html_e( 'Compactive Template', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+						<a href="javascript:void" class="wps_ubo_template_link" data_link='11'>
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-1.png' ) ) : ?>
+								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-10.png' ); ?>">
+							<?php else : ?>
+								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template2.png' ); ?>">
+							<?php endif; ?>
+						</a>
+						</div>
+
 						<!-- Template three. -->
 						<div id="wps_ubo_premium_popup_3_template" class="wps_upsell_template_select <?php echo esc_html( 3 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
 							
@@ -1095,18 +1107,6 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 								</tr>
 							<!-- Border color end. -->
-
-
-
-
-
-
-
-
-
-
-
-
 							<!-- Background color start. -->
 								<tr valign="top">
 
@@ -1127,22 +1127,6 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 								</tr>
 							<!-- Background color end. -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 							<!-- Top Vertical Spacing control start. -->
 								<tr valign="top">
 
