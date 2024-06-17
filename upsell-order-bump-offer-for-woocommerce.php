@@ -21,7 +21,7 @@
  * WC requires at least:    6.1.0
  * WC tested up to:         8.9.3
  *
- * Requires Plugins: woocommerce
+ * Requires Plugins: WooCommerce
  * Version:           2.3.4
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
