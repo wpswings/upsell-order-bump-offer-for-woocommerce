@@ -356,7 +356,7 @@
 							$( ".wps_upsell_offer_discount_section h3" ).html( msg );
 							$(".wps-ubo__temp-prod-offer").html(msg);
 							$( ".wps-ob-st__m-title" ).html( msg );
-							
+							$( ".bump-offer-title" ).html( msg );
 						}
 					}
 
@@ -369,7 +369,8 @@
 							msg = string.replace( "{dc_%}", percent );
 							$( ".wps_upsell_offer_discount_section h3" ).html( msg );
 							$(".wps-ubo__temp-prod-offer").html(msg);
-							$( ".wps-ob-st__m-title" ).html( msg );
+							$(".wps-ob-st__m-title").html(msg);
+							$( ".bump-offer-title" ).html( msg );
 						}
 					}
 
@@ -379,6 +380,7 @@
 						$( ".wps_upsell_offer_primary_section h5" ).html( msg );
 						$(".wps-ubo__temp-head h3").html(msg);
 						$(".wps_head_check_ubo span").html(msg);
+						$(".wps_accetp_offer_title").html(msg);
 					}
 
 				}
@@ -405,6 +407,7 @@
 
 						msg = $( this ).val();
 						$(".wps_upsell_offer_product_description").html(msg);
+						$( ".bump-offer-product-description" ).html( msg );
 					}
 
 				}
@@ -500,7 +503,8 @@
 
 						DiscountSection.css( 'background-color', discount_bcolor );
 						$( '.wps-ubo__temp-prod-offer' ).css( 'background-color', discount_bcolor );
-						$( '.wps-ob-st__m-title' ).css( 'background-color', discount_bcolor );
+						$('.wps-ob-st__m-title').css('background-color', discount_bcolor);
+						$( '.bump-offer-title' ).css( 'background-color', discount_bcolor );
 					}
 				}
 			);
@@ -515,7 +519,8 @@
 
 						DiscountSectionH3.css( 'color', discount_tcolor );
 						$( '.wps-ubo__temp-prod-offer' ).css( 'color', discount_tcolor );
-						$( '.wps-ob-st__m-title' ).css( 'color', discount_tcolor );
+						$('.wps-ob-st__m-title').css('color', discount_tcolor);
+						$( '.bump-offer-title' ).css('color', discount_tcolor);
 
 					}
 				}
@@ -524,11 +529,13 @@
 			$( '.wps_ubo_discount_slider' ).on(
 				'change',
 				function () {
-
+					// console.log('checl');
 					discount_tsize = $( this ).val();
 					DiscountSectionH3.css( 'font-size', discount_tsize + 'px' );
-					$('.wps-ob-st__m-title').css( 'font-size', discount_tsize + 'px' );
-					$( '.wps_ubo_discount_slider_size' ).html( discount_tsize + 'px' );
+					$('.wps-ob-st__m-title').css('font-size', discount_tsize + 'px');
+					$('.bump-offer-title').css('font-size', discount_tsize + 'px');
+					$('.wps_ubo_discount_slider_size').html(discount_tsize + 'px');
+					$( '.bump-offer-title' ).css( 'font-size', discount_tsize + 'px' );
 				}
 			);
 
@@ -565,7 +572,8 @@
 						ProductHeadingH4.css( 'color', product_tcolor );// 2.1.7.
 
 						$( '.wps-ubo__temp-prod-desc' ).css( 'color', product_tcolor );
-						$('.wps-ob-st__m-c-p').css( 'color', product_tcolor );
+						$('.wps-ob-st__m-c-p').css('color', product_tcolor);
+						$( '.bump-offer-product-description' ).css( 'color', product_tcolor );
 					}
 				}
 			);
@@ -591,7 +599,8 @@
 					Productpricedel.css( 'font-size', product_tsize + 'px' );
 					Productpriceins.css( 'font-size', product_tsize + 'px' );
 					ProductQty.css('font-size', product_tsize + 'px');
-					$( '.wps-ob-st__m-c-price' ).css( 'font-size', product_tsize + 'px' );
+					$('.wps-ob-st__m-c-price').css('font-size', product_tsize + 'px');
+					$('.bump-offer-product-price').css('font-size', product_tsize + 'px');
 					$( '.wps_ubo_product_price_slider_size' ).html( product_tsize + 'px' );// 2.1.7.
 				}
 			);
@@ -603,7 +612,8 @@
 					ProductDesSectionP.css( 'font-size', product_tsize + 'px' );// 2.1.7.
 					ProductHeadingH4.css( 'font-size', product_tsize + 'px' );// 2.1.7.
 					ProductSectionP.css( 'font-size', product_tsize + 'px' );
-					$('.wps-ob-st__m-c-p').css( 'font-size', product_tsize + 'px' );
+					$('.wps-ob-st__m-c-p').css('font-size', product_tsize + 'px');
+					$('.bump-offer-product-description').css('font-size', product_tsize + 'px');
 					$( '.wps_ubo_product_slider_size' ).html( product_tsize + 'px' );
 					product_tsize = parseInt( product_tsize ) + 10;
 					ProductSectionH4.css('font-size', product_tsize + 'px');
@@ -660,6 +670,7 @@
 						AcceptOfferSection.css( 'background-color', AcceptOffer_bcolor );
 						$( '.wps-ubo__temp-title' ).css( 'background-color', AcceptOffer_bcolor );
 						$( '.wps-ob-st__head' ).css( 'background-color', AcceptOffer_bcolor );
+						$( '.bump-offer-checkbox' ).css( 'background-color', AcceptOffer_bcolor );
 					}
 				}
 			);
@@ -672,7 +683,8 @@
 
 						AcceptOfferSectionH5.css( 'color', AcceptOffer_tcolor );
 						$('.wps-ubo__temp-title').css('color', AcceptOffer_tcolor);
-						$( '.wps-ob-st__head' ).css( 'color', AcceptOffer_tcolor );
+						$('.wps-ob-st__head').css('color', AcceptOffer_tcolor);
+						$( '.wps_accetp_offer_title' ).css( 'color', AcceptOffer_tcolor, 'important');
 					}
 				}
 			);
@@ -697,7 +709,8 @@
 					AcceptOfferSectionH5.css('font-size', AcceptOffer_tsize + 'px');
 					$( '.wps-ob-st__head' ).css( 'font-size', AcceptOffer_tsize + 'px' );
 					$( '.wps-ubo__temp-title' ).css( 'font-size', AcceptOffer_tsize + 'px' );
-					$( '.wps_ubo_accept_offer_slider_size' ).html( AcceptOffer_tsize + 'px' );
+					$('.wps_ubo_accept_offer_slider_size').html(AcceptOffer_tsize + 'px');
+					$( '.wps_accetp_offer_title' ).css( 'font-size', AcceptOffer_tsize + 'px');
 				}
 			);
 
@@ -780,7 +793,7 @@
 				background_color = $( '.wps_ubo_preview_select_background_color' ).val();
 
 				$( '.wps_upsell_offer_wrapper' ).css( 'background-color', background_color );
-			    $('.wps-ob-st').css( 'background-color', background_color );
+				$('.wps-ob-st').css('background-color', background_color);
 			}
 
 			// Live Preview JS end.

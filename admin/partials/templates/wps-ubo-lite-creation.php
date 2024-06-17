@@ -1107,6 +1107,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 								</tr>
 							<!-- Border color end. -->
+							<?php if ( '11' != $wps_ubo_selected_template ) { ?>
 							<!-- Background color start. -->
 								<tr valign="top">
 
@@ -1126,6 +1127,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 									</td>
 
 								</tr>
+							<?php } ?>
 							<!-- Background color end. -->
 							<!-- Top Vertical Spacing control start. -->
 								<tr valign="top">
@@ -1474,7 +1476,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					<!-- Primary_section section. -->
 
 					<!-- Secondary_section section. -->
-					<?php if ( '10' != $wps_ubo_selected_template ) { ?>
+					<?php if ( '10' != $wps_ubo_selected_template && '11' != $wps_ubo_selected_template ) { ?>
 					<div class="wps_upsell_table wps_upsell_table--border wps_upsell_custom_template_settings ">
 						<div class="wps_upsell_offer_sections"><?php esc_html_e( 'Offer Description Section', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 						<table class="form-table wps_upsell_bump_creation_setting">
@@ -1665,10 +1667,11 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 						$bumphtml = wps_ubo_lite_bump_offer_html_10( $bump );
 
+					} elseif ( '11' == $wps_bump_upsell_selected_template ) {
+
+						$bumphtml = wps_ubo_lite_bump_offer_html_11( $bump );
 					} else {
-
 						$bumphtml = wps_ubo_lite_bump_offer_html( $bump );
-
 					}
 
 					?>
