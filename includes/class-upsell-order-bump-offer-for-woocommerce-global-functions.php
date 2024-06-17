@@ -2873,7 +2873,8 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
 
 	$allowed_html = wps_ubo_lite_allowed_html();
 
-	echo wp_kses( $bumphtml, $allowed_html );
+	// echo wp_kses( $bumphtml, $allowed_html );
+	echo $bumphtml;
 	
 	$offer_product = wc_get_product( $bump['id'] );
 
