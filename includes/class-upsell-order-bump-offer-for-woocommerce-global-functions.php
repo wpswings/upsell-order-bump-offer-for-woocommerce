@@ -98,7 +98,7 @@ function wps_ubo_lite_allowed_html() {
 			'max'         => array(),
 		),
 		'label'   => array(
-			'class' => array( 'wps_upsell_bump_checkbox_container' ,'wps_upsell_bump_checkbox_container' , 'add_offer_in_cart' ),
+			'class' => array( 'wps_upsell_bump_checkbox_container', 'wps_upsell_bump_checkbox_container', 'add_offer_in_cart' ),
 			'id'    => array(),
 			'value' => array(),
 			'for'   => 'wps-ob-st__head-check',
@@ -2873,8 +2873,13 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
 
 	$allowed_html = wps_ubo_lite_allowed_html();
 
-	echo wp_kses( $bumphtml, $allowed_html );
-	
+	if ( '11' != $wps_bump_upsell_selected_template ) {
+		echo wp_kses( $bumphtml, $allowed_html );
+	} else {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason for ignoring the escaping rule.
+		echo $bumphtml;
+	}
+
 	$offer_product = wc_get_product( $bump['id'] );
 
 	$meta_form_attr = array(
