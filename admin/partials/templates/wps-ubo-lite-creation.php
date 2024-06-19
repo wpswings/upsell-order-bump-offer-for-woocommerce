@@ -918,7 +918,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 						<p class="wps_ubo_template_name"><?php esc_html_e( 'Compactive Template', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
 						<a href="javascript:void" class="wps_ubo_template_link" data_link='11'>
 							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-1.png' ) ) : ?>
-								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-10.png' ); ?>">
+								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-11.png' ); ?>">
 							<?php else : ?>
 								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template2.png' ); ?>">
 							<?php endif; ?>
