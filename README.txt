@@ -1,12 +1,12 @@
 === Upsell Order Bump Offer for WooCommerce – Increase Sales and AOV, Upsell & Cross-sell Offers  on Checkout Page ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags: upsell, ab testing offers, order bump, frequently bought together, upsell offers, cross-sell, sales funnels
+Tags: upsell, woocommerce, ab test, order bump, frequently bought together,
 Requires at least: 5.5.0
-Tested up to: 6.5.3
+Tested up to: 6.5.4
 WC requires at least: 5.5.0
-WC tested up to: 8.9.0
-Stable tag: 2.3.3
+WC tested up to: 9.0.0
+Stable tag: 2.3.4
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -246,15 +246,15 @@ In this case, you can skip the bump offer. To do this, go to the “Global Setti
 = What happens to the bump offer product if the customer removes the target product from the cart? =
 In this case, you get two options. Either remove or keep the offered product in the customer's cart. To do this, you need to go to the Order Bump Upsell plugin’s 'Global Settings' > 'Offer Target Dependency' feature, you’ll see two options here:
 
-“Remove offer when target product is removed” - As the Target product is removed the offer product associated with the target will also be removed from your customer's cart.
+“Remove offer when target product is removed” – As the Target product is removed the offer product associated with the target will also be removed from your customer's cart.
 
-“Keep offer when target product is removed” - As the Target product is removed the offer product associated with the target will be converted into a normal product in your customer's cart.
+“Keep offer when target product is removed” – As the Target product is removed the offer product associated with the target will be converted into a normal product in your customer's cart.
 
 = Can I offer subscription products as Order bumps? =
 Yes, our plugin supports Simple, Variable, and Subscription products.
 
 = Can I track the performance of my Order Bumps? =
-Yes, we have Order Bump - Behavioral Analytics that shows Individual Order Bump Performance metrics such as View Count, Success Count, Offer to Accept Count, Offer to Remove Count, Conversion Rate, and Total Sales. With the help of these metrics, you can easily figure out how your Order Bumps are performing and make changes accordingly.
+Yes, we have Order Bump – Behavioral Analytics that shows Individual Order Bump Performance metrics such as View Count, Success Count, Offer to Accept Count, Offer to Remove Count, Conversion Rate, and Total Sales. With the help of these metrics, you can easily figure out how your Order Bumps are performing and make changes accordingly.
 
 = My Question is Not Listed. = 
 Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-kb&utm_medium=order-bump-org-page&utm_campaign=order-bump-kb)
@@ -262,137 +262,141 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Changelog ==
 
-= 2.3.3 - Released on 15 May 2024 = 
+= 2.3.4 - Released on 20 June 2024 = 
+* New: New Template For the Bump Offer 
+* New: Compatibility with WP (6.5.4) and WC (9.0.0) 
+
+= 2.3.3 – Released on 15 May 2024 = 
 * Fixes: Offer not show "Before Payment Gateway" location on checkout.
 * New: Compatibility with WP (6.5.3) and WC (8.9.0) 
 
-= 2.3.2 - Released on 03 May 2024 = 
+= 2.3.2 – Released on 03 May 2024 = 
 * New: Compatibility with WP (6.5.2) and WC (8.8.3) 
 * Added: Banner Image in Overview Section
 
-= 2.3.1 - Released on 12 March 2024 = 
+= 2.3.1 – Released on 12 March 2024 = 
 * New: AB testing.
 * Support: Compatibility Latest WP (6.4.3) and WC (8.6.1)
 * Fixes: UI/UX of admin backend.
 * Added: Adding subscription notices.
 
-= 2.3.0 - Released on 19 January 2024 =
+= 2.3.0 – Released on 19 January 2024 =
 * New: Shortcode for order bump.
 * New: New template For order Bump
 * New: Compatibility With Latest WP(6.4.2) and WC(8.5.1)
 
-= 2.2.9 - Released on 07 December 2023 =
+= 2.2.9 – Released on 07 December 2023 =
 * Support : Compatibility With Latest WP(6.4.1) and WC(8.3.1)
 * Support : Compatibility With Cart and Checkout Block.
 
-= 2.2.8 - Released on 08 November 2023 =
+= 2.2.8 – Released on 08 November 2023 =
 * Enhancement: Work Of the all Popup (PRO)
 * New: Compatibility with WP(6.3.2)  and WC(8.2.1)
 
-= 2.2.7 - Released on 29 September 2023 =
+= 2.2.7 – Released on 29 September 2023 =
 * Fixes: WC Session Issue On Creating Order Manually.
 * Support: HPOS Compatibility.
 * Support: Compatibility With Latest WP(6.3.1) and WC(8.1.1)
 
-= 2.2.6 - Released on 28 August 2023 =
+= 2.2.6 – Released on 28 August 2023 =
 * New: Set any page as an order success page.
 * Fixes: Issue with the Divi theme.
 * New: Compatibility with WP(6.3.0)  and WC(8.0.2)
 
-= 2.2.5 - Released on 8 August 2023 =
+= 2.2.5 – Released on 8 August 2023 =
 * New : Compatibility with WP[6.3] and WC[8.0.0]
 * Fix: Issue regarding the Recommendation popup
 
-= 2.2.4 - Released on 20 July 2023 =
+= 2.2.4 – Released on 20 July 2023 =
 * New: Compatibility with latest WP(6.2.2) and WC(7.9.0)
 
-= 2.2.3 - Released on 07 June 2023 =
+= 2.2.3 – Released on 07 June 2023 =
 * New: compatibility with latest WP(6.2.2) and WC(7.7.2)
 * New: Compatibility with Checkout WC
 * Fixed: Enhancement work of  template
 
-= 2.2.2 - Released on 28 April 2023 =
+= 2.2.2 – Released on 28 April 2023 =
 * New: Compatibility with Latest WP(6.2.0) & WC(7.6.1).
 * Fixes: Minor bug fixes over the checkout page.
 * Enhanced: Change the popup set to the radio button- global.
 
-= 2.2.1 - Released on 29 March 2023 =
+= 2.2.1 – Released on 29 March 2023 =
 * New: WPML Compatibility.
 * New: Compatibility with latest WP(6.1.1) and WC(7.5.1).
 * Fixes: Pop-up Issue on the checkout page.
 
-= 2.2.0 - Released on 01 March 2023 =
+= 2.2.0 – Released on 01 March 2023 =
 * New: Compatible with the latest WP (6.1.1) and WC (7.4.1)
 
-= 2.1.9 - Released on 31 January 2023 =
+= 2.1.9 – Released on 31 January 2023 =
 * New: Compatible with the latest WP and WC
 
-= 2.1.8 - Released on 23 Dec 2022 =
+= 2.1.8 – Released on 23 Dec 2022 =
 * New: Compatible with the latest WP and WC
 
-= 2.1.7 - Released on 25 Nov 2022 =
+= 2.1.7 – Released on 25 Nov 2022 =
 * Enhancement: Changed the Countdown Offer Location on Admin Setting.
 * Enhancement: Show pro features in a free version with an upgraded label [Appearance section].
 * New: To Change the Offer Price size and color individually.
 * New: Compatible with the latest WP and WC
 
-= 2.1.6 - Released on 11 Oct 2022 =
+= 2.1.6 – Released on 11 Oct 2022 =
 * Fix: Decimal Point Issue Of Product Price.
 * Fix: Issue Of Offer Price Format.
 * Fix: Improved the compatibility with PHP 8
 * New: Compatible with the latest WP and WC
 
-= 2.1.5 - Released on 05 Sept 2022 =
+= 2.1.5 – Released on 05 Sept 2022 =
 * Fixed: No discount Price Feature
 * Fixed: Theme Compatibility.
 * New: Minor Bug fixes and Enhancement
 * New: Compatible with the latest WP and WC
 
-= 2.1.4 - Released on 12 July 2022 =
+= 2.1.4 – Released on 12 July 2022 =
 * New: Minor Bug Fixes
 * New: Compatible with the latest WP and WC
 
-= 2.1.3 - Released on 08 July 2022 =
+= 2.1.3 – Released on 08 July 2022 =
 * New: Minor Bug Fixes
 * New: Compatible with the latest WP and WC
 
-= 2.1.2 - Released on 29 April 2022 =
+= 2.1.2 – Released on 29 April 2022 =
 * New: Offer background color now customizable
 * New: Minor Bug Fixes
 * New: Compatible with the latest WP and WC
 
-= 2.1.1 - Released on 08 April 2022 =
+= 2.1.1 – Released on 08 April 2022 =
 * New: Some substantial changes across different areas of the plugin.
 * New: Minor Bug Fixes
 * New: Compatible with the latest WP and WC
 
-= 2.1.0 - Released on 30 March 2022 =
+= 2.1.0 – Released on 30 March 2022 =
 * New:  Some substantial changes across different areas of the plugin.
 * New: Minor Bug Fixes
 * New: Compatible with the latest WP and WC
 
-= 2.0.2 - Released on 21 Jan 2022  =
+= 2.0.2 – Released on 21 Jan 2022  =
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-page&utm_campaign=official)
 * New: Minor Bug fixes
 * New: Compatible with the latest WP and WC
 
-= 2.0.1 - Released on 6 Dec 2021  =
+= 2.0.1 – Released on 6 Dec 2021  =
 * Variation products bug fix
 * Role-based skip order bump
 * Single product page link
 * Delete data on uninstall
 * Custom product image
 
-= 2.0.0 - Released on 03 Nov 2021 =
+= 2.0.0 – Released on 03 Nov 2021 =
 * Bug Fixes
 * Compatibility with Subscriptions For WooCommerce
 * Compatibility with MWB Role Based Pricing for WooCommerce
 * Compatibility with Ultimate Gift Cards For WooCommerce 
 
-= 1.4.3 - Released on 16 Sep 2021 =
+= 1.4.3 – Released on 16 Sep 2021 =
 * Improved: Compatibility with latest WP(5.8.1) and WC(5.6.0)
 
-= 1.4.2 - Released on 19 December 2020 =
+= 1.4.2 – Released on 19 December 2020 =
 * Improved: Compatibility with latest WP(5.6) and WC(4.8.0)
 
 = 1.4.1 =
@@ -425,6 +429,6 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 2.3.3 - Released on 15 May 2024 = 
-* Fixes: Offer not show "Before Payment Gateway" location on checkout.
-* New: Compatibility with WP (6.5.3) and WC (8.9.0) 
+= 2.3.4 – Released on 20 June 2024 = 
+* New: New Template For the Bump Offer 
+* New: Compatibility with WP (6.5.4) and WC (9.0.0) 
