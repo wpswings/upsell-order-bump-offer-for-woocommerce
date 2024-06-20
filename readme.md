@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg)![Active installs](https://img.shields.io/badge/Active-5000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.5.3-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-8.9.0-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg)![Active installs](https://img.shields.io/badge/Active-5000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.5.4-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-9.0.0-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
 # Upsell Order Bump Offer for WooCommerce – Increase Sales and AOV, Upsell & Cross-sell Offers  on Checkout Page
 ![Upsell Order Bump Offer for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg?rev=2672066)
 * Contributors: WP Swings
@@ -109,10 +109,6 @@ Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://su
 **7) Global Order Bump**: With this feature, you can add all the WooCommerce upsell products on your site for order bump offers. This feature will show the bump offer by selecting all the products on your site.
 
 **8) Countdown Timer**: One of the easiest strategies to boost conversions and elevate sales is to use a countdown timer on smart offers WooCommerce to help you generate urgency in your store and scarcity in your products.
-
-**9) A/B Testing**: A/B Test order bump offers and see which bumps are working in their favor and which ones are not meeting the requirements of their WooCommerce store.
-
-**10) WPS Frequently Bought Together**: Take your order bump offers to the next level with the “WPS Frequently Bought Together” feature. Showcase a section showing “frequently bought” products and motivate the customers to make a purchase!
 
 > Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-github-page&utm_campaign=order-bump-pro)
 
