@@ -1,5 +1,92 @@
 jQuery(document).ready(function ($) {
-    
+
+    if (document.querySelector('.woocommerce-order-received')) {
+        // You are on the cart page
+        $('.wrapup_order_bump').hide();
+    }
+
+
+    setTimeout(function () {
+
+        var wps_is_checkout_block_use = wps_ubo_lite_public.wps_is_checkout_block_use;
+
+        if (wps_is_checkout_block_use) {
+            if ('_before_payment_gateways' != wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+                var bodyElements = document.getElementsByTagName('body')[0].getElementsByTagName('*');
+                for (var i = 0; i < bodyElements.length; i++) {
+                    if (bodyElements[i].classList.contains('wrapup_order_bump')) {
+                        bodyElements[i].style.display = 'none';
+                        console.log('First occurrence of the specific class found:', bodyElements[i]);
+                        break;
+                    }
+                }
+            }
+
+            if (jQuery('.wrapup_order_bump').length > 0) {
+                var data = jQuery('.wrapup_order_bump').html();
+
+                if ('_before_place_order_button' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+ 
+                    jQuery('.wp-block-woocommerce-checkout-order-summary-block').append('<div class = "wrapup_order_bump">' + data + '</div>');
+                    $(".wp-block-woocommerce-checkout").siblings().remove();
+
+                } else if ('_after_payment_gateways' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+
+                    jQuery('.wc-block-checkout__payment-method').append('<div class = "wrapup_order_bump">' + data + '</div>');
+                    $(".wp-block-woocommerce-checkout").siblings().remove();
+                } else if ('_before_order_summary' == wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+            
+                    jQuery('.wp-block-woocommerce-checkout-order-summary-coupon-form-block').append('<div class = "wrapup_order_bump">' + data + '</div>');
+                    $(".wp-block-woocommerce-checkout").siblings().remove();
+
+                }
+            }
+        }
+
+        var wps_is_cart_block_use = wps_ubo_lite_public.wps_is_cart_block_use;
+
+        if ('on' == wps_ubo_lite_public.wps_enable_cart_upsell && wps_is_cart_block_use && (document.querySelector('.woocommerce-cart'))) {
+            if (jQuery('.wrapup_order_bump').length > 0) {
+
+                var data = jQuery('.wrapup_order_bump').html();
+
+                if ('woocommerce_after_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
+
+                    jQuery('.wp-block-woocommerce-cart-totals-block').append('<div class = "wrapup_order_bump">' + data + '</div>'); //after cart total.
+                    $(".wp-block-woocommerce-cart").prev().remove();
+
+                } else if ('woocommerce_cart_collaterals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
+                
+                    jQuery('.wc-block-components-totals-footer-item').append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
+                    $(".wp-block-woocommerce-cart").prev().remove();
+
+                } else if ('woocommerce_before_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
+                    
+                    jQuery(jQuery('.wp-block-woocommerce-cart-line-items-block').parent()).append('<div class = "wrapup_order_bump">' + data + '</div>'); //before cart total.
+                    $(".wp-block-woocommerce-cart").prev().remove();
+                }
+  
+            }
+        }    
+        //For the new template 10 js.
+        var wps_ob_con = jQuery('.wps-ob-st');
+                    if (wps_ob_con.width() < 396) {
+                        wps_ob_con.addClass('ob_cont-full');
+                }
+
+    },1000)
+
+    $(document).on('click', '.wc-block-cart-item__remove-link', function () {
+        setTimeout(function() {
+            location.reload();
+        }, 2000);
+    })
+
+    if( 'yes' == wps_ubo_lite_public.wps_popup_body_class && (null == wps_ubo_lite_public.wps_popup_body_class)){
+        var body = document.body;
+
+        body.classList.remove("wps_body_class_popup");
+    }
 
     setInterval(function() {
         $('.wps_product_gallery_wrapper').slick({
@@ -56,7 +143,8 @@ jQuery(document).ready(function ($) {
                     }
                 } );
 
-                var x = setInterval(function() {
+                setTimeout(function() { 
+                    setInterval(function() {
                     for (var key in result) {
 
                         if ( 'yes' === result[key].enabled ) {
@@ -72,14 +160,22 @@ jQuery(document).ready(function ($) {
                             document.getElementById("wps_hour_time_"+  key).innerHTML    =  getNum( hours );
                             document.getElementById("wps_min_time_" +  key).innerHTML    =  getNum( minutes );
                             document.getElementById("wps_sec_time_" +  key).innerHTML    =  getNum( seconds );
+
+                            const element = document.getElementById('wps_timer'+key);
+                            const element_error = document.getElementById('expired_message'+ key);
+                            element.style.backgroundColor = 'white';
+                            element_error.style.backgroundColor = 'white';
                             if ( t < 0 ) {
                                 $("#wps_timer"+ key). css({display: "none"});
                                 document.getElementById("expired_message"+ key).innerHTML = "EXPIRED";
-                                document.getElementById("wps_checkbox_offer"+ key).disabled = true;
+                                document.getElementById("wps_checkbox_offer" + key).disabled = true;
+                                $("#wps_button_id_" + key).hide();
+                                $("#expired_message" + key).parent().css("pointer-events", "none");
                             }
                         }
                     }
                 }, 1000);
+            },1000);
             }      
         }
     }
@@ -127,12 +223,16 @@ jQuery(document).ready(function ($) {
             success: function (msg) {
 
                 $('body').trigger('update_checkout');
+                $(document.body).trigger('added_to_cart', {});
+                $(document.body).trigger('update_checkout');
 
                 //Mini-Cart Upadte on Checkout depending upon themes.
                 wps_minicart_update(wps_current_theme);
 
                 $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'all');
                 $('.wps_ubo_wrapper_' + order_bump_index).css('opacity', '1');
+                var body = document.body;
+                body.classList.remove("wps_body_class_popup");
             }
         });
     }
@@ -155,7 +255,6 @@ jQuery(document).ready(function ($) {
 
         // Prevent mulitple clicks on this button.
         object.prop('disabled', true);
-
         order_bump_index = object.attr('offer_bump_index');
         if (typeof order_bump_index === 'undefined') {
             console.log('order bump not found');
@@ -208,9 +307,11 @@ jQuery(document).ready(function ($) {
         var variation_selected = '';
         jQuery('body').find('.variation_id_selected').each(function () {
             if (object.attr('offer_bump_index') == order_bump_index) {
-                variation_selected = jQuery(this).val();
+                variation_selected = jQuery('input.variation_id_selected').val();
             }
         });
+
+        console.log(variation_selected); //No data is coming.
 
         jQuery.ajax({
             type: 'post',
@@ -239,6 +340,8 @@ jQuery(document).ready(function ($) {
                 $('body').removeClass('wps_upsell_variation_pop_up_body');
                 $('.wps_bump_popup_wrapper').css('display', 'none');
                 $('body').trigger('update_checkout');
+                $(document.body).trigger('added_to_cart', {});
+                $(document.body).trigger('update_checkout');
 
                 //Mini-Cart Upadte on Checkout depending upon themes.
                 wps_minicart_update(wps_current_theme);
@@ -254,6 +357,9 @@ jQuery(document).ready(function ($) {
                     $("html, body").scrollTop(300);
                     location.reload();
                 }
+
+                var body = document.body;
+                body.classList.remove("wps_body_class_popup");
             }
         });
     }
@@ -265,12 +371,11 @@ jQuery(document).ready(function ($) {
      * @param {array}  formdata  Custom form object.
      */
     function triggerAddOffer(object, formdata) {
-        
         // Get product Quantity
         if ( object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_is_fixed_qty") == 'true' && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr( "data-qty_allowed") == 'yes' ) {
-            var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_qty");
+            var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_qty"); //check whether qty variable or not.
         } else if ( object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val() != undefined && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr( "data-qty_allowed") == 'yes' && object.closest('.wps_upsell_offer_main_wrapper').find('.wps_bump_name').attr("data-wps_is_fixed_qty") == 'false' ) {
-            var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val();
+            var wps_qty_variable = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val(); //in these condition we check for min and max quantity.
         } else {
             var wps_qty_variable = 1;
         }
@@ -278,6 +383,7 @@ jQuery(document).ready(function ($) {
         $value_of_input_field_to_check = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').val();
         $min_attr_value = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').attr('min');
         $max_attr_value = object.closest('.wps_upsell_offer_main_wrapper').find('.wps_quantity_input').attr('max');
+        //In Above get max , min and actual inside the input box.
 
         if ( ( $min_attr_value != undefined && $min_attr_value != undefined ) ) {
             if ( (parseInt($value_of_input_field_to_check) >= parseInt($min_attr_value) && parseInt($value_of_input_field_to_check) <= parseInt($max_attr_value) ) ) {
@@ -288,7 +394,7 @@ jQuery(document).ready(function ($) {
                 location.reload();
                 return;
             }
-        }
+        }  //This will check valida value in the input box.
 
         order_bump_index = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_index').val();
         parent_wrapper_class = '.wps_ubo_wrapper_' + order_bump_index;
@@ -297,7 +403,6 @@ jQuery(document).ready(function ($) {
         // Disable bump div.
         $('.wps_ubo_wrapper_' + order_bump_index).css('pointer-events', 'none');
         $('.wps_ubo_wrapper_' + order_bump_index).css('opacity', '0.4');
-
         if ($(parent_wrapper_class + ' .add_offer_in_cart').is(':checked')) {
 
             // Get Order Bump variation popup ready.
@@ -316,6 +421,7 @@ jQuery(document).ready(function ($) {
             bump_target_cart_key = object.closest('.wps_upsell_offer_main_wrapper').find('.target_id_cart_key').val();
             smart_offer_upgrade = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_smo').val();
 
+            
             // Add product to cart.
             jQuery.ajax({
 
@@ -339,7 +445,6 @@ jQuery(document).ready(function ($) {
                 },
 
                 success: function (msg) {
-
                     // For variable product.
                     if (msg['key'] == 'true') {
 
@@ -363,6 +468,8 @@ jQuery(document).ready(function ($) {
 
                         $('.wps_bump_popup_loader').css('display', 'none');
                         $('body').trigger('update_checkout');
+                        $(document.body).trigger('added_to_cart', {});
+                        $(document.body).trigger('update_checkout');
 
                         //Mini-Cart Upadte on Checkout depending upon themes.
                         wps_minicart_update(wps_current_theme);
@@ -377,6 +484,9 @@ jQuery(document).ready(function ($) {
                             $("html, body").scrollTop(300);
                             location.reload();
                         }
+
+                        var body = document.body;
+                        body.classList.remove("wps_body_class_popup");
                     }
                 }
             });
@@ -398,12 +508,10 @@ jQuery(document).ready(function ($) {
      * CHECKBOX ADD TO CART [ works with simple product and product variations ].
      */
     jQuery(document).on('click', '.add_offer_in_cart', function (e) {
-
         order_bump_trigger_obj = jQuery(this);
         order_bump_index = order_bump_trigger_obj.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_index').val();
         parent_wrapper_class = '.wps_ubo_wrapper_' + order_bump_index;
         order_bump_id = order_bump_trigger_obj.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_id').val();
-
 
         // When offer is added.
         if (order_bump_trigger_obj.is(':checked')) {
@@ -647,9 +755,8 @@ jQuery(document).ready(function ($) {
      * POP-UP ADD TO CART BUTTON [ works with variable products].
      * To add the selected js.
      */
-    $(document).on('click', '.wps_ubo_bump_add_to_cart_button', function (e) {
+    $(document).on('click', '.wps_ubo_bump_add_to_cart_button', function (e) {       //This for the add to cart on the varaition popup.
         e.preventDefault();
-
         order_bump_index = jQuery(this).attr('offer_bump_index');
 
         // Order Bump Object.
@@ -769,5 +876,132 @@ jQuery(document).ready(function ($) {
             }
     }
 
-    // END OF SCRIPT
+        if ('on' == wps_ubo_lite_public.wps_popup_exit_intent) {
+            $("html").bind("mouseleave", function () {
+                $('.close-button').parent().show();
+                wps_show_pop_up();
+                $("html").unbind("mouseleave");
+            });
+        } else {
+            $('.close-button').parent().show();
+            setTimeout(function () { wps_show_pop_up(); }, 1000);
+        }
+        
+
+    function wps_show_pop_up() {
+         $('[popup-name="' + 'popup-1' + '"]').fadeIn(300);
+         $(".fusion-header-wrapper").css("display","none");///Avada header hidden on popup.
+         $('.wps-popup-content').slick({
+            slidesToShow: 1,
+            autoplay:false,
+            autoplaySpeed:1500,
+            lazyLoad: 'ondemand',
+            prevArrow: '<span class="slide-arrow prev-arrow"></span>',
+            nextArrow: '<span class="slide-arrow next-arrow"></span>',
+            slidesToScroll:1,
+            cssEase:'ease',
+            useTransform:true,
+            useCSS:true,
+            responsive: [
+                {
+                  breakpoint: 768,
+                  settings: {
+                    arrows: false,
+                  }
+                }]
+          });
+          //Hide the header on popup open.
+          if('Divi' == wps_ubo_lite_public.current_theme ){
+          $("#main-header").css("display","none");
+          }
+
+          if('Avada' == wps_ubo_lite_public.current_theme ){
+          $(".fusion-header-wrapper").css("display","none");
+        }
+    }
+    
+        // Open Popup  
+        $(document).on('click', '.open-button', function (e) {
+            var popup_name = $(this).attr('popup-open');
+            $('[popup-name="' + popup_name + '"]').fadeIn(300);
+            var body = document.body;
+            body.classList.add("wps_body_class_popup");
+            });
+        
+            // Close Popup. 
+             $(document).on('click', '.close-button ', function (e) {
+             $('.close-button').hide();
+            $(".fusion-header-wrapper").css("display","block");///Avada header hidden on popup.
+            //Hide the header on popup open.
+             if('Divi' == wps_ubo_lite_public.current_theme ) {
+            $("#main-header").css("display","none");
+            }
+
+            var popup_name = $(this).attr('popup-close');
+            $('[popup-name="' + popup_name + '"]').fadeOut(300);
+            var body = document.body;
+            body.classList.remove("wps_body_class_popup");
+            });
+            
+            // Close Popup When Click Outside
+            $('.popup').on('click', function () {
+                $(".fusion-header-wrapper").css("display", "block");
+            });
+
+            //Increase and descrease the quantity value on bump offer.
+            $(document).on('click', '.wps-ubo__temp-prod-price-qty-add', function (e) {
+            document.getElementById("inputtag").value++;;
+            });
+            $(document).on('click', '.wps-ubo__temp-prod-price-qty-sub', function (e) {
+            document.getElementById("inputtag").value--;
+            });
+    // END OF SCRIPT.
 });
+
+// Evergreen timer Start here.
+jQuery(document).ready(function($) {
+
+    function startTimer(duration, display) {
+        var timer = duration, minutes, seconds;
+        setInterval(function () {
+            hours = parseInt(timer / 3600, 10);
+            minutes = parseInt((timer % 3600) / 60, 10);
+            seconds = parseInt((timer % 3600) % 60, 10);
+        
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          jQuery('#wps_hour_time_' + display).html(hours);
+          jQuery('#wps_min_time_' + display).html(minutes);
+          jQuery('#wps_sec_time_' + display).html(seconds);
+
+          if (--timer < 0) {
+            $("#wps_timer"+ display). css({display: "none"});
+            document.getElementById("expired_message"+ display).innerHTML = "EXPIRED";
+              $("#wps_button_id_" + display).hide();
+              $("#expired_message" + display).parent().css("pointer-events", "none");
+          }
+        }, 1000);
+      }
+      
+      setTimeout(function() {
+        var columns = wps_ubo_lite_public.check_if_reload;
+        var rows = wps_ubo_lite_public.evergreen_timer;
+        var result = [];
+        $.each( rows, function( index, value ) {
+            if ( columns.indexOf( parseInt( index ) ) >= 0 ) {
+              result[index] = value;
+            }
+        } );
+        
+        for (var key in result) {
+            display = key ;
+            var Minutes = result[key]['evegreen_counter'] * 60; //minutes to seconds.
+            startTimer(Minutes, display);
+        } 
+      }, 1000);
+});
+// Evergreen timer end here.
+
+//Script end here.

@@ -1,0 +1,7 @@
+<wpml-config> 
+  <admin-texts>
+    <key name="wps_ubo_bump_list">
+      <key name="*"/>
+    </key>
+  </admin-texts>   
+</wpml-config>
