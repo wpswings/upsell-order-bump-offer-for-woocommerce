@@ -17,12 +17,12 @@
  * Description:       <code><strong>Upsell Order Bump Offer for WooCommerce</strong></code> makes special offers on checkout page, enabling to increase conversions & AOV in just a single click. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
  *
  * Requires at least:       5.5.0
- * Tested up to:            6.5.4
+ * Tested up to:            6.6.1
  * WC requires at least:    6.1.0
- * WC tested up to:         9.0.0
+ * WC tested up to:         9.1.2
  *
  * Requires Plugins: woocommerce
- * Version:           2.3.4
+ * Version:           2.3.5
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -81,7 +81,7 @@ use Automattic\WooCommerce\Utilities\OrderUtil;
 	/**
 	 * Currently plugin version.
 	 */
-	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.3.4' );
+	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.3.5' );
 
 	$old_pro_present   = false;
 	$installed_plugins = get_plugins();
