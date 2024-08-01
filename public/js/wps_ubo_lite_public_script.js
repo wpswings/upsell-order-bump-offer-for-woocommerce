@@ -11,16 +11,16 @@ jQuery(document).ready(function ($) {
         var wps_is_checkout_block_use = wps_ubo_lite_public.wps_is_checkout_block_use;
 
         if (wps_is_checkout_block_use) {
-            if ('_before_payment_gateways' != wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
-                var bodyElements = document.getElementsByTagName('body')[0].getElementsByTagName('*');
-                for (var i = 0; i < bodyElements.length; i++) {
-                    if (bodyElements[i].classList.contains('wrapup_order_bump')) {
-                        bodyElements[i].style.display = 'none';
-                        console.log('First occurrence of the specific class found:', bodyElements[i]);
-                        break;
-                    }
-                }
-            }
+            // if ('_before_payment_gateways' != wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
+            //     var bodyElements = document.getElementsByTagName('body')[0].getElementsByTagName('*');
+            //     for (var i = 0; i < bodyElements.length; i++) {
+            //         if (bodyElements[i].classList.contains('wrapup_order_bump')) {
+            //             bodyElements[i].style.display = 'none';
+            //             console.log('First occurrence of the specific class found:', bodyElements[i]);
+            //             break;
+            //         }
+            //     }
+            // }
 
             if (jQuery('.wrapup_order_bump').length > 0) {
                 var data = jQuery('.wrapup_order_bump').html();
