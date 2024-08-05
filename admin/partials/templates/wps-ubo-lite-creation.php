@@ -308,7 +308,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					<h2><?php echo esc_html( $bump_name ); ?></h2>
 					<div id="wps_upsell_bump_status" >
 						<?php
-						$description = esc_html__( 'Bump Offer will be displayed : Sandbox Mode -> For Admin only. Live Mode -> For All.', 'upsell-order-bump-offer-for-woocommerce' );
+						$description = esc_html__( 'Bump Offer will be displayed : Sandbox Mode -> Hidden For All. Live Mode -> For All.', 'upsell-order-bump-offer-for-woocommerce' );
 						wps_ubo_lite_help_tip( $description );
 						?>
 						<label>

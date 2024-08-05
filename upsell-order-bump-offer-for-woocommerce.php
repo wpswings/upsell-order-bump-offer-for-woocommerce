@@ -36,8 +36,6 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-use Automattic\WooCommerce\Utilities\OrderUtil;
-
 $activated      = false;
 $active_plugins = get_option( 'active_plugins', array() );
 if ( function_exists( 'is_multisite' ) && is_multisite() ) {
@@ -56,10 +54,6 @@ if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 }
 
 if ( $activated ) {
-
-
-
-
 // HPOS Compatibility and cart and checkout block.
 	add_action(
 		'before_woocommerce_init',
