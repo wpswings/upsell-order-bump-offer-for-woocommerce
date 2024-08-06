@@ -2769,6 +2769,36 @@ function wps_ubo_lite_get_title( $product_id = '' ) {
 }
 
 /**
+ *  Returns product name and status.
+ *
+ * @param   string $coupon_id        Coupon id.
+ * @since   1.2.0
+ */
+function wps_ubo_lite_get_coupon_title( $coupon_id = '' ) {
+
+	if ( ! empty( $coupon_id ) ) {
+
+		$result = esc_html__( 'Coupon not found', 'upsell-order-bump-offer-for-woocommerce' );
+
+		$coupon = new WC_Coupon( $coupon_id );
+
+		if ( ! empty( $coupon ) && 'shop_coupon' === get_post_type( $coupon_id ) ) {
+
+			if ( 'publish' !== get_post_status( $coupon_id ) ) {
+
+				$result = esc_html__( 'Coupon Unavailable', 'upsell-order-bump-offer-for-woocommerce' );
+
+			} else {
+
+				$result = get_the_title( $coupon_id );
+			}
+		}
+
+		return $result;
+	}
+}
+
+/**
  *  Returns category name and existance.
  *
  * @param   string $cat_id        Category id.

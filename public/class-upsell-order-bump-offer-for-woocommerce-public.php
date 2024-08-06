@@ -1641,7 +1641,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function reset_session_variable( $order_id = '' ) {
 
 		if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
-			$pro_class = new Upsell_Order_Bump_Offer_For_Woocommerce_Pro( 'Order Bump', '1.3.1' );
+			$pro_class = new Upsell_Order_Bump_Offer_For_Woocommerce_Pro( 'Order Bump', '2.3.1' );
 			$pro_class->exclusive_limit_callback( $order_id );
 		}
 

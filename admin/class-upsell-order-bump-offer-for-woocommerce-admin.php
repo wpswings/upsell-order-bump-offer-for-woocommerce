@@ -494,6 +494,61 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 
 	/**
+	 * Select2 search for adding bump offer coupon;
+	 *
+	 * @since    1.0.0
+	 */
+	public function search_coupon_for_offers() {
+
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+		
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		}
+		
+		$return         = array();
+		$search_results = new WP_Query(
+			array(
+				's'                   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
+				'post_type'           => 'shop_coupon',
+				'post_status'         => array( 'publish' ),
+				'ignore_sticky_posts' => 1,
+				'posts_per_page'      => -1,
+			)
+		);
+		
+		if ( $search_results->have_posts() ) :
+		
+			while ( $search_results->have_posts() ) :
+		
+				$search_results->the_post();
+		
+				$title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
+		
+				// Ensure the post type is 'shop_coupon'
+				if ( 'shop_coupon' !== get_post_type( $search_results->post->ID ) ) {
+					continue;
+				}
+		
+				$coupon = new WC_Coupon( $search_results->post->ID );
+		
+				// Additional checks can be added here if needed
+		
+				$return[] = array( $search_results->post->ID, $title );
+		
+			endwhile;
+		
+		endif;
+		
+		echo wp_json_encode( $return );
+		
+		wp_die();
+	}
+
+
+
+	/**
 	 * Select2 search for adding bump target categories.
 	 *
 	 * @since    1.0.0

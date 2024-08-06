@@ -1,4 +1,43 @@
-jQuery(document).ready( function($) {
+jQuery(document).ready(function ($) {
+	
+
+	// Target product search.
+	jQuery('.wc-bump-coupon-search').select2({
+		ajax:{
+			  url: wps_ubo_lite_ajaxurl.ajaxurl,
+			  dataType: 'json',
+			  delay: 200,
+			  data: function (params) {
+					return {
+					  q: params.term,
+					  action: 'search_coupon_for_offers'
+					};
+			  },
+			  processResults: function( data ) {
+			  var options = [];
+			  if ( data ) 
+			  {
+				  $.each( data, function( index, text )
+				  {
+					  text[1]+='( #'+text[0]+')';
+					  options.push( { id: text[0], text: text[1]  } );
+				  });
+			  }
+			  return {
+				  results:options
+			  };
+		  },
+		  cache: true
+	  },
+	  minimumInputLength: 3 // The minimum of symbols to input before perform a search.
+  });
+
+
+
+
+
+
+
 
 	// Target product search.
 	jQuery('.wc-bump-product-search').select2({
