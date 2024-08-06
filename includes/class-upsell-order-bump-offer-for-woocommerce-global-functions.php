@@ -2877,7 +2877,7 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
 		echo wp_kses( $bumphtml, $allowed_html );
 	} else {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason for ignoring the escaping rule.
-		echo $bumphtml;
+		echo wp_kses( $bumphtml, $allowed_html );
 	}
 
 	$offer_product = wc_get_product( $bump['id'] );
