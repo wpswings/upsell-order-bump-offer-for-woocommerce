@@ -1732,13 +1732,17 @@ function wps_ubo_lite_check_if_in_cart( $product_id = '' ) {
 
 	if ( ! empty( $product_id ) ) {
 
-		// When a single variation or simple product are present in bumps array.
-		foreach ( WC()->cart->get_cart() as $key => $val ) {
+		$session = WC()->session;
 
-			$_product = $val['data'];
+		if ( $session ) {
+			// When a single variation or simple product are present in bumps array.
+			foreach ( WC()->cart->get_cart() as $key => $val ) {
 
-			if ( (string) $product_id === (string) $_product->get_id() && empty( $val['wps_discounted_price'] ) ) {
-				return $key;
+				$_product = $val['data'];
+
+				if ( (string) $product_id === (string) $_product->get_id() && empty( $val['wps_discounted_price'] ) ) {
+					return $key;
+				}
 			}
 		}
 	}
@@ -2877,7 +2881,7 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
 		echo wp_kses( $bumphtml, $allowed_html );
 	} else {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason for ignoring the escaping rule.
-		echo wp_kses( $bumphtml, $allowed_html );
+		echo $bumphtml;
 	}
 
 	$offer_product = wc_get_product( $bump['id'] );

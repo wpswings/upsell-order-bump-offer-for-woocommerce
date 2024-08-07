@@ -1347,7 +1347,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 							}
 						} // Second foreach for category search end.
 					}
-					$wps_is_shortcode = WC()->session->get( 'wps_is_shortcode' );
+					$session = WC()->session;
+
+					if ( $session ) {
+						$wps_is_shortcode = WC()->session->get( 'wps_is_shortcode' );
+					}
+
 					// If no target product/category not matched/added in bump.
 					if ( empty( $encountered_bump_array ) && ( 'yes' === $is_global_funnel || true == $wps_is_shortcode ) ) {
 
