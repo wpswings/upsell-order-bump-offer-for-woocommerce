@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: upsell, woocommerce, ab test, order bump, frequently bought together,
 Requires at least: 5.5.0
-Tested up to: 6.5.4
+Tested up to: 6.6.1
 WC requires at least: 5.5.0
-WC tested up to: 9.0.0
-Stable tag: 2.3.4
+WC tested up to: 9.1.4
+Stable tag: 2.3.5
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -23,7 +23,7 @@ Show your customers an exclusive offer deal at an unbelievable price at the very
 
 Relevant offers can be set for specific targets with [**WooCommerce Order Bump**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=order-bump-pro) which ensures customer satisfaction and thus results in improved sales improvements.
 
- [**Upsell Order Bump Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-page&utm_campaign=frontend-demo) | [**Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-page&utm_campaign=order-bump-doc) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-order-bump-contactus&utm_medium=order-bump-org-page&utm_campaign=contactus)
+ [**Upsell Order Bump Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=frontend-demo) | [**Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-doc) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=contact-us)
 
 [youtube https://youtu.be/BtMO0nH3EtE?si=1D9zBB_QyLL68_eB&w=560&h=315&rel=0]
 
@@ -69,9 +69,9 @@ Relevant offers can be set for specific targets with [**WooCommerce Order Bump**
 
 === LIVE DEMO OF UPSELL ORDER BUMP OFFER PLUGIN ===
 
-* [**Upsell Order Bump Offer Frontend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-page&utm_campaign=frontend-demo)
+* [**Upsell Order Bump Offer Frontend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=frontend-demo)
 
-* [**Upsell Order Bump Offer Backend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/request-for-personal-demo/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-org-page&utm_campaign=backend-demo)
+* [**Upsell Order Bump Offer Backend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/request-for-personal-demo/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-backend-demo)
 
 === WITH THE WOOCOMMERCE ORDER BUMP PLUGIN YOU CAN: ===
 
@@ -116,22 +116,22 @@ Relevant offers can be set for specific targets with [**WooCommerce Order Bump**
 
 
 	
-> Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-page&utm_campaign=order-bump-pro)
+> Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-pro)
 
 
 == See What Heel Holland Fotografeert Is Saying About The Upsell Order Bump Plugin ==
 
-> We saw an instantaneous increase in the conversion rate after we utilized the Upsell Order Bump Offer plugin by WP Swings. [**See Upsell Order Bump Case Study**](https://wpswings.com/case-studies/music-park/?utm_source=wpswings-orderbump-case-study&utm_medium=orderbump-org-page&utm_campaign=orderbump-case-study)
+> We saw an instantaneous increase in the conversion rate after we utilized the Upsell Order Bump Offer plugin by WP Swings. [**See Upsell Order Bump Case Study**](https://wpswings.com/case-studies/music-park/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-case-study)
 
 == SUPPORT ==
 
-If you need support or have questions, kindly use our online chat window [**here**](http://www.wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-page&utm_campaign=official) or connect with us and then [**Generate a ticket.**](https://wpswings.com/submit-query/?utm_source=wpswings-submit-query&utm_medium=order-bump-org-page&utm_campaign=query)
+If you need support or have questions, kindly use our online chat window [**here**](http://www.wpswings.com/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=support) or connect with us and then [**Generate a ticket.**](https://wpswings.com/submit-query/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=submit-query)
 
-> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=order-bump-org-page&utm_campaign=forum)
+> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=forum)
 
-> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-order-bump-services&utm_medium=order-bump-org-page&utm_campaign=woocommerce-services)
+> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-order-bump-org-page&utm_medium=referral&utm_campaign=woocommerce-services)
 
-> Get Huge Discounts on WooCommerce Upsell Order Bump Offer plugin during Christmas Sales 2023 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-order-bump-offers&utm_medium=order-bump-org-page&utm_campaign=offers)
+> Get Huge Discounts on WooCommerce Upsell Order Bump Offer plugin during Christmas Sales 2023 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=offers)
 
 
 == Installation ==
@@ -257,12 +257,18 @@ Yes, our plugin supports Simple, Variable, and Subscription products.
 Yes, we have Order Bump – Behavioral Analytics that shows Individual Order Bump Performance metrics such as View Count, Success Count, Offer to Accept Count, Offer to Remove Count, Conversion Rate, and Total Sales. With the help of these metrics, you can easily figure out how your Order Bumps are performing and make changes accordingly.
 
 = My Question is Not Listed. = 
-Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-kb&utm_medium=order-bump-org-page&utm_campaign=order-bump-kb)
+Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-kb)
 
 
 == Changelog ==
 
-= 2.3.4 - Released on 20 June 2024 = 
+= 2.3.5 – Released on 08 August 2024 = 
+* Fix: Discount pricing issue on the template.
+* Fix: New Template does not show during checkout.
+* Fix: Checkbox unable to click on the template to add the product.
+* New: Compatibility with latest WP (6.6.1) and WC (9.1.4).
+
+= 2.3.4 – Released on 20 June 2024 = 
 * New: New Template For the Bump Offer 
 * New: Compatibility with WP (6.5.4) and WC (9.0.0) 
 
@@ -429,6 +435,8 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 2.3.4 – Released on 20 June 2024 = 
-* New: New Template For the Bump Offer 
-* New: Compatibility with WP (6.5.4) and WC (9.0.0) 
+= 2.3.5 – Released on 08 August 2024 = 
+* Fix: Discount pricing issue on the template.
+* Fix: New Template does not show during checkout.
+* Fix: Checkbox unable to click on the template to add the product.
+* Enhancement: Compatibility with latest  WP [6.6.1] and WC [9.1.4].
