@@ -1,7 +1,22 @@
 (function( $ ) {
 	'use strict';
 	$( document ).ready(
-		function(){
+		function () {
+			
+			jQuery(document).ready(function($) {
+				// Event delegation to handle dynamic elements
+				console.log('hjsj');
+				$(document).on('click', '.wps-ob_temp-alpha', function() {
+					var $checkbox = $(this).find('#wps-ob_temp-alpha-check');
+					if ($checkbox.is(':checked')) {
+						$checkbox.prop('checked', false);
+						$(this).removeClass('wps-ob_checked');
+					} else {
+						$checkbox.prop('checked', true);
+						$(this).addClass('wps-ob_checked');
+					}
+				});
+			});
 
 			var myDiv = document.getElementById( "wps_ubo_lite_save_changes_bump" );
 
