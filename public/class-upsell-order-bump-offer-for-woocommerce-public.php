@@ -1440,6 +1440,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Reset Order Bump session data.
 		add_action( 'woocommerce_cart_emptied', array( $this, 'reset_order_bump' ), 11 );
 		add_action( 'woocommerce_thankyou', array( $this, 'reset_session_variable' ), 55 );
+		add_action( 'woocommerce_order_status_changed', array( $this , 'wps_send_custom_email_on_order_status_change'), 10, 3 );
 
 		// Add the custom price for the recommendation product on product page.
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'wps_add_custom_price_to_cart_item' ) );
@@ -1647,6 +1648,30 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		// Destroy session on order completed.
 		wps_ubo_session_destroy();
+	}
+
+
+	/**
+	 * Send a custom email notification when the WooCommerce order status changes.
+	 *
+	 * @param int    $order_id   The ID of the order whose status has changed.
+	 * @param string $old_status The previous status of the order.
+	 * @param string $new_status The new status of the order.
+	 */
+	public function wps_send_custom_email_on_order_status_change( $order_id, $old_status, $new_status) {
+		// Make sure the order ID is valid
+		if ( ! $order_id ) {
+			return;
+		}
+		 // Check if the new status is 'completed'
+		if ( 'completed' !== $new_status ) {
+				return;
+		}
+
+		if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
+			$pro_class = new Upsell_Order_Bump_Offer_For_Woocommerce_Pro( 'Order Bump', '2.3.1' );
+			$pro_class->wps_coupon_mail_send_callback( $order_id );
+		}
 	}
 
 	/**
