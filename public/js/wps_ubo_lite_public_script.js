@@ -6,22 +6,25 @@ jQuery(document).ready(function ($) {
     }
 
 
+    $(document).on('click', '.wps_new_template_12', function(e) {
+        // Check if the target element exists.
+        var bumpButton = document.querySelector('.add_offer_in_cart');
+        if (bumpButton) {
+            // Trigger the click event on the target element
+            bumpButton.click();
+        } else {
+            console.log('Element with class .add_offer_in_cart not found.');
+        }
+    });
+
+
     setTimeout(function () {
 
         var wps_is_checkout_block_use = wps_ubo_lite_public.wps_is_checkout_block_use;
 
         if (wps_is_checkout_block_use) {
-            // if ('_before_payment_gateways' != wps_ubo_lite_public.wps_order_bump_location_on_checkout) {
-            //     var bodyElements = document.getElementsByTagName('body')[0].getElementsByTagName('*');
-            //     for (var i = 0; i < bodyElements.length; i++) {
-            //         if (bodyElements[i].classList.contains('wrapup_order_bump')) {
-            //             bodyElements[i].style.display = 'none';
-            //             console.log('First occurrence of the specific class found:', bodyElements[i]);
-            //             break;
-            //         }
-            //     }
-            // }
-
+        
+            console.log(wps_ubo_lite_public.wps_order_bump_location_on_checkout);
             if (jQuery('.wrapup_order_bump').length > 0) {
                 var data = jQuery('.wrapup_order_bump').html();
 
@@ -978,7 +981,8 @@ jQuery(document).ready(function($) {
 
           if (--timer < 0) {
             $("#wps_timer"+ display). css({display: "none"});
-            document.getElementById("expired_message"+ display).innerHTML = "EXPIRED";
+              document.getElementById("expired_message" + display).innerHTML = "EXPIRED";
+              document.getElementById("wps_checkbox_offer" + display).disabled = true;
               $("#wps_button_id_" + display).hide();
               $("#expired_message" + display).parent().css("pointer-events", "none");
           }

@@ -1511,7 +1511,6 @@ input.wps_input_quantity.wps_quantity_input {
 }
 
 /* New offer product section start */
-
 .wps_main_class_order {
     display: flex;
     flex-wrap: wrap;
@@ -1601,6 +1600,9 @@ input.wps_input_quantity.wps_quantity_input {
         width: auto;
         max-height: 200px;
     }
+}
+.wps_checkbox_template_12{
+    display: none !important;
 }
 
 /* New offer product section end */

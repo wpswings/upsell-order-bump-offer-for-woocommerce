@@ -372,6 +372,7 @@
 							$(".wps-ubo__temp-prod-offer").html(msg);
 							$( ".wps-ob-st__m-title" ).html( msg );
 							$( ".bump-offer-title" ).html( msg );
+							$( ".wps-ob_ta-offer" ).html( msg );
 						}
 					}
 
@@ -385,7 +386,9 @@
 							$( ".wps_upsell_offer_discount_section h3" ).html( msg );
 							$(".wps-ubo__temp-prod-offer").html(msg);
 							$(".wps-ob-st__m-title").html(msg);
-							$( ".bump-offer-title" ).html( msg );
+							$(".bump-offer-title").html(msg);
+							
+							$( ".wps-ob_ta-offer" ).html( msg );
 						}
 					}
 
@@ -396,6 +399,7 @@
 						$(".wps-ubo__temp-head h3").html(msg);
 						$(".wps_head_check_ubo span").html(msg);
 						$(".wps_accetp_offer_title").html(msg);
+						$(".wps-ob_ta-o-title").html(msg);
 					}
 
 				}
@@ -415,14 +419,16 @@
 						$( ".wps_upsell_offer_secondary_section" ).show();
 						$( ".wps_upsell_offer_secondary_section p" ).html( msg );
 						$(".wps-ubo__temp-desc").html(msg);
-						$( ".wps-ob-st__m-c-p" ).html( msg );
+						$(".wps-ob-st__m-c-p").html(msg);
+						$( ".wps-ob_ta-o-desc" ).html( msg );
 					}
 
 					if ( text_id == 'pro_desc' ) {		// Product Description.
 
 						msg = $( this ).val();
 						$(".wps_upsell_offer_product_description").html(msg);
-						$( ".bump-offer-product-description" ).html( msg );
+						$(".bump-offer-product-description").html(msg);
+						$( ".wps-ob_ta-p-desc" ).html( msg );
 					}
 
 				}
@@ -519,7 +525,8 @@
 						DiscountSection.css( 'background-color', discount_bcolor );
 						$( '.wps-ubo__temp-prod-offer' ).css( 'background-color', discount_bcolor );
 						$('.wps-ob-st__m-title').css('background-color', discount_bcolor);
-						$( '.bump-offer-title' ).css( 'background-color', discount_bcolor );
+						$('.bump-offer-title').css('background-color', discount_bcolor);
+						$( '.wps-ob_ta-offer' ).css( 'background-color', discount_bcolor );
 					}
 				}
 			);
@@ -535,7 +542,8 @@
 						DiscountSectionH3.css( 'color', discount_tcolor );
 						$( '.wps-ubo__temp-prod-offer' ).css( 'color', discount_tcolor );
 						$('.wps-ob-st__m-title').css('color', discount_tcolor);
-						$( '.bump-offer-title' ).css('color', discount_tcolor);
+						$('.bump-offer-title').css('color', discount_tcolor);
+						$( '.wps-ob_ta-offer' ).css('color', discount_tcolor);
 
 					}
 				}
@@ -550,7 +558,8 @@
 					$('.wps-ob-st__m-title').css('font-size', discount_tsize + 'px');
 					$('.bump-offer-title').css('font-size', discount_tsize + 'px');
 					$('.wps_ubo_discount_slider_size').html(discount_tsize + 'px');
-					$( '.bump-offer-title' ).css( 'font-size', discount_tsize + 'px' );
+					$('.bump-offer-title').css('font-size', discount_tsize + 'px');
+					$( '.wps-ob_ta-offer' ).css( 'font-size', discount_tsize + 'px' );
 				}
 			);
 
@@ -588,7 +597,8 @@
 
 						$( '.wps-ubo__temp-prod-desc' ).css( 'color', product_tcolor );
 						$('.wps-ob-st__m-c-p').css('color', product_tcolor);
-						$( '.bump-offer-product-description' ).css( 'color', product_tcolor );
+						$('.bump-offer-product-description').css('color', product_tcolor);
+						$( '.wps-ob_ta-p-desc' ).css( 'color', product_tcolor );
 					}
 				}
 			);
@@ -601,7 +611,8 @@
 						ProductPriceColor.css( 'color', product_tcolor );
 						ProductQty.css( 'color', product_tcolor );
 						$( '.wps-ubo__temp-prod-price-new' ).css( 'color', product_tcolor );
-						$( '.wps-ob-st__m-c-price' ).css( 'color', product_tcolor );
+						$('.wps-ob-st__m-c-price').css('color', product_tcolor);
+						$( '.wps-ob_ta-p-price' ).css('color', product_tcolor);
 					}
 				}
 			);
@@ -616,7 +627,8 @@
 					ProductQty.css('font-size', product_tsize + 'px');
 					$('.wps-ob-st__m-c-price').css('font-size', product_tsize + 'px');
 					$('.bump-offer-product-price').css('font-size', product_tsize + 'px');
-					$( '.wps_ubo_product_price_slider_size' ).html( product_tsize + 'px' );// 2.1.7.
+					$('.wps_ubo_product_price_slider_size').html(product_tsize + 'px');// 2.1.7.
+					$( '.wps-ob_ta-p-price' ).css('font-size', product_tsize + 'px');
 				}
 			);
 
@@ -632,6 +644,7 @@
 					$( '.wps_ubo_product_slider_size' ).html( product_tsize + 'px' );
 					product_tsize = parseInt( product_tsize ) + 10;
 					ProductSectionH4.css('font-size', product_tsize + 'px');
+					$( '.wps-ob_ta-p-desc' ).css('font-size', product_tsize + 'px');;
 					
 				}
 			);
@@ -648,7 +661,8 @@
 				'change',
 				function() {
 					product_img_height = $( this ).val();
-					ProductSectionImg.css( 'height', product_img_height + 'px' );
+					ProductSectionImg.css('height', product_img_height + 'px');
+					$('.wps-ob_ta-p-img').css('height', product_img_height + 'px');
 
 					$( '.wps_ubo_product_slider_height' ).html( product_img_height + 'px' );
 				}
@@ -658,7 +672,8 @@
 				'change',
 				function() {
 					product_img_width = $( this ).val();
-					ProductSectionImg.css( 'width', product_img_width + 'px' );
+					ProductSectionImg.css('width', product_img_width + 'px');
+					$('.wps-ob_ta-p-img').css('width', product_img_width + 'px');
 
 					$( '.wps_ubo_product_slider_width' ).html( product_img_width + 'px' );
 				}
@@ -685,7 +700,8 @@
 						AcceptOfferSection.css( 'background-color', AcceptOffer_bcolor );
 						$( '.wps-ubo__temp-title' ).css( 'background-color', AcceptOffer_bcolor );
 						$( '.wps-ob-st__head' ).css( 'background-color', AcceptOffer_bcolor );
-						$( '.bump-offer-checkbox' ).css( 'background-color', AcceptOffer_bcolor );
+						$('.bump-offer-checkbox').css('background-color', AcceptOffer_bcolor);
+						$( '.wps-ob_ta-o-title' ).css( 'background-color', AcceptOffer_bcolor );
 					}
 				}
 			);
@@ -700,6 +716,7 @@
 						$('.wps-ubo__temp-title').css('color', AcceptOffer_tcolor);
 						$('.wps-ob-st__head').css('color', AcceptOffer_tcolor);
 						$( '.wps_accetp_offer_title' ).css( 'color', AcceptOffer_tcolor, 'important');
+						$( '.wps-ob_ta-o-title' ).css( 'color', AcceptOffer_tcolor, 'important');
 					}
 				}
 			);
@@ -725,7 +742,8 @@
 					$( '.wps-ob-st__head' ).css( 'font-size', AcceptOffer_tsize + 'px' );
 					$( '.wps-ubo__temp-title' ).css( 'font-size', AcceptOffer_tsize + 'px' );
 					$('.wps_ubo_accept_offer_slider_size').html(AcceptOffer_tsize + 'px');
-					$( '.wps_accetp_offer_title' ).css( 'font-size', AcceptOffer_tsize + 'px');
+					$('.wps_accetp_offer_title').css('font-size', AcceptOffer_tsize + 'px');
+					$( '.wps-ob_ta-o-title' ).css('font-size', AcceptOffer_tsize + 'px');
 				}
 			);
 
@@ -760,7 +778,8 @@
 
 						OfferDescriptionSectionP.css( 'color', OfferDescription_tcolor );
 
-						$( '.wps-ubo__temp-desc' ).css( 'color', OfferDescription_tcolor );
+						$('.wps-ubo__temp-desc').css('color', OfferDescription_tcolor);
+						$( '.wps-ob_ta-o-desc' ).css( 'color', OfferDescription_tcolor );
 
 					}
 				}
@@ -773,7 +792,8 @@
 					OfferDescription_tsize = $( this ).val();
 					OfferDescriptionSectionP.css( 'font-size', OfferDescription_tsize + 'px' );
 
-					$( '.wps-ubo__temp-desc' ).css( 'font-size', OfferDescription_tsize + 'px' );
+					$('.wps-ubo__temp-desc').css('font-size', OfferDescription_tsize + 'px');
+					$( '.wps-ob_ta-o-desc' ).css('font-size', OfferDescription_tsize + 'px');
 
 					$( '.wps_ubo_offer_description_slider_size' ).html( OfferDescription_tsize + 'px' );
 				}
@@ -809,6 +829,7 @@
 
 				$( '.wps_upsell_offer_wrapper' ).css( 'background-color', background_color );
 				$('.wps-ob-st').css('background-color', background_color);
+				$('.wps-ob_temp-alpha-wrap').css('background-color', background_color);
 			}
 
 			// Live Preview JS end.

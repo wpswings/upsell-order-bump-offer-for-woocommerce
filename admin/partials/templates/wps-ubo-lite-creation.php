@@ -1014,6 +1014,19 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 							<?php endif; ?>
 							</a>
 						</div>
+						<!-- Template Winxy -->
+						<div id="wps_ubo_premium_popup_9_template" class="wps_upsell_template_select  <?php echo esc_html( 9 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p 	class="wps_ubo_template_name" ><?php esc_html_e( 'Vertical', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '12' >
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-12.png' ) ) : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-12.png' ); ?>">
+							<?php else : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template-12.png' ); ?>">
+							<?php endif; ?>
+							</a>
+						</div>
 					</div>
 				</div>
 				<!-- Template end -->
@@ -1433,6 +1446,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 								<!-- Text color end. -->
 
 								<!-- Arrow color start. -->
+								<?php if ( '12' != $wps_ubo_selected_template ) { ?>
 								<tr valign="top" id="wps_ubo_select_accept_offer_acolor_pop_up">
 									<th scope="row" class="titledesc">
 										<span class="wps_ubo_premium_strip">Pro</span>
@@ -1450,6 +1464,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										</label>			
 									</td>
 								</tr>
+								<?php } ?>
 								<!-- Arrow color end. -->
 
 								<!-- Text size control start. -->
@@ -1482,6 +1497,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 						<table class="form-table wps_upsell_bump_creation_setting">
 							<tbody>
 								<!-- Background color start. -->
+								<?php if ( '12' != $wps_ubo_selected_template ) { ?>
 								<tr valign="top">
 									<th scope="row" class="titledesc">
 										<label><?php esc_html_e( 'Select Background Color', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
@@ -1497,6 +1513,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										</label>			
 									</td>
 								</tr>
+								<?php  } ?>
 								<!-- Background color end. -->
 
 								<!-- Text color start. -->
