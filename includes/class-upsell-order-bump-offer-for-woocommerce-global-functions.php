@@ -6411,8 +6411,8 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
 				<div class="wps-ob_ta-o-desc">'.$description.'</div>
 			</div>';
 			if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
-				$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-				$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+				$bumphtml .= '<div class = "wps_variable_qty_temp_12"><label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
+				$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
 			}
 			$bumphtml .= '<div class="wps-ubo__temp-add-btn wps-ob_ta-o-title">'.$title.'</div>
 		</div>
@@ -6436,6 +6436,11 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
         max-width: 420px;
         margin: auto;
     }
+
+	<?php echo esc_html( $order_bump_div_id ); ?> .wps_variable_qty_temp_12 {
+    text-align: center;
+    padding: 10px;
+	}
 
     <?php echo esc_html( $order_bump_div_id ); ?> .wps-ob_temp-alpha-main {
         container-type: inline-size;
