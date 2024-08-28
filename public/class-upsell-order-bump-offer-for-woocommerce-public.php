@@ -166,7 +166,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			// Public Script.
 			wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
-			wp_enqueue_script( 'wps-ubo-lite-public-script-new', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script_new_template.js', array( 'jquery' ), $this->version, false );
+			// wp_enqueue_script( 'wps-ubo-lite-public-script-new', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script_new_template.js', array( 'jquery' ), $this->version, false );
 
 			// Checkout Block and Cart block Comaptibility.
 			$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
@@ -268,7 +268,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					);
 
 					// Public facing regarding popup.
-					wp_enqueue_script( 'wps-ubo-lite-public-script-for-recommdation', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_recommdation_popup.js', array( 'jquery' ), $this->version, false );
+					// wp_enqueue_script( 'wps-ubo-lite-public-script-for-recommdation', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_recommdation_popup.js', array( 'jquery' ), $this->version, false );
 					wp_localize_script(
 						'wps-ubo-lite-public-script-for-recommdation',
 						'wps_ubo_lite_public_recommendated',
@@ -294,7 +294,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			if ( true == $wps_is_pro_active ) {
 				// Public facing regarding popup.
-				wp_enqueue_script( 'wps-ubo-lite-public-script-for-cart', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_cart_script.js', array( 'jquery' ), $this->version, false );
+				// wp_enqueue_script( 'wps-ubo-lite-public-script-for-cart', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_cart_script.js', array( 'jquery' ), $this->version, false );
 				wp_localize_script(
 					'wps-ubo-lite-public-script-for-cart',
 					'wps_ubo_lite_public_cart',
@@ -313,7 +313,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		);
 
 		// Public facing regarding popup.
-		wp_enqueue_script( 'wps-ubo-lite-public-script-for-fbt', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_fbt.js', array( 'jquery' ), $this->version, false );
+		// wp_enqueue_script( 'wps-ubo-lite-public-script-for-fbt', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_fbt.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script(
 			'wps-ubo-lite-public-script-for-fbt',
 			'wps_ubo_lite_public_fbt',
@@ -1347,7 +1347,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 							}
 						} // Second foreach for category search end.
 					}
-					$wps_is_shortcode = WC()->session->get( 'wps_is_shortcode' );
+					$session = WC()->session;
+
+					if ( $session ) {
+						$wps_is_shortcode = WC()->session->get( 'wps_is_shortcode' );
+					}
 					// If no target product/category not matched/added in bump.
 					if ( empty( $encountered_bump_array ) && ( 'yes' === $is_global_funnel || true == $wps_is_shortcode ) ) {
 

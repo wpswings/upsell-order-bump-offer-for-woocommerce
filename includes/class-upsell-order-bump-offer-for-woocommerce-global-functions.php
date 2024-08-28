@@ -1777,13 +1777,17 @@ function wps_ubo_lite_check_if_in_cart( $product_id = '' ) {
 
 	if ( ! empty( $product_id ) ) {
 
-		// When a single variation or simple product are present in bumps array.
-		foreach ( WC()->cart->get_cart() as $key => $val ) {
+		$session = WC()->session;
 
-			$_product = $val['data'];
+		if ( $session ) {
+			// When a single variation or simple product are present in bumps array.
+			foreach ( WC()->cart->get_cart() as $key => $val ) {
 
-			if ( (string) $product_id === (string) $_product->get_id() && empty( $val['wps_discounted_price'] ) ) {
-				return $key;
+				$_product = $val['data'];
+
+				if ( (string) $product_id === (string) $_product->get_id() && empty( $val['wps_discounted_price'] ) ) {
+					return $key;
+				}
 			}
 		}
 	}
@@ -6414,7 +6418,7 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
 				$bumphtml .= '<div class = "wps_variable_qty_temp_12"><label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
 				$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
 			}
-			$bumphtml .= '<div class="wps-ubo__temp-add-btn wps-ob_ta-o-title">'.$title.'</div>
+			$bumphtml .= '<div class="wps-ob_ta-o-title">'.$title.'</div>
 		</div>
 	</div>';
 
@@ -6444,11 +6448,11 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
 
     <?php echo esc_html( $order_bump_div_id ); ?> .wps-ob_temp-alpha-main {
         container-type: inline-size;
+		min-width: 220px;
     }
 
     <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha {
         margin: 0 0 15px;
-        cursor: pointer;
 		border: <?php echo esc_html( $parent_border_type . ' ' . $parent_border_color . ' ' . $parent_border_width ); ?>;
     }
 
@@ -6549,6 +6553,7 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
         text-align: center;
         border-radius: 0 0 5px 5px;
         line-height: 1.25;
+		cursor: pointer;
     }
 
     @container (min-width: 620px) {

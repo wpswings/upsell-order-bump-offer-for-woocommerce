@@ -33,37 +33,41 @@ $encountered_bump_ids_array        = array();
 $encountered_bump_tarket_key_array = array();
 
 // WIW-CC : First check from session and perform validations.
-if ( null !== WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->session->get( 'encountered_bump_array' ) ) ) {
+$session = WC()->session;
 
-	$fetch_order_bumps = false;
+if ( $session ) {
+	if ( null !== WC()->session->get( 'encountered_bump_array' ) && is_array( WC()->session->get( 'encountered_bump_array' ) ) ) {
 
-	$encountered_bump_ids_array        = WC()->session->get( 'encountered_bump_array' );
-	$encountered_bump_tarket_key_array = WC()->session->get( 'encountered_bump_tarket_key_array' );
+		$fetch_order_bumps = false;
 
-	// For Each Order Bump Ids array from session.
-	foreach ( $encountered_bump_ids_array as $key => $value ) {
+		$encountered_bump_ids_array        = WC()->session->get( 'encountered_bump_array' );
+		$encountered_bump_tarket_key_array = WC()->session->get( 'encountered_bump_tarket_key_array' );
 
-		$encountered_order_bump_id = $value;
+		// For Each Order Bump Ids array from session.
+		foreach ( $encountered_bump_ids_array as $key => $value ) {
 
-		$session_validations = wps_ubo_order_bump_session_validations( $wps_ubo_offer_array_collection, $wps_ubo_global_options, $encountered_order_bump_id );
+			$encountered_order_bump_id = $value;
 
-		// When session validations fail.
-		if ( false === $session_validations ) {
+			$session_validations = wps_ubo_order_bump_session_validations( $wps_ubo_offer_array_collection, $wps_ubo_global_options, $encountered_order_bump_id );
 
-			$fetch_order_bumps = true;
+			// When session validations fail.
+			if ( false === $session_validations ) {
 
-			// In case offer is already added then remove the offer product.
-			if ( null !== WC()->session->get( "bump_offer_status_index_$key" ) ) {
+				$fetch_order_bumps = true;
 
-				WC()->cart->remove_cart_item( WC()->session->get( "bump_offer_status_index_$key" ) );
+				// In case offer is already added then remove the offer product.
+				if ( null !== WC()->session->get( "bump_offer_status_index_$key" ) ) {
 
-				WC()->session->__unset( "bump_offer_status_index_$key" );
+					WC()->cart->remove_cart_item( WC()->session->get( "bump_offer_status_index_$key" ) );
+
+					WC()->session->__unset( "bump_offer_status_index_$key" );
+				}
+
+				// Destroy encountered bump array session.
+				WC()->session->__unset( 'encountered_bump_array' );
+
+				break;
 			}
-
-			// Destroy encountered bump array session.
-			WC()->session->__unset( 'encountered_bump_array' );
-
-			break;
 		}
 	}
 }

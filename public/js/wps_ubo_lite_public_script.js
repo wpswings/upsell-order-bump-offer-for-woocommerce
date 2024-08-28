@@ -6,7 +6,7 @@ jQuery(document).ready(function ($) {
     }
 
 
-    $(document).on('click', '.wps_new_template_12', function(e) {
+    $(document).on('click', '.wps-ob_ta-o-title', function(e) {
         // Check if the target element exists.
         var bumpButton = document.querySelector('.add_offer_in_cart');
         if (bumpButton) {
@@ -450,7 +450,6 @@ jQuery(document).ready(function ($) {
                 success: function (msg) {
                     // For variable product.
                     if (msg['key'] == 'true') {
-
                         variation_popup_index = order_bump_index.replace('index_', '');
                         $('.wps_ubo_price_html_for_variation').html(msg['message']);
                         $('.wps_bump_popup_loader').css('display', 'none');
