@@ -22,7 +22,7 @@ jQuery( document ).ready(
 								wps_main_prod_id : wps_main_prod_id,
 							},
                             success: function (msg) {
-                                
+								alert('Product Added!!');
 							}
 
 						}
