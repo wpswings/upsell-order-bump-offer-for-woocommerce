@@ -6289,7 +6289,12 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
 
 		// If still not found.
 		if ( empty( $image ) ) {
-			$image = wp_get_attachment_image_src( get_post_thumbnail_id( $bump['id'] ), 'single-post-thumbnail' )[0];
+			$thumbnail_id = get_post_thumbnail_id($bump['id']);
+			$image_src = $thumbnail_id ? wp_get_attachment_image_src($thumbnail_id, 'single-post-thumbnail') : null;
+
+			if ($image_src && isset($image_src[0])) {
+				$image = $image_src[0];
+			} 
 		}
 		if ( empty( $image ) ) {
 
