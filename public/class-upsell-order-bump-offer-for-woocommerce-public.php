@@ -1673,7 +1673,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 
 		if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
-			$pro_class = new Upsell_Order_Bump_Offer_For_Woocommerce_Pro( 'Order Bump', '2.3.1' );
+			$pro_class = new Upsell_Order_Bump_Offer_For_Woocommerce_Pro( 'Order Bump', '2.4.0' );
 			$pro_class->wps_coupon_mail_send_callback( $order_id );
 		}
 	}
