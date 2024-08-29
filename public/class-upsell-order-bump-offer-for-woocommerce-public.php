@@ -1663,11 +1663,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param string $new_status The new status of the order.
 	 */
 	public function wps_send_custom_email_on_order_status_change( $order_id, $old_status, $new_status) {
-		// Make sure the order ID is valid
+		// Make sure the order ID is valid.
 		if ( ! $order_id ) {
 			return;
 		}
-		 // Check if the new status is 'completed'
+		 // Check if the new status is 'completed'.
 		if ( 'completed' !== $new_status ) {
 				return;
 		}

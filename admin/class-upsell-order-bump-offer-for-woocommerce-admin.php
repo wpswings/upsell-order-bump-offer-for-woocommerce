@@ -526,14 +526,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		
 				$title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
 		
-				// Ensure the post type is 'shop_coupon'
+				// Ensure the post type is 'shop_coupon'.
 				if ( 'shop_coupon' !== get_post_type( $search_results->post->ID ) ) {
 					continue;
 				}
 		
 				$coupon = new WC_Coupon( $search_results->post->ID );
 		
-				// Additional checks can be added here if needed
+				// Additional checks can be added here if needed.
 		
 				$return[] = array( $search_results->post->ID, $title );
 		

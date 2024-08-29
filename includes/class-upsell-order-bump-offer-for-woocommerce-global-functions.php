@@ -2909,9 +2909,9 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
 	// Key for handling Mulitple Order Bumps.
 	$encountered_bump_array = $wps_ubo_offer_array_collection[ $encountered_order_bump_id ];
 	$wps_bump_upsell_selected_template = ! empty( $encountered_bump_array['wps_ubo_selected_template'] ) ? sanitize_text_field( $encountered_bump_array['wps_ubo_selected_template'] ) : '';
-    
+
 	// var_dump($wps_bump_upsell_selected_template);
-	
+
 	if ( '3' == $wps_bump_upsell_selected_template ) {
 
 		$bumphtml = wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id, $key );
@@ -2948,7 +2948,7 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
 
 		$bumphtml = wps_ubo_lite_bump_offer_html_11( $bump, $encountered_order_bump_id, $key );
 
-	} elseif('12' == $wps_bump_upsell_selected_template){
+	} elseif ( '12' == $wps_bump_upsell_selected_template ) {
 
 		$bumphtml = wps_ubo_lite_bump_offer_html_12( $bump, $encountered_order_bump_id, $key );
 
@@ -2960,12 +2960,8 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
 
 	$allowed_html = wps_ubo_lite_allowed_html();
 
-	// if ( '11' != $wps_bump_upsell_selected_template ) {
-	// 	echo wp_kses( $bumphtml, $allowed_html );
-	// } else {
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason for ignoring the escaping rule.
-		echo $bumphtml;
-	// }
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason for ignoring the escaping rule.
+	echo $bumphtml;
 
 	$offer_product = wc_get_product( $bump['id'] );
 
@@ -6154,8 +6150,7 @@ max-height: 200px;
  */
 function wps_ubo_lite_bump_offer_html_12( $bump, $encountered_order_bump_id = '', $order_bump_key = '' ) {
 
-
-$discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_for_fixed'] ) ? $bump['design_text']['wps_ubo_discount_title_for_fixed'] : '';   // Discount Title. for fixes price.
+	$discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_for_fixed'] ) ? $bump['design_text']['wps_ubo_discount_title_for_fixed'] : '';   // Discount Title. for fixes price.
 
 	$discount_title_percent = ! empty( $bump['design_text']['wps_ubo_discount_title_for_percent'] ) ? $bump['design_text']['wps_ubo_discount_title_for_percent'] : ''; // Discount Title. for percentage price.
 
@@ -6240,26 +6235,25 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
 
 	$parent_border_width = 'double' === $parent_border_type ? '4px' : '2px';
 
-
 		// Template adaption.
 		$wps_ubo_global_options    = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
 
 		$check = '';
 
 		// Retain Checked if offer is added except for admin.
-		if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
-			if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
+		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
 
-				$check = 'checked';
-			}
+			$check = 'checked';
 		}
+	}
 
-		if ( ! empty( $bump['bump_price_html'] ) ) {
+	if ( ! empty( $bump['bump_price_html'] ) ) {
 
-			$discount_title_fixed   = str_replace( '{dc_price}', $bump['bump_price_html'], $discount_title_fixed );
-			$discount_title_percent = str_replace( '{dc_%}', $bump['bump_price_html'], $discount_title_percent );
+		$discount_title_fixed   = str_replace( '{dc_price}', $bump['bump_price_html'], $discount_title_fixed );
+		$discount_title_percent = str_replace( '{dc_%}', $bump['bump_price_html'], $discount_title_percent );
 
-		}
+	}
 
 		$important = is_admin() ? '' : '!important';
 
@@ -6274,49 +6268,48 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
 		$bump_product = wc_get_product( $bump['id'] );
 
 		// If offer not found return.
-		if ( empty( $bump['id'] ) || empty( $bump_product ) ) {
+	if ( empty( $bump['id'] ) || empty( $bump_product ) ) {
 
-			return;
-		}
+		return;
+	}
 		$bump['name'] = ! empty( $bump['name'] ) ? sanitize_text_field( $bump['name'] ) : '';
 
 		$bump['discount_price'] = ! empty( $bump['discount_price'] ) ? sanitize_text_field( $bump['discount_price'] ) : '0';
 
 		// After v2.0.1!
-		if ( ! empty( $bump['offer_image'] ) ) {
-			$image = wp_get_attachment_image_src( $bump['offer_image'], 'single-post-thumbnail' )[0];
-		}
+	if ( ! empty( $bump['offer_image'] ) ) {
+		$image = wp_get_attachment_image_src( $bump['offer_image'], 'single-post-thumbnail' )[0];
+	}
 
 		// If still not found.
-		if ( empty( $image ) ) {
-			$thumbnail_id = get_post_thumbnail_id($bump['id']);
-			$image_src = $thumbnail_id ? wp_get_attachment_image_src($thumbnail_id, 'single-post-thumbnail') : null;
+	if ( empty( $image ) ) {
+		$thumbnail_id = get_post_thumbnail_id( $bump['id'] );
+		$image_src = $thumbnail_id ? wp_get_attachment_image_src( $thumbnail_id, 'single-post-thumbnail' ) : null;
 
-			if ($image_src && isset($image_src[0])) {
-				$image = $image_src[0];
-			} 
+		if ( $image_src && isset( $image_src[0] ) ) {
+			$image = $image_src[0];
 		}
-		if ( empty( $image ) ) {
+	}
+	if ( empty( $image ) ) {
 
-			$bump_parent_id = $bump_product->get_parent_id();
+		$bump_parent_id = $bump_product->get_parent_id();
 
-			if ( ! empty( $bump_parent_id ) ) {
+		if ( ! empty( $bump_parent_id ) ) {
 
-				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $bump_parent_id ), 'single-post-thumbnail' )[0];
+			$image = wp_get_attachment_image_src( get_post_thumbnail_id( $bump_parent_id ), 'single-post-thumbnail' )[0];
 
-			} else {
-				$image = wc_placeholder_img_src();
-			}
-		}
-
-		if ( ! empty( $bump['price_type'] ) && 'fixed' === $bump['price_type'] ) {
-
-			$bump_price_html = $discount_title_fixed;
 		} else {
-
-			$bump_price_html = $discount_title_percent;
+			$image = wc_placeholder_img_src();
 		}
+	}
 
+	if ( ! empty( $bump['price_type'] ) && 'fixed' === $bump['price_type'] ) {
+
+		$bump_price_html = $discount_title_fixed;
+	} else {
+
+		$bump_price_html = $discount_title_percent;
+	}
 
 	/*
 	* Get price html.
@@ -6325,8 +6318,8 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
 	$description = $bump['design_text']['wps_upsell_bump_offer_description'];   // Offer Description.
 	$product_description_text = $bump['design_text']['wps_bump_offer_decsription_text'];
 
-
 		$bumphtml = '';
+
 		/*
 		* Get price html.
 		*/
@@ -6340,29 +6333,28 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
 
 		$offer_product = wc_get_product( $bump['id'] );
 
-		if ( ! empty( $offer_product ) && is_object( $offer_product ) && $offer_product->has_child() ) {
-	
-			$bumphtml .= '<input type="hidden" class ="offer_shown_id_type" value="variable">';
-		}
-	
-		if ( ! empty( $bump['smart_offer_upgrade'] ) && 'yes' === $bump['smart_offer_upgrade'] ) {
-	
-			$bumphtml .= '<input type="hidden" class="order_bump_smo" value=' . $bump['smart_offer_upgrade'] . '>';
-		}
-	
-		if ( is_admin() && ! empty( $bump['bump_price_at_zero'] ) ) :
-			$bumphtml .= '<input type="hidden" class="bump_price_at_zero" value=' . $bump['bump_price_at_zero'] . '>';
-		endif;
+	if ( ! empty( $offer_product ) && is_object( $offer_product ) && $offer_product->has_child() ) {
 
+		$bumphtml .= '<input type="hidden" class ="offer_shown_id_type" value="variable">';
+	}
+
+	if ( ! empty( $bump['smart_offer_upgrade'] ) && 'yes' === $bump['smart_offer_upgrade'] ) {
+
+		$bumphtml .= '<input type="hidden" class="order_bump_smo" value=' . $bump['smart_offer_upgrade'] . '>';
+	}
+
+	if ( is_admin() && ! empty( $bump['bump_price_at_zero'] ) ) :
+		$bumphtml .= '<input type="hidden" class="bump_price_at_zero" value=' . $bump['bump_price_at_zero'] . '>';
+		endif;
 
 		$bumphtml                .= '<div class = "wps_upsell_offer_parent_wrapper" >';
 		$bumphtml                .= '<div id = "wps_admin_timer"></div>';
 		$wps_counter_timer_enable = isset( $bump['counter_timer'] ) ? $bump['counter_timer'] : '';
 		$wps_evergreencounter_timer_enable = isset( $bump['evergreen_counter_timer'] ) ? $bump['evergreen_counter_timer'] : '';
 		// Countdown Timer Section start.
-		if ( ( 'yes' === $wps_counter_timer_enable || 'yes' == $wps_evergreencounter_timer_enable ) && wps_ubo_lite_if_pro_exists() ) {
-			$bumphtml .= '<div class="expired_message_class" id = "expired_message' . esc_html( $order_bump_key ) . '"></div>';
-			$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section" id ="wps_timer' . esc_html( $order_bump_key ) . '">
+	if ( ( 'yes' === $wps_counter_timer_enable || 'yes' == $wps_evergreencounter_timer_enable ) && wps_ubo_lite_if_pro_exists() ) {
+		$bumphtml .= '<div class="expired_message_class" id = "expired_message' . esc_html( $order_bump_key ) . '"></div>';
+		$bumphtml .= '<div class = "wps_timer_count wps_upsell_offer_discount_section" id ="wps_timer' . esc_html( $order_bump_key ) . '">
 			<div class = "wps_day_timer_block wps-timer-wrap" >
 			<div id ="wps_day_time_' . esc_html( $order_bump_key ) . '">0</div>
 			<div id = "wps_day_label">Days</div>
@@ -6386,50 +6378,49 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
 			<div id = "wps_sec_label">Sec</div>
 			</div>
 			</div>';
-		}
+	}
 		// Countdown Timer Section End.
-	
-		if ( 'fixed_q' === $wps_upsell_offer_quantity_type ) {
-			$wps_is_fixed_qty = 'true';
-		} else {
-			$wps_is_fixed_qty = 'false';
-		}
+
+	if ( 'fixed_q' === $wps_upsell_offer_quantity_type ) {
+		$wps_is_fixed_qty = 'true';
+	} else {
+		$wps_is_fixed_qty = 'false';
+	}
 
 		$bumphtml .= '<div class="wps-ob_temp-alpha-main" id="wps-ob_temp-alpha-main">
 		<div class="wps-ob_temp-alpha" id="wps-ob_temp-alpha">
-			<div class="wps-ob_ta-offer">'.$bump_price_html.'</div>
+			<div class="wps-ob_ta-offer">' . $bump_price_html . '</div>
 			<div class="wps-ob_temp-alpha-wrap">
 				<div class="wps-ob_temp-alpha-in">
 					<input type="checkbox" id="wps-ob_temp-alpha-check">';
 
-					if ( 'on' === $wps_bump_enable_permalink ) {
-						$bumphtml .= '<a target="' . $wps_bump_target_attr . '" href="' . $bump_offer_product_permalink . '"><img src="'.esc_url( $image).'" alt="product image" class="wps-ob_ta-p-img"></a>';
+	if ( 'on' === $wps_bump_enable_permalink ) {
+		$bumphtml .= '<a target="' . $wps_bump_target_attr . '" href="' . $bump_offer_product_permalink . '"><img src="' . esc_url( $image ) . '" alt="product image" class="wps-ob_ta-p-img"></a>';
 
-						$bumphtml .= '<div class="wps-ob_ta-p-name wps_bump_name bump-offer-product-name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '"><a target="' . esc_html( $wps_bump_target_attr ) . '" class="wps_upsell_product_permalink" href="' . esc_url( $bump_offer_product_permalink ) . '">'.$bump['name'].'</a></div>';
-					} else {
+		$bumphtml .= '<div class="wps-ob_ta-p-name wps_bump_name bump-offer-product-name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '"><a target="' . esc_html( $wps_bump_target_attr ) . '" class="wps_upsell_product_permalink" href="' . esc_url( $bump_offer_product_permalink ) . '">' . $bump['name'] . '</a></div>';
+	} else {
 
-						$bumphtml .= '<img src="'.esc_url( $image).'" alt="product image" class="wps-ob_ta-p-img">';
+		$bumphtml .= '<img src="' . esc_url( $image ) . '" alt="product image" class="wps-ob_ta-p-img">';
 
+		$bumphtml .= '<div class="wps-ob_ta-p-name wps_bump_name bump-offer-product-name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '">' . $bump['name'] . '</div>';
+	}
 
-						$bumphtml .= '<div class="wps-ob_ta-p-name wps_bump_name bump-offer-product-name" data-qty_allowed="' . esc_html( $wps_upsell_enable_quantity ) . '" data-wps_is_fixed_qty="' . esc_html( $wps_is_fixed_qty ) . '" data-wps_qty="' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '">'.$bump['name'].'</div>';
-					}
-
-					$bumphtml .= '<div class="wps-ob_ta-p-price">'.$bump_offer_price.'</div>
-					<div class="wps-ob_ta-p-desc">'. $product_description_text.'</div>
+					$bumphtml .= '<div class="wps-ob_ta-p-price">' . $bump_offer_price . '</div>
+					<div class="wps-ob_ta-p-desc">' . $product_description_text . '</div>
 				</div>
-				<div class="wps-ob_ta-o-desc">'.$description.'</div>
+				<div class="wps-ob_ta-o-desc">' . $description . '</div>
 			</div>';
-			if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
-				$bumphtml .= '<div class = "wps_variable_qty_temp_12"><label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-				$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
-			}
-			$bumphtml .= '<div class="wps-ob_ta-o-title">'.$title.'</div>
+	if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
+		$bumphtml .= '<div class = "wps_variable_qty_temp_12"><label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
+		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
+	}
+			$bumphtml .= '<div class="wps-ob_ta-o-title">' . $title . '</div>
 		</div>
 	</div>';
 
 	$bumphtml .= '<input name="add_offer_in_cart_checkbox"  type="checkbox" id ="wps_checkbox_offer' . esc_html( $order_bump_key ) . '" class="wps-ubo__temp-prod-check add_offer_in_cart wps_checkbox_template_12">';
 
-	$bumphtml .= '</div></div>'; //end div close.
+	$bumphtml .= '</div></div>'; // end div close.
 
 	// For simple product.
 	if ( wps_ubo_lite_if_pro_exists() && ! empty( $offer_product ) && is_object( $offer_product ) && ! $offer_product->has_child() && ! is_admin() ) {
@@ -6441,187 +6432,187 @@ $discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_fo
 
 
 <style>
-    <?php echo esc_html( $order_bump_div_id ); ?> .wps_ubo_bump_offer_preview .wps-ob_temp-alpha-main {
-        max-width: 420px;
-        margin: auto;
-    }
-
-	<?php echo esc_html( $order_bump_div_id ); ?> .wps_variable_qty_temp_12 {
-    text-align: center;
-    padding: 10px;
+	<?php echo esc_html( $order_bump_div_id ); ?> .wps_ubo_bump_offer_preview .wps-ob_temp-alpha-main {
+		max-width: 420px;
+		margin: auto;
 	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> .wps-ob_temp-alpha-main {
-        container-type: inline-size;
+	<?php echo esc_html( $order_bump_div_id ); ?> .wps_variable_qty_temp_12 {
+	text-align: center;
+	padding: 10px;
+	}
+
+	<?php echo esc_html( $order_bump_div_id ); ?> .wps-ob_temp-alpha-main {
+		container-type: inline-size;
 		min-width: 220px;
-    }
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha {
-        margin: 0 0 15px;
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha {
+		margin: 0 0 15px;
 		border: <?php echo esc_html( $parent_border_type . ' ' . $parent_border_color . ' ' . $parent_border_width ); ?>;
-    }
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha.wps-ob_checked {
-        border: 2px solid #78c900;
-        border-top: none;
-        border-bottom: none;
-        border-radius: 8px;
-    }
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha.wps-ob_checked {
+		border: 2px solid #78c900;
+		border-top: none;
+		border-bottom: none;
+		border-radius: 8px;
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_temp-alpha-wrap {
-        background: <?php echo esc_html($parent_background_color) ?>;
-        padding: 75px 15px 15px;
-    }
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_temp-alpha-wrap {
+		background: <?php echo esc_html( $parent_background_color ); ?>;
+		padding: 75px 15px 15px;
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha img.wps-ob_ta-p-img {
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha img.wps-ob_ta-p-img {
 		width: <?php echo esc_html( $product_section_img_width . 'px' ); ?>;
 		height: <?php echo esc_html( $product_section_img_height . 'px' ); ?>;
-        max-width: 120px;
-        max-height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin: -60px auto 0;
-        border: 5px solid #fff;
-        box-shadow: 0 0 0 1.5px #e2e2e2;
-    }
+		max-width: 120px;
+		max-height: 120px;
+		border-radius: 50%;
+		object-fit: cover;
+		margin: -60px auto 0;
+		border: 5px solid #fff;
+		box-shadow: 0 0 0 1.5px #e2e2e2;
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_temp-alpha-in {
-        position: relative;
-        background: #fff;
-        border-radius: 5px;
-        border: 1px solid #E2E2E2;
-        margin: 0 0 15px;
-        text-align: center;
-        padding: 0 15px 15px;
-    }
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_temp-alpha-in {
+		position: relative;
+		background: #fff;
+		border-radius: 5px;
+		border: 1px solid #E2E2E2;
+		margin: 0 0 15px;
+		text-align: center;
+		padding: 0 15px 15px;
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha #wps-ob_temp-alpha-check {
-        display: none;
-    }
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha #wps-ob_temp-alpha-check {
+		display: none;
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-p-name {
-        font-size: 24px;
-        margin: 10px 0;
-        line-height: 1.25;
-        font-weight: bold;
-        color: #1e1e1e;
-    }
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-p-name {
+		font-size: 24px;
+		margin: 10px 0;
+		line-height: 1.25;
+		font-weight: bold;
+		color: #1e1e1e;
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-p-price {
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-p-price {
 		font-size: <?php echo esc_html( $product_section_text_price_size ) . esc_html( 'px' ); ?>;
-        font-weight: bold;
-        color: <?php echo esc_html( $product_section_price_text_color ); ?>;
-    }
+		font-weight: bold;
+		color: <?php echo esc_html( $product_section_price_text_color ); ?>;
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-p-price del {
-        color: #6c6c6c;
-        font-weight: normal;
-        margin: 0 5px 0 0;
-    }
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-p-price del {
+		color: #6c6c6c;
+		font-weight: normal;
+		margin: 0 5px 0 0;
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-p-desc,
-    #wps-ob_temp-alpha .wps-ob_ta-o-desc {
-        font-size: <?php echo esc_html( $product_section_text_size ) . esc_html( 'px' ); ?>;
-        line-height: 1.5;
-        text-align: center;
-        font-weight: normal;
-        color: <?php echo esc_html($product_section_text_color); ?>
-    }
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-p-desc,
+	#wps-ob_temp-alpha .wps-ob_ta-o-desc {
+		font-size: <?php echo esc_html( $product_section_text_size ) . esc_html( 'px' ); ?>;
+		line-height: 1.5;
+		text-align: center;
+		font-weight: normal;
+		color: <?php echo esc_html( $product_section_text_color ); ?>
+	}
 
 
 	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-o-desc {
-        font-size: <?php echo esc_html( $secondary_section_text_size  ) . esc_html( 'px' ); ?>;
-        line-height: 1.5;
-        text-align: center;
-        font-weight: normal;
-        color: <?php echo esc_html($secondary_section_text_color); ?>
-    }
+		font-size: <?php echo esc_html( $secondary_section_text_size ) . esc_html( 'px' ); ?>;
+		line-height: 1.5;
+		text-align: center;
+		font-weight: normal;
+		color: <?php echo esc_html( $secondary_section_text_color ); ?>
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-offer {
-        background: <?php echo esc_html($discount_section_background_color); ?>;
-        text-align: center;
-        padding: 15px;
-        border-radius: 5px 5px 0 0;
-        position: relative;
-        line-height: 1.25;
-        font-size: <?php echo esc_html( $discount_section_text_size ) . esc_html( 'px' ); ?>;
-        color: <?php echo esc_html($discount_section_text_color); ?>;
-        font-weight: bold;
-        letter-spacing: 0.4px;
-    }
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-offer {
+		background: <?php echo esc_html( $discount_section_background_color ); ?>;
+		text-align: center;
+		padding: 15px;
+		border-radius: 5px 5px 0 0;
+		position: relative;
+		line-height: 1.25;
+		font-size: <?php echo esc_html( $discount_section_text_size ) . esc_html( 'px' ); ?>;
+		color: <?php echo esc_html( $discount_section_text_color ); ?>;
+		font-weight: bold;
+		letter-spacing: 0.4px;
+	}
 
-    <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-o-title {
-        padding: 15px;
-        color: <?php echo esc_html( $primary_section_text_color ); ?>;;
-        background: <?php echo esc_html($primary_section_background_color); ?>;
-        font-size: <?php echo esc_html( $primary_section_text_size ) . esc_html( 'px' ); ?>;
-        text-align: center;
-        border-radius: 0 0 5px 5px;
-        line-height: 1.25;
+	<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-o-title {
+		padding: 15px;
+		color: <?php echo esc_html( $primary_section_text_color ); ?>;;
+		background: <?php echo esc_html( $primary_section_background_color ); ?>;
+		font-size: <?php echo esc_html( $primary_section_text_size ) . esc_html( 'px' ); ?>;
+		text-align: center;
+		border-radius: 0 0 5px 5px;
+		line-height: 1.25;
 		cursor: pointer;
-    }
+	}
 
-    @container (min-width: 620px) {
+	@container (min-width: 620px) {
 		<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha {
-            display: grid;
-            grid-template-columns: 4fr 1fr;
-            gap: 15px 0;
-        }
+			display: grid;
+			grid-template-columns: 4fr 1fr;
+			gap: 15px 0;
+		}
 
-        <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-offer {
-            order: 1;
-            grid-column-start: 1;
-            grid-column-end: 3;
-            border-radius: 5px;
-        }
+		<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-offer {
+			order: 1;
+			grid-column-start: 1;
+			grid-column-end: 3;
+			border-radius: 5px;
+		}
 
-        <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_temp-alpha-wrap {
-            display: grid;
-            gap: 15px;
-            grid-template-columns: 1fr 1fr;
-            padding: 15px 15px 15px 75px;
-        }
+		<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_temp-alpha-wrap {
+			display: grid;
+			gap: 15px;
+			grid-template-columns: 1fr 1fr;
+			padding: 15px 15px 15px 75px;
+		}
 
-        <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-o-title {
-            border-radius: 0 5px 5px 0;
-            display: flex;
-            align-items: center;
-            font-size: 32px;
-            font-weight: normal;
-        }
+		<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-o-title {
+			border-radius: 0 5px 5px 0;
+			display: flex;
+			align-items: center;
+			font-size: 32px;
+			font-weight: normal;
+		}
 
-        <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_temp-alpha-in {
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            padding: 15px 15px 15px 85px;
-            text-align: left;
-        }
+		<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_temp-alpha-in {
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			padding: 15px 15px 15px 85px;
+			text-align: left;
+		}
 
 		<?php echo esc_html( $order_bump_div_id ); ?>  #wps-ob_temp-alpha h3.wps-ob_ta-p-name {
-            margin: 0 0 10px;
-        }
+			margin: 0 0 10px;
+		}
 
-        <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha img.wps-ob_ta-p-img {
-            margin: 0;
-            position: absolute;
-            left: -60px;
-            top: 50%;
-            transform: translate(0, -50%);
-        }
+		<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha img.wps-ob_ta-p-img {
+			margin: 0;
+			position: absolute;
+			left: -60px;
+			top: 50%;
+			transform: translate(0, -50%);
+		}
 
-        <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-p-desc,
-        #wps-ob_temp-alpha .wps-ob_ta-o-desc {
-            text-align: left;
-        }
+		<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-p-desc,
+		#wps-ob_temp-alpha .wps-ob_ta-o-desc {
+			text-align: left;
+		}
 
-        <?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-o-desc {
-            display: flex;
-            align-items: center;
-        }
-    }
+		<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp-alpha .wps-ob_ta-o-desc {
+			display: flex;
+			align-items: center;
+		}
+	}
 </style>
-<?php 
+	<?php
 	return $bumphtml;
 }
 
