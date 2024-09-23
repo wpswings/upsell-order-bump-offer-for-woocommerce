@@ -48,6 +48,9 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 	$wps_bump_upsell_global_options['wps_ubo_offer_price_html'] = ! empty( $_POST['wps_ubo_offer_price_html'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_offer_price_html'] ) ) : '';
 
+
+	$wps_bump_upsell_global_options['wps_ubo_offer_fbt_location_set'] = ! empty( $_POST['wps_ubo_offer_fbt_location_set'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_offer_fbt_location_set'] ) ) : '';
+
 	$wps_bump_upsell_global_options['wps_ubo_offer_purchased_earlier'] = ! empty( $_POST['wps_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_offer_purchased_earlier'] ) ) : 'no';
 
 	$wps_bump_upsell_global_options['wps_ubo_offer_restrict_coupons'] = ! empty( $_POST['wps_ubo_offer_restrict_coupons'] ) ? 'yes' : 'no';
@@ -67,6 +70,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 	// After v2.2.7 In PRO.
 	$wps_bump_upsell_global_options['wps_enable_cart_upsell_feature'] = ! empty( $_POST['wps_enable_cart_upsell_feature'] ) ? 'on' : 'off';
+	$wps_bump_upsell_global_options['wps_enable_fbt_upsell_feature'] = ! empty( $_POST['wps_enable_fbt_upsell_feature'] ) ? 'on' : 'off';
 	$wps_bump_upsell_global_options['wps_enable_cart_upsell_location'] = ! empty( $_POST['wps_enable_cart_upsell_location'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_enable_cart_upsell_location'] ) ) : 'woocommerce_before_cart_totals';
 	$wps_bump_upsell_global_options['wps_ubo_enable_popup_exit_intent'] = ! empty( $_POST['wps_ubo_enable_popup_exit_intent'] ) ? 'on' : 'off';
 
@@ -119,6 +123,9 @@ $bump_offer_preorder_skip = ! empty( $wps_ubo_global_options['wps_ubo_offer_purc
 
 $bump_offer_coupon_restriction = ! empty( $wps_ubo_global_options['wps_ubo_offer_restrict_coupons'] ) ? $wps_ubo_global_options['wps_ubo_offer_restrict_coupons'] : 'no';
 
+// FBT Location Select type.
+$wps_ubo_offer_fbt_location_set = ! empty( $wps_ubo_global_options['wps_ubo_offer_fbt_location_set'] ) ? $wps_ubo_global_options['wps_ubo_offer_fbt_location_set'] : 'woocommerce_product_meta_end';
+
 // Bump Offer limit.
 $wps_bump_order_bump_limit = ! empty( $wps_ubo_global_options['wps_bump_order_bump_limit'] ) ? $wps_ubo_global_options['wps_bump_order_bump_limit'] : '1';
 
@@ -129,6 +136,9 @@ $wps_delete_all_on_uninstall = ! empty( $wps_ubo_global_options['wps_delete_all_
 
 // Cart Upsell Functionality.
 $wps_enable_cart_upsell_feature = ! empty( $wps_ubo_global_options['wps_enable_cart_upsell_feature'] ) ? $wps_ubo_global_options['wps_enable_cart_upsell_feature'] : 'no';
+
+// FBT Location Enable.
+$wps_enable_fbt_upsell_feature = ! empty( $wps_ubo_global_options['wps_enable_fbt_upsell_feature'] ) ? $wps_ubo_global_options['wps_enable_fbt_upsell_feature'] : 'no';
 
 // Cart Upsell Offer Location.
 $bump_cart_offer_location = ! empty( $wps_ubo_global_options['wps_enable_cart_upsell_location'] ) ? $wps_ubo_global_options['wps_enable_cart_upsell_location'] : '';
@@ -537,6 +547,72 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 					</td>
 				</tr>
 				<!-- Price html end. -->
+
+				<!-- FBT Location Change enable / disable Start. -->
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+
+						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="wps_ubo_offer_purchased_earlier"><?php esc_html_e( 'Enable FBT Location.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+						<?php
+						$attribute_description = esc_html__( 'Enable cart upsell checkbox to add the bump offer on cart page.', 'upsell-order-bump-offer-for-woocommerce' );
+
+						wps_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label for="wps_ubo_offer_purchased_earlier" class="wps_enable_fbt_upsell_feature wps_upsell_bump_enable_deletedata_label wps_bump_enable_plugin_support">
+
+							<input id="wps_enable_fbt_upsell_feature" class="wps_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( 'on' === $wps_enable_fbt_upsell_feature ) ? "checked='checked'" : ''; ?> name="wps_enable_fbt_upsell_feature">
+							<span class="wps_upsell_bump_enable_plugin_span"></span>
+
+						</label>
+					</td>
+				</tr>
+				<!-- FBT Location Change enable / disable End Here. -->
+
+
+				<!-- FBT Location Change Option Start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="wps_ubo_offer_purchased_earlier"><?php esc_html_e( 'Frequent Bought Together Location ', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<?php
+
+					$offer_locations_array = array(
+						'woocommerce_after_single_product' => esc_html__( 'After Single Product', 'upsell-order-bump-offer-for-woocommerce' ),
+						'woocommerce_after_add_to_cart_form' => esc_html__( 'After Add To Cart Form', 'upsell-order-bump-offer-for-woocommerce' ),
+						'woocommerce_after_single_product_summary' => esc_html__( 'After Single Product Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+						'woocommerce_product_meta_end' => esc_html__( 'Product Meta End', 'upsell-order-bump-offer-for-woocommerce' ),
+					);
+
+					?>
+
+					<td class="forminp forminp-text">
+
+						<?php
+						$attribute_description = esc_html__( 'Select the way to display Frequently bought toegther on the product page..', 'upsell-order-bump-offer-for-woocommerce' );
+						wps_ubo_lite_help_tip( $attribute_description );
+						?>
+						<label for="wps_ubo_offer_fbt_location_set">
+						<select id="wps_ubo_offer_fbt_location_set" name="wps_ubo_offer_fbt_location_set">
+
+							<?php foreach ( $offer_locations_array as $key => $value ) : ?>
+
+								<option <?php selected( $wps_ubo_offer_fbt_location_set, $key ); ?> value="<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value ); ?></option>
+
+							<?php endforeach; ?>
+
+						</select>
+					</label>
+					</td>
+				</tr>
+				<!-- FBT Location Change Option End Here. -->
 
 				<!-- Pre-order feature skip start. -->
 				<tr valign="top">
