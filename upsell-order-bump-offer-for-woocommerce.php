@@ -38,7 +38,27 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Automattic\WooCommerce\Utilities\OrderUtil;
 
-// HPOS Compatibility and cart and checkout block.
+$activated      = false;
+$active_plugins = get_option( 'active_plugins', array() );
+if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+	$active_network_wide = get_site_option( 'active_sitewide_plugins', array() );
+	if ( ! empty( $active_network_wide ) ) {
+		foreach ( $active_network_wide as $key => $value ) {
+			$active_plugins[] = $key;
+		}
+	}
+	$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+	if ( file_exists( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' ) && in_array( 'woocommerce/woocommerce.php', $active_plugins, true ) ) {
+		$activated = true;
+	}
+} elseif ( file_exists( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' ) && in_array( 'woocommerce/woocommerce.php', $active_plugins, true ) ) {
+		$activated = true;
+}
+
+if ( $activated ) {
+
+
+	// HPOS Compatibility and cart and checkout block.
 	add_action(
 		'before_woocommerce_init',
 		function() {
@@ -412,4 +432,4 @@ use Automattic\WooCommerce\Utilities\OrderUtil;
 			}
 		}
 	}
-
+}

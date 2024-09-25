@@ -554,7 +554,7 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 					<th scope="row" class="titledesc">
 
 						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-						<label for="wps_ubo_offer_purchased_earlier"><?php esc_html_e( 'Enable FBT Location.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="wps_enable_fbt_upsell_feature"><?php esc_html_e( 'Enable FBT Location.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
@@ -564,7 +564,7 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
 
-						<label for="wps_ubo_offer_purchased_earlier" class="wps_enable_fbt_upsell_feature wps_upsell_bump_enable_deletedata_label wps_bump_enable_plugin_support">
+						<label for="wps_enable_fbt_upsell_feature" class="wps_enable_fbt_upsell_feature wps_upsell_bump_enable_deletedata_label wps_bump_enable_plugin_support">
 
 							<input id="wps_enable_fbt_upsell_feature" class="wps_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( 'on' === $wps_enable_fbt_upsell_feature ) ? "checked='checked'" : ''; ?> name="wps_enable_fbt_upsell_feature">
 							<span class="wps_upsell_bump_enable_plugin_span"></span>
