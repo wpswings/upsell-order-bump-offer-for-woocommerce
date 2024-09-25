@@ -554,12 +554,12 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 					<th scope="row" class="titledesc">
 
 						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-						<label for="wps_enable_fbt_upsell_feature"><?php esc_html_e( 'Enable FBT Location.', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="wps_enable_fbt_upsell_feature"><?php esc_html_e( 'Enable FBT Location', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 						<?php
-						$attribute_description = esc_html__( 'Enable cart upsell checkbox to add the bump offer on cart page.', 'upsell-order-bump-offer-for-woocommerce' );
+						$attribute_description = esc_html__( 'Enable this to specify the location of the Frequently Bought Together products on the product page.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>

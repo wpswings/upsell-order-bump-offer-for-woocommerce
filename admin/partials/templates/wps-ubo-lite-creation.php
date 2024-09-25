@@ -1513,7 +1513,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										</label>			
 									</td>
 								</tr>
-								<?php  } ?>
+								<?php } ?>
 								<!-- Background color end. -->
 
 								<!-- Text color start. -->

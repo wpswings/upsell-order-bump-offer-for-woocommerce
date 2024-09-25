@@ -1444,7 +1444,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Reset Order Bump session data.
 		add_action( 'woocommerce_cart_emptied', array( $this, 'reset_order_bump' ), 11 );
 		add_action( 'woocommerce_thankyou', array( $this, 'reset_session_variable' ), 55 );
-		add_action( 'woocommerce_order_status_changed', array( $this , 'wps_send_custom_email_on_order_status_change'), 10, 3 );
+		add_action( 'woocommerce_order_status_changed', array( $this, 'wps_send_custom_email_on_order_status_change' ), 10, 3 );
 
 		// Add the custom price for the recommendation product on product page.
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'wps_add_custom_price_to_cart_item' ) );
@@ -1662,7 +1662,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param string $old_status The previous status of the order.
 	 * @param string $new_status The new status of the order.
 	 */
-	public function wps_send_custom_email_on_order_status_change( $order_id, $old_status, $new_status) {
+	public function wps_send_custom_email_on_order_status_change( $order_id, $old_status, $new_status ) {
 		// Make sure the order ID is valid.
 		if ( ! $order_id ) {
 			return;
