@@ -4,48 +4,48 @@
  */
  /* Button used to open the contact form - fixed at the bottom of the page */
  .wps-on-boarding-form-submit {
- 	text-align: center;
+	text-align: center;
  }
  .wps-on-boarding-wrapper-control {
- 	overflow: hidden;
+	overflow: hidden;
  }
  .wps-on-boarding-submit {
- 	background-color: #7979f6;
- 	color: white;
- 	padding: 16px 20px;
- 	border: none;
- 	cursor: pointer;
- 	opacity: 0.8;
+	background-color: #7979f6;
+	color: white;
+	padding: 16px 20px;
+	border: none;
+	cursor: pointer;
+	opacity: 0.8;
  }
  /* Add styles to the form container */
  .wps-on-boarding-wrapper {
- 	padding: 10px;
- 	background-color: white;
+	padding: 10px;
+	background-color: white;
  }
  /* Set a style for the submit/login button */
  .wps-on-boarding-wrapper .btn {
- 	background-color: #4CAF50;
- 	color: white;
- 	padding: 16px 20px;
- 	border: none;
- 	cursor: pointer;
- 	width: 100%;
- 	margin-bottom:10px;
- 	opacity: 0.8;
+	background-color: #4CAF50;
+	color: white;
+	padding: 16px 20px;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	margin-bottom:10px;
+	opacity: 0.8;
  }
  .wps-customer-data-form-single-field {
- 	background: #1fe2e2;
- 	margin: 10px;
- 	border-radius: 5px;
- 	padding: 6px;
+	background: #1fe2e2;
+	margin: 10px;
+	border-radius: 5px;
+	padding: 6px;
  }
  .on-boarding-label {
- 	color: red;
- 	font-size: 12px;
+	color: red;
+	font-size: 12px;
  }
  .on-boarding-field-label {
- 	color: green;
- 	font-size: 12px;
+	color: green;
+	font-size: 12px;
  }
 /*==========================================
 =            WPS POPUP FORM CSS            =
@@ -334,7 +334,7 @@ input#s2id_autogen1 {
 	.on-boarding-text-field {
 		width: 98%;
 	}
-} 
+}
 @media only screen and (max-width: 796px) {
 	.wps-customer-data-form-single-field:nth-child(3) {
 		display: block;

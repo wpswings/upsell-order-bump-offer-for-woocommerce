@@ -159,9 +159,13 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 		// PRODUCT SECTION(product_section).
 		$design_settings_post['product_section_text_color'] = ! empty( $_POST['product_section_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['product_section_text_color'] ) ) : '';
 		$design_settings_post['product_section_text_size']  = ! empty( $_POST['product_section_text_size'] ) ? sanitize_text_field( wp_unslash( $_POST['product_section_text_size'] ) ) : '';
+		$design_settings_post['product_section_price_text_size']  = ! empty( $_POST['product_section_price_text_size'] ) ? sanitize_text_field( wp_unslash( $_POST['product_section_price_text_size'] ) ) : '';
+		$design_settings_post['product_section_price_text_color'] = ! empty( $_POST['product_section_price_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['product_section_price_text_color'] ) ) : '';
 
 		unset( $_POST['product_section_text_color'] );
 		unset( $_POST['product_section_text_size'] );
+		unset( $_POST['product_section_price_text_size'] );
+		unset( $_POST['product_section_price_text_color'] );
 
 		// Accept Offer Section(primary_section).
 		$design_settings_post['primary_section_background_color'] = ! empty( $_POST['primary_section_background_color'] ) ? sanitize_text_field( wp_unslash( $_POST['primary_section_background_color'] ) ) : '';
@@ -223,6 +227,9 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 		$wps_upsell_new_bump['bump_total_sales'] = ! empty( $sales_stats_bump['bump_total_sales'] ) ? $sales_stats_bump['bump_total_sales'] : 0;
 
 		$wps_upsell_new_bump['bump_orders_count'] = ! empty( $sales_stats_bump['bump_orders_count'] ) ? $sales_stats_bump['bump_orders_count'] : array();
+
+		$wps_upsell_new_bump['offer_accept_count_pro'] = ! empty( $sales_stats_bump['offer_accept_count_pro'] ) ? $sales_stats_bump['offer_accept_count_pro'] : 0;
+
 	}
 
 	// When Bump is saved for the first time so load default text Settings.
@@ -300,11 +307,14 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 				<div id="wps_upsell_bump_name_heading">
 					<h2><?php echo esc_html( $bump_name ); ?></h2>
 					<div id="wps_upsell_bump_status" >
+						<?php
+						$description = esc_html__( 'Bump Offer will be displayed : Sandbox Mode -> For Admin only. Live Mode -> For All.', 'upsell-order-bump-offer-for-woocommerce' );
+						wps_ubo_lite_help_tip( $description );
+						?>
 						<label>
 							<input type="checkbox" id="wps_upsell_bump_status_input" name="wps_upsell_bump_status" value="yes" <?php checked( 'yes', $bump_status ); ?> >
 							<span class="wps_upsell_bump_span"></span>
 						</label>
-
 						<span class="wps_upsell_bump_status_on <?php echo 'yes' === $bump_status ? 'active' : ''; ?>"><?php esc_html_e( 'Live', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 						<span class="wps_upsell_bump_status_off <?php echo 'no' === $bump_status ? 'active' : ''; ?>"><?php esc_html_e( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 					</div>
@@ -373,8 +383,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 						?>
 
-						<input type="number" id="
-						" name="wps_upsell_bump_min_cart" value="<?php echo esc_attr( $min_cart_value ); ?>" class="input-text wps_upsell_bump_commone_class" min="0">
+						<input type="number" id="wps_upsell_bump_min_cart" name="wps_upsell_bump_min_cart" value="<?php echo esc_attr( $min_cart_value ); ?>" class="input-text wps_upsell_bump_commone_class" min="0">
 					</td>
 				</tr>
 				<!-- Bump Min Cart end.-->
@@ -680,6 +689,55 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 				</tr>
 				<!--v2.1.3 Timer Enable/Disable End. -->
 
+				<!--v2.2.0 Evergreen Timer Start Here. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="wps_ubo_offer_timer"><?php esc_html_e( 'Evergreen Timer', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This feature allows you to add evergreen countdown timer at  specific order bump  , timer start on every reload and when timer end it restrict offer product to add.Its priority is less than countdown timer.', 'upsell-order-bump-offer-for-woocommerce' );
+							wps_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label class="wps-upsell-smart-offer-upgrade" for="wps_ubo_offer_timer">
+						<input class="wps-upsell-smart-offer-upgrade-wrap" type='checkbox' id='wps_evergreen_timer_switch' value=''>
+						<span class="upsell-smart-offer-upgrade-btn"></span>
+						</label>
+
+					</td>
+				</tr>
+
+				<!--v2.2.0 Evergreen Timer End Her. -->
+
+				<!--v2.1.7 Product Image Slider Show Enable/Disable Start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="wps_ubo_offer_product_image_slider"><?php esc_html_e( 'Product Gallery Image Slider', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+							$attribute_description = esc_html__( 'This feature allows you to add Product Gallery Image With Slider  at  specific order bump ', 'upsell-order-bump-offer-for-woocommerce' );
+							wps_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label class="wps-upsell-smart-offer-upgrade" for="wps_ubo_offer_product_image_slider">
+						<input class="wps-upsell-smart-offer-upgrade-wrap" type='checkbox' id='wps_ubo_offer_product_image_slider' value=''>
+						<span class="upsell-smart-offer-upgrade-btn"></span>
+						</label>
+
+					</td>
+				</tr>
+				<!--v2.1.3 Timer Enable/Disable End. -->
+
 			</tbody>
 		</table>
 
@@ -769,7 +827,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					<!-- Offer image start. -->
 					<tr>
 						<th scope="row" class="titledesc">
-							<label for="wps_upsell_offer_custom_image"><?php esc_html_e( 'Offer Image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></label>
+							<label for="wps_upsell_offer_custom_image"><?php esc_html_e( 'Offer Image', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 						</th>
 
 						<td class="forminp forminp-text">
@@ -815,7 +873,6 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 						$wps_bump_upsell_selected_template = ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_bump_upsell_selected_template'] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_bump_upsell_selected_template'] : '';
 
 						$wps_ubo_selected_template = ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_ubo_selected_template'] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_ubo_selected_template'] : '1';
-
 					?>
 
 					<!-- Image wrapper -->
@@ -843,13 +900,131 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 							</a>
 						</div>
 
+						<!-- Template ten. -->
+						<div class="wps_upsell_template_select <?php echo esc_html( 10 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p class="wps_ubo_template_name"><?php esc_html_e( 'Flexie Template', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<a href="javascript:void" class="wps_ubo_template_link" data_link='10'>
+								<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-1.png' ) ) : ?>
+									<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-10.png' ); ?>">
+								<?php else : ?>
+									<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template2.png' ); ?>">
+								<?php endif; ?>
+							</a>
+						</div>
+
+						<!-- Template eleven. -->
+						<div class="wps_upsell_template_select <?php echo esc_html( 11 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+						<p class="wps_ubo_template_name"><?php esc_html_e( 'Compactive Template', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+						<a href="javascript:void" class="wps_ubo_template_link" data_link='11'>
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-1.png' ) ) : ?>
+								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-11.png' ); ?>">
+							<?php else : ?>
+								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template2.png' ); ?>">
+							<?php endif; ?>
+						</a>
+						</div>
+
 						<!-- Template three. -->
-						<div class="wps_upsell_template_select <?php echo esc_html( 3 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
-
+						<div id="wps_ubo_premium_popup_3_template" class="wps_upsell_template_select <?php echo esc_html( 3 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+							
 							<p class="wps_ubo_template_name" ><?php esc_html_e( 'Elegant Summers', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
-
-							<a href="javascript:void" class="wps_ubo_template_link" data_link = '3' >
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '3' >
 								<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-3.png' ); ?>">
+							</a>
+						</div>
+						
+						<!-- Template four. -->
+						<div id="wps_ubo_premium_popup_4_template" class="wps_upsell_template_select  <?php echo esc_html( 4 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p 	class="wps_ubo_template_name" ><?php esc_html_e( 'Winner Jazz ', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '4' >
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-1.png' ) ) : ?>
+						   <img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-4.png' ); ?>">
+							<?php else : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template4.png' ); ?>">
+							<?php endif; ?>
+							</a>
+						</div>
+
+						<!-- Template five. -->
+						<div id="wps_ubo_premium_popup_5_template" class="wps_upsell_template_select  <?php echo esc_html( 5 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p 	class="wps_ubo_template_name" ><?php esc_html_e( 'Summer Cool ', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '5' >
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-1.png' ) ) : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-5.png' ); ?>">
+							<?php else : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template-5.png' ); ?>">
+							<?php endif; ?>
+							</a>
+						</div>
+						<!-- Template six. -->
+						<div id="wps_ubo_premium_popup_6_template" class="wps_upsell_template_select  <?php echo esc_html( 6 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p 	class="wps_ubo_template_name" ><?php esc_html_e( 'Hybrid', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '6' >
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-1.png' ) ) : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-6.png' ); ?>">
+							<?php else : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template-6.png' ); ?>">
+							<?php endif; ?>
+							</a>
+						</div>
+						<!-- Template seven. -->
+						<div id="wps_ubo_premium_popup_7_template" class="wps_upsell_template_select  <?php echo esc_html( 7 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p 	class="wps_ubo_template_name" ><?php esc_html_e( 'Left To Right', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '7' >
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-7.png' ) ) : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-7.png' ); ?>">
+							<?php else : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template-7.png' ); ?>">
+							<?php endif; ?>
+							</a>
+						</div>
+						<!-- Template eight. -->
+						<div id="wps_ubo_premium_popup_8_template" class="wps_upsell_template_select  <?php echo esc_html( 8 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p 	class="wps_ubo_template_name" ><?php esc_html_e( 'Right To Left', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '8' >
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-1.png' ) ) : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-8.png' ); ?>">
+							<?php else : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template-8.png' ); ?>">
+							<?php endif; ?>
+							</a>
+						</div>
+						<!-- Template Nine. -->
+						<div id="wps_ubo_premium_popup_9_template" class="wps_upsell_template_select  <?php echo esc_html( 9 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p 	class="wps_ubo_template_name" ><?php esc_html_e( 'Vertical', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '9' >
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-9.png' ) ) : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-9.png' ); ?>">
+							<?php else : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template-9.png' ); ?>">
+							<?php endif; ?>
+							</a>
+						</div>
+						<!-- Template Winxy -->
+						<div id="wps_ubo_premium_popup_9_template" class="wps_upsell_template_select  <?php echo esc_html( 9 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p 	class="wps_ubo_template_name" ><?php esc_html_e( 'Vertical', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></p>
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<a href="javascript:void"  data_link = '12' >
+							<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-12.png' ) ) : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-12.png' ); ?>">
+							<?php else : ?>
+							<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/Template-12.png' ); ?>">
+							<?php endif; ?>
 							</a>
 						</div>
 					</div>
@@ -945,18 +1120,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 								</tr>
 							<!-- Border color end. -->
-
-
-
-
-
-
-
-
-
-
-
-
+							<?php if ( '11' != $wps_ubo_selected_template ) { ?>
 							<!-- Background color start. -->
 								<tr valign="top">
 
@@ -976,23 +1140,8 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 									</td>
 
 								</tr>
+							<?php } ?>
 							<!-- Background color end. -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 							<!-- Top Vertical Spacing control start. -->
 								<tr valign="top">
 
@@ -1137,6 +1286,25 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 								</tr>
 								<!-- Text color end. -->
 
+								<!-- Price Text color start. -->
+								<tr valign="top">
+									<th scope="row" class="titledesc">
+										<label><?php esc_html_e( 'Select Price Text Color', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+									</th>
+
+									<td class="forminp forminp-text">
+										<?php
+											$attribute_description = esc_html__( 'Select text color for Product Price.', 'upsell-order-bump-offer-for-woocommerce' );
+											wps_ubo_lite_help_tip( $attribute_description );
+										?>
+										<label>
+											<!-- Color picker for description text. -->
+											<input type="text" name="product_section_price_text_color" class="wps_ubo_colorpicker wps_ubo_select_product_price_tcolor" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_price_text_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_price_text_color'] ) : ''; ?>">
+										</label>			
+									</td>
+								</tr>
+								<!-- Price Text color end. -->
+
 								<!-- Text size control start. -->
 								<tr valign="top">
 
@@ -1161,6 +1329,73 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 								</tr>
 								<!-- Text size control ends. -->
+
+								<!-- Price size control start. -->
+								<tr valign="top">
+									<th scope="row" class="titledesc">
+										<label><?php esc_html_e( 'Select Product Price Size', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+									</th>
+
+									<td class="forminp forminp-text">
+										<?php
+											$attribute_description = esc_html__( 'Select font size for Product Price.', 'upsell-order-bump-offer-for-woocommerce' );
+											wps_ubo_lite_help_tip( $attribute_description );
+										?>
+										<label>
+											<!-- Slider for spacing. -->
+											<input type="range" min="10" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_price_text_size'] ); ?>"  max="30" value="" name = 'product_section_price_text_size' class="wps_ubo_text_slider wps_ubo_product_price_slider" />
+
+											<span class="wps_ubo_slider_size wps_ubo_product_price_slider_size" ><?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_price_text_size'] . 'px' ); ?></span>
+										</label>		
+									</td>
+								</tr>
+								<!-- Price size control end. -->
+
+								<!-- Image width control start. -->
+								<tr valign="top" id="wps_ubo_img_width_slider_pop_up">
+										<th scope="row" class="titledesc">
+											<span class="wps_ubo_premium_strip">Pro</span>
+											<label><?php esc_html_e( 'Select Image Width', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></label>
+										</th>
+
+									<td class="forminp forminp-text">
+										<?php
+											$attribute_description = esc_html__( 'Select Image width size for Product section.', 'upsell-order-bump-offer-for-woocommerce-pro' );
+											wps_ubo_lite_help_tip( $attribute_description );
+										?>
+
+										<label>
+											<!-- Slider for spacing. -->
+											<input type="range" min="10" value="10"  max="125" name = 'product_section_img_width'  class="wps_ubo_img_width_slider" />
+
+											<span class="wps_ubo_slider_size wps_ubo_product_slider_width" ><?php echo esc_html( '10px' ); ?> </span>
+										</label>
+									</td>
+								</tr>
+								<!-- Image width control ends. -->
+
+								<!-- Image height control start. -->
+								<tr valign="top" id="wps_ubo_img_height_slider_pop_up">
+										<th scope="row" class="titledesc">
+											<span class="wps_ubo_premium_strip">Pro</span>
+											<label><?php esc_html_e( 'Select Image Height', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></label>
+										</th>
+
+									<td class="forminp forminp-text">
+											<?php
+												$attribute_description = esc_html__( 'Select Image height for Product section.', 'upsell-order-bump-offer-for-woocommerce-pro' );
+												wps_ubo_lite_help_tip( $attribute_description );
+											?>
+
+											<label>
+
+												<!-- Slider for spacing. -->
+												<input type="range" min="10" value="0"  max="150" name='product_section_img_height' class="wps_ubo_img_height_slider" />
+
+												<span class="wps_ubo_slider_size wps_ubo_product_slider_height" ><?php echo esc_html( '10px' ); ?> </span>
+											</label>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -1210,6 +1445,28 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 								</tr>
 								<!-- Text color end. -->
 
+								<!-- Arrow color start. -->
+								<?php if ( '12' != $wps_ubo_selected_template ) { ?>
+								<tr valign="top" id="wps_ubo_select_accept_offer_acolor_pop_up">
+									<th scope="row" class="titledesc">
+										<span class="wps_ubo_premium_strip">Pro</span>
+										<label><?php esc_html_e( 'Select Arrow Color', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></label>
+									</th>
+
+									<td class="forminp forminp-text">
+										<?php
+											$attribute_description = esc_html__( 'Select Arrow color for Accept Offer section.', 'upsell-order-bump-offer-for-woocommerce-pro' );
+											wps_ubo_lite_help_tip( $attribute_description );
+										?>
+										<label>	
+											<!-- Color picker for description text. -->
+											<input type="text" name="primary_section_arrow_color" class="wps_ubo_colorpicker" value="">
+										</label>			
+									</td>
+								</tr>
+								<?php } ?>
+								<!-- Arrow color end. -->
+
 								<!-- Text size control start. -->
 								<tr valign="top">
 									<th scope="row" class="titledesc">
@@ -1234,11 +1491,13 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					<!-- Primary_section section. -->
 
 					<!-- Secondary_section section. -->
+					<?php if ( '10' != $wps_ubo_selected_template && '11' != $wps_ubo_selected_template ) { ?>
 					<div class="wps_upsell_table wps_upsell_table--border wps_upsell_custom_template_settings ">
 						<div class="wps_upsell_offer_sections"><?php esc_html_e( 'Offer Description Section', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 						<table class="form-table wps_upsell_bump_creation_setting">
 							<tbody>
 								<!-- Background color start. -->
+								<?php if ( '12' != $wps_ubo_selected_template ) { ?>
 								<tr valign="top">
 									<th scope="row" class="titledesc">
 										<label><?php esc_html_e( 'Select Background Color', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
@@ -1254,6 +1513,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										</label>			
 									</td>
 								</tr>
+								<?php } ?>
 								<!-- Background color end. -->
 
 								<!-- Text color start. -->
@@ -1292,6 +1552,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 							</tbody>
 						</table>
 					</div>
+					<?php } ?>
 					<!-- Secondary_section section ends. -->
 				</div>
 				<!-- Design end -->
@@ -1339,6 +1600,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 						<!--Discount Title end. -->
 
 						<!-- Product Description start. -->
+						<?php if ( '10' != $wps_ubo_selected_template ) { ?>
 						<tr valign="top">
 							<th scope="row" class="titledesc">
 								<p class='wps_ubo_row_heads' ><?php esc_html_e( 'Product Description', 'upsell-order-bump-offer-for-woocommerce' ); ?>
@@ -1359,6 +1621,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 							</td>
 						</tr>
+						<?php } ?>
 						<!-- Product Description end. -->
 
 						<!-- Lead Title start. -->
@@ -1413,8 +1676,20 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 					// Send current Bump Offer id.
 					$bump = wps_ubo_lite_fetch_bump_offer_details( $wps_upsell_bump_id, '' );
+					$wps_ubo_offer_array_collection = get_option( 'wps_ubo_bump_list' );
+					$encountered_bump_array = $wps_ubo_offer_array_collection[ $wps_upsell_bump_id ];
+					$wps_bump_upsell_selected_template = ! empty( $encountered_bump_array['wps_ubo_selected_template'] ) ? sanitize_text_field( $encountered_bump_array['wps_ubo_selected_template'] ) : '';
 
-					$bumphtml = wps_ubo_lite_bump_offer_html( $bump );
+					if ( '10' == $wps_bump_upsell_selected_template ) {
+
+						$bumphtml = wps_ubo_lite_bump_offer_html_10( $bump );
+
+					} elseif ( '11' == $wps_bump_upsell_selected_template ) {
+
+						$bumphtml = wps_ubo_lite_bump_offer_html_11( $bump );
+					} else {
+						$bumphtml = wps_ubo_lite_bump_offer_html( $bump );
+					}
 
 					?>
 					<h3 class="wps_ubo_offer_preview_heading"><?php esc_html_e( 'Offer Preview', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
