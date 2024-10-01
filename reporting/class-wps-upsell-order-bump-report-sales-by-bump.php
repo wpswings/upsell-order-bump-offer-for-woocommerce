@@ -144,28 +144,6 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Bump {
 		}
 	}
 
-
-	/**
-	 * Add Offer Accept Count for the current Order Bump Pro.
-	 *
-	 * @since    1.4.0
-	 * @access   public
-	 */
-	public function add_offer_accept_count_pro() {
-		if ( $this->validate_bump_series() ) {
-
-			if ( ! empty( $this->bump_series[ $this->bump_id ]['offer_accept_count_pro'] ) ) {
-
-				$this->bump_series[ $this->bump_id ]['offer_accept_count_pro'] += 1;
-			} else {
-
-				$this->bump_series[ $this->bump_id ]['offer_accept_count_pro'] = 1;
-			}
-
-			$this->save_bump_series( $this->bump_series );
-		}
-	}
-
 	/**
 	 * Add Offer Remove Count for the current Order Bump.
 	 *

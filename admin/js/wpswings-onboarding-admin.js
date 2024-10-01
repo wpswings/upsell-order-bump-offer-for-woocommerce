@@ -1,7 +1,5 @@
 jQuery(document).ready( function($) {
 
-	jQuery(".deactivating-textarea-field").prop('required',true) 
-
 	/*if device is mobile*/
 	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 	    jQuery('body').addClass( 'mobile-device' );

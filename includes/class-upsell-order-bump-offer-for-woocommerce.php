@@ -28,8 +28,6 @@
  */
 class Upsell_Order_Bump_Offer_For_Woocommerce {
 
-
-
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
@@ -76,6 +74,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+
 	}
 
 	/**
@@ -94,10 +93,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @since    1.0.0
 	 */
 	private function load_dependencies() {
+
 		/**
-		   * The class responsible for orchestrating the actions and filters of the
-		   * core plugin.
-		   */
+		 * The class responsible for orchestrating the actions and filters of the
+		 * core plugin.
+		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-loader.php';
 
 		/**
@@ -131,12 +131,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wpswings-onboarding-helper.php';
 		}
 
+		if ( class_exists( 'Wpswings_Onboarding_Helper' ) ) {
+
+			$this->onboard = new Wpswings_Onboarding_Helper();
+		}
+
 		/**
 		 * The class responsible for Sales by Order Bump - Data handling and Stats.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'reporting/class-wps-upsell-order-bump-report-sales-by-bump.php';
 
 		$this->loader = new Upsell_Order_Bump_Offer_For_Woocommerce_Loader();
+
 	}
 
 	/**
@@ -148,9 +154,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @since    1.0.0
 	 */
 	private function set_locale() {
-		 $plugin_i18n = new Upsell_Order_Bump_Offer_For_Woocommerce_I18n();
+
+		$plugin_i18n = new Upsell_Order_Bump_Offer_For_Woocommerce_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+
 	}
 
 	/**
@@ -160,7 +168,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @since    1.0.0
 	 */
 	private function define_admin_hooks() {
-		 $plugin_admin = new Upsell_Order_Bump_Offer_For_Woocommerce_Admin( $this->get_plugin_name(), $this->get_version() );
+
+		$plugin_admin = new Upsell_Order_Bump_Offer_For_Woocommerce_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		// Add admin arena.
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wps_ubo_lite_admin_menu' );
@@ -191,14 +200,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		// Db migration hook.
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_migrate_db_keys' );
 
-		// Set The Cron For Banner Image.
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_uob_set_cron_for_plugin_notification' );
-
-		$this->loader->add_action( 'wps_wgm_check_for_notification_update', $plugin_admin, 'wps_uob_save_notice_message' );
-
-		$this->loader->add_action( 'wp_ajax_wps_sfw_dismiss_notice_banner', $plugin_admin, 'wps_uob_dismiss_notice_banner_callback' );
-
-		$this->loader->add_action( 'wp_ajax_wps_install_and_redirect_upsell_plugin', $plugin_admin, 'wps_install_and_redirect_upsell_plugin_callback' );
 	}
 
 	/**
@@ -208,6 +209,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @since    1.0.0
 	 */
 	private function define_public_hooks() {
+
 		// Check enability of the plugin at settings page.
 		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
 
@@ -226,52 +228,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 			// Bump Offer location.
 			$bump_offer_location = ! empty( $wps_ubo_global_options['wps_ubo_offer_location'] ) ? $wps_ubo_global_options['wps_ubo_offer_location'] : '_after_payment_gateways';
-			$bump_cart_offer_location = ! empty( $wps_ubo_global_options['wps_enable_cart_upsell_location'] ) ? $wps_ubo_global_options['wps_enable_cart_upsell_location'] : '';
 
-			$plugin_path = 'woocommerce-germanized/woocommerce-germanized.php';
-
-			if ( is_plugin_active( $plugin_path ) ) {
-				$offer_location_details = wps_ubo_lite_retrieve_bump_location_details_for_wc_germanized_compatibility( $bump_offer_location );
-			} else {
-				$offer_location_details = wps_ubo_lite_retrieve_bump_location_details( $bump_offer_location );
-			}
+			$offer_location_details = wps_ubo_lite_retrieve_bump_location_details( $bump_offer_location );
 
 			// Show bump offer.
 			$this->loader->add_action( $offer_location_details['hook'], $plugin_public, 'show_offer_bump', $offer_location_details['priority'] );
 
-			// bump shortcode for all page.
-			$this->loader->add_action( 'init', $plugin_public, 'wps_show_offer_bump_shortcode', 999 );
-
-			// Show bump offer on cart.
-			$this->loader->add_action( $bump_cart_offer_location, $plugin_public, 'show_offer_bump_on_cart' );
-
 			// Ajax to add bump offer.
 			$this->loader->add_action( 'wp_ajax_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
-
-			// Ajax for the recommdation product.
-			$this->loader->add_action( 'wp_ajax_add_recommendated_offer_in_popup', $plugin_public, 'wps_add_recommendated_offer_in_popup' );
-			$this->loader->add_action( 'wp_ajax_nopriv_add_recommendated_offer_in_popup', $plugin_public, 'wps_add_recommendated_offer_in_popup' );
-
-			// Ajax for Ajac Woocommerce Cart.
-			$this->loader->add_action( 'wp_ajax_ql_woocommerce_ajax_add_to_cart', $plugin_public, 'ql_woocommerce_ajax_add_to_cart' );
-			$this->loader->add_action( 'wp_ajax_nopriv_ql_woocommerce_ajax_add_to_cart', $plugin_public, 'ql_woocommerce_ajax_add_to_cart' );
-
-			// Ajax to add bump offer.
-			$this->loader->add_action( 'wp_ajax_wps_add_the_product', $plugin_public, 'wps_add_the_product' );
-			$this->loader->add_action( 'wp_ajax_nopriv_wps_add_the_product', $plugin_public, 'wps_add_the_product' );
-
-			// Ajax to remove bump offer.
-			$this->loader->add_action( 'wp_ajax_wps_remove_offer_product', $plugin_public, 'wps_remove_offer_product' );
-			$this->loader->add_action( 'wp_ajax_nopriv_wps_remove_offer_product', $plugin_public, 'wps_remove_offer_product' );
-
-			// Ajax to add to cart the recommendation.
-			$this->loader->add_action( 'wp_ajax_add_to_cart_recommendation', $plugin_public, 'wps_add_to_cart_recommendation' );
-			$this->loader->add_action( 'wp_ajax_nopriv_add_to_cart_recommendation', $plugin_public, 'wps_add_to_cart_recommendation' );
-
-			// Ajax to varaition bump offer popup.
-			$this->loader->add_action( 'wp_ajax_wps_variation_select_added', $plugin_public, 'wps_variation_select_added' );
-			$this->loader->add_action( 'wp_ajax_nopriv_wps_variation_select_added', $plugin_public, 'wps_variation_select_added' );
 
 			// Ajax to add bump offer.
 			$this->loader->add_action( 'wp_ajax_add_variation_offer_in_cart', $plugin_public, 'add_variation_offer_in_cart' );
@@ -299,27 +264,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 			// Hide Order Bump meta from order items.
 			$this->loader->add_filter( 'woocommerce_order_item_get_formatted_meta_data', $plugin_public, 'hide_order_bump_meta' );
-
-			// Set any page as order success page.
-			$this->loader->add_action( 'template_redirect', $plugin_public, 'wps_redirect_custom_thank_you' );
-			$this->loader->add_action( 'init', $plugin_public, 'wps_triggered_shortcode_page' );
-			$this->loader->add_action( 'woocommerce_new_order', $plugin_public, 'wps_custom_get_current_order_id', 10, 1 );
-
-			/* Discount at cart section.*/
-			$this->loader->add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', $plugin_public, 'wps_woo_cart_discount_section' );   // cart discount.
-
-			// Ajax to add the cart discount product in the cart.
-			$this->loader->add_action( 'wp_ajax_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
-			$this->loader->add_action( 'wp_ajax_nopriv_add_cart_discount_offer_in_cart', $plugin_public, 'wps_add_cart_discount_offer_in_cart' );
-			$this->loader->add_action( 'woocommerce_before_calculate_totals', $plugin_public, 'wps_order_cart_custom_price_refresh' );
-
-			$this->loader->add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_after', $plugin_public, 'wps_show_bump_on_checkout_block_callback' );
-
-			$this->loader->add_action( 'woocommerce_blocks_enqueue_cart_block_scripts_after', $plugin_public, 'wps_show_bump_on_cart_block_callback' );
-
-			// Ajax to add to cart the recommendation.
-			$this->loader->add_action( 'wp_ajax_add_to_cart_fbt_product', $plugin_public, 'wps_add_to_cart_fbt_product_callback' );
-			$this->loader->add_action( 'wp_ajax_nopriv_add_to_cart_fbt_product', $plugin_public, 'wps_add_to_cart_fbt_product_callback' );
 		}
 	}
 
@@ -329,7 +273,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @since    1.0.0
 	 */
 	public function run() {
-		 $this->loader->run();
+		$this->loader->run();
 	}
 
 	/**
@@ -340,7 +284,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_plugin_name() {
-		 return $this->plugin_name;
+		return $this->plugin_name;
 	}
 
 	/**
@@ -360,7 +304,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {
-		 return $this->version;
+		return $this->version;
 	}
 
 	/**
@@ -377,7 +321,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	 * @since    1.0.0
 	 */
 	public static function wps_upsell_bump_list_callback_return() {
-		 $wps_ubo_offer_array_collection = get_option( 'wps_ubo_bump_list', array() );
+
+		$wps_ubo_offer_array_collection = get_option( 'wps_ubo_bump_list', array() );
 
 		if ( wps_ubo_lite_if_pro_exists() && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
@@ -390,6 +335,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			if ( Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic() || 0 <= $day_count ) {
 
 				return $wps_ubo_offer_array_collection;
+
 			} else {
 
 				return array();
@@ -404,4 +350,5 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			return $single_first_bump;
 		}
 	}
+
 } // End of class.

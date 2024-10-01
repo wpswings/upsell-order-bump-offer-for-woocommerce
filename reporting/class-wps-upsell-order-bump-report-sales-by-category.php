@@ -238,7 +238,7 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 	 */
 	public function category_widget() {
 
-		$categories = get_terms( 'product_cat' );
+		$categories = get_terms( 'product_cat', array( 'orderby' => 'name' ) );
 		?>
 	<form method="GET">
 		<div>

@@ -17,6 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'ONBOARD_PLUGIN_NAME', 'Upsell Order Bump Offer for WooCommerce' );
 
+if ( class_exists( 'Wpswings_Onboarding_Helper' ) ) {
+	$this->onboard = new Wpswings_Onboarding_Helper();
+}
+
 $secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
 $id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
@@ -103,7 +107,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 				include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-license.php';
 			}
 		}
-	} else if ( ! $plugin_version ) {
+	} else {
 
 		// Org files.
 		if ( 'creation-setting' === $wps_ubo_lite_active_tab ) {
@@ -122,19 +126,11 @@ do_action( 'wps_ubo_lite_tab_active' );
 </div>
 
 <!-- Connect us on skype. -->
-<div id="wps_ubo_lite_skype_connect_with_us">
-
+<div id="wps_ubo_lite_skype_connect_with_us">   
 	<div class="wps_ubo_lite_skype_connect_title"><?php esc_html_e( 'Connect with Us in one click', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 
-	<a class="button" target="_blank" href="https://wa.me/message/JSDF7KNKMUSKA1"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/icons/whatsapp.gif' ); ?>"><?php esc_html_e( 'Connect', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+	<a class="button" target="_blank" href="https://join.skype.com/invite/xCmwbfxx8MCX"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/logo/skype_logo.png' ); ?>"><?php esc_html_e( 'Connect', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 	<p><?php esc_html_e( 'Regarding any issue, query or feature request for Order Bump Offers.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 	<div class="wps_ubo_lite_skype_setting"><span class="dashicons dashicons-admin-generic"></span></div>
 </div>
-
-<!--Save Changes -->
-<?php if ( 'creation-setting' === $wps_ubo_lite_active_tab ) { ?>
-<div id="wps_ubo_lite_save_changes_bump">
-<input type="submit" value="Save Changes" class="button-primary woocommerce-save-button wps-save-changes-ubo" name="wps_upsell_bump_creation_setting_save" id="wps_upsell_bump_creation_setting_save"><span class="dashicons dashicons-saved"></span>
-</div>
-<?php } ?>
