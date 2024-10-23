@@ -17,9 +17,6 @@ jQuery(document).ready(
 				'click',
 				'.wps-ubo__temp-add-btn',
 				function () {
-
-					console.log($(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-prod-check'));
-
 					$(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-prod-check').attr('checked', true);
 					$(this).closest('.wps-ubo__temp').find('.wps-ubo__temp-btn-notice').children('.wps-notice').html('Product Added!');
 
@@ -361,10 +358,6 @@ jQuery(document).ready(
 				bump_id = selected_order_bump.find('.offer_shown_id').val();
 				bump_discount = selected_order_bump.find('.offer_shown_discount').val();
 
-				console.log(attributes_selected);
-				console.log(bump_id);
-				console.log(bump_discount);
-
 				jQuery.ajax(
 					{
 
@@ -499,7 +492,6 @@ jQuery(document).ready(
 			object.prop('disabled', true);
 
 			order_bump_index = object.attr('offer_bump_index');
-			console.log(order_bump_index);
 			if (typeof order_bump_index === 'undefined') {
 				console.log('order bump not found');
 				return;

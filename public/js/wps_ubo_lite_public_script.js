@@ -23,8 +23,7 @@ jQuery(document).ready(function ($) {
         var wps_is_checkout_block_use = wps_ubo_lite_public.wps_is_checkout_block_use;
 
         if (wps_is_checkout_block_use) {
-        
-            console.log(wps_ubo_lite_public.wps_order_bump_location_on_checkout);
+
             if (jQuery('.wrapup_order_bump').length > 0) {
                 var data = jQuery('.wrapup_order_bump').html();
 

@@ -1055,8 +1055,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function global_custom_js() {
 		global $post;
 		$shortcode_name = 'wps_bump_offer_shortcode';
+		$wps_is_shortcode = false;
 		if ( null !== $post ) {
 			$wps_is_shortcode = has_shortcode( $post->post_content, $shortcode_name );
+		} else {
+			$wps_is_shortcode = false;
 		}
 
 		// Only enqueue on the cart,shortcode and checkout page.

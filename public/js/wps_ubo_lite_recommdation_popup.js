@@ -133,8 +133,6 @@ jQuery( document ).ready(
 					// For variation product.
 					var wps_variation_product_id = jQuery( 'input[name="product_id"]' ).val();
 
-					console.log( wps_variation_product_id + ' ' + wps_target_product_id + ' ' + productId + ' ' + product_price_id );
-
 					jQuery.ajax(
 						{
 							type: 'post',

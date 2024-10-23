@@ -5,7 +5,6 @@
 			
 			jQuery(document).ready(function($) {
 				// Event delegation to handle dynamic elements
-				console.log('hjsj');
 				$(document).on('click', '.wps-ob_temp-alpha', function() {
 					var $checkbox = $(this).find('#wps-ob_temp-alpha-check');
 					if ($checkbox.is(':checked')) {
@@ -38,17 +37,22 @@
 				return documentHeight - (scrollPosition + windowHeight) < 50; // Adjust the value as needed
 			}
 
-			// Function to hide the div
+		// Function to hide the div
 			function hideDiv() {
-				myDiv.style.display = "none";
-				isHidden = true;
+				if (myDiv && myDiv.style) {
+					myDiv.style.display = "none";
+					isHidden = true;
+				}
 			}
 
 			// Function to show the div
 			function showDiv() {
-				myDiv.style.display = "inline-flex";
-				isHidden = false;
+				if (myDiv && myDiv.style) {
+					myDiv.style.display = "inline-flex";
+					isHidden = false;
+				}
 			}
+
 
 			// Listen for the scroll event
 			window.addEventListener(
@@ -552,7 +556,6 @@
 			$( '.wps_ubo_discount_slider' ).on(
 				'change',
 				function () {
-					// console.log('checl');
 					discount_tsize = $( this ).val();
 					DiscountSectionH3.css( 'font-size', discount_tsize + 'px' );
 					$('.wps-ob-st__m-title').css('font-size', discount_tsize + 'px');
@@ -1215,7 +1218,6 @@ jQuery(document).ready(function () {
 	setTimeout(function () {
 		//For the new template 10 js.
 		var wps_ob_con = jQuery('.wps-ob-st');
-		console.log(wps_ob_con.width());
 		if (wps_ob_con.width() < 700) {
 			// wps_ob_con.addClass('ob_cont-full');
 		}
@@ -1227,7 +1229,6 @@ jQuery(document).ready(function () {
 	function openPopupAfterDelay() {
 	    setTimeout(function () {
 			jQuery("#mwb_pop").fadeIn();
-			console.log('checkit');
 	    }, 1000);
 	}
 	openPopupAfterDelay();

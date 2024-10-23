@@ -5783,6 +5783,9 @@ function wps_ubo_lite_bump_offer_html_11( $bump, $encountered_order_bump_id = ''
 		$bump_price_html = $discount_title_percent;
 	}
 
+	$wps_ubo_global_options    = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
+	$wps_ubo_template_adaption = ! empty( $wps_ubo_global_options['wps_ubo_temp_adaption'] ) ? $wps_ubo_global_options['wps_ubo_temp_adaption'] : '';
+
 		/*
 	* Get price html.
 	*/
@@ -6100,7 +6103,7 @@ max-height: 200px;
 	}
 
 	$bumphtml .= '<div class="bump-offer-container">
-        <div class="bump-offer-title">' . esc_attr( $bump_price_html ) . '</div>
+        <div class="bump-offer-title">' . wp_kses_post( $bump_price_html ) . '</div>
         <div class="bump-offer-product">';
 		$bumphtml .= '<img class = "wps_upsell_offer_img" src="' . esc_url( $image ) . '" alt="Product Image">
             <div class="bump-offer-product-details">

@@ -149,7 +149,6 @@ jQuery(document).ready(function ($) {
 					action: 'wps_install_and_redirect_upsell_plugin'
 				},
 				success: function (response) {
-					console.log(response);
 					if (response.success) {
 						window.location.href = response.data.redirect_url;
 					} else {

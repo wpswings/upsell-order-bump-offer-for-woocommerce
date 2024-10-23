@@ -22,7 +22,7 @@
  * WC tested up to:         9.3.3
  *
  * Requires Plugins: woocommerce
- * Version:           2.4.1
+ * Version:           2.4.2
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0

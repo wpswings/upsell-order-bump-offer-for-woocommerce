@@ -58,7 +58,6 @@ jQuery( document ).ready(
 							wps_cart_offer_product_price: wps_cart_offer_product_price
 						},
 						success: function (msg) {
-							console.log( msg );
 							$( document.body ).trigger( 'added_to_cart', {} );
 							$( document.body ).trigger( 'update_checkout' );
 							if (msg.message == 'remove') {
