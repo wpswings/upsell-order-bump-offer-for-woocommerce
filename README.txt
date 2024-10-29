@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.6.2
 WC requires at least: 5.5.0
 WC tested up to: 9.3.3
-Stable tag: 2.4.1
+Stable tag: 2.4.2
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,14 +21,20 @@ The Upsell Order Bump plugin facilitates store owners to make special offers exc
 
 Show your customers an exclusive upsell and cross-sell offer deals at an unbelievable price at the very moment that they are checking out. 
 
-Relevant bump offers can be set for specific targets with [**WooCommerce Order Bump**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-pro) which ensures customer satisfaction and thus results in improved sales.
+Relevant bump offers can be set for specific targets with WooCommerce Order Bump which ensures customer satisfaction and thus results in improved sales.
 
  [**Upsell Order Bump Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=frontend-demo) | [**Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-doc) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=contact-us)
 
 [youtube https://youtu.be/BtMO0nH3EtE?si=1D9zBB_QyLL68_eB&w=560&h=315&rel=0]
 
+=== Why Choose Our Upsell Order Bump Plugin? ===
 
-=== Salient Features Of The Order Bump Upsell Plugin ===
+Unlock exclusive upgrades and choose to boost your sales at checkout with our WooCommerce order bump plugin, the perfect solution for seamless upsells and cross-sells. 
+
+Don’t miss our 🎃 Halloween Sale—grab the [**Order Bump for WooCommerce PRO**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-pro-halloween-24) today at 25% Off! 🎉👻
+
+
+=== ⭐ Key Features Of The Order Bump Upsell Plugin ===
 
 **1) Bump Offers Across The Website**: The admins can now incorporate bump offers across the website as per their requirements, using this [wps_bump_offer_shortcode] shortcode. This increases the accessibility of the bump offers, further increasing the overall user experience. 
 
@@ -83,7 +89,7 @@ Relevant bump offers can be set for specific targets with [**WooCommerce Order B
 * Skip bump offers if the offer product is already added to the cart.
 
 
-=== UPSELL BUMP PLUGIN COMPATIBILITIES === 
+=== 🤝 UPSELL BUMP PLUGIN COMPATIBILITIES === 
 
 * Upsell Order Bump is fully compatible with WooCommerce High-Performance Order Storage (HPOS).
 
@@ -97,8 +103,10 @@ Relevant bump offers can be set for specific targets with [**WooCommerce Order B
 
 * Compatible with [**CheckoutWC**](https://www.checkoutwc.com/) which provides users with optimized checkout templates that will help users improve their conversion rates.
 
+* Compatible with [**Direct Checkout for WooCommerce plugin by QuadLayers**](https://wordpress.org/plugins/woocommerce-direct-checkout/) which simplifies the checkout process by skipping the shopping cart page and provides one-click checkout.
 
-=== What Premium Version Of WooCommerce Order Bump Offers ===
+
+=== 🏆 What Premium Version Of WooCommerce Order Bump Offers ===
 
 **1)** Merchants can now show WooCommerce order bumps and WooCommerce-related products on the cart page as well. They can also position the order bumps as per their requirements. 
 
@@ -120,6 +128,12 @@ Relevant bump offers can be set for specific targets with [**WooCommerce Order B
 	
 > Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-pro)
 
+=== #1 WordPress Funnel Builder Combo ===
+
+Combine the Power of Order Bump Offers and One Click Upsell Funnels for Your Woocommerce Store. Create an Engaging and Persuasive Sales Funnel Strategy to Target Your Best Customers, Engage Them With Frequently Bought Together, Upsell, and Cross-Sell Products, Increase Your Average Order Value, and Boost Sales in One Click.
+
+> Note: Get [**One Click Upsell Funnel for WooCommerce for Free**](https://wordpress.org/plugins/woo-one-click-upsell-funnel/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=upsell-org-funnel-builder)
+
 
 == See What Heel Holland Fotografeert Is Saying About The Upsell Order Bump Plugin ==
 
@@ -130,7 +144,7 @@ Relevant bump offers can be set for specific targets with [**WooCommerce Order B
 “The “Upsell Order Bump Offer for WooCommerce” plugin has truly elevated my business! With its seamless integration and ease of use, I’ve been able to generate additional revenue at the checkout. But what truly sets this plugin apart is the exceptional support. Always fast, always helpful – a real must-have for any WooCommerce store! Highly recommended!” 
 
 
-== SUPPORT ==
+== ❤️ SUPPORT ==
 
 If you need support or have questions, kindly use our online chat window [**here**](http://www.wpswings.com/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=support) or connect with us and then [**Generate a ticket.**](https://wpswings.com/submit-query/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=submit-query)
 
@@ -289,6 +303,11 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 
 == Changelog ==
+
+= 2.4.2 – Released on 29 October 2024 = 
+* New: Compatible with the Latest WP 6.6.2 and WC 9.3.3
+* New: Compatibility with Direct Checkout for WooCommerce plugin by QuadLayers
+* Fixes: Fixed console error on admin side. 
 
 = 2.4.1 – Released on 26 September 2024 = 
 * New: Compatible with the Latest WP 6.6.2 and WC 9.3.3
@@ -469,5 +488,8 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 2.4.1 – Released on 26 September 2024 = 
+= 2.4.2 – Released on 29 October 2024 = 
+
 * New: Compatible with the Latest WP 6.6.2 and WC 9.3.3
+* New: Compatibility with Direct Checkout for WooCommerce plugin by QuadLayers
+* Fixes: Fixed console error on admin side.
