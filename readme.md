@@ -1,9 +1,9 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg)![Active installs](https://img.shields.io/badge/Active-5000%2B-brightgreen)![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.5.4-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-9.0.0-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
+![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-5000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.6.2-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-9.3.3-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
 # Upsell Order Bump Offer for WooCommerce – Increase Sales and AOV, Upsell & Cross-sell Offers  on Checkout Page
 ![Upsell Order Bump Offer for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg?rev=2672066)
 * Contributors: WP Swings
-* Author URI: [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-github-page&utm_campaign=official)
-* Tags: woocommerce upsell, increase sales, upsell, order bump, checkout page
+* Author URI: [**WP Swings**](https://wpswings.com/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=official-page)
+* Tags: ab test, frequently bought together, order bump, upsell, woocommerce
 * License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 # Description
@@ -13,9 +13,9 @@ The Upsell Order Bump plugin facilitates store owners to make special offers exc
 
 [**Video**] - [**How To Create Upsell Order Bumps In Your WooCommerce Store?**](https://www.youtube.com/watch?v=BtMO0nH3EtE)
 
-Relevant offers can be set for specific targets with [**WooCommerce Upsell Bump offer**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-github-page&utm_campaign=order-bump-pro) which ensures customer satisfaction and thus results in improved sales improvements
+Relevant offers can be set for specific targets with [**WooCommerce Upsell Bump offer**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-pro) which ensures customer satisfaction and thus results in improved sales improvements
 
-[**Upsell Order Bump Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-github-page&utm_campaign=frontend-demo) | [**Order Bump Offer Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-github-page&utm_campaign=order-bump-doc) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-order-bump-contactus&utm_medium=order-bump-org-page&utm_campaign=contactus)
+[**Upsell Order Bump Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-frontend-demo) | [**Order Bump Offer Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=contactus)
 
 ## WITH THE WOOCOMMERCE ORDER BUMP PLUGIN YOU CAN:
 
@@ -68,29 +68,30 @@ Relevant offers can be set for specific targets with [**WooCommerce Upsell Bump 
 
 **17) Add Custom Image**: This is one of our recent features. The admin can change the default order bump offer product image from the funnel setting and replace it with a custom image.
 
-Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-org-page&utm_campaign=order-bump-doc) to learn more about the features and work of the plugin.
+Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc) to learn more about the features and work of the plugin.
 
-Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=wpswings-order-bump-kb&utm_medium=order-bump-github-page&utm_campaign=order-bump-kb)
+Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-kb)
 
 ### LIVE DEMO OF UPSELL ORDER BUMP OFFER PLUGIN
 
-* [**Upsell Order Bump Offer for WooCommerce Frontend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-github-page&utm_campaign=frontend-demo)
+* [**Upsell Order Bump Offer for WooCommerce Frontend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-frontend-demo)
 
-* [**Upsell Order Bump Offer for WooCommerce Backend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/request-for-personal-demo/?utm_source=wpswings-order-bump-demo&utm_medium=order-bump-github-page&utm_campaign=backend-demo)
+* [**Upsell Order Bump Offer for WooCommerce Backend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/request-for-personal-demo/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-backend-demo)
 
 
 ### WOOCOMMERCE UPSELL BUMP PLUGIN COMPATIBILITIES
 
 * The Upsell Order Bump Offer plugin is compatible with the [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/) plugin that allows your customers to redeem their gift cards and earn even more discounts. This will allow the merchants to offer more payment options to their customers for the bump offers.
 
-* The Upsell Order Bump Offer plugin is compatible with the [**One Click Upsell Funnel For WooCommerce Free**](https://wordpress.org/plugins/woo-one-click-upsell-funnel/) and [**One Click Upsell Funnel For WooCommerce Pro**](https://wpswings.com/product/one-click-upsell-funnel-for-woocommerce-pro/?utm_source=wpswings-one-click-upsell-pro&utm_medium=one-click-upsell-github-page&utm_campaign=one-click-upsell-pro) which allows customers to create post-purchase upselling offers to increase average order value (AOV) and boost sales.
+* The Upsell Order Bump Offer plugin is compatible with the [**One Click Upsell Funnel For WooCommerce Free**](https://wordpress.org/plugins/woo-one-click-upsell-funnel/) and [**One Click Upsell Funnel For WooCommerce Pro**](https://wpswings.com/product/one-click-upsell-funnel-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=one-click-upsell-pro) which allows customers to create post-purchase upselling offers to increase average order value (AOV) and boost sales.
 
-* The plugin Upsell Order Bump is compatible with the [**Subscriptions For WooCommerce Free**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) and [**Subscriptions For WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=wpswings-subs-pro&utm_medium=subs-github-page&utm_campaign=subs-pro) which allows your customers to create upsell offers on subscription products.
+* The plugin Upsell Order Bump is compatible with the [**Subscriptions For WooCommerce Free**](https://wordpress.org/plugins/subscriptions-for-woocommerce/) and [**Subscriptions For WooCommerce Pro**](https://wpswings.com/product/subscriptions-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=subs-pro) which allows your customers to create upsell offers on subscription products.
 
 * The plugin is compatible with WPML which enables your users to access content in their native language. So whether it is in Arabic or Hebrew language, this plugin will support it. 
 
 * The Upsell Order Bump Plugin is now compatible with [**CheckoutWC**](https://www.checkoutwc.com/), which provides users with optimized checkout templates that will help users improve their conversion rates. The users can now run upsell order bump offers seamlessly without any hiccups!
 
+* Compatible with [**Direct Checkout for WooCommerce plugin by QuadLayers**](https://wordpress.org/plugins/woocommerce-direct-checkout/) which simplifies the checkout process by skipping the shopping cart page and provides one-click checkout.
 
 ### TAKE ADVANTAGE OF THE EXCLUSIVE FEATURES OF THE WOOCOMMERCE ORDER BUMP  PRO PLUGIN
 
@@ -110,29 +111,31 @@ Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://su
 
 **8) Countdown Timer**: One of the easiest strategies to boost conversions and elevate sales is to use a countdown timer on smart offers WooCommerce to help you generate urgency in your store and scarcity in your products.
 
+**9) WPS Frequently Bought Together**: Take your order bump offers to the next level with the “WPS Frequently Bought Together” feature. Showcase a section showing “frequently bought” products and motivate the customers to make a purchase!
+
 > Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-github-page&utm_campaign=order-bump-pro)
 
 ### DOCUMENTATION OF PREMIUM VERSION
 
-* Check out [**Upsell Order Bump Offer for WooCommerce Pro Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-doc&utm_medium=order-bump-github-page&utm_campaign=order-bump-doc)
+* Check out [**Upsell Order Bump Offer for WooCommerce Pro Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc)
 
 ### SEE WHAT MUSIC PARK IS SAYING ABOUT THE UPSELL ORDER BUMP PLUGIN:
 
-I’m happy with the outcomes I’m getting using the Upsell Order Bump Offer for WooCommerce plugin. The moment I started using this plugin, my sales graph has never stopped rising. An extra special thank you to the developers for their help and encouragement. Because of the quality of the extension and the degree of assistance they offer, I highly recommend this plugin to anyone who is considering creating numerous offers in a few clicks. [**See Upsell Order Bump Case Study**](https://wpswings.com/case-studies/music-park/?utm_source=wpswings-orderbump-case-study&utm_medium=orderbump-github-page&utm_campaign=orderbump-case-study)
+I’m happy with the outcomes I’m getting using the Upsell Order Bump Offer for WooCommerce plugin. The moment I started using this plugin, my sales graph has never stopped rising. An extra special thank you to the developers for their help and encouragement. Because of the quality of the extension and the degree of assistance they offer, I highly recommend this plugin to anyone who is considering creating numerous offers in a few clicks. [**See Upsell Order Bump Case Study**](https://wpswings.com/case-studies/music-park/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=orderbump-case-study)
 
 ## SUPPORT
 
-If you need support or have questions, kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-github-page&utm_campaign=official) 
+If you need support or have questions, kindly use our online chat window [**here**](https://wpswings.com/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=official) 
 
-> Get Huge Discounts on WooCommerce Order bump plugin during Christmas Sales 2023 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-order-bump-offers&utm_medium=order-bump-github-page&utm_campaign=offers)
+> Get Huge Discounts on WooCommerce Order bump plugin during Christmas Sales 2023 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=offers)
 
-> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=order-bump-github-page&utm_campaign=forum) or [**Generate a ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-submit-query&utm_medium=order-bump-github-page&utm_campaign=query)
+> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=forum) or [**Generate a ticket**](https://wpswings.com/submit-query/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=query)
 
-> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-order-bump-services&utm_medium=order-bump-github-page&utm_campaign=woocommerce-services)
+> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=woocommerce-services)
 
 ## MORE ABOUT WP SWINGS
 
-* [**Our Official Website**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-github-page&utm_campaign=official)
+* [**Our Official Website**](https://wpswings.com/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=official)
 * [**Follow us on Facebook Page**](https://www.facebook.com/wpswings)
 * [**Tweet us on @WPSwings**](https://twitter.com/wpswings)
 * [**Visit our LinkedIn Account**](https://www.linkedin.com/company/wpswings/)
