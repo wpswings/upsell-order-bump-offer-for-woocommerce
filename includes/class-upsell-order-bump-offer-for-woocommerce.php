@@ -174,6 +174,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_search_product_categories_for_bump', $plugin_admin, 'search_product_categories_for_bump' );
 		$this->loader->add_action( 'wp_ajax_search_products_for_offers', $plugin_admin, 'search_products_for_offers' );
 		$this->loader->add_action( 'wp_ajax_search_coupon_for_offers', $plugin_admin, 'search_coupon_for_offers' );
+		$this->loader->add_action( 'wp_ajax_search_products_for_bump_offer_id', $plugin_admin, 'search_products_for_bump_offer_id' );
 
 		// Rest functionality for order table.
 		$this->loader->add_action( 'manage_shop_order_posts_custom_column', $plugin_admin, 'show_bump_total_content', 20, 2 );

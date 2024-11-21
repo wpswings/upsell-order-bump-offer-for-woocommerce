@@ -137,7 +137,8 @@
 
 			$( '.wps_ubo_colorpicker' ).wpColorPicker();
 
-			$( '#wps_upsell_bump_target_ids' ).select2();
+			$('#wps_upsell_bump_target_ids').select2();
+			$('#wps_upsell_bump_target_ids_search').select2();
 
 			$( '.wps_ubo_template' ).val( 0 );
 

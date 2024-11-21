@@ -34,11 +34,6 @@ jQuery(document).ready(function ($) {
 
 
 
-
-
-
-
-
 	// Target product search.
 	jQuery('.wc-bump-product-search').select2({
   		ajax:{
@@ -69,6 +64,39 @@ jQuery(document).ready(function ($) {
 		},
 		minimumInputLength: 3 // The minimum of symbols to input before perform a search.
 	});
+
+
+		// Target bump search.
+		jQuery('.wc-bump-offer-search').select2({
+			ajax:{
+				  url: wps_ubo_lite_ajaxurl.ajaxurl,
+				  dataType: 'json',
+				  delay: 200,
+				  data: function (params) {
+						return {
+						  q: params.term,
+						  action: 'search_products_for_bump_offer_id'
+						};
+				  },
+				  processResults: function( data ) {
+				  var options = [];
+				  if ( data ) 
+				  {
+					  $.each( data, function( index, text )
+					  {
+						  text[1]+='( #'+text[0]+')';
+						  options.push( { id: text[0], text: text[1]  } );
+					  });
+				  }
+				  return {
+					  results:options
+				  };
+			  },
+			  cache: true
+		  },
+		  minimumInputLength: 3 // The minimum of symbols to input before perform a search.
+		});
+	
 
 	// Offer product search.
 	jQuery('.wc-offer-product-search').select2({

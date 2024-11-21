@@ -158,8 +158,15 @@ if ( 'without_popup' == $wps_bump_target_popup_bump ) {
 </div>
 <?php
 
+// By default plugin will be enabled.
+$wps_bump_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : '';
+
+// Bump offer showing setting.
+$wps_upsell_bump_target_ids_popup = ! empty( $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] ) ? $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] : '';
+
+
 // Bump offer html section with popup function.
-if ( 'with_popup' == $wps_bump_target_popup_bump ) {
+if ( 'with_popup' == 'with_popup' ) {
 
 	// Only Varaible Bump offer to be show normal even in popup function enable.
 	foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
@@ -190,6 +197,7 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 	}
 
 	// Below is bump offer in pop-up except variable.
+	if($wps_upsell_bump_target_ids_popup){
 	?>
 <a class="open-button" id="wps_open_modal" popup-open="popup-1" href="javascript:void(0)">click</a>
 
@@ -197,7 +205,7 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 	<div class="wps-popup-content">
 	<?php
 	// For Each Order Bump Ids array.
-	foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
+	foreach ( $wps_upsell_bump_target_ids_popup as $key => $order_bump_id ) {
 
 		if ( true === is_valid_user_role( $order_bump_id ) ) {
 			continue;
@@ -241,6 +249,7 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 </div>
 </div>
 	<?php
+	}
 }
 ?>
   </div>

@@ -493,6 +493,48 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	}
 
 
+
+	/**
+	 * Select2 search for adding bump offer products.
+	 *
+	 * @since    1.0.0
+	 */
+	public function search_products_for_bump_offer_id() {
+
+		$secure_nonce = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+		
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		}
+		
+		$return = array();
+		
+		// Retrieve the data stored in the options table.
+		$saved_products = get_option( 'wps_ubo_bump_list', array() ); // Replace 'wps_saved_products' with your actual option name.
+		$search_query   = ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '';
+		
+		// Check if the option data exists and is an array.
+		if ( is_array( $saved_products ) && ! empty( $saved_products ) ) {
+			foreach ( $saved_products as $key => $value ) {
+		
+
+				$title = ( mb_strlen($value['wps_upsell_bump_name'] ) > 50 ) ? mb_substr( $value['wps_upsell_bump_name'], 0, 49 ) . '...' : $value['wps_upsell_bump_name'];
+		
+				// Add a search filter if needed.
+				if ( $search_query && stripos( $title, $search_query ) === false ) {
+					continue;
+				}
+		
+				$return[] = array( $key, $title );
+			}
+		}
+		
+		echo wp_json_encode( $return );
+		wp_die();
+	}
+
+
 	/**
 	 * Select2 search for adding bump offer coupon;
 	 *
