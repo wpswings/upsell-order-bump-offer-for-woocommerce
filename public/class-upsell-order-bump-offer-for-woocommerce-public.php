@@ -153,6 +153,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// To Check whther checkout or cart block End Here.
 
 			$current_theme = wp_get_theme();
+			$wps_silde_cart_plgin = false;
+			if ( is_plugin_active( 'side-cart-woocommerce/xoo-wsc-main.php' ) ) {
+
+				$wps_silde_cart_plgin = true;
+			}
+
 
 			// Enable the bump offer with or without pop-up.
 			$wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
@@ -180,6 +186,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'mobile_view' => wp_is_mobile(),
 				'auth_nonce'  => wp_create_nonce( 'wps_ubo_lite_nonce' ),
 				'current_theme' => $current_theme->get( 'Name' ),
+				'wps_silde_cart_plgin_active' => $wps_silde_cart_plgin,
 				'is_checkout_page' => $wps_is_checkout_page,
 				'wps_popup_body_class' => $wps_popup_body_class,
 				'wps_popup_exit_intent' => $wps_bump_popup_exit_intent,

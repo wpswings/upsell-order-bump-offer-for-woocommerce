@@ -304,7 +304,7 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 				<!--Enable the Pop Up for bump Offer end. -->
 
 				<!-- Select bump id to apply popup start here -->
-				<tr valign="top">
+				<tr valign="top" class="wps_target_bump_for_popup">
 
 					<th scope="row" class="titledesc">
 						<label for="wps_upsell_bump_target_ids_search"><?php esc_html_e( 'Select target bumps(s)', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>

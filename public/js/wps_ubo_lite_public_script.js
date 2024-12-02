@@ -1,7 +1,14 @@
 jQuery(document).ready(function ($) {
 
+    $(document).ready(function () {
+        var wps_current_theme = wps_ubo_lite_public.current_theme;
+        if ('Twenty Twenty-Five' == wps_current_theme || 'Twenty Twenty-Three' == wps_current_theme || 'Twenty Twenty-Four' == wps_current_theme) {
+            $("body > div.wrapup_order_bump").first().hide();
+        }
+    });
+
     if (document.querySelector('.woocommerce-order-received')) {
-        // You are on the cart page
+        // You are on the cart page.
         $('.wrapup_order_bump').hide();
     }
 
@@ -50,6 +57,7 @@ jQuery(document).ready(function ($) {
         if ('on' == wps_ubo_lite_public.wps_enable_cart_upsell && wps_is_cart_block_use && (document.querySelector('.woocommerce-cart'))) {
             if (jQuery('.wrapup_order_bump').length > 0) {
 
+                
                 var data = jQuery('.wrapup_order_bump').html();
 
                 if ('woocommerce_after_cart_totals' == wps_ubo_lite_public.wps_order_bump_location_on_cart) {
@@ -235,6 +243,12 @@ jQuery(document).ready(function ($) {
                 $('.wps_ubo_wrapper_' + order_bump_index).css('opacity', '1');
                 var body = document.body;
                 body.classList.remove("wps_body_class_popup");
+
+                if (('Avada' == wps_current_theme || 'Divi' == wps_current_theme || 'Flatsome' == wps_current_theme) && (wps_ubo_lite_public.wps_silde_cart_plgin_active)) {
+                    $("html, body").scrollTop(300);
+                    location.reload(); //avada and side cart issue fixes.
+                }
+
             }
         });
     }
@@ -422,7 +436,6 @@ jQuery(document).ready(function ($) {
             bump_discount = object.closest('.wps_upsell_offer_main_wrapper').find('.offer_shown_discount').val();
             bump_target_cart_key = object.closest('.wps_upsell_offer_main_wrapper').find('.target_id_cart_key').val();
             smart_offer_upgrade = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_smo').val();
-
             
             // Add product to cart.
             jQuery.ajax({
@@ -488,6 +501,12 @@ jQuery(document).ready(function ($) {
 
                         var body = document.body;
                         body.classList.remove("wps_body_class_popup");
+
+                        if (('Avada' == wps_current_theme || 'Divi' == wps_current_theme || 'Flatsome' == wps_current_theme) && (wps_ubo_lite_public.wps_silde_cart_plgin_active)) {
+                            $("html, body").scrollTop(300);
+                            location.reload(); //avada and side cart issue fixes.
+                        }
+
                     }
                 }
             });

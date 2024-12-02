@@ -119,14 +119,29 @@ foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
 }
 ksort( $bump_priority_collection );
 
+// Bump offer showing setting.
+$wps_upsell_bump_target_ids_popup = ! empty( $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] ) ? $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] : '';
+
 // Merge the array.
 $encountered_bump_ids_array = array_merge( $bump_priority_collection, $encountered_bump_ids_array );
 
 $encountered_bump_ids_array = array_unique( $encountered_bump_ids_array );
+
+// Find elements unique to each array
+$wp_unique_to_array_1 = array_diff($encountered_bump_ids_array, $wps_upsell_bump_target_ids_popup);
+$wps_unique_to_array_2 = array_diff($wps_upsell_bump_target_ids_popup, $encountered_bump_ids_array);
+
+// Merge the unique elements
+$wps_no_common_elements = array_merge($wp_unique_to_array_1, $wps_unique_to_array_2);
+
 ?>
 <div class="wps_order_bump_without_popup_wrap" >
 <?php
-if ( 'without_popup' == $wps_bump_target_popup_bump ) {
+if ( 'without_popup' == $wps_bump_target_popup_bump || (isset($wps_upsell_bump_target_ids_popup) && 'with_popup' == $wps_bump_target_popup_bump)) {
+
+	if((isset($wps_upsell_bump_target_ids_popup) && 'with_popup' == $wps_bump_target_popup_bump)){
+		$encountered_bump_ids_array = $wps_no_common_elements;
+	} 
 
 	// Bump offer html section without popup function.
 	foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
@@ -161,12 +176,8 @@ if ( 'without_popup' == $wps_bump_target_popup_bump ) {
 // By default plugin will be enabled.
 $wps_bump_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : '';
 
-// Bump offer showing setting.
-$wps_upsell_bump_target_ids_popup = ! empty( $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] ) ? $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] : '';
-
-
 // Bump offer html section with popup function.
-if ( 'with_popup' == 'with_popup' ) {
+if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 
 	// Only Varaible Bump offer to be show normal even in popup function enable.
 	foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
@@ -197,6 +208,7 @@ if ( 'with_popup' == 'with_popup' ) {
 	}
 
 	// Below is bump offer in pop-up except variable.
+	// var_dump($wps_upsell_bump_target_ids_popup);
 	if($wps_upsell_bump_target_ids_popup){
 	?>
 <a class="open-button" id="wps_open_modal" popup-open="popup-1" href="javascript:void(0)">click</a>

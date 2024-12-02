@@ -2,6 +2,30 @@
 	'use strict';
 	$( document ).ready(
 		function () {
+
+
+			$(document).ready(function() {
+				// Function to check and update the visibility of the setting
+				function togglePopUpSetting() {
+					if ($('#wps_Offer_With_Pop_Up_id_pro_1').is(':checked')) {
+						$('.wps_target_bump_for_popup').show(800);  // Show the setting if "Offer With Pop-Up" is selected
+					} else {
+						$('.wps_target_bump_for_popup').hide(800);  // Hide the setting if "Offer Without Pop-Up" is selected
+					}
+				}
+			
+				// Run the function initially based on the current radio button selection
+				togglePopUpSetting();
+			
+				// Listen for changes to the radio buttons.
+				$('input[name="wps_bump_popup_bump_offer"]').on('change', function() {
+					togglePopUpSetting();  // Update visibility when a new radio button is selected.
+				});
+			});
+			
+
+
+
 			
 			jQuery(document).ready(function($) {
 				// Event delegation to handle dynamic elements
