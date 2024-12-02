@@ -128,6 +128,10 @@ $encountered_bump_ids_array = array_merge( $bump_priority_collection, $encounter
 $encountered_bump_ids_array = array_unique( $encountered_bump_ids_array );
 
 // Find elements unique to each array
+$encountered_bump_ids_array = is_array($encountered_bump_ids_array) ? $encountered_bump_ids_array : [];
+$wps_upsell_bump_target_ids_popup = is_array($wps_upsell_bump_target_ids_popup) ? $wps_upsell_bump_target_ids_popup : [];
+
+// Use array_diff
 $wp_unique_to_array_1 = array_diff($encountered_bump_ids_array, $wps_upsell_bump_target_ids_popup);
 $wps_unique_to_array_2 = array_diff($wps_upsell_bump_target_ids_popup, $encountered_bump_ids_array);
 
