@@ -2,7 +2,7 @@ jQuery(document).ready(function ($) {
 
     $(document).ready(function () {
         var wps_current_theme = wps_ubo_lite_public.current_theme;
-        if ('Twenty Twenty-Five' == wps_current_theme || 'Twenty Twenty-Three' == wps_current_theme || 'Twenty Twenty-Four' == wps_current_theme) {
+        if ('Twenty Twenty-Five' == wps_current_theme || 'Twenty Twenty-Three' == wps_current_theme || 'Twenty Twenty-Four' == wps_current_theme || 'Betheme' == wps_current_theme) {
             $("body > div.wrapup_order_bump").first().hide();
         }
     });
@@ -244,7 +244,7 @@ jQuery(document).ready(function ($) {
                 var body = document.body;
                 body.classList.remove("wps_body_class_popup");
 
-                if (('Avada' == wps_current_theme || 'Divi' == wps_current_theme || 'Flatsome' == wps_current_theme) && (wps_ubo_lite_public.wps_silde_cart_plgin_active)) {
+                if (('Avada' == wps_current_theme || 'Divi' == wps_current_theme || 'Flatsome' == wps_current_theme) && (wps_ubo_lite_public.wps_silde_cart_plgin_active || 'Betheme' == wps_current_theme)) {
                     $("html, body").scrollTop(300);
                     location.reload(); //avada and side cart issue fixes.
                 }
@@ -502,7 +502,7 @@ jQuery(document).ready(function ($) {
                         var body = document.body;
                         body.classList.remove("wps_body_class_popup");
 
-                        if (('Avada' == wps_current_theme || 'Divi' == wps_current_theme || 'Flatsome' == wps_current_theme) && (wps_ubo_lite_public.wps_silde_cart_plgin_active)) {
+                        if (('Avada' == wps_current_theme || 'Divi' == wps_current_theme || 'Flatsome' == wps_current_theme) && (wps_ubo_lite_public.wps_silde_cart_plgin_active || 'Betheme' == wps_current_theme)) {
                             $("html, body").scrollTop(300);
                             location.reload(); //avada and side cart issue fixes.
                         }

@@ -120,35 +120,41 @@ foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
 ksort( $bump_priority_collection );
 
 // Bump offer showing setting.
-$wps_upsell_bump_target_ids_popup = ! empty( $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] ) ? $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] : '';
+$wps_upsell_bump_target_ids_popup = ! empty( $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] ) ? $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] : array();
 
 // Merge the array.
 $encountered_bump_ids_array = array_merge( $bump_priority_collection, $encountered_bump_ids_array );
 
 $encountered_bump_ids_array = array_unique( $encountered_bump_ids_array );
+// Initialize arrays for separation.
+$data_for_popup = [];
+$data_without_popup = [];
 
-// Find elements unique to each array
-$encountered_bump_ids_array = is_array($encountered_bump_ids_array) ? $encountered_bump_ids_array : [];
-$wps_upsell_bump_target_ids_popup = is_array($wps_upsell_bump_target_ids_popup) ? $wps_upsell_bump_target_ids_popup : [];
+foreach ( $encountered_bump_ids_array as $id) {
+    if (in_array($id, $wps_upsell_bump_target_ids_popup)) {
+        $data_for_popup[] = $id;
+    } else {
+        $data_without_popup[] = $id;
+    }
+}
 
-// Use array_diff
-$wp_unique_to_array_1 = array_diff($encountered_bump_ids_array, $wps_upsell_bump_target_ids_popup);
-$wps_unique_to_array_2 = array_diff($wps_upsell_bump_target_ids_popup, $encountered_bump_ids_array);
+
 
 // Merge the unique elements
-$wps_no_common_elements = array_merge($wp_unique_to_array_1, $wps_unique_to_array_2);
-
+$t = '';
 ?>
 <div class="wps_order_bump_without_popup_wrap" >
 <?php
 if ( 'without_popup' == $wps_bump_target_popup_bump || (isset($wps_upsell_bump_target_ids_popup) && 'with_popup' == $wps_bump_target_popup_bump)) {
 
 	if((isset($wps_upsell_bump_target_ids_popup) && 'with_popup' == $wps_bump_target_popup_bump)){
-		$encountered_bump_ids_array = $wps_no_common_elements;
-	} 
+		$t = $data_without_popup;
+	}  else {
+		$t =  $encountered_bump_ids_array;
+	}
 
 	// Bump offer html section without popup function.
-	foreach ( $encountered_bump_ids_array as $key => $order_bump_id ) {
+	foreach ( $t as $key => $order_bump_id ) {
 
 		if ( true === is_valid_user_role( $order_bump_id ) ) {
 			continue;
@@ -212,8 +218,7 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 	}
 
 	// Below is bump offer in pop-up except variable.
-	// var_dump($wps_upsell_bump_target_ids_popup);
-	if($wps_upsell_bump_target_ids_popup){
+	if($data_for_popup){
 	?>
 <a class="open-button" id="wps_open_modal" popup-open="popup-1" href="javascript:void(0)">click</a>
 
@@ -221,7 +226,7 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 	<div class="wps-popup-content">
 	<?php
 	// For Each Order Bump Ids array.
-	foreach ( $wps_upsell_bump_target_ids_popup as $key => $order_bump_id ) {
+	foreach ( $data_for_popup as $key => $order_bump_id ) {
 
 		if ( true === is_valid_user_role( $order_bump_id ) ) {
 			continue;
