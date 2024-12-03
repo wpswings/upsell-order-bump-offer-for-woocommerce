@@ -2820,22 +2820,23 @@ function wps_ubo_lite_get_title( $product_id = '' ) {
 /**
  *  Returns bump name and id.
  *
- * @param   string $bump_idd        Bump id.
+ * @param   string $bump_id      Bump id.
  * @since   1.2.0
  */
 function wps_ubo_lite_get_bump_title( $bump_id = '' ) {
 
-	if ( ! empty($bump_id ) ) {
+	if ( ! empty( $bump_id ) ) {
 
-		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list' );;
+		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list' );
+		;
 
 		if ( ! empty( $wps_upsell_bumps_list ) ) {
 
-			if ( 'yes' != $wps_upsell_bumps_list[$bump_id]['wps_upsell_bump_status'] ) {
+			if ( 'yes' != $wps_upsell_bumps_list[ $bump_id ]['wps_upsell_bump_status'] ) {
 
 				$result = esc_html__( 'Bump Unavailable / Bump Not Live', 'upsell-order-bump-offer-for-woocommerce' );
 			} else {
-				$result = $wps_upsell_bumps_list[$bump_id]['wps_upsell_bump_name'];
+				$result = $wps_upsell_bumps_list[ $bump_id ]['wps_upsell_bump_name'];
 			}
 		}
 
@@ -2987,13 +2988,12 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
 
 	$allowed_html = wps_ubo_lite_allowed_html();
 
-	
 	if ( '11' != $wps_bump_upsell_selected_template ) {
 		echo wp_kses( $bumphtml, $allowed_html );
 	} else {
 		// Suppress PHPCS warning about escaping output.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason for ignoring the escaping rule.
-		echo $bumphtml; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
+		echo wp_kses( $bumphtml, $allowed_html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
 	}
 
 	$offer_product = wc_get_product( $bump['id'] );
