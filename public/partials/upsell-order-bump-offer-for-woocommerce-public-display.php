@@ -138,8 +138,6 @@ foreach ( $encountered_bump_ids_array as $wps ) {
 	}
 }
 
-
-
 // Merge the unique elements.
 $t = '';
 ?>
