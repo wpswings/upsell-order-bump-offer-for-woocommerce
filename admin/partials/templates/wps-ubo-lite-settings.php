@@ -76,7 +76,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 
 	$wps_bump_upsell_global_options['wps_ubo_offer_ab_method'] = ! empty( $_POST['wps_ubo_offer_ab_method'] ) ? 'on' : 'off';
 
-	$wps_bump_upsell_global_options['wps_upsell_bump_target_ids_popup'] = ! empty( $_POST['wps_upsell_bump_target_ids_popup'] ) ? $_POST['wps_upsell_bump_target_ids_popup'] : '';
+	$wps_bump_upsell_global_options['wps_upsell_bump_target_ids_popup'] = ! empty( $_POST['wps_upsell_bump_target_ids_popup'] ) ? map_deep( wp_unslash( $_POST['wps_upsell_bump_target_ids_popup'] ), 'sanitize_text_field' ) : array();
 
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'wps_ubo_global_options', $wps_bump_upsell_global_options );
@@ -321,7 +321,7 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 							<?php
 							if ( ! empty( $wps_upsell_bump_target_ids_popup ) ) {
 
-								if ($wps_upsell_bump_target_ids_popup ) {
+								if ( $wps_upsell_bump_target_ids_popup ) {
 
 									foreach ( $wps_upsell_bump_target_ids_popup as $wps_upsell_bump_single_target_products_ids ) {
 

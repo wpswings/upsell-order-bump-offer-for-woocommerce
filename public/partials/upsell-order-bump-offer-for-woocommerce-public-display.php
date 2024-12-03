@@ -127,30 +127,30 @@ $encountered_bump_ids_array = array_merge( $bump_priority_collection, $encounter
 
 $encountered_bump_ids_array = array_unique( $encountered_bump_ids_array );
 // Initialize arrays for separation.
-$data_for_popup = [];
-$data_without_popup = [];
+$data_for_popup = array();
+$data_without_popup = array();
 
-foreach ( $encountered_bump_ids_array as $id) {
-    if (in_array($id, $wps_upsell_bump_target_ids_popup)) {
-        $data_for_popup[] = $id;
-    } else {
-        $data_without_popup[] = $id;
-    }
+foreach ( $encountered_bump_ids_array as $wps ) {
+	if ( in_array( $wps, $wps_upsell_bump_target_ids_popup ) ) {
+		$data_for_popup[] = $wps;
+	} else {
+		$data_without_popup[] = $wps;
+	}
 }
 
 
 
-// Merge the unique elements
+// Merge the unique elements.
 $t = '';
 ?>
 <div class="wps_order_bump_without_popup_wrap" >
 <?php
-if ( 'without_popup' == $wps_bump_target_popup_bump || (isset($wps_upsell_bump_target_ids_popup) && 'with_popup' == $wps_bump_target_popup_bump)) {
+if ( 'without_popup' == $wps_bump_target_popup_bump || ( isset( $wps_upsell_bump_target_ids_popup ) && 'with_popup' == $wps_bump_target_popup_bump ) ) {
 
-	if((isset($wps_upsell_bump_target_ids_popup) && 'with_popup' == $wps_bump_target_popup_bump)){
+	if ( ( isset( $wps_upsell_bump_target_ids_popup ) && 'with_popup' == $wps_bump_target_popup_bump ) ) {
 		$t = $data_without_popup;
-	}  else {
-		$t =  $encountered_bump_ids_array;
+	} else {
+		$t = $encountered_bump_ids_array;
 	}
 
 	// Bump offer html section without popup function.
@@ -218,58 +218,58 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 	}
 
 	// Below is bump offer in pop-up except variable.
-	if($data_for_popup){
-	?>
+	if ( $data_for_popup ) {
+		?>
 <a class="open-button" id="wps_open_modal" popup-open="popup-1" href="javascript:void(0)">click</a>
 
 <div class="popup wps_uobo_product_popup" id="wps_slider" popup-name="popup-1">
 	<div class="wps-popup-content">
-	<?php
-	// For Each Order Bump Ids array.
-	foreach ( $data_for_popup as $key => $order_bump_id ) {
+		<?php
+		// For Each Order Bump Ids array.
+		foreach ( $data_for_popup as $key => $order_bump_id ) {
 
-		if ( true === is_valid_user_role( $order_bump_id ) ) {
-			continue;
-		}
-
-		$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
-		if ( ! empty( $min_cart_value_wps ) ) {
-			$cart_total = WC()->cart->get_cart_contents_total();
-			if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+			if ( true === is_valid_user_role( $order_bump_id ) ) {
 				continue;
 			}
-		}
 
-		$encountered_order_bump_id = $order_bump_id;
+			$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
+			if ( ! empty( $min_cart_value_wps ) ) {
+				$cart_total = WC()->cart->get_cart_contents_total();
+				if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+					continue;
+				}
+			}
 
-		if ( ! empty( $encountered_bump_tarket_key_array ) ) {
-			$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
-		}
+			$encountered_order_bump_id = $order_bump_id;
 
-		$wps_offer_id = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
-		$offer_product = wc_get_product( $wps_offer_id );
+			if ( ! empty( $encountered_bump_tarket_key_array ) ) {
+				$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
+			}
 
-		if ( ! $offer_product->is_type( 'variable' ) ) {
-			/**
-			 * Passing bump id as key ( 2nd param ) also, so that the index is set according to bump id.
-			 * So that right session index is set and right order bumps remain checked.
-			 */
-			?>
+			$wps_offer_id = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
+			$offer_product = wc_get_product( $wps_offer_id );
+
+			if ( ! $offer_product->is_type( 'variable' ) ) {
+				/**
+				 * Passing bump id as key ( 2nd param ) also, so that the index is set according to bump id.
+				 * So that right session index is set and right order bumps remain checked.
+				 */
+				?>
 		<div class ="wps_bump_offer_modal_wrapper">
-			<?php
-			wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
-			?>
+				<?php
+				wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
+				?>
 	</div>
-			<?php
+				<?php
+			}
 		}
-	}
-	?>
+		?>
 </div>
 <div class="wps_close_modal">
 <a class="close-button" popup-close="popup-1" href="javascript:void(0)"></a>
 </div>
 </div>
-	<?php
+		<?php
 	}
 }
 ?>
