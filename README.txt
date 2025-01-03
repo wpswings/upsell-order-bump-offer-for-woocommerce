@@ -5,7 +5,7 @@ Tags: upsell, woocommerce, ab test, order bump, frequently bought together,
 Requires at least: 5.5.0
 Tested up to: 6.7.1
 WC requires at least: 5.5.0
-WC tested up to: 9.4.3
+WC tested up to: 9.5.1
 Stable tag: 2.4.3
 Requires PHP: 7.0.0
 License: GPLv3 or later 
@@ -332,10 +332,10 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Changelog ==
 
-= 2.4.3 - Released on 1 January 2025 = 
+= 2.4.3 - Released on 3 January 2025 = 
 * New: Compatibility with the side cart plugin. 
 * Fixes: Template layout fixes related to JS. 
-* New: Compatibility with the latest WP (6.7.1) and WC (9.4.3)
+* New: Compatibility with the latest WP (6.7.1) and WC (9.5.1)
 
 = 2.4.2 – Released on 29 October 2024 = 
 * New: Compatible with the Latest WP 6.6.2 and WC 9.3.3
@@ -521,8 +521,8 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 2.4.3 - Released on 1 January 2025 = 
+= 2.4.3 - Released on 3 January 2025 = 
 
 * New: Compatibility with the side cart plugin. 
 * Fixes: Template layout fixes related to JS. 
-* New: Compatibility with the latest WP (6.7.1) and WC (9.4.3)
+* New: Compatibility with the latest WP (6.7.1) and WC (9.5.1)
