@@ -114,7 +114,7 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 
 			$legend[] = array(
 				/* translators: 1: total items sold 2: category name */
-				'title'            => sprintf( __( '%1$s sales in %2$s', 'woocommerce' ), '<strong>' . wc_price( $total ) . '</strong>', $category->name ),
+				'title'            => sprintf( __( '%1$s sales in %2$s', 'upsell-order-bump-offer-for-woocommerce' ), '<strong>' . wc_price( $total ) . '</strong>', $category->name ),
 				'color'            => isset( $this->chart_colours[ $index ] ) ? $this->chart_colours[ $index ] : $this->chart_colours[0],
 				'highlight_series' => $index,
 			);
@@ -131,10 +131,10 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 	public function output_report() {
 
 		$ranges = array(
-			'year'       => __( 'Year', 'woocommerce' ),
-			'last_month' => __( 'Last month', 'woocommerce' ),
-			'month'      => __( 'This month', 'woocommerce' ),
-			'7day'       => __( 'Last 7 days', 'woocommerce' ),
+			'year'       => __( 'Year', 'upsell-order-bump-offer-for-woocommerce' ),
+			'last_month' => __( 'Last month', 'upsell-order-bump-offer-for-woocommerce' ),
+			'month'      => __( 'This month', 'upsell-order-bump-offer-for-woocommerce' ),
+			'7day'       => __( 'Last 7 days', 'upsell-order-bump-offer-for-woocommerce' ),
 		);
 
 		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
@@ -227,7 +227,7 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 
 		return array(
 			array(
-				'title'    => __( 'Categories', 'woocommerce' ),
+				'title'    => __( 'Categories', 'upsell-order-bump-offer-for-woocommerce' ),
 				'callback' => array( $this, 'category_widget' ),
 			),
 		);
@@ -242,7 +242,7 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 		?>
 	<form method="GET">
 		<div>
-		<select multiple="multiple" data-placeholder="<?php esc_attr_e( 'Select categories&hellip;', 'woocommerce' ); ?>" class="wc-enhanced-select" id="show_categories" name="show_categories[]" style="width: 205px;">
+		<select multiple="multiple" data-placeholder="<?php esc_attr_e( 'Select categories&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>" class="wc-enhanced-select" id="show_categories" name="show_categories[]" style="width: 205px;">
 		<?php
 			$r                 = array();
 			$r['pad_counts']   = 1;
@@ -266,9 +266,9 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 			?>
 		</select>
 		  <?php // @codingStandardsIgnoreStart ?>
-			<a href="#" class="select_none"><?php esc_html_e( 'None', 'woocommerce' ); ?></a>
-			<a href="#" class="select_all"><?php esc_html_e( 'All', 'woocommerce' ); ?></a>
-			<button type="submit" class="submit button" value="<?php esc_attr_e( 'Show', 'woocommerce' ); ?>"><?php esc_html_e( 'Show', 'woocommerce' ); ?></button>
+			<a href="#" class="select_none"><?php esc_html_e( 'None', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+			<a href="#" class="select_all"><?php esc_html_e( 'All', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+			<button type="submit" class="submit button" value="<?php esc_attr_e( 'Show', 'upsell-order-bump-offer-for-woocommerce' ); ?>"><?php esc_html_e( 'Show', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
 			<input type="hidden" name="range" value="<?php echo ( ! empty( $_GET['range'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['range'] ) ) ) : ''; ?>" />
 			<input type="hidden" name="start_date" value="<?php echo ( ! empty( $_GET['start_date'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['start_date'] ) ) ) : ''; ?>" />
 			<input type="hidden" name="end_date" value="<?php echo ( ! empty( $_GET['end_date'] ) ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['end_date'] ) ) ) : ''; ?>" />
@@ -316,10 +316,10 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 	download="report-<?php echo esc_attr( $current_range ); ?>-<?php echo esc_attr( date_i18n( 'Y-m-d', time() ) ); ?>.csv"
 	class="export_csv"
 	data-export="chart"
-	data-xaxes="<?php esc_attr_e( 'Date', 'woocommerce' ); ?>"
+	data-xaxes="<?php esc_attr_e( 'Date', 'upsell-order-bump-offer-for-woocommerce' ); ?>"
 	data-groupby="<?php echo esc_attr( $this->chart_groupby ); ?>"
 	>
-		<?php esc_html_e( 'Export CSV', 'woocommerce' ); ?>
+		<?php esc_html_e( 'Export CSV', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 	</a>
 		<?php
 	}
@@ -333,7 +333,7 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 		if ( empty( $this->show_categories ) ) {
 			?>
 		<div class="chart-container">
-		<p class="chart-prompt"><?php esc_html_e( 'Choose a category to view stats', 'woocommerce' ); ?></p>
+		<p class="chart-prompt"><?php esc_html_e( 'Choose a category to view stats', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 		</div>
 			<?php
 		} else {

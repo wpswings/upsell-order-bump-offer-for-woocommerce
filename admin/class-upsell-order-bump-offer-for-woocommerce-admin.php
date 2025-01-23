@@ -877,7 +877,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			<div class="wps_wocuf_saved_custom_image">
 				<a href="#" class="wps_ubo_upload_image_button"><img src="<?php echo esc_url( $image_attributes[0] ); ?>" style="max-width:150px;display:block;"></a>
 				<input type="hidden" name="wps_upsell_offer_image" id="wps_upsell_offer_image" value="<?php echo esc_attr( $image_post_id ); ?>">
-				<a href="#" class="wps_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:inline-block;"><?php esc_html_e( 'Remove Image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
+				<a href="#" class="wps_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:inline-block;"><?php esc_html_e( 'Remove Image', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 			</div>
 			<?php
 
@@ -885,9 +885,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			// Image not present!
 			?>
 			<div class="wps_wocuf_saved_custom_image">
-				<a href="#" class="wps_ubo_upload_image_button button"><?php esc_html_e( 'Upload image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
+				<a href="#" class="wps_ubo_upload_image_button button"><?php esc_html_e( 'Upload image', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 				<input type="hidden" name="wps_upsell_offer_image" id="wps_upsell_offer_image" value="<?php echo esc_attr( $image_post_id ); ?>">
-				<a href="#" class="wps_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:none;"><?php esc_html_e( 'Remove Image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
+				<a href="#" class="wps_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:none;"><?php esc_html_e( 'Remove Image', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 			</div>
 			<?php
 		}
