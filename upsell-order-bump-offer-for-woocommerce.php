@@ -19,7 +19,7 @@
  * Requires at least:       5.5.0
  * Tested up to:            6.7.2
  * WC requires at least:    6.1.0
- * WC tested up to:         9.5.2
+ * WC tested up to:         9.6.0
  *
  * Requires Plugins: woocommerce
  * Version:           2.4.4
@@ -101,7 +101,7 @@ if ( $activated ) {
 	/**
 	 * Currently plugin version.
 	 */
-	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.4.3' );
+	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.4.4' );
 
 	$old_pro_present   = false;
 	$installed_plugins = get_plugins();
