@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.4.3\n"
-"POT-Creation-Date: 2025-01-03 16:20+0530\n"
-"PO-Revision-Date: 2025-01-03 16:20+0530\n"
+"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 2.4.4\n"
+"POT-Creation-Date: 2025-01-24 18:05+0530\n"
+"PO-Revision-Date: 2025-01-24 18:05+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
 "Language: en_US\n"
@@ -197,7 +197,7 @@ msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:311
 msgid ""
-"Bump Offer will be displayed : Sandbox Mode -> For Admin only. Live Mode -> "
+"Bump Offer will be displayed : OFF Mode -> For Bump Off. Live Mode -> Live "
 "For All."
 msgstr ""
 
@@ -207,8 +207,7 @@ msgid "Live"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:319
-#: admin/partials/templates/wps-ubo-lite-list.php:112
-msgid "Sandbox"
+msgid "OFF"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-creation.php:327
@@ -913,6 +912,10 @@ msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-list.php:98
 msgid "No Priority"
+msgstr ""
+
+#: admin/partials/templates/wps-ubo-lite-list.php:112
+msgid "Sandbox"
 msgstr ""
 
 #: admin/partials/templates/wps-ubo-lite-list.php:140
