@@ -3300,3 +3300,25 @@
   .wps_checkbox_template_12{
     display: none !important;
 }
+
+
+
+.nav-sub-tabs {
+    margin-left: 20px;
+}
+
+.nav-sub-tabs .sub-tab {
+    margin-right: 10px;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #f9f9f9;
+    color: #333;
+}
+
+.nav-sub-tabs .sub-tab.nav-tab-active {
+    background: #007cba;
+    color: #fff;
+    border-color: #007cba;
+}
