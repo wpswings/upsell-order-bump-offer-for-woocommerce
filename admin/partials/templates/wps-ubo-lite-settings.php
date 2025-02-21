@@ -897,7 +897,7 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 						?>
 
 						<input type="text" min="1" id="wps_bump_order_bump_limit" name="wps_custom_order_success_page" value="<?php echo esc_html( $wps_custom_order_success_page ); ?>">
-						<a href="<?php esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" style="text-decoration: none;"><i><?php esc_html_e( 'From here ,create custom order success page', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></a>
+						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" style="text-decoration: none;"><i><?php esc_html_e( 'From here ,create custom order success page', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></a>
 					</td>
 				</tr>
 				<!-- Set Order Success Page End. -->

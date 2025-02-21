@@ -24,7 +24,7 @@ if ( ! $id_nonce_verified ) {
 	wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
 }
 
-$wps_ubo_lite_active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'bump-list';
+$wps_ubo_lite_active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : '';
 
 if ( 'overview' === get_transient( 'wps_ubo_lite_default_settings_tab' ) ) {
 
@@ -159,7 +159,9 @@ do_action( 'wps_ubo_lite_tab_active' );
 		}
 	} else if ( ! $plugin_version ) {
 
-		$global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : 'pre-list-offer-section';
+		$global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : '';
+		// var_dump($global_setting_sub_tab);
+		// var_dump($wps_ubo_lite_active_tab);
 		// Org files.
 		if ( 'creation-setting' === $wps_ubo_lite_active_tab ) {
 			include_once 'templates/wps-ubo-lite-creation.php';
@@ -235,4 +237,14 @@ if ( 'one-click-section' === $wps_ubo_lite_active_tab ) {
 // General setting rendering.
 if ( 'general-setting' === $wps_ubo_lite_active_tab ) {
 		include_once 'templates/wps-general-setting-offer-section.php';
+}
+
+// Store Checkout setting rendering.
+if ( 'store-checkout-section' === $wps_ubo_lite_active_tab ) {
+	include_once 'templates/wps-store-checkout-section.php';
+}
+
+// shortcode section setting rendering.
+if ( 'shortcode-section' === $wps_ubo_lite_active_tab ) {
+	include_once 'templates/wps-shortcode-section.php';
 }

@@ -71,7 +71,7 @@ if ( isset( $_POST['wps_wocuf_pro_common_settings_save'] ) ) {
 
 
 	// Save.
-	update_option( 'wps_wocuf_enable_plugin', $wps_upsell_global_options['wps_wocuf_enable_plugin'] );
+	update_option( 'wps_bump_enable_plugin', $wps_upsell_global_options['wps_wocuf_enable_plugin'] );
 	update_option( 'wps_upsell_lite_global_options', $wps_upsell_global_options );
 
 	?>
@@ -84,7 +84,7 @@ if ( isset( $_POST['wps_wocuf_pro_common_settings_save'] ) ) {
 }
 
 // By default plugin will be enabled.
-$wps_wocuf_enable_plugin = get_option( 'wps_wocuf_enable_plugin', 'on' );
+$wps_wocuf_enable_plugin = get_option( 'wps_bump_enable_plugin', 'on' );
 
 $wps_upsell_global_settings = get_option( 'wps_upsell_lite_global_options', array() );
 // wps_upsee_lite_go_pro( 'pro' );

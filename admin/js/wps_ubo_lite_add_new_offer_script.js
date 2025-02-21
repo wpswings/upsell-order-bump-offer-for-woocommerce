@@ -65,7 +65,6 @@ jQuery(document).ready(function ($) {
 		minimumInputLength: 3 // The minimum of symbols to input before perform a search.
 	});
 
-
 		// Target bump search.
 		jQuery('.wc-bump-offer-search').select2({
 			ajax:{
@@ -110,7 +109,7 @@ jQuery(document).ready(function ($) {
         				action: 'search_products_for_offers'
       				};
     			},
-    			processResults: function( data ) {
+			processResults: function (data) {
 				var options = [];
 				if ( data ) 
 				{
@@ -190,4 +189,90 @@ jQuery(document).ready(function ($) {
 
 
 		});
+	
+	
+	//Product Search Script Of One CLick Upsell Funnel.
+	jQuery('.wc-offer-product-search').select2({
+		ajax:{
+			  url :wps_ubo_lite_ajaxurl.ajaxurl,
+			  dataType: 'json',
+			  delay: 200,
+			  data: function (params) {
+					return {
+					  q: params.term,
+					  nonce : wps_ubo_lite_ajaxurl.one_click_funnel_nonce,
+					  action: 'seach_products_for_offers'
+					};
+			  },
+			  processResults: function( data ) {
+			  var options = [];
+			  if ( data ) 
+			  {
+				  $.each( data, function( index, text )
+				  {
+					  text[1]+='( #'+text[0]+')';
+					  options.push( { id: text[0], text: text[1]  } );
+				  });
+			  }
+			  return {
+				  results:options
+			  };
+		  },
+		  cache: true
+	  },
+	  minimumInputLength: 3 // the minimum of symbols to input before perform a search
+	});
+	
+
+	// Show hide clear button.
+	jQuery( '.wc-offer-product-search' ).on( 'change', function(e) {
+
+		if ( jQuery( this ).val() ) {
+
+			jQuery( '.wps-upsell-offer-product-clear' ).show();
+		}
+
+		else {
+
+			jQuery( '.wps-upsell-offer-product-clear' ).hide();
+		}
+	});
+
+	// Clear values.
+	jQuery('.wps-upsell-offer-product-clear').on('click', function (e) {
+	jQuery( this ).parent().find( '.wc-offer-product-search' ).empty();
+	}); 
+
+
+    //Js Of the one click funner search.
+	jQuery('.wc-funnel-product-search').select2({
+		ajax:{
+			  url :wps_ubo_lite_ajaxurl.ajaxurl,
+			  dataType: 'json',
+			  delay: 200,
+			  data: function (params) {
+					return {
+					  q: params.term,
+					  nonce : wps_ubo_lite_ajaxurl.one_click_funnel_nonce,
+					  action: 'seach_products_for_funnel'
+					};
+			  },
+			  processResults: function( data ) {
+			  var options = [];
+			  if ( data ) 
+			  {
+				  $.each( data, function( index, text )
+				  {
+					  text[1]+='( #'+text[0]+')';
+					  options.push( { id: text[0], text: text[1]  } );
+				  });
+			  }
+			  return {
+				  results:options
+			  };
+		  },
+		  cache: true
+	  },
+	  minimumInputLength: 3 // the minimum of symbols to input before perform a search
+  });
 });

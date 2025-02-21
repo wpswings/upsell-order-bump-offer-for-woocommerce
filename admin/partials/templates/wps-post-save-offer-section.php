@@ -10,7 +10,7 @@
  * @package     woo_one_click_upsell_funnel
  * @subpackage woo_one_click_upsell_funnel/admin/partials/templates
  */
-
+die('Prince check');
 /**
  * Exit if accessed directly
  */
@@ -783,8 +783,8 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 			</table>
 		</div>
 		<input type='hidden' id='wps_ubo_pro_status' value='inactive'>
-		<?php //wps_upsee_lite_go_pro( 'pro' ); ?>
-		<?php //wps_upsee_lite_product_offer_go_pro( 'pro' ); ?>
+		<?php wps_upsee_lite_go_pro( 'pro' ); ?>
+		<?php wps_upsee_lite_product_offer_go_pro( 'pro' ); ?>
 
 		<div class="wps_wocuf_pro_offers"><h1><?php esc_html_e( 'Funnel Offers', 'woo-one-click-upsell-funnel' ); ?></h1>
 		</div>

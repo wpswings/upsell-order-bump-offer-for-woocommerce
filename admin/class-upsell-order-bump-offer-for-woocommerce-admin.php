@@ -82,7 +82,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 			// if ( in_array( $pagescreen, $valid_screens, true ) ) {
 
-				wp_register_style( 'wps_ubo_lite_admin_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-admin.css', array(), $this->version, 'all' );
+				wp_register_style( 'wps_ubo_lite_admin_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-admin.css', array(), time(), 'all' );
 
 				wp_enqueue_style( 'wps_ubo_lite_admin_style' );
 
@@ -90,7 +90,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 				wp_enqueue_style( 'woocommerce_admin_menu_styles' );
 
-				wp_register_style( 'woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array(), WC_VERSION );
+				wp_register_style( 'woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array(),time() );
 
 				wp_enqueue_style( 'woocommerce_admin_styles' );
 
@@ -98,12 +98,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			// }
 		}
 
-		if ( $screen && 'product' === $screen->post_type && 'post' === $screen->base ) {
+		// if ( $screen && 'product' === $screen->post_type && 'post' === $screen->base ) {
 
-			wp_register_style( 'wps_ubo_lite_admin_product_edit_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-product-edit-admin.css', array(), $this->version, 'all' );
+			wp_register_style( 'wps_ubo_lite_admin_product_edit_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-product-edit-admin.css', array(), time(), 'all' );
 
 			wp_enqueue_style( 'wps_ubo_lite_admin_product_edit_style' );
-		}
+		// }
 	}
 
 	/**
@@ -226,6 +226,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					array(
 						'ajaxurl'    => admin_url( 'admin-ajax.php' ),
 						'auth_nonce' => wp_create_nonce( 'wps_onboarding_nonce' ),
+						'one_click_funnel_nonce' => wp_create_nonce( 'wps_wocuf_nonce' ),
 					)
 				);
 
@@ -1057,5 +1058,147 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		wp_send_json_success( array( 'redirect_url' => admin_url( 'plugin-install.php?s=Upsell%2520Order%2520Bump%2520Offer%2520for%2520WooCommerce%2520%25E2%2580%2593%2520Increase%2520Sales%2520and%2520AOV%252C%2520Upsell%2520%2526%2520Cross-sell%2520Offers%2520on%2520Checkout%2520Page%2520%2520wp%2520swings&tab=search&type=term' ) ) );
 		wp_die();
 
+	}
+
+
+	/**
+	 * Select2 search for adding offer products.
+	 *
+	 * @since    1.0.0
+	 */
+	public function seach_products_for_offers() {
+		$return = array();
+
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+		}
+
+		$search_results = new WP_Query(
+			array(
+				's'                   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
+				'post_type'           => array( 'product', 'product_variation' ),
+				'post_status'         => array( 'publish' ),
+				'ignore_sticky_posts' => 1,
+				'posts_per_page'      => -1,
+			)
+		);
+
+		if ( $search_results->have_posts() ) :
+
+			while ( $search_results->have_posts() ) :
+
+				$search_results->the_post();
+
+				$title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
+
+				/**
+				 * Check for post type as query sometimes returns posts even after mentioning post_type.
+				 * As some plugins alter query which causes issues.
+				 */
+				$post_type = get_post_type( $search_results->post->ID );
+
+				if ( 'product' !== $post_type && 'product_variation' !== $post_type ) {
+
+					continue;
+				}
+
+				$product      = wc_get_product( $search_results->post->ID );
+				$downloadable = $product->is_downloadable();
+				$stock        = $product->get_stock_status();
+				$product_type = $product->get_type();
+
+				$unsupported_product_types = array(
+					'grouped',
+					'external',
+				);
+
+				if ( in_array( $product_type, $unsupported_product_types, true ) || 'outofstock' === $stock ) {
+
+					continue;
+				}
+
+				$return[] = array( $search_results->post->ID, $title );
+
+			endwhile;
+
+		endif;
+
+		echo wp_json_encode( $return );
+
+		wp_die();
+	}
+
+
+	/**
+	 * Select2 search for adding funnel target products
+	 *
+	 * @since    1.0.0
+	 */
+	public function seach_products_for_funnel() {
+		$return = array();
+
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+		}
+
+		$search_results = new WP_Query(
+			array(
+				's'                   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
+				'post_type'           => array( 'product', 'product_variation' ),
+				'post_status'         => array( 'publish' ),
+				'ignore_sticky_posts' => 1,
+				'posts_per_page'      => -1,
+			)
+		);
+
+		if ( $search_results->have_posts() ) :
+
+			while ( $search_results->have_posts() ) :
+
+				$search_results->the_post();
+
+				$title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
+
+				/**
+				 * Check for post type as query sometimes returns posts even after mentioning post_type.
+				 * As some plugins alter query which causes issues.
+				 */
+				$post_type = get_post_type( $search_results->post->ID );
+
+				if ( 'product' !== $post_type && 'product_variation' !== $post_type ) {
+
+					continue;
+				}
+
+				$product      = wc_get_product( $search_results->post->ID );
+				$downloadable = $product->is_downloadable();
+				$stock        = $product->get_stock_status();
+				$product_type = $product->get_type();
+
+				$unsupported_product_types = array(
+					'grouped',
+					'external',
+				);
+
+				if ( in_array( $product_type, $unsupported_product_types, true ) || 'outofstock' === $stock ) {
+
+					continue;
+				}
+
+				$return[] = array( $search_results->post->ID, $title );
+
+			endwhile;
+
+		endif;
+
+		echo wp_json_encode( $return );
+
+		wp_die();
 	}
 } // End of class.

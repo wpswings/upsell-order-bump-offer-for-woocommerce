@@ -47,6 +47,22 @@ function wps_ubo_lite_pro_version_incompatible() {
 	return false;
 }
 
+if ( ! function_exists( 'wps_upsell_lite_wc_help_tip' ) ) {
+
+	/**
+	 * Get tooltip.
+	 *
+	 * @param mixed $tip message.
+	 * @since    3.0.4
+	 */
+	function wps_upsell_lite_wc_help_tip( $tip = '' ) {
+		?>
+		<span class="woocommerce-help-tip" data-tip="<?php echo esc_html( $tip ); ?>"></span>
+		<?php
+	}
+}
+
+
 /**
  * If pro Add-on is present and activated/valid.
  *
