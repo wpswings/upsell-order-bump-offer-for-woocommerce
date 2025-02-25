@@ -127,6 +127,12 @@ if ( $activated ) {
 	 * Currently plugin version.
 	 */
 	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.4.3' );
+	define( 'WPS_WOCUF_URL', plugin_dir_url( __FILE__ ) );
+
+	define( 'WPS_WOCUF_DIRPATH', plugin_dir_path( __FILE__ ) );
+
+	define( 'WPS_WOCUF_VERSION', 'v3.5.0' );
+
 
 	$old_pro_present   = false;
 	$installed_plugins = get_plugins();

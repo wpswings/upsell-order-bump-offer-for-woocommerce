@@ -172,6 +172,68 @@ do_action( 'wps_ubo_lite_tab_active' );
 		} elseif ( 'overview' === $wps_ubo_lite_active_tab ) {
 			include_once 'templates/wps-ubo-lite-overview.php';
 		}
+
+		// Order Bump global setting rendering.
+		if ( 'global-setting' === $wps_ubo_lite_active_tab ) {
+			$global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : 'pre-global-sect';
+
+			if ( 'pre-global-sect' === $global_setting_sub_tab ) {
+				include_once 'templates/wps-pre-upsell-global-section.php';
+			} elseif ( 'post-global-sect' === $global_setting_sub_tab ) {
+				include_once 'templates/wps-post-upsell-global-section.php';
+			}
+		}
+
+
+		// Order Bump list rendering.
+		if ( 'order-bump-section' === $wps_ubo_lite_active_tab ) {
+			$global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : 'pre-list-offer-section';
+
+			if ( 'pre-list-offer-sections' === $global_setting_sub_tab ) {
+				include_once 'templates/wps-pre-list-offer-section.php';
+			} elseif ( 'pre-save-offer-section' === $global_setting_sub_tab ) {
+				include_once 'templates/wps-pre-save-offer-section.php';
+			}
+}
+
+
+
+
+		// One click upsell list rendering.
+		if ( 'one-click-section' === $wps_ubo_lite_active_tab ) {
+			$global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : 'post-list-offer-section';
+
+			if ( 'post-list-offer-section' === $global_setting_sub_tab ) {
+				include_once 'templates/wps-post-list-offer-section.php';
+			} elseif ( 'post-save-offer-section' === $global_setting_sub_tab ) {
+				include_once 'templates/wps-post-save-offer-section.php';
+			}
+		}
+
+
+
+		// General setting rendering.
+		if ( 'general-setting' === $wps_ubo_lite_active_tab ) {
+				include_once 'templates/wps-general-setting-offer-section.php';
+		}
+
+		// Store Checkout setting rendering.
+		if ( 'store-checkout-section' === $wps_ubo_lite_active_tab ) {
+			include_once 'templates/wps-store-checkout-section.php';
+		}
+
+		// shortcode section setting rendering.
+		if ( 'shortcode-section' === $wps_ubo_lite_active_tab ) {
+			include_once 'templates/wps-shortcode-section.php';
+		}
+
+        if('creation-setting-post' === $wps_ubo_lite_active_tab){
+			include_once 'templates/wps-post-save-offer-section.php';
+		}
+
+
+
+
 	}
 	do_action( 'wps_ubo_lite_setting_tab_html' );
 
@@ -199,52 +261,4 @@ do_action( 'wps_ubo_lite_tab_active' );
 
 
 
-// Order Bump global setting rendering.
-if ( 'global-setting' === $wps_ubo_lite_active_tab ) {
-    $global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : 'pre-global-sect';
 
-    if ( 'pre-global-sect' === $global_setting_sub_tab ) {
-        include_once 'templates/wps-pre-upsell-global-section.php';
-    } elseif ( 'post-global-sect' === $global_setting_sub_tab ) {
-		include_once 'templates/wps-post-upsell-global-section.php';
-    }
-}
-
-
-// Order Bump list rendering.
-if ( 'order-bump-section' === $wps_ubo_lite_active_tab ) {
-    $global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : 'pre-list-offer-section';
-
-    if ( 'pre-list-offer-sections' === $global_setting_sub_tab ) {
-        include_once 'templates/wps-pre-list-offer-section.php';
-    } elseif ( 'pre-save-offer-section' === $global_setting_sub_tab ) {
-		include_once 'templates/wps-pre-save-offer-section.php';
-    }
-}
-
-
-// One click upsell list rendering.
-if ( 'one-click-section' === $wps_ubo_lite_active_tab ) {
-    $global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : 'post-list-offer-section';
-
-    if ( 'post-list-offer-section' === $global_setting_sub_tab ) {
-        include_once 'templates/wps-post-list-offer-section.php';
-    } elseif ( 'post-save-offer-section' === $global_setting_sub_tab ) {
-		include_once 'templates/wps-post-save-offer-section.php';
-    }
-}
-
-// General setting rendering.
-if ( 'general-setting' === $wps_ubo_lite_active_tab ) {
-		include_once 'templates/wps-general-setting-offer-section.php';
-}
-
-// Store Checkout setting rendering.
-if ( 'store-checkout-section' === $wps_ubo_lite_active_tab ) {
-	include_once 'templates/wps-store-checkout-section.php';
-}
-
-// shortcode section setting rendering.
-if ( 'shortcode-section' === $wps_ubo_lite_active_tab ) {
-	include_once 'templates/wps-shortcode-section.php';
-}

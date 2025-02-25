@@ -179,6 +179,22 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		// Rest functionality for admin side ajax Of One Click Funnel.
 		$this->loader->add_action( 'wp_ajax_seach_products_for_offers', $plugin_admin, 'seach_products_for_offers' );
 		$this->loader->add_action( 'wp_ajax_seach_products_for_funnel', $plugin_admin, 'seach_products_for_funnel' );
+		$this->loader->add_action( 'wp_ajax_search_product_categories_for_funnel', $plugin_admin, 'search_product_categories_for_funnel' );
+
+		//On clickupsell Funnel Hooks admin.
+
+		// Dismiss Elementor inactive notice.
+		$this->loader->add_action( 'wp_ajax_wps_upsell_dismiss_elementor_inactive_notice', $plugin_admin, 'dismiss_elementor_inactive_notice' );
+
+		// Hide Upsell offer pages in admin panel 'Pages'.
+		$this->loader->add_action( 'pre_get_posts', $plugin_admin, 'hide_upsell_offer_pages_in_admin' );
+		$this->loader->add_filter( 'page_template', $plugin_admin, 'wps_wocuf_pro_page_template' );
+
+		// Create new offer - ajax handle function.
+		$this->loader->add_action( 'wp_ajax_wps_wocuf_pro_return_offer_content', $plugin_admin, 'return_funnel_offer_section_content' );
+
+		// Insert and Activate respective template ajax handle function.
+		$this->loader->add_action( 'wp_ajax_wps_upsell_activate_offer_template_ajax', $plugin_admin, 'activate_respective_offer_template' );
 
 
 		// Rest functionality for order table.
