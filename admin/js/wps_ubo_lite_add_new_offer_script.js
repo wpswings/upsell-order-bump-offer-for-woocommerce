@@ -429,8 +429,6 @@ jQuery(document).ready(function ($) {
 	
 	
 	
-	
-	
 		// Reflect Funnel name input value.
 		$("#wps_upsell_funnel_name").on("change paste keyup", function() {
 	   

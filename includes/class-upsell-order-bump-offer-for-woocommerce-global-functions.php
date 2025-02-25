@@ -6746,6 +6746,24 @@ function wps_upsell_lite_offer_page_posts_deletion() {
 	}
 }
 
+
+/**
+ * Upsell supported payment gateways for which Parent Order is secured.
+ * Either with Initial payment or via Cron.
+ *
+ * @since    3.0.0
+ */
+function wps_upsell_lite_payment_gateways_with_parent_secured() {
+
+	$gateways_with_parent_secured = array(
+		'cod', // Cash on delivery.
+	);
+
+	return apply_filters( 'wps_upsell_lite_pg_with_parent_secured', $gateways_with_parent_secured );
+}
+
+
+
 /**
  * Check if Divi Builder plugin is active or not.
  *
@@ -7270,4 +7288,172 @@ function wps_upsell_lite_elementor_offer_template_3() {
 	}
 
 	return $elementor_data;
+}
+
+
+/**
+ * Upsell supported payment gateways.
+ *
+ * @since    2.0.0
+ */
+function wps_upsell_lite_supported_gateways() {
+
+	$supported_gateways = array(
+		'cod', // Cash on delivery.
+		'stripe_cc',
+		'',
+	);
+
+	return apply_filters( 'wps_upsell_lite_supported_gateways', $supported_gateways );
+}
+
+/**
+ * Upsell supported payment gateways.
+ *
+ * @since    2.0.0
+ */
+function wps_upsell_pro_supported_gateways() {
+
+	$supported_gateways = array(
+		'bacs', // Direct bank transfer.
+		'cheque', // Check payments.
+		'cod', // Cash on delivery.
+		'wps-wocuf-pro-stripe-gateway', // Upsell Stripe.
+		'cardcom', // Official Cardcom.
+		'paypal',    // Woocommerce Paypal ( Standard ).
+		'wps-wocuf-pro-paypal-gateway', // Upsell Paypal ( Express Checkout ).
+		'ppec_paypal', // https://wordpress.org/plugins/woocommerce-gateway-paypal-express-checkout/.
+		'authorize', // https://wordpress.org/plugins/authorizenet-payment-gateway-for-woocommerce/.
+		'paystack', // https://wordpress.org/plugins/woo-paystack/.
+		'vipps', // https://wordpress.org/plugins/woo-vipps/.
+		'transferuj', // TPAY.com https://wordpress.org/plugins/woocommerce-transferujpl-payment-gateway/.
+		'razorpay', // https://wordpress.org/plugins/woo-razorpay/.
+		'stripe_ideal', // Official Stripe - iDeal.
+		'authorize_net_cim_credit_card', // Official Authorize.Net-CC.
+		'square_credit_card', // Official Square-XL plugins.
+		'braintree_cc', // Official Braintree for Woocommerce plugins.
+		'paypal_express', // Angeleye Paypal Express Checkout.
+		'', // For Free Product.
+		'ppcp-gateway', // For Paypal payments plugin.
+		'ppcp-credit-card-gateway', // For Paypal CC payments plugin.
+	);
+
+	return apply_filters( 'wps_upsell_proe_supported_gateways', $supported_gateways );
+}
+
+/**
+ * Validate upsell nonce.
+ *
+ * @since    2.0.0
+ */
+function wps_upsell_lite_validate_upsell_nonce() {
+
+	$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+	$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+
+	if ( ! $id_nonce_verified ) {
+		wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+	}
+
+	if ( isset( $_GET['ocuf_ns'] ) ) {
+
+		return true;
+	} else {
+
+		return false;
+	}
+}
+
+
+/**
+ * Upsell product id from url funnel and offer params.
+ *
+ * @since    2.0.0
+ */
+function wps_upsell_lite_get_pid_from_url_params() {
+
+	$params['status']  = 'false';
+	$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+	$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+
+	if ( ! $id_nonce_verified ) {
+		wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+	}
+
+	if ( isset( $_GET['ocuf_ofd'] ) && isset( $_GET['ocuf_fid'] ) ) {
+
+		$params['status'] = 'true';
+
+		$params['offer_id']  = sanitize_text_field( wp_unslash( $_GET['ocuf_ofd'] ) );
+		$params['funnel_id'] = sanitize_text_field( wp_unslash( $_GET['ocuf_fid'] ) );
+	}
+
+	return $params;
+}
+
+
+/**
+ * Get product discount.
+ *
+ * @since    2.0.0
+ */
+function wps_upsell_lite_get_product_discount() {
+
+	$wps_wocuf_pro_offered_discount = '';
+
+	$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+	$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+
+	if ( ! $id_nonce_verified ) {
+		wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+	}
+
+	$funnel_id = isset( $_GET['ocuf_fid'] ) ? sanitize_text_field( wp_unslash( $_GET['ocuf_fid'] ) ) : 'not_set';
+	$offer_id  = isset( $_GET['ocuf_ofd'] ) ? sanitize_text_field( wp_unslash( $_GET['ocuf_ofd'] ) ) : 'not_set';
+
+	// If Live offer.
+	if ( 'not_set' !== $funnel_id && 'not_set' !== $offer_id ) {
+
+		$wps_wocuf_pro_all_funnels = get_option( 'wps_wocuf_funnels_list' );
+
+		$wps_wocuf_pro_offered_discount = $wps_wocuf_pro_all_funnels[ $funnel_id ]['wps_wocuf_offer_discount_price'][ $offer_id ];
+
+		$wps_wocuf_pro_offered_discount = ! empty( $wps_wocuf_pro_all_funnels[ $funnel_id ]['wps_wocuf_offer_discount_price'][ $offer_id ] ) ? $wps_wocuf_pro_all_funnels[ $funnel_id ]['wps_wocuf_offer_discount_price'][ $offer_id ] : '';
+	} elseif ( current_user_can( 'manage_options' ) ) {
+
+		// Get funnel and offer id from current offer page post id.
+		global $post;
+		$offer_page_id = $post->ID;
+
+		$funnel_data = get_post_meta( $offer_page_id, 'wps_upsell_funnel_data', true );
+
+		$product_found_in_funnel = false;
+
+		if ( ! empty( $funnel_data ) && is_array( $funnel_data ) && count( $funnel_data ) ) {
+
+			$funnel_id = $funnel_data['funnel_id'];
+			$offer_id  = $funnel_data['offer_id'];
+
+			if ( isset( $funnel_id ) && isset( $offer_id ) ) {
+
+				$wps_wocuf_pro_all_funnels = get_option( 'wps_wocuf_funnels_list' );
+
+				// When New offer is added ( Not saved ) so only at that time it will return 50%.
+				$wps_wocuf_pro_offered_discount = isset( $wps_wocuf_pro_all_funnels[ $funnel_id ]['wps_wocuf_offer_discount_price'][ $offer_id ] ) ? $wps_wocuf_pro_all_funnels[ $funnel_id ]['wps_wocuf_offer_discount_price'][ $offer_id ] : '50%';
+
+				$wps_wocuf_pro_offered_discount = ! empty( $wps_wocuf_pro_offered_discount ) ? $wps_wocuf_pro_offered_discount : '';
+			}
+		} else {
+
+			// Get global product discount.
+
+			$wps_upsell_global_settings = get_option( 'wps_upsell_lite_global_options', array() );
+
+			$global_product_discount = isset( $wps_upsell_global_settings['global_product_discount'] ) ? $wps_upsell_global_settings['global_product_discount'] : '50%';
+
+			$wps_wocuf_pro_offered_discount = $global_product_discount;
+		}
+	}
+
+	return $wps_wocuf_pro_offered_discount;
 }

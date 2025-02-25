@@ -258,9 +258,29 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Order Bumps & Settings', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Order Bumps & Settings', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_woocommerce', 'upsell-order-bump-offer-for-woocommerce-setting' );
 
 		/**
-		 * Add sub-menu for reportings settings.
+		 * Add sub-menu for order bump reportings settings.
 		 */
-		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_woocommerce', 'upsell-order-bump-offer-for-woocommerce-reporting', array( $this, 'add_submenu_page_reporting_callback' ) );
+		add_submenu_page( 
+			'upsell-order-bump-offer-for-woocommerce-setting', 
+			esc_html__( 'Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 
+			esc_html__( 'Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 
+			'manage_woocommerce', 
+			'upsell-order-bump-offer-for-woocommerce-pre-reporting', // UNIQUE SLUG
+			array( $this, 'pre_add_submenu_page_reporting_callback' ) 
+		);
+		
+		/**
+		 * Add sub-menu for one click upsell reportings settings.
+		 */
+		add_submenu_page( 
+			'upsell-order-bump-offer-for-woocommerce-setting', 
+			esc_html__( 'Post Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 
+			esc_html__( 'Post Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 
+			'manage_woocommerce', 
+			'upsell-order-bump-offer-for-woocommerce-post-reporting', // UNIQUE SLUG
+			array( $this, 'post_add_submenu_page_reporting_callback' ) 
+		);
+		
 	}
 
 	/**
@@ -349,10 +369,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since       1.4.0
 	 */
-	public function add_submenu_page_reporting_callback() {
+	public function pre_add_submenu_page_reporting_callback() {
 		require_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/reporting/upsell-order-bump-reporting-config-panel.php';
 	}
 
+
+
+	/**
+	 * Reporting and Funnel Stats Sub menu callback.
+	 *
+	 * @since       1.4.0
+	 */
+	public function post_add_submenu_page_reporting_callback() {
+		require_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/reporting/upsell-reporting-and-tracking-config-panel.php';
+	}
 
 	/**
 	 * Select2 search for adding bump target products.
@@ -1970,4 +2000,381 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		wp_die();
 	}
 
+	/**
+	 * Add attribute to styles allowed properties in wp_kses.
+	 *
+	 * @param array $styles Allowed properties.
+	 * @return array
+	 *
+	 * @since    3.6.7
+	 */
+	public function wocuf_lite_add_style_attribute( $styles ) {
+
+		$styles[] = 'display';
+		return $styles;
+	}
+
+
+	/**
+	 * Adding custom column in orders table at backend
+	 *
+	 * @since    1.0.0
+	 * @param    array $columns    array of columns on orders table.
+	 * @return   array    $columns    array of columns on orders table alongwith upsell column
+	 */
+	public function wps_wocuf_pro_add_columns_to_admin_orders( $columns ) {
+
+		$columns['wps-upsell-orders'] = esc_html__( 'Upsell Orders', 'woo-one-click-upsell-funnel' );
+
+		return $columns;
+	}
+
+
+	/**
+	 * Populating Upsell Orders column with Single Order or Upsell order.
+	 *
+	 * @since    1.0.0
+	 * @param    array $column    Array of available columns.
+	 * @param    int   $post_id   Current Order post id.
+	 */
+	public function wps_wocuf_pro_populate_upsell_order_column( $column, $post_id ) {
+
+		$upsell_order = wps_wocfo_hpos_get_meta_data( $post_id, 'wps_wocuf_upsell_order', true );
+
+		switch ( $column ) {
+
+			case 'wps-upsell-orders':
+				if ( 'true' === $upsell_order ) :
+					?>
+					<a href="<?php echo esc_url( get_edit_post_link( $post_id ) ); ?>" ><?php esc_html_e( 'Upsell Order', 'woo-one-click-upsell-funnel' ); ?></a>
+				<?php else : ?>
+					<?php esc_html_e( 'Single Order', 'woo-one-click-upsell-funnel' ); ?>
+					<?php
+				endif;
+				break;
+		}
+	}
+
+
+	/**
+	 * Add Upsell Filtering dropdown for All Orders, No Upsell Orders, Only Upsell Orders.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wps_wocuf_pro_restrict_manage_posts() {
+
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+		}
+
+		if ( isset( $_GET['post_type'] ) && 'shop_order' === sanitize_key( wp_unslash( $_GET['post_type'] ) ) ) {
+
+			if ( isset( $_GET['wps_wocuf_pro_upsell_filter'] ) ) :
+
+				?>
+				<select name="wps_wocuf_pro_upsell_filter">
+					<option value="all" <?php echo 'all' === sanitize_key( wp_unslash( $_GET['wps_wocuf_pro_upsell_filter'] ) ) ? 'selected=selected' : ''; ?>><?php esc_html_e( 'All Orders', 'woo-one-click-upsell-funnel' ); ?></option>
+					<option value="no_upsells" <?php echo 'no_upsells' === sanitize_key( wp_unslash( $_GET['wps_wocuf_pro_upsell_filter'] ) ) ? 'selected=selected' : ''; ?>><?php esc_html_e( 'No Upsell Orders', 'woo-one-click-upsell-funnel' ); ?></option>
+					<option value="all_upsells" <?php echo 'all_upsells' === sanitize_key( wp_unslash( $_GET['wps_wocuf_pro_upsell_filter'] ) ) ? 'selected=selected' : ''; ?>><?php esc_html_e( 'Only Upsell Orders', 'woo-one-click-upsell-funnel' ); ?></option>
+				</select>
+				<?php
+			endif;
+
+			if ( ! isset( $_GET['wps_wocuf_pro_upsell_filter'] ) ) :
+				?>
+				<select name="wps_wocuf_pro_upsell_filter">
+					<option value="all"><?php esc_html_e( 'All Orders', 'woo-one-click-upsell-funnel' ); ?></option>
+					<option value="no_upsells"><?php esc_html_e( 'No Upsell Orders', 'woo-one-click-upsell-funnel' ); ?></option>
+					<option value="all_upsells"><?php esc_html_e( 'Only Upsell Orders', 'woo-one-click-upsell-funnel' ); ?></option>
+				</select>
+				<?php
+			endif;
+		}
+	}
+
+	/**
+	 * Modifying query vars for filtering Upsell Orders.
+	 *
+	 * @since    1.0.0
+	 * @param    array $vars    array of queries.
+	 * @return   array    $vars    array of queries alongwith select dropdown query for upsell
+	 */
+	public function wps_wocuf_pro_request_query( $vars ) {
+
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+
+		if ( ! $id_nonce_verified ) {
+			wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+		}
+
+		if ( isset( $_GET['wps_wocuf_pro_upsell_filter'] ) && 'all_upsells' === $_GET['wps_wocuf_pro_upsell_filter'] ) {
+
+			$vars = array_merge(
+				$vars,
+				array(
+					'meta_key' => 'wps_wocuf_upsell_order',     // phpcs:ignore
+				)
+			);
+
+		} elseif ( isset( $_GET['wps_wocuf_pro_upsell_filter'] ) && 'no_upsells' === $_GET['wps_wocuf_pro_upsell_filter'] ) {
+
+			$vars = array_merge(
+				$vars,
+				array(
+					'meta_key'     => 'wps_wocuf_upsell_order',    // phpcs:ignore
+					'meta_compare' => 'NOT EXISTS',
+				)
+			);
+		}
+
+		return $vars;
+	}
+
+
+
+	/**
+	 * Add 'Upsell Support' column on payment gateways page.
+	 *
+	 * @param mixed $default_columns default columns.
+	 * @since       2.0.0
+	 */
+	public function upsell_support_in_payment_gateway( $default_columns ) {
+
+		$new_column['wps_upsell'] = esc_html__( 'Upsell Supported', 'woo-one-click-upsell-funnel' );
+		wps_upsee_lite_go_pro( 'pro' );
+		// Place at second last position.
+		$position = count( $default_columns ) - 1;
+
+		$default_columns = array_slice( $default_columns, 0, $position, true ) + $new_column + array_slice( $default_columns, $position, count( $default_columns ) - $position, true );
+
+		return $default_columns;
+	}
+
+
+	/**
+	 * 'Upsell Support' content on payment gateways page.
+	 *
+	 * @param mixed $gateway gateway.
+	 * @since       2.0.0
+	 */
+	public function upsell_support_content_in_payment_gateway( $gateway ) {
+
+		$supported_gateways = wps_upsell_lite_supported_gateways();
+
+		$supported_gateways_pro = wps_upsell_pro_supported_gateways();
+
+		echo '<td class="wps_upsell_supported">';
+
+		if ( in_array( $gateway->id, $supported_gateways, true ) ) {
+
+			echo '<span class="status-enabled">' . esc_html__( 'Yes', 'woo-one-click-upsell-funnel' ) . '</span>';
+
+		} else {
+
+			if ( in_array( $gateway->id, $supported_gateways_pro, true ) ) {
+
+				echo '	<span class="wps_wupsell_premium_strip">' . esc_html__( 'pro', 'woo-one-click-upsell-funnel' ) . '</span>';
+
+			} else {
+
+				echo '<span class="status-disabled">' . esc_html__( 'No', 'woo-one-click-upsell-funnel' ) . '</span>';
+			}
+		}
+
+		echo "<input type='hidden' id='wps_ubo_pro_status' value='inactive'>
+		</td>";
+
+	}
+
+	/**
+	 * Product simple product.
+	 *
+	 * @return void
+	 */
+	public function upsell_simple_product_settings() {
+		$upsell_shipping_product = get_post_meta( get_the_ID(), 'wps_upsell_simple_shipping_product_' . get_the_ID(), true );
+	if ( function_exists( 'wp_nonce_field' ) ) {
+		wp_nonce_field( 'simple-product', 'upsell-custom-shipping-simple-nonce' );
+	}
+
+	?>
+		<div class="wps_product_custom_field product_custom_field options_group show_if_simple show_if_external ">
+		<h4> 
+				<?php
+					echo esc_html__( 'Upsell setting', 'woo-one-click-upsell-funnel' );
+				?>
+				<span class="wps-help-tip"></span>
+				<p>
+					<?php
+						echo esc_html__( 'Add shipping price of this product for upsell offer.', 'woo-one-click-upsell-funnel' );
+					?>
+				</p>
+			</h4>
+			<p class="form-field _sale_price_field">
+			<label><?php echo esc_html__( 'Upsell shipping Price', 'woo-one-click-upsell-funnel' ); ?></label>	
+			<input type="number" class="wps_product_shipping_input"  name="wps_upsell_simple_shipping_product_<?php echo esc_attr( get_the_ID() ); ?>" id="wps_upsell_simple_shipping_product_<?php echo esc_attr( get_the_ID() ); ?>" value="<?php echo esc_attr( $upsell_shipping_product ); ?>"  >
+			</p>
+		</div>
+		<?php
+
+}
+
+	/**
+	 * Upsell saving for simple products.
+	 *
+	 * @param [type] $post_id Is the post id.
+	 * @return void
+	 */
+	public function upsell_saving_simple_product_dynamic_shipping( $post_id ) {
+		if ( isset( $_POST['upsell-custom-shipping-simple-nonce'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['upsell-custom-shipping-simple-nonce'] ) ), 'simple-product' ) ) {
+				wp_die();
+			}
+		}
+		 $upsell_shipping_price = ! empty( $_POST[ 'wps_upsell_simple_shipping_product_' . $post_id ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'wps_upsell_simple_shipping_product_' . $post_id ] ) ) : '';
+
+		update_post_meta( $post_id, 'wps_upsell_simple_shipping_product_' . $post_id, $upsell_shipping_price );
+	}
+
+
+	/**
+	 * Upsell setting for variable products.
+	 *
+	 * @param [type] $loop Is the loop.
+	 * @param [type] $variation_data Is the variation data.
+	 * @param [type] $variation Is the variation object.
+	 * @return void
+	 */
+	public function upsell_add_custom_price_to_variations( $loop, $variation_data, $variation ) {
+		$upsell_shipping_product = get_post_meta( $variation->ID, 'wps_upsell_simple_shipping_product_' . $variation->ID, true );
+
+		if ( 0 === $loop ) {
+			wp_nonce_field( 'variable-product', 'wps-upsell-price-variation-nonce' );
+		}
+
+		?>
+			<div class="wps_product_custom_field product_custom_field options_group show_if_simple show_if_external ">
+			<h4> 
+					<?php
+						echo esc_html__( 'Upsell setting', 'woo-one-click-upsell-funnel' );
+					?>
+					<span class="wps-help-tip"></span>
+					<p>
+						<?php
+							echo esc_html__( 'Add shipping price of this product for upsell offer.', 'woo-one-click-upsell-funnel' );
+						?>
+					</p>
+				</h4>
+
+				<label>
+				<?php echo esc_html__( 'Upsell shipping Price', 'woo-one-click-upsell-funnel' ); ?>	
+				</label>
+				<input type="number" class="wps_product_shipping_input"  name="wps_upsell_simple_shipping_product_<?php echo esc_attr( $variation->ID ); ?>" id="wps_upsell_simple_shipping_product_<?php echo esc_attr( $variation->ID ); ?>" value="<?php echo esc_attr( $upsell_shipping_product ); ?>"  >
+			
+			</div>
+			<?php
+	}
+
+
+	/**
+	 * Upsell save data setting for variable.
+	 *
+	 * @param [type] $variation_id Is the variation id.
+	 * @param [type] $i Is the number of variation.
+	 * @return void
+	 */
+	public function upsell_save_custom_price_variations( $variation_id, $i ) {
+
+		if ( isset( $_POST['wps-upsell-price-variation-nonce'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wps-upsell-price-variation-nonce'] ) ), 'variable-product' ) ) {
+				wp_die();
+			}
+		}
+
+		$upsell_shipping_price = ! empty( $_POST[ 'wps_upsell_simple_shipping_product_' . $variation_id ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'wps_upsell_simple_shipping_product_' . $variation_id ] ) ) : '';
+		update_post_meta( $variation_id, 'wps_upsell_simple_shipping_product_' . $variation_id, $upsell_shipping_price );
+
+	}
+
+
+	/**
+	 * Add Upsell Reporting in Woo Admin reports.
+	 *
+	 * @param mixed $reports reports.
+	 * @since       3.0.0
+	 */
+	public function add_upsell_reporting( $reports ) {
+
+		$reports['upsell'] = array(
+
+			'title'   => esc_html__( '1 Click Upsell', 'woo-one-click-upsell-funnel' ),
+			'reports' => array(
+
+				'sales_by_date'     => array(
+					'title'       => esc_html__( 'Upsell Sales by date', 'woo-one-click-upsell-funnel' ),
+					'description' => '',
+					'hide_title'  => 1,
+					'callback'    => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'upsell_reporting_callback' ),
+				),
+
+				'sales_by_product'  => array(
+					'title'       => esc_html__( 'Upsell Sales by product', 'woo-one-click-upsell-funnel' ),
+					'description' => '',
+					'hide_title'  => 1,
+					'callback'    => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'upsell_reporting_callback' ),
+				),
+
+				'sales_by_category' => array(
+					'title'       => esc_html__( 'Upsell Sales by category', 'woo-one-click-upsell-funnel' ),
+					'description' => '',
+					'hide_title'  => 1,
+					'callback'    => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'upsell_reporting_callback' ),
+				),
+			),
+		);
+
+		return $reports;
+	}
+
+
+	/**
+	 * Add custom report. callback.
+	 *
+	 * @param mixed $report_type report type.
+	 * @since       3.0.0
+	 */
+	public static function upsell_reporting_callback( $report_type ) {
+
+		$report_file      = ! empty( $report_type ) ? str_replace( '_', '-', $report_type ) : '';
+		$preformat_string = ! empty( $report_type ) ? ucwords( str_replace( '_', ' ', $report_type ) ) : '';
+		$class_name       = ! empty( $preformat_string ) ? 'WPS_Upsell_Report_' . str_replace( ' ', '_', $preformat_string ) : '';
+
+		/**
+		 * The file responsible for defining reporting.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'reporting/class-wps-upsell-report-' . $report_file . '.php';
+
+		if ( class_exists( $class_name ) ) {
+
+			$report = new $class_name();
+			$report->output_report();
+
+		} else {
+
+			?>
+			<div class="wps_wocuf_report_error_wrap" style="text-align: center;">
+				<h2 class="wps_wocuf_report_error_text">
+					<?php esc_html_e( 'Some Error Occured while creating report.', 'woo-one-click-upsell-funnel' ); ?>
+				</h2>
+			</div>
+			<?php
+		}
+	}
+
+
+	
 } // End of class.

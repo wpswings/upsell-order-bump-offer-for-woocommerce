@@ -207,6 +207,20 @@ if ( $activated ) {
 		Upsell_Order_Bump_Offer_For_Woocommerce_Activator::activate();
 	}
 
+
+		/**
+		 * The file responsible for defining Woocommerce Subscriptions compatibility
+		 * and handling functions.
+		 */
+		require_once plugin_dir_path(  __FILE__  ) . 'includes/class-woocommerce-one-click-upsell-funnel-org-subs-comp.php';
+
+
+
+		/**
+		 * The file responsible for Upsell Sales by Funnel - Data handling and Stats.
+		 */
+		require_once plugin_dir_path( __FILE__  ) . 'reporting/class-wps-upsell-report-sales-by-funnel.php';
+
 	/**
 	 * The code that runs during plugin deactivation.
 	 * This action is documented in : includes/class-upsell-order-bump-offer-for-woocommerce-deactivator.php
@@ -264,7 +278,7 @@ if ( $activated ) {
 			function wps_ubo_lite_plugin_action_links( $links ) {
 
 				$plugin_links = array(
-					'<a href="' . admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting' ) .
+					'<a href="' . admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=general-setting' ) .
 										'">' . esc_html__( 'Settings', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 					'<a class="wps-ubo-lite-go-pro" style="background: #05d5d8; color: white; font-weight: 700; padding: 2px 5px; border: 1px solid #05d5d8; border-radius: 5px;" href="https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-org-backend&utm_campaign=order-bump-pro" target="_blank">' . esc_html__( 'GO PRO', 'upsell-order-bump-offer-for-woocommerce' ) . '</a>',
 				);
@@ -419,6 +433,93 @@ if ( $activated ) {
 			}
 		}
 	}
+
+
+		/**
+		 * This function is used to check hpos enable.
+		 *
+		 * @return boolean
+		 */
+		function wps_wocfo_is_hpos_enabled() {
+
+			$is_hpos_enable = false;
+			if ( class_exists( 'Automattic\WooCommerce\Utilities\OrderUtil' ) && OrderUtil::custom_orders_table_usage_is_enabled() ) {
+	
+				$is_hpos_enable = true;
+			}
+			return $is_hpos_enable;
+		}
+
+
+
+
+	/**
+	 * This function is used to update meta data.
+	 *
+	 * @param string $id id.
+	 * @param string $meta_key meta_key.
+	 * @param string $meta_value meta_value.
+	 * @return void
+	 */
+	function wps_wocfo_hpos_update_meta_data( $id, $meta_key, $meta_value ) {
+
+		if ( 'shop_order' === OrderUtil::get_order_type( $id ) && wps_wocfo_is_hpos_enabled() ) {
+
+			$order = wc_get_order( $id );
+			$order->update_meta_data( $meta_key, $meta_value );
+			$order->save();
+		} else {
+
+			update_post_meta( $id, $meta_key, $meta_value );
+		}
+	}
+
+
+	/**
+	 * This function is used delete meta data.
+	 *
+	 * @param string $id       id.
+	 * @param string $meta_key meta_key.
+	 * @return void
+	 */
+	function wps_wocfo_hpos_delete_meta_data( $id, $meta_key ) {
+
+		if ( 'shop_order' === OrderUtil::get_order_type( $id ) && wps_wocfo_is_hpos_enabled() ) {
+
+			$order = wc_get_order( $id );
+			$order->delete_meta_data( $meta_key );
+			$order->save();
+		} else {
+
+			delete_post_meta( $id, $meta_key );
+		}
+	}
+
+
+
+	/**
+	 * This function is used to get post meta data.
+	 *
+	 * @param  string $id        id.
+	 * @param  string $meta_key  meta key.
+	 * @param  bool   $bool meta bool.
+	 * @return string
+	 */
+	function wps_wocfo_hpos_get_meta_data( $id, $meta_key, $bool ) {
+
+		$meta_value = '';
+		if ( 'shop_order' === OrderUtil::get_order_type( $id ) && wps_wocfo_is_hpos_enabled() ) {
+
+			$order      = wc_get_order( $id );
+			$meta_value = $order->get_meta( $meta_key, $bool );
+		} else {
+
+			$meta_value = get_post_meta( $id, $meta_key, $bool );
+		}
+		return $meta_value;
+	}
+
+
 
 	add_action( 'admin_notices', 'wps_ubo_banner_notification_html' );
 	/**

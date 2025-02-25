@@ -84,7 +84,12 @@ if ( isset( $_POST['wps_wocuf_pro_common_settings_save'] ) ) {
 }
 
 // By default plugin will be enabled.
-$wps_wocuf_enable_plugin = get_option( 'wps_bump_enable_plugin', 'on' );
+// Check enability of the plugin at settings page.
+$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
+
+// By default plugin will be enabled.
+$wps_wocuf_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : 'on';
+// $wps_wocuf_enable_plugin = get_option( 'wps_bump_enable_plugin', 'on' );
 
 $wps_upsell_global_settings = get_option( 'wps_upsell_lite_global_options', array() );
 // wps_upsee_lite_go_pro( 'pro' );
