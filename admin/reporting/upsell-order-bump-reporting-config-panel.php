@@ -27,12 +27,12 @@ $active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['ta
 ?>
 
 <div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
-	<div class="wps_upsell_bump_setting_title"><?php echo esc_html( apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
+	<div class="wps_upsell_bump_setting_title"><?php echo esc_html( apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Funnel Builder for WooCommerce ', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
 	</div>
 
 	<nav class="nav-tab-wrapper woo-nav-tab-wrapper">
 
-		<a class="nav-tab <?php echo esc_html( 'reporting' === $active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-reporting&tab=reporting"><?php esc_html_e( 'Sales Reports', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="nav-tab <?php echo esc_html( 'reporting' === $active_tab ? 'nav-tab-active' : '' ); ?>" href="#"><?php esc_html_e( 'Sales Reports', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 	</nav>
 

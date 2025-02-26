@@ -47,7 +47,7 @@ $nonce_overview = wp_create_nonce( 'view_upsell_tracking_over' ); // Create nonc
 	</div>
 
 	<div class="wps_wocuf_pro_header">
-		<div class="wps_wocuf_pro_setting_title"><?php esc_html_e( 'One Click Upsell Funnel for WooCommerce', 'woo-one-click-upsell-funnel' ); ?></div>
+		<div class="wps_wocuf_pro_setting_title"><?php esc_html_e( 'Upsell Funnel Builder for WooCommerce', 'woo-one-click-upsell-funnel' ); ?></div>
 
 
 	</div>

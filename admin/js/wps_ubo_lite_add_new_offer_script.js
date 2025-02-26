@@ -509,7 +509,7 @@ jQuery(document).ready(function ($) {
 			$('.wps_upsell_offer_template_previews').hide();
 	
 		});
-	
+
 		$('.wps_upsell_slide_down_link').click(function(e) {
 	
 			e.preventDefault();
@@ -934,6 +934,6 @@ jQuery(document).ready( function($) {
 {
     $(function(){
         $('.wps_wocuf_pro_colorpicker').wpColorPicker();
-    });
-     
+	});
+	
 })(jQuery);

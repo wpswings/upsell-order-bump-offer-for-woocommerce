@@ -35,7 +35,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 
 ?>
 <div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
-	<div class="wps_upsell_bump_setting_title"><?php echo esc_html( apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
+	<div class="wps_upsell_bump_setting_title"><?php echo esc_html( apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Funnel Builder for WooCommerce ', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
 	</div>
 
 	<nav class="nav-tab-wrapper woo-nav-tab-wrapper">
