@@ -59,7 +59,7 @@ $shipping_address_data = get_option( 'wps_wocuf_store_checkout_fields_shipping_d
 $shipping_basic_address_data = get_option( 'wps_wocuf_store_checkout_basic_fields_shipping_data', $default_basic_shipping_field );
 $billing_basic_address_data = get_option( 'wps_wocuf_store_checkout_basic_fields_billing_data', $default_basic_billing_field );
 
-//  wps_upsee_lite_go_pro( 'pro' );
+ wps_upsee_lite_go_pro( 'pro' );
 
 ?>
 <input type='hidden' id='wps_ubo_pro_status' value='inactive'>

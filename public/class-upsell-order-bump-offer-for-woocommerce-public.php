@@ -84,6 +84,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
 		}
+
+
+		wp_enqueue_style( $this->plugin_name.'one-click-front', plugin_dir_url( __FILE__ ) . 'css/woocommerce_one_click_upsell_funnel_pro-public.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -326,6 +329,65 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			'wps_ubo_lite_public_fbt',
 			$local_arr
 		);
+
+
+		//Js For One CLick Upsell Start.
+		wp_enqueue_script( 'wps-upsell-sweet-alert-js', plugin_dir_url( __FILE__ ) . 'js/sweet-alert.js', array(), '2.1.2', false );
+
+
+		wp_enqueue_script( 'woocommerce-one-click-upsell-public-script', plugin_dir_url( __FILE__ ) . 'js/woocommerce-oneclick-upsell-funnel-public.js', array( 'jquery' ), $this->version, true );
+
+		$show_upsell_loader = false;
+
+		// Add Upsell loader only when Live Offer or admin view.
+		if ( $this->validate_shortcode() ) {
+
+			$show_upsell_loader    = true;
+			$upsell_global_options = get_option( 'wps_upsell_lite_global_options', array() );
+
+			$upsell_loader_redirect_link = ! empty( $upsell_global_options['upsell_actions_message'] ) ? sanitize_text_field( $upsell_global_options['upsell_actions_message'] ) : '';
+		}
+
+
+		wp_localize_script(
+			'woocommerce-one-click-upsell-public-script',
+			'wps_upsell_public',
+			array(
+				'alert_preview_title'    => esc_html__( 'One Click Upsell', 'woo-one-click-upsell-funnel' ),
+				'alert_preview_content'  => esc_html__( 'This is Preview Mode, please checkout to see Live Offers.', 'woo-one-click-upsell-funnel' ),
+				'show_upsell_loader'     => $show_upsell_loader,
+				'upsell_actions_message' => ! empty( $show_upsell_loader ) ? $upsell_loader_redirect_link : '',
+			)
+		);
+
+		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
+		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+
+		if ( $id_nonce_verified ) {
+			$is_upsell_page = '';
+			if ( isset( $_GET['ocuf_ns'] ) ) {
+				$is_upsell_page = true;
+			}
+		}
+
+		if ( ! empty( $is_upsell_page ) ) {
+			$upsell_global_options = get_option( 'wps_upsell_lite_global_options', array() );
+			$upsell_skip_function = ! empty( $upsell_global_options['wps_wocuf_pro_skip_exit_intent_toggle'] ) ? sanitize_text_field( $upsell_global_options['wps_wocuf_pro_skip_exit_intent_toggle'] ) : '';
+			$upsell_exit_intent_message = __( 'Enhance your shopping experience! Explore additional products at a discount before you exit.',  'woo-one-click-upsell-funnel' );
+
+			wp_enqueue_script( 'woocommerce-one-click-upsell-public-exit-intent-script', plugin_dir_url( __FILE__ ) . 'js/woocommerce-one-click-upsell-funnel-public-exit-intent_lite.js', array( 'jquery' ), $this->version, true );
+
+			wp_localize_script(
+				'woocommerce-one-click-upsell-public-exit-intent-script',
+				'wps_upsell_public_exit',
+				array(
+					'ajaxurl'                => admin_url( 'admin-ajax.php' ),
+					'nonce'                  => wp_create_nonce( 'wps_wocuf_nonce' ),
+					'skip_enabled'           => $upsell_skip_function,
+					'skip_message'           => $upsell_exit_intent_message,
+				)
+			);
+		}
 	}
 
 	/**
@@ -6492,5 +6554,86 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		wp_nonce_field( 'checkout_order_processed_nonce', 'checkout_order_processed_nonce' );
 
 	}
+
+
+	/**
+	 * Expire further Offers Order meta value.
+	 *
+	 * @param mixed $order_id order id.
+	 * @since    3.0.0
+	 */
+	private function expire_further_offers( $order_id = 0 ) {
+
+		$expire_further_offers = wps_wocfo_hpos_get_meta_data( $order_id, '_wps_upsell_expire_further_offers', true );
+
+		if ( ! empty( $expire_further_offers ) ) {
+
+			return true;
+		} else {
+
+			return false;
+		}
+	}
+
+		/**
+	 * Process Payment for Upsell order.
+	 *
+	 * @since    1.0.0
+	 * @param    int $order_id    Order ID.
+	 */
+	public function upsell_order_final_payment( $order_id = '' ) {
+
+		if ( empty( $order_id ) ) {
+
+			return false;
+		}
+		$order = new WC_Order( $order_id );
+		$shipping_price_order = 0;
+		if ( ! empty( $order ) ) {
+			$shipping_price_order = floatval( wps_wocfo_hpos_get_meta_data( $order_id, 'wps_upsell_simple_shipping_product_', true ) );
+		}
+
+		if ( 0 != $shipping_price_order && ! empty( $shipping_price_order ) ) {
+			$item_ship = new WC_Order_Item_Shipping();
+			$item_ship->set_name( 'Upsell shipping' );
+			$item_ship->set_total( $shipping_price_order );
+			// Add Shipping item to the order.
+			$order->add_item( $item_ship );
+			$order->calculate_totals();
+
+		}
+
+		global $woocommerce;
+
+		$gateways = $woocommerce->payment_gateways->get_available_payment_gateways();
+
+		$payment_method = $order->get_payment_method();
+
+		
+		if( 'stripe_cc' === $payment_method  ) {
+			$_POST = wps_wocfo_hpos_get_meta_data( $order_id, '_post_data', true );
+
+			$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
+			$stripe_class = $available_gateways[ $payment_method ];
+			$payment_result = $stripe_class->process_payment( $order_id, false, true );
+
+			return 	$payment_result ;
+			
+		} 
+		else {
+			// For cron - Payment initialized.
+			wps_wocfo_hpos_delete_meta_data( $order_id, 'wps_ocufp_upsell_initialized' );
+			$result = '';
+			$payment_method = $order->get_payment_method();
+
+			if ( ! empty( $payment_method ) ) {
+				$result = $gateways[ $payment_method ]->process_payment( $order_id, 'true' );
+			}
+
+			$order->reduce_order_stock();
+			return $result;
+		}
+	}
+
 	// End of class.
 }

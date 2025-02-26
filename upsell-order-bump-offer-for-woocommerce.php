@@ -12,9 +12,9 @@
  * @package           Upsell_Order_Bump_Offer_For_Woocommerce
  *
  * @wordpress-plugin
- * Plugin Name:       Upsell Order Bump Offer for WooCommerce
+ * Plugin Name:       Upsell Funnel Builder for WooCommerce 
  * Plugin URI:        https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/
- * Description:       <code><strong>Upsell Order Bump Offer for WooCommerce</strong></code> makes special offers on checkout page, enabling to increase conversions & AOV in just a single click. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
+ * Description:       <code><strong>Upsell Funnel Builder for WooCommerce</strong></code> makes special offers on checkout page, enabling to increase conversions & AOV in just a single click. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
  *
  * Requires at least:       5.5.0
  * Tested up to:            6.7.1
@@ -134,6 +134,27 @@ if ( $activated ) {
 	define( 'WPS_WOCUF_VERSION', 'v3.5.0' );
 
 
+	add_filter( 'woocommerce_get_checkout_order_received_url', 'wps_wocuf_redirect_order_while_upsell_org', 10, 2 );
+
+	/**
+	 * Function to save redirection.
+	 *
+	 * @param string $order_received_url is the order url.
+	 * @param object $data is the order data.
+	 * @return string
+	 */
+	function wps_wocuf_redirect_order_while_upsell_org( $order_received_url, $data ) {
+
+		wps_wocfo_hpos_update_meta_data( $data->get_id(), 'wps_wocuf_upsell_funnel_order_redirection_link', $order_received_url );
+
+		$order_received_url_data = wps_wocfo_hpos_get_meta_data( $data->get_id(), 'wps_wocfo_upsell_funnel_redirection_link_org', true );
+		if ( ! empty( $order_received_url_data ) ) {
+			$order_received_url = $order_received_url_data;
+		}
+		return $order_received_url;
+	}
+
+
 	$old_pro_present   = false;
 	$installed_plugins = get_plugins();
 
@@ -209,17 +230,19 @@ if ( $activated ) {
 
 
 		/**
-		 * The file responsible for defining Woocommerce Subscriptions compatibility
-		 * and handling functions.
-		 */
-		require_once plugin_dir_path(  __FILE__  ) . 'includes/class-woocommerce-one-click-upsell-funnel-org-subs-comp.php';
-
-
-
-		/**
 		 * The file responsible for Upsell Sales by Funnel - Data handling and Stats.
 		 */
 		require_once plugin_dir_path( __FILE__  ) . 'reporting/class-wps-upsell-report-sales-by-funnel.php';
+
+
+		/**
+		 * The file responsible for Upsell Widgets added within every page builder.
+		 */
+		require_once plugin_dir_path(  __FILE__ ) . 'page-builders/class-wps-upsell-widget-loader.php';
+		if ( class_exists( 'WPS_Upsell_Widget_Loader' ) ) {
+			WPS_Upsell_Widget_Loader::get_instance();
+		}
+
 
 	/**
 	 * The code that runs during plugin deactivation.

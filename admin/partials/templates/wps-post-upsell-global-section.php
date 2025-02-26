@@ -92,7 +92,7 @@ $wps_wocuf_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plu
 // $wps_wocuf_enable_plugin = get_option( 'wps_bump_enable_plugin', 'on' );
 
 $wps_upsell_global_settings = get_option( 'wps_upsell_lite_global_options', array() );
-// wps_upsee_lite_go_pro( 'pro' );
+wps_upsee_lite_go_pro( 'pro' );
 ?>
 <input type='hidden' id='wps_ubo_pro_status' value='inactive'>
 <?php //wps_upsee_lite_product_offer_go_pro( 'pro' ); ?>

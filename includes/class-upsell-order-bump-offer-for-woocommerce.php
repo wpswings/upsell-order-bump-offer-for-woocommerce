@@ -123,6 +123,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php';
 
+
+
+		/**
+		 * The file responsible for defining Woocommerce Subscriptions compatibility
+		 * and handling functions.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ )  ) . 'includes/class-woocommerce-one-click-upsell-funnel-org-subs-comp.php';
+
+
 		/**
 		 * The class responsible for the Onboarding functionality.
 		 */
