@@ -282,6 +282,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_wps_sfw_dismiss_notice_banner', $plugin_admin, 'wps_uob_dismiss_notice_banner_callback' );
 
 		$this->loader->add_action( 'wp_ajax_wps_install_and_redirect_upsell_plugin', $plugin_admin, 'wps_install_and_redirect_upsell_plugin_callback' );
+
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_redirect_upsell_page' );
 	}
 
 	/**

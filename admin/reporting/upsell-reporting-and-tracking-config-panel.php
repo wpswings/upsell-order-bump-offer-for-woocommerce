@@ -37,7 +37,7 @@ $nonce_overview = wp_create_nonce( 'view_upsell_tracking_over' ); // Create nonc
 <?php do_action( 'wps_wocuf_pro_setting_tab_active', '', '', '' ); ?>
 </div>
 
-<div class="wrap woocommerce" id="wps_wocuf_pro_setting_wrapper">
+<div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
 
 	<!-- To make WordPress notice appear at this place. As it searchs from top and appears at the 1st heading tag-->
 	<h1></h1>

@@ -124,6 +124,30 @@ wps_upsee_lite_go_pro( 'pro' );
 				</tr>
 				<!-- Payment Gateways end -->
 
+				<!-- Free Order Upselling start -->
+
+				<tr valign="top">
+
+				<th scope="row" class="titledesc">
+				<span class="wps_wupsell_premium_strip">Pro</span>
+					<label for="wps_wocuf_pro_enable_free_upsell"><?php esc_html_e( 'Free Order Upsell', 'one-click-upsell-funnel-for-woocommerce-pro' ); ?></label>
+				</th>
+
+				<td class="forminp forminp-text">
+					<?php
+					$attribut_description = esc_html__( 'Enable Upsell funnels even on Cart total zero.', 'one-click-upsell-funnel-for-woocommerce-pro' );
+					wps_ubo_lite_help_tip( $attribut_description );
+					?>
+					<label class="wps_wocuf_pro_enable_plugin_label">
+						<input id="wps_wocuf_pro_enable_free_upsell" class="wps_wocuf_pro_enable_plugin_input ubo_offer_input " type="checkbox"  name="enable_free_upsell" >	
+						<span class="wps_wocuf_pro_enable_plugin_span"></span>
+					</label>
+					
+				</td>
+				</tr>
+
+				<!-- Free Order Upselling start -->
+
 				<!-- Remove all styles start -->
 				<tr valign="top">
 

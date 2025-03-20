@@ -5969,3 +5969,8 @@ main.wps-ufw_ms-main {
 }
 
 /* Fixing of existing merger designs End */
+
+/*Disable the enable on pro upsell activate*/
+.wps_one_click_enable {
+	display: none;
+}

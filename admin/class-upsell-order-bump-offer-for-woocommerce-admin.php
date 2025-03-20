@@ -73,12 +73,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting',
 			'order-bump_page_upsell-order-bump-offer-for-woocommerce-reporting',
 			'plugins',
-			'order-bump_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
-			'order-bump_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
+			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
+			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
 		);
     
 		$screen = get_current_screen();
 		$pagescreen = $screen->id;
+		
 		if ( isset( $screen->id ) ) {
 
 			if ( in_array( $pagescreen, $valid_screens, true ) ) {
@@ -149,16 +150,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting',
 			'order-bump_page_upsell-order-bump-offer-for-woocommerce-reporting',
 			'plugins',
-			'order-bump_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
-			'order-bump_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
+			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
+			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
 			'woocommerce_page_wc-settings',
 		);
 
 		if ( isset( $screen->id ) ) {
 
 			$pagescreen = $screen->id;
-
-			// var_dump($pagescreen);
+            
 			if ( in_array( $pagescreen, $valid_screens, true ) ) {
 
 				$wps_plugin_list = get_option( 'active_plugins' );
@@ -278,8 +278,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 */
 	public function wps_ubo_lite_admin_menu() {
 		add_menu_page(
-			esc_html__( 'Order Bump', 'upsell-order-bump-offer-for-woocommerce' ),
-			esc_html__( 'Order Bump', 'upsell-order-bump-offer-for-woocommerce' ),
+			esc_html__( 'Upsell Funnel Builder', 'upsell-order-bump-offer-for-woocommerce' ),
+			esc_html__( 'Upsell Funnel Builder', 'upsell-order-bump-offer-for-woocommerce' ),
 			'manage_woocommerce',
 			'upsell-order-bump-offer-for-woocommerce-setting',
 			array( $this, 'wps_ubo_lite_add_backend' ),
@@ -290,7 +290,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		/**
 		 * Add sub-menu for funnel settings.
 		 */
-		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Order Bumps & Settings', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Order Bumps & Settings', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_woocommerce', 'upsell-order-bump-offer-for-woocommerce-setting' );
+		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Upsell Funnel Builder & Settings', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Upsell Funnel Builder & Settings', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_woocommerce', 'upsell-order-bump-offer-for-woocommerce-setting' );
 
 		/**
 		 * Add sub-menu for order bump reportings settings.
@@ -397,6 +397,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			// With org files only.
 			require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
 		}
+
 	}
 
 	/**
@@ -2410,6 +2411,21 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		}
 	}
 
+	/**
+	 * Add menu redirect URL. callback.
+	 *
+	 * @since       3.0.0
+	 */
+	public function wps_redirect_upsell_page() {
+		if (
+			isset($_GET['page']) && $_GET['page'] === 'upsell-order-bump-offer-for-woocommerce-setting' &&
+			!isset($_GET['tab']) && 
+			!defined('DOING_AJAX') && !defined('DOING_CRON')
+		) {
+			wp_safe_redirect(admin_url('admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=general-setting'));
+			exit;
+		}
+	}
 
 	
 } // End of class.
