@@ -2679,3 +2679,8 @@
         }
   
   /* Checkout and thank tabs end */
+
+  /* Need to restrict it to save page only */
+  #wps_upsell_myModal {
+    display: none;
+  }

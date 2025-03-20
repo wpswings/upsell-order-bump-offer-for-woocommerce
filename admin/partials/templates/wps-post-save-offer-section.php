@@ -36,7 +36,7 @@ if ( ! isset( $_GET['funnel_id'] ) ) {
 	// Get all funnels.
 	$wps_wocuf_pro_funnels = get_option( 'wps_wocuf_funnels_list', array() );
 
-	if ( ! empty( $wps_wocuf_pro_funnels ) ) {
+	if ( ! empty( $wps_wocuf_pro_funnels ) && is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' )) {
 
 		// Temp funnel variable.
 		$wps_wocuf_pro_funnel_duplicate = $wps_wocuf_pro_funnels;
@@ -544,7 +544,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 						</select>	
 						&nbsp;
 						<label class="wps_wocuf_pro_enable_plugin_label">
-								<input class="wps_wocuf_pro_enable_plugin_input ubo_offer_input" product_offer="yes" id="wps_wocuf_pro_add_products_tick" type="checkbox" <?php echo ( 'yes' === $wps_wocuf_add_product_tick ) ? "checked='checked'" : ''; ?> name="wps_wocuf_add_products" >	
+								<input class="wps_wocuf_pro_enable_plugin_input ubo_offer_input" product_offer="yess" id="wps_wocuf_pro_add_products_tick" type="checkbox" <?php echo ( 'yes' === $wps_wocuf_add_product_tick ) ? "checked='checked'" : ''; ?> name="wps_wocuf_add_products" >	
 								<span class="wps_wocuf_pro_enable_plugin_span"></span>
 							</label>	
 						
@@ -1066,7 +1066,11 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 											);
 										}
 
-
+										$offer_templates_array = array(
+											'one'   => esc_html__( 'STANDARD TEMPLATE', 'woo-one-click-upsell-funnel' ),
+											'two'   => esc_html__( 'CREATIVE TEMPLATE', 'woo-one-click-upsell-funnel' ),
+											'three' => esc_html__( 'VIDEO TEMPLATE', 'woo-one-click-upsell-funnel' ),
+										);
 
 
 										?>

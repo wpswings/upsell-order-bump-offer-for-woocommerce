@@ -613,7 +613,8 @@ $(document).on('click', '.wps_upsell_activate_offer_template', function(e) {
 		var data_offer = jQuery(e.currentTarget).attr('product_offer');
 		
 		// Add popup to unlock pro features.
-		var pro_status = document.getElementById( 'wps_ubo_pro_status' );
+		var pro_status = document.getElementById('wps_ubo_pro_status');
+		// alert(pro_status);
 		if( null != pro_status ) {
 			
 			// Add a popup over here.
@@ -925,15 +926,24 @@ jQuery(document).ready( function($) {
     }
 });
 
+(function($)
+{
+    $(function(){
+		$('.wps_wocuf_pro_colorpicker').wpColorPicker();
+	});
+	
+	})(jQuery);
+
+
+	// Remove Saved Offers.
+	jQuery('.wps_wocuf_pro_delete_old_created_offers').on( 'click', function(e) {
+		e.preventDefault();
+    	var btn_id = $(this).data( 'id' );
+		jQuery(".new_created_offers[data-id='" + btn_id + "']").slideUp( 'slow', function() { $(this).remove(); } );
+	});
 
 // END OF SCRIPT,
 });
 
 
-(function($)
-{
-    $(function(){
-        $('.wps_wocuf_pro_colorpicker').wpColorPicker();
-	});
-	
-})(jQuery);
+

@@ -47,8 +47,9 @@ if ( ! empty( $_GET['del_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_u
 
 		update_option( 'wps_wocuf_funnels_list', $wps_wocuf_pro_funnels );
 
-		wp_redirect( esc_url( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=one-click-section&sub_tab=post-list-offer-section' ) ) ); //phpcs:ignore
-		exit();
+		wp_redirect( esc_url_raw( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=one-click-section&sub_tab=post-list-offer-section' ) ) );
+		exit;
+		
 	}
 }
 
@@ -237,16 +238,16 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 
 <!-- Create New Funnel -->
 <div class="wps_wocuf_pro_create_new_funnel">
-	<a href="?page=upsell-order-bump-offer-for-woocommerce-setting&manage_nonce=<?php echo esc_html( wp_create_nonce( 'manage_funnel' ) ); ?>&tab=creation-setting-post&sub_tab=post-list-offer-section&funnel_id=<?php echo esc_html( $wps_wocuf_pro_funnel_number + 1 ); ?>"><?php esc_html_e( '+Create New Funnel', 'woo-one-click-upsell-funnel' ); ?></a>
+	<a href="?page=upsell-order-bump-offer-for-woocommerce-setting&manage_nonce=<?php echo esc_html( wp_create_nonce( 'manage_funnel' ) ); ?>&tab=creation-setting-post&sub_tab=post-list-offer-section&funnel_id=1"><?php esc_html_e( '+Create New Funnel', 'woo-one-click-upsell-funnel' ); ?></a>
 	<?php
 	$installed_plugins = (array) get_option( 'active_plugins', array() );
  
-	if ( ! wps_upsell_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce/upsell-order-bump-offer-for-woocommerce.php' ) ) {    //Need to replace this function.
-		$url = admin_url( 'plugin-install.php?s=Upsell%2520Order%2520Bump%2520Offer%2520for%2520WooCommerce%2520%25E2%2580%2593%2520Increase%2520Sales%2520and%2520AOV%252C%2520Upsell%2520%2526%2520Cross-sell%2520Offers%2520on%2520Checkout%2520Page%2520%2520wp%2520swings&tab=search&type=term' );
-
+	if (  wps_upsell_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {    //Need to replace this function.
 		?>
-<a id="wps_wocuf_order_bump" href="<?php echo esc_url( $url ); ?> "><?php esc_html_e( '+ Create New Order Bump', 'woo-one-click-upsell-funnel' ); ?></a>
-			<?php
+	<a href="?page=upsell-order-bump-offer-for-woocommerce-setting&manage_nonce=<?php echo esc_html( wp_create_nonce( 'manage_funnel' ) ); ?>&tab=creation-setting-post&sub_tab=post-list-offer-section&funnel_id=<?php echo esc_html( $wps_wocuf_pro_funnel_number + 1 ); ?>"><?php esc_html_e( '+Create New Funnel', 'woo-one-click-upsell-funnel' ); ?></a>
+
+		<?php
+
 	}
 ?>
 </div>

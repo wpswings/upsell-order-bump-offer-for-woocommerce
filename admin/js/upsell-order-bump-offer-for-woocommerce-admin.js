@@ -1126,10 +1126,10 @@ jQuery( document ).ready(
 		);
 
 		var pro_status = document.getElementById( 'wps_ubo_pro_status' );
-		if (null != pro_status) {
-			document.getElementById( "wps_Offer_Without_Pop_Up_id_org_2" ).checked = true;
-			document.getElementById( "wps_Offer_With_Pop_Up_id_org_2" ).checked = false;
-		}
+		// if (null != pro_status) {
+		// 	document.getElementById( "wps_Offer_Without_Pop_Up_id_org_2" ).checked = true;
+		// 	document.getElementById( "wps_Offer_With_Pop_Up_id_org_2" ).checked = false;
+		// }
 
 		var wps_selected_template_id = $( '#wps_templete_select_id' ).val();
 		if (6 == wps_selected_template_id || (7 == wps_selected_template_id) || (8 == wps_selected_template_id) || (9 == wps_selected_template_id)) {
@@ -1228,17 +1228,17 @@ jQuery(document).ready(function () {
 	}
  
 	// Add a form submit event listener
-	document.getElementById("wps_upsell_bump_creation_setting_save").addEventListener("click", wps_validate_quantity);
-	jQuery(document).ready(function() {
-		var $grid = jQuery('#available_tab');
-		// Initialize Masonry with jQuery
-		$grid.masonry({
-			itemSelector: '.wps_upsell_template_select',
-			columnWidth: '.wps_upsell_template_select',
-			gutter: 10, // Adjust spacing between items
-			fitWidth: true // Adjusts the container width to fit items
-		});
-	});
+	// document.getElementById("wps_upsell_bump_creation_setting_save").addEventListener("click", wps_validate_quantity);
+	// jQuery(document).ready(function() {
+	// 	var $grid = jQuery('#available_tab');
+	// 	// Initialize Masonry with jQuery
+	// 	$grid.masonry({
+	// 		itemSelector: '.wps_upsell_template_select',
+	// 		columnWidth: '.wps_upsell_template_select',
+	// 		gutter: 10, // Adjust spacing between items
+	// 		fitWidth: true // Adjusts the container width to fit items
+	// 	});
+	// });
 
 	setTimeout(function () {
 		//For the new template 10 js.

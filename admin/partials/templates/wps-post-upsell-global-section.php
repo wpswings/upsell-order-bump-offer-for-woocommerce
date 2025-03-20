@@ -232,7 +232,6 @@ wps_upsee_lite_go_pro( 'pro' );
 
 							<textarea name="upsell_exit_intent_message" rows="4" cols="50"><?php echo esc_html( wp_unslash( $upsell_exit_intent_message ) ); ?></textarea>
 						</div>
-						<span class="wps_upsell_global_description"><?php esc_html_e( 'Add a custom message on for popup when user close browser.', 'woo-one-click-upsell-funnel' ); ?></span>
 					</td>
 				</tr>
 				<!-- Upsell Exit Intent Message end -->
@@ -266,7 +265,6 @@ wps_upsee_lite_go_pro( 'pro' );
 							?>
 							<input class="wps_wocuf_pro_enable_plugin_input ubo_offer_input" type="text" placeholder="<?php echo esc_html( wp_unslash( $upsell_redirect_expire_link ) ); ?>"  name="" >	
 						</div>
-						<span class="wps_upsell_global_description"><?php esc_html_e( 'Add the url where you want to redirect user after offer expire.', 'woo-one-click-upsell-funnel' ); ?></span>
 					</td>
 				</tr>
 				<!-- Upsell redirect when offer expire end -->
@@ -334,7 +332,6 @@ wps_upsee_lite_go_pro( 'pro' );
 
 							<input type="text" name="global_product_discount" value="<?php echo esc_html( $global_product_discount ); ?>">
 						</div>
-						<span class="wps_upsell_global_description"><?php esc_html_e( 'Specify new offer price or discount %', 'woo-one-click-upsell-funnel' ); ?></span>
 					</td>
 				</tr>
 				<!-- Global Offer Discount end -->
@@ -363,7 +360,6 @@ wps_upsee_lite_go_pro( 'pro' );
 
 							<textarea name="upsell_actions_message" rows="4" cols="50"><?php echo esc_html( wp_unslash( $upsell_actions_message ) ); ?></textarea>
 						</div>
-						<span class="wps_upsell_global_description"><?php esc_html_e( 'Add a custom message on after upsell accept button.', 'woo-one-click-upsell-funnel' ); ?></span>
 					</td>
 				</tr>
 				<!-- Upsell Actions Message end -->

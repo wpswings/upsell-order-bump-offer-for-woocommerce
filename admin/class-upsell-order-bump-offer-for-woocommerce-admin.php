@@ -384,7 +384,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				?>
 				<div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
 
-					<div class="wps_upsell_bump_setting_title"><?php esc_html_e( 'Upsell Order Bump Offers Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+					<div class="wps_upsell_bump_setting_title"><?php esc_html_e( 'Upsell Funnel Builder for WooCommerce Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 					<?php
 					// Failed Activation.
 					include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-license.php';
