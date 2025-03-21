@@ -6769,6 +6769,7 @@ function wps_upsell_lite_payment_gateways_with_parent_secured() {
  *
  * @since    3.0.0
  */
+if (!function_exists('wps_upsell_divi_builder_plugin_active') && (! wps_ubo_lite_is_plugin_active('woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php'))) {
 function wps_upsell_divi_builder_plugin_active() {
 
 	$desired_woocommerce_theme = 'Divi';
@@ -6782,6 +6783,7 @@ function wps_upsell_divi_builder_plugin_active() {
 	} else {
 		return false;
 	}
+}
 }
 
 /**
@@ -7064,6 +7066,7 @@ function wps_upsell_lite_elementor_offer_template_1() {
  *
  * @since    1.0.0
  */
+if (!function_exists('wps_upsell_lite_allowed_html') && (! wps_ubo_lite_is_plugin_active('woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php'))) {
 function wps_upsell_lite_allowed_html() {
 
 	// Return the complete html elements defined by us.
@@ -7208,7 +7211,7 @@ function wps_upsell_lite_allowed_html() {
 
 	return $allowed_html;
 }
-
+}
 
 /**
  * Elementor Upsell offer template 2.

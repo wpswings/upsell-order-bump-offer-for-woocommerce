@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -19,7 +20,8 @@
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/admin
  * @author     WP Swings <webmaster@wpswings.com>
  */
-class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
+class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
+{
 
 
 	/**
@@ -45,7 +47,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param      string $plugin_name       The name of this plugin.
 	 * @param      string $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
@@ -56,7 +59,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 		/**
 		 * This function is provided for demonstration purposes only.
 		 *
@@ -76,53 +80,52 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
 		);
-    
+
 		$screen = get_current_screen();
 		$pagescreen = $screen->id;
-		
-		if ( isset( $screen->id ) ) {
 
-			if ( in_array( $pagescreen, $valid_screens, true ) ) {
+		if (isset($screen->id)) {
 
-				wp_register_style( 'wps_ubo_lite_admin_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-admin.css', array(), time(), 'all' );
+			if (in_array($pagescreen, $valid_screens, true)) {
 
-				wp_enqueue_style( 'wps_ubo_lite_admin_style' );
+				wp_register_style('wps_ubo_lite_admin_style', plugin_dir_url(__FILE__) . 'css/upsell-order-bump-offer-for-woocommerce-admin.css', array(), time(), 'all');
 
-				wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/select2.min.css', array(), $this->version, 'all' );
+				wp_enqueue_style('wps_ubo_lite_admin_style');
 
-				wp_enqueue_style( 'woocommerce_admin_menu_styles' );
+				wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/select2.min.css', array(), $this->version, 'all');
 
-				wp_register_style( 'woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array(),time() );
+				wp_enqueue_style('woocommerce_admin_menu_styles');
 
-				wp_enqueue_style( 'woocommerce_admin_styles' );
+				wp_register_style('woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array(), time());
 
-				wp_enqueue_style( 'wp-color-picker' );
+				wp_enqueue_style('woocommerce_admin_styles');
 
-				wp_register_style( 'wps_wocuf_pro_admin_style', plugin_dir_url( __FILE__ ) . 'css/woocommerce_one_click_upsell_funnel_pro-admin.css', array(), $this->version, 'all' );
+				wp_enqueue_style('wp-color-picker');
+
+				wp_register_style('wps_wocuf_pro_admin_style', plugin_dir_url(__FILE__) . 'css/woocommerce_one_click_upsell_funnel_pro-admin.css', array(), $this->version, 'all');
 			}
 		}
 
-		if ( $screen && 'product' === $screen->post_type && 'post' === $screen->base ) {
+		if ($screen && 'product' === $screen->post_type && 'post' === $screen->base) {
 
-			wp_register_style( 'wps_ubo_lite_admin_product_edit_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-product-edit-admin.css', array(), time(), 'all' );
+			wp_register_style('wps_ubo_lite_admin_product_edit_style', plugin_dir_url(__FILE__) . 'css/upsell-order-bump-offer-for-woocommerce-product-edit-admin.css', array(), time(), 'all');
 
-			wp_enqueue_style( 'wps_ubo_lite_admin_product_edit_style' );
+			wp_enqueue_style('wps_ubo_lite_admin_product_edit_style');
 		}
 
 
-		if ( 'woocommerce_page_wc-settings' === $pagescreen ) {
-			wp_register_style( 'wps_wocuf_pro_banner_admin_style', plugin_dir_url( __FILE__ ) . 'css/woocommerce_one_click_upsell_funnel_pro_banner_payment.css', array(), $this->version, 'all' );
+		if ('woocommerce_page_wc-settings' === $pagescreen) {
+			wp_register_style('wps_wocuf_pro_banner_admin_style', plugin_dir_url(__FILE__) . 'css/woocommerce_one_click_upsell_funnel_pro_banner_payment.css', array(), $this->version, 'all');
 
-			wp_enqueue_style( 'wps_wocuf_pro_banner_admin_style' );
+			wp_enqueue_style('wps_wocuf_pro_banner_admin_style');
 		}
 
 
-		if ( isset( $screen->id ) && 'product' == $screen->id ) {
+		if (isset($screen->id) && 'product' == $screen->id) {
 
-			wp_register_style( 'woocommerce_one_click_upsell_funnel_product_shipping', plugin_dir_url( __FILE__ ) . 'css/woocommerce_one_click_upsell_funnel_product_shipping.css', array(), $this->version, 'all' );
+			wp_register_style('woocommerce_one_click_upsell_funnel_product_shipping', plugin_dir_url(__FILE__) . 'css/woocommerce_one_click_upsell_funnel_product_shipping.css', array(), $this->version, 'all');
 
-			wp_enqueue_style( 'woocommerce_one_click_upsell_funnel_product_shipping' );
-
+			wp_enqueue_style('woocommerce_one_click_upsell_funnel_product_shipping');
 		}
 	}
 
@@ -131,7 +134,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 		/**
 		 * This function is provided for demonstration purposes only.
 		 *
@@ -155,68 +159,68 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'woocommerce_page_wc-settings',
 		);
 
-		if ( isset( $screen->id ) ) {
+		if (isset($screen->id)) {
 
 			$pagescreen = $screen->id;
-            
-			if ( in_array( $pagescreen, $valid_screens, true ) ) {
 
-				$wps_plugin_list = get_option( 'active_plugins' );
+			if (in_array($pagescreen, $valid_screens, true)) {
+
+				$wps_plugin_list = get_option('active_plugins');
 				$wps_is_pro_active = false;
 				$wps_plugin = 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php';
-				if ( in_array( $wps_plugin, $wps_plugin_list ) ) {
+				if (in_array($wps_plugin, $wps_plugin_list)) {
 					$wps_is_pro_active = true;
 				}
-				wp_enqueue_script( $this->plugin_name . '_masonry_effects', plugin_dir_url( __FILE__ ) . 'js/masonry_effects.js', array( 'jquery' ), $this->version, false );
-				wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/select2.min.js', array( 'jquery' ), $this->version, false );
-				wp_enqueue_script( $this->plugin_name . '_sweet_alert', plugin_dir_url( __FILE__ ) . 'js/swal.js', array( 'jquery' ), $this->version, false );
-				wp_enqueue_script( 'wps_ubo_lite_admin_script', plugin_dir_url( __FILE__ ) . 'js/upsell-order-bump-offer-for-woocommerce-admin.js', array( 'jquery' ), $this->version, false );
-				wp_register_script( 'woocommerce_admin', WC()->plugin_url() . '/assets/js/admin/woocommerce_admin.js', array( 'jquery', 'jquery-blockui', 'jquery-ui-sortable', 'jquery-ui-widget', 'jquery-ui-core', 'jquery-tiptip', 'wc-enhanced-select' ), WC_VERSION, false );
-				wp_register_script( 'jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.js', array( 'jquery' ), WC_VERSION, true );
+				wp_enqueue_script($this->plugin_name . '_masonry_effects', plugin_dir_url(__FILE__) . 'js/masonry_effects.js', array('jquery'), $this->version, false);
+				wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/select2.min.js', array('jquery'), $this->version, false);
+				wp_enqueue_script($this->plugin_name . '_sweet_alert', plugin_dir_url(__FILE__) . 'js/swal.js', array('jquery'), $this->version, false);
+				wp_enqueue_script('wps_ubo_lite_admin_script', plugin_dir_url(__FILE__) . 'js/upsell-order-bump-offer-for-woocommerce-admin.js', array('jquery'), $this->version, false);
+				wp_register_script('woocommerce_admin', WC()->plugin_url() . '/assets/js/admin/woocommerce_admin.js', array('jquery', 'jquery-blockui', 'jquery-ui-sortable', 'jquery-ui-widget', 'jquery-ui-core', 'jquery-tiptip', 'wc-enhanced-select'), WC_VERSION, false);
+				wp_register_script('jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.js', array('jquery'), WC_VERSION, true);
 				$locale  = localeconv();
-				$decimal = isset( $locale['decimal_point'] ) ? $locale['decimal_point'] : '.';
+				$decimal = isset($locale['decimal_point']) ? $locale['decimal_point'] : '.';
 				$params  = array(
 					/* Translators: %s: decimal. */
-					'i18n_decimal_error'               => sprintf( __( 'Please enter in decimal (%s) format without thousand separators.', 'upsell-order-bump-offer-for-woocommerce' ), $decimal ),
+					'i18n_decimal_error'               => sprintf(__('Please enter in decimal (%s) format without thousand separators.', 'upsell-order-bump-offer-for-woocommerce'), $decimal),
 					/* Translators: %s: price decimal separator. */
-					'i18n_mon_decimal_error'           => sprintf( __( 'Please enter in monetary decimal (%s) format without thousand separators and currency symbols.', 'upsell-order-bump-offer-for-woocommerce' ), wc_get_price_decimal_separator() ),
-					'i18n_country_iso_error'           => __( 'Please enter in country code with two capital letters.', 'upsell-order-bump-offer-for-woocommerce' ),
-					'i18_sale_less_than_regular_error' => __( 'Please enter in a value less than the regular price.', 'upsell-order-bump-offer-for-woocommerce' ),
+					'i18n_mon_decimal_error'           => sprintf(__('Please enter in monetary decimal (%s) format without thousand separators and currency symbols.', 'upsell-order-bump-offer-for-woocommerce'), wc_get_price_decimal_separator()),
+					'i18n_country_iso_error'           => __('Please enter in country code with two capital letters.', 'upsell-order-bump-offer-for-woocommerce'),
+					'i18_sale_less_than_regular_error' => __('Please enter in a value less than the regular price.', 'upsell-order-bump-offer-for-woocommerce'),
 					'decimal_point'                    => $decimal,
 					'mon_decimal_point'                => wc_get_price_decimal_separator(),
 					'strings'                          => array(
-						'import_products' => __( 'Import', 'upsell-order-bump-offer-for-woocommerce' ),
-						'export_products' => __( 'Export', 'upsell-order-bump-offer-for-woocommerce' ),
+						'import_products' => __('Import', 'upsell-order-bump-offer-for-woocommerce'),
+						'export_products' => __('Export', 'upsell-order-bump-offer-for-woocommerce'),
 					),
 					'urls'                             => array(
-						'import_products' => esc_url_raw( admin_url( 'edit.php?post_type=product&page=product_importer' ) ),
-						'export_products' => esc_url_raw( admin_url( 'edit.php?post_type=product&page=product_exporter' ) ),
+						'import_products' => esc_url_raw(admin_url('edit.php?post_type=product&page=product_importer')),
+						'export_products' => esc_url_raw(admin_url('edit.php?post_type=product&page=product_exporter')),
 					),
 					'is_pro_active' => $wps_is_pro_active,
 				);
 
-				$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-				$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+				$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+				$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-				if ( ! $id_nonce_verified ) {
-					wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+				if (! $id_nonce_verified) {
+					wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 				}
 
-				wp_enqueue_script( 'wp-color-picker' );
+				wp_enqueue_script('wp-color-picker');
 
 				wp_enqueue_media();
 
-				if ( ! empty( $_GET['wps-bump-offer-section'] ) ) {
+				if (! empty($_GET['wps-bump-offer-section'])) {
 
-					$bump_offer_section['value'] = sanitize_text_field( wp_unslash( $_GET['wps-bump-offer-section'] ) );
+					$bump_offer_section['value'] = sanitize_text_field(wp_unslash($_GET['wps-bump-offer-section']));
 
 					wp_localize_script(
 						'wps_ubo_lite_admin_script',
 						'wps_ubo_lite_offer_section_obj',
 						array(
 							'value' => $bump_offer_section,
-							'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-							'auth_nonce' => wp_create_nonce( 'wps_admin_nonce' ),
+							'ajaxurl'    => admin_url('admin-ajax.php'),
+							'auth_nonce' => wp_create_nonce('wps_admin_nonce'),
 						)
 					);
 				}
@@ -225,14 +229,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					'wps_ubo_lite_admin_script',
 					'wps_ubo_lite_banner_offer_section_obj',
 					array(
-						'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-						'auth_nonce' => wp_create_nonce( 'wps_admin_nonce' ),
+						'ajaxurl'    => admin_url('admin-ajax.php'),
+						'auth_nonce' => wp_create_nonce('wps_admin_nonce'),
 					)
 				);
 
-				if ( ! empty( $_GET['wps-bump-template-section'] ) ) {
+				if (! empty($_GET['wps-bump-template-section'])) {
 
-					$bump_template_section['value'] = sanitize_text_field( wp_unslash( $_GET['wps-bump-template-section'] ) );
+					$bump_template_section['value'] = sanitize_text_field(wp_unslash($_GET['wps-bump-template-section']));
 
 					wp_localize_script(
 						'wps_ubo_lite_admin_script',
@@ -243,32 +247,32 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					);
 				}
 
-				wp_localize_script( 'woocommerce_admin', 'woocommerce_admin', $params );
+				wp_localize_script('woocommerce_admin', 'woocommerce_admin', $params);
 
-				wp_enqueue_script( 'woocommerce_admin' );
+				wp_enqueue_script('woocommerce_admin');
 
-				wp_enqueue_script( 'wps_ubo_lite_add_new_offer_script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_add_new_offer_script.js', array( 'woocommerce_admin', 'wc-enhanced-select' ), $this->version, false );
+				wp_enqueue_script('wps_ubo_lite_add_new_offer_script', plugin_dir_url(__FILE__) . 'js/wps_ubo_lite_add_new_offer_script.js', array('woocommerce_admin', 'wc-enhanced-select'), $this->version, false);
 
 				wp_localize_script(
 					'wps_ubo_lite_add_new_offer_script',
 					'wps_ubo_lite_ajaxurl',
 					array(
-						'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-						'auth_nonce' => wp_create_nonce( 'wps_onboarding_nonce' ),
-						'one_click_funnel_nonce' => wp_create_nonce( 'wps_wocuf_nonce' ),
+						'ajaxurl'    => admin_url('admin-ajax.php'),
+						'auth_nonce' => wp_create_nonce('wps_onboarding_nonce'),
+						'one_click_funnel_nonce' => wp_create_nonce('wps_wocuf_nonce'),
 					)
 				);
 
-				wp_enqueue_script( 'wps_ubo_lite_sticky_js', plugin_dir_url( __FILE__ ) . 'js/jquery.sticky-sidebar.js', array( 'jquery' ), $this->version, false );
+				wp_enqueue_script('wps_ubo_lite_sticky_js', plugin_dir_url(__FILE__) . 'js/jquery.sticky-sidebar.js', array('jquery'), $this->version, false);
 
-				wp_enqueue_script( 'wps_ubo_lite_sweet-alert-2-js', plugin_dir_url( __FILE__ ) . 'js/sweet-alert.js', array( 'jquery' ), $this->version, false );
+				wp_enqueue_script('wps_ubo_lite_sweet-alert-2-js', plugin_dir_url(__FILE__) . 'js/sweet-alert.js', array('jquery'), $this->version, false);
 			}
 		}
 
 		wp_enqueue_script('jquery-ui-droppable');
-		 wp_register_script( 'woocommerce_admin', WC()->plugin_url() . '/assets/js/admin/woocommerce_admin.js', array( 'jquery', 'jquery-blockui', 'jquery-ui-sortable', 'jquery-ui-widget', 'jquery-ui-core', 'jquery-tiptip', 'wc-enhanced-select' ), WC_VERSION, false );
-		 wp_register_script( 'jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.js', array( 'jquery' ), WC_VERSION, true );
-		}
+		wp_register_script('woocommerce_admin', WC()->plugin_url() . '/assets/js/admin/woocommerce_admin.js', array('jquery', 'jquery-blockui', 'jquery-ui-sortable', 'jquery-ui-widget', 'jquery-ui-core', 'jquery-tiptip', 'wc-enhanced-select'), WC_VERSION, false);
+		wp_register_script('jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.js', array('jquery'), WC_VERSION, true);
+	}
 
 
 	/**
@@ -276,13 +280,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function wps_ubo_lite_admin_menu() {
+	public function wps_ubo_lite_admin_menu()
+	{
 		add_menu_page(
-			esc_html__( 'Upsell Funnel Builder', 'upsell-order-bump-offer-for-woocommerce' ),
-			esc_html__( 'Upsell Funnel Builder', 'upsell-order-bump-offer-for-woocommerce' ),
+			esc_html__('Upsell Funnel Builder', 'upsell-order-bump-offer-for-woocommerce'),
+			esc_html__('Upsell Funnel Builder', 'upsell-order-bump-offer-for-woocommerce'),
 			'manage_woocommerce',
 			'upsell-order-bump-offer-for-woocommerce-setting',
-			array( $this, 'wps_ubo_lite_add_backend' ),
+			array($this, 'wps_ubo_lite_add_backend'),
 			'dashicons-yes-alt',
 			57
 		);
@@ -290,32 +295,31 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		/**
 		 * Add sub-menu for funnel settings.
 		 */
-		add_submenu_page( 'upsell-order-bump-offer-for-woocommerce-setting', esc_html__( 'Upsell Funnel Builder & Settings', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Upsell Funnel Builder & Settings', 'upsell-order-bump-offer-for-woocommerce' ), 'manage_woocommerce', 'upsell-order-bump-offer-for-woocommerce-setting' );
+		add_submenu_page('upsell-order-bump-offer-for-woocommerce-setting', esc_html__('Upsell Funnel Builder & Settings', 'upsell-order-bump-offer-for-woocommerce'), esc_html__('Upsell Funnel Builder & Settings', 'upsell-order-bump-offer-for-woocommerce'), 'manage_woocommerce', 'upsell-order-bump-offer-for-woocommerce-setting');
 
 		/**
 		 * Add sub-menu for order bump reportings settings.
 		 */
-		add_submenu_page( 
-			'upsell-order-bump-offer-for-woocommerce-setting', 
-			esc_html__( 'Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 
-			esc_html__( 'Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 
-			'manage_woocommerce', 
+		add_submenu_page(
+			'upsell-order-bump-offer-for-woocommerce-setting',
+			esc_html__('Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce'),
+			esc_html__('Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce'),
+			'manage_woocommerce',
 			'upsell-order-bump-offer-for-woocommerce-pre-reporting', // UNIQUE SLUG
-			array( $this, 'pre_add_submenu_page_reporting_callback' ) 
+			array($this, 'pre_add_submenu_page_reporting_callback')
 		);
-		
+
 		/**
 		 * Add sub-menu for one click upsell reportings settings.
 		 */
-		add_submenu_page( 
-			'upsell-order-bump-offer-for-woocommerce-setting', 
-			esc_html__( 'Post Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 
-			esc_html__( 'Post Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ), 
-			'manage_woocommerce', 
+		add_submenu_page(
+			'upsell-order-bump-offer-for-woocommerce-setting',
+			esc_html__('Post Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce'),
+			esc_html__('Post Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce'),
+			'manage_woocommerce',
 			'upsell-order-bump-offer-for-woocommerce-post-reporting', // UNIQUE SLUG
-			array( $this, 'post_add_submenu_page_reporting_callback' ) 
+			array($this, 'post_add_submenu_page_reporting_callback')
 		);
-		
 	}
 
 	/**
@@ -323,25 +327,26 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function wps_ubo_lite_add_backend() {
+	public function wps_ubo_lite_add_backend()
+	{
 		$plugin_active = wps_ubo_lite_if_pro_exists();
-		if ( $plugin_active ) {
+		if ($plugin_active) {
 
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 			$old_pro_present   = false;
 			$installed_plugins = get_plugins();
 
-			if ( array_key_exists( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', $installed_plugins ) ) {
+			if (array_key_exists('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', $installed_plugins)) {
 				$pro_plugin = $installed_plugins['upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php'];
-				if ( version_compare( $pro_plugin['Version'], '2.1.0', '<' ) ) {
+				if (version_compare($pro_plugin['Version'], '2.1.0', '<')) {
 					$old_pro_present = true;
 				}
 			}
 
-			if ( true === $old_pro_present ) {
+			if (true === $old_pro_present) {
 				// With org files only.
-				require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php';
+				require_once plugin_dir_path(__FILE__) . '/partials/upsell-order-bump-offer-for-woocommerce-incompatible.php';
 				return;
 			}
 
@@ -350,54 +355,53 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 			$day_count = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic_initial();
 
-			if ( Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic() || 0 <= $day_count ) {
+			if (Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic() || 0 <= $day_count) {
 
-				if ( ! Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic() && 0 <= $day_count ) :
+				if (! Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_callname_lic() && 0 <= $day_count) :
 
-					$day_count_warning = floor( $day_count );
+					$day_count_warning = floor($day_count);
 
 					// Days warning.
 					/* translators: %s is replaced with "days remaining" */
-					$day_string = sprintf( _n( '%s day', '%s days', $day_count_warning, 'upsell-order-bump-offer-for-woocommerce' ), number_format_i18n( $day_count_warning ) );
+					$day_string = sprintf(_n('%s day', '%s days', $day_count_warning, 'upsell-order-bump-offer-for-woocommerce'), number_format_i18n($day_count_warning));
 
-					?>
+?>
 					<div id="wps-bump-thirty-days-notify" class="notice notice-warning wps-notice">
 						<p>
 							<strong><a href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=license">
 
 									<!-- License warning. -->
-									<?php esc_html_e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+									<?php esc_html_e('Activate', 'upsell-order-bump-offer-for-woocommerce'); ?></a>
 								<?php
 								/* translators: %s is replaced with "days remaining" */
-								printf( esc_html__( ' the license key before %s or you may risk losing data and the plugin will also become dysfunctional.', 'upsell-order-bump-offer-for-woocommerce' ), '<span id="wps-upsell-bump-day-count" >' . esc_html( $day_string ) . '</span>' );
+								printf(esc_html__(' the license key before %s or you may risk losing data and the plugin will also become dysfunctional.', 'upsell-order-bump-offer-for-woocommerce'), '<span id="wps-upsell-bump-day-count" >' . esc_html($day_string) . '</span>');
 								?>
 							</strong>
 						</p>
 					</div>
-					<?php
+				<?php
 
 				endif;
 
-				require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
+				require_once plugin_dir_path(__FILE__) . '/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
 			} else {
 
 				?>
 				<div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
 
-					<div class="wps_upsell_bump_setting_title"><?php esc_html_e( 'Upsell Funnel Builder for WooCommerce Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+					<div class="wps_upsell_bump_setting_title"><?php esc_html_e('Upsell Funnel Builder for WooCommerce Pro', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
 					<?php
 					// Failed Activation.
 					include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-license.php';
 					?>
 				</div>
-				<?php
+			<?php
 			}
 		} else {
 
 			// With org files only.
-			require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
+			require_once plugin_dir_path(__FILE__) . '/partials/upsell-order-bump-offer-for-woocommerce-admin-display.php';
 		}
-
 	}
 
 	/**
@@ -405,7 +409,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since       1.4.0
 	 */
-	public function pre_add_submenu_page_reporting_callback() {
+	public function pre_add_submenu_page_reporting_callback()
+	{
 		require_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/reporting/upsell-order-bump-reporting-config-panel.php';
 	}
 
@@ -416,7 +421,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since       1.4.0
 	 */
-	public function post_add_submenu_page_reporting_callback() {
+	public function post_add_submenu_page_reporting_callback()
+	{
 		require_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/reporting/upsell-reporting-and-tracking-config-panel.php';
 	}
 
@@ -425,45 +431,46 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function search_products_for_bump() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+	public function search_products_for_bump()
+	{
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 		}
 
 		$return         = array();
 		$search_results = new WP_Query(
 			array(
-				's'                   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
-				'post_type'           => array( 'product', 'product_variation' ),
-				'post_status'         => array( 'publish' ),
+				's'                   => ! empty($_GET['q']) ? sanitize_text_field(wp_unslash($_GET['q'])) : '',
+				'post_type'           => array('product', 'product_variation'),
+				'post_status'         => array('publish'),
 				'ignore_sticky_posts' => 1,
 				'posts_per_page'      => -1,
 			)
 		);
 
-		if ( $search_results->have_posts() ) :
+		if ($search_results->have_posts()) :
 
-			while ( $search_results->have_posts() ) :
+			while ($search_results->have_posts()) :
 
 				$search_results->the_post();
 
-				$title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
+				$title = (mb_strlen($search_results->post->post_title) > 50) ? mb_substr($search_results->post->post_title, 0, 49) . '...' : $search_results->post->post_title;
 
 				/**
 				 * Check for post type as query sometimes returns posts even after mentioning post_type.
 				 * As some plugins alter query which causes issues.
 				 */
-				$post_type = get_post_type( $search_results->post->ID );
+				$post_type = get_post_type($search_results->post->ID);
 
-				if ( 'product' !== $post_type && 'product_variation' !== $post_type ) {
+				if ('product' !== $post_type && 'product_variation' !== $post_type) {
 
 					continue;
 				}
 
-				$product      = wc_get_product( $search_results->post->ID );
+				$product      = wc_get_product($search_results->post->ID);
 				$downloadable = $product->is_downloadable();
 				$stock        = $product->get_stock_status();
 				$product_type = $product->get_type();
@@ -473,18 +480,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					'external',
 				);
 
-				if ( in_array( $product_type, $unsupported_product_types, true ) || 'outofstock' === $stock ) {
+				if (in_array($product_type, $unsupported_product_types, true) || 'outofstock' === $stock) {
 
 					continue;
 				}
 
-				$return[] = array( $search_results->post->ID, $title );
+				$return[] = array($search_results->post->ID, $title);
 
 			endwhile;
 
 		endif;
 
-		echo wp_json_encode( $return );
+		echo wp_json_encode($return);
 
 		wp_die();
 	}
@@ -495,45 +502,46 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function search_products_for_offers() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+	public function search_products_for_offers()
+	{
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 		}
 
 		$return         = array();
 		$search_results = new WP_Query(
 			array(
-				's'                   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
-				'post_type'           => array( 'product', 'product_variation' ),
-				'post_status'         => array( 'publish' ),
+				's'                   => ! empty($_GET['q']) ? sanitize_text_field(wp_unslash($_GET['q'])) : '',
+				'post_type'           => array('product', 'product_variation'),
+				'post_status'         => array('publish'),
 				'ignore_sticky_posts' => 1,
 				'posts_per_page'      => -1,
 			)
 		);
 
-		if ( $search_results->have_posts() ) :
+		if ($search_results->have_posts()) :
 
-			while ( $search_results->have_posts() ) :
+			while ($search_results->have_posts()) :
 
 				$search_results->the_post();
 
-				$title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
+				$title = (mb_strlen($search_results->post->post_title) > 50) ? mb_substr($search_results->post->post_title, 0, 49) . '...' : $search_results->post->post_title;
 
 				/**
 				 * Check for post type as query sometimes returns posts even after mentioning post_type.
 				 * As some plugins alter query which causes issues.
 				 */
-				$post_type = get_post_type( $search_results->post->ID );
+				$post_type = get_post_type($search_results->post->ID);
 
-				if ( 'product' !== $post_type && 'product_variation' !== $post_type ) {
+				if ('product' !== $post_type && 'product_variation' !== $post_type) {
 
 					continue;
 				}
 
-				$product      = wc_get_product( $search_results->post->ID );
+				$product      = wc_get_product($search_results->post->ID);
 				$downloadable = $product->is_downloadable();
 				$stock        = $product->get_stock_status();
 				$product_type = $product->get_type();
@@ -543,18 +551,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					'external',
 				);
 
-				if ( in_array( $product_type, $unsupported_product_types, true ) || 'outofstock' === $stock ) {
+				if (in_array($product_type, $unsupported_product_types, true) || 'outofstock' === $stock) {
 
 					continue;
 				}
 
-				$return[] = array( $search_results->post->ID, $title );
+				$return[] = array($search_results->post->ID, $title);
 
 			endwhile;
 
 		endif;
 
-		echo wp_json_encode( $return );
+		echo wp_json_encode($return);
 
 		wp_die();
 	}
@@ -566,38 +574,39 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function search_products_for_bump_offer_id() {
+	public function search_products_for_bump_offer_id()
+	{
 
-		$secure_nonce = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-		
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		$secure_nonce = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
+
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 		}
-		
+
 		$return = array();
-		
-		// Retrieve the data stored in the options table.
-		$saved_products = get_option( 'wps_ubo_bump_list', array() ); // Replace 'wps_saved_products' with your actual option name.
-		$search_query   = ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '';
-		
-		// Check if the option data exists and is an array.
-		if ( is_array( $saved_products ) && ! empty( $saved_products ) ) {
-			foreach ( $saved_products as $key => $value ) {
-		
 
-				$title = ( mb_strlen($value['wps_upsell_bump_name'] ) > 50 ) ? mb_substr( $value['wps_upsell_bump_name'], 0, 49 ) . '...' : $value['wps_upsell_bump_name'];
-		
+		// Retrieve the data stored in the options table.
+		$saved_products = get_option('wps_ubo_bump_list', array()); // Replace 'wps_saved_products' with your actual option name.
+		$search_query   = ! empty($_GET['q']) ? sanitize_text_field(wp_unslash($_GET['q'])) : '';
+
+		// Check if the option data exists and is an array.
+		if (is_array($saved_products) && ! empty($saved_products)) {
+			foreach ($saved_products as $key => $value) {
+
+
+				$title = (mb_strlen($value['wps_upsell_bump_name']) > 50) ? mb_substr($value['wps_upsell_bump_name'], 0, 49) . '...' : $value['wps_upsell_bump_name'];
+
 				// Add a search filter if needed.
-				if ( $search_query && stripos( $title, $search_query ) === false ) {
+				if ($search_query && stripos($title, $search_query) === false) {
 					continue;
 				}
-		
-				$return[] = array( $key, $title );
+
+				$return[] = array($key, $title);
 			}
 		}
-		
-		echo wp_json_encode( $return );
+
+		echo wp_json_encode($return);
 		wp_die();
 	}
 
@@ -607,50 +616,51 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function search_coupon_for_offers() {
+	public function search_coupon_for_offers()
+	{
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 		}
 
 		$return         = array();
 		$search_results = new WP_Query(
 			array(
-				's'                   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
+				's'                   => ! empty($_GET['q']) ? sanitize_text_field(wp_unslash($_GET['q'])) : '',
 				'post_type'           => 'shop_coupon',
-				'post_status'         => array( 'publish' ),
+				'post_status'         => array('publish'),
 				'ignore_sticky_posts' => 1,
 				'posts_per_page'      => -1,
 			)
 		);
 
-		if ( $search_results->have_posts() ) :
+		if ($search_results->have_posts()) :
 
-			while ( $search_results->have_posts() ) :
+			while ($search_results->have_posts()) :
 
 				$search_results->the_post();
 
-				$title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
+				$title = (mb_strlen($search_results->post->post_title) > 50) ? mb_substr($search_results->post->post_title, 0, 49) . '...' : $search_results->post->post_title;
 
 				// Ensure the post type is 'shop_coupon'.
-				if ( 'shop_coupon' !== get_post_type( $search_results->post->ID ) ) {
+				if ('shop_coupon' !== get_post_type($search_results->post->ID)) {
 					continue;
 				}
 
-				$coupon = new WC_Coupon( $search_results->post->ID );
+				$coupon = new WC_Coupon($search_results->post->ID);
 
 				// Additional checks can be added here if needed.
 
-				$return[] = array( $search_results->post->ID, $title );
+				$return[] = array($search_results->post->ID, $title);
 
 			endwhile;
 
 		endif;
 
-		echo wp_json_encode( $return );
+		echo wp_json_encode($return);
 
 		wp_die();
 	}
@@ -662,34 +672,35 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function search_product_categories_for_bump() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+	public function search_product_categories_for_bump()
+	{
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 		}
 
 		$return = array();
 		$args   = array(
-			'search'   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
+			'search'   => ! empty($_GET['q']) ? sanitize_text_field(wp_unslash($_GET['q'])) : '',
 			'taxonomy' => 'product_cat',
 			'orderby'  => 'name',
 		);
 
-		$product_categories = get_terms( $args );
+		$product_categories = get_terms($args);
 
-		if ( ! empty( $product_categories ) && is_array( $product_categories ) && count( $product_categories ) ) {
+		if (! empty($product_categories) && is_array($product_categories) && count($product_categories)) {
 
-			foreach ( $product_categories as $single_product_category ) {
+			foreach ($product_categories as $single_product_category) {
 
-				$cat_name = ( mb_strlen( $single_product_category->name ) > 50 ) ? mb_substr( $single_product_category->name, 0, 49 ) . '...' : $single_product_category->name;
+				$cat_name = (mb_strlen($single_product_category->name) > 50) ? mb_substr($single_product_category->name, 0, 49) . '...' : $single_product_category->name;
 
-				$return[] = array( $single_product_category->term_id, $single_product_category->name );
+				$return[] = array($single_product_category->term_id, $single_product_category->name);
 			}
 		}
 
-		echo wp_json_encode( $return );
+		echo wp_json_encode($return);
 
 		wp_die();
 	}
@@ -701,25 +712,26 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param   string $post_ID            Order id as the post.
 	 * @since    1.0.0
 	 */
-	public function show_bump_total_content( $column_name, $post_ID ) {
+	public function show_bump_total_content($column_name, $post_ID)
+	{
 
 		// Add bump offer price to order total column.
-		if ( 'order_total' === $column_name ) {
+		if ('order_total' === $column_name) {
 
 			// Get order id as post id.
-			$order = wc_get_order( $post_ID );
+			$order = wc_get_order($post_ID);
 
 			$order_items = $order->get_items();
 
 			$order_bump_purchased = false;
 
-			if ( ! empty( $order_items ) && is_array( $order_items ) ) {
+			if (! empty($order_items) && is_array($order_items)) {
 
 				$order_bump_item_total = 0;
 
-				foreach ( $order_items as $item_id => $single_item ) {
+				foreach ($order_items as $item_id => $single_item) {
 
-					if ( ! empty( wc_get_order_item_meta( $item_id, 'is_order_bump_purchase', true ) ) || ! empty( wc_get_order_item_meta( $item_id, 'Bump Offer', true ) ) ) {
+					if (! empty(wc_get_order_item_meta($item_id, 'is_order_bump_purchase', true)) || ! empty(wc_get_order_item_meta($item_id, 'Bump Offer', true))) {
 
 						$order_bump_purchased   = true;
 						$order_bump_item_total += $single_item->get_total();
@@ -727,17 +739,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				}
 			}
 
-			if ( $order_bump_purchased ) :
-				?>
+			if ($order_bump_purchased) :
+			?>
 
 				<p class="wps_bump_table_html">
 					<?php
 					$allowed_html = wps_ubo_lite_allowed_html();
-					echo esc_html_e( 'Order Bump: ', 'upsell-order-bump-offer-for-woocommerce' ) . wp_kses( wc_price( $order_bump_item_total ), $allowed_html );
+					echo esc_html_e('Order Bump: ', 'upsell-order-bump-offer-for-woocommerce') . wp_kses(wc_price($order_bump_item_total), $allowed_html);
 					?>
 				</p>
 
-				<?php
+			<?php
 			endif;
 		}
 	}
@@ -749,32 +761,33 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since       1.4.0
 	 */
-	public function add_order_bump_reporting( $reports ) {
+	public function add_order_bump_reporting($reports)
+	{
 
 		$reports['wps_order_bump'] = array(
 
-			'title'   => esc_html__( 'Order Bump', 'upsell-order-bump-offer-for-woocommerce' ),
+			'title'   => esc_html__('Order Bump', 'upsell-order-bump-offer-for-woocommerce'),
 			'reports' => array(
 
 				'sales_by_date'     => array(
-					'title'       => esc_html__( 'Order Bump Sales by date', 'upsell-order-bump-offer-for-woocommerce' ),
+					'title'       => esc_html__('Order Bump Sales by date', 'upsell-order-bump-offer-for-woocommerce'),
 					'description' => '',
 					'hide_title'  => 1,
-					'callback'    => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'order_bump_reporting_callback' ),
+					'callback'    => array('Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'order_bump_reporting_callback'),
 				),
 
 				'sales_by_product'  => array(
-					'title'       => esc_html__( 'Order Bump Sales by product', 'upsell-order-bump-offer-for-woocommerce' ),
+					'title'       => esc_html__('Order Bump Sales by product', 'upsell-order-bump-offer-for-woocommerce'),
 					'description' => '',
 					'hide_title'  => 1,
-					'callback'    => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'order_bump_reporting_callback' ),
+					'callback'    => array('Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'order_bump_reporting_callback'),
 				),
 
 				'sales_by_category' => array(
-					'title'       => esc_html__( 'Order Bump Sales by category', 'upsell-order-bump-offer-for-woocommerce' ),
+					'title'       => esc_html__('Order Bump Sales by category', 'upsell-order-bump-offer-for-woocommerce'),
 					'description' => '',
 					'hide_title'  => 1,
-					'callback'    => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'order_bump_reporting_callback' ),
+					'callback'    => array('Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'order_bump_reporting_callback'),
 				),
 			),
 		);
@@ -789,18 +802,19 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since       1.4.0
 	 */
-	public static function order_bump_reporting_callback( $report_type ) {
+	public static function order_bump_reporting_callback($report_type)
+	{
 
-		$report_file      = ! empty( $report_type ) ? str_replace( '_', '-', $report_type ) : '';
-		$preformat_string = ! empty( $report_type ) ? ucwords( str_replace( '_', ' ', $report_type ) ) : '';
-		$class_name       = ! empty( $preformat_string ) ? 'Wps_Upsell_Order_Bump_Report_' . str_replace( ' ', '_', $preformat_string ) : '';
+		$report_file      = ! empty($report_type) ? str_replace('_', '-', $report_type) : '';
+		$preformat_string = ! empty($report_type) ? ucwords(str_replace('_', ' ', $report_type)) : '';
+		$class_name       = ! empty($preformat_string) ? 'Wps_Upsell_Order_Bump_Report_' . str_replace(' ', '_', $preformat_string) : '';
 
 		/**
 		 * The file responsible for defining reporting.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'reporting/class-wps-upsell-order-bump-report-' . $report_file . '.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'reporting/class-wps-upsell-order-bump-report-' . $report_file . '.php';
 
-		if ( class_exists( $class_name ) ) {
+		if (class_exists($class_name)) {
 
 			$report = new $class_name();
 			$report->output_report();
@@ -809,10 +823,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			?>
 			<div class="wps_ubo_report_error_wrap" style="text-align: center;">
 				<h2 class="wps_ubo_report_error_text">
-					<?php esc_html_e( 'Some Error Occured while creating report.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+					<?php esc_html_e('Some Error Occured while creating report.', 'upsell-order-bump-offer-for-woocommerce'); ?>
 				</h2>
 			</div>
-			<?php
+		<?php
 		}
 	}
 
@@ -822,12 +836,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param array $valid_screens  report type.
 	 * @since    1.4.0
 	 */
-	public function add_wps_frontend_screens( $valid_screens = array() ) {
+	public function add_wps_frontend_screens($valid_screens = array())
+	{
 
-		if ( is_array( $valid_screens ) ) {
+		if (is_array($valid_screens)) {
 
 			// Push your screen here.
-			array_push( $valid_screens, 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' );
+			array_push($valid_screens, 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting');
 		}
 
 		return $valid_screens;
@@ -839,13 +854,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param array $valid_screens  report type.
 	 * @since    1.4.0
 	 */
-	public function add_wps_deactivation_screens( $valid_screens = array() ) {
+	public function add_wps_deactivation_screens($valid_screens = array())
+	{
 
-		if ( is_array( $valid_screens ) ) {
+		if (is_array($valid_screens)) {
 
 			// Push your screen here.
-			array_push( $valid_screens, 'upsell-order-bump-offer-for-woocommerce' );
-			array_push( $valid_screens, 'upsell-order-bump-offer-for-woocommerce-pro' );
+			array_push($valid_screens, 'upsell-order-bump-offer-for-woocommerce');
+			array_push($valid_screens, 'upsell-order-bump-offer-for-woocommerce-pro');
 		}
 
 		return $valid_screens;
@@ -856,25 +872,26 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.4.0
 	 */
-	public function validate_version_compatibility() {
+	public function validate_version_compatibility()
+	{
 		$result = wps_ubo_lite_pro_version_incompatible();
 
 		// When Pro version in incompatible.
-		if ( 'incompatible' === $result ) {
+		if ('incompatible' === $result) {
 
-			set_transient( 'wps_ubo_lite_pro_version_incompatible', 'true' );
+			set_transient('wps_ubo_lite_pro_version_incompatible', 'true');
 
 			// Deactivate Pro Plugin.
-			add_action( 'admin_init', array( $this, 'deactivate_pro_plugin' ) );
-		} elseif ( 'compatible' === $result && 'true' === get_transient( 'wps_ubo_lite_pro_version_incompatible' ) ) {  // When Pro version in compatible and transient is set.
+			add_action('admin_init', array($this, 'deactivate_pro_plugin'));
+		} elseif ('compatible' === $result && 'true' === get_transient('wps_ubo_lite_pro_version_incompatible')) {  // When Pro version in compatible and transient is set.
 
-			delete_transient( 'wps_ubo_lite_pro_version_incompatible' );
+			delete_transient('wps_ubo_lite_pro_version_incompatible');
 		}
 
-		if ( 'true' === get_transient( 'wps_ubo_lite_pro_version_incompatible' ) ) {
+		if ('true' === get_transient('wps_ubo_lite_pro_version_incompatible')) {
 
 			// Deactivate Pro Plugin admin notice.
-			add_action( 'admin_notices', array( $this, 'deactivate_pro_admin_notice' ) );
+			add_action('admin_notices', array($this, 'deactivate_pro_admin_notice'));
 		}
 	}
 
@@ -883,21 +900,22 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.4.0
 	 */
-	public function deactivate_pro_plugin() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+	public function deactivate_pro_plugin()
+	{
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 		}
 
 		// To hide Plugin activated notice.
-		if ( ! empty( $_GET['activate'] ) ) {
+		if (! empty($_GET['activate'])) {
 
-			unset( $_GET['activate'] );
+			unset($_GET['activate']);
 		}
 
-		deactivate_plugins( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' );
+		deactivate_plugins('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php');
 	}
 
 	/**
@@ -905,7 +923,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.4.0
 	 */
-	public function deactivate_pro_admin_notice() {
+	public function deactivate_pro_admin_notice()
+	{
 		$screen = get_current_screen();
 
 		$valid_screens = array(
@@ -914,14 +933,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'plugins',
 		);
 
-		if ( ! empty( $screen->id ) && in_array( $screen->id, $valid_screens, true ) ) :
-			?>
+		if (! empty($screen->id) && in_array($screen->id, $valid_screens, true)) :
+		?>
 
 			<div class="notice notice-error is-dismissible wps-notice">
-				<p><strong><?php esc_html_e( 'Upsell Order Bump Offer for WooCommerce Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong> <?php esc_html_e( 'is deactivated, Please Update the PRO version as this version is outdated and will not work with the current', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong> <?php esc_html_e( 'Upsell Order Bump Offer for WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong> <?php esc_html_e( 'Free version.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+				<p><strong><?php esc_html_e('Upsell Order Bump Offer for WooCommerce Pro', 'upsell-order-bump-offer-for-woocommerce'); ?></strong> <?php esc_html_e('is deactivated, Please Update the PRO version as this version is outdated and will not work with the current', 'upsell-order-bump-offer-for-woocommerce'); ?><strong> <?php esc_html_e('Upsell Order Bump Offer for WooCommerce', 'upsell-order-bump-offer-for-woocommerce'); ?></strong> <?php esc_html_e('Free version.', 'upsell-order-bump-offer-for-woocommerce'); ?></p>
 			</div>
 
-			<?php
+		<?php
 		endif;
 	}
 
@@ -931,32 +950,33 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param mixed $image_post_id image post id.
 	 * @since       3.0.0
 	 */
-	public static function wps_ubo_image_uploader_field( $image_post_id = '' ) {
+	public static function wps_ubo_image_uploader_field($image_post_id = '')
+	{
 
 		// Image present!
-		if ( ! empty( $image_post_id ) ) {
+		if (! empty($image_post_id)) {
 
 			// $image_attributes[0] - Image URL.
 			// $image_attributes[1] - Image width.
 			// $image_attributes[2] - Image height.
-			$image_attributes = wp_get_attachment_image_src( $image_post_id, 'thumbnail' );
-			?>
+			$image_attributes = wp_get_attachment_image_src($image_post_id, 'thumbnail');
+		?>
 			<div class="wps_wocuf_saved_custom_image">
-				<a href="#" class="wps_ubo_upload_image_button"><img src="<?php echo esc_url( $image_attributes[0] ); ?>" style="max-width:150px;display:block;"></a>
-				<input type="hidden" name="wps_upsell_offer_image" id="wps_upsell_offer_image" value="<?php echo esc_attr( $image_post_id ); ?>">
-				<a href="#" class="wps_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:inline-block;"><?php esc_html_e( 'Remove Image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
+				<a href="#" class="wps_ubo_upload_image_button"><img src="<?php echo esc_url($image_attributes[0]); ?>" style="max-width:150px;display:block;"></a>
+				<input type="hidden" name="wps_upsell_offer_image" id="wps_upsell_offer_image" value="<?php echo esc_attr($image_post_id); ?>">
+				<a href="#" class="wps_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:inline-block;"><?php esc_html_e('Remove Image', 'upsell-order-bump-offer-for-woocommerce-pro'); ?></a>
 			</div>
-			<?php
+		<?php
 
 		} else {
 			// Image not present!
-			?>
+		?>
 			<div class="wps_wocuf_saved_custom_image">
-				<a href="#" class="wps_ubo_upload_image_button button"><?php esc_html_e( 'Upload image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
-				<input type="hidden" name="wps_upsell_offer_image" id="wps_upsell_offer_image" value="<?php echo esc_attr( $image_post_id ); ?>">
-				<a href="#" class="wps_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:none;"><?php esc_html_e( 'Remove Image', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></a>
+				<a href="#" class="wps_ubo_upload_image_button button"><?php esc_html_e('Upload image', 'upsell-order-bump-offer-for-woocommerce-pro'); ?></a>
+				<input type="hidden" name="wps_upsell_offer_image" id="wps_upsell_offer_image" value="<?php echo esc_attr($image_post_id); ?>">
+				<a href="#" class="wps_ubo_remove_image_button button" style="display:inline-block;margin-top: 10px;display:none;"><?php esc_html_e('Remove Image', 'upsell-order-bump-offer-for-woocommerce-pro'); ?></a>
 			</div>
-			<?php
+		<?php
 		}
 	}
 
@@ -965,15 +985,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @return void
 	 */
-	public function wps_migrate_db_keys() {
-		if ( 'deleted' !== get_option( 'mwb_ubo_bump_list', 'deleted' ) ) {
-			$wps_ubo_global_options_copy = str_replace( 'mwb', 'wps', wp_json_encode( get_option( 'mwb_ubo_global_options' ) ) );
-			$wps_ubo_bump_list_copy      = str_replace( 'mwb', 'wps', wp_json_encode( get_option( 'mwb_ubo_bump_list' ) ) );
+	public function wps_migrate_db_keys()
+	{
+		if ('deleted' !== get_option('mwb_ubo_bump_list', 'deleted')) {
+			$wps_ubo_global_options_copy = str_replace('mwb', 'wps', wp_json_encode(get_option('mwb_ubo_global_options')));
+			$wps_ubo_bump_list_copy      = str_replace('mwb', 'wps', wp_json_encode(get_option('mwb_ubo_bump_list')));
 
-			update_option( 'wps_ubo_global_options', json_decode( $wps_ubo_global_options_copy, true ) );
-			update_option( 'wps_ubo_bump_list', json_decode( $wps_ubo_bump_list_copy, true ) );
-			delete_option( 'mwb_ubo_global_options' );
-			delete_option( 'mwb_ubo_bump_list' );
+			update_option('wps_ubo_global_options', json_decode($wps_ubo_global_options_copy, true));
+			update_option('wps_ubo_bump_list', json_decode($wps_ubo_bump_list_copy, true));
+			delete_option('mwb_ubo_global_options');
+			delete_option('mwb_ubo_bump_list');
 
 			$meta_keys = array(
 				'mwb_upsell_bump_license_key',
@@ -981,16 +1002,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				'mwb_upsell_bump_activated_timestamp',
 			);
 
-			foreach ( $meta_keys as $key => $meta_key ) {
-				$new_meta_key = str_replace( 'mwb', 'wps', $meta_key );
-				$meta_value   = get_option( $meta_key, '' );
-				update_option( $new_meta_key, $meta_value );
-				delete_option( $meta_key );
+			foreach ($meta_keys as $key => $meta_key) {
+				$new_meta_key = str_replace('mwb', 'wps', $meta_key);
+				$meta_value   = get_option($meta_key, '');
+				update_option($new_meta_key, $meta_value);
+				delete_option($meta_key);
 			}
 		}
 
-		$this->import_postmeta( 'mwb_bump_order' );
-		$this->import_postmeta( 'mwb_bump_order_process_sales_stats' );
+		$this->import_postmeta('mwb_bump_order');
+		$this->import_postmeta('mwb_bump_order_process_sales_stats');
 	}
 
 	/**
@@ -999,15 +1020,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param string $meta_key meta key to import.
 	 * @since       3.1.4
 	 */
-	public function import_postmeta( $meta_key = false ) {
+	public function import_postmeta($meta_key = false)
+	{
 
-		if ( ! empty( $meta_key ) ) {
+		if (! empty($meta_key)) {
 
-			$new_meta_key = str_replace( 'mwb', 'wps', $meta_key );
+			$new_meta_key = str_replace('mwb', 'wps', $meta_key);
 
 			global $wpdb;
-			wp_cache_delete( 'wps_migration_keys' );
-			if ( empty( wp_cache_get( 'wps_migration_keys' ) || ! empty( wp_cache_get( 'wps_migration_keys' ) ) ) ) {
+			wp_cache_delete('wps_migration_keys');
+			if (empty(wp_cache_get('wps_migration_keys') || ! empty(wp_cache_get('wps_migration_keys')))) {
 
 				$result = $wpdb->get_results( // phpcs:ignore.
 					$wpdb->prepare(
@@ -1031,11 +1053,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since 2.2.8
 	 */
-	public function wps_uob_set_cron_for_plugin_notification() {
-		$wps_sfw_offset = get_option( 'gmt_offset' );
+	public function wps_uob_set_cron_for_plugin_notification()
+	{
+		$wps_sfw_offset = get_option('gmt_offset');
 		$wps_sfw_time   = time() + $wps_sfw_offset * 60 * 60;
-		if ( ! wp_next_scheduled( 'wps_wgm_check_for_notification_update' ) ) {
-			wp_schedule_event( $wps_sfw_time, 'daily', 'wps_wgm_check_for_notification_update' );
+		if (! wp_next_scheduled('wps_wgm_check_for_notification_update')) {
+			wp_schedule_event($wps_sfw_time, 'daily', 'wps_wgm_check_for_notification_update');
 		}
 	}
 
@@ -1044,18 +1067,19 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since 2.2.8
 	 */
-	public function wps_uob_save_notice_message() {
-		 $wps_notification_data = $this->wps_uob_get_update_notification_data();
-		if ( is_array( $wps_notification_data ) && ! empty( $wps_notification_data ) ) {
-			$banner_id      = array_key_exists( 'notification_id', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_id'] : '';
-			$banner_image = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_image'] : '';
-			$banner_url = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_url'] : '';
-			$banner_type = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_type'] : '';
-			update_option( 'wps_wgm_notify_new_banner_id', $banner_id );
-			update_option( 'wps_wgm_notify_new_banner_image', $banner_image );
-			update_option( 'wps_wgm_notify_new_banner_url', $banner_url );
-			if ( 'regular' == $banner_type ) {
-				update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
+	public function wps_uob_save_notice_message()
+	{
+		$wps_notification_data = $this->wps_uob_get_update_notification_data();
+		if (is_array($wps_notification_data) && ! empty($wps_notification_data)) {
+			$banner_id      = array_key_exists('notification_id', $wps_notification_data[0]) ? $wps_notification_data[0]['wps_banner_id'] : '';
+			$banner_image = array_key_exists('notification_message', $wps_notification_data[0]) ? $wps_notification_data[0]['wps_banner_image'] : '';
+			$banner_url = array_key_exists('notification_message', $wps_notification_data[0]) ? $wps_notification_data[0]['wps_banner_url'] : '';
+			$banner_type = array_key_exists('notification_message', $wps_notification_data[0]) ? $wps_notification_data[0]['wps_banner_type'] : '';
+			update_option('wps_wgm_notify_new_banner_id', $banner_id);
+			update_option('wps_wgm_notify_new_banner_image', $banner_image);
+			update_option('wps_wgm_notify_new_banner_url', $banner_url);
+			if ('regular' == $banner_type) {
+				update_option('wps_wgm_notify_hide_baneer_notification', '');
 			}
 		}
 	}
@@ -1066,14 +1090,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since 2.2.8
 	 */
-	public function wps_uob_get_update_notification_data() {
+	public function wps_uob_get_update_notification_data()
+	{
 		$wps_notification_data = array();
 		$url                   = 'https://demo.wpswings.com/client-notification/woo-gift-cards-lite/wps-client-notify.php';
 		$attr                  = array(
 			'action'         => 'wps_notification_fetch',
 			'plugin_version' => UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION,
 		);
-		$query                 = esc_url_raw( add_query_arg( $attr, $url ) );
+		$query                 = esc_url_raw(add_query_arg($attr, $url));
 		$response              = wp_remote_get(
 			$query,
 			array(
@@ -1082,11 +1107,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			)
 		);
 
-		if ( is_wp_error( $response ) ) {
+		if (is_wp_error($response)) {
 			$error_message = $response->get_error_message();
-			echo '<p><strong>Something went wrong: ' . esc_html( stripslashes( $error_message ) ) . '</strong></p>';
+			echo '<p><strong>Something went wrong: ' . esc_html(stripslashes($error_message)) . '</strong></p>';
 		} else {
-			$wps_notification_data = json_decode( wp_remote_retrieve_body( $response ), true );
+			$wps_notification_data = json_decode(wp_remote_retrieve_body($response), true);
 		}
 		return $wps_notification_data;
 	}
@@ -1096,13 +1121,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since 2.2.8
 	 */
-	public function wps_uob_dismiss_notice_banner_callback() {
-		if ( isset( $_REQUEST['wps_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wps_nonce'] ) ), 'wps_admin_nonce' ) ) {
+	public function wps_uob_dismiss_notice_banner_callback()
+	{
+		if (isset($_REQUEST['wps_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_REQUEST['wps_nonce'])), 'wps_admin_nonce')) {
 
-			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+			$banner_id = get_option('wps_wgm_notify_new_banner_id', false);
 
-			if ( isset( $banner_id ) && '' != $banner_id ) {
-				update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
+			if (isset($banner_id) && '' != $banner_id) {
+				update_option('wps_wgm_notify_hide_baneer_notification', $banner_id);
 			}
 
 			wp_send_json_success();
@@ -1114,16 +1140,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since 2.2.8
 	 */
-	public function wps_install_and_redirect_upsell_plugin_callback() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+	public function wps_install_and_redirect_upsell_plugin_callback()
+	{
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 		}
-		wp_send_json_success( array( 'redirect_url' => admin_url( 'plugin-install.php?s=Upsell%2520Order%2520Bump%2520Offer%2520for%2520WooCommerce%2520%25E2%2580%2593%2520Increase%2520Sales%2520and%2520AOV%252C%2520Upsell%2520%2526%2520Cross-sell%2520Offers%2520on%2520Checkout%2520Page%2520%2520wp%2520swings&tab=search&type=term' ) ) );
+		wp_send_json_success(array('redirect_url' => admin_url('plugin-install.php?s=Upsell%2520Order%2520Bump%2520Offer%2520for%2520WooCommerce%2520%25E2%2580%2593%2520Increase%2520Sales%2520and%2520AOV%252C%2520Upsell%2520%2526%2520Cross-sell%2520Offers%2520on%2520Checkout%2520Page%2520%2520wp%2520swings&tab=search&type=term')));
 		wp_die();
-
 	}
 
 
@@ -1132,46 +1158,47 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function seach_products_for_offers() {
+	public function seach_products_for_offers()
+	{
 		$return = array();
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'woo-one-click-upsell-funnel'));
 		}
 
 		$search_results = new WP_Query(
 			array(
-				's'                   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
-				'post_type'           => array( 'product', 'product_variation' ),
-				'post_status'         => array( 'publish' ),
+				's'                   => ! empty($_GET['q']) ? sanitize_text_field(wp_unslash($_GET['q'])) : '',
+				'post_type'           => array('product', 'product_variation'),
+				'post_status'         => array('publish'),
 				'ignore_sticky_posts' => 1,
 				'posts_per_page'      => -1,
 			)
 		);
 
-		if ( $search_results->have_posts() ) :
+		if ($search_results->have_posts()) :
 
-			while ( $search_results->have_posts() ) :
+			while ($search_results->have_posts()) :
 
 				$search_results->the_post();
 
-				$title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
+				$title = (mb_strlen($search_results->post->post_title) > 50) ? mb_substr($search_results->post->post_title, 0, 49) . '...' : $search_results->post->post_title;
 
 				/**
 				 * Check for post type as query sometimes returns posts even after mentioning post_type.
 				 * As some plugins alter query which causes issues.
 				 */
-				$post_type = get_post_type( $search_results->post->ID );
+				$post_type = get_post_type($search_results->post->ID);
 
-				if ( 'product' !== $post_type && 'product_variation' !== $post_type ) {
+				if ('product' !== $post_type && 'product_variation' !== $post_type) {
 
 					continue;
 				}
 
-				$product      = wc_get_product( $search_results->post->ID );
+				$product      = wc_get_product($search_results->post->ID);
 				$downloadable = $product->is_downloadable();
 				$stock        = $product->get_stock_status();
 				$product_type = $product->get_type();
@@ -1181,18 +1208,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					'external',
 				);
 
-				if ( in_array( $product_type, $unsupported_product_types, true ) || 'outofstock' === $stock ) {
+				if (in_array($product_type, $unsupported_product_types, true) || 'outofstock' === $stock) {
 
 					continue;
 				}
 
-				$return[] = array( $search_results->post->ID, $title );
+				$return[] = array($search_results->post->ID, $title);
 
 			endwhile;
 
 		endif;
 
-		echo wp_json_encode( $return );
+		echo wp_json_encode($return);
 
 		wp_die();
 	}
@@ -1203,46 +1230,47 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function seach_products_for_funnel() {
+	public function seach_products_for_funnel()
+	{
 		$return = array();
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'woo-one-click-upsell-funnel'));
 		}
 
 		$search_results = new WP_Query(
 			array(
-				's'                   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
-				'post_type'           => array( 'product', 'product_variation' ),
-				'post_status'         => array( 'publish' ),
+				's'                   => ! empty($_GET['q']) ? sanitize_text_field(wp_unslash($_GET['q'])) : '',
+				'post_type'           => array('product', 'product_variation'),
+				'post_status'         => array('publish'),
 				'ignore_sticky_posts' => 1,
 				'posts_per_page'      => -1,
 			)
 		);
 
-		if ( $search_results->have_posts() ) :
+		if ($search_results->have_posts()) :
 
-			while ( $search_results->have_posts() ) :
+			while ($search_results->have_posts()) :
 
 				$search_results->the_post();
 
-				$title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
+				$title = (mb_strlen($search_results->post->post_title) > 50) ? mb_substr($search_results->post->post_title, 0, 49) . '...' : $search_results->post->post_title;
 
 				/**
 				 * Check for post type as query sometimes returns posts even after mentioning post_type.
 				 * As some plugins alter query which causes issues.
 				 */
-				$post_type = get_post_type( $search_results->post->ID );
+				$post_type = get_post_type($search_results->post->ID);
 
-				if ( 'product' !== $post_type && 'product_variation' !== $post_type ) {
+				if ('product' !== $post_type && 'product_variation' !== $post_type) {
 
 					continue;
 				}
 
-				$product      = wc_get_product( $search_results->post->ID );
+				$product      = wc_get_product($search_results->post->ID);
 				$downloadable = $product->is_downloadable();
 				$stock        = $product->get_stock_status();
 				$product_type = $product->get_type();
@@ -1252,56 +1280,57 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					'external',
 				);
 
-				if ( in_array( $product_type, $unsupported_product_types, true ) || 'outofstock' === $stock ) {
+				if (in_array($product_type, $unsupported_product_types, true) || 'outofstock' === $stock) {
 
 					continue;
 				}
 
-				$return[] = array( $search_results->post->ID, $title );
+				$return[] = array($search_results->post->ID, $title);
 
 			endwhile;
 
 		endif;
 
-		echo wp_json_encode( $return );
+		echo wp_json_encode($return);
 
 		wp_die();
-	}	
-	
+	}
+
 	/**
 	 * Select2 search for adding funnel target product categories
 	 *
 	 * @since    3.0.1
 	 */
-	public function search_product_categories_for_funnel() {
+	public function search_product_categories_for_funnel()
+	{
 		$return = array();
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified',  'woo-one-click-upsell-funnel' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified',  'woo-one-click-upsell-funnel'));
 		}
 
 		$args = array(
-			'search'   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
+			'search'   => ! empty($_GET['q']) ? sanitize_text_field(wp_unslash($_GET['q'])) : '',
 			'taxonomy' => 'product_cat',
 			'orderby'  => 'name',
 		);
 
-		$product_categories = get_terms( $args );
+		$product_categories = get_terms($args);
 
-		if ( ! empty( $product_categories ) && is_array( $product_categories ) && count( $product_categories ) ) {
+		if (! empty($product_categories) && is_array($product_categories) && count($product_categories)) {
 
-			foreach ( $product_categories as $single_product_category ) {
+			foreach ($product_categories as $single_product_category) {
 
-				$cat_name = ( mb_strlen( $single_product_category->name ) > 50 ) ? mb_substr( $single_product_category->name, 0, 49 ) . '...' : $single_product_category->name;
+				$cat_name = (mb_strlen($single_product_category->name) > 50) ? mb_substr($single_product_category->name, 0, 49) . '...' : $single_product_category->name;
 
-				$return[] = array( $single_product_category->term_id, $single_product_category->name );
+				$return[] = array($single_product_category->term_id, $single_product_category->name);
 			}
 		}
 
-		echo wp_json_encode( $return );
+		echo wp_json_encode($return);
 
 		wp_die();
 	}
@@ -1311,9 +1340,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since       2.0.0
 	 */
-	public function dismiss_elementor_inactive_notice() {
+	public function dismiss_elementor_inactive_notice()
+	{
 
-		set_transient( 'wps_upsell_elementor_inactive_notice', 'notice_dismissed' );
+		set_transient('wps_upsell_elementor_inactive_notice', 'notice_dismissed');
 
 		wp_die();
 	}
@@ -1325,29 +1355,29 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param mixed $query query.
 	 * @since       2.0.0
 	 */
-	public function hide_upsell_offer_pages_in_admin( $query ) {
+	public function hide_upsell_offer_pages_in_admin($query)
+	{
 
 		// Make sure we're in the admin and it's the main query.
-		if ( ! is_admin() && ! $query->is_main_query() ) {
+		if (! is_admin() && ! $query->is_main_query()) {
 			return;
 		}
 
 		global $typenow;
 
 		// Only do this for pages.
-		if ( ! empty( $typenow ) && 'page' === $typenow ) {
+		if (! empty($typenow) && 'page' === $typenow) {
 
-			$saved_offer_post_ids = get_option( 'wps_upsell_lite_offer_post_ids', array() );
+			$saved_offer_post_ids = get_option('wps_upsell_lite_offer_post_ids', array());
 
-			if ( ! empty( $saved_offer_post_ids ) && is_array( $saved_offer_post_ids ) && count( $saved_offer_post_ids ) ) {
+			if (! empty($saved_offer_post_ids) && is_array($saved_offer_post_ids) && count($saved_offer_post_ids)) {
 
 				// Don't show the special pages.
-				$query->set( 'post__not_in', $saved_offer_post_ids );
+				$query->set('post__not_in', $saved_offer_post_ids);
 
 				return;
 			}
 		}
-
 	}
 
 
@@ -1357,7 +1387,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since       1.0.0
 	 * @param mixed $page_template default template for the page.
 	 */
-	public function wps_wocuf_pro_page_template( $page_template ) {
+	public function wps_wocuf_pro_page_template($page_template)
+	{
 
 		$pages_available = get_posts(
 			array(
@@ -1370,11 +1401,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			)
 		);
 
-		foreach ( $pages_available as $single_page ) {
+		foreach ($pages_available as $single_page) {
 
-			if ( is_page( $single_page->ID ) ) {
+			if (is_page($single_page->ID)) {
 
-				$page_template = dirname( __FILE__ ) . '/partials/templates/wps-wocuf-pro-template.php';
+				$page_template = dirname(__FILE__) . '/partials/templates/wps-wocuf-pro-template.php';
 			}
 		}
 
@@ -1389,26 +1420,27 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function return_funnel_offer_section_content() {
+	public function return_funnel_offer_section_content()
+	{
 
-		check_ajax_referer( 'wps_wocuf_nonce', 'nonce' );
+		check_ajax_referer('wps_wocuf_nonce', 'nonce');
 
-		if ( isset( $_POST['wps_wocuf_pro_flag'] ) && isset( $_POST['wps_wocuf_pro_funnel'] ) ) {
+		if (isset($_POST['wps_wocuf_pro_flag']) && isset($_POST['wps_wocuf_pro_funnel'])) {
 
 			// New Offer id.
-			$offer_index = sanitize_text_field( wp_unslash( $_POST['wps_wocuf_pro_flag'] ) );
+			$offer_index = sanitize_text_field(wp_unslash($_POST['wps_wocuf_pro_flag']));
 			// Funnel id.
-			$funnel_id = sanitize_text_field( wp_unslash( $_POST['wps_wocuf_pro_funnel'] ) );
+			$funnel_id = sanitize_text_field(wp_unslash($_POST['wps_wocuf_pro_funnel']));
 
-			unset( $_POST['wps_wocuf_pro_flag'] );
-			unset( $_POST['wps_wocuf_pro_funnel'] );
+			unset($_POST['wps_wocuf_pro_flag']);
+			unset($_POST['wps_wocuf_pro_funnel']);
 
 			$funnel_offer_post_html = '<input type="hidden" name="wps_upsell_post_id_assigned[' . $offer_index . ']" value="">';
 
 			$funnel_offer_template_section_html = '';
 			$funnel_offer_post_id               = '';
 
-			if ( wps_upsell_lite_elementor_plugin_active() || wps_upsell_divi_builder_plugin_active() ) {
+			if (wps_upsell_lite_elementor_plugin_active() || wps_upsell_divi_builder_plugin_active()) {
 
 				// Create post for corresponding funnel and offer id.
 				$funnel_offer_post_id = wp_insert_post(
@@ -1416,7 +1448,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 						'comment_status' => 'closed',
 						'ping_status'    => 'closed',
 						'post_content'   => '',
-						'post_name'      => uniqid( 'special-offer-' ), // post slug.
+						'post_name'      => uniqid('special-offer-'), // post slug.
 						'post_title'     => 'Special Offer',
 						'post_status'    => 'publish',
 						'post_type'      => 'page',
@@ -1424,16 +1456,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					)
 				);
 
-				if ( $funnel_offer_post_id ) {
+				if ($funnel_offer_post_id) {
 
-					if ( wps_upsell_lite_elementor_plugin_active() ) {
+					if (wps_upsell_lite_elementor_plugin_active()) {
 						$elementor_data = wps_upsell_lite_elementor_offer_template_1();
-						update_post_meta( $funnel_offer_post_id, '_elementor_data', $elementor_data );
-						update_post_meta( $funnel_offer_post_id, '_elementor_edit_mode', 'builder' );
-					} elseif ( wps_upsell_divi_builder_plugin_active() ) {
+						update_post_meta($funnel_offer_post_id, '_elementor_data', $elementor_data);
+						update_post_meta($funnel_offer_post_id, '_elementor_edit_mode', 'builder');
+					} elseif (wps_upsell_divi_builder_plugin_active()) {
 
-						delete_post_meta( $funnel_offer_post_id, '_elementor_css' );
-						delete_post_meta( $funnel_offer_post_id, '_elementor_data' );
+						delete_post_meta($funnel_offer_post_id, '_elementor_css');
+						delete_post_meta($funnel_offer_post_id, '_elementor_data');
 						global $post;
 						$get_post_contents = '[et_pb_section fb_built="1" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_row column_structure="1_2,1_2" make_equal="on" _builder_version="4.18.1" _module_preset="default" custom_css_main_element="align-items: center" global_colors_info="{}"][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][wps_upsell_image][/et_pb_column][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" header_font="|700|||||||" header_text_color="#000000" header_font_size="40px" header_line_height="1.9em" header_2_font="|600|||||||" header_2_text_color="#000000" header_2_font_size="36px" header_2_line_height="1.6em" header_5_font="|700|||||||" header_5_text_color="#000000" header_5_line_height="2.3em" global_colors_info="{}"]<h2>[wps_upsell_title]</h2>
 						<p>[wps_upsell_desc]</p>
@@ -1456,9 +1488,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 						$my_post = array();
 						$my_post['ID'] = $funnel_offer_post_id;
 						$my_post['post_content'] = $get_post_contents;
-						wp_update_post( $my_post );
+						wp_update_post($my_post);
 						// Delete temporary meta key.
-						delete_post_meta( $funnel_offer_post_id, 'divi_content' );
+						delete_post_meta($funnel_offer_post_id, 'divi_content');
 					}
 
 					$wps_upsell_funnel_data = array(
@@ -1466,46 +1498,45 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 						'offer_id'  => $offer_index,
 					);
 
-					update_post_meta( $funnel_offer_post_id, 'wps_upsell_funnel_data', $wps_upsell_funnel_data );
+					update_post_meta($funnel_offer_post_id, 'wps_upsell_funnel_data', $wps_upsell_funnel_data);
 
 					$funnel_offer_post_html = '<input type="hidden" name="wps_upsell_post_id_assigned[' . $offer_index . ']" value="' . $funnel_offer_post_id . '">';
 
-					$funnel_offer_template_section_html = $this->get_funnel_offer_template_section_html( $funnel_offer_post_id, $offer_index, $funnel_id );
+					$funnel_offer_template_section_html = $this->get_funnel_offer_template_section_html($funnel_offer_post_id, $offer_index, $funnel_id);
 
 					// Save an array of all created upsell offer-page post ids.
-					$upsell_offer_post_ids = get_option( 'wps_upsell_lite_offer_post_ids', array() );
+					$upsell_offer_post_ids = get_option('wps_upsell_lite_offer_post_ids', array());
 
 					$upsell_offer_post_ids[] = $funnel_offer_post_id;
 
-					update_option( 'wps_upsell_lite_offer_post_ids', $upsell_offer_post_ids );
-
+					update_option('wps_upsell_lite_offer_post_ids', $upsell_offer_post_ids);
 				}
 			} else { // When Elementor is not active.
 
 				// Will return 'Feature not supported' part as $funnel_offer_post_id is empty.
-				$funnel_offer_template_section_html = $this->get_funnel_offer_template_section_html( $funnel_offer_post_id, $offer_index, $funnel_id );
+				$funnel_offer_template_section_html = $this->get_funnel_offer_template_section_html($funnel_offer_post_id, $offer_index, $funnel_id);
 			}
 
 			// Get all funnels.
-			$wps_wocuf_pro_funnel = get_option( 'wps_wocuf_funnels_list' );
+			$wps_wocuf_pro_funnel = get_option('wps_wocuf_funnels_list');
 
 			// Funnel offers array.
-			$wps_wocuf_pro_offers_to_add = isset( $wps_wocuf_pro_funnel[ $funnel_id ]['wps_wocuf_applied_offer_number'] ) ? $wps_wocuf_pro_funnel[ $funnel_id ]['wps_wocuf_applied_offer_number'] : array();
+			$wps_wocuf_pro_offers_to_add = isset($wps_wocuf_pro_funnel[$funnel_id]['wps_wocuf_applied_offer_number']) ? $wps_wocuf_pro_funnel[$funnel_id]['wps_wocuf_applied_offer_number'] : array();
 
 			// Buy now action select html.
-			$buy_now_action_select_html = '<select name="wps_wocuf_attached_offers_on_buy[' . $offer_index . ']"><option value="thanks">' . esc_html__( 'Order ThankYou Page', 'woo-one-click-upsell-funnel' ) . '</option>';
+			$buy_now_action_select_html = '<select name="wps_wocuf_attached_offers_on_buy[' . $offer_index . ']"><option value="thanks">' . esc_html__('Order ThankYou Page', 'woo-one-click-upsell-funnel') . '</option>';
 
 			// No thanks action select html.
-			$no_thanks_action_select_html = '<select name="wps_wocuf_attached_offers_on_no[' . $offer_index . ']"><option value="thanks">' . esc_html__( 'Order ThankYou Page', 'woo-one-click-upsell-funnel' ) . '</option>';
+			$no_thanks_action_select_html = '<select name="wps_wocuf_attached_offers_on_no[' . $offer_index . ']"><option value="thanks">' . esc_html__('Order ThankYou Page', 'woo-one-click-upsell-funnel') . '</option>';
 
 			// If there are other offers then add them to select html.
-			if ( ! empty( $wps_wocuf_pro_offers_to_add ) ) {
+			if (! empty($wps_wocuf_pro_offers_to_add)) {
 
-				foreach ( $wps_wocuf_pro_offers_to_add as $offer_id ) {
+				foreach ($wps_wocuf_pro_offers_to_add as $offer_id) {
 
-					$buy_now_action_select_html .= '<option value=' . $offer_id . '>' . esc_html__( 'Offer #', 'woo-one-click-upsell-funnel' ) . $offer_id . '</option>';
+					$buy_now_action_select_html .= '<option value=' . $offer_id . '>' . esc_html__('Offer #', 'woo-one-click-upsell-funnel') . $offer_id . '</option>';
 
-					$no_thanks_action_select_html .= '<option value=' . $offer_id . '>' . esc_html__( 'Offer #', 'woo-one-click-upsell-funnel' ) . $offer_id . '</option>';
+					$no_thanks_action_select_html .= '<option value=' . $offer_id . '>' . esc_html__('Offer #', 'woo-one-click-upsell-funnel') . $offer_id . '</option>';
 				}
 			}
 
@@ -1514,53 +1545,53 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 			$offer_scroll_id_val = "#offer-section-$offer_index";
 
-			$allowed_html = wps_upsell_lite_allowed_html();
+			$allowed_html = wps_upsell_lite_allowed_htmld();
 
 			$data = '<div style="display:none;" data-id="' . $offer_index . '" data-scroll-id="' . $offer_scroll_id_val . '" class="new_created_offers wps_upsell_single_offer">
-			<h2 class="wps_upsell_offer_title">' . esc_html__( 'Offer #', 'woo-one-click-upsell-funnel' ) . $offer_index . '</h2>
+			<h2 class="wps_upsell_offer_title">' . esc_html__('Offer #', 'woo-one-click-upsell-funnel') . $offer_index . '</h2>
 			<table>
 			<tr>
-			<th><label><h4>' . esc_html__( 'Offer Product', 'woo-one-click-upsell-funnel' ) . '</h4></label></th>
-			<td><select class="wc-offer-product-search wps_upsell_offer_product" name="wps_wocuf_products_in_offer[' . $offer_index . ']" data-placeholder="' . esc_html__( 'Search for a product&hellip;', 'woo-one-click-upsell-funnel' ) . '"></select></td>
+			<th><label><h4>' . esc_html__('Offer Product', 'woo-one-click-upsell-funnel') . '</h4></label></th>
+			<td><select class="wc-offer-product-search wps_upsell_offer_product" name="wps_wocuf_products_in_offer[' . $offer_index . ']" data-placeholder="' . esc_html__('Search for a product&hellip;', 'woo-one-click-upsell-funnel') . '"></select></td>
 			</tr>
 			<tr>
-			<th><label><h4>' . esc_html__( 'Offer Price / Discount', 'woo-one-click-upsell-funnel' ) . '</h4></label></th>
+			<th><label><h4>' . esc_html__('Offer Price / Discount', 'woo-one-click-upsell-funnel') . '</h4></label></th>
 			<td>
 			<input type="text" class="wps_upsell_offer_price" name="wps_wocuf_offer_discount_price[' . $offer_index . ']" value="50%" >
-			<span class="wps_upsell_offer_description" >' . esc_html__( 'Specify new offer price or discount %', 'woo-one-click-upsell-funnel' ) . '</span>
+			<span class="wps_upsell_offer_description" >' . esc_html__('Specify new offer price or discount %', 'woo-one-click-upsell-funnel') . '</span>
 			</td>
 			<tr>
-				<th><label><h4>' . esc_html__( 'Offer Image', 'woo-one-click-upsell-funnel' ) . '</h4></label>
+				<th><label><h4>' . esc_html__('Offer Image', 'woo-one-click-upsell-funnel') . '</h4></label>
 				</th>
-				<td>' . $this->wps_wocuf_pro_image_uploader_field( $offer_index ) . '</td>
+				<td>' . $this->wps_wocuf_pro_image_uploader_field($offer_index) . '</td>
 			</tr>
 			</tr>
 			<tr>
-			<th><label><h4>' . esc_html__( 'After \'Buy Now\' go to', 'woo-one-click-upsell-funnel' ) . '</h4></label></th>
-			<td>' . $buy_now_action_select_html . '<span class="wps_upsell_offer_description">' . esc_html__( 'Select where the customer will be redirected after accepting this offer', 'woo-one-click-upsell-funnel' ) . '</span></td>
+			<th><label><h4>' . esc_html__('After \'Buy Now\' go to', 'woo-one-click-upsell-funnel') . '</h4></label></th>
+			<td>' . $buy_now_action_select_html . '<span class="wps_upsell_offer_description">' . esc_html__('Select where the customer will be redirected after accepting this offer', 'woo-one-click-upsell-funnel') . '</span></td>
 			</tr>
 			<tr>
-			<th><label><h4>' . esc_html__( 'After \'No thanks\' go to', 'woo-one-click-upsell-funnel' ) . '</h4></label></th>
-			<td>' . $no_thanks_action_select_html . '<span class="wps_upsell_offer_description">' . esc_html__( 'Select where the customer will be redirected after rejecting this offer', 'woo-one-click-upsell-funnel' ) . '</td>
+			<th><label><h4>' . esc_html__('After \'No thanks\' go to', 'woo-one-click-upsell-funnel') . '</h4></label></th>
+			<td>' . $no_thanks_action_select_html . '<span class="wps_upsell_offer_description">' . esc_html__('Select where the customer will be redirected after rejecting this offer', 'woo-one-click-upsell-funnel') . '</td>
 			</tr>' . $funnel_offer_template_section_html . '
 			<tr>
-			<th><label><h4>' . esc_html__( 'Offer Custom Page Link', 'woo-one-click-upsell-funnel' ) . '</h4></label></th>
+			<th><label><h4>' . esc_html__('Offer Custom Page Link', 'woo-one-click-upsell-funnel') . '</h4></label></th>
 			<td>
 			<input type="text" class="wps_upsell_custom_offer_page_url" name="wps_wocuf_offer_custom_page_url[' . $offer_index . ']" >
 			</td>
 			</tr>
 			<tr>
 			<td colspan="2">
-			<button class="button wps_wocuf_pro_delete_new_created_offers" data-id="' . $offer_index . '">' . esc_html__( 'Remove', 'woo-one-click-upsell-funnel' ) . '</button>
+			<button class="button wps_wocuf_pro_delete_new_created_offers" data-id="' . $offer_index . '">' . esc_html__('Remove', 'woo-one-click-upsell-funnel') . '</button>
 			</td>
 			</tr>
 			</table>
 			<input type="hidden" name="wps_wocuf_applied_offer_number[' . $offer_index . ']" value="' . $offer_index . '">
 			' . $funnel_offer_post_html . '</div>';
 
-			$new_data = apply_filters( 'wps_wocuf_pro_add_more_to_offers', $data );
+			$new_data = apply_filters('wps_wocuf_pro_add_more_to_offers', $data);
 
-			echo wp_kses( $new_data, $allowed_html );
+			echo wp_kses($new_data, $allowed_html);
 			// It just displayes the html itself. Content in it is already escaped if required.
 		}
 
@@ -1568,7 +1599,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	}
 
 
-		/**
+	/**
 	 * Returns Funnel Offer Template section html.
 	 *
 	 * @param mixed $funnel_offer_post_id funnel offer post id.
@@ -1576,7 +1607,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param mixed $funnel_id funnel id.
 	 * @since    2.0.0
 	 */
-	public function get_funnel_offer_template_section_html( $funnel_offer_post_id, $offer_index, $funnel_id ) {
+	public function get_funnel_offer_template_section_html($funnel_offer_post_id, $offer_index, $funnel_id)
+	{
 
 		ob_start();
 
@@ -1584,26 +1616,28 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 		<!-- Section : Offer template start -->
 		<tr>
-			<th><label><h4><?php esc_html_e( 'Offer Template', 'woo-one-click-upsell-funnel' ); ?></h4></label>
+			<th><label>
+					<h4><?php esc_html_e('Offer Template', 'woo-one-click-upsell-funnel'); ?></h4>
+				</label>
 			</th>
 			<?php
-			$assigned_post_id        = ! empty( $funnel_offer_post_id ) ? $funnel_offer_post_id : '';
+			$assigned_post_id        = ! empty($funnel_offer_post_id) ? $funnel_offer_post_id : '';
 			$current_offer_id        = $offer_index;
 			$wps_wocuf_pro_funnel_id = $funnel_id;
 
 			?>
 			<td>
 
-				<?php if ( ! empty( $assigned_post_id ) ) : ?>
+				<?php if (! empty($assigned_post_id)) : ?>
 
 					<?php
 					// As default is "one".
 					$offer_template_active = 'one';
 
 					$offer_templates_array = array(
-						'one'   => esc_html__( 'STANDARD TEMPLATE', 'woo-one-click-upsell-funnel' ),
-						'two'   => esc_html__( 'CREATIVE TEMPLATE', 'woo-one-click-upsell-funnel' ),
-						'three' => esc_html__( 'VIDEO TEMPLATE', 'woo-one-click-upsell-funnel' ),
+						'one'   => esc_html__('STANDARD TEMPLATE', 'woo-one-click-upsell-funnel'),
+						'two'   => esc_html__('CREATIVE TEMPLATE', 'woo-one-click-upsell-funnel'),
+						'three' => esc_html__('VIDEO TEMPLATE', 'woo-one-click-upsell-funnel'),
 					);
 
 					?>
@@ -1611,13 +1645,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					<!-- Offer templates parent div start -->
 					<div class="wps_upsell_offer_templates_parent">
 
-						<input class="wps_wocuf_pro_offer_template_input" type="hidden" name="wps_wocuf_pro_offer_template[<?php echo esc_html( $current_offer_id ); ?>]" value="<?php echo esc_html( $offer_template_active ); ?>">
+						<input class="wps_wocuf_pro_offer_template_input" type="hidden" name="wps_wocuf_pro_offer_template[<?php echo esc_html($current_offer_id); ?>]" value="<?php echo esc_html($offer_template_active); ?>">
 
 						<?php
 
-						foreach ( $offer_templates_array as $template_key => $template_name ) :
+						foreach ($offer_templates_array as $template_key => $template_name) :
 
-							?>
+						?>
 							<!-- Offer templates foreach start-->
 
 							<div class="wps_upsell_offer_template 
@@ -1626,293 +1660,293 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 							// It just displayes the html itself. Content in it is already escaped if required.
 							?>
 							">
-								<div class="wps_upsell_offer_template_sub_div"> 
+								<div class="wps_upsell_offer_template_sub_div">
 
-									<h5><?php echo esc_html( $template_name ); ?></h5>
+									<h5><?php echo esc_html($template_name); ?></h5>
 
 									<div class="wps_upsell_offer_preview">
 
 										<?php
-										if ( 'one' == $template_key || 'two' == $template_key || 'three' == $template_key ) {
+										if ('one' == $template_key || 'two' == $template_key || 'three' == $template_key) {
 
-											if ( wps_upsell_divi_builder_plugin_active() ) {
-												?>
-												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html( $template_key ); ?>" ><img src="<?php echo esc_url( WPS_WOCUF_URL . "admin/resources/offer-thumbnails/divi/offer-template-$template_key.png" ); ?>"></a>
-												<?php
+											if (wps_upsell_divi_builder_plugin_active()) {
+										?>
+												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL . "admin/resources/offer-thumbnails/divi/offer-template-$template_key.png"); ?>"></a>
+											<?php
 											} else {
-												?>
-												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html( $template_key ); ?>" ><img src="<?php echo esc_url( WPS_WOCUF_URL . "admin/resources/offer-thumbnails/offer-template-$template_key.jpg" ); ?>"></a>
-												<?php
+											?>
+												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL . "admin/resources/offer-thumbnails/offer-template-$template_key.jpg"); ?>"></a>
+											<?php
 
 											}
 										} else {
 
 											?>
-											<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html( $template_key ); ?>" ><img src="<?php echo esc_url( WPS_WOCUF_URL . "admin/resources/offer-thumbnails/offer-template-$template_key.png" ); ?>"></a>
-											<?php
+											<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL . "admin/resources/offer-thumbnails/offer-template-$template_key.png"); ?>"></a>
+										<?php
 
 										}
 
 										?>
-															
-									
+
+
 									</div>
 
 									<div class="wps_upsell_offer_action">
 
-															<?php if ( (string) $template_key !== (string) $offer_template_active ) : ?>
+										<?php if ((string) $template_key !== (string) $offer_template_active) : ?>
 
-															<button class="button-primary wps_upsell_activate_offer_template" data-template-id="<?php echo esc_html( $template_key ); ?>" data-offer-id="<?php echo esc_html( $current_offer_id ); ?>" data-funnel-id="<?php echo esc_html( $wps_wocuf_pro_funnel_id ); ?>" data-offer-post-id="<?php echo esc_html( $assigned_post_id ); ?>" ><?php esc_html_e( 'Insert and Activate', 'woo-one-click-upsell-funnel' ); ?></button>
+											<button class="button-primary wps_upsell_activate_offer_template" data-template-id="<?php echo esc_html($template_key); ?>" data-offer-id="<?php echo esc_html($current_offer_id); ?>" data-funnel-id="<?php echo esc_html($wps_wocuf_pro_funnel_id); ?>" data-offer-post-id="<?php echo esc_html($assigned_post_id); ?>"><?php esc_html_e('Insert and Activate', 'woo-one-click-upsell-funnel'); ?></button>
 
-															<?php else : ?>
+										<?php else : ?>
 
-																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
 
-																<?php
-																if ( ! wps_upsell_divi_builder_plugin_active() ) {
-																	?>
-																			<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+											<?php
+											if (! wps_upsell_divi_builder_plugin_active()) {
+											?>
+												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
-																		<?php
-																}
-																?>
-																
-															<?php endif; ?>
-														</div>
-								</div>	
+											<?php
+											}
+											?>
+
+										<?php endif; ?>
+									</div>
+								</div>
 							</div>
 							<!-- Offer templates foreach end-->
-							<?php
+						<?php
 						endforeach;
 
-						if ( wps_upsell_lite_elementor_plugin_active() || wps_upsell_divi_builder_plugin_active() ) {
-							?>
+						if (wps_upsell_lite_elementor_plugin_active() || wps_upsell_divi_builder_plugin_active()) {
+						?>
 
-						<!-- Offer templates 4 foreach start-->
-						
-						<div class="wps_upsell_offer_template ">
+							<!-- Offer templates 4 foreach start-->
 
-								<div class="wps_upsell_offer_template_sub_div"> 
-
-									<h5> <?php esc_html_e( 'FITNESS TEMPLATE', 'woo-one-click-upsell-funnel' ); ?></h5>
-
-									<div class="wps_upsell_offer_preview">
-
-										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="four" >
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-four.png' ); ?>"></a>
-									</div>
-
-									<div class="wps_upsell_offer_action">
-
-										<?php if ( $template_key !== $offer_template_active ) : ?>
-
-											<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'woo-one-click-upsell-funnel' ); ?>"/>
-
-							
-										<?php else : ?>
-
-											<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
-
-											<?php
-											if ( ! wps_upsell_divi_builder_plugin_active() ) {
-												?>
-														<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
-
-													<?php
-											}
-											?>
-										<?php endif; ?>
-									</div>
-								</div>	
-						</div>
-
-						<!-- Offer templates 4 foreach start-->
-
-
-						<!-- Offer templates 5 foreach start-->
-						
 							<div class="wps_upsell_offer_template ">
 
-								<div class="wps_upsell_offer_template_sub_div"> 
+								<div class="wps_upsell_offer_template_sub_div">
 
-									<h5> <?php esc_html_e( 'PET SHOP TEMPLATE', 'woo-one-click-upsell-funnel' ); ?></h5>
+									<h5> <?php esc_html_e('FITNESS TEMPLATE', 'woo-one-click-upsell-funnel'); ?></h5>
 
 									<div class="wps_upsell_offer_preview">
 
-										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="five" >
-										<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-five.png' ); ?>"></a>
+										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="four">
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-four.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
 
-										<?php if ( $template_key !== $offer_template_active ) : ?>
+										<?php if ($template_key !== $offer_template_active) : ?>
 
-											<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'woo-one-click-upsell-funnel' ); ?>"/>
+											<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e('Upgrade To Pro', 'woo-one-click-upsell-funnel'); ?>" />
 
 
 										<?php else : ?>
 
-											<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
 											<?php
-											if ( ! wps_upsell_divi_builder_plugin_active() ) {
-												?>
-														<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+											if (! wps_upsell_divi_builder_plugin_active()) {
+											?>
+												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
-													<?php
+											<?php
 											}
 											?>
 										<?php endif; ?>
 									</div>
-								</div>	
+								</div>
 							</div>
 
-						<!-- Offer templates 5 foreach start-->
+							<!-- Offer templates 4 foreach start-->
 
 
-						<!-- Offer templates 6 foreach start-->
-						
-						<div class="wps_upsell_offer_template ">
+							<!-- Offer templates 5 foreach start-->
 
-<div class="wps_upsell_offer_template_sub_div"> 
+							<div class="wps_upsell_offer_template ">
 
-	<h5> <?php esc_html_e( 'ROSE PINK TEMPLATE', 'woo-one-click-upsell-funnel' ); ?></h5>
+								<div class="wps_upsell_offer_template_sub_div">
 
-	<div class="wps_upsell_offer_preview">
+									<h5> <?php esc_html_e('PET SHOP TEMPLATE', 'woo-one-click-upsell-funnel'); ?></h5>
 
-		<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="six" >
-		<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-six.png' ); ?>"></a>
-	</div>
+									<div class="wps_upsell_offer_preview">
 
-	<div class="wps_upsell_offer_action">
+										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="five">
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-five.png'); ?>"></a>
+									</div>
 
-							<?php if ( $template_key !== $offer_template_active ) : ?>
+									<div class="wps_upsell_offer_action">
 
-			<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'woo-one-click-upsell-funnel' ); ?>"/>
+										<?php if ($template_key !== $offer_template_active) : ?>
 
-
-		<?php else : ?>
-
-			<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
-
-			<?php
-			if ( ! wps_upsell_divi_builder_plugin_active() ) {
-				?>
-						<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
-
-					<?php
-			}
-			?>
-		<?php endif; ?>
-	</div>
-</div>	
-</div>
-
-<!-- Offer templates 6 foreach start-->
+											<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e('Upgrade To Pro', 'woo-one-click-upsell-funnel'); ?>" />
 
 
+										<?php else : ?>
+
+											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
+
+											<?php
+											if (! wps_upsell_divi_builder_plugin_active()) {
+											?>
+												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
+
+											<?php
+											}
+											?>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+
+							<!-- Offer templates 5 foreach start-->
+
+
+							<!-- Offer templates 6 foreach start-->
+
+							<div class="wps_upsell_offer_template ">
+
+								<div class="wps_upsell_offer_template_sub_div">
+
+									<h5> <?php esc_html_e('ROSE PINK TEMPLATE', 'woo-one-click-upsell-funnel'); ?></h5>
+
+									<div class="wps_upsell_offer_preview">
+
+										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="six">
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-six.png'); ?>"></a>
+									</div>
+
+									<div class="wps_upsell_offer_action">
+
+										<?php if ($template_key !== $offer_template_active) : ?>
+
+											<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e('Upgrade To Pro', 'woo-one-click-upsell-funnel'); ?>" />
+
+
+										<?php else : ?>
+
+											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
+
+											<?php
+											if (! wps_upsell_divi_builder_plugin_active()) {
+											?>
+												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
+
+											<?php
+											}
+											?>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+
+							<!-- Offer templates 6 foreach start-->
 
 
 
 
-						<!-- Offer templates 7 foreach start-->
-						
-						<div class="wps_upsell_offer_template ">
-
-<div class="wps_upsell_offer_template_sub_div"> 
-
-	<h5> <?php esc_html_e( 'BEAUTY & MAKEUP TEMPLATE', 'woo-one-click-upsell-funnel' ); ?></h5>
-
-	<div class="wps_upsell_offer_preview">
-
-		<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="seven" >
-		<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-seven.png' ); ?>"></a>
-	</div>
-
-	<div class="wps_upsell_offer_action">
-
-							<?php if ( $template_key !== $offer_template_active ) : ?>
-
-			<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'woo-one-click-upsell-funnel' ); ?>"/>
 
 
-		<?php else : ?>
+							<!-- Offer templates 7 foreach start-->
 
-			<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+							<div class="wps_upsell_offer_template ">
 
-			<?php
-			if ( ! wps_upsell_divi_builder_plugin_active() ) {
-				?>
-						<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+								<div class="wps_upsell_offer_template_sub_div">
 
-					<?php
-			}
-			?>
-		<?php endif; ?>
-	</div>
-</div>	
-</div>
+									<h5> <?php esc_html_e('BEAUTY & MAKEUP TEMPLATE', 'woo-one-click-upsell-funnel'); ?></h5>
 
-<!-- Offer templates 7 foreach start-->
+									<div class="wps_upsell_offer_preview">
 
+										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="seven">
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-seven.png'); ?>"></a>
+									</div>
 
-<!-- Offer templates 8 foreach start-->
-						
-<div class="wps_upsell_offer_template ">
+									<div class="wps_upsell_offer_action">
 
-<div class="wps_upsell_offer_template_sub_div"> 
+										<?php if ($template_key !== $offer_template_active) : ?>
 
-	<h5> <?php esc_html_e( 'BEAUTY & MAKEUP TEMPLATE', 'woo-one-click-upsell-funnel' ); ?></h5>
-
-	<div class="wps_upsell_offer_preview">
-
-		<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="eight" >
-		<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-eight.png' ); ?>"></a>
-	</div>
-
-	<div class="wps_upsell_offer_action">
-
-							<?php if ( $template_key !== $offer_template_active ) : ?>
-
-			<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'woo-one-click-upsell-funnel' ); ?>"/>
+											<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e('Upgrade To Pro', 'woo-one-click-upsell-funnel'); ?>" />
 
 
-		<?php else : ?>
+										<?php else : ?>
 
-			<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
-			<?php
-			if ( ! wps_upsell_divi_builder_plugin_active() ) {
-				?>
-						<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+											<?php
+											if (! wps_upsell_divi_builder_plugin_active()) {
+											?>
+												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
-					<?php
-			}
-			?>
-		<?php endif; ?>
-	</div>
-</div>	
-</div>
+											<?php
+											}
+											?>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
 
-<!-- Offer templates 8 foreach start-->
-							<?php
+							<!-- Offer templates 7 foreach start-->
+
+
+							<!-- Offer templates 8 foreach start-->
+
+							<div class="wps_upsell_offer_template ">
+
+								<div class="wps_upsell_offer_template_sub_div">
+
+									<h5> <?php esc_html_e('BEAUTY & MAKEUP TEMPLATE', 'woo-one-click-upsell-funnel'); ?></h5>
+
+									<div class="wps_upsell_offer_preview">
+
+										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="eight">
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-eight.png'); ?>"></a>
+									</div>
+
+									<div class="wps_upsell_offer_action">
+
+										<?php if ($template_key !== $offer_template_active) : ?>
+
+											<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e('Upgrade To Pro', 'woo-one-click-upsell-funnel'); ?>" />
+
+
+										<?php else : ?>
+
+											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
+
+											<?php
+											if (! wps_upsell_divi_builder_plugin_active()) {
+											?>
+												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
+
+											<?php
+											}
+											?>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+
+							<!-- Offer templates 8 foreach start-->
+						<?php
 						}
 						?>
-						
+
 						<!-- Offer link to custom page start-->
-						<div class="wps_upsell_offer_template wps_upsell_custom_page_link_div <?php echo esc_html( 'custom' === $offer_template_active ? 'active' : '' ); ?>">
+						<div class="wps_upsell_offer_template wps_upsell_custom_page_link_div <?php echo esc_html('custom' === $offer_template_active ? 'active' : ''); ?>">
 
-							<h5><?php esc_html_e( 'LINK TO CUSTOM PAGE', 'woo-one-click-upsell-funnel' ); ?></h5>
+							<h5><?php esc_html_e('LINK TO CUSTOM PAGE', 'woo-one-click-upsell-funnel'); ?></h5>
 
-							<?php if ( 'custom' !== $offer_template_active ) : ?>
+							<?php if ('custom' !== $offer_template_active) : ?>
 
-								<button class="button-primary wps_upsell_activate_offer_template" data-template-id="custom" data-offer-id="<?php echo esc_html( $current_offer_id ); ?>" data-funnel-id="<?php echo esc_html( $wps_wocuf_pro_funnel_id ); ?>" data-offer-post-id="<?php echo esc_html( $assigned_post_id ); ?>" ><?php esc_html_e( 'Activate', 'woo-one-click-upsell-funnel' ); ?></button>
+								<button class="button-primary wps_upsell_activate_offer_template" data-template-id="custom" data-offer-id="<?php echo esc_html($current_offer_id); ?>" data-funnel-id="<?php echo esc_html($wps_wocuf_pro_funnel_id); ?>" data-offer-post-id="<?php echo esc_html($assigned_post_id); ?>"><?php esc_html_e('Activate', 'woo-one-click-upsell-funnel'); ?></button>
 
 							<?php else : ?>
 
-								<h5><?php esc_html_e( 'Activated', 'woo-one-click-upsell-funnel' ); ?></h5>
-								<p><?php esc_html_e( 'Please enter and save your custom page link below.', 'woo-one-click-upsell-funnel' ); ?></p>
+								<h5><?php esc_html_e('Activated', 'woo-one-click-upsell-funnel'); ?></h5>
+								<p><?php esc_html_e('Please enter and save your custom page link below.', 'woo-one-click-upsell-funnel'); ?></p>
 
 							<?php endif; ?>
 						</div>
@@ -1922,8 +1956,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 				<?php else : ?>
 
-					<div class="wps_upsell_offer_template_unsupported">	
-					<h4><?php esc_html_e( 'Please activate Elementor/Divi Theme if you want to use our Pre-defined Templates, else make a custom page yourself and add link below.', 'woo-one-click-upsell-funnel' ); ?></h4>
+					<div class="wps_upsell_offer_template_unsupported">
+						<h4><?php esc_html_e('Please activate Elementor/Divi Theme if you want to use our Pre-defined Templates, else make a custom page yourself and add link below.', 'woo-one-click-upsell-funnel'); ?></h4>
 					</div>
 
 				<?php endif; ?>
@@ -1945,17 +1979,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param mixed $image_post_id image post id.
 	 * @since       3.0.0
 	 */
-	public function wps_wocuf_pro_image_uploader_field( $hidden_field_index, $image_post_id = '' ) {
+	public function wps_wocuf_pro_image_uploader_field($hidden_field_index, $image_post_id = '')
+	{
 
-		$image   = ' button">' . esc_html__( 'Upload image', 'woo-one-click-upsell-funnel' );
+		$image   = ' button">' . esc_html__('Upload image', 'woo-one-click-upsell-funnel');
 		$display = 'none'; // Display state ot the "Remove image" button.
 
-		if ( ! empty( $image_post_id ) ) {
+		if (! empty($image_post_id)) {
 
 			// $image_attributes[0] - Image URL.
 			// $image_attributes[1] - Image width.
 			// $image_attributes[2] - Image height.
-			$image_attributes = wp_get_attachment_image_src( $image_post_id, 'thumbnail' );
+			$image_attributes = wp_get_attachment_image_src($image_post_id, 'thumbnail');
 
 			$image   = '"><img src="' . $image_attributes[0] . '" style="max-width:150px;display:block;" />';
 			$display = 'inline-block';
@@ -1963,7 +1998,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 		return '<div class="wps_wocuf_saved_custom_image">
 		<a href="#" class="wps_wocuf_pro_upload_image_button' . $image . '</a>
-		<input type="hidden" name="wps_upsell_offer_image[' . $hidden_field_index . ']" id="wps_upsell_offer_image_for_' . $hidden_field_index . '" value="' . esc_attr( $image_post_id ) . '" />
+		<input type="hidden" name="wps_upsell_offer_image[' . $hidden_field_index . ']" id="wps_upsell_offer_image_for_' . $hidden_field_index . '" value="' . esc_attr($image_post_id) . '" />
 		<a href="#" class="wps_wocuf_pro_remove_image_button button" style="margin-top: 10px;display:' . $display . '">Remove image</a>
 		</div>';
 	}
@@ -1974,19 +2009,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    2.0.0
 	 */
-	public function activate_respective_offer_template() {
+	public function activate_respective_offer_template()
+	{
 
-		check_ajax_referer( 'wps_wocuf_nonce', 'nonce' );
+		check_ajax_referer('wps_wocuf_nonce', 'nonce');
 
-		$funnel_id     = isset( $_POST['funnel_id'] ) ? sanitize_text_field( wp_unslash( $_POST['funnel_id'] ) ) : '';
-		$offer_id      = isset( $_POST['offer_id'] ) ? sanitize_text_field( wp_unslash( $_POST['offer_id'] ) ) : '';
-		$template_id   = isset( $_POST['template_id'] ) ? sanitize_text_field( wp_unslash( $_POST['template_id'] ) ) : '';
-		$offer_post_id = isset( $_POST['offer_post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['offer_post_id'] ) ) : '';
+		$funnel_id     = isset($_POST['funnel_id']) ? sanitize_text_field(wp_unslash($_POST['funnel_id'])) : '';
+		$offer_id      = isset($_POST['offer_id']) ? sanitize_text_field(wp_unslash($_POST['offer_id'])) : '';
+		$template_id   = isset($_POST['template_id']) ? sanitize_text_field(wp_unslash($_POST['template_id'])) : '';
+		$offer_post_id = isset($_POST['offer_post_id']) ? sanitize_text_field(wp_unslash($_POST['offer_post_id'])) : '';
 
 		// IF custom then don't update and just return.
-		if ( 'custom' === $template_id ) {
+		if ('custom' === $template_id) {
 
-			echo wp_json_encode( array( 'status' => true ) );
+			echo wp_json_encode(array('status' => true));
 			wp_die();
 		}
 
@@ -1996,42 +2032,40 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'three' => 'wps_upsell_lite_elementor_offer_template_3',
 		);
 
-		foreach ( $offer_templates_array as $template_key => $callback_function ) {
+		foreach ($offer_templates_array as $template_key => $callback_function) {
 
-			if ( $template_id === $template_key ) {
-				if ( wps_upsell_lite_elementor_plugin_active() ) {
+			if ($template_id === $template_key) {
+				if (wps_upsell_lite_elementor_plugin_active()) {
 
 					// Delete previous elementor css.
-					delete_post_meta( $offer_post_id, '_elementor_css' );
-					delete_post_meta( $offer_post_id, 'ct_builder_shortcodes' );
+					delete_post_meta($offer_post_id, '_elementor_css');
+					delete_post_meta($offer_post_id, 'ct_builder_shortcodes');
 					$my_post = array();
 					$my_post['ID'] = $offer_post_id;
 					$my_post['post_content'] = '';
-					wp_update_post( $my_post );
+					wp_update_post($my_post);
 					$elementor_data = $callback_function();
-					update_post_meta( $offer_post_id, '_elementor_data', $elementor_data );
+					update_post_meta($offer_post_id, '_elementor_data', $elementor_data);
 
 					break;
+				} elseif (wps_upsell_divi_builder_plugin_active()) {
 
-				} elseif ( wps_upsell_divi_builder_plugin_active() ) {
-
-					delete_post_meta( $offer_post_id, '_elementor_css' );
-					delete_post_meta( $offer_post_id, '_elementor_data' );
+					delete_post_meta($offer_post_id, '_elementor_css');
+					delete_post_meta($offer_post_id, '_elementor_data');
 					$get_post_contents = $callback_function();
 					global $post;
 					$my_post = array();
 					$my_post['ID'] = $offer_post_id;
 					$my_post['post_content'] = $get_post_contents;
-					wp_update_post( $my_post );
+					wp_update_post($my_post);
 					// Delete temporary meta key.
-					delete_post_meta( $offer_post_id, 'divi_content' );
+					delete_post_meta($offer_post_id, 'divi_content');
 					break;
-
 				}
 			}
 		}
 
-		echo wp_json_encode( array( 'status' => true ) );
+		echo wp_json_encode(array('status' => true));
 
 		wp_die();
 	}
@@ -2044,7 +2078,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    3.6.7
 	 */
-	public function wocuf_lite_add_style_attribute( $styles ) {
+	public function wocuf_lite_add_style_attribute($styles)
+	{
 
 		$styles[] = 'display';
 		return $styles;
@@ -2058,9 +2093,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param    array $columns    array of columns on orders table.
 	 * @return   array    $columns    array of columns on orders table alongwith upsell column
 	 */
-	public function wps_wocuf_pro_add_columns_to_admin_orders( $columns ) {
+	public function wps_wocuf_pro_add_columns_to_admin_orders($columns)
+	{
 
-		$columns['wps-upsell-orders'] = esc_html__( 'Upsell Orders', 'woo-one-click-upsell-funnel' );
+		$columns['wps-upsell-orders'] = esc_html__('Upsell Orders', 'woo-one-click-upsell-funnel');
 
 		return $columns;
 	}
@@ -2073,19 +2109,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param    array $column    Array of available columns.
 	 * @param    int   $post_id   Current Order post id.
 	 */
-	public function wps_wocuf_pro_populate_upsell_order_column( $column, $post_id ) {
+	public function wps_wocuf_pro_populate_upsell_order_column($column, $post_id)
+	{
 
-		$upsell_order = wps_wocfo_hpos_get_meta_data( $post_id, 'wps_wocuf_upsell_order', true );
+		$upsell_order = wps_wocfo_hpos_get_meta_data($post_id, 'wps_wocuf_upsell_order', true);
 
-		switch ( $column ) {
+		switch ($column) {
 
 			case 'wps-upsell-orders':
-				if ( 'true' === $upsell_order ) :
-					?>
-					<a href="<?php echo esc_url( get_edit_post_link( $post_id ) ); ?>" ><?php esc_html_e( 'Upsell Order', 'woo-one-click-upsell-funnel' ); ?></a>
+				if ('true' === $upsell_order) :
+		?>
+					<a href="<?php echo esc_url(get_edit_post_link($post_id)); ?>"><?php esc_html_e('Upsell Order', 'woo-one-click-upsell-funnel'); ?></a>
 				<?php else : ?>
-					<?php esc_html_e( 'Single Order', 'woo-one-click-upsell-funnel' ); ?>
-					<?php
+					<?php esc_html_e('Single Order', 'woo-one-click-upsell-funnel'); ?>
+				<?php
 				endif;
 				break;
 		}
@@ -2097,36 +2134,37 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function wps_wocuf_pro_restrict_manage_posts() {
+	public function wps_wocuf_pro_restrict_manage_posts()
+	{
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'woo-one-click-upsell-funnel'));
 		}
 
-		if ( isset( $_GET['post_type'] ) && 'shop_order' === sanitize_key( wp_unslash( $_GET['post_type'] ) ) ) {
+		if (isset($_GET['post_type']) && 'shop_order' === sanitize_key(wp_unslash($_GET['post_type']))) {
 
-			if ( isset( $_GET['wps_wocuf_pro_upsell_filter'] ) ) :
+			if (isset($_GET['wps_wocuf_pro_upsell_filter'])) :
 
 				?>
 				<select name="wps_wocuf_pro_upsell_filter">
-					<option value="all" <?php echo 'all' === sanitize_key( wp_unslash( $_GET['wps_wocuf_pro_upsell_filter'] ) ) ? 'selected=selected' : ''; ?>><?php esc_html_e( 'All Orders', 'woo-one-click-upsell-funnel' ); ?></option>
-					<option value="no_upsells" <?php echo 'no_upsells' === sanitize_key( wp_unslash( $_GET['wps_wocuf_pro_upsell_filter'] ) ) ? 'selected=selected' : ''; ?>><?php esc_html_e( 'No Upsell Orders', 'woo-one-click-upsell-funnel' ); ?></option>
-					<option value="all_upsells" <?php echo 'all_upsells' === sanitize_key( wp_unslash( $_GET['wps_wocuf_pro_upsell_filter'] ) ) ? 'selected=selected' : ''; ?>><?php esc_html_e( 'Only Upsell Orders', 'woo-one-click-upsell-funnel' ); ?></option>
+					<option value="all" <?php echo 'all' === sanitize_key(wp_unslash($_GET['wps_wocuf_pro_upsell_filter'])) ? 'selected=selected' : ''; ?>><?php esc_html_e('All Orders', 'woo-one-click-upsell-funnel'); ?></option>
+					<option value="no_upsells" <?php echo 'no_upsells' === sanitize_key(wp_unslash($_GET['wps_wocuf_pro_upsell_filter'])) ? 'selected=selected' : ''; ?>><?php esc_html_e('No Upsell Orders', 'woo-one-click-upsell-funnel'); ?></option>
+					<option value="all_upsells" <?php echo 'all_upsells' === sanitize_key(wp_unslash($_GET['wps_wocuf_pro_upsell_filter'])) ? 'selected=selected' : ''; ?>><?php esc_html_e('Only Upsell Orders', 'woo-one-click-upsell-funnel'); ?></option>
 				</select>
-				<?php
+			<?php
 			endif;
 
-			if ( ! isset( $_GET['wps_wocuf_pro_upsell_filter'] ) ) :
-				?>
+			if (! isset($_GET['wps_wocuf_pro_upsell_filter'])) :
+			?>
 				<select name="wps_wocuf_pro_upsell_filter">
-					<option value="all"><?php esc_html_e( 'All Orders', 'woo-one-click-upsell-funnel' ); ?></option>
-					<option value="no_upsells"><?php esc_html_e( 'No Upsell Orders', 'woo-one-click-upsell-funnel' ); ?></option>
-					<option value="all_upsells"><?php esc_html_e( 'Only Upsell Orders', 'woo-one-click-upsell-funnel' ); ?></option>
+					<option value="all"><?php esc_html_e('All Orders', 'woo-one-click-upsell-funnel'); ?></option>
+					<option value="no_upsells"><?php esc_html_e('No Upsell Orders', 'woo-one-click-upsell-funnel'); ?></option>
+					<option value="all_upsells"><?php esc_html_e('Only Upsell Orders', 'woo-one-click-upsell-funnel'); ?></option>
 				</select>
-				<?php
+		<?php
 			endif;
 		}
 	}
@@ -2138,16 +2176,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param    array $vars    array of queries.
 	 * @return   array    $vars    array of queries alongwith select dropdown query for upsell
 	 */
-	public function wps_wocuf_pro_request_query( $vars ) {
+	public function wps_wocuf_pro_request_query($vars)
+	{
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'woo-one-click-upsell-funnel'));
 		}
 
-		if ( isset( $_GET['wps_wocuf_pro_upsell_filter'] ) && 'all_upsells' === $_GET['wps_wocuf_pro_upsell_filter'] ) {
+		if (isset($_GET['wps_wocuf_pro_upsell_filter']) && 'all_upsells' === $_GET['wps_wocuf_pro_upsell_filter']) {
 
 			$vars = array_merge(
 				$vars,
@@ -2155,8 +2194,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					'meta_key' => 'wps_wocuf_upsell_order',     // phpcs:ignore
 				)
 			);
-
-		} elseif ( isset( $_GET['wps_wocuf_pro_upsell_filter'] ) && 'no_upsells' === $_GET['wps_wocuf_pro_upsell_filter'] ) {
+		} elseif (isset($_GET['wps_wocuf_pro_upsell_filter']) && 'no_upsells' === $_GET['wps_wocuf_pro_upsell_filter']) {
 
 			$vars = array_merge(
 				$vars,
@@ -2178,14 +2216,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param mixed $default_columns default columns.
 	 * @since       2.0.0
 	 */
-	public function upsell_support_in_payment_gateway( $default_columns ) {
+	public function upsell_support_in_payment_gateway($default_columns)
+	{
 
-		$new_column['wps_upsell'] = esc_html__( 'Upsell Supported', 'woo-one-click-upsell-funnel' );
-		wps_upsee_lite_go_pro( 'pro' );
+		$new_column['wps_upsell'] = esc_html__('Upsell Supported', 'woo-one-click-upsell-funnel');
+		wps_upsee_lite_go_pro('pro');
 		// Place at second last position.
-		$position = count( $default_columns ) - 1;
+		$position = count($default_columns) - 1;
 
-		$default_columns = array_slice( $default_columns, 0, $position, true ) + $new_column + array_slice( $default_columns, $position, count( $default_columns ) - $position, true );
+		$default_columns = array_slice($default_columns, 0, $position, true) + $new_column + array_slice($default_columns, $position, count($default_columns) - $position, true);
 
 		return $default_columns;
 	}
@@ -2197,7 +2236,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param mixed $gateway gateway.
 	 * @since       2.0.0
 	 */
-	public function upsell_support_content_in_payment_gateway( $gateway ) {
+	public function upsell_support_content_in_payment_gateway($gateway)
+	{
 
 		$supported_gateways = wps_upsell_lite_supported_gateways();
 
@@ -2205,25 +2245,22 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 		echo '<td class="wps_upsell_supported">';
 
-		if ( in_array( $gateway->id, $supported_gateways, true ) ) {
+		if (in_array($gateway->id, $supported_gateways, true)) {
 
-			echo '<span class="status-enabled">' . esc_html__( 'Yes', 'woo-one-click-upsell-funnel' ) . '</span>';
-
+			echo '<span class="status-enabled">' . esc_html__('Yes', 'woo-one-click-upsell-funnel') . '</span>';
 		} else {
 
-			if ( in_array( $gateway->id, $supported_gateways_pro, true ) ) {
+			if (in_array($gateway->id, $supported_gateways_pro, true)) {
 
-				echo '	<span class="wps_wupsell_premium_strip">' . esc_html__( 'pro', 'woo-one-click-upsell-funnel' ) . '</span>';
-
+				echo '	<span class="wps_wupsell_premium_strip">' . esc_html__('pro', 'woo-one-click-upsell-funnel') . '</span>';
 			} else {
 
-				echo '<span class="status-disabled">' . esc_html__( 'No', 'woo-one-click-upsell-funnel' ) . '</span>';
+				echo '<span class="status-disabled">' . esc_html__('No', 'woo-one-click-upsell-funnel') . '</span>';
 			}
 		}
 
 		echo "<input type='hidden' id='wps_ubo_pro_status' value='inactive'>
 		</td>";
-
 	}
 
 	/**
@@ -2231,33 +2268,34 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @return void
 	 */
-	public function upsell_simple_product_settings() {
-		$upsell_shipping_product = get_post_meta( get_the_ID(), 'wps_upsell_simple_shipping_product_' . get_the_ID(), true );
-	if ( function_exists( 'wp_nonce_field' ) ) {
-		wp_nonce_field( 'simple-product', 'upsell-custom-shipping-simple-nonce' );
-	}
+	public function upsell_simple_product_settings()
+	{
+		$upsell_shipping_product = get_post_meta(get_the_ID(), 'wps_upsell_simple_shipping_product_' . get_the_ID(), true);
+		if (function_exists('wp_nonce_field')) {
+			wp_nonce_field('simple-product', 'upsell-custom-shipping-simple-nonce');
+		}
 
-	?>
+		?>
 		<div class="wps_product_custom_field product_custom_field options_group show_if_simple show_if_external ">
-		<h4> 
+			<h4>
 				<?php
-					echo esc_html__( 'Upsell setting', 'woo-one-click-upsell-funnel' );
+				echo esc_html__('Upsell setting', 'woo-one-click-upsell-funnel');
 				?>
 				<span class="wps-help-tip"></span>
 				<p>
 					<?php
-						echo esc_html__( 'Add shipping price of this product for upsell offer.', 'woo-one-click-upsell-funnel' );
+					echo esc_html__('Add shipping price of this product for upsell offer.', 'woo-one-click-upsell-funnel');
 					?>
 				</p>
 			</h4>
 			<p class="form-field _sale_price_field">
-			<label><?php echo esc_html__( 'Upsell shipping Price', 'woo-one-click-upsell-funnel' ); ?></label>	
-			<input type="number" class="wps_product_shipping_input"  name="wps_upsell_simple_shipping_product_<?php echo esc_attr( get_the_ID() ); ?>" id="wps_upsell_simple_shipping_product_<?php echo esc_attr( get_the_ID() ); ?>" value="<?php echo esc_attr( $upsell_shipping_product ); ?>"  >
+				<label><?php echo esc_html__('Upsell shipping Price', 'woo-one-click-upsell-funnel'); ?></label>
+				<input type="number" class="wps_product_shipping_input" name="wps_upsell_simple_shipping_product_<?php echo esc_attr(get_the_ID()); ?>" id="wps_upsell_simple_shipping_product_<?php echo esc_attr(get_the_ID()); ?>" value="<?php echo esc_attr($upsell_shipping_product); ?>">
 			</p>
 		</div>
-		<?php
+	<?php
 
-}
+	}
 
 	/**
 	 * Upsell saving for simple products.
@@ -2265,15 +2303,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param [type] $post_id Is the post id.
 	 * @return void
 	 */
-	public function upsell_saving_simple_product_dynamic_shipping( $post_id ) {
-		if ( isset( $_POST['upsell-custom-shipping-simple-nonce'] ) ) {
-			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['upsell-custom-shipping-simple-nonce'] ) ), 'simple-product' ) ) {
+	public function upsell_saving_simple_product_dynamic_shipping($post_id)
+	{
+		if (isset($_POST['upsell-custom-shipping-simple-nonce'])) {
+			if (! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['upsell-custom-shipping-simple-nonce'])), 'simple-product')) {
 				wp_die();
 			}
 		}
-		 $upsell_shipping_price = ! empty( $_POST[ 'wps_upsell_simple_shipping_product_' . $post_id ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'wps_upsell_simple_shipping_product_' . $post_id ] ) ) : '';
+		$upsell_shipping_price = ! empty($_POST['wps_upsell_simple_shipping_product_' . $post_id]) ? sanitize_text_field(wp_unslash($_POST['wps_upsell_simple_shipping_product_' . $post_id])) : '';
 
-		update_post_meta( $post_id, 'wps_upsell_simple_shipping_product_' . $post_id, $upsell_shipping_price );
+		update_post_meta($post_id, 'wps_upsell_simple_shipping_product_' . $post_id, $upsell_shipping_price);
 	}
 
 
@@ -2285,34 +2324,35 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param [type] $variation Is the variation object.
 	 * @return void
 	 */
-	public function upsell_add_custom_price_to_variations( $loop, $variation_data, $variation ) {
-		$upsell_shipping_product = get_post_meta( $variation->ID, 'wps_upsell_simple_shipping_product_' . $variation->ID, true );
+	public function upsell_add_custom_price_to_variations($loop, $variation_data, $variation)
+	{
+		$upsell_shipping_product = get_post_meta($variation->ID, 'wps_upsell_simple_shipping_product_' . $variation->ID, true);
 
-		if ( 0 === $loop ) {
-			wp_nonce_field( 'variable-product', 'wps-upsell-price-variation-nonce' );
+		if (0 === $loop) {
+			wp_nonce_field('variable-product', 'wps-upsell-price-variation-nonce');
 		}
 
-		?>
-			<div class="wps_product_custom_field product_custom_field options_group show_if_simple show_if_external ">
-			<h4> 
+	?>
+		<div class="wps_product_custom_field product_custom_field options_group show_if_simple show_if_external ">
+			<h4>
+				<?php
+				echo esc_html__('Upsell setting', 'woo-one-click-upsell-funnel');
+				?>
+				<span class="wps-help-tip"></span>
+				<p>
 					<?php
-						echo esc_html__( 'Upsell setting', 'woo-one-click-upsell-funnel' );
+					echo esc_html__('Add shipping price of this product for upsell offer.', 'woo-one-click-upsell-funnel');
 					?>
-					<span class="wps-help-tip"></span>
-					<p>
-						<?php
-							echo esc_html__( 'Add shipping price of this product for upsell offer.', 'woo-one-click-upsell-funnel' );
-						?>
-					</p>
-				</h4>
+				</p>
+			</h4>
 
-				<label>
-				<?php echo esc_html__( 'Upsell shipping Price', 'woo-one-click-upsell-funnel' ); ?>	
-				</label>
-				<input type="number" class="wps_product_shipping_input"  name="wps_upsell_simple_shipping_product_<?php echo esc_attr( $variation->ID ); ?>" id="wps_upsell_simple_shipping_product_<?php echo esc_attr( $variation->ID ); ?>" value="<?php echo esc_attr( $upsell_shipping_product ); ?>"  >
-			
-			</div>
-			<?php
+			<label>
+				<?php echo esc_html__('Upsell shipping Price', 'woo-one-click-upsell-funnel'); ?>
+			</label>
+			<input type="number" class="wps_product_shipping_input" name="wps_upsell_simple_shipping_product_<?php echo esc_attr($variation->ID); ?>" id="wps_upsell_simple_shipping_product_<?php echo esc_attr($variation->ID); ?>" value="<?php echo esc_attr($upsell_shipping_product); ?>">
+
+		</div>
+		<?php
 	}
 
 
@@ -2323,17 +2363,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param [type] $i Is the number of variation.
 	 * @return void
 	 */
-	public function upsell_save_custom_price_variations( $variation_id, $i ) {
+	public function upsell_save_custom_price_variations($variation_id, $i)
+	{
 
-		if ( isset( $_POST['wps-upsell-price-variation-nonce'] ) ) {
-			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wps-upsell-price-variation-nonce'] ) ), 'variable-product' ) ) {
+		if (isset($_POST['wps-upsell-price-variation-nonce'])) {
+			if (! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['wps-upsell-price-variation-nonce'])), 'variable-product')) {
 				wp_die();
 			}
 		}
 
-		$upsell_shipping_price = ! empty( $_POST[ 'wps_upsell_simple_shipping_product_' . $variation_id ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'wps_upsell_simple_shipping_product_' . $variation_id ] ) ) : '';
-		update_post_meta( $variation_id, 'wps_upsell_simple_shipping_product_' . $variation_id, $upsell_shipping_price );
-
+		$upsell_shipping_price = ! empty($_POST['wps_upsell_simple_shipping_product_' . $variation_id]) ? sanitize_text_field(wp_unslash($_POST['wps_upsell_simple_shipping_product_' . $variation_id])) : '';
+		update_post_meta($variation_id, 'wps_upsell_simple_shipping_product_' . $variation_id, $upsell_shipping_price);
 	}
 
 
@@ -2343,32 +2383,33 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param mixed $reports reports.
 	 * @since       3.0.0
 	 */
-	public function add_upsell_reporting( $reports ) {
+	public function add_upsell_reporting($reports)
+	{
 
 		$reports['upsell'] = array(
 
-			'title'   => esc_html__( '1 Click Upsell', 'woo-one-click-upsell-funnel' ),
+			'title'   => esc_html__('1 Click Upsell', 'woo-one-click-upsell-funnel'),
 			'reports' => array(
 
 				'sales_by_date'     => array(
-					'title'       => esc_html__( 'Upsell Sales by date', 'woo-one-click-upsell-funnel' ),
+					'title'       => esc_html__('Upsell Sales by date', 'woo-one-click-upsell-funnel'),
 					'description' => '',
 					'hide_title'  => 1,
-					'callback'    => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'upsell_reporting_callback' ),
+					'callback'    => array('Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'upsell_reporting_callback'),
 				),
 
 				'sales_by_product'  => array(
-					'title'       => esc_html__( 'Upsell Sales by product', 'woo-one-click-upsell-funnel' ),
+					'title'       => esc_html__('Upsell Sales by product', 'woo-one-click-upsell-funnel'),
 					'description' => '',
 					'hide_title'  => 1,
-					'callback'    => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'upsell_reporting_callback' ),
+					'callback'    => array('Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'upsell_reporting_callback'),
 				),
 
 				'sales_by_category' => array(
-					'title'       => esc_html__( 'Upsell Sales by category', 'woo-one-click-upsell-funnel' ),
+					'title'       => esc_html__('Upsell Sales by category', 'woo-one-click-upsell-funnel'),
 					'description' => '',
 					'hide_title'  => 1,
-					'callback'    => array( 'Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'upsell_reporting_callback' ),
+					'callback'    => array('Upsell_Order_Bump_Offer_For_Woocommerce_Admin', 'upsell_reporting_callback'),
 				),
 			),
 		);
@@ -2383,31 +2424,31 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param mixed $report_type report type.
 	 * @since       3.0.0
 	 */
-	public static function upsell_reporting_callback( $report_type ) {
+	public static function upsell_reporting_callback($report_type)
+	{
 
-		$report_file      = ! empty( $report_type ) ? str_replace( '_', '-', $report_type ) : '';
-		$preformat_string = ! empty( $report_type ) ? ucwords( str_replace( '_', ' ', $report_type ) ) : '';
-		$class_name       = ! empty( $preformat_string ) ? 'WPS_Upsell_Report_' . str_replace( ' ', '_', $preformat_string ) : '';
+		$report_file      = ! empty($report_type) ? str_replace('_', '-', $report_type) : '';
+		$preformat_string = ! empty($report_type) ? ucwords(str_replace('_', ' ', $report_type)) : '';
+		$class_name       = ! empty($preformat_string) ? 'WPS_Upsell_Report_' . str_replace(' ', '_', $preformat_string) : '';
 
 		/**
 		 * The file responsible for defining reporting.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'reporting/class-wps-upsell-report-' . $report_file . '.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'reporting/class-wps-upsell-report-' . $report_file . '.php';
 
-		if ( class_exists( $class_name ) ) {
+		if (class_exists($class_name)) {
 
 			$report = new $class_name();
 			$report->output_report();
-
 		} else {
 
-			?>
+		?>
 			<div class="wps_wocuf_report_error_wrap" style="text-align: center;">
 				<h2 class="wps_wocuf_report_error_text">
-					<?php esc_html_e( 'Some Error Occured while creating report.', 'woo-one-click-upsell-funnel' ); ?>
+					<?php esc_html_e('Some Error Occured while creating report.', 'woo-one-click-upsell-funnel'); ?>
 				</h2>
 			</div>
-			<?php
+<?php
 		}
 	}
 
@@ -2416,16 +2457,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 *
 	 * @since       3.0.0
 	 */
-	public function wps_redirect_upsell_page() {
+	public function wps_redirect_upsell_page()
+	{
 		if (
 			isset($_GET['page']) && $_GET['page'] === 'upsell-order-bump-offer-for-woocommerce-setting' &&
-			!isset($_GET['tab']) && 
+			!isset($_GET['tab']) &&
 			!defined('DOING_AJAX') && !defined('DOING_CRON')
 		) {
 			wp_safe_redirect(admin_url('admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=general-setting'));
 			exit;
 		}
 	}
-
-	
 } // End of class.
