@@ -79,6 +79,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 			'plugins',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
+			'toplevel_page_wps-wocuf-pro-setting',
 		);
 
 		$screen = get_current_screen();
@@ -157,6 +158,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
 			'woocommerce_page_wc-settings',
+			'toplevel_page_wps-wocuf-pro-setting',
 		);
 
 		if (isset($screen->id)) {
@@ -1545,7 +1547,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 
 			$offer_scroll_id_val = "#offer-section-$offer_index";
 
-			$allowed_html = wps_upsell_lite_allowed_htmld();
+			$allowed_html = wps_upsell_lite_allowed_html();
 
 			$data = '<div style="display:none;" data-id="' . $offer_index . '" data-scroll-id="' . $offer_scroll_id_val . '" class="new_created_offers wps_upsell_single_offer">
 			<h2 class="wps_upsell_offer_title">' . esc_html__('Offer #', 'woo-one-click-upsell-funnel') . $offer_index . '</h2>
