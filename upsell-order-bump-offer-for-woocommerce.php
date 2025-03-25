@@ -14,7 +14,7 @@
  * @wordpress-plugin
  * Plugin Name:       Upsell Funnel Builder for WooCommerce 
  * Plugin URI:        https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/
- * Description:       <code><strong>Upsell Funnel Builder for WooCommerce</strong></code> makes special offers on checkout page, enabling to increase conversions & AOV in just a single click. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
+ * Description:       <code><strong>Upsell Funnel Builder for WooCommerce</strong></code>helps merchants maximize sales and generate revenue by curating one-click upsell and bump offers!. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
  *
  * Requires at least:       5.5.0
  * Tested up to:            6.7.1
@@ -232,7 +232,9 @@ if ( $activated ) {
 		/**
 		 * The file responsible for Upsell Sales by Funnel - Data handling and Stats.
 		 */
+		if (! wps_ubo_lite_is_plugin_active('woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php')) {
 		require_once plugin_dir_path( __FILE__  ) . 'reporting/class-wps-upsell-report-sales-by-funnel.php';
+		}
 
 
 		/**
