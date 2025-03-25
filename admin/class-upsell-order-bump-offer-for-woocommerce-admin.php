@@ -79,7 +79,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 			'plugins',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
-			'toplevel_page_wps-wocuf-pro-setting',
+			// 'toplevel_page_wps-wocuf-pro-setting',
 		);
 
 		$screen = get_current_screen();
@@ -158,7 +158,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
 			'woocommerce_page_wc-settings',
-			'toplevel_page_wps-wocuf-pro-setting',
+			// 'toplevel_page_wps-wocuf-pro-setting',
 		);
 
 		if (isset($screen->id)) {
@@ -262,6 +262,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 						'ajaxurl'    => admin_url('admin-ajax.php'),
 						'auth_nonce' => wp_create_nonce('wps_onboarding_nonce'),
 						'one_click_funnel_nonce' => wp_create_nonce('wps_wocuf_nonce'),
+						'screen_id' => $screen->id,
 					)
 				);
 

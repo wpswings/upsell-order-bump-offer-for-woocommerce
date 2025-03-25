@@ -180,11 +180,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 		// Add admin arena.
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wps_ubo_lite_admin_menu' );
-
+		$wps_screen_info = get_option('wps_current_screen_data', []);
+		
 		// Load scripts and styles.
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
+		if('toplevel_page_wps-wocuf-pro-setting' != $wps_screen_info['screen_id']){
 		// Rest functionality for admin side ajax.
 		$this->loader->add_action( 'wp_ajax_search_products_for_bump', $plugin_admin, 'search_products_for_bump' );
 		$this->loader->add_action( 'wp_ajax_search_product_categories_for_bump', $plugin_admin, 'search_product_categories_for_bump' );
@@ -284,6 +285,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_wps_install_and_redirect_upsell_plugin', $plugin_admin, 'wps_install_and_redirect_upsell_plugin_callback' );
 
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_redirect_upsell_page' );
+	}
 	}
 
 	/**

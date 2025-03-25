@@ -67,7 +67,6 @@ do_action( 'wps_ubo_lite_tab_active' );
 		<!--Global Setting Tab end here --->
 
 
-
 		<!--Order Bump Section Tab start here --->
 		<div class="wps_main_global_wrapper">
 		<a class="nav-tab <?php echo esc_html( 'order-bump-section' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section"><?php esc_html_e( 'Order Bump Setting', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>

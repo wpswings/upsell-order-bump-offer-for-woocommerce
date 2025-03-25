@@ -24,7 +24,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 	// Nonce verification.
 	check_admin_referer( 'wps_upsell_bump_settings_nonce', 'wps_upsell_bump_nonce' );
 
-	$wps_bump_upsell_global_options = array();
+	$wps_bump_upsell_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
 
 	// Enable Plugin.
 	$wps_bump_upsell_global_options['wps_bump_enable_plugin'] = ! empty( $_POST['wps_bump_enable_plugin'] ) ? 'on' : 'off';
@@ -40,7 +40,17 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 	
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'wps_ubo_global_options', $wps_bump_upsell_global_options );
-
+	$wps_smart_already_purchased =  ! empty( $_POST['wps_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_offer_purchased_earlier'] ) ) : 'no';
+	$wps_upsell_global_options = array();
+	// V3.5.0 :: Smart Skip If already purchased start For Upsell Funnel.
+	$wps_smart_skip_val = '';
+	if('yes' == $wps_smart_already_purchased){
+		$wps_smart_skip_val = 'on';
+	} else {
+		$wps_smart_skip_val = 'off';
+	}
+	$wps_upsell_global_options['wps_wocuf_pro_enable_smart_skip'] = $wps_smart_skip_val;
+	update_option( 'wps_upsell_global_options', $wps_upsell_global_options );
 	?>
 	<!-- Settings saved notice. -->
 	<div class="notice notice-success is-dismissible wps-notice">

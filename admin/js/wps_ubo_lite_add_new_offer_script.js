@@ -330,7 +330,6 @@ jQuery(document).ready(function ($) {
 	
 		// Create New Offer.
 		jQuery( '#wps_upsell_create_new_offer' ).on( 'click', function(e) {
-			// alert('click it');
 			e.preventDefault();
 	
 			// Last offer id.
@@ -609,20 +608,34 @@ $(document).on('click', '.wps_upsell_activate_offer_template', function(e) {
 	/**
 	 * Scripts after v1.0.2
 	 */
-	$('.ubo_offer_input').on( 'click', function (e) {
+	$('.ubo_offer_input').on('click', function (e) {
+		
 		var data_offer = jQuery(e.currentTarget).attr('product_offer');
 		
 		// Add popup to unlock pro features.
 		var pro_status = document.getElementById('wps_ubo_pro_status');
-		// alert(pro_status);
 		if( null != pro_status ) {
-			
 			// Add a popup over here.
 			$(this).prop("checked", false);
 			$( '.wps_ubo_lite_go_pro_popup_wrap' ).addClass( 'wps_ubo_lite_go_pro_popup_show' );
 			$( 'body' ).addClass( 'wps_ubo_lite_go_pro_popup_body' );
 			$('.wps_ubo_lite_go_pro_popup_show').show();
 		}
+		if ( data_offer == "yes" ) {
+			jQuery('#product_features_ubo_lite').show();
+			jQuery('#all_offers_ubo_lite').hide();
+		}
+	});
+
+	$('.ubo_offer_input_pro').on('click', function (e) {
+		
+		var data_offer = jQuery(e.currentTarget).attr('product_offer');
+			// Add a popup over here.
+			$(this).prop("checked", false);
+			$( '.wps_ubo_lite_go_pro_popup_wrap' ).addClass( 'wps_ubo_lite_go_pro_popup_show' );
+			$( 'body' ).addClass( 'wps_ubo_lite_go_pro_popup_body' );
+			$('.wps_ubo_lite_go_pro_popup_show').show();
+	
 		if ( data_offer == "yes" ) {
 			jQuery('#product_features_ubo_lite').show();
 			jQuery('#all_offers_ubo_lite').hide();

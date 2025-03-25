@@ -485,6 +485,25 @@ if ( $activated ) {
 		}
 	}
 
+
+	add_action('init', function () {
+		add_action('current_screen', function ($screen) {
+			if ($screen) {
+				$screen_id = $screen->id;
+				$sub_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : ''; // Get 'tab' from URL
+				$sub_section = isset($_GET['section']) ? sanitize_text_field($_GET['section']) : ''; // Get 'section' if exists
+	
+				// Store both screen ID and sub-tab in options table
+				update_option('wps_current_screen_data', [
+					'screen_id'   => $screen_id,
+					'sub_tab'     => $sub_tab,
+					'sub_section' => $sub_section
+				]);
+			}
+		});
+	});
+	
+
 	add_action( 'admin_notices', 'wps_banner_notification_plugin_html' );
 	if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 		/**
