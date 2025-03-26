@@ -358,24 +358,24 @@ if ($activated) {
 		register_activation_hook(__FILE__, 'activate_upsell_order_bump_offer_for_woocommerce');
 		register_deactivation_hook(__FILE__, 'deactivate_upsell_order_bump_offer_for_woocommerce');
 
-		// Run this function only when the plugin is activated
+		// Run this function only when the plugin is activated.
 		register_activation_hook(__FILE__, 'wps_activate_plugin');
 
 		function wps_activate_plugin()
 		{
 			if (!wps_plugin_exists('woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php')) {
-				wps_create_plugin_folder(); // Create the plugin folder and file
+				wps_create_plugin_folder(); // Create the plugin folder and file.
 				wps_activate_created_plugin();
 			}
 		}
 
-		// Check if a plugin already exists in the plugins directory
+		// Check if a plugin already exists in the plugins directory.
 		function wps_plugin_exists($plugin_path)
 		{
 			return file_exists(WP_PLUGIN_DIR . '/' . $plugin_path);
 		}
 
-		// Function to create a folder and main file for another plugin
+		// Function to create a folder and main file for another plugin.
 		function wps_create_plugin_folder()
 		{
 			$plugin_dir = WP_PLUGIN_DIR . '/woo-one-click-upsell-funnel/';
