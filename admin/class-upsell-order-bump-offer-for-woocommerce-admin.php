@@ -1157,78 +1157,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 
 
 	/**
-	 * Select2 search for adding offer products.
-	 *
-	 * @since    1.0.0
-	 */
-	public function seach_products_for_offers()
-	{
-		$return = array();
-
-		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
-		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
-
-		if (! $id_nonce_verified) {
-			wp_die(esc_html__('Nonce Not verified', 'woo-one-click-upsell-funnel'));
-		}
-
-		$search_results = new WP_Query(
-			array(
-				's'                   => ! empty($_GET['q']) ? sanitize_text_field(wp_unslash($_GET['q'])) : '',
-				'post_type'           => array('product', 'product_variation'),
-				'post_status'         => array('publish'),
-				'ignore_sticky_posts' => 1,
-				'posts_per_page'      => -1,
-			)
-		);
-
-		if ($search_results->have_posts()) :
-
-			while ($search_results->have_posts()) :
-
-				$search_results->the_post();
-
-				$title = (mb_strlen($search_results->post->post_title) > 50) ? mb_substr($search_results->post->post_title, 0, 49) . '...' : $search_results->post->post_title;
-
-				/**
-				 * Check for post type as query sometimes returns posts even after mentioning post_type.
-				 * As some plugins alter query which causes issues.
-				 */
-				$post_type = get_post_type($search_results->post->ID);
-
-				if ('product' !== $post_type && 'product_variation' !== $post_type) {
-
-					continue;
-				}
-
-				$product      = wc_get_product($search_results->post->ID);
-				$downloadable = $product->is_downloadable();
-				$stock        = $product->get_stock_status();
-				$product_type = $product->get_type();
-
-				$unsupported_product_types = array(
-					'grouped',
-					'external',
-				);
-
-				if (in_array($product_type, $unsupported_product_types, true) || 'outofstock' === $stock) {
-
-					continue;
-				}
-
-				$return[] = array($search_results->post->ID, $title);
-
-			endwhile;
-
-		endif;
-
-		echo wp_json_encode($return);
-
-		wp_die();
-	}
-
-
-	/**
 	 * Select2 search for adding funnel target products
 	 *
 	 * @since    1.0.0
@@ -1299,6 +1227,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 		wp_die();
 	}
 
+
 	/**
 	 * Select2 search for adding funnel target product categories
 	 *
@@ -1332,6 +1261,77 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 				$return[] = array($single_product_category->term_id, $single_product_category->name);
 			}
 		}
+
+		echo wp_json_encode($return);
+
+		wp_die();
+	}
+
+	/**
+	 * Select2 search for adding offer products.
+	 *
+	 * @since    1.0.0
+	 */
+	public function seach_products_for_offers()
+	{
+		$return = array();
+
+		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
+		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
+
+		if (! $id_nonce_verified) {
+			wp_die(esc_html__('Nonce Not verified', 'woo-one-click-upsell-funnel'));
+		}
+
+		$search_results = new WP_Query(
+			array(
+				's'                   => ! empty($_GET['q']) ? sanitize_text_field(wp_unslash($_GET['q'])) : '',
+				'post_type'           => array('product', 'product_variation'),
+				'post_status'         => array('publish'),
+				'ignore_sticky_posts' => 1,
+				'posts_per_page'      => -1,
+			)
+		);
+
+		if ($search_results->have_posts()) :
+
+			while ($search_results->have_posts()) :
+
+				$search_results->the_post();
+
+				$title = (mb_strlen($search_results->post->post_title) > 50) ? mb_substr($search_results->post->post_title, 0, 49) . '...' : $search_results->post->post_title;
+
+				/**
+				 * Check for post type as query sometimes returns posts even after mentioning post_type.
+				 * As some plugins alter query which causes issues.
+				 */
+				$post_type = get_post_type($search_results->post->ID);
+
+				if ('product' !== $post_type && 'product_variation' !== $post_type) {
+
+					continue;
+				}
+
+				$product      = wc_get_product($search_results->post->ID);
+				$downloadable = $product->is_downloadable();
+				$stock        = $product->get_stock_status();
+				$product_type = $product->get_type();
+
+				$unsupported_product_types = array(
+					'grouped',
+					'external',
+				);
+
+				if (in_array($product_type, $unsupported_product_types, true) || 'outofstock' === $stock) {
+
+					continue;
+				}
+
+				$return[] = array($search_results->post->ID, $title);
+
+			endwhile;
+
+		endif;
 
 		echo wp_json_encode($return);
 
