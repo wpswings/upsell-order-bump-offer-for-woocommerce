@@ -6699,6 +6699,7 @@ function wps_product_image_gallery_callback( $bump_id ) {
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_lite_offer_page_posts_deletion')){
 function wps_upsell_lite_offer_page_posts_deletion() {
 
 	// Get all funnels.
@@ -6745,6 +6746,7 @@ function wps_upsell_lite_offer_page_posts_deletion() {
 
 	}
 }
+}
 
 
 /**
@@ -6753,6 +6755,7 @@ function wps_upsell_lite_offer_page_posts_deletion() {
  *
  * @since    3.0.0
  */
+if(! function_exists('wps_upsell_lite_payment_gateways_with_parent_secured')){
 function wps_upsell_lite_payment_gateways_with_parent_secured() {
 
 	$gateways_with_parent_secured = array(
@@ -6760,6 +6763,7 @@ function wps_upsell_lite_payment_gateways_with_parent_secured() {
 	);
 
 	return apply_filters( 'wps_upsell_lite_pg_with_parent_secured', $gateways_with_parent_secured );
+}
 }
 
 
@@ -6792,6 +6796,7 @@ function wps_upsell_divi_builder_plugin_active() {
  * @param   string $location        Location of page where you want to show popup.
  * @since   1.2.0
  */
+if(! function_exists('wps_upsee_lite_go_pro')){
 function wps_upsee_lite_go_pro( $location = 'pro' ) {
 
 	if ( 'pro' === $location ) {
@@ -6846,12 +6851,14 @@ function wps_upsee_lite_go_pro( $location = 'pro' ) {
 	$allowed_html = wps_upselllite_allowed_html();
 	echo wp_kses( $popup_html, $allowed_html );
 }
+}
 
 /**
  * This function returns just allowed html for order bump.
  *
  * @since    1.0.0
  */
+if(! function_exists('wps_upselllite_allowed_html')){
 function wps_upselllite_allowed_html() {
 
 	// Return the complete html elements defined by us.
@@ -7004,6 +7011,7 @@ function wps_upselllite_allowed_html() {
 	<?php
 	return $allowed_html;
 }
+}
 
 
 /**
@@ -7011,6 +7019,7 @@ function wps_upselllite_allowed_html() {
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_lite_elementor_plugin_active')){
 function wps_upsell_lite_elementor_plugin_active() {
 
 	if ( wps_upsell_lite_is_plugin_active( 'elementor/elementor.php' ) ) {
@@ -7021,6 +7030,7 @@ function wps_upsell_lite_elementor_plugin_active() {
 		return false;
 	}
 }
+}
 
 /**
  * Elementor Upsell offer template 1.
@@ -7029,6 +7039,7 @@ function wps_upsell_lite_elementor_plugin_active() {
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_lite_elementor_offer_template_1')){
 function wps_upsell_lite_elementor_offer_template_1() {
 	$elementor_data = '';
 	if ( wps_upsell_lite_elementor_plugin_active() ) {
@@ -7059,6 +7070,7 @@ function wps_upsell_lite_elementor_offer_template_1() {
 	}
 
 	return $elementor_data;
+}
 }
 
 /**
@@ -7220,6 +7232,7 @@ function wps_upsell_lite_allowed_html() {
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_lite_elementor_offer_template_2')){
 function wps_upsell_lite_elementor_offer_template_2() {
 
 	$elementor_data = '';
@@ -7253,7 +7266,7 @@ function wps_upsell_lite_elementor_offer_template_2() {
 	}
 	return $elementor_data;
 }
-
+}
 
 
 
@@ -7264,6 +7277,7 @@ function wps_upsell_lite_elementor_offer_template_2() {
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_lite_elementor_offer_template_3')){
 function wps_upsell_lite_elementor_offer_template_3() {
 
 	$elementor_data = '';
@@ -7292,13 +7306,14 @@ function wps_upsell_lite_elementor_offer_template_3() {
 
 	return $elementor_data;
 }
-
+}
 
 /**
  * Upsell supported payment gateways.
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_lite_supported_gateways')){
 function wps_upsell_lite_supported_gateways() {
 
 	$supported_gateways = array(
@@ -7309,12 +7324,14 @@ function wps_upsell_lite_supported_gateways() {
 
 	return apply_filters( 'wps_upsell_lite_supported_gateways', $supported_gateways );
 }
+}
 
 /**
  * Upsell supported payment gateways.
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_pro_supported_gateways')){
 function wps_upsell_pro_supported_gateways() {
 
 	$supported_gateways = array(
@@ -7343,12 +7360,14 @@ function wps_upsell_pro_supported_gateways() {
 
 	return apply_filters( 'wps_upsell_proe_supported_gateways', $supported_gateways );
 }
+}
 
 /**
  * Validate upsell nonce.
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_lite_validate_upsell_nonce')){
 function wps_upsell_lite_validate_upsell_nonce() {
 
 	$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
@@ -7366,6 +7385,7 @@ function wps_upsell_lite_validate_upsell_nonce() {
 		return false;
 	}
 }
+}
 
 
 /**
@@ -7373,6 +7393,7 @@ function wps_upsell_lite_validate_upsell_nonce() {
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_lite_get_pid_from_url_params')){
 function wps_upsell_lite_get_pid_from_url_params() {
 
 	$params['status']  = 'false';
@@ -7393,13 +7414,14 @@ function wps_upsell_lite_get_pid_from_url_params() {
 
 	return $params;
 }
-
+}
 
 /**
  * Get product discount.
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_lite_get_product_discount')){
 function wps_upsell_lite_get_product_discount() {
 
 	$wps_wocuf_pro_offered_discount = '';
@@ -7460,13 +7482,14 @@ function wps_upsell_lite_get_product_discount() {
 
 	return $wps_wocuf_pro_offered_discount;
 }
-
+}
 
 /**
  * Upsell Live Offer URL parameters.
  *
  * @since    2.0.0
  */
+if(! function_exists('wps_upsell_lite_live_offer_url_params')){
 function wps_upsell_lite_live_offer_url_params() {
 
 	$add_live_nonce = ! empty( $_POST['wps_wocuf_after_post_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wocuf_after_post_nonce'] ) ) : '';
@@ -7500,4 +7523,5 @@ function wps_upsell_lite_live_offer_url_params() {
 	}
 	// phpcs:enable
 	return $params;
+}
 }

@@ -17,6 +17,7 @@
  *
  * @since    3.1.0
  */
+if(! function_exists('wps_upsell_org_subs_plugin_active')){
 function wps_upsell_org_subs_plugin_active() {
 
 	if ( class_exists( 'WC_Subscriptions_Order' ) ) {
@@ -28,6 +29,7 @@ function wps_upsell_org_subs_plugin_active() {
 		return false;
 	}
 }
+}
 
 /**
  * Check Order contains Subscription.
@@ -36,36 +38,32 @@ function wps_upsell_org_subs_plugin_active() {
  *
  * @since    3.1.0
  */
-function wps_upsell_org_order_contains_subscription( $order_id ) {
+if ( ! function_exists( 'wps_upsell_org_order_contains_subscription' ) ) {
+	function wps_upsell_org_order_contains_subscription( $order_id ) {
 
-	if ( empty( $order_id ) || ! wps_upsell_org_subs_plugin_active() ) {
+		if ( empty( $order_id ) || ! wps_upsell_org_subs_plugin_active() ) {
+			return false;
+		}
 
-		return false;
-	}
+		$contains_subscription = false;
+		$order = wc_get_order( $order_id );
 
-	$contains_subscription = false;
+		$order_items = $order->get_items();
 
-	$order = wc_get_order( $order_id );
+		if ( ! empty( $order_items ) && is_array( $order_items ) ) {
+			foreach ( $order_items as $single_item ) {
+				$product_id = $single_item->get_product_id();
+				$product    = wc_get_product( $product_id );
 
-	$order_items = $order->get_items();
-
-	if ( ! empty( $order_items ) && is_array( $order_items ) ) {
-
-		foreach ( $order_items as $single_item ) {
-
-			$product_id = $single_item->get_product_id();
-
-			$product = wc_get_product( $product_id );
-
-			if ( WC_Subscriptions_Product::is_subscription( $product ) ) {
-
-				$contains_subscription = true;
-				break;
+				if ( WC_Subscriptions_Product::is_subscription( $product ) ) {
+					$contains_subscription = true;
+					break;
+				}
 			}
 		}
-	}
 
-	return $contains_subscription;
+		return $contains_subscription;
+	}
 }
 
 /**
@@ -74,34 +72,30 @@ function wps_upsell_org_order_contains_subscription( $order_id ) {
  * @param string $product Product id.
  * @since    3.1.0
  */
-function wps_upsell_org_is_subscription_product( $product ) {
+if ( ! function_exists( 'wps_upsell_org_is_subscription_product' ) ) {
+	function wps_upsell_org_is_subscription_product( $product ) {
 
-	if ( empty( $product ) || ! wps_upsell_org_subs_plugin_active() ) {
+		if ( empty( $product ) || ! wps_upsell_org_subs_plugin_active() ) {
+			return false;
+		}
 
-		return false;
-	}
-
-	if ( WC_Subscriptions_Product::is_subscription( $product ) ) {
-
-		return true;
-	} else {
-
-		return false;
+		return WC_Subscriptions_Product::is_subscription( $product );
 	}
 }
 
 /**
- * Subcription supported gateways.
+ * Subscription supported gateways.
  *
  * @since    3.1.0
  */
-function wps_upsell_org_subs_supported_gateways() {
+if ( ! function_exists( 'wps_upsell_org_subs_supported_gateways' ) ) {
+	function wps_upsell_org_subs_supported_gateways() {
+		$subs_supported_gateways = array(
+			'stripe', // Official Stripe-CC.
+		);
 
-	$subs_supported_gateways = array(
-		'stripe', // Official Stripe-CC.
-	);
-
-	return apply_filters( 'wps_wocuf_pro_subs_supported_gateways', $subs_supported_gateways );
+		return apply_filters( 'wps_wocuf_pro_subs_supported_gateways', $subs_supported_gateways );
+	}
 }
 
 /**

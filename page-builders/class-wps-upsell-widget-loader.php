@@ -21,6 +21,7 @@ if ( class_exists( 'WPS_Upsell_Widget_Loader' ) ) {
 /**
  * WPS_Upsell_Widget_Loader.
  */
+if ( ! class_exists( 'WPS_Upsell_Widget_Loader' ) ) {
 class WPS_Upsell_Widget_Loader {
 
 	const WPS_UPSELL_WIDGET_LOADER = WPS_WOCUF_DIRPATH . 'page-builders/';
@@ -157,4 +158,5 @@ class WPS_Upsell_Widget_Loader {
 	}
 
 	// End of class.
+}
 }

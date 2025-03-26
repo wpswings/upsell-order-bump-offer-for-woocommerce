@@ -21,6 +21,7 @@ if ( class_exists( 'WPS_Upsell_Report_Sales_By_Funnel' ) ) {
 /**
  * WPS_Upsell_Report_Sales_By_Funnel.
  */
+if(! class_exists('WPS_Upsell_Report_Sales_By_Funnel')) {
 class WPS_Upsell_Report_Sales_By_Funnel {
 
 	/**
@@ -227,4 +228,5 @@ class WPS_Upsell_Report_Sales_By_Funnel {
 			$this->save_funnel_series( $this->funnel_series );
 		}
 	}
+}
 }

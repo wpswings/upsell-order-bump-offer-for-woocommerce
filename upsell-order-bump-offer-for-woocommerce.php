@@ -104,7 +104,8 @@ if ( $activated ) {
 	 *
 	 * @param mixed $plugin_slug plugin slug.
 	 */
-	function wps_upsell_lite_is_plugin_active( $plugin_slug ) {
+	if ( ! function_exists( 'wps_upsell_lite_is_plugin_active' )) {
+		function wps_upsell_lite_is_plugin_active() {
 
 		if ( empty( $plugin_slug ) ) {
 
@@ -122,17 +123,24 @@ if ( $activated ) {
 		return in_array( $plugin_slug, $active_plugins, true ) || array_key_exists( $plugin_slug, $active_plugins );
 
 	}
+}
 
 	/**
 	 * Currently plugin version.
 	 */
 	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.4.3' );
-	define( 'WPS_WOCUF_URL', plugin_dir_url( __FILE__ ) );
-
-	define( 'WPS_WOCUF_DIRPATH', plugin_dir_path( __FILE__ ) );
-
-	define( 'WPS_WOCUF_VERSION', 'v3.5.0' );
-
+	if ( ! defined( 'WPS_WOCUF_URL' ) ) {
+		define( 'WPS_WOCUF_URL', plugin_dir_url( __FILE__ ) );
+	}
+	
+	if ( ! defined( 'WPS_WOCUF_DIRPATH' ) ) {
+		define( 'WPS_WOCUF_DIRPATH', plugin_dir_path( __FILE__ ) );
+	}
+	
+	if ( ! defined( 'WPS_WOCUF_VERSION' ) ) {
+		define( 'WPS_WOCUF_VERSION', '1.0.0' ); // Replace with actual version
+	}
+	
 
 	add_filter( 'woocommerce_get_checkout_order_received_url', 'wps_wocuf_redirect_order_while_upsell_org', 10, 2 );
 
@@ -143,6 +151,7 @@ if ( $activated ) {
 	 * @param object $data is the order data.
 	 * @return string
 	 */
+	if ( ! function_exists( 'wps_wocuf_redirect_order_while_upsell_org' ) ) {
 	function wps_wocuf_redirect_order_while_upsell_org( $order_received_url, $data ) {
 
 		wps_wocfo_hpos_update_meta_data( $data->get_id(), 'wps_wocuf_upsell_funnel_order_redirection_link', $order_received_url );
@@ -153,6 +162,7 @@ if ( $activated ) {
 		}
 		return $order_received_url;
 	}
+}
 
 
 	$old_pro_present   = false;
@@ -374,10 +384,10 @@ if ( $activated ) {
 				/*
 				Plugin Name: Woo One Click Upsell Funnel
 				Plugin URI: https://example.com
-				Description: This is an auto-generated plugin.
+				Description: Upsell Funnel Builder.
 				Version: 4.2.11
-				Author: Your Name
-				Author URI: https://example.com
+				Author: WPSwings
+				Author URI: https://wpswings.com/
 				*/
 				";
 				file_put_contents($plugin_file, $plugin_content);
@@ -552,6 +562,7 @@ if ( $activated ) {
 		 *
 		 * @return boolean
 		 */
+		if ( ! function_exists( 'wps_wocfo_is_hpos_enabled' ) ) {
 		function wps_wocfo_is_hpos_enabled() {
 
 			$is_hpos_enable = false;
@@ -561,6 +572,7 @@ if ( $activated ) {
 			}
 			return $is_hpos_enable;
 		}
+	}
 
 
 
@@ -573,6 +585,7 @@ if ( $activated ) {
 	 * @param string $meta_value meta_value.
 	 * @return void
 	 */
+	if ( ! function_exists( 'wps_wocfo_hpos_update_meta_data' ) ) {
 	function wps_wocfo_hpos_update_meta_data( $id, $meta_key, $meta_value ) {
 
 		if ( 'shop_order' === OrderUtil::get_order_type( $id ) && wps_wocfo_is_hpos_enabled() ) {
@@ -585,6 +598,7 @@ if ( $activated ) {
 			update_post_meta( $id, $meta_key, $meta_value );
 		}
 	}
+}
 
 
 	/**
@@ -594,6 +608,7 @@ if ( $activated ) {
 	 * @param string $meta_key meta_key.
 	 * @return void
 	 */
+	if ( ! function_exists( 'wps_wocfo_hpos_delete_meta_data' ) ) {
 	function wps_wocfo_hpos_delete_meta_data( $id, $meta_key ) {
 
 		if ( 'shop_order' === OrderUtil::get_order_type( $id ) && wps_wocfo_is_hpos_enabled() ) {
@@ -606,6 +621,7 @@ if ( $activated ) {
 			delete_post_meta( $id, $meta_key );
 		}
 	}
+}
 
 
 
@@ -617,6 +633,7 @@ if ( $activated ) {
 	 * @param  bool   $bool meta bool.
 	 * @return string
 	 */
+	if ( ! function_exists( 'wps_wocfo_hpos_get_meta_data' ) ) {
 	function wps_wocfo_hpos_get_meta_data( $id, $meta_key, $bool ) {
 
 		$meta_value = '';
@@ -630,7 +647,7 @@ if ( $activated ) {
 		}
 		return $meta_value;
 	}
-
+	}
 
 
 	add_action( 'admin_notices', 'wps_ubo_banner_notification_html' );

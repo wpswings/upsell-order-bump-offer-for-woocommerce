@@ -1606,3 +1606,7 @@ input.wps_input_quantity.wps_quantity_input {
 }
 
 /* New offer product section end */
+
+.bump-offer-product-description {
+    word-break: break-all;
+  }
