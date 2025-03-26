@@ -7020,16 +7020,16 @@ function wps_upselllite_allowed_html() {
  * @since    2.0.0
  */
 if(! function_exists('wps_upsell_lite_elementor_plugin_active')){
-function wps_upsell_lite_elementor_plugin_active() {
+	function wps_upsell_lite_elementor_plugin_active() {
 
-	if ( wps_upsell_lite_is_plugin_active( 'elementor/elementor.php' ) ) {
+		if ( wps_upsell_lite_is_plugin_active( 'elementor/elementor.php' ) ) {
 
-		return true;
-	} else {
+			return true;
+		} else {
 
-		return false;
+			return false;
+		}
 	}
-}
 }
 
 /**

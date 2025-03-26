@@ -409,6 +409,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_nopriv_add_to_cart_fbt_product', $plugin_public, 'wps_add_to_cart_fbt_product_callback' );
 
 
+			if ( ! wps_upsell_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
+
+			
             //Hooks Related to one click upsell Start From Here.
 			$this->loader->add_action( 'woocommerce_init', $plugin_public, 'check_compatibltiy_instance_cs' );
 
@@ -503,7 +506,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 			// Google Analytics and Facebook Pixel Tracking - End.
 			$this->loader->add_action( 'woocommerce_after_checkout_billing_form', $plugin_public, 'wps_upsell_add_nonce_field_at_checkout' );
-
+		}
 		}
 	}
 

@@ -341,7 +341,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		wp_enqueue_script('wps-upsell-sweet-alert-js', plugin_dir_url(__FILE__) . 'js/sweet-alert.js', array(), '2.1.2', false);
 
 
-		wp_enqueue_script('woocommerce-one-click-upsell-public-script', plugin_dir_url(__FILE__) . 'js/woocommerce-oneclick-upsell-funnel-public.js', array('jquery'), $this->version, true);
+		wp_enqueue_script('woocommerce-one-click-upsell-public-script-lite', plugin_dir_url(__FILE__) . 'js/woocommerce-oneclick-upsell-funnel-public.js', array('jquery'), $this->version, true);
 
 		$show_upsell_loader = false;
 
@@ -356,7 +356,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 
 		wp_localize_script(
-			'woocommerce-one-click-upsell-public-script',
+			'woocommerce-one-click-upsell-public-script-lite',
 			'wps_upsell_public',
 			array(
 				'alert_preview_title'    => esc_html__('One Click Upsell', 'woo-one-click-upsell-funnel'),
@@ -381,10 +381,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			$upsell_skip_function = ! empty($upsell_global_options['wps_wocuf_pro_skip_exit_intent_toggle']) ? sanitize_text_field($upsell_global_options['wps_wocuf_pro_skip_exit_intent_toggle']) : '';
 			$upsell_exit_intent_message = __('Enhance your shopping experience! Explore additional products at a discount before you exit.',  'woo-one-click-upsell-funnel');
 
-			wp_enqueue_script('woocommerce-one-click-upsell-public-exit-intent-script', plugin_dir_url(__FILE__) . 'js/woocommerce-one-click-upsell-funnel-public-exit-intent_lite.js', array('jquery'), $this->version, true);
+			wp_enqueue_script('woocommerce-one-click-upsell-public-exit-intent-script-lite', plugin_dir_url(__FILE__) . 'js/woocommerce-one-click-upsell-funnel-public-exit-intent_lite.js', array('jquery'), $this->version, true);
 
 			wp_localize_script(
-				'woocommerce-one-click-upsell-public-exit-intent-script',
+				'woocommerce-one-click-upsell-public-exit-intent-script-lite',
 				'wps_upsell_public_exit',
 				array(
 					'ajaxurl'                => admin_url('admin-ajax.php'),
