@@ -111,7 +111,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 		<a class="nav-tab <?php echo esc_html( 'store-checkout-section' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=store-checkout-section"><?php esc_html_e( 'Store Checkout Setting', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
        <?php  } ?>
 		 <!-- Shortcode Tab--->
-		<a class="nav-tab <?php echo esc_html( 'shortcode-section' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=shortcode-section"><?php esc_html_e( 'Shortcode', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="nav-tab <?php echo esc_html( 'shortcode-section' === $wps_ubo_lite_active_tab ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=shortcode-section"><?php esc_html_e( 'Shortcodes', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 		<?php
 		if ( class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
