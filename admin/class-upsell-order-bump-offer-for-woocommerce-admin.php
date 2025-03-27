@@ -79,7 +79,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 			'plugins',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
-			// 'toplevel_page_wps-wocuf-pro-setting',
 		);
 
 		$screen = get_current_screen();
@@ -158,7 +157,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
 			'woocommerce_page_wc-settings',
-			// 'toplevel_page_wps-wocuf-pro-setting',
 		);
 
 		if (isset($screen->id)) {
@@ -1443,7 +1441,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 			$funnel_offer_template_section_html = '';
 			$funnel_offer_post_id               = '';
 
-			if (wps_upsell_lite_elementor_plugin_active() || wps_upsell_divi_builder_plugin_active()) {
+			if (wps_upsell_lite_elementor_plugin_active_funnel_builder() || wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 
 				// Create post for corresponding funnel and offer id.
 				$funnel_offer_post_id = wp_insert_post(
@@ -1461,11 +1459,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 
 				if ($funnel_offer_post_id) {
 
-					if (wps_upsell_lite_elementor_plugin_active()) {
-						$elementor_data = wps_upsell_lite_elementor_offer_template_1();
+					if (wps_upsell_lite_elementor_plugin_active_funnel_builder()) {
+						$elementor_data = wps_upsell_lite_elementor_offer_template_1_funnel_builder();
 						update_post_meta($funnel_offer_post_id, '_elementor_data', $elementor_data);
 						update_post_meta($funnel_offer_post_id, '_elementor_edit_mode', 'builder');
-					} elseif (wps_upsell_divi_builder_plugin_active()) {
+					} elseif (wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 
 						delete_post_meta($funnel_offer_post_id, '_elementor_css');
 						delete_post_meta($funnel_offer_post_id, '_elementor_data');
@@ -1548,7 +1546,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 
 			$offer_scroll_id_val = "#offer-section-$offer_index";
 
-			$allowed_html = wps_upsell_lite_allowed_html();
+			$allowed_html = wps_upsell_lite_allowed_html_funnel_builder();
 
 			$data = '<div style="display:none;" data-id="' . $offer_index . '" data-scroll-id="' . $offer_scroll_id_val . '" class="new_created_offers wps_upsell_single_offer">
 			<h2 class="wps_upsell_offer_title">' . esc_html__('Offer #', 'woo-one-click-upsell-funnel') . $offer_index . '</h2>
@@ -1672,20 +1670,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 										<?php
 										if ('one' == $template_key || 'two' == $template_key || 'three' == $template_key) {
 
-											if (wps_upsell_divi_builder_plugin_active()) {
+											if (wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 										?>
-												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL . "admin/resources/offer-thumbnails/divi/offer-template-$template_key.png"); ?>"></a>
+												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . "admin/resources/offer-thumbnails/divi/offer-template-$template_key.png"); ?>"></a>
 											<?php
 											} else {
 											?>
-												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL . "admin/resources/offer-thumbnails/offer-template-$template_key.jpg"); ?>"></a>
+												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . "admin/resources/offer-thumbnails/offer-template-$template_key.jpg"); ?>"></a>
 											<?php
 
 											}
 										} else {
 
 											?>
-											<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL . "admin/resources/offer-thumbnails/offer-template-$template_key.png"); ?>"></a>
+											<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . "admin/resources/offer-thumbnails/offer-template-$template_key.png"); ?>"></a>
 										<?php
 
 										}
@@ -1707,7 +1705,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 
 
 											<?php
-											if (! wps_upsell_divi_builder_plugin_active()) {
+											if (! wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 											?>
 												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
@@ -1723,7 +1721,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 						<?php
 						endforeach;
 
-						if (wps_upsell_lite_elementor_plugin_active() || wps_upsell_divi_builder_plugin_active()) {
+						if (wps_upsell_lite_elementor_plugin_active_funnel_builder() || wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 						?>
 
 							<!-- Offer templates 4 foreach start-->
@@ -1737,7 +1735,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 									<div class="wps_upsell_offer_preview">
 
 										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="four">
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-four.png'); ?>"></a>
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/offer-thumbnails/offer-template-four.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
@@ -1752,7 +1750,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
 											<?php
-											if (! wps_upsell_divi_builder_plugin_active()) {
+											if (! wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 											?>
 												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
@@ -1778,7 +1776,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 									<div class="wps_upsell_offer_preview">
 
 										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="five">
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-five.png'); ?>"></a>
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/offer-thumbnails/offer-template-five.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
@@ -1793,7 +1791,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
 											<?php
-											if (! wps_upsell_divi_builder_plugin_active()) {
+											if (! wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 											?>
 												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
@@ -1819,7 +1817,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 									<div class="wps_upsell_offer_preview">
 
 										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="six">
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-six.png'); ?>"></a>
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/offer-thumbnails/offer-template-six.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
@@ -1834,7 +1832,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
 											<?php
-											if (! wps_upsell_divi_builder_plugin_active()) {
+											if (! wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 											?>
 												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
@@ -1864,7 +1862,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 									<div class="wps_upsell_offer_preview">
 
 										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="seven">
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-seven.png'); ?>"></a>
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/offer-thumbnails/offer-template-seven.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
@@ -1879,7 +1877,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
 											<?php
-											if (! wps_upsell_divi_builder_plugin_active()) {
+											if (! wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 											?>
 												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
@@ -1905,7 +1903,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 									<div class="wps_upsell_offer_preview">
 
 										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="eight">
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL . 'admin/resources/offer-thumbnails/offer-template-eight.png'); ?>"></a>
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/offer-thumbnails/offer-template-eight.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
@@ -1920,7 +1918,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 											<a class="button" href="<?php echo esc_url(get_permalink($assigned_post_id)); ?>" target="_blank"><?php esc_html_e('View &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
 											<?php
-											if (! wps_upsell_divi_builder_plugin_active()) {
+											if (! wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 											?>
 												<a class="button" href="<?php echo esc_url(admin_url("post.php?post=$assigned_post_id&action=elementor")); ?>" target="_blank"><?php esc_html_e('Customize &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 
@@ -2030,15 +2028,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 		}
 
 		$offer_templates_array = array(
-			'one'   => 'wps_upsell_lite_elementor_offer_template_1',
-			'two'   => 'wps_upsell_lite_elementor_offer_template_2',
-			'three' => 'wps_upsell_lite_elementor_offer_template_3',
+			'one'   => 'wps_upsell_lite_elementor_offer_template_1_funnel_builder',
+			'two'   => 'wps_upsell_lite_elementor_offer_template_2_funnel_builder',
+			'three' => 'wps_upsell_lite_elementor_offer_template_3_funnel_builder',
 		);
 
 		foreach ($offer_templates_array as $template_key => $callback_function) {
 
 			if ($template_id === $template_key) {
-				if (wps_upsell_lite_elementor_plugin_active()) {
+				if (wps_upsell_lite_elementor_plugin_active_funnel_builder()) {
 
 					// Delete previous elementor css.
 					delete_post_meta($offer_post_id, '_elementor_css');
@@ -2051,7 +2049,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 					update_post_meta($offer_post_id, '_elementor_data', $elementor_data);
 
 					break;
-				} elseif (wps_upsell_divi_builder_plugin_active()) {
+				} elseif (wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 
 					delete_post_meta($offer_post_id, '_elementor_css');
 					delete_post_meta($offer_post_id, '_elementor_data');
@@ -2115,7 +2113,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 	public function wps_wocuf_pro_populate_upsell_order_column($column, $post_id)
 	{
 
-		$upsell_order = wps_wocfo_hpos_get_meta_data($post_id, 'wps_wocuf_upsell_order', true);
+		$upsell_order = wps_wocfo_hpos_get_meta_data_funnel_builder($post_id, 'wps_wocuf_upsell_order', true);
 
 		switch ($column) {
 
@@ -2223,7 +2221,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 	{
 
 		$new_column['wps_upsell'] = esc_html__('Upsell Supported', 'woo-one-click-upsell-funnel');
-		wps_upsee_lite_go_pro('pro');
+		wps_upsee_lite_go_pro_funnel_builder('pro');
 		// Place at second last position.
 		$position = count($default_columns) - 1;
 
@@ -2242,9 +2240,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 	public function upsell_support_content_in_payment_gateway($gateway)
 	{
 
-		$supported_gateways = wps_upsell_lite_supported_gateways();
+		$supported_gateways = wps_upsell_lite_supported_gateways_funnel_builder();
 
-		$supported_gateways_pro = wps_upsell_pro_supported_gateways();
+		$supported_gateways_pro = wps_upsell_pro_supported_gateways_funnel_builder();
 
 		echo '<td class="wps_upsell_supported">';
 

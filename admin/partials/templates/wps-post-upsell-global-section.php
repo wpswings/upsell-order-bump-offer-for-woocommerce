@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Provide a admin area view for the plugin
  *
@@ -14,89 +15,89 @@
 /**
  * Exit if accessed directly
  */
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
 	exit;
 }
 
 // Save settings on Save changes.
-if ( isset( $_POST['wps_wocuf_pro_common_settings_save'] ) ) {
+if (isset($_POST['wps_wocuf_pro_common_settings_save'])) {
 
 	// Nonce verification.
-	$wps_wocuf_pro_create_nonce = ! empty( $_POST['wps_wocuf_pro_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wocuf_pro_nonce'] ) ) : '';
+	$wps_wocuf_pro_create_nonce = ! empty($_POST['wps_wocuf_pro_nonce']) ? sanitize_text_field(wp_unslash($_POST['wps_wocuf_pro_nonce'])) : '';
 
-	if ( empty( $wps_wocuf_pro_create_nonce ) || ! wp_verify_nonce( $wps_wocuf_pro_create_nonce, 'wps_wocuf_pro_setting_nonce' ) ) {
+	if (empty($wps_wocuf_pro_create_nonce) || ! wp_verify_nonce($wps_wocuf_pro_create_nonce, 'wps_wocuf_pro_setting_nonce')) {
 
-		esc_html_e( 'Sorry, due to some security issue, your settings could not be saved.', 'woo-one-click-upsell-funnel' );
+		esc_html_e('Sorry, due to some security issue, your settings could not be saved.', 'woo-one-click-upsell-funnel');
 		wp_die();
 	}
 
 	$wps_upsell_global_options = array();
 
 	// Enable Plugin.
-	$wps_upsell_global_options['wps_wocuf_enable_plugin'] = ! empty( $_POST['wps_wocuf_enable_plugin'] ) ? 'on' : 'off';
+	$wps_upsell_global_options['wps_wocuf_enable_plugin'] = ! empty($_POST['wps_wocuf_enable_plugin']) ? 'on' : 'off';
 
 	// Global product id.
-	$wps_upsell_global_options['global_product_id'] = ! empty( $_POST['global_product_id'] ) ? sanitize_text_field( wp_unslash( $_POST['global_product_id'] ) ) : '';
+	$wps_upsell_global_options['global_product_id'] = ! empty($_POST['global_product_id']) ? sanitize_text_field(wp_unslash($_POST['global_product_id'])) : '';
 
 	// Global product discount.
-	$wps_upsell_global_options['global_product_discount'] = ! empty( $_POST['global_product_discount'] ) ? sanitize_text_field( wp_unslash( $_POST['global_product_discount'] ) ) : '';
+	$wps_upsell_global_options['global_product_discount'] = ! empty($_POST['global_product_discount']) ? sanitize_text_field(wp_unslash($_POST['global_product_discount'])) : '';
 
 	// Skip similar offer.
-	$wps_upsell_global_options['skip_similar_offer'] = ! empty( $_POST['skip_similar_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['skip_similar_offer'] ) ) : '';
+	$wps_upsell_global_options['skip_similar_offer'] = ! empty($_POST['skip_similar_offer']) ? sanitize_text_field(wp_unslash($_POST['skip_similar_offer'])) : '';
 
 	// Exit Intent offer.
-	$wps_upsell_global_options['wps_wocuf_pro_skip_exit_intent_toggle'] = ! empty( $_POST['wps_wocuf_pro_skip_exit_intent_toggle'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wocuf_pro_skip_exit_intent_toggle'] ) ) : '';
+	$wps_upsell_global_options['wps_wocuf_pro_skip_exit_intent_toggle'] = ! empty($_POST['wps_wocuf_pro_skip_exit_intent_toggle']) ? sanitize_text_field(wp_unslash($_POST['wps_wocuf_pro_skip_exit_intent_toggle'])) : '';
 
 
 	// Remove all styles.
-	$wps_upsell_global_options['remove_all_styles'] = ! empty( $_POST['remove_all_styles'] ) ? sanitize_text_field( wp_unslash( $_POST['remove_all_styles'] ) ) : '';
+	$wps_upsell_global_options['remove_all_styles'] = ! empty($_POST['remove_all_styles']) ? sanitize_text_field(wp_unslash($_POST['remove_all_styles'])) : '';
 
 	// Price Html format.
-	$wps_upsell_global_options['offer_price_html_type'] = ! empty( $_POST['offer_price_html_type'] ) ? sanitize_text_field( wp_unslash( $_POST['offer_price_html_type'] ) ) : '';
+	$wps_upsell_global_options['offer_price_html_type'] = ! empty($_POST['offer_price_html_type']) ? sanitize_text_field(wp_unslash($_POST['offer_price_html_type'])) : '';
 
 	// Smart Skip.
-	$wps_upsell_global_options['smart_skip_if_purchased'] = ! empty( $_POST['smart_skip_if_purchased'] ) ? 'yes' : 'no';
+	$wps_upsell_global_options['smart_skip_if_purchased'] = ! empty($_POST['smart_skip_if_purchased']) ? 'yes' : 'no';
 
 	// Upsell action Message.
-	$wps_upsell_global_options['upsell_actions_message'] = ! empty( $_POST['upsell_actions_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['upsell_actions_message'] ) ) : '';
+	$wps_upsell_global_options['upsell_actions_message'] = ! empty($_POST['upsell_actions_message']) ? sanitize_textarea_field(wp_unslash($_POST['upsell_actions_message'])) : '';
 
 	// Custom CSS.
-	$wps_upsell_global_options['global_custom_css'] = ! empty( $_POST['global_custom_css'] ) ? sanitize_textarea_field( wp_unslash( $_POST['global_custom_css'] ) ) : '';
+	$wps_upsell_global_options['global_custom_css'] = ! empty($_POST['global_custom_css']) ? sanitize_textarea_field(wp_unslash($_POST['global_custom_css'])) : '';
 
 	// Custom JS.
-	$wps_upsell_global_options['global_custom_js'] = ! empty( $_POST['global_custom_js'] ) ? sanitize_textarea_field( wp_unslash( $_POST['global_custom_js'] ) ) : '';
+	$wps_upsell_global_options['global_custom_js'] = ! empty($_POST['global_custom_js']) ? sanitize_textarea_field(wp_unslash($_POST['global_custom_js'])) : '';
 
 	// Custom JS.
-	$wps_upsell_global_options['upsell_redirect_expire_link'] = ! empty( $_POST['upsell_redirect_expire_link'] ) ? sanitize_textarea_field( wp_unslash( $_POST['upsell_redirect_expire_link'] ) ) : '';
+	$wps_upsell_global_options['upsell_redirect_expire_link'] = ! empty($_POST['upsell_redirect_expire_link']) ? sanitize_textarea_field(wp_unslash($_POST['upsell_redirect_expire_link'])) : '';
 
 
 	// Save.
-	update_option( 'wps_bump_enable_plugin', $wps_upsell_global_options['wps_wocuf_enable_plugin'] );
-	update_option( 'wps_upsell_lite_global_options', $wps_upsell_global_options );
+	update_option('wps_bump_enable_plugin', $wps_upsell_global_options['wps_wocuf_enable_plugin']);
+	update_option('wps_upsell_lite_global_options', $wps_upsell_global_options);
 
-	?>
+?>
 
 	<!-- Settings saved notice. -->
-	<div class="notice notice-success is-dismissible"> 
-		<p><strong><?php esc_html_e( 'Settings saved', 'woo-one-click-upsell-funnel' ); ?></strong></p>
+	<div class="notice notice-success is-dismissible">
+		<p><strong><?php esc_html_e('Settings saved', 'woo-one-click-upsell-funnel'); ?></strong></p>
 	</div>
-	<?php
+<?php
 }
 
 // By default plugin will be enabled.
 // Check enability of the plugin at settings page.
-$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
+$wps_ubo_global_options = get_option('wps_ubo_global_options', array());
 
 // By default plugin will be enabled.
-$wps_wocuf_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : 'on';
+$wps_wocuf_enable_plugin = ! empty($wps_ubo_global_options['wps_bump_enable_plugin']) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : 'on';
 // $wps_wocuf_enable_plugin = get_option( 'wps_bump_enable_plugin', 'on' );
 
-$wps_upsell_global_settings = get_option( 'wps_upsell_lite_global_options', array() );
-wps_upsee_lite_go_pro( 'pro' );
+$wps_upsell_global_settings = get_option('wps_upsell_lite_global_options', array());
+// wps_upsee_lite_go_pro_funnel_builder('pro');
 ?>
 <input type='hidden' id='wps_ubo_pro_status' value='inactive'>
-<?php //wps_upsee_lite_product_offer_go_pro( 'pro' ); ?>
-
+<?php //wps_upsee_lite_product_offer_go_pro( 'pro' ); 
+?>
 
 <form action="" method="POST">
 	<div class="wps_upsell_table">
@@ -104,22 +105,22 @@ wps_upsee_lite_go_pro( 'pro' );
 			<tbody>
 
 				<!-- Nonce field here. -->
-				<?php wp_nonce_field( 'wps_wocuf_pro_setting_nonce', 'wps_wocuf_pro_nonce' ); ?>
+				<?php wp_nonce_field('wps_wocuf_pro_setting_nonce', 'wps_wocuf_pro_nonce'); ?>
 
 
 				<!-- Payment Gateways start -->
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label><?php esc_html_e( 'Payment Gateways', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label><?php esc_html_e('Payment Gateways', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 						<?php
-						$attribute_description = esc_html__( 'Please set up and activate Upsell supported payment gateways as offers will only appear through them.', 'woo-one-click-upsell-funnel' );
-						wps_ubo_lite_help_tip( $attribute_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						$attribute_description = esc_html__('Please set up and activate Upsell supported payment gateways as offers will only appear through them.', 'woo-one-click-upsell-funnel');
+						wps_ubo_lite_help_tip($attribute_description); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						?>
-						<a target="_blank" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout' ) ); ?>"><?php esc_html_e( 'Manage Upsell supported payment gateways &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>		
+						<a target="_blank" href="<?php echo esc_url(admin_url('admin.php?page=wc-settings&tab=checkout')); ?>"><?php esc_html_e('Manage Upsell supported payment gateways &rarr;', 'woo-one-click-upsell-funnel'); ?></a>
 					</td>
 				</tr>
 				<!-- Payment Gateways end -->
@@ -128,22 +129,22 @@ wps_upsee_lite_go_pro( 'pro' );
 
 				<tr valign="top">
 
-				<th scope="row" class="titledesc">
-				<span class="wps_wupsell_premium_strip">Pro</span>
-					<label for="wps_wocuf_pro_enable_free_upsell"><?php esc_html_e( 'Free Order Upsell', 'one-click-upsell-funnel-for-woocommerce-pro' ); ?></label>
-				</th>
+					<th scope="row" class="titledesc">
+						<span class="wps_wupsell_premium_strip">Pro</span>
+						<label for="wps_wocuf_pro_enable_free_upsell"><?php esc_html_e('Free Order Upsell', 'one-click-upsell-funnel-for-woocommerce-pro'); ?></label>
+					</th>
 
-				<td class="forminp forminp-text">
-					<?php
-					$attribut_description = esc_html__( 'Enable Upsell funnels even on Cart total zero.', 'one-click-upsell-funnel-for-woocommerce-pro' );
-					wps_ubo_lite_help_tip( $attribut_description );
-					?>
-					<label class="wps_wocuf_pro_enable_plugin_label">
-						<input id="wps_wocuf_pro_enable_free_upsell" class="wps_wocuf_pro_enable_plugin_input ubo_offer_input " type="checkbox"  name="enable_free_upsell" >	
-						<span class="wps_wocuf_pro_enable_plugin_span"></span>
-					</label>
-					
-				</td>
+					<td class="forminp forminp-text">
+						<?php
+						$attribut_description = esc_html__('Enable Upsell funnels even on Cart total zero.', 'one-click-upsell-funnel-for-woocommerce-pro');
+						wps_ubo_lite_help_tip($attribut_description);
+						?>
+						<label class="wps_wocuf_pro_enable_plugin_label">
+							<input id="wps_wocuf_pro_enable_free_upsell" class="wps_wocuf_pro_enable_plugin_input ubo_offer_input " type="checkbox" name="enable_free_upsell">
+							<span class="wps_wocuf_pro_enable_plugin_span"></span>
+						</label>
+
+					</td>
 				</tr>
 
 				<!-- Free Order Upselling start -->
@@ -152,26 +153,26 @@ wps_upsee_lite_go_pro( 'pro' );
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label><?php esc_html_e( 'Remove Styles from Offer Pages', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label><?php esc_html_e('Remove Styles from Offer Pages', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td>
 
 						<?php
-						$attribut_description = esc_html__( 'Remove theme and other plugin styles from offer pages. (Not applicable for Custom Offer pages)', 'woo-one-click-upsell-funnel' );
-						wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						$attribut_description = esc_html__('Remove theme and other plugin styles from offer pages. (Not applicable for Custom Offer pages)', 'woo-one-click-upsell-funnel');
+						wps_ubo_lite_help_tip($attribut_description); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						?>
 
 						<?php
 
-						$remove_all_styles = ! empty( $wps_upsell_global_settings['remove_all_styles'] ) ? $wps_upsell_global_settings['remove_all_styles'] : 'yes';
+						$remove_all_styles = ! empty($wps_upsell_global_settings['remove_all_styles']) ? $wps_upsell_global_settings['remove_all_styles'] : 'yes';
 
 						?>
 
 						<select class="wps_upsell_remove_all_styles_select" name="remove_all_styles">
 
-							<option value="yes" <?php selected( $remove_all_styles, 'yes' ); ?> ><?php esc_html_e( 'Yes', 'woo-one-click-upsell-funnel' ); ?></option>
-							<option value="no" <?php selected( $remove_all_styles, 'no' ); ?> ><?php esc_html_e( 'No', 'woo-one-click-upsell-funnel' ); ?></option>
+							<option value="yes" <?php selected($remove_all_styles, 'yes'); ?>><?php esc_html_e('Yes', 'woo-one-click-upsell-funnel'); ?></option>
+							<option value="no" <?php selected($remove_all_styles, 'no'); ?>><?php esc_html_e('No', 'woo-one-click-upsell-funnel'); ?></option>
 
 						</select>
 					</td>
@@ -182,47 +183,47 @@ wps_upsee_lite_go_pro( 'pro' );
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_wocuf_enable_plugin"><?php esc_html_e( 'Enable Popup Exit-Intent', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label for="wps_wocuf_enable_plugin"><?php esc_html_e('Enable Popup Exit-Intent', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 						<?php
-						$attribut_description = esc_html__( 'Triggered the popup on leaving browser on upsell offer page.', 'woo-one-click-upsell-funnel' );
-						wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
+						$attribut_description = esc_html__('Triggered the popup on leaving browser on upsell offer page.', 'woo-one-click-upsell-funnel');
+						wps_ubo_lite_help_tip($attribut_description); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
 
-						$wps_wocuf_pro_skip_exit_intent_toggle = ! empty( $wps_upsell_global_settings['wps_wocuf_pro_skip_exit_intent_toggle'] ) ? $wps_upsell_global_settings['wps_wocuf_pro_skip_exit_intent_toggle'] : '';
+						$wps_wocuf_pro_skip_exit_intent_toggle = ! empty($wps_upsell_global_settings['wps_wocuf_pro_skip_exit_intent_toggle']) ? $wps_upsell_global_settings['wps_wocuf_pro_skip_exit_intent_toggle'] : '';
 
 
 						?>
 
 						<label class="wps_wocuf_pro_enable_plugin_label">
-							<input class="wps_wocuf_pro_enable_plugin_input" type="checkbox" <?php echo ( 'on' === $wps_wocuf_pro_skip_exit_intent_toggle ) ? "checked='checked'" : ''; ?> name="wps_wocuf_pro_skip_exit_intent_toggle" >	
+							<input class="wps_wocuf_pro_enable_plugin_input" type="checkbox" <?php echo ('on' === $wps_wocuf_pro_skip_exit_intent_toggle) ? "checked='checked'" : ''; ?> name="wps_wocuf_pro_skip_exit_intent_toggle">
 							<span class="wps_wocuf_pro_enable_plugin_span"></span>
-						</label>		
+						</label>
 					</td>
 				</tr>
 				<!--  Exit Intent skip end -->
-				
+
 
 				<!-- V3.5.0 :: Exit Intent start -->
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-					<span class="wps_wupsell_premium_strip">Pro</span>
-						<label for="wps_wocuf_pro_smart_skip_toggle"><?php esc_html_e( 'Enable Accept/Reject Button For Exit-Intent', 'woo-one-click-upsell-funnel' ); ?></label>
+						<span class="wps_wupsell_premium_strip">Pro</span>
+						<label for="wps_wocuf_pro_smart_skip_toggle"><?php esc_html_e('Enable Accept/Reject Button For Exit-Intent', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 						<?php
-						$attribut_description = esc_html__( 'Triggered the popup button on leaving browser on upsell offer page.', 'woo-one-click-upsell-funnel' );
-						wps_ubo_lite_help_tip( $attribut_description );
+						$attribut_description = esc_html__('Triggered the popup button on leaving browser on upsell offer page.', 'woo-one-click-upsell-funnel');
+						wps_ubo_lite_help_tip($attribut_description);
 
 						?>
 
 						<label class="wps_wocuf_pro_enable_plugin_label">
-							<input class="wps_wocuf_pro_enable_plugin_input ubo_offer_input " type="checkbox"  name="" >	
+							<input class="wps_wocuf_pro_enable_plugin_input ubo_offer_input " type="checkbox" name="">
 							<span class="wps_wocuf_pro_enable_plugin_span"></span>
-						</label>		
+						</label>
 					</td>
 				</tr>
 				<!-- V3.5.0 :: Exit Intent end -->
@@ -231,30 +232,30 @@ wps_upsee_lite_go_pro( 'pro' );
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-					<span class="wps_wupsell_premium_strip">Pro</span>
-						<label><?php esc_html_e( 'Upsell Exit Intent Message', 'woo-one-click-upsell-funnel' ); ?></label>
+						<span class="wps_wupsell_premium_strip">Pro</span>
+						<label><?php esc_html_e('Upsell Exit Intent Message', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td>
 
 						<div class="wps_upsell_attribute_description">
-						
+
 							<?php
-							$attribut_description = esc_html__( 'This message will be shown on popup when leaving upsell offer page and closing browser.', 'woo-one-click-upsell-funnel' );
-							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							$attribut_description = esc_html__('This message will be shown on popup when leaving upsell offer page and closing browser.', 'woo-one-click-upsell-funnel');
+							wps_ubo_lite_help_tip($attribut_description); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							?>
 
 							<?php
 
-							$upsell_exit_intent_message = isset( $wps_upsell_global_settings['upsell_exit_intent_message'] ) ? $wps_upsell_global_settings['upsell_exit_intent_message'] : __( 'Enhance your shopping experience! Explore additional products at a discount before you exit.', 'woo-one-click-upsell-funnel' );
+							$upsell_exit_intent_message = isset($wps_upsell_global_settings['upsell_exit_intent_message']) ? $wps_upsell_global_settings['upsell_exit_intent_message'] : __('Enhance your shopping experience! Explore additional products at a discount before you exit.', 'woo-one-click-upsell-funnel');
 
 
-							if ( empty( $upsell_exit_intent_message ) ) {
-								$upsell_exit_intent_message = __( 'Enhance your shopping experience! Explore additional products at a discount before you exit.', 'woo-one-click-upsell-funnel' );
+							if (empty($upsell_exit_intent_message)) {
+								$upsell_exit_intent_message = __('Enhance your shopping experience! Explore additional products at a discount before you exit.', 'woo-one-click-upsell-funnel');
 							}
 							?>
 
-							<textarea name="upsell_exit_intent_message" rows="4" cols="50"><?php echo esc_html( wp_unslash( $upsell_exit_intent_message ) ); ?></textarea>
+							<textarea name="upsell_exit_intent_message" rows="4" cols="50"><?php echo esc_html(wp_unslash($upsell_exit_intent_message)); ?></textarea>
 						</div>
 					</td>
 				</tr>
@@ -264,30 +265,30 @@ wps_upsee_lite_go_pro( 'pro' );
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-					<span class="wps_wupsell_premium_strip">Pro</span>
-						<label><?php esc_html_e( 'Upsell redirect on Offer Expire Link', 'woo-one-click-upsell-funnel' ); ?></label>
+						<span class="wps_wupsell_premium_strip">Pro</span>
+						<label><?php esc_html_e('Upsell redirect on Offer Expire Link', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td>
 
 						<div class="wps_upsell_attribute_description">
-						
+
 							<?php
-							$attribut_description = esc_html__( 'This Link will redirect you to selected page when offer expire.', 'woo-one-click-upsell-funnel' );
-							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							$attribut_description = esc_html__('This Link will redirect you to selected page when offer expire.', 'woo-one-click-upsell-funnel');
+							wps_ubo_lite_help_tip($attribut_description); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							?>
 
 							<?php
-							$shop_page_url = function_exists( 'wc_get_page_id' ) ? get_permalink( wc_get_page_id( 'shop' ) ) : get_permalink( woocommerce_get_page_id( 'shop' ) );
+							$shop_page_url = function_exists('wc_get_page_id') ? get_permalink(wc_get_page_id('shop')) : get_permalink(woocommerce_get_page_id('shop'));
 
-							$upsell_redirect_expire_link = isset( $wps_upsell_global_settings['upsell_redirect_expire_link'] ) ? $wps_upsell_global_settings['upsell_redirect_expire_link'] : $shop_page_url;
+							$upsell_redirect_expire_link = isset($wps_upsell_global_settings['upsell_redirect_expire_link']) ? $wps_upsell_global_settings['upsell_redirect_expire_link'] : $shop_page_url;
 
 
-							if ( empty( $upsell_redirect_expire_link ) ) {
+							if (empty($upsell_redirect_expire_link)) {
 								$upsell_redirect_expire_link = $shop_page_url;
 							}
 							?>
-							<input class="wps_wocuf_pro_enable_plugin_input ubo_offer_input" type="text" placeholder="<?php echo esc_html( wp_unslash( $upsell_redirect_expire_link ) ); ?>"  name="" >	
+							<input class="wps_wocuf_pro_enable_plugin_input ubo_offer_input" type="text" placeholder="<?php echo esc_html(wp_unslash($upsell_redirect_expire_link)); ?>" name="">
 						</div>
 					</td>
 				</tr>
@@ -299,35 +300,35 @@ wps_upsee_lite_go_pro( 'pro' );
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label><?php esc_html_e( 'Global Offer Product', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label><?php esc_html_e('Global Offer Product', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td>
 
 						<?php
-						$attribut_description = esc_html__( '( Not for Live Offer ) Set Global Offer Product for Sandbox View of Custom Offer Page.', 'woo-one-click-upsell-funnel' );
-						wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						$attribut_description = esc_html__('( Not for Live Offer ) Set Global Offer Product for Sandbox View of Custom Offer Page.', 'woo-one-click-upsell-funnel');
+						wps_ubo_lite_help_tip($attribut_description); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						?>
 
-						<select class="wc-offer-product-search wps_upsell_offer_product" name="global_product_id" data-placeholder="<?php esc_html_e( 'Search for a product&hellip;', 'woo-one-click-upsell-funnel' ); ?>">
-						<?php
+						<select class="wc-offer-product-search wps_upsell_offer_product" name="global_product_id" data-placeholder="<?php esc_html_e('Search for a product&hellip;', 'woo-one-click-upsell-funnel'); ?>">
+							<?php
 
-							$global_product_id = ! empty( $wps_upsell_global_settings['global_product_id'] ) ? $wps_upsell_global_settings['global_product_id'] : '';
+							$global_product_id = ! empty($wps_upsell_global_settings['global_product_id']) ? $wps_upsell_global_settings['global_product_id'] : '';
 
-						if ( ! empty( $global_product_id ) ) {
+							if (! empty($global_product_id)) {
 
-							$global_product_title = get_the_title( $global_product_id );
+								$global_product_title = get_the_title($global_product_id);
 
 							?>
-								<option value="<?php echo esc_html( $global_product_id ); ?>" selected="selected"><?php echo esc_html( $global_product_title ) . '( #' . esc_html( $global_product_id ) . ' )'; ?>
+								<option value="<?php echo esc_html($global_product_id); ?>" selected="selected"><?php echo esc_html($global_product_title) . '( #' . esc_html($global_product_id) . ' )'; ?>
 								</option>
 
 							<?php
-						}
-						?>
+							}
+							?>
 						</select>
-						<?php $display_class = ! empty( $global_product_id ) ? 'shown' : 'hidden'; ?>
-						<input type="button" class="button button-small wps-upsell-offer-product-clear <?php echo( esc_html( $display_class ) ); ?>" value="<?php esc_html_e( 'Clear', 'woo-one-click-upsell-funnel' ); ?>" aria-label="<?php esc_html_e( 'Clear Offer Product', 'woo-one-click-upsell-funnel' ); ?>">
+						<?php $display_class = ! empty($global_product_id) ? 'shown' : 'hidden'; ?>
+						<input type="button" class="button button-small wps-upsell-offer-product-clear <?php echo (esc_html($display_class)); ?>" value="<?php esc_html_e('Clear', 'woo-one-click-upsell-funnel'); ?>" aria-label="<?php esc_html_e('Clear Offer Product', 'woo-one-click-upsell-funnel'); ?>">
 					</td>
 				</tr>
 				<!-- Global product end -->
@@ -336,7 +337,7 @@ wps_upsee_lite_go_pro( 'pro' );
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label><?php esc_html_e( 'Global Offer Discount', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label><?php esc_html_e('Global Offer Discount', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td>
@@ -344,17 +345,17 @@ wps_upsee_lite_go_pro( 'pro' );
 						<div class="wps_upsell_attribute_description">
 
 							<?php
-							$attribut_description = esc_html__( '( Not for Live Offer ) Set Global Offer Discount in product price for Sandbox View of Custom Offer Page.', 'woo-one-click-upsell-funnel' );
-							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							$attribut_description = esc_html__('( Not for Live Offer ) Set Global Offer Discount in product price for Sandbox View of Custom Offer Page.', 'woo-one-click-upsell-funnel');
+							wps_ubo_lite_help_tip($attribut_description); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							?>
 
 							<?php
 
-							$global_product_discount = isset( $wps_upsell_global_settings['global_product_discount'] ) ? $wps_upsell_global_settings['global_product_discount'] : '50%';
+							$global_product_discount = isset($wps_upsell_global_settings['global_product_discount']) ? $wps_upsell_global_settings['global_product_discount'] : '50%';
 
 							?>
 
-							<input type="text" name="global_product_discount" value="<?php echo esc_html( $global_product_discount ); ?>">
+							<input type="text" name="global_product_discount" value="<?php echo esc_html($global_product_discount); ?>">
 						</div>
 					</td>
 				</tr>
@@ -364,7 +365,7 @@ wps_upsee_lite_go_pro( 'pro' );
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label><?php esc_html_e( 'Upsell Actions Message', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label><?php esc_html_e('Upsell Actions Message', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td>
@@ -372,17 +373,17 @@ wps_upsee_lite_go_pro( 'pro' );
 						<div class="wps_upsell_attribute_description">
 
 							<?php
-							$attribut_description = esc_html__( '( For Live Offer only ) This message will be shown along with a loader on clicking upsell Accept message.', 'woo-one-click-upsell-funnel' );
-							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							$attribut_description = esc_html__('( For Live Offer only ) This message will be shown along with a loader on clicking upsell Accept message.', 'woo-one-click-upsell-funnel');
+							wps_ubo_lite_help_tip($attribut_description); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							?>
 
 							<?php
 
-							$upsell_actions_message = isset( $wps_upsell_global_settings['upsell_actions_message'] ) ? $wps_upsell_global_settings['upsell_actions_message'] : '';
+							$upsell_actions_message = isset($wps_upsell_global_settings['upsell_actions_message']) ? $wps_upsell_global_settings['upsell_actions_message'] : '';
 
 							?>
 
-							<textarea name="upsell_actions_message" rows="4" cols="50"><?php echo esc_html( wp_unslash( $upsell_actions_message ) ); ?></textarea>
+							<textarea name="upsell_actions_message" rows="4" cols="50"><?php echo esc_html(wp_unslash($upsell_actions_message)); ?></textarea>
 						</div>
 					</td>
 				</tr>
@@ -392,7 +393,7 @@ wps_upsee_lite_go_pro( 'pro' );
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label><?php esc_html_e( 'Global Custom CSS', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label><?php esc_html_e('Global Custom CSS', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td>
@@ -400,17 +401,17 @@ wps_upsee_lite_go_pro( 'pro' );
 						<div class="wps_upsell_attribute_description">
 
 							<?php
-							$attribut_description = esc_html__( 'Enter your Custom CSS without style tags.', 'woo-one-click-upsell-funnel' );
-							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							$attribut_description = esc_html__('Enter your Custom CSS without style tags.', 'woo-one-click-upsell-funnel');
+							wps_ubo_lite_help_tip($attribut_description); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							?>
 
 							<?php
 
-							$global_custom_css = ! empty( $wps_upsell_global_settings['global_custom_css'] ) ? $wps_upsell_global_settings['global_custom_css'] : '';
+							$global_custom_css = ! empty($wps_upsell_global_settings['global_custom_css']) ? $wps_upsell_global_settings['global_custom_css'] : '';
 
 							?>
 
-							<textarea name="global_custom_css" rows="4" cols="50"><?php echo esc_html( wp_unslash( $global_custom_css ) ); ?></textarea>
+							<textarea name="global_custom_css" rows="4" cols="50"><?php echo esc_html(wp_unslash($global_custom_css)); ?></textarea>
 						</div>
 					</td>
 				</tr>
@@ -420,7 +421,7 @@ wps_upsee_lite_go_pro( 'pro' );
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label><?php esc_html_e( 'Global Custom JS', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label><?php esc_html_e('Global Custom JS', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 
 					<td>
@@ -428,16 +429,16 @@ wps_upsee_lite_go_pro( 'pro' );
 						<div class="wps_upsell_attribute_description">
 
 							<?php
-							$attribut_description = esc_html__( 'Enter your Custom JS without script tags.', 'woo-one-click-upsell-funnel' );
-							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							$attribut_description = esc_html__('Enter your Custom JS without script tags.', 'woo-one-click-upsell-funnel');
+							wps_ubo_lite_help_tip($attribut_description); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							?>
 							<?php
 
-							$global_custom_js = ! empty( $wps_upsell_global_settings['global_custom_js'] ) ? $wps_upsell_global_settings['global_custom_js'] : '';
+							$global_custom_js = ! empty($wps_upsell_global_settings['global_custom_js']) ? $wps_upsell_global_settings['global_custom_js'] : '';
 
 							?>
 
-							<textarea name="global_custom_js" rows="4" cols="50"><?php echo esc_html( wp_unslash( $global_custom_js ) ); ?></textarea>
+							<textarea name="global_custom_js" rows="4" cols="50"><?php echo esc_html(wp_unslash($global_custom_js)); ?></textarea>
 						</div>
 					</td>
 				</tr>
@@ -446,13 +447,13 @@ wps_upsee_lite_go_pro( 'pro' );
 				<!-- Upsell Stripe Issues Notice start -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
-					<span class="wps_wupsell_premium_strip">Pro</span>
-						<label for="wps_wocuf_pro_smart_skip_toggle"><?php esc_html_e( 'Enable Stripe Notice For Checkout Page', 'woo-one-click-upsell-funnel' ); ?></label>
+						<span class="wps_wupsell_premium_strip">Pro</span>
+						<label for="wps_wocuf_pro_smart_skip_toggle"><?php esc_html_e('Enable Stripe Notice For Checkout Page', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 					<td class="forminp forminp-text">
 						<?php
-							$attribut_description = esc_html__( 'By enabling this setting you can show notice on the Checkout Page.', 'woo-one-click-upsell-funnel' );
-							wps_ubo_lite_help_tip( $attribut_description );
+						$attribut_description = esc_html__('By enabling this setting you can show notice on the Checkout Page.', 'woo-one-click-upsell-funnel');
+						wps_ubo_lite_help_tip($attribut_description);
 						?>
 						<label class="wps_wocuf_pro_enable_plugin_label">
 							<input class="wps_wocuf_pro_enable_plugin_input ubo_offer_input" type="checkbox" name="">
@@ -464,28 +465,28 @@ wps_upsee_lite_go_pro( 'pro' );
 				<tr valign="top">
 					<th scope="row" class="titledesc">
 						<span class="wps_wupsell_premium_strip">Pro</span>
-						<label><?php esc_html_e( 'Enter Stripe Checkout Notice', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label><?php esc_html_e('Enter Stripe Checkout Notice', 'woo-one-click-upsell-funnel'); ?></label>
 					</th>
 					<td>
 						<div class="wps_upsell_attribute_description">
 							<?php
-							$attribut_description = __( 'A notice will be shown on the Checkout page when Stripe is selected as the payment method.', 'woo-one-click-upsell-funnel' );
-							wps_ubo_lite_help_tip( $attribut_description );
+							$attribut_description = __('A notice will be shown on the Checkout page when Stripe is selected as the payment method.', 'woo-one-click-upsell-funnel');
+							wps_ubo_lite_help_tip($attribut_description);
 							?>
 							<?php
-							$wps_stripe_checkout_notice = ! empty( $wps_upsell_global_settings['wps_stripe_checkout_notice'] ) ? $wps_upsell_global_settings['wps_stripe_checkout_notice'] : esc_html__( 'Please click on Stripe Save payment information button to get Upsell Offer.', 'woo-one-click-upsell-funnel' );
+							$wps_stripe_checkout_notice = ! empty($wps_upsell_global_settings['wps_stripe_checkout_notice']) ? $wps_upsell_global_settings['wps_stripe_checkout_notice'] : esc_html__('Please click on Stripe Save payment information button to get Upsell Offer.', 'woo-one-click-upsell-funnel');
 							?>
-							<textarea name="wps_stripe_checkout_notice" rows="4" cols="50"><?php echo esc_html( ( $wps_stripe_checkout_notice ) ); ?></textarea>
+							<textarea name="wps_stripe_checkout_notice" rows="4" cols="50"><?php echo esc_html(($wps_stripe_checkout_notice)); ?></textarea>
 						</div>
 					</td>
 				</tr>
 				<!-- Upsell Stripe Issues Notice end -->
-				<?php do_action( 'wps_wocuf_pro_create_more_settings' ); ?>
+				<?php do_action('wps_wocuf_pro_create_more_settings'); ?>
 			</tbody>
 		</table>
 	</div>
 
 	<p class="submit">
-	<input type="submit" value="<?php esc_html_e( 'Save Changes', 'woo-one-click-upsell-funnel' ); ?>" class="button-primary woocommerce-save-button" name="wps_wocuf_pro_common_settings_save" id="wps_wocuf_pro_creation_setting_save" >
+		<input type="submit" value="<?php esc_html_e('Save Changes', 'woo-one-click-upsell-funnel'); ?>" class="button-primary woocommerce-save-button" name="wps_wocuf_pro_common_settings_save" id="wps_wocuf_pro_creation_setting_save">
 	</p>
 </form>

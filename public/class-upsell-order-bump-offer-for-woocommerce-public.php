@@ -2674,8 +2674,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 	 */
 	public function check_compatibltiy_instance_cs()
 	{
-		if (function_exists('wps_upsell_lite_is_plugin_active')) {
-			$cs_exists = wps_upsell_lite_is_plugin_active('wps-multi-currency-switcher-for-woocommerce/wps-multi-currency-switcher-for-woocommerce.php');
+		if (function_exists('wps_upsell_lite_is_plugin_active_funnel_builder')) {
+			$cs_exists = wps_upsell_lite_is_plugin_active_funnel_builder('wps-multi-currency-switcher-for-woocommerce/wps-multi-currency-switcher-for-woocommerce.php');
 			if (false === $cs_exists) {
 				if (! empty(WC()->session) && WC()->session->__isset('s_selected_currency')) {
 					WC()->session->__unset('s_selected_currency');
@@ -2725,7 +2725,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 				$validate_shortcode = $this->validate_shortcode();
 
-				if (wps_upsell_divi_builder_plugin_active()) {
+				if (wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 
 					// 1833px
 					update_post_meta($post->ID, '_et_pb_page_layout', 'et_no_sidebar');
@@ -2783,7 +2783,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 		if (isset($_GET['ocuf_ns']) && isset($_GET['ocuf_ok']) && isset($_GET['ocuf_ofd']) && isset($_GET['ocuf_fid'])) {
 
-			if (wps_upsell_lite_validate_upsell_nonce()) {
+			if (wps_upsell_lite_validate_upsell_nonce_funnel_builder()) {
 
 				return 'live_offer';
 			}
@@ -3459,7 +3459,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 					$ocuf_th_button_color = get_option('wps_wocuf_pro_thanks_button_color', '');
 
-					$result .= '<div style="display:none;" id="wps_wocuf_pro_offer_loader"><img id="wps-wocuf-loading-offer" src="' . WPS_WOCUF_URL . 'public/images/ajax-loader.gif"></div><div class="wps_wocuf_pro_offer_container"><div class="woocommerce"><div class="wps_wocuf_pro_special_offers_for_you">';
+					$result .= '<div style="display:none;" id="wps_wocuf_pro_offer_loader"><img id="wps-wocuf-loading-offer" src="' . WPS_WOCUF_URL_funnel_builder . 'public/images/ajax-loader.gif"></div><div class="wps_wocuf_pro_offer_container"><div class="woocommerce"><div class="wps_wocuf_pro_special_offers_for_you">';
 
 					$wps_wocuf_pro_offer_banner_text = get_option('wps_wocuf_pro_offer_banner_text', esc_html__('Special Offer For You Only', 'woo-one-click-upsell-funnel'));
 
@@ -3757,7 +3757,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 		// Firstly try to get product id from url offer and funnel id i.e. the case of live offer.
 
-		$product_id_from_get = wps_upsell_lite_get_pid_from_url_params();
+		$product_id_from_get = wps_upsell_lite_get_pid_from_url_params_funnel_builder();
 
 		// When it is live offer.
 		if ('true' === $product_id_from_get['status']) {
@@ -4020,7 +4020,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		$validate_shortcode = $this->validate_shortcode();
 		if ($validate_shortcode) {
 
-			$live_params_from_url = wps_upsell_lite_get_pid_from_url_params();
+			$live_params_from_url = wps_upsell_lite_get_pid_from_url_params_funnel_builder();
 
 			// When Live Offer.
 			if (! empty($live_params_from_url['status']) && 'true' === $live_params_from_url['status']) {
@@ -4183,7 +4183,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 				$upsell_product = wc_get_product($product_id);
 
 				// Get offer discount.
-				$upsell_offered_discount = wps_upsell_lite_get_product_discount();
+				$upsell_offered_discount = wps_upsell_lite_get_product_discountl_funnel_builder();
 
 				// Apply discount on product.
 				if (! empty($upsell_offered_discount)) {
@@ -4301,7 +4301,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			$id    = $atts['id'];
 			$class = $atts['class'];
 			$style = $atts['style'];
-			$upsell_shipping_product = wps_wocfo_hpos_get_meta_data($product_id, 'wps_upsell_simple_shipping_product_' . $product_id, true);
+			$upsell_shipping_product = wps_wocfo_hpos_get_meta_data_funnel_builder($product_id, 'wps_upsell_simple_shipping_product_' . $product_id, true);
 
 			$upsell_product_price_html_div = "Shipping Price <br> <div id='$id' class='wps_upsell_offer_product_price $class' style='$style'>
 						" . wc_price($upsell_shipping_product) . '</div>';
@@ -4637,7 +4637,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		$order_id = $order->get_id();
 		$payment_method = $order->get_payment_method();
 
-		$supported_gateways = wps_upsell_lite_supported_gateways();
+		$supported_gateways = wps_upsell_lite_supported_gateways_funnel_builder();
 
 		if (in_array($payment_method, $supported_gateways, true)) {
 
@@ -4832,7 +4832,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 											if (! empty($item_key)) {
 
-												wps_wocfo_hpos_update_meta_data($order_id, '__smart_offer_upgrade_target_key', $item_key);
+												wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '__smart_offer_upgrade_target_key', $item_key);
 											}
 										}
 
@@ -4963,10 +4963,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 									if (! empty($wps_wocuf_pro_all_funnels[$wps_wocuf_pro_single_funnel]['wps_wocuf_products_in_offer'][$ocuf_ofd])) {
 
 										$funnel_offer_post_id_assigned = ! empty($wps_wocuf_pro_all_funnels[$wps_wocuf_pro_single_funnel]['wps_upsell_post_id_assigned'][$ocuf_ofd]) ? $wps_wocuf_pro_all_funnels[$wps_wocuf_pro_single_funnel]['wps_upsell_post_id_assigned'][$ocuf_ofd] : '';
-										wps_wocfo_hpos_delete_meta_data($funnel_offer_post_id_assigned, '_elementor_element_cache');
+										wps_wocfo_hpos_delete_meta_data_funnel_builder($funnel_offer_post_id_assigned, '_elementor_element_cache');
 
 										// When funnel is saved since v3.0.0 and offer post id is assigned and elementor active.
-										if (! empty($funnel_offer_post_id_assigned) && ('true' === $funnel_saved_after_version_3 && wps_upsell_lite_elementor_plugin_active()) || wps_upsell_divi_builder_plugin_active()) {
+										if (! empty($funnel_offer_post_id_assigned) && ('true' === $funnel_saved_after_version_3 && wps_upsell_lite_elementor_plugin_active_funnel_builder()) || wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 
 											$redirect_to_upsell = false;
 
@@ -5072,7 +5072,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 								return;
 							}
 						}
-						wps_wocfo_hpos_update_meta_data($order_id, '_post_data', $_POST);
+						wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '_post_data', $_POST);
 
 
 
@@ -5084,9 +5084,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 						} else {
 
 							// Process Subscriptions for pre upsell products from Order.
-							if (wps_upsell_org_order_contains_subscription($order_id) && wps_upsell_org_pg_supports_subs($order_id)) {
+							if (wps_upsell_org_order_contains_subscription_funnel_builder($order_id) && wps_upsell_org_pg_supports_subs_funnel_builder($order_id)) {
 
-								wps_upsell_org_create_subscriptions_for_order($order_id, $order);
+								wps_upsell_org_create_subscriptions_for_order_funnel_builder($order_id, $order);
 							}
 
 							/**
@@ -5105,7 +5105,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 								$compat_class->create_subscriptions_for_order($order_id, $_POST);
 							}
 
-							$is_block_checkout = wps_wocfo_hpos_get_meta_data($order_id, '_wps_wocfo_org_checkout_through_block', true);
+							$is_block_checkout = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_wocfo_org_checkout_through_block', true);
 
 							if ('block_checkout' == $is_block_checkout) {
 
@@ -5121,7 +5121,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 						}
 					} else {
 						// For cron - Upsell is initialized. As just going to Redirect.
-						wps_wocfo_hpos_update_meta_data($order_id, 'wps_ocufp_upsell_initialized', time());
+						wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, 'wps_ocufp_upsell_initialized', time());
 
 						$this->initial_redirection_to_upsell_offer_and_triggers($order_id, $wps_wocuf_pro_single_funnel, $result);
 					}
@@ -5231,10 +5231,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		 * This can be used to track upsell orders in which browser window was closed
 		 * and other purposes.
 		 */
-		wps_wocfo_hpos_update_meta_data($order_id, 'wps_upsell_order_started', 'true');
+		wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, 'wps_upsell_order_started', 'true');
 
 		// Add Upsell Funnel Id to order meta for Sales by Funnel tracking.
-		wps_wocfo_hpos_update_meta_data($order_id, 'wps_upsell_funnel_id', $funnel_id);
+		wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, 'wps_upsell_funnel_id', $funnel_id);
 
 		// Add Funnel Triggered count and Offer View Count for the current Funnel.
 		$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel($funnel_id);
@@ -5249,10 +5249,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			'redirect' => $upsell_offer_link,
 		);
 
-		$is_block_checkout = wps_wocfo_hpos_get_meta_data($order_id, '_wps_wocfo_org_checkout_through_block', true);
+		$is_block_checkout = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_wocfo_org_checkout_through_block', true);
 
 		if ('block_checkout' == $is_block_checkout) {
-			wps_wocfo_hpos_update_meta_data($order_id, 'wps_wocfo_upsell_funnel_redirection_link_org', $upsell_offer_link);
+			wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, 'wps_wocfo_upsell_funnel_redirection_link_org', $upsell_offer_link);
 		} else {
 			// Redirect to upsell offer page.
 			if (! is_ajax()) {
@@ -5277,7 +5277,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 	public function wps_wocuf_initate_upsell_orders_api_checkout_org($order)
 	{
 		$order_id = $order->get_id();
-		wps_wocfo_hpos_update_meta_data($order_id, '_wps_wocfo_org_checkout_through_block', 'block_checkout');
+		wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '_wps_wocfo_org_checkout_through_block', 'block_checkout');
 
 		$this->wps_wocuf_initiate_upsell_orders($order);
 	}
@@ -5297,7 +5297,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			return;
 		}
 
-		$offers_processed = wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_offers_processed', true);
+		$offers_processed = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_offers_processed', true);
 
 		if (! empty($offers_processed) && is_array($offers_processed)) {
 
@@ -5331,18 +5331,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		}
 
 		// As Order Payment is initiated so Expire further Offers.
-		wps_wocfo_hpos_update_meta_data($order_id, '_wps_upsell_expire_further_offers', true);
+		wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '_wps_upsell_expire_further_offers', true);
 
 		// Delete Offers Processed data as now we don't need it.
-		wps_wocfo_hpos_delete_meta_data($order_id, '_wps_upsell_offers_processed');
+		wps_wocfo_hpos_delete_meta_data_funnel_builder($order_id, '_wps_upsell_offers_processed');
 
 		$result = $this->upsell_order_final_payment($order_id);
 
-		$is_block_checkout = wps_wocfo_hpos_get_meta_data($order_id, '_wps_wocfo_org_checkout_through_block', true);
+		$is_block_checkout = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_wocfo_org_checkout_through_block', true);
 
 		if ('block_checkout' == $is_block_checkout) {
 
-			$url    = wps_wocfo_hpos_get_meta_data($order_id, 'wps_wocuf_upsell_funnel_order_redirection_link', true);
+			$url    = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, 'wps_wocuf_upsell_funnel_order_redirection_link', true);
 
 			wp_redirect($url); //phpcs:ignore
 			exit();
@@ -5449,7 +5449,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 				$funnel_offer_post_id_assigned = ! empty($wps_wocuf_pro_all_funnels[$funnel_id]['wps_upsell_post_id_assigned'][$offer_id]) ? $wps_wocuf_pro_all_funnels[$funnel_id]['wps_upsell_post_id_assigned'][$offer_id] : '';
 
 				// When funnel is saved since v3.0.0 and offer post id is assigned and elementor active.
-				if (! empty($funnel_offer_post_id_assigned) && ('true' === $funnel_saved_after_version_3 && wps_upsell_lite_elementor_plugin_active()) || wps_upsell_divi_builder_plugin_active()) {
+				if (! empty($funnel_offer_post_id_assigned) && ('true' === $funnel_saved_after_version_3 && wps_upsell_lite_elementor_plugin_active_funnel_builder()) || wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 
 					$redirect_to_upsell = false;
 
@@ -5468,7 +5468,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 					} elseif (! empty($offer_template)) {
 						// When template is set to one, two or three.
 						$offer_assigned_post_id = ! empty($wps_wocuf_pro_all_funnels[$funnel_id]['wps_upsell_post_id_assigned'][$offer_id]) ? $wps_wocuf_pro_all_funnels[$funnel_id]['wps_upsell_post_id_assigned'][$offer_id] : '';
-						wps_wocfo_hpos_delete_meta_data($funnel_offer_post_id_assigned, '_elementor_element_cache');
+						wps_wocfo_hpos_delete_meta_data_funnel_builder($funnel_offer_post_id_assigned, '_elementor_element_cache');
 						if (! empty($offer_assigned_post_id) && 'publish' === get_post_status($offer_assigned_post_id)) {
 
 							$redirect_to_upsell = true;
@@ -5548,7 +5548,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 			unset($_POST['wps_wocuf_pro_buy']);
 
-			$live_offer_url_params = wps_upsell_lite_live_offer_url_params();
+			$live_offer_url_params = wps_upsell_lite_live_offer_url_params_funnel_builder();
 
 			if ('true' === $live_offer_url_params['status']) {
 
@@ -5577,9 +5577,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 				$order_id = wc_get_order_id_by_order_key($order_key);
 				$shipping_price = floatval(get_post_meta($product_id, 'wps_upsell_simple_shipping_product_' . $product_id, true));
 				if (! empty($shipping_price)) {
-					$shipping_price_order = floatval(wps_wocfo_hpos_get_meta_data($order_id, 'wps_upsell_simple_shipping_product_', true));
+					$shipping_price_order = floatval(wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, 'wps_upsell_simple_shipping_product_', true));
 					$shipping_price_order += $shipping_price;
-					wps_wocfo_hpos_update_meta_data($order_id, 'wps_upsell_simple_shipping_product_', $shipping_price_order);
+					wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, 'wps_upsell_simple_shipping_product_', $shipping_price_order);
 				}
 
 				$offer_quantity = ! empty($live_offer_url_params['quantity']) ? $live_offer_url_params['quantity'] : '1';
@@ -5637,7 +5637,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 						$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel($funnel_id);
 						$sales_by_funnel->add_offer_accept_count();
 
-						$target_item_id = wps_wocfo_hpos_get_meta_data($order_id, '__smart_offer_upgrade_target_key', true);
+						$target_item_id = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '__smart_offer_upgrade_target_key', true);
 
 						$force_payment = false;
 
@@ -5648,7 +5648,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 								if ((int) $item_id === (int) $target_item_id) {
 
 									$order->remove_item($item_id);
-									wps_wocfo_hpos_delete_meta_data($order_id, '__smart_offer_upgrade_target_key');
+									wps_wocfo_hpos_delete_meta_data_funnel_builder($order_id, '__smart_offer_upgrade_target_key');
 									$force_payment = true;
 								}
 							}
@@ -5665,7 +5665,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 						$order->calculate_totals();
 
 						// Upsell product was purchased for this order.
-						wps_wocfo_hpos_update_meta_data($order_id, 'wps_wocuf_upsell_order', 'true');
+						wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, 'wps_wocuf_upsell_order', 'true');
 					}
 
 					$wps_wocuf_pro_all_funnels = get_option('wps_wocuf_funnels_list', array());
@@ -5702,7 +5702,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 							$funnel_offer_post_id_assigned = ! empty($wps_wocuf_pro_all_funnels[$funnel_id]['wps_upsell_post_id_assigned'][$offer_id]) ? $wps_wocuf_pro_all_funnels[$funnel_id]['wps_upsell_post_id_assigned'][$offer_id] : '';
 
 							// When funnel is saved since v3.0.0 and offer post id is assigned and elementor active.
-							if (! empty($funnel_offer_post_id_assigned) && ('true' === $funnel_saved_after_version_3 && wps_upsell_lite_elementor_plugin_active()) || wps_upsell_divi_builder_plugin_active()) {
+							if (! empty($funnel_offer_post_id_assigned) && ('true' === $funnel_saved_after_version_3 && wps_upsell_lite_elementor_plugin_active_funnel_builder()) || wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 
 								$redirect_to_upsell = false;
 
@@ -5807,13 +5807,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			return;
 		}
 
-		$offers_processed = wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_offers_processed', true);
+		$offers_processed = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_offers_processed', true);
 
 		$offers_processed = ! empty($offers_processed) ? $offers_processed : array();
 
 		$offers_processed[$current_offer_id] = $url;
 
-		wps_wocfo_hpos_update_meta_data($order_id, '_wps_upsell_offers_processed', $offers_processed);
+		wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '_wps_upsell_offers_processed', $offers_processed);
 	}
 
 
@@ -5841,7 +5841,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 			foreach ($pending_upsell_orders as $order_id) {
 
-				$time_stamp = wps_wocfo_hpos_get_meta_data($order_id, 'wps_ocufp_upsell_initialized', true);
+				$time_stamp = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, 'wps_ocufp_upsell_initialized', true);
 
 				if (! empty($time_stamp)) {
 
@@ -5860,7 +5860,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 						$order = new WC_Order($order_id);
 
 						// For cron - Payment initialized.
-						wps_wocfo_hpos_delete_meta_data($order_id, 'wps_ocufp_upsell_initialized');
+						wps_wocfo_hpos_delete_meta_data_funnel_builder($order_id, 'wps_ocufp_upsell_initialized');
 
 						$payment_method = $order->get_payment_method();
 
@@ -6007,7 +6007,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		}
 
 		// Process once and only for Upsells.
-		$funnel_id = wps_wocfo_hpos_get_meta_data($order_id, 'wps_upsell_funnel_id', true);
+		$funnel_id = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, 'wps_upsell_funnel_id', true);
 
 		if (empty($funnel_id)) {
 
@@ -6062,7 +6062,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		 * Delete Funnel id so that this is processed only once and funnel id
 		 * might change so no need to associate the order with it.
 		 */
-		wps_wocfo_hpos_delete_meta_data($order_id, 'wps_upsell_funnel_id');
+		wps_wocfo_hpos_delete_meta_data_funnel_builder($order_id, 'wps_upsell_funnel_id');
 	}
 
 	/**
@@ -6217,7 +6217,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		$order_id = wc_get_order_id_by_order_key($order_key);
 
 		// Process once and only for Upsells.
-		if (empty($order_id) || ! wps_wocfo_hpos_get_meta_data($order_id, 'wps_upsell_order_started', true) === true || ! empty(wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_ga_parent_tracked', true)) || wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_ga_tracked', true) === 1) {
+		if (empty($order_id) || ! wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, 'wps_upsell_order_started', true) === true || ! empty(wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_ga_parent_tracked', true)) || wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_ga_tracked', true) === 1) {
 
 			return;
 		}
@@ -6232,7 +6232,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		// Only for those payment gateways with which Parent Order is Secured.
 		$payment_method = $order->get_payment_method();
 
-		$gateways_with_parent_secured = wps_upsell_lite_payment_gateways_with_parent_secured();
+		$gateways_with_parent_secured = wps_upsell_lite_payment_gateways_with_parent_secured_funnel_builder();
 
 		if (! in_array($payment_method, $gateways_with_parent_secured, true)) {
 
@@ -6382,7 +6382,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 		wc_enqueue_js($ga_purchase_js);
 
-		wps_wocfo_hpos_update_meta_data($order_id, '_wps_upsell_ga_parent_tracked', $upsell_ga_parent_tracked_data);
+		wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '_wps_upsell_ga_parent_tracked', $upsell_ga_parent_tracked_data);
 	}
 
 
@@ -6406,7 +6406,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		$order_id = wc_get_order_id_by_order_key($order_key);
 
 		// Process once and only for Upsells.
-		if (empty($order_id) || ! wps_wocfo_hpos_get_meta_data($order_id, 'wps_upsell_order_started', true) === true || ! empty(wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_fbp_parent_tracked', true)) || wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_fbp_tracked', true) === true) {
+		if (empty($order_id) || ! wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, 'wps_upsell_order_started', true) === true || ! empty(wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_fbp_parent_tracked', true)) || wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_fbp_tracked', true) === true) {
 
 			return;
 		}
@@ -6421,7 +6421,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		// Only for those payment gateways with which Parent Order is Secured.
 		$payment_method = $order->get_payment_method();
 
-		$gateways_with_parent_secured = wps_upsell_lite_payment_gateways_with_parent_secured();
+		$gateways_with_parent_secured = wps_upsell_lite_payment_gateways_with_parent_secured_funnel_builder();
 
 		if (! in_array($payment_method, $gateways_with_parent_secured, true)) {
 
@@ -6460,7 +6460,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			'order_total' => $order_total,
 		);
 
-		wps_wocfo_hpos_update_meta_data($order_id, '_wps_upsell_fbp_parent_tracked', $upsell_fb_pixel_parent_tracked_data);
+		wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '_wps_upsell_fbp_parent_tracked', $upsell_fb_pixel_parent_tracked_data);
 	}
 
 
@@ -6515,7 +6515,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 	public function add_ga_purchase_event($order_id = '')
 	{
 
-		if (empty($order_id) || wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_ga_tracked', true) === 1) {
+		if (empty($order_id) || wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_ga_tracked', true) === 1) {
 
 			return;
 		}
@@ -6569,7 +6569,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		}
 
 		$upsell_ga_parent_tracked      = false;
-		$upsell_ga_parent_tracked_data = wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_ga_parent_tracked', true);
+		$upsell_ga_parent_tracked_data = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_ga_parent_tracked', true);
 
 		if (! empty($upsell_ga_parent_tracked_data) && is_array($upsell_ga_parent_tracked_data)) {
 
@@ -6642,7 +6642,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			// No Upsell Items so return as no need to send any data to GA as it's already tracked.
 			if (false === $upsell_purchase) {
 
-				wps_wocfo_hpos_update_meta_data($order_id, '_wps_upsell_ga_tracked', 1);
+				wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '_wps_upsell_ga_tracked', 1);
 				return;
 			}
 		}
@@ -6720,7 +6720,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 		wc_enqueue_js($ga_purchase_js);
 
-		wps_wocfo_hpos_update_meta_data($order_id, '_wps_upsell_ga_tracked', 1);
+		wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '_wps_upsell_ga_tracked', 1);
 	}
 
 
@@ -6735,7 +6735,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 	public function add_fb_pixel_purchase_event($order_id = '')
 	{
 
-		if (empty($order_id) || true === wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_fbp_tracked', true)) {
+		if (empty($order_id) || true === wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_fbp_tracked', true)) {
 
 			return;
 		}
@@ -6755,7 +6755,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		$product_ids  = array();
 
 		$upsell_fb_pixel_parent_tracked      = false;
-		$upsell_fb_pixel_parent_tracked_data = wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_fbp_parent_tracked', true);
+		$upsell_fb_pixel_parent_tracked_data = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_fbp_parent_tracked', true);
 
 		if (! empty($upsell_fb_pixel_parent_tracked_data) && is_array($upsell_fb_pixel_parent_tracked_data)) {
 
@@ -6793,7 +6793,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			// No Upsell Items so return as no need to send any data.
 			if (false === $upsell_purchase) {
 
-				wps_wocfo_hpos_update_meta_data($order_id, '_wps_upsell_fbp_tracked', true);
+				wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '_wps_upsell_fbp_tracked', true);
 				return;
 			}
 		}
@@ -6825,7 +6825,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 		wc_enqueue_js($fb_purchase_js);
 
-		wps_wocfo_hpos_update_meta_data($order_id, '_wps_upsell_fbp_tracked', true);
+		wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, '_wps_upsell_fbp_tracked', true);
 	}
 
 
@@ -6947,7 +6947,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 	private function expire_further_offers($order_id = 0)
 	{
 
-		$expire_further_offers = wps_wocfo_hpos_get_meta_data($order_id, '_wps_upsell_expire_further_offers', true);
+		$expire_further_offers = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_wps_upsell_expire_further_offers', true);
 
 		if (! empty($expire_further_offers)) {
 
@@ -6974,7 +6974,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		$order = new WC_Order($order_id);
 		$shipping_price_order = 0;
 		if (! empty($order)) {
-			$shipping_price_order = floatval(wps_wocfo_hpos_get_meta_data($order_id, 'wps_upsell_simple_shipping_product_', true));
+			$shipping_price_order = floatval(wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, 'wps_upsell_simple_shipping_product_', true));
 		}
 
 		if (0 != $shipping_price_order && ! empty($shipping_price_order)) {
@@ -6994,7 +6994,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 
 		if ('stripe_cc' === $payment_method) {
-			$_POST = wps_wocfo_hpos_get_meta_data($order_id, '_post_data', true);
+			$_POST = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '_post_data', true);
 
 			$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 			$stripe_class = $available_gateways[$payment_method];
@@ -7003,7 +7003,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			return 	$payment_result;
 		} else {
 			// For cron - Payment initialized.
-			wps_wocfo_hpos_delete_meta_data($order_id, 'wps_ocufp_upsell_initialized');
+			wps_wocfo_hpos_delete_meta_data_funnel_builder($order_id, 'wps_ocufp_upsell_initialized');
 			$result = '';
 			$payment_method = $order->get_payment_method();
 

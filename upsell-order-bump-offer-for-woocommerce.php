@@ -104,8 +104,8 @@ if ($activated) {
 	 *
 	 * @param mixed $plugin_slug plugin slug.
 	 */
-	if (! function_exists('wps_upsell_lite_is_plugin_active')) {
-		function wps_upsell_lite_is_plugin_active($plugin_slug)
+	if (! function_exists('wps_upsell_lite_is_plugin_active_funnel_builder')) {
+		function wps_upsell_lite_is_plugin_active_funnel_builder($plugin_slug)
 		{
 
 			if (empty($plugin_slug)) {
@@ -128,20 +128,16 @@ if ($activated) {
 	 * Currently plugin version.
 	 */
 	define('UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.4.3');
-	if (! defined('WPS_WOCUF_URL')) {
-		define('WPS_WOCUF_URL', plugin_dir_url(__FILE__));
+	if (! defined('WPS_WOCUF_URL_funnel_builder')) {
+		define('WPS_WOCUF_URL_funnel_builder', plugin_dir_url(__FILE__));
 	}
 
-	if (! defined('WPS_WOCUF_DIRPATH')) {
-		define('WPS_WOCUF_DIRPATH', plugin_dir_path(__FILE__));
-	}
-
-	if (! defined('WPS_WOCUF_VERSION')) {
-		define('WPS_WOCUF_VERSION', '1.0.0'); // Replace with actual version
+	if (! defined('WPS_WOCUF_DIRPATH_funnel_builder')) {
+		define('WPS_WOCUF_DIRPATH_funnel_builder', plugin_dir_path(__FILE__));
 	}
 
 
-	add_filter('woocommerce_get_checkout_order_received_url', 'wps_wocuf_redirect_order_while_upsell_org', 10, 2);
+	add_filter('woocommerce_get_checkout_order_received_url', 'wps_wocuf_redirect_order_while_upsell_org_funnel_builder', 10, 2);
 
 	/**
 	 * Function to save redirection.
@@ -150,13 +146,13 @@ if ($activated) {
 	 * @param object $data is the order data.
 	 * @return string
 	 */
-	if (! function_exists('wps_wocuf_redirect_order_while_upsell_org')) {
-		function wps_wocuf_redirect_order_while_upsell_org($order_received_url, $data)
+	if (! function_exists('wps_wocuf_redirect_order_while_upsell_org_funnel_builder')) {
+		function wps_wocuf_redirect_order_while_upsell_org_funnel_builder($order_received_url, $data)
 		{
 
-			wps_wocfo_hpos_update_meta_data($data->get_id(), 'wps_wocuf_upsell_funnel_order_redirection_link', $order_received_url);
+			wps_wocfo_hpos_update_meta_data_funnel_builder($data->get_id(), 'wps_wocuf_upsell_funnel_order_redirection_link', $order_received_url);
 
-			$order_received_url_data = wps_wocfo_hpos_get_meta_data($data->get_id(), 'wps_wocfo_upsell_funnel_redirection_link_org', true);
+			$order_received_url_data = wps_wocfo_hpos_get_meta_data_funnel_builder($data->get_id(), 'wps_wocfo_upsell_funnel_redirection_link_org', true);
 			if (! empty($order_received_url_data)) {
 				$order_received_url = $order_received_url_data;
 			}
@@ -574,8 +570,8 @@ if ($activated) {
 	 *
 	 * @return boolean
 	 */
-	if (! function_exists('wps_wocfo_is_hpos_enabled')) {
-		function wps_wocfo_is_hpos_enabled()
+	if (! function_exists('wps_wocfo_is_hpos_enabled_funnel_builder')) {
+		function wps_wocfo_is_hpos_enabled_funnel_builder()
 		{
 
 			$is_hpos_enable = false;
@@ -598,11 +594,11 @@ if ($activated) {
 	 * @param string $meta_value meta_value.
 	 * @return void
 	 */
-	if (! function_exists('wps_wocfo_hpos_update_meta_data')) {
-		function wps_wocfo_hpos_update_meta_data($id, $meta_key, $meta_value)
+	if (! function_exists('wps_wocfo_hpos_update_meta_data_funnel_builder')) {
+		function wps_wocfo_hpos_update_meta_data_funnel_builder($id, $meta_key, $meta_value)
 		{
 
-			if ('shop_order' === OrderUtil::get_order_type($id) && wps_wocfo_is_hpos_enabled()) {
+			if ('shop_order' === OrderUtil::get_order_type($id) && wps_wocfo_is_hpos_enabled_funnel_builder()) {
 
 				$order = wc_get_order($id);
 				$order->update_meta_data($meta_key, $meta_value);
@@ -622,11 +618,11 @@ if ($activated) {
 	 * @param string $meta_key meta_key.
 	 * @return void
 	 */
-	if (! function_exists('wps_wocfo_hpos_delete_meta_data')) {
-		function wps_wocfo_hpos_delete_meta_data($id, $meta_key)
+	if (! function_exists('wps_wocfo_hpos_delete_meta_data_funnel_builder')) {
+		function wps_wocfo_hpos_delete_meta_data_funnel_builder($id, $meta_key)
 		{
 
-			if ('shop_order' === OrderUtil::get_order_type($id) && wps_wocfo_is_hpos_enabled()) {
+			if ('shop_order' === OrderUtil::get_order_type($id) && wps_wocfo_is_hpos_enabled_funnel_builder()) {
 
 				$order = wc_get_order($id);
 				$order->delete_meta_data($meta_key);
@@ -648,12 +644,12 @@ if ($activated) {
 	 * @param  bool   $bool meta bool.
 	 * @return string
 	 */
-	if (! function_exists('wps_wocfo_hpos_get_meta_data')) {
-		function wps_wocfo_hpos_get_meta_data($id, $meta_key, $bool)
+	if (! function_exists('wps_wocfo_hpos_get_meta_data_funnel_builder')) {
+		function wps_wocfo_hpos_get_meta_data_funnel_builder($id, $meta_key, $bool)
 		{
 
 			$meta_value = '';
-			if ('shop_order' === OrderUtil::get_order_type($id) && wps_wocfo_is_hpos_enabled()) {
+			if ('shop_order' === OrderUtil::get_order_type($id) && wps_wocfo_is_hpos_enabled_funnel_builder()) {
 
 				$order      = wc_get_order($id);
 				$meta_value = $order->get_meta($meta_key, $bool);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Upsell elementor widgets collection loader file.
  *
@@ -11,7 +12,7 @@
 
 namespace ElementorUpsellWidgets\Widgets;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
@@ -25,7 +26,8 @@ use Elementor\Controls_Manager;
  *
  * @since 1.0.0
  */
-class Upsell_Image extends Widget_Base {
+class Upsell_Image extends Widget_Base
+{
 
 	/**
 	 * Get widget name.
@@ -37,7 +39,8 @@ class Upsell_Image extends Widget_Base {
 	 *
 	 * @return string Widget name.
 	 */
-	public function get_name() {
+	public function get_name()
+	{
 		return 'upsell-image';
 	}
 
@@ -51,8 +54,9 @@ class Upsell_Image extends Widget_Base {
 	 *
 	 * @return string Widget title.
 	 */
-	public function get_title() {
-		return esc_html__( 'Upsell_image', 'woo-one-click-upsell-funnel' );
+	public function get_title()
+	{
+		return esc_html__('Upsell_image', 'woo-one-click-upsell-funnel');
 	}
 
 	/**
@@ -65,7 +69,8 @@ class Upsell_Image extends Widget_Base {
 	 *
 	 * @return string Widget icon.
 	 */
-	public function get_icon() {
+	public function get_icon()
+	{
 		return 'eicon-image';
 	}
 
@@ -79,8 +84,9 @@ class Upsell_Image extends Widget_Base {
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords() {
-		return array( 'shortcode', 'code' );
+	public function get_keywords()
+	{
+		return array('shortcode', 'code');
 	}
 
 	/**
@@ -93,7 +99,8 @@ class Upsell_Image extends Widget_Base {
 	 *
 	 * @return bool Whether the reload preview is required.
 	 */
-	public function is_reload_preview_required() {
+	public function is_reload_preview_required()
+	{
 		return true;
 	}
 
@@ -105,18 +112,19 @@ class Upsell_Image extends Widget_Base {
 	 * @since 3.1.0
 	 * @access protected
 	 */
-	protected function register_controls() {
+	protected function register_controls()
+	{
 		$this->start_controls_section(
 			'section_shortcode',
 			array(
-				'label' => esc_html__( 'Shortcode', 'woo-one-click-upsell-funnel' ),
+				'label' => esc_html__('Shortcode', 'woo-one-click-upsell-funnel'),
 			)
 		);
 
 		$this->add_control(
 			'shortcode',
 			array(
-				'label'       => esc_html__( 'Enter upsell image shortcode', 'woo-one-click-upsell-funnel' ),
+				'label'       => esc_html__('Enter upsell image shortcode', 'woo-one-click-upsell-funnel'),
 				'type'        => Controls_Manager::TEXTAREA,
 				'dynamic'     => array(
 					'active' => true,
@@ -137,13 +145,15 @@ class Upsell_Image extends Widget_Base {
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function render() {
-		$shortcode = $this->get_settings_for_display( 'shortcode' );
+	protected function render()
+	{
+		$shortcode = $this->get_settings_for_display('shortcode');
 
-		$shortcode = do_shortcode( shortcode_unautop( $shortcode ) );
-		?>
-		<div class="elementor-shortcode"><?php echo wp_kses( $shortcode, wps_upsell_lite_allowed_html() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-		<?php
+		$shortcode = do_shortcode(shortcode_unautop($shortcode));
+?>
+		<div class="elementor-shortcode"><?php echo wp_kses($shortcode, wps_upsell_lite_allowed_html_funnel_builder()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
+											?></div>
+<?php
 	}
 
 	/**
@@ -154,9 +164,10 @@ class Upsell_Image extends Widget_Base {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function render_plain_content() {
+	public function render_plain_content()
+	{
 		// In plain mode, render without shortcode..
-		$this->print_unescaped_setting( 'shortcode' );
+		$this->print_unescaped_setting('shortcode');
 	}
 
 	/**

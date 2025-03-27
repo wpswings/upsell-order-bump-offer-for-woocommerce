@@ -3534,6 +3534,7 @@ input#wps_upsell_bump_cart_offer_quantity {
 }
 
 #wps_upsell_bump_setting_wrapper .wps_main_global_wrapper .nav-sub-tabs a {
+  white-space: nowrap;
   margin: 0;
   display: inline-block;
   border: 1px solid #2196f3;

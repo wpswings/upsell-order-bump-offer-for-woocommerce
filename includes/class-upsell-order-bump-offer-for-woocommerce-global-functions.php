@@ -6699,8 +6699,8 @@ function wps_product_image_gallery_callback( $bump_id ) {
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_lite_offer_page_posts_deletion')){
-function wps_upsell_lite_offer_page_posts_deletion() {
+if(! function_exists('wps_upsell_lite_offer_page_posts_deletion_funnel_builder')){
+function wps_upsell_lite_offer_page_posts_deletion_funnel_builder() {
 
 	// Get all funnels.
 	$all_created_funnels = get_option( 'wps_wocuf_funnels_list', array() );
@@ -6755,8 +6755,8 @@ function wps_upsell_lite_offer_page_posts_deletion() {
  *
  * @since    3.0.0
  */
-if(! function_exists('wps_upsell_lite_payment_gateways_with_parent_secured')){
-function wps_upsell_lite_payment_gateways_with_parent_secured() {
+if(! function_exists('wps_upsell_lite_payment_gateways_with_parent_secured_funnel_builder')){
+function wps_upsell_lite_payment_gateways_with_parent_secured_funnel_builder() {
 
 	$gateways_with_parent_secured = array(
 		'cod', // Cash on delivery.
@@ -6773,8 +6773,8 @@ function wps_upsell_lite_payment_gateways_with_parent_secured() {
  *
  * @since    3.0.0
  */
-if (!function_exists('wps_upsell_divi_builder_plugin_active') && (! wps_ubo_lite_is_plugin_active('woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php'))) {
-function wps_upsell_divi_builder_plugin_active() {
+if (!function_exists('wps_upsell_divi_builder_plugin_active_funnel_builder') && (! wps_ubo_lite_is_plugin_active('woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php'))) {
+function wps_upsell_divi_builder_plugin_active_funnel_builder() {
 
 	$desired_woocommerce_theme = 'Divi';
 
@@ -6796,8 +6796,8 @@ function wps_upsell_divi_builder_plugin_active() {
  * @param   string $location        Location of page where you want to show popup.
  * @since   1.2.0
  */
-if(! function_exists('wps_upsee_lite_go_pro')){
-function wps_upsee_lite_go_pro( $location = 'pro' ) {
+if(! function_exists('wps_upsee_lite_go_pro_funnel_builder')){
+function wps_upsee_lite_go_pro_funnel_builder( $location = 'pro' ) {
 
 	if ( 'pro' === $location ) {
 
@@ -6824,7 +6824,7 @@ function wps_upsee_lite_go_pro( $location = 'pro' ) {
 			</div>  
 
 			<!-- Notice icon. -->
-			<div class="wps_ubo_lite_go_pro_popup_head"><img src="<?php echo esc_url( WPS_WOCUF_URL . 'admin/resources/icons/pro.png' ); ?> ">
+			<div class="wps_ubo_lite_go_pro_popup_head"><img src="<?php echo esc_url( WPS_WOCUF_URL_funnel_builder . 'admin/resources/icons/pro.png' ); ?> ">
 			</div>
 
 			<!-- Notice. -->
@@ -6848,7 +6848,7 @@ function wps_upsee_lite_go_pro( $location = 'pro' ) {
 	<?php
 	$popup_html = ob_get_contents();
 	ob_end_clean();
-	$allowed_html = wps_upselllite_allowed_html();
+	$allowed_html = wps_upselllite_allowed_html_funnel_builder();
 	echo wp_kses( $popup_html, $allowed_html );
 }
 }
@@ -6858,8 +6858,8 @@ function wps_upsee_lite_go_pro( $location = 'pro' ) {
  *
  * @since    1.0.0
  */
-if(! function_exists('wps_upselllite_allowed_html')){
-function wps_upselllite_allowed_html() {
+if(! function_exists('wps_upselllite_allowed_html_funnel_builder')){
+function wps_upselllite_allowed_html_funnel_builder() {
 
 	// Return the complete html elements defined by us.
 	$allowed_html = array(
@@ -7019,10 +7019,10 @@ function wps_upselllite_allowed_html() {
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_lite_elementor_plugin_active')){
-	function wps_upsell_lite_elementor_plugin_active() {
+if(! function_exists('wps_upsell_lite_elementor_plugin_active_funnel_builder')){
+	function wps_upsell_lite_elementor_plugin_active_funnel_builder() {
 
-		if ( wps_upsell_lite_is_plugin_active( 'elementor/elementor.php' ) ) {
+		if ( wps_upsell_lite_is_plugin_active_funnel_builder( 'elementor/elementor.php' ) ) {
 
 			return true;
 		} else {
@@ -7039,15 +7039,15 @@ if(! function_exists('wps_upsell_lite_elementor_plugin_active')){
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_lite_elementor_offer_template_1')){
-function wps_upsell_lite_elementor_offer_template_1() {
+if(! function_exists('wps_upsell_lite_elementor_offer_template_1_funnel_builder')){
+function wps_upsell_lite_elementor_offer_template_1_funnel_builder() {
 	$elementor_data = '';
-	if ( wps_upsell_lite_elementor_plugin_active() ) {
+	if ( wps_upsell_lite_elementor_plugin_active_funnel_builder() ) {
 		// phpcs:disable
-		$elementor_data = file_get_contents( WPS_WOCUF_DIRPATH . 'json/offer-template-1.json' );
+		$elementor_data = file_get_contents( WPS_WOCUF_DIRPATH_funnel_builder . 'json/offer-template-1.json' );
 		// phpcs:enable
 
-	} elseif ( wps_upsell_divi_builder_plugin_active() ) {
+	} elseif ( wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
 
 		$elementor_data = '[et_pb_section fb_built="1" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_row column_structure="1_2,1_2" make_equal="on" _builder_version="4.18.1" _module_preset="default" custom_css_main_element="align-items: center" global_colors_info="{}"][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][wps_upsell_image][/et_pb_column][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" header_font="|700|||||||" header_text_color="#000000" header_font_size="40px" header_line_height="1.9em" header_2_font="|600|||||||" header_2_text_color="#000000" header_2_font_size="36px" header_2_line_height="1.6em" header_5_font="|700|||||||" header_5_text_color="#000000" header_5_line_height="2.3em" global_colors_info="{}"]<h2>[wps_upsell_title]</h2>
 		<p>[wps_upsell_desc]</p>
@@ -7078,8 +7078,8 @@ function wps_upsell_lite_elementor_offer_template_1() {
  *
  * @since    1.0.0
  */
-if (!function_exists('wps_upsell_lite_allowed_html') && (! wps_ubo_lite_is_plugin_active('woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php'))) {
-function wps_upsell_lite_allowed_html() {
+if (!function_exists('wps_upsell_lite_allowed_html_funnel_builder')) {
+function wps_upsell_lite_allowed_html_funnel_builder() {
 
 	// Return the complete html elements defined by us.
 	$allowed_html = array(
@@ -7232,16 +7232,16 @@ function wps_upsell_lite_allowed_html() {
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_lite_elementor_offer_template_2')){
-function wps_upsell_lite_elementor_offer_template_2() {
+if(! function_exists('wps_upsell_lite_elementor_offer_template_2_funnel_builder')){
+function wps_upsell_lite_elementor_offer_template_2_funnel_builder() {
 
 	$elementor_data = '';
-	if ( wps_upsell_lite_elementor_plugin_active() ) {
+	if ( wps_upsell_lite_elementor_plugin_active_funnel_builder() ) {
 		// phpcs:disable
-		$elementor_data = file_get_contents( WPS_WOCUF_DIRPATH . 'json/offer-template-2.json' );
+		$elementor_data = file_get_contents( WPS_WOCUF_DIRPATH_funnel_builder . 'json/offer-template-2.json' );
 		// phpcs:enable
 
-	} elseif ( wps_upsell_divi_builder_plugin_active() ) {
+	} elseif ( wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
 		$elementor_data = '[et_pb_section fb_built="1" _builder_version="4.18.1" _module_preset="default" background_color="rgba(0,38,255,0.11)" custom_padding="0px||0px||false|false" locked="off" global_colors_info="{}"][et_pb_row _builder_version="4.18.1" _module_preset="default" background_enable_color="off" custom_padding="20px||20px||false|false" global_colors_info="{}"][et_pb_column type="4_4" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_image src="https://demo.wpswings.com/one-click-upsell-funnel-for-woocommerce-pro/wp-content/uploads/upsell_images/template-images/log-02.png" title_text="Group 1321" align="center" _builder_version="4.18.1" _module_preset="default" width="15%" max_width="100%" module_alignment="center" global_colors_info="{}"][/et_pb_image][/et_pb_column][/et_pb_row][/et_pb_section][et_pb_section fb_built="1" admin_label="section" _builder_version="4.18.1" custom_margin="||0px||false|false" custom_padding="0px||0px|0px|false|false" locked="off" global_colors_info="{}"][et_pb_row column_structure="1_2,1_2" _builder_version="4.18.1" _module_preset="default" width="35%" global_colors_info="{}"][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"]Almost completed[/et_pb_text][/et_pb_column][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" text_orientation="right" global_colors_info="{}"]75% Completed[/et_pb_text][/et_pb_column][/et_pb_row][/et_pb_section][et_pb_section fb_built="1" _builder_version="4.18.1" _module_preset="default" background_color="rgba(0,38,255,0.11)" background_enable_pattern_style="on" background_pattern_style="confetti" background_pattern_color="rgba(0,38,255,0.11)" background_pattern_size="custom" background_pattern_width="558px" locked="off" global_colors_info="{}"][et_pb_row column_structure="1_2,1_2" make_equal="on" _builder_version="4.18.1" _module_preset="default" custom_css_main_element="align-items: center" global_colors_info="{}"][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][wps_upsell_image][/et_pb_column][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" header_font="|700|||||||" header_text_color="#000000" header_font_size="40px" header_line_height="1.9em" header_2_font="|600|||||||" header_2_text_color="#000000" header_2_font_size="36px" header_2_line_height="1.6em" header_5_font="|700|||||||" header_5_text_color="#000000" header_5_line_height="2.3em" global_colors_info="{}"]<h2 style="text-align: center;">[wps_upsell_title]</h2>
 			<p style="text-align: center;">[wps_upsell_desc]</p>
 			<h5 style="text-align: center;">EXPIRING SOON</h5>
@@ -7277,16 +7277,16 @@ function wps_upsell_lite_elementor_offer_template_2() {
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_lite_elementor_offer_template_3')){
-function wps_upsell_lite_elementor_offer_template_3() {
+if(! function_exists('wps_upsell_lite_elementor_offer_template_3_funnel_builder')){
+function wps_upsell_lite_elementor_offer_template_3_funnel_builder() {
 
 	$elementor_data = '';
-	if ( wps_upsell_lite_elementor_plugin_active() ) {
+	if ( wps_upsell_lite_elementor_plugin_active_funnel_builder() ) {
 		// phpcs:disable
-		$elementor_data = file_get_contents( WPS_WOCUF_DIRPATH . 'json/offer-template-3.json' );
+		$elementor_data = file_get_contents( WPS_WOCUF_DIRPATH_funnel_builder . 'json/offer-template-3.json' );
 		// phpcs:enable
 
-	} elseif ( wps_upsell_divi_builder_plugin_active() ) {
+	} elseif ( wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
 		$elementor_data = '[et_pb_section fb_built="1" _builder_version="4.18.1" _module_preset="default" background_color="rgba(0,38,255,0.11)" custom_padding="0px||0px||false|false" locked="off" global_colors_info="{}"][et_pb_row _builder_version="4.18.1" _module_preset="default" background_enable_color="off" custom_padding="20px||20px||false|false" global_colors_info="{}"][et_pb_column type="4_4" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_image src="https://demo.wpswings.com/one-click-upsell-funnel-for-woocommerce-pro/wp-content/uploads/upsell_images/template-images/log-02.png" title_text="Group 1321" align="center" _builder_version="4.18.1" _module_preset="default" width="15%" max_width="100%" module_alignment="center" global_colors_info="{}"][/et_pb_image][/et_pb_column][/et_pb_row][/et_pb_section][et_pb_section fb_built="1" admin_label="section" _builder_version="4.18.1" custom_margin="||0px||false|false" custom_padding="0px||0px|0px|false|false" locked="off" global_colors_info="{}"][et_pb_row column_structure="1_2,1_2" _builder_version="4.18.1" _module_preset="default" width="35%" global_colors_info="{}"][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"]Almost completed[/et_pb_text][/et_pb_column][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" text_orientation="right" global_colors_info="{}"]75% Completed[/et_pb_text][/et_pb_column][/et_pb_row][/et_pb_section][et_pb_section fb_built="1" _builder_version="4.18.1" _module_preset="default" background_enable_mask_style="on" background_mask_style="square-stripes" background_mask_color="rgba(0,38,255,0.11)" global_colors_info="{}"][et_pb_row _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_column type="4_4" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" header_3_font="Poppins|600|||||||" header_3_text_color="rgba(0,38,255,0.55)" header_3_font_size="32px" custom_padding="0px||30px||false|false" global_colors_info="{}"]<h3 style="text-align: center;">Wait! - Don’t Miss Out This Special One Time Offer</h3>
 		<p style="text-align: center;">Please watch this Short Video and know why we really mean it.</p>[/et_pb_text][/et_pb_column][/et_pb_row][et_pb_row _builder_version="4.18.1" _module_preset="default" custom_padding="0px||0px||false|false" global_colors_info="{}"][et_pb_column type="4_4" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_video src="https://www.youtube.com/watch?v=FkQuawiGWUw" _builder_version="4.18.1" _module_preset="default" border_radii="on|10px|10px|10px|10px" global_colors_info="{}"][/et_pb_video][/et_pb_column][/et_pb_row][/et_pb_section][et_pb_section fb_built="1" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_row _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_column type="4_4" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" header_2_font="Poppins|600|||||||" header_2_text_color="rgba(0,38,255,0.55)" header_2_font_size="52px" global_colors_info="{}"]<h2 style="text-align: center;">[wps_upsell_title]</h2><br><p>[wps_upsell_desc]</p><h2 style="text-align: center;"><strong>[wps_upsell_price]</strong></h2>[/et_pb_text][et_pb_code _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"]<div style="display: flex;     justify-content: center; align-items: center; margin-top: 20px;" bis_skin_checked="1"><a href="[wps_upsell_yes]" style="background-color: #05063d; padding: 10px 28px; display: inline-block; color: #fff; border-radius: 5px; margin-right: 20px; font-weight: 600;">ADD THIS TO MY ORDER</a><a href="[wps_upsell_no]" style="color: #05063d; text-decoration: underline;">No, I’m not interested</a></div>[/et_pb_code][/et_pb_column][/et_pb_row][/et_pb_section][et_pb_section fb_built="1" _builder_version="4.18.1" _module_preset="default" background_color="rgba(0,38,255,0.11)" global_colors_info="{}"][et_pb_row _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_column type="4_4" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" header_3_font="Poppins|600|||||||" header_3_text_color="rgba(0,38,255,0.55)" header_3_font_size="46px" global_colors_info="{}"]<h3 style="text-align: center;">What people Say?</h3>[/et_pb_text][/et_pb_column][/et_pb_row][et_pb_row column_structure="1_2,1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_column type="1_2" _builder_version="4.18.1" _module_preset="default" global_colors_info="{}"][et_pb_text _builder_version="4.18.1" _module_preset="default" text_font="Poppins||||||||" header_3_font="Poppins|600|||||||" header_3_text_color="#2d2d2d" background_color="#FFFFFF" custom_padding="15px|20px|15px|20px|false|false" global_colors_info="{}"]<blockquote>
 		<p>Your content goes here. Edit or remove this text inline or in the module Content settings. You can also style every aspect of this content in the module Design settings and even apply custom CSS to this text in the module Advanced settings.</p>
@@ -7313,8 +7313,8 @@ function wps_upsell_lite_elementor_offer_template_3() {
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_lite_supported_gateways')){
-function wps_upsell_lite_supported_gateways() {
+if(! function_exists('wps_upsell_lite_supported_gateways_funnel_builder')){
+function wps_upsell_lite_supported_gateways_funnel_builder() {
 
 	$supported_gateways = array(
 		'cod', // Cash on delivery.
@@ -7322,7 +7322,7 @@ function wps_upsell_lite_supported_gateways() {
 		'',
 	);
 
-	return apply_filters( 'wps_upsell_lite_supported_gateways', $supported_gateways );
+	return apply_filters( 'wps_upsell_lite_supported_gateways_funnel_builder', $supported_gateways );
 }
 }
 
@@ -7331,8 +7331,8 @@ function wps_upsell_lite_supported_gateways() {
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_pro_supported_gateways')){
-function wps_upsell_pro_supported_gateways() {
+if(! function_exists('wps_upsell_pro_supported_gateways_funnel_builder')){
+function wps_upsell_pro_supported_gateways_funnel_builder() {
 
 	$supported_gateways = array(
 		'bacs', // Direct bank transfer.
@@ -7367,8 +7367,8 @@ function wps_upsell_pro_supported_gateways() {
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_lite_validate_upsell_nonce')){
-function wps_upsell_lite_validate_upsell_nonce() {
+if(! function_exists('wps_upsell_lite_validate_upsell_nonce_funnel_builder')){
+function wps_upsell_lite_validate_upsell_nonce_funnel_builder() {
 
 	$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
 	$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
@@ -7393,8 +7393,8 @@ function wps_upsell_lite_validate_upsell_nonce() {
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_lite_get_pid_from_url_params')){
-function wps_upsell_lite_get_pid_from_url_params() {
+if(! function_exists('wps_upsell_lite_get_pid_from_url_params_funnel_builder')){
+function wps_upsell_lite_get_pid_from_url_params_funnel_builder() {
 
 	$params['status']  = 'false';
 	$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
@@ -7421,8 +7421,8 @@ function wps_upsell_lite_get_pid_from_url_params() {
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_lite_get_product_discount')){
-function wps_upsell_lite_get_product_discount() {
+if(! function_exists('wps_upsell_lite_get_product_discount_funnel_builder')){
+function wps_upsell_lite_get_product_discount_funnel_builder() {
 
 	$wps_wocuf_pro_offered_discount = '';
 
@@ -7489,8 +7489,8 @@ function wps_upsell_lite_get_product_discount() {
  *
  * @since    2.0.0
  */
-if(! function_exists('wps_upsell_lite_live_offer_url_params')){
-function wps_upsell_lite_live_offer_url_params() {
+if(! function_exists('wps_upsell_lite_live_offer_url_params_funnel_builder')){
+function wps_upsell_lite_live_offer_url_params_funnel_builder() {
 
 	$add_live_nonce = ! empty( $_POST['wps_wocuf_after_post_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wocuf_after_post_nonce'] ) ) : '';
 

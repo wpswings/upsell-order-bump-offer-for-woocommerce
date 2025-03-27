@@ -25,6 +25,7 @@ if ( ! $id_nonce_verified ) {
 }
 
 $wps_ubo_lite_active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : '';
+$wps_ubo_lite_active_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 if ( 'overview' === get_transient( 'wps_ubo_lite_default_settings_tab' ) ) {
 
@@ -81,7 +82,6 @@ do_action( 'wps_ubo_lite_tab_active' );
 				<?php endif; ?>
 		</div>
 		<!-- Order Bump Section Tab start here --->
-
 
 
  		<!-- One Click Section Tab start here --->
@@ -201,7 +201,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 	}
 
 		// General setting rendering.
-		if ( 'general-setting' === $wps_ubo_lite_active_tab ) {
+		if ( 'general-setting' === $wps_ubo_lite_active_tab || (isset($_GET['page']) && $_GET['page'] === "upsell-order-bump-offer-for-woocommerce-setting" && count($_GET) === 1)) {
 			include_once 'templates/wps-general-setting-offer-section.php';
 	}
 
@@ -228,9 +228,8 @@ do_action( 'wps_ubo_lite_tab_active' );
 		}
 
 
-
 		// General setting rendering.
-		if ( 'general-setting' === $wps_ubo_lite_active_tab ) {
+		if ( 'general-setting' === $wps_ubo_lite_active_tab || (isset($_GET['page']) && $_GET['page'] === "upsell-order-bump-offer-for-woocommerce-setting" && count($_GET) === 1)) {
 				include_once 'templates/wps-general-setting-offer-section.php';
 		}
 
@@ -259,8 +258,6 @@ do_action( 'wps_ubo_lite_tab_active' );
 	} else if ( ! $plugin_version ) {
 
 		$global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : '';
-		// var_dump($global_setting_sub_tab);
-		// var_dump($wps_ubo_lite_active_tab);
 		// Org files.
 		if ( 'creation-setting' === $wps_ubo_lite_active_tab ) {
 			include_once 'templates/wps-ubo-lite-creation.php';
@@ -302,8 +299,6 @@ do_action( 'wps_ubo_lite_tab_active' );
 }
 
 
-
-
 		// One click upsell list rendering.
 		if ( 'one-click-section' === $wps_ubo_lite_active_tab ) {
 			$global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : 'post-list-offer-section';
@@ -329,7 +324,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 
 
 		// General setting rendering.
-		if ( 'general-setting' === $wps_ubo_lite_active_tab ) {
+		if ( 'general-setting' === $wps_ubo_lite_active_tab || (isset($_GET['page']) && $_GET['page'] === "upsell-order-bump-offer-for-woocommerce-setting" && count($_GET) === 1)) {
 				include_once 'templates/wps-general-setting-offer-section.php';
 		}
 
@@ -352,9 +347,6 @@ do_action( 'wps_ubo_lite_tab_active' );
         if('creation-setting-post' === $wps_ubo_lite_active_tab){
 			include_once 'templates/wps-post-save-offer-section.php';
 		}
-
-
-
 
 	}
 	do_action( 'wps_ubo_lite_setting_tab_html' );
