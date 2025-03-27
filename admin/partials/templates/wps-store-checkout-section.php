@@ -61,7 +61,7 @@ $shipping_basic_address_data = get_option('wps_wocuf_store_checkout_basic_fields
 $billing_basic_address_data = get_option('wps_wocuf_store_checkout_basic_fields_billing_data', $default_basic_billing_field);
 
 wps_upsee_lite_go_pro_funnel_builder('pro');
-
+$is_store_checkout_enabled = '';
 ?>
 <input type='hidden' id='wps_ubo_pro_status' value='inactive'>
 <table class="form-table wps_wocuf_pro_creation_setting" style="border:0 ! important;">
