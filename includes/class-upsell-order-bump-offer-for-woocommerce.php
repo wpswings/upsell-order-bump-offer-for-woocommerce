@@ -187,11 +187,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce
 		// Add admin arena.
 		$this->loader->add_action('admin_menu', $plugin_admin, 'wps_ubo_lite_admin_menu');
 		$wps_screen_info = get_option('wps_current_screen_data', []);
+		if (!is_array($wps_screen_info)) {
+			$wps_screen_info = []; // Ensure it's an array
+		}
+		
+		$wps_screen_id = $wps_screen_info['screen_id'] ?? '';
 
 		// Load scripts and styles.
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
-		if ('toplevel_page_wps-wocuf-pro-setting' != $wps_screen_info['screen_id']) {
+		if ('toplevel_page_wps-wocuf-pro-setting' != $wps_screen_id) {
 			// Rest functionality for admin side ajax.
 			$this->loader->add_action('wp_ajax_search_products_for_bump', $plugin_admin, 'search_products_for_bump');
 			$this->loader->add_action('wp_ajax_search_product_categories_for_bump', $plugin_admin, 'search_product_categories_for_bump');
