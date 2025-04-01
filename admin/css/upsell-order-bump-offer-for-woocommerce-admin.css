@@ -6566,3 +6566,9 @@ main.wps-ufw_ms-main {
 html, body {
   overflow: auto !important;
 }
+
+.wps-ufbo-menu-custom-class .wp-menu-image img {
+  opacity: 1;
+  height: auto;
+  width: 28px;
+}

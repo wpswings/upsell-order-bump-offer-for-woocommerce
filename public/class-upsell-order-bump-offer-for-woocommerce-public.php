@@ -3459,7 +3459,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 
 					$ocuf_th_button_color = get_option('wps_wocuf_pro_thanks_button_color', '');
 
-					$result .= '<div style="display:none;" id="wps_wocuf_pro_offer_loader"><img id="wps-wocuf-loading-offer" src="' . WPS_WOCUF_URL_funnel_builder . 'public/images/ajax-loader.gif"></div><div class="wps_wocuf_pro_offer_container"><div class="woocommerce"><div class="wps_wocuf_pro_special_offers_for_you">';
+					$result .= '<div style="display:none;" id="wps_wocuf_pro_offer_loader"><img id="wps-wocuf-loading-offer" src="' . WPS_WOCUF_URL_FUNNEL_BUILDER . 'public/images/ajax-loader.gif"></div><div class="wps_wocuf_pro_offer_container"><div class="woocommerce"><div class="wps_wocuf_pro_special_offers_for_you">';
 
 					$wps_wocuf_pro_offer_banner_text = get_option('wps_wocuf_pro_offer_banner_text', esc_html__('Special Offer For You Only', 'woo-one-click-upsell-funnel'));
 

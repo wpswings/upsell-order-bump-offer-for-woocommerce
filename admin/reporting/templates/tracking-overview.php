@@ -29,12 +29,12 @@ $nonce_facebook = wp_create_nonce('view_upsell_tracking_fb'); // Create nonce.
 		<div class="wps_upsell_overview_supported_product">
 			<div class="wps_upsell_overview_product_icon simple">
 				<a href="<?php echo esc_url(admin_url('admin.php?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=ga-setting&nonce=' . $nonce)); ?>">
-					<img class="wps_upsell_lite_tool_ga" src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/reporting/resources/icons/google-analytics.svg'); ?>">
+					<img class="wps_upsell_lite_tool_ga" src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/reporting/resources/icons/google-analytics.svg'); ?>">
 				</a>
 			</div>
 			<div class="wps_upsell_overview_product_icon simple">
 				<a href="<?php echo esc_url(admin_url('admin.php?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=pixel-setting&nonce=' . $nonce_facebook)); ?>">
-					<img class="wps_upsell_lite_tool_fb" src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/reporting/resources/icons/facebook-pixel.png'); ?>">
+					<img class="wps_upsell_lite_tool_fb" src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/reporting/resources/icons/facebook-pixel.png'); ?>">
 				</a>
 			</div>
 		</div>

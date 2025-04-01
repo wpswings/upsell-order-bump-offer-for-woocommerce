@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Upsell widgets collection loader file.
  *
@@ -10,23 +9,30 @@
  * @subpackage woo-one-click-upsell-funnel/page-builders
  */
 
-if (! defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 
 	exit; // Exit if accessed directly.
 }
 
-if (class_exists('WPS_Upsell_Widget_Loader')) {
+if ( class_exists( 'WPS_Upsell_Widget_Loader' ) ) {
 	return;
 }
 
 /**
  * WPS_Upsell_Widget_Loader.
  */
-if (! class_exists('WPS_Upsell_Widget_Loader')) {
-	class WPS_Upsell_Widget_Loader
-	{
+if ( ! class_exists( 'WPS_Upsell_Widget_Loader' ) ) {
+	/**
+	 * WPS Upsell Widget Loader Class.
+	 *
+	 * This class handles the loading of upsell widgets.
+	 *
+	 * @since 1.0.0
+	 */
+	class WPS_Upsell_Widget_Loader {
 
-		const WPS_UPSELL_WIDGET_LOADER = WPS_WOCUF_DIRPATH_funnel_builder . 'page-builders/';
+
+		const WPS_UPSELL_WIDGET_LOADER = WPS_WOCUF_DIRPATH_FUNNEL_BUILDER . 'page-builders/';
 
 		/**
 		 * The instance.
@@ -65,9 +71,8 @@ if (! class_exists('WPS_Upsell_Widget_Loader')) {
 		 *
 		 * @since    3.1.2
 		 */
-		public function __construct()
-		{
-			$this->load_builders();
+		public function __construct() {
+			 $this->load_builders();
 			$this->load_widgets();
 		}
 
@@ -78,10 +83,8 @@ if (! class_exists('WPS_Upsell_Widget_Loader')) {
 		 * @static
 		 * @return Widget Loader - Main instance.
 		 */
-		public static function get_instance()
-		{
-
-			if (is_null(self::$instance)) {
+		public static function get_instance() {
+			if ( is_null( self::$instance ) ) {
 
 				self::$instance = new self();
 			}
@@ -94,29 +97,27 @@ if (! class_exists('WPS_Upsell_Widget_Loader')) {
 		 *
 		 * @since 3.1.2
 		 */
-		public function load_builders()
-		{
-
+		public function load_builders() {
 			$builders = self::COMPATIBLE_BUILDERS;
 
-			if (! empty($builders) && is_array($builders)) {
-				foreach ($builders as $slug => $class_name) {
+			if ( ! empty( $builders ) && is_array( $builders ) ) {
+				foreach ( $builders as $slug => $class_name ) {
 					$active = false;
 
-					if (wps_upsell_lite_is_plugin_active_funnel_builder($slug)) {
+					if ( wps_upsell_lite_is_plugin_active_funnel_builder( $slug ) ) {
 						$active = true;
-					} elseif (class_exists($class_name)) {
+					} elseif ( class_exists( $class_name ) ) {
 						$active = true;
 					}
 
-					if (! $active) {
+					if ( ! $active ) {
 						// If still in active then unset from active builders.
-						unset($builders[$slug]);
+						unset( $builders[ $slug ] );
 					}
 				}
 			}
 
-			$this->active_builders = apply_filters('wps_active_page_builders', $builders);
+			$this->active_builders = apply_filters( 'wps_active_page_builders', $builders );
 
 			return $this->active_builders;
 		}
@@ -126,15 +127,13 @@ if (! class_exists('WPS_Upsell_Widget_Loader')) {
 		 *
 		 * @since 3.1.2
 		 */
-		public function load_widgets()
-		{
-
-			if (! empty($this->active_builders) && is_array($this->active_builders)) {
-				foreach ($this->active_builders as $b_slug => $b_name) {
-					$widget_file = $this->retrieve_loader_file($b_slug, $b_slug);
+		public function load_widgets() {
+			if ( ! empty( $this->active_builders ) && is_array( $this->active_builders ) ) {
+				foreach ( $this->active_builders as $b_slug => $b_name ) {
+					$widget_file = $this->retrieve_loader_file( $b_slug, $b_slug );
 					$widget_path = self::WPS_UPSELL_WIDGET_LOADER . $widget_file;
 
-					if (file_exists($widget_path)) {
+					if ( file_exists( $widget_path ) ) {
 						require_once $widget_path;
 					}
 				}
@@ -148,14 +147,13 @@ if (! class_exists('WPS_Upsell_Widget_Loader')) {
 		 * @param string $builders The builders name.
 		 * @since 3.1.2
 		 */
-		public function retrieve_loader_file($slug = '', $builders = '')
-		{
+		public function retrieve_loader_file( $slug = '', $builders = '' ) {
 
-			if (empty($slug) && empty($builders)) {
+			if ( empty( $slug ) && empty( $builders ) ) {
 				return false;
 			}
 
-			switch ($slug) {
+			switch ( $slug ) {
 				case 'elementor/elementor.php':
 					$loader_file = 'elementor/class-elementor-widget-loader.php';
 					break;

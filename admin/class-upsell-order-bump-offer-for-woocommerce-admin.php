@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -289,7 +288,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 			'manage_woocommerce',
 			'upsell-order-bump-offer-for-woocommerce-setting',
 			array($this, 'wps_ubo_lite_add_backend'),
-			'dashicons-yes-alt',
+			plugin_dir_url(__FILE__) . 'resources/OFB-wordpress-icon.svg',
 			57
 		);
 
@@ -306,7 +305,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 			esc_html__('Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce'),
 			esc_html__('Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce'),
 			'manage_woocommerce',
-			'upsell-order-bump-offer-for-woocommerce-pre-reporting', // UNIQUE SLUG
+			'upsell-order-bump-offer-for-woocommerce-pre-reporting', // UNIQUE SLUG.
 			array($this, 'pre_add_submenu_page_reporting_callback')
 		);
 
@@ -318,7 +317,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 			esc_html__('Post Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce'),
 			esc_html__('Post Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce'),
 			'manage_woocommerce',
-			'upsell-order-bump-offer-for-woocommerce-post-reporting', // UNIQUE SLUG
+			'upsell-order-bump-offer-for-woocommerce-post-reporting', // UNIQUE SLUG.
 			array($this, 'post_add_submenu_page_reporting_callback')
 		);
 	}
@@ -1672,18 +1671,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 
 											if (wps_upsell_divi_builder_plugin_active_funnel_builder()) {
 										?>
-												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . "admin/resources/offer-thumbnails/divi/offer-template-$template_key.png"); ?>"></a>
+												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . "admin/resources/offer-thumbnails/divi/offer-template-$template_key.png"); ?>"></a>
 											<?php
 											} else {
 											?>
-												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . "admin/resources/offer-thumbnails/offer-template-$template_key.jpg"); ?>"></a>
+												<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . "admin/resources/offer-thumbnails/offer-template-$template_key.jpg"); ?>"></a>
 											<?php
 
 											}
 										} else {
 
 											?>
-											<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . "admin/resources/offer-thumbnails/offer-template-$template_key.png"); ?>"></a>
+											<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="<?php echo esc_html($template_key); ?>"><img src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . "admin/resources/offer-thumbnails/offer-template-$template_key.png"); ?>"></a>
 										<?php
 
 										}
@@ -1735,7 +1734,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 									<div class="wps_upsell_offer_preview">
 
 										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="four">
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/offer-thumbnails/offer-template-four.png'); ?>"></a>
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-four.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
@@ -1776,7 +1775,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 									<div class="wps_upsell_offer_preview">
 
 										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="five">
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/offer-thumbnails/offer-template-five.png'); ?>"></a>
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-five.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
@@ -1817,7 +1816,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 									<div class="wps_upsell_offer_preview">
 
 										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="six">
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/offer-thumbnails/offer-template-six.png'); ?>"></a>
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-six.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
@@ -1862,7 +1861,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 									<div class="wps_upsell_offer_preview">
 
 										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="seven">
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/offer-thumbnails/offer-template-seven.png'); ?>"></a>
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-seven.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
@@ -1903,7 +1902,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 									<div class="wps_upsell_offer_preview">
 
 										<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="eight">
-											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/offer-thumbnails/offer-template-eight.png'); ?>"></a>
+											<span class="wps_wupsell_premium_strip"><?php esc_html_e('Pro', 'woo-one-click-upsell-funnel'); ?></span><img src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-eight.png'); ?>"></a>
 									</div>
 
 									<div class="wps_upsell_offer_action">
@@ -2461,7 +2460,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 	public function wps_redirect_upsell_page()
 	{
 		if (
-			isset($_GET['page']) && $_GET['page'] === 'upsell-order-bump-offer-for-woocommerce-setting' &&
+			isset($_GET['page']) && 'upsell-order-bump-offer-for-woocommerce-setting' === $_GET['page'] &&
 			!isset($_GET['tab']) &&
 			!defined('DOING_AJAX') && !defined('DOING_CRON')
 		) {

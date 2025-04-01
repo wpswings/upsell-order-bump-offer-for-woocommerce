@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Provide a admin area view for the plugin
  *
@@ -112,7 +111,7 @@ $google_analytics_fields = array(
 <!-- Other Tracking Plugins Compatibilities - Start -->
 <div class="wps_upsell_slide_down_title">
 	<h2><?php esc_html_e('Other Tracking Plugins Compatibilities', 'woo-one-click-upsell-funnel'); ?></h2>
-	<a href="#" class="wps_upsell_slide_down_link"><img src="<?php echo esc_url(WPS_WOCUF_URL_funnel_builder . 'admin/resources/down.png'); ?>"></a>
+	<a href="#" class="wps_upsell_slide_down_link"><img src="<?php echo esc_url(WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/down.png'); ?>"></a>
 </div>
 
 <div class="wps_upsell_table wps_upsell_slide_down_content">

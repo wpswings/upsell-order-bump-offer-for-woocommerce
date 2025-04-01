@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Provide a admin area view for the plugin
  *
@@ -18,8 +17,6 @@
 if (! defined('ABSPATH')) {
 	exit;
 }
-
-
 
 $billing_address_default = array(
 	'billing-information' => array(

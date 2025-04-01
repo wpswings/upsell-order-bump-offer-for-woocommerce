@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Upsell elementor widgets collection loader file.
  *
