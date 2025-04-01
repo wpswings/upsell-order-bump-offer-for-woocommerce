@@ -176,6 +176,39 @@ if (! empty($wps_wocuf_pro_funnels_list)) {
 						<?php
 						}
 
+					echo '<hr>';
+				// Target Categories.
+
+				if ( ! empty( $value['target_categories_ids'] ) ) {
+
+					echo '<p><i>' . esc_html__( 'Target Categories -',  'woo-one-click-upsell-funnel' ) . '</i></p>';
+
+					echo '<div class="wps_upsell_funnel_list_targets">';
+
+					foreach ( $value['target_categories_ids'] as $single_target_category_id ) :
+
+						$category_name = get_the_category_by_ID( $single_target_category_id );
+
+						if ( empty( $category_name ) ) {
+
+							continue;
+						}
+						?>
+						<p><?php echo esc_html( $category_name . "( #$single_target_category_id )" ); ?></p>
+						<?php
+
+					endforeach;
+
+					echo '</div>';
+				} else {
+
+					?>
+
+					<p><i><?php esc_html_e( 'No Category(s) added',  'woo-one-click-upsell-funnel' ); ?></i></p>
+
+					<?php
+				}
+
 						?>
 					</td>
 
