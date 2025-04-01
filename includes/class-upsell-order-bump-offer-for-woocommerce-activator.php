@@ -35,6 +35,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Activator {
 		   if ( ! get_option( 'wps_ubo_global_options' ) ) {
 			add_option( 'wps_ubo_global_options', array() );
 		}
+
+		$wps_bump_upsell_global_options = get_option('wps_ubo_global_options', array());
+		$wps_bump_upsell_global_options['wps_bump_enable_plugin'] = 'on';
+		update_option( 'wps_ubo_global_options', $wps_bump_upsell_global_options );
 	}
 
 }

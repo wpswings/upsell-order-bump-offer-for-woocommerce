@@ -473,7 +473,7 @@ input.wps_input_quantity.wps_quantity_input {
 
 .wps_upsell_offer_image a,
 .wps_upsell_offer_image {
-    display: inline-block;
+    /* display: inline-block; */
 }
 
 .wps_upsell_offer_image img.wps_upsell_offer_img {
@@ -1610,3 +1610,7 @@ input.wps_input_quantity.wps_quantity_input {
 .bump-offer-product-description {
     word-break: break-all;
   }
+
+  .wps_upsell_offer_main_wrapper .wps_upsell_offer_product_price {
+    display: block !important; /* Or inline, inline-block, as needed */
+}

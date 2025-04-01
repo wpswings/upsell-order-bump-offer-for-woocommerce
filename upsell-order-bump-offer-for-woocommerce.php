@@ -17,12 +17,12 @@
  * Description:       <code><strong>Upsell Funnel Builder for WooCommerce</strong></code>helps merchants maximize sales and generate revenue by curating one-click upsell and bump offers!. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
  *
  * Requires at least:       5.5.0
- * Tested up to:            6.7.1
+ * Tested up to:            6.7.2
  * WC requires at least:    6.1.0
- * WC tested up to:         9.5.1
+ * WC tested up to:         9.7.1
  *
  * Requires Plugins: woocommerce
- * Version:           2.4.3
+ * Version:           2.4.5
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -126,7 +126,7 @@ if ($activated) {
 	/**
 	 * Currently plugin version.
 	 */
-	define('UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.4.3');
+	define('UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '2.4.5');
 	if (! defined('WPS_WOCUF_URL_funnel_builder')) {
 		define('WPS_WOCUF_URL_funnel_builder', plugin_dir_url(__FILE__));
 	}
@@ -297,7 +297,7 @@ if ($activated) {
 		define('UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH', plugin_dir_path(__FILE__));
 
 		// If pro version is inactive add setings link to org version.
-		if (! wps_ubo_lite_is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')) {
+		if (! wps_ubo_lite_is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php') && ! wps_ubo_lite_is_plugin_active('woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php')) {
 
 			// Add settings links.
 			add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'wps_ubo_lite_plugin_action_links');
@@ -352,6 +352,14 @@ if ($activated) {
 
 		register_activation_hook(__FILE__, 'activate_upsell_order_bump_offer_for_woocommerce');
 		register_deactivation_hook(__FILE__, 'deactivate_upsell_order_bump_offer_for_woocommerce');
+
+		function wps_redirect_to_bump_list() {
+			if (isset($_GET['tab']) && $_GET['tab'] == 'bump-list') {
+				wp_redirect(admin_url('admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section'));
+				exit;
+			}
+		}
+		add_action('admin_init', 'wps_redirect_to_bump_list');
 
 		// Run this function only when the plugin is activated.
 		register_activation_hook(__FILE__, 'wps_activate_plugin');

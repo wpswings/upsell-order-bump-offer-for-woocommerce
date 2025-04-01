@@ -86,7 +86,7 @@ if (! empty($wps_wocuf_pro_funnels_list)) {
 			<tr>
 				<th><?php esc_html_e('Funnel Name', 'woo-one-click-upsell-funnel'); ?></th>
 				<th><?php esc_html_e('Status', 'woo-one-click-upsell-funnel'); ?></th>
-				<th id="wps_upsell_funnel_list_target_th"><?php esc_html_e('Target Product(s)', 'woo-one-click-upsell-funnel'); ?></th>
+				<th id="wps_upsell_funnel_list_target_th"><?php esc_html_e('Target Product(s) and Categories', 'woo-one-click-upsell-funnel'); ?></th>
 				<th><?php esc_html_e('Offers', 'woo-one-click-upsell-funnel'); ?></th>
 				<th><?php esc_html_e('Action', 'woo-one-click-upsell-funnel'); ?></th>
 				<?php do_action('wps_wocuf_pro_funnel_add_more_col_head'); ?>

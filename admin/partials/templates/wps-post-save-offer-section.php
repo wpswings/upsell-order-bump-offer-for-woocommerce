@@ -186,6 +186,10 @@ if (isset($_POST['wps_wocuf_pro_creation_setting_save'])) {
 	// Sanitize and strip slashes for applied offer number.
 	$applied_offer_number = ! empty($_POST['wps_wocuf_applied_offer_number']) ? array_map('sanitize_text_field', wp_unslash($_POST['wps_wocuf_applied_offer_number'])) : '';
 
+	$target_pro_ids_array = ! empty( $_POST['target_categories_ids'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['target_categories_ids'] ) ) : array();
+
+	$wps_wocuf_pro_funnel['target_categories_ids'] = ! empty( $target_pro_ids_array ) ? $target_pro_ids_array : array();
+
 	$wps_wocuf_pro_funnel['wps_wocuf_applied_offer_number'] = $applied_offer_number;
 
 	// Sanitize and strip slashes for page id assigned.
@@ -550,25 +554,46 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_wocuf_pro_target_pro_ids"><?php esc_html_e('Select target category(s)', 'woo-one-click-upsell-funnel'); ?></label>
+						<label for="wps_wocuf_pro_target_pro_ids"><?php esc_html_e( 'Select target category(s)',  'woo-one-click-upsell-funnel' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 
 						<?php
 
-						$description = esc_html__('If any one of these Target Category Products is checked out then the this funnel will be triggered and the below offers will be shown.', 'woo-one-click-upsell-funnel');
+						$description = esc_html__( 'If any one of these Target Category Products is checked out then the this funnel will be triggered and the below offers will be shown.',  'woo-one-click-upsell-funnel' );
 
-						wps_upsell_lite_wc_help_tip($description);
+						wps_upsell_lite_wc_help_tip( $description );
 
 						?>
 
-						<select class="wc-funnel-product-search ubo_offer_input" disabled="true" multiple="multiple" style="" name="wps_wocuf_target_category_pro_ids[]" data-placeholder="<?php esc_attr_e('Upgrade To Pro For This Feature&hellip;', 'woo-one-click-upsell-funnel'); ?>">
+						<select class="wc-funnel-product-category-search" multiple="multiple" style="" name="target_categories_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a category&hellip;',  'woo-one-click-upsell-funnel' ); ?>">
 
+						<?php
 
-						</select>
+						if ( ! empty( $wps_wocuf_pro_funnel_data ) ) {
 
-					</td>
+							$target_categories_ids = isset( $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['target_categories_ids'] ) ? $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['target_categories_ids'] : array();
+
+							// array_map with absint converts negative array values to positive, so that we dont get negative ids.
+							$target_categories_ids = ! empty( $target_categories_ids ) ? array_map( 'absint', $target_categories_ids ) : null;
+
+							if ( $target_categories_ids ) {
+
+								foreach ( $target_categories_ids as $single_target_category_id ) {
+
+									$single_category_name = get_the_category_by_ID( $single_target_category_id );
+
+									?>
+									<option value="<?php echo esc_html( $single_target_category_id ); ?>" selected="selected" ><?php echo esc_html( $single_category_name ); ?>(#<?php echo esc_html( $single_target_category_id ); ?>)</option>
+									<?php
+								}
+							}
+						}
+
+						?>
+						</select>		
+					</td>	
 				</tr>
 				<!-- Select Target category end -->
 

@@ -892,7 +892,7 @@ $(document).on('click', '.wps_upsell_activate_offer_template', function(e) {
 
 		});
 
-		document.getElementById("defaultOpen").click();
+		// document.getElementById("defaultOpen").click();
 	});
 })(jQuery);
  

@@ -2921,7 +2921,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 					if (mb_strpos($s->src, 'wp-content/')) {
 
 						// Except for upsell and elementor plugins.
-						if (mb_strpos($s->src, 'elementor') || mb_strpos($s->src, 'woo-one-click-upsell-funnel')) {
+						if (mb_strpos($s->src, 'elementor') || mb_strpos($s->src, 'woo-one-click-upsell-funnel') || mb_strpos($s->src, 'upsell-order-bump-offer-for-woocommerce')) {
 
 							continue;
 						}
@@ -4183,7 +4183,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 				$upsell_product = wc_get_product($product_id);
 
 				// Get offer discount.
-				$upsell_offered_discount = wps_upsell_lite_get_product_discountl_funnel_builder();
+				$upsell_offered_discount = wps_upsell_lite_get_product_discount_funnel_builder();
 
 				// Apply discount on product.
 				if (! empty($upsell_offered_discount)) {

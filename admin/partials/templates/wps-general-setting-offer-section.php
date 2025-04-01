@@ -51,6 +51,11 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 	}
 	$wps_upsell_global_options['wps_wocuf_pro_enable_smart_skip'] = $wps_smart_skip_val;
 	update_option( 'wps_upsell_global_options', $wps_upsell_global_options );
+
+    //For Upsell Org.
+	$wps_upsell_global_options_orgupsell = array();
+	$wps_upsell_global_options_orgupsell['smart_skip_if_purchased'] =  $wps_smart_already_purchased;
+	update_option( 'wps_upsell_lite_global_options', $wps_upsell_global_options_orgupsell );
 	?>
 	<!-- Settings saved notice. -->
 	<div class="notice notice-success is-dismissible wps-notice">
@@ -63,9 +68,20 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 // Saved Global Options.
 $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
 
-// echo '<pre>';
-// print_r($wps_ubo_global_options);
-// echo '</pre>';
+$wps_one_click_upsell_on = get_option('wps_upsell_lite_global_options', array());
+$wps_bump_upsell_global_options = get_option('wps_ubo_global_options', array());
+
+// Check if the 'wps_bump_enable_plugin' key exists and its value is 'on'.
+if (isset($wps_bump_upsell_global_options['wps_bump_enable_plugin']) && 
+	($wps_bump_upsell_global_options['wps_bump_enable_plugin']) === 'on') {
+	$wps_one_click_upsell_on = is_array($wps_one_click_upsell_on) ? $wps_one_click_upsell_on : array(); $wps_one_click_upsell_on['wps_wocuf_enable_plugin'] = 'on';
+} else {
+	$wps_one_click_upsell_on = is_array($wps_one_click_upsell_on) ? $wps_one_click_upsell_on : array(); $wps_one_click_upsell_on['wps_wocuf_enable_plugin'] = 'off';
+
+}
+
+// Update the option.
+update_option('wps_upsell_lite_global_options', $wps_one_click_upsell_on);
 
 // By default plugin will be enabled.
 $wps_bump_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : ''; 

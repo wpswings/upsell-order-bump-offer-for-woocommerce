@@ -673,7 +673,7 @@
   margin: 0;
   border-right: 2px solid #ddd;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   border-radius: 5px;
   border: none;
@@ -2588,7 +2588,7 @@ input#fixed_quantity {
 
 /* Template 4 */
 .upsell-offer-template-2 {
-  text-align: left;
+  text-align: center;
   border-radius: 0;
 }
 
@@ -2698,7 +2698,7 @@ input#fixed_quantity {
 
 /* Template 2 */
 .upsell-offer-template-2 {
-  text-align: left;
+  text-align: center;
   border-radius: 0;
 }
 
@@ -3561,7 +3561,7 @@ input#wps_upsell_bump_cart_offer_quantity {
 
 #wps_upsell_bump_setting_wrapper p {
   color: #000;
-  text-align: left;
+  text-align: center;
   padding: 10px;
 }
 
@@ -6561,4 +6561,8 @@ main.wps-ufw_ms-main {
 /*Disable the enable on pro upsell activate*/
 .wps_one_click_enable {
   display: none;
+}
+
+html, body {
+  overflow: auto !important;
 }
