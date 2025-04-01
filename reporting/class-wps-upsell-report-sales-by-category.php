@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Upsell Sales by Category Report.
  *
