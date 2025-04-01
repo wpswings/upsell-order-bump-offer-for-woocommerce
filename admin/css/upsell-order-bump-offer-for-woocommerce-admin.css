@@ -163,7 +163,7 @@
 
 .wps_ubo_lite_go_pro_popup_button .wps_ubo_lite_overview_go_pro_button,
 .button.wps_ubo_lite_overview_go_pro_button {
-  background-color: #78c900;
+  background-color: #2196f3;
   color: #ffffff;
   padding: 14px 36px;
   height: auto;
@@ -236,7 +236,7 @@
 
 .wps_ubo_lite_cont_vid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   align-items: flex-start;
   gap: 30px;
 }
@@ -3561,7 +3561,7 @@ input#wps_upsell_bump_cart_offer_quantity {
 
 #wps_upsell_bump_setting_wrapper p {
   color: #000;
-  text-align: center;
+  text-align: left;
   padding: 10px;
 }
 
@@ -6565,10 +6565,4 @@ main.wps-ufw_ms-main {
 
 html, body {
   overflow: auto !important;
-}
-
-.wps-ufbo-menu-custom-class .wp-menu-image img {
-  opacity: 1;
-  height: auto;
-  width: 28px;
 }

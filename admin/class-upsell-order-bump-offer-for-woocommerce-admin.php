@@ -126,6 +126,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 
 			wp_enqueue_style('woocommerce_one_click_upsell_funnel_product_shipping');
 		}
+
+		wp_register_style('wps_ubo_lite_admin_style-global', plugin_dir_url(__FILE__) . 'css/upsell-order-bump-offer-for-woocommerce-admin-global.css', array(), time(), 'all');
+
+		wp_enqueue_style('wps_ubo_lite_admin_style-global');
 	}
 
 	/**

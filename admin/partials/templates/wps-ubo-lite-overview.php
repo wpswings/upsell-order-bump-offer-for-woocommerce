@@ -39,9 +39,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<li><span class='wps_ubo_lite_feature_content'><?php esc_html_e( 'Offer an upgrade of the existing product in the cart.', 'upsell-order-bump-offer-for-woocommerce' ); ?></span></li>
 				</ul>
 			</div>
-			<div id="wps_ubo_lite_overview_video" class="wps_ubo_lite_overview_video">
-				<iframe width="100%" height="600px" src="https://www.youtube.com/embed/p9KIQyXauY4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			</div>
 		</div>
 	</div>
 
