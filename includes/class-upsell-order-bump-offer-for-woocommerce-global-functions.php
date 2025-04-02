@@ -970,7 +970,7 @@ function wps_ubo_lite_bump_offer_html($bump, $encountered_order_bump_id = '', $o
 			clear: both;
 		}
 
-		<?php echo esc_html($order_bump_div_id); ?>.wps_upsell_offer_parent_wrapper {
+		<?php echo esc_html($order_bump_div_id); ?> .wps_upsell_offer_parent_wrapper {
 			border: <?php echo esc_html($parent_border_type . ' ' . $parent_border_color . ' ' . $parent_border_width); ?>;
 			margin: 0 auto;
 			<?php if ('no' === $wps_ubo_template_adaption) : ?>max-width: 400px;
