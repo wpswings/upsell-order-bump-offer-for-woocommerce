@@ -219,6 +219,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 			if ( 'on' === $wps_upsell_bump_enable_plugin ) {
 
+				if ( ! wps_upsell_lite_is_plugin_active_funnel_builder( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
 				// Adding Upsell Orders column in Orders table in backend.
 				$this->loader->add_filter( 'manage_edit-shop_order_columns', $plugin_admin, 'wps_wocuf_pro_add_columns_to_admin_orders', 11 );
 
@@ -227,7 +228,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 				$this->loader->add_action( 'woocommerce_shop_order_list_table_custom_column', $plugin_admin, 'wps_wocuf_pro_populate_upsell_order_column', 10, 2 );
 				$this->loader->add_filter( 'woocommerce_shop_order_list_table_columns', $plugin_admin, 'wps_wocuf_pro_add_columns_to_admin_orders', 99 );
-
+				}
+				
 				// Add Upsell Filtering dropdown for All Orders, No Upsell Orders, Only Upsell Orders.
 				$this->loader->add_filter( 'restrict_manage_posts', $plugin_admin, 'wps_wocuf_pro_restrict_manage_posts' );
 
