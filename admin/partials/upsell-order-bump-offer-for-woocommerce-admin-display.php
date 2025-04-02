@@ -179,7 +179,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 			if ( 'pre-list-offer-sections' === $global_setting_sub_tab ) {
 				include_once 'templates/wps-pre-list-offer-section.php';
 			} elseif ( 'pre-save-offer-section' === $global_setting_sub_tab ) {
-				include_once 'templates/wps-pre-save-offer-section.php';
+				include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-creation.php';
 			}
 		}
 
