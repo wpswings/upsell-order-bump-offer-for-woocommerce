@@ -552,6 +552,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	public static function wps_upsell_bump_list_callback_return() {
 		 $wps_ubo_offer_array_collection = get_option( 'wps_ubo_bump_list', array() );
 
+		 if (!isset($wps_ubo_offer_array_collection) || empty($wps_ubo_offer_array_collection)) {
+			$wps_ubo_offer_array_collection = array();
+		}
+		 
 		if ( wps_ubo_lite_if_pro_exists() && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
 			$wps_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_lic_callback_function;

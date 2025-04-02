@@ -118,6 +118,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		} else {
 			$wps_is_shortcode = false;
 		}
+
+		//Js For One CLick Upsell Start.
+		wp_enqueue_script('wps-upsell-sweet-alert-js', plugin_dir_url(__FILE__) . 'js/sweet-alert.js', array(), '2.1.2', false);
 		// Only enqueue on the Checkout page.
 		if (is_checkout() || is_cart() || $wps_is_shortcode) {
 
@@ -334,10 +337,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			'wps_ubo_lite_public_fbt',
 			$local_arr
 		);
-
-
-		//Js For One CLick Upsell Start.
-		wp_enqueue_script('wps-upsell-sweet-alert-js', plugin_dir_url(__FILE__) . 'js/sweet-alert.js', array(), '2.1.2', false);
 
 
 		wp_enqueue_script('woocommerce-one-click-upsell-public-script-lite', plugin_dir_url(__FILE__) . 'js/woocommerce-oneclick-upsell-funnel-public.js', array('jquery'), $this->version, true);

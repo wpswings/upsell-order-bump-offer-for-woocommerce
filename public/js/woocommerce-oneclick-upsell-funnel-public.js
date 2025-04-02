@@ -99,7 +99,7 @@ jQuery(document).ready(function($){
 			jQuery( document ).on('click', 'a', function(e) {
 
 				// Check if any of them are empty.
-	            if( this.href.includes( 'wps_wocuf_pro_buy' ) || this.href.includes( '#wps_upsell' ) || this.href.includes( 'ocuf_th' ) ) {
+	            if( this.href.includes( 'wps_wocuf_pro_buy' ) || this.href.includes( '#wps_upsell' ) ) {
 
 	            	// Show loader on click.
 	            	jQuery( '.wps_upsell_loader' ).show();
