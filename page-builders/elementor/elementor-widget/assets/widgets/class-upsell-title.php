@@ -63,7 +63,7 @@ class Upsell_Title extends Widget_Base
 	 */
 	public function get_title()
 	{
-		return esc_html__('Upsell Title', 'woo-one-click-upsell-funnel');
+		return esc_html__('Upsell Title', 'upsell-order-bump-offer-for-woocommerce');
 	}
 
 	/**
@@ -126,27 +126,27 @@ class Upsell_Title extends Widget_Base
 		$this->start_controls_section(
 			'section_title',
 			array(
-				'label' => esc_html__('Title', 'woo-one-click-upsell-funnel'),
+				'label' => esc_html__('Title', 'upsell-order-bump-offer-for-woocommerce'),
 			)
 		);
 
 		$this->add_control(
 			'title',
 			array(
-				'label'       => esc_html__('Title', 'woo-one-click-upsell-funnel'),
+				'label'       => esc_html__('Title', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'        => Controls_Manager::TEXTAREA,
 				'dynamic'     => array(
 					'active' => true,
 				),
-				'placeholder' => esc_html__('Enter your title', 'woo-one-click-upsell-funnel'),
-				'default'     => esc_html__('[wps_upsell_title]', 'woo-one-click-upsell-funnel'),
+				'placeholder' => esc_html__('Enter your title', 'upsell-order-bump-offer-for-woocommerce'),
+				'default'     => esc_html__('[wps_upsell_title]', 'upsell-order-bump-offer-for-woocommerce'),
 			)
 		);
 
 		$this->add_control(
 			'link',
 			array(
-				'label'     => esc_html__('Link', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Link', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::URL,
 				'dynamic'   => array(
 					'active' => true,
@@ -161,16 +161,16 @@ class Upsell_Title extends Widget_Base
 		$this->add_control(
 			'size',
 			array(
-				'label'   => esc_html__('Size', 'woo-one-click-upsell-funnel'),
+				'label'   => esc_html__('Size', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'default',
 				'options' => array(
-					'default' => esc_html__('Default', 'woo-one-click-upsell-funnel'),
-					'small'   => esc_html__('Small', 'woo-one-click-upsell-funnel'),
-					'medium'  => esc_html__('Medium', 'woo-one-click-upsell-funnel'),
-					'large'   => esc_html__('Large', 'woo-one-click-upsell-funnel'),
-					'xl'      => esc_html__('XL', 'woo-one-click-upsell-funnel'),
-					'xxl'     => esc_html__('XXL', 'woo-one-click-upsell-funnel'),
+					'default' => esc_html__('Default', 'upsell-order-bump-offer-for-woocommerce'),
+					'small'   => esc_html__('Small', 'upsell-order-bump-offer-for-woocommerce'),
+					'medium'  => esc_html__('Medium', 'upsell-order-bump-offer-for-woocommerce'),
+					'large'   => esc_html__('Large', 'upsell-order-bump-offer-for-woocommerce'),
+					'xl'      => esc_html__('XL', 'upsell-order-bump-offer-for-woocommerce'),
+					'xxl'     => esc_html__('XXL', 'upsell-order-bump-offer-for-woocommerce'),
 				),
 			)
 		);
@@ -178,7 +178,7 @@ class Upsell_Title extends Widget_Base
 		$this->add_control(
 			'header_size',
 			array(
-				'label'   => esc_html__('HTML Tag', 'woo-one-click-upsell-funnel'),
+				'label'   => esc_html__('HTML Tag', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'    => Controls_Manager::SELECT,
 				'options' => array(
 					'h1'   => 'H1',
@@ -198,23 +198,23 @@ class Upsell_Title extends Widget_Base
 		$this->add_responsive_control(
 			'align',
 			array(
-				'label'     => esc_html__('Alignment', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Alignment', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'left'    => array(
-						'title' => esc_html__('Left', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Left', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-left',
 					),
 					'center'  => array(
-						'title' => esc_html__('Center', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Center', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'   => array(
-						'title' => esc_html__('Right', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Right', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-right',
 					),
 					'justify' => array(
-						'title' => esc_html__('Justified', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Justified', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-justify',
 					),
 				),
@@ -228,7 +228,7 @@ class Upsell_Title extends Widget_Base
 		$this->add_control(
 			'view',
 			array(
-				'label'   => esc_html__('View', 'woo-one-click-upsell-funnel'),
+				'label'   => esc_html__('View', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'    => Controls_Manager::HIDDEN,
 				'default' => 'traditional',
 			)
@@ -239,7 +239,7 @@ class Upsell_Title extends Widget_Base
 		$this->start_controls_section(
 			'section_title_style',
 			array(
-				'label' => esc_html__('Title', 'woo-one-click-upsell-funnel'),
+				'label' => esc_html__('Title', 'upsell-order-bump-offer-for-woocommerce'),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -247,7 +247,7 @@ class Upsell_Title extends Widget_Base
 		$this->add_control(
 			'title_color',
 			array(
-				'label'     => esc_html__('Text Color', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Text Color', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array(
 					'default' => Global_Colors::COLOR_PRIMARY,
@@ -280,10 +280,10 @@ class Upsell_Title extends Widget_Base
 		$this->add_control(
 			'blend_mode',
 			array(
-				'label'     => esc_html__('Blend Mode', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Blend Mode', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => array(
-					''            => esc_html__('Normal', 'woo-one-click-upsell-funnel'),
+					''            => esc_html__('Normal', 'upsell-order-bump-offer-for-woocommerce'),
 					'multiply'    => 'Multiply',
 					'screen'      => 'Screen',
 					'overlay'     => 'Overlay',

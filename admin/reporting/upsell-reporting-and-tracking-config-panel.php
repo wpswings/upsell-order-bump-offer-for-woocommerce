@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $secure_nonce      = wp_create_nonce( 'wps-upsell-tracking-nonce' );
 $id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-tracking-nonce' );
 if ( ! $id_nonce_verified ) {
-	wp_die( esc_html__( 'Nonce Not verified', 'woo-one-click-upsell-funnel' ) );
+	wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
 }
 $active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'reporting';
 
@@ -47,17 +47,17 @@ $nonce_overview = wp_create_nonce( 'view_upsell_tracking_over' ); // Create nonc
 	</div>
 
 	<div class="wps_wocuf_pro_header">
-		<div class="wps_wocuf_pro_setting_title"><?php esc_html_e( 'Upsell Funnel Builder for WooCommerce', 'woo-one-click-upsell-funnel' ); ?></div>
+		<div class="wps_wocuf_pro_setting_title"><?php esc_html_e( 'Upsell Funnel Builder for WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 
 
 	</div>
 
 	<nav class="nav-tab-wrapper woo-nav-tab-wrapper">
 
-		<a class="nav-tab <?php echo 'reporting' === $active_tab ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=reporting&nonce=<?php echo esc_html( $nonce_reporting ); ?>"><?php esc_html_e( 'Sales Reports', 'woo-one-click-upsell-funnel' ); ?></a>
-		<a class="nav-tab <?php echo 'ga-setting' === $active_tab ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=ga-setting&nonce=<?php echo esc_html( $nonce_ga ); ?>"><?php esc_html_e( 'Google Analytics', 'woo-one-click-upsell-funnel' ); ?></a>
-		<a class="nav-tab <?php echo 'pixel-setting' === $active_tab ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=pixel-setting&nonce=<?php echo esc_html( $nonce_pixel ); ?>"><?php esc_html_e( 'FB Pixel', 'woo-one-click-upsell-funnel' ); ?></a>
-		<a class="nav-tab <?php echo 'overview' === $active_tab ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=overview&nonce=<?php echo esc_html( $nonce_overview ); ?>"><?php esc_html_e( 'Overview', 'woo-one-click-upsell-funnel' ); ?></a>
+		<a class="nav-tab <?php echo 'reporting' === $active_tab ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=reporting&nonce=<?php echo esc_html( $nonce_reporting ); ?>"><?php esc_html_e( 'Sales Reports', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="nav-tab <?php echo 'ga-setting' === $active_tab ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=ga-setting&nonce=<?php echo esc_html( $nonce_ga ); ?>"><?php esc_html_e( 'Google Analytics', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="nav-tab <?php echo 'pixel-setting' === $active_tab ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=pixel-setting&nonce=<?php echo esc_html( $nonce_pixel ); ?>"><?php esc_html_e( 'FB Pixel', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="nav-tab <?php echo 'overview' === $active_tab ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=overview&nonce=<?php echo esc_html( $nonce_overview ); ?>"><?php esc_html_e( 'Overview', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 		<?php do_action( 'wps_wocuf_pro_setting_tab' ); ?>	
 	</nav>

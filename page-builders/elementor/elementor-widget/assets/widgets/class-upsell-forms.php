@@ -52,7 +52,7 @@ class Upsell_Forms extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return esc_html__( 'Upsell Meta Forms', 'woo-one-click-upsell-funnel' );
+		return esc_html__( 'Upsell Meta Forms', 'upsell-order-bump-offer-for-woocommerce' );
 	}
 
 	/**
@@ -109,14 +109,14 @@ class Upsell_Forms extends Widget_Base {
 		$this->start_controls_section(
 			'section_shortcode',
 			array(
-				'label' => esc_html__( 'Shortcode', 'woo-one-click-upsell-funnel' ),
+				'label' => esc_html__( 'Shortcode', 'upsell-order-bump-offer-for-woocommerce' ),
 			)
 		);
 
 		$this->add_control(
 			'shortcode',
 			array(
-				'label'       => esc_html__( 'Enter upsell meta forms shortcode', 'woo-one-click-upsell-funnel' ),
+				'label'       => esc_html__( 'Enter upsell meta forms shortcode', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'        => Controls_Manager::TEXTAREA,
 				'dynamic'     => array(
 					'active' => true,

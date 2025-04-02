@@ -167,7 +167,7 @@ function wps_upsell_org_subscription_error_funnel_builder() {
 
 	?>
 	<div style="text-align: center;margin-top: 30px;" id="wps_upsell_offer_expired">
-		<h2 style="font-weight: 200;"><?php esc_html_e( 'Sorry, Could not create Subscription', 'woo-one-click-upsell-funnel' ); ?></h2><a class="button wc-backward" href="<?php echo esc_url( $shop_page_url ); ?>"><?php esc_html_e( 'Return to Shop ', 'woo-one-click-upsell-funnel' ); ?>&rarr;</a>
+		<h2 style="font-weight: 200;"><?php esc_html_e( 'Sorry, Could not create Subscription', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2><a class="button wc-backward" href="<?php echo esc_url( $shop_page_url ); ?>"><?php esc_html_e( 'Return to Shop ', 'upsell-order-bump-offer-for-woocommerce' ); ?>&rarr;</a>
 	</div>
 	<?php
 	wp_die();

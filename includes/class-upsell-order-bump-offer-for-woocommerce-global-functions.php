@@ -6977,10 +6977,10 @@ if (! function_exists('wps_upsee_lite_go_pro_funnel_builder')) {
 
 		if ('pro' === $location) {
 
-			$message = esc_html__('Stucked with Limited Gateway access? Unlock your power to explore more.', 'woo-one-click-upsell-funnel');
+			$message = esc_html__('Stucked with Limited Gateway access? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce');
 		} else {
 
-			$message = esc_html__('Stucked to limited Order Funnel? Unlock your power to explore more.', 'woo-one-click-upsell-funnel');
+			$message = esc_html__('Stucked to limited Order Funnel? Unlock your power to explore more.', 'upsell-order-bump-offer-for-woocommerce');
 		}
 
 		ob_start();
@@ -6991,7 +6991,7 @@ if (! function_exists('wps_upsee_lite_go_pro_funnel_builder')) {
 			<div class="wps_ubo_lite_go_pro_popup">
 				<!-- Main heading. -->
 				<div class="wps_ubo_lite_go_pro_popup_head">
-					<h2><?php esc_html_e('Want More? Go Pro !!', 'woo-one-click-upsell-funnel'); ?></h2>
+					<h2><?php esc_html_e('Want More? Go Pro !!', 'upsell-order-bump-offer-for-woocommerce'); ?></h2>
 					<!-- Close button. -->
 					<a href="" class="wps_ubo_lite_go_pro_popup_close">
 						<span>&times;</span>
@@ -7008,13 +7008,13 @@ if (! function_exists('wps_upsee_lite_go_pro_funnel_builder')) {
 						<?php echo esc_html($message); ?>
 					</p>
 					<p class="wps_ubo_lite_go_pro_popup_text">
-						<?php esc_html_e('Go with our premium version and make unlimited numbers of Upsells. Get more smart features and make the most attractive offers with all of your products. Set Relevant offers for specific targets which will ensure customer satisfaction and higher conversion rates.', 'woo-one-click-upsell-funnel'); ?>
+						<?php esc_html_e('Go with our premium version and make unlimited numbers of Upsells. Get more smart features and make the most attractive offers with all of your products. Set Relevant offers for specific targets which will ensure customer satisfaction and higher conversion rates.', 'upsell-order-bump-offer-for-woocommerce'); ?>
 					</p>
 				</div>
 
 				<!-- Go pro button. -->
 				<div class="wps_ubo_lite_go_pro_popup_button">
-					<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/one-click-upsell-funnel-for-woocommerce-pro/?utm_source=wpswings-upsell-funnel-pro&utm_medium=upsell-funnel-org-backend&utm_campaign=WPS-upsell-funnel-pro"><?php echo esc_html__('Upgrade to Premium', 'woo-one-click-upsell-funnel') . ' <span class="dashicons dashicons-arrow-right-alt"></span>'; ?></a>
+					<a class="button wps_ubo_lite_overview_go_pro_button" target="_blank" href="https://wpswings.com/product/one-click-upsell-funnel-for-woocommerce-pro/?utm_source=wpswings-upsell-funnel-pro&utm_medium=upsell-funnel-org-backend&utm_campaign=WPS-upsell-funnel-pro"><?php echo esc_html__('Upgrade to Premium', 'upsell-order-bump-offer-for-woocommerce') . ' <span class="dashicons dashicons-arrow-right-alt"></span>'; ?></a>
 				</div>
 			</div>
 			<!-- Go pro popup main end. -->
@@ -7614,7 +7614,7 @@ if (! function_exists('wps_upsell_lite_validate_upsell_nonce_funnel_builder')) {
 		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
 		if (! $id_nonce_verified) {
-			wp_die(esc_html__('Nonce Not verified', 'woo-one-click-upsell-funnel'));
+			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 		}
 
 		if (isset($_GET['ocuf_ns'])) {
@@ -7648,7 +7648,7 @@ if (! function_exists('wps_upsell_lite_get_pid_from_url_params_funnel_builder'))
 		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
 		if (! $id_nonce_verified) {
-			wp_die(esc_html__('Nonce Not verified', 'woo-one-click-upsell-funnel'));
+			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 		}
 
 		if (isset($_GET['ocuf_ofd']) && isset($_GET['ocuf_fid'])) {
@@ -7686,7 +7686,7 @@ if (! function_exists('wps_upsell_lite_get_product_discount_funnel_builder')) {
 		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
 
 		if (! $id_nonce_verified) {
-			wp_die(esc_html__('Nonce Not verified', 'woo-one-click-upsell-funnel'));
+			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
 		}
 
 		$funnel_id = isset($_GET['ocuf_fid']) ? sanitize_text_field(wp_unslash($_GET['ocuf_fid'])) : 'not_set';

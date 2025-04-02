@@ -284,7 +284,7 @@ if ( isset( $_POST['wps_wocuf_pro_creation_setting_save'] ) ) {
 	?>
 	<!-- Settings saved notice -->
 	<div class="notice notice-success is-dismissible">
-		<p><strong><?php esc_html_e( 'Settings saved', 'woo-one-click-upsell-funnel' ); ?></strong></p>
+		<p><strong><?php esc_html_e( 'Settings saved', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong></p>
 	</div>
 	<?php
 }
@@ -296,14 +296,14 @@ $wps_wocuf_pro_funnel_data = get_option( 'wps_wocuf_funnels_list', array() );
 $wps_wocuf_pro_custom_th_page = ! empty( $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_wocuf_pro_custom_th_page'] ) ? $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_wocuf_pro_custom_th_page'] : 'off';
 
 $wps_wocuf_pro_funnel_schedule_options = array(
-	'0' => esc_html__( 'Sunday', 'woo-one-click-upsell-funnel' ),
-	'1' => esc_html__( 'Monday', 'woo-one-click-upsell-funnel' ),
-	'2' => esc_html__( 'Tuesday', 'woo-one-click-upsell-funnel' ),
-	'3' => esc_html__( 'Wednesday', 'woo-one-click-upsell-funnel' ),
-	'4' => esc_html__( 'Thursday', 'woo-one-click-upsell-funnel' ),
-	'5' => esc_html__( 'Friday', 'woo-one-click-upsell-funnel' ),
-	'6' => esc_html__( 'Saturday', 'woo-one-click-upsell-funnel' ),
-	'7' => esc_html__( 'Daily', 'woo-one-click-upsell-funnel' ),
+	'0' => esc_html__( 'Sunday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'1' => esc_html__( 'Monday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'2' => esc_html__( 'Tuesday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'3' => esc_html__( 'Wednesday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'4' => esc_html__( 'Thursday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'5' => esc_html__( 'Friday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'6' => esc_html__( 'Saturday', 'upsell-order-bump-offer-for-woocommerce' ),
+	'7' => esc_html__( 'Daily', 'upsell-order-bump-offer-for-woocommerce' ),
 );
 
 ?>
@@ -327,7 +327,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 				<?php
 
-				$funnel_name = ! empty( $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_wocuf_funnel_name'] ) ? $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_wocuf_funnel_name'] : esc_html__( 'Funnel', 'woo-one-click-upsell-funnel' ) . " #$wps_wocuf_pro_funnel_id";
+				$funnel_name = ! empty( $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_wocuf_funnel_name'] ) ? $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_wocuf_funnel_name'] : esc_html__( 'Funnel', 'upsell-order-bump-offer-for-woocommerce' ) . " #$wps_wocuf_pro_funnel_id";
 
 				$funnel_status = ! empty( $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_upsell_funnel_status'] ) ? $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_upsell_funnel_status'] : 'no';
 				$wps_wocuf_add_product_tick = ! empty( $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_wocuf_add_products'] ) ? 'yes' : 'no';
@@ -350,7 +350,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 						<?php
 
-						$attribute_description = sprintf( '<p class="wps_upsell_tip_tip">%s</p><p class="wps_upsell_tip_tip">%s</p><p class="wps_upsell_tip_tip">%s</p>', esc_html__( 'Post Checkout Offers will be displayed :', 'woo-one-click-upsell-funnel' ), esc_html__( 'Sandbox Mode &rarr; For Admin only', 'woo-one-click-upsell-funnel' ), esc_html__( 'Live Mode &rarr; For All', 'woo-one-click-upsell-funnel' ) );
+						$attribute_description = sprintf( '<p class="wps_upsell_tip_tip">%s</p><p class="wps_upsell_tip_tip">%s</p><p class="wps_upsell_tip_tip">%s</p>', esc_html__( 'Post Checkout Offers will be displayed :', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Sandbox Mode &rarr; For Admin only', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Live Mode &rarr; For All', 'upsell-order-bump-offer-for-woocommerce' ) );
 
 						wps_upsell_lite_wc_help_tip( $attribute_description );
 						?>
@@ -360,8 +360,8 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 							<span class="wps_upsell_funnel_span"></span>
 						</label>
 
-						<span class="wps_upsell_funnel_status_on <?php echo 'yes' === $funnel_status ? 'active' : ''; ?>"><?php esc_html_e( 'Live', 'woo-one-click-upsell-funnel' ); ?></span>
-						<span class="wps_upsell_funnel_status_off <?php echo 'no' === $funnel_status ? 'active' : ''; ?>"><?php esc_html_e( 'Sandbox', 'woo-one-click-upsell-funnel' ); ?></span>
+						<span class="wps_upsell_funnel_status_on <?php echo 'yes' === $funnel_status ? 'active' : ''; ?>"><?php esc_html_e( 'Live', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<span class="wps_upsell_funnel_status_off <?php echo 'no' === $funnel_status ? 'active' : ''; ?>"><?php esc_html_e( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 					</div>
 
 				</div>
@@ -467,14 +467,14 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_wocuf_funnel_name"><?php esc_html_e( 'Name of the funnel', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label for="wps_wocuf_funnel_name"><?php esc_html_e( 'Name of the funnel', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 
 						<?php
 
-						$description = esc_html__( 'Provide the name of your funnel', 'woo-one-click-upsell-funnel' );
+						$description = esc_html__( 'Provide the name of your funnel', 'upsell-order-bump-offer-for-woocommerce' );
 						wps_upsell_lite_wc_help_tip( $description );
 						?>
 
@@ -488,14 +488,14 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 					<th scope="row" class="titledesc">
 						<span class="wps_wupsell_premium_strip">Pro</span>
-						<label for="wps_wocuf_pro_funnel_cart_amount"><?php esc_html_e( 'Minimum Cart Amount', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label for="wps_wocuf_pro_funnel_cart_amount"><?php esc_html_e( 'Minimum Cart Amount', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 
 						<?php
 
-						$description = esc_html__( 'Enter Minimum Cart Amount To Trigger Funnel', 'woo-one-click-upsell-funnel' );
+						$description = esc_html__( 'Enter Minimum Cart Amount To Trigger Funnel', 'upsell-order-bump-offer-for-woocommerce' );
 						wps_upsell_lite_wc_help_tip( $description );
 
 						?>
@@ -509,19 +509,19 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_wocuf_target_pro_ids"><?php esc_html_e( 'Select target product(s)', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label for="wps_wocuf_target_pro_ids"><?php esc_html_e( 'Select target product(s)', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 
 						<?php
 
-						$description = esc_html__( 'If any one of these Target Products is checked out then the this funnel will be triggered and the below offers will be shown.', 'woo-one-click-upsell-funnel' );
+						$description = esc_html__( 'If any one of these Target Products is checked out then the this funnel will be triggered and the below offers will be shown.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_upsell_lite_wc_help_tip( $description );
 						?>
 
-						<select class="wc-funnel-product-search" multiple="multiple" style="" name="wps_wocuf_target_pro_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a simple product&hellip;', 'woo-one-click-upsell-funnel' ); ?>">
+						<select class="wc-funnel-product-search" multiple="multiple" style="" name="wps_wocuf_target_pro_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a simple product&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 
 							<?php
 
@@ -553,20 +553,20 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_wocuf_pro_target_pro_ids"><?php esc_html_e( 'Select target category(s)', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label for="wps_wocuf_pro_target_pro_ids"><?php esc_html_e( 'Select target category(s)', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 
 						<?php
 
-						$description = esc_html__( 'If any one of these Target Category Products is checked out then the this funnel will be triggered and the below offers will be shown.', 'woo-one-click-upsell-funnel' );
+						$description = esc_html__( 'If any one of these Target Category Products is checked out then the this funnel will be triggered and the below offers will be shown.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_upsell_lite_wc_help_tip( $description );
 
 						?>
 
-						<select class="wc-funnel-product-category-search" multiple="multiple" style="" name="target_categories_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a category&hellip;', 'woo-one-click-upsell-funnel' ); ?>">
+						<select class="wc-funnel-product-category-search" multiple="multiple" style="" name="target_categories_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a category&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 
 							<?php
 
@@ -600,20 +600,20 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_wocuf_pro_funnel_schedule"><?php esc_html_e( 'Funnel Schedule', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label for="wps_wocuf_pro_funnel_schedule"><?php esc_html_e( 'Funnel Schedule', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 
 						<?php
 
-						$description = esc_html__( 'Schedule your funnel for specific weekdays.', 'woo-one-click-upsell-funnel' );
+						$description = esc_html__( 'Schedule your funnel for specific weekdays.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_upsell_lite_wc_help_tip( $description );
 
 						?>
 						<!-- Add multiselect since v3.0.0 -->
-						<select class="wps_wocuf_pro_funnel_schedule wps-upsell-funnel-schedule-search" name="wps_wocuf_pro_funnel_schedule[]" multiple="multiple" data-placeholder="<?php esc_attr_e( 'Search for a specific days&hellip;', 'woo-one-click-upsell-funnel' ); ?>">
+						<select class="wps_wocuf_pro_funnel_schedule wps-upsell-funnel-schedule-search" name="wps_wocuf_pro_funnel_schedule[]" multiple="multiple" data-placeholder="<?php esc_attr_e( 'Search for a specific days&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 
 							<?php
 
@@ -646,13 +646,13 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_wocuf_global_funnel"><?php esc_html_e( 'Global Funnel', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label for="wps_wocuf_global_funnel"><?php esc_html_e( 'Global Funnel', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 						<?php
 
-						$attribut_description = esc_html__( 'Global Funnel will always trigger independent of the target products and categories. Global Funnel has the highest priority so this will execute at last when no other funnel triggers.', 'woo-one-click-upsell-funnel' );
+						$attribut_description = esc_html__( 'Global Funnel will always trigger independent of the target products and categories. Global Funnel has the highest priority so this will execute at last when no other funnel triggers.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_upsell_lite_wc_help_tip( $attribut_description );
 
@@ -671,13 +671,13 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_wocuf_is_exclusive"><?php esc_html_e( 'Exclusive Offer', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label for="wps_wocuf_is_exclusive"><?php esc_html_e( 'Exclusive Offer', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 						<?php
 
-						$attribut_description = esc_html__( 'This feature makes the upsell funnel to be shown to the customers only once, whether they accept or reject it. This works with respect to the order billing email.', 'woo-one-click-upsell-funnel' );
+						$attribut_description = esc_html__( 'This feature makes the upsell funnel to be shown to the customers only once, whether they accept or reject it. This works with respect to the order billing email.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_upsell_lite_wc_help_tip( $attribut_description );
 
@@ -696,13 +696,13 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_wocuf_smart_offer_upgrade"><?php esc_html_e( 'Smart Offer Upgrade', 'woo-one-click-upsell-funnel' ); ?></label>
+						<label for="wps_wocuf_smart_offer_upgrade"><?php esc_html_e( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 						<?php
 
-						$attribute_description = sprintf( '<p class="wps_upsell_tip_tip">%s</p><p class="wps_upsell_tip_tip">%s</p><p class="wps_upsell_tip_tip">%s</p>', esc_html__( 'This feature replaces the target product with the Offer product as an Upgrade.', 'woo-one-click-upsell-funnel' ), esc_html__( 'Please keep this Funnel limited to One Offer as other Offers won\'t show up if this feature is on.', 'woo-one-click-upsell-funnel' ), esc_html__( 'This feature will not work if Global Funnel feature is on for this funnel.', 'woo-one-click-upsell-funnel' ) );
+						$attribute_description = sprintf( '<p class="wps_upsell_tip_tip">%s</p><p class="wps_upsell_tip_tip">%s</p><p class="wps_upsell_tip_tip">%s</p>', esc_html__( 'This feature replaces the target product with the Offer product as an Upgrade.', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Please keep this Funnel limited to One Offer as other Offers won\'t show up if this feature is on.', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'This feature will not work if Global Funnel feature is on for this funnel.', 'upsell-order-bump-offer-for-woocommerce' ) );
 
 						wps_upsell_lite_wc_help_tip( $attribute_description );
 
@@ -718,13 +718,13 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<!-- Smart Offer Upgrade end -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
-						<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span>
-						<label for="wps_wocuf_add_products"><?php esc_html_e( 'Show Form Fields', 'woo-one-click-upsell-funnel' ); ?></label>
+						<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="wps_wocuf_add_products"><?php esc_html_e( 'Show Form Fields', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 					<td class="forminp forminp-text">
 						<?php
 
-						$attribut_description = esc_html__( 'This option Will add custom form fields on upsell pages. Applicable to first offer page only.', 'woo-one-click-upsell-funnel' );
+						$attribut_description = esc_html__( 'This option Will add custom form fields on upsell pages. Applicable to first offer page only.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_upsell_lite_wc_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
@@ -743,18 +743,18 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 
 		<div class="wps_wocuf_pro_offers">
-			<h1><?php esc_html_e( 'Frequently Bought Offers', 'woo-one-click-upsell-funnel' ); ?></h1>
+			<h1><?php esc_html_e( 'Frequently Bought Offers', 'upsell-order-bump-offer-for-woocommerce' ); ?></h1>
 			<table class="form-table wps_wocuf_pro_creation_setting">
 				<tbody>
 					<tr valign="top">
 						<th scope="row" class="titledesc">
-							<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span>
-							<label for="wps_wocuf_add_products"><?php esc_html_e( 'Enable Frequently Bought Offers', 'woo-one-click-upsell-funnel' ); ?></label>
+							<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<label for="wps_wocuf_add_products"><?php esc_html_e( 'Enable Frequently Bought Offers', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 						</th>
 						<td class="forminp forminp-text">
 							<?php
 
-							$attribut_description = esc_html__( 'This option will enable Frequently Bought offer products on upsell pages', 'woo-one-click-upsell-funnel' );
+							$attribut_description = esc_html__( 'This option will enable Frequently Bought offer products on upsell pages', 'upsell-order-bump-offer-for-woocommerce' );
 
 							wps_upsell_lite_wc_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
@@ -772,18 +772,18 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 		</div>
 
 		<div class="wps_wocuf_pro_offers">
-			<h1><?php esc_html_e( 'AB Testing Section', 'woo-one-click-upsell-funnel' ); ?></h1>
+			<h1><?php esc_html_e( 'AB Testing Section', 'upsell-order-bump-offer-for-woocommerce' ); ?></h1>
 			<table class="form-table wps_wocuf_pro_creation_setting">
 				<tbody>
 					<tr valign="top">
 						<th scope="row" class="titledesc">
-							<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span>
-							<label for="wps_wocuf_add_products"><?php esc_html_e( 'Enable AB Testing', 'woo-one-click-upsell-funnel' ); ?></label>
+							<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<label for="wps_wocuf_add_products"><?php esc_html_e( 'Enable AB Testing', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 						</th>
 						<td class="forminp forminp-text">
 							<?php
 
-							$attribut_description = esc_html__( 'Enable AB testing to verify which templates will work better for you funnel', 'woo-one-click-upsell-funnel' );
+							$attribut_description = esc_html__( 'Enable AB testing to verify which templates will work better for you funnel', 'upsell-order-bump-offer-for-woocommerce' );
 
 							wps_upsell_lite_wc_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
@@ -802,7 +802,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 		<input type='hidden' id='wps_ubo_pro_status' value='inactive'>
 		<?php wps_upsee_lite_go_pro_funnel_builder( 'pro' ); ?>
 		<div class="wps_wocuf_pro_offers">
-			<h1><?php esc_html_e( 'Funnel Offers', 'woo-one-click-upsell-funnel' ); ?></h1>
+			<h1><?php esc_html_e( 'Funnel Offers', 'upsell-order-bump-offer-for-woocommerce' ); ?></h1>
 		</div>
 		<br>
 		<?php
@@ -869,9 +869,9 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 							if ( (int) $current_offer_id_2 !== (int) $current_offer_id ) {
 
-								$wps_wocuf_pro_buy_attached_offers .= '<option value=' . esc_html( $current_offer_id_2 ) . '>' . esc_html__( 'Offer #', 'woo-one-click-upsell-funnel' ) . esc_html( $current_offer_id_2 ) . '</option>';
+								$wps_wocuf_pro_buy_attached_offers .= '<option value=' . esc_html( $current_offer_id_2 ) . '>' . esc_html__( 'Offer #', 'upsell-order-bump-offer-for-woocommerce' ) . esc_html( $current_offer_id_2 ) . '</option>';
 
-								$wps_wocuf_pro_no_attached_offers .= '<option value=' . esc_html( $current_offer_id_2 ) . '>' . esc_html__( 'Offer #', 'woo-one-click-upsell-funnel' ) . esc_html( $current_offer_id_2 ) . '</option>';
+								$wps_wocuf_pro_no_attached_offers .= '<option value=' . esc_html( $current_offer_id_2 ) . '>' . esc_html__( 'Offer #', 'upsell-order-bump-offer-for-woocommerce' ) . esc_html( $current_offer_id_2 ) . '</option>';
 							}
 
 						endforeach;
@@ -885,10 +885,10 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 						// If link is set to No thanks.
 						if ( 'thanks' === $wps_wocuf_pro_offers_buy_now_offers[ $current_offer_id ] ) {
 
-							$wps_wocuf_pro_buy_now_action_html = '<select name="wps_wocuf_attached_offers_on_buy[' . $current_offer_id . ']"><option value="thanks" selected="">' . esc_html__( 'Order ThankYou Page', 'woo-one-click-upsell-funnel' ) . '</option>' . $wps_wocuf_pro_buy_attached_offers;
+							$wps_wocuf_pro_buy_now_action_html = '<select name="wps_wocuf_attached_offers_on_buy[' . $current_offer_id . ']"><option value="thanks" selected="">' . esc_html__( 'Order ThankYou Page', 'upsell-order-bump-offer-for-woocommerce' ) . '</option>' . $wps_wocuf_pro_buy_attached_offers;
 						} elseif ( $wps_wocuf_pro_offers_buy_now_offers[ $current_offer_id ] > 0 ) {
 
-							$wps_wocuf_pro_buy_now_action_html = '<select name="wps_wocuf_attached_offers_on_buy[' . $current_offer_id . ']"><option value="thanks">' . esc_html__( 'Order ThankYou Page', 'woo-one-click-upsell-funnel' ) . '</option>';
+							$wps_wocuf_pro_buy_now_action_html = '<select name="wps_wocuf_attached_offers_on_buy[' . $current_offer_id . ']"><option value="thanks">' . esc_html__( 'Order ThankYou Page', 'upsell-order-bump-offer-for-woocommerce' ) . '</option>';
 
 							if ( ! empty( $wps_wocuf_pro_existing_offers_2 ) ) {
 
@@ -899,10 +899,10 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 										if ( (string) $wps_wocuf_pro_offers_buy_now_offers[ $current_offer_id ] === (string) $current_offer_id_2 ) {
 
-											$wps_wocuf_pro_buy_now_action_html .= '<option value=' . $current_offer_id_2 . ' selected="">' . esc_html__( 'Offer #', 'woo-one-click-upsell-funnel' ) . $current_offer_id_2 . '</option>';
+											$wps_wocuf_pro_buy_now_action_html .= '<option value=' . $current_offer_id_2 . ' selected="">' . esc_html__( 'Offer #', 'upsell-order-bump-offer-for-woocommerce' ) . $current_offer_id_2 . '</option>';
 										} else {
 
-											$wps_wocuf_pro_buy_now_action_html .= '<option value=' . $current_offer_id_2 . '>' . esc_html__( 'Offer #', 'woo-one-click-upsell-funnel' ) . $current_offer_id_2 . '</option>';
+											$wps_wocuf_pro_buy_now_action_html .= '<option value=' . $current_offer_id_2 . '>' . esc_html__( 'Offer #', 'upsell-order-bump-offer-for-woocommerce' ) . $current_offer_id_2 . '</option>';
 										}
 									}
 								}
@@ -918,10 +918,10 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 						// If link is set to No thanks.
 						if ( 'thanks' === $wps_wocuf_pro_offers_no_thanks_offers[ $current_offer_id ] ) {
 
-							$wps_wocuf_pro_no_thanks_action_html = '<select name="wps_wocuf_attached_offers_on_no[' . $current_offer_id . ']"><option value="thanks" selected="">' . esc_html__( 'Order ThankYou Page', 'woo-one-click-upsell-funnel' ) . '</option>' . $wps_wocuf_pro_no_attached_offers;
+							$wps_wocuf_pro_no_thanks_action_html = '<select name="wps_wocuf_attached_offers_on_no[' . $current_offer_id . ']"><option value="thanks" selected="">' . esc_html__( 'Order ThankYou Page', 'upsell-order-bump-offer-for-woocommerce' ) . '</option>' . $wps_wocuf_pro_no_attached_offers;
 						} elseif ( $wps_wocuf_pro_offers_no_thanks_offers[ $current_offer_id ] > 0 ) { // If link is set to other offer.
 
-							$wps_wocuf_pro_no_thanks_action_html = '<select name="wps_wocuf_attached_offers_on_no[' . $current_offer_id . ']"><option value="thanks">' . esc_html__( 'Order ThankYou Page', 'woo-one-click-upsell-funnel' ) . '</option>';
+							$wps_wocuf_pro_no_thanks_action_html = '<select name="wps_wocuf_attached_offers_on_no[' . $current_offer_id . ']"><option value="thanks">' . esc_html__( 'Order ThankYou Page', 'upsell-order-bump-offer-for-woocommerce' ) . '</option>';
 
 							if ( ! empty( $wps_wocuf_pro_existing_offers_2 ) ) {
 
@@ -932,10 +932,10 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 										if ( (int) $wps_wocuf_pro_offers_no_thanks_offers[ $current_offer_id ] === (int) $current_offer_id_2 ) {
 
-											$wps_wocuf_pro_no_thanks_action_html .= '<option value=' . $current_offer_id_2 . ' selected="">' . esc_html__( 'Offer #', 'woo-one-click-upsell-funnel' ) . $current_offer_id_2 . '</option>';
+											$wps_wocuf_pro_no_thanks_action_html .= '<option value=' . $current_offer_id_2 . ' selected="">' . esc_html__( 'Offer #', 'upsell-order-bump-offer-for-woocommerce' ) . $current_offer_id_2 . '</option>';
 										} else {
 
-											$wps_wocuf_pro_no_thanks_action_html .= '<option value=' . $current_offer_id_2 . '>' . esc_html__( 'Offer #', 'woo-one-click-upsell-funnel' ) . $current_offer_id_2 . '</option>';
+											$wps_wocuf_pro_no_thanks_action_html .= '<option value=' . $current_offer_id_2 . '>' . esc_html__( 'Offer #', 'upsell-order-bump-offer-for-woocommerce' ) . $current_offer_id_2 . '</option>';
 										}
 									}
 								}
@@ -953,19 +953,19 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 					<div class="new_created_offers wps_upsell_single_offer" data-id="<?php echo esc_html( $current_offer_id ); ?>" data-scroll-id="#offer-section-<?php echo esc_html( $current_offer_id ); ?>">
 
 						<h2 class="wps_upsell_offer_title">
-							<?php echo esc_html__( 'Offer #', 'woo-one-click-upsell-funnel' ) . esc_html( $current_offer_id ); ?>
+							<?php echo esc_html__( 'Offer #', 'upsell-order-bump-offer-for-woocommerce' ) . esc_html( $current_offer_id ); ?>
 						</h2>
 
 						<table>
 							<!-- Offer product start -->
 							<tr>
 								<th><label>
-										<h4><?php esc_html_e( 'Offer Product', 'woo-one-click-upsell-funnel' ); ?></h4>
+										<h4><?php esc_html_e( 'Offer Product', 'upsell-order-bump-offer-for-woocommerce' ); ?></h4>
 									</label>
 								</th>
 
 								<td>
-									<select class="wc-offer-product-search wps_upsell_offer_product" name="wps_wocuf_products_in_offer[<?php echo esc_html( $current_offer_id ); ?>]" data-placeholder="<?php esc_html_e( 'Search for a product&hellip;', 'woo-one-click-upsell-funnel' ); ?>">
+									<select class="wc-offer-product-search wps_upsell_offer_product" name="wps_wocuf_products_in_offer[<?php echo esc_html( $current_offer_id ); ?>]" data-placeholder="<?php esc_html_e( 'Search for a product&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 										<?php
 
 										$current_offer_product_id = '';
@@ -1007,13 +1007,13 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 							<!-- Offer price start -->
 							<tr>
 								<th><label>
-										<h4><?php esc_html_e( 'Offer Price / Discount', 'woo-one-click-upsell-funnel' ); ?></h4>
+										<h4><?php esc_html_e( 'Offer Price / Discount', 'upsell-order-bump-offer-for-woocommerce' ); ?></h4>
 									</label>
 								</th>
 
 								<td>
 									<input type="text" class="wps_upsell_offer_price" name="wps_wocuf_offer_discount_price[<?php echo esc_html( $current_offer_id ); ?>]" value="<?php echo esc_html( $wps_wocuf_pro_products_discount[ $current_offer_id ] ); ?>">
-									<span class="wps_upsell_offer_description"><?php esc_html_e( 'Specify new offer price or discount %', 'woo-one-click-upsell-funnel' ); ?></span>
+									<span class="wps_upsell_offer_description"><?php esc_html_e( 'Specify new offer price or discount %', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
 								</td>
 							</tr>
@@ -1022,7 +1022,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 							<!-- Offer custom image start -->
 							<tr>
 								<th><label>
-										<h4><?php esc_html_e( 'Offer Image', 'woo-one-click-upsell-funnel' ); ?></h4>
+										<h4><?php esc_html_e( 'Offer Image', 'upsell-order-bump-offer-for-woocommerce' ); ?></h4>
 									</label>
 								</th>
 
@@ -1040,7 +1040,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 							<!-- Buy now go to link start -->
 							<tr>
 								<th><label>
-										<h4><?php esc_html_e( 'After \'Buy Now\' go to', 'woo-one-click-upsell-funnel' ); ?></h4>
+										<h4><?php esc_html_e( 'After \'Buy Now\' go to', 'upsell-order-bump-offer-for-woocommerce' ); ?></h4>
 									</label>
 								</th>
 
@@ -1048,7 +1048,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 									<?php echo wp_kses($wps_wocuf_pro_buy_now_action_html, wps_upsell_lite_allowed_html_funnel_builder()); // phpcs:ignore 
 									?>
 
-									<span class="wps_upsell_offer_description"><?php esc_html_e( 'Select where the customer will be redirected after accepting this offer', 'woo-one-click-upsell-funnel' ); ?></span>
+									<span class="wps_upsell_offer_description"><?php esc_html_e( 'Select where the customer will be redirected after accepting this offer', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 								</td>
 							</tr>
 							<!-- Buy now go to link end -->
@@ -1056,14 +1056,14 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 							<!-- Buy now no thanks link start -->
 							<tr>
 								<th><label>
-										<h4><?php esc_html_e( 'After \'No thanks\' go to', 'woo-one-click-upsell-funnel' ); ?></h4>
+										<h4><?php esc_html_e( 'After \'No thanks\' go to', 'upsell-order-bump-offer-for-woocommerce' ); ?></h4>
 									</label>
 								</th>
 
 								<td>
 									<?php echo wp_kses($wps_wocuf_pro_no_thanks_action_html, wps_upsell_lite_allowed_html_funnel_builder());  // phpcs:ignore 
 									?>
-									<span class="wps_upsell_offer_description"><?php esc_html_e( 'Select where the customer will be redirected after rejecting this offer', 'woo-one-click-upsell-funnel' ); ?></span>
+									<span class="wps_upsell_offer_description"><?php esc_html_e( 'Select where the customer will be redirected after rejecting this offer', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 								</td>
 							</tr>
 							<!-- Buy now no thanks link end -->
@@ -1071,7 +1071,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 							<!-- Section : Offer template start -->
 							<tr>
 								<th><label>
-										<h4><?php esc_html_e( 'Offer Template', 'woo-one-click-upsell-funnel' ); ?></h4>
+										<h4><?php esc_html_e( 'Offer Template', 'upsell-order-bump-offer-for-woocommerce' ); ?></h4>
 									</label>
 								</th>
 
@@ -1092,16 +1092,16 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 											$offer_templates_array = array();
 
 											$offer_templates_array = array(
-												'one'   => esc_html__( 'STANDARD TEMPLATE', 'woo-one-click-upsell-funnel' ),
-												'two'   => esc_html__( 'CREATIVE TEMPLATE', 'woo-one-click-upsell-funnel' ),
-												'three' => esc_html__( 'VIDEO TEMPLATE', 'woo-one-click-upsell-funnel' ),
+												'one'   => esc_html__( 'STANDARD TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ),
+												'two'   => esc_html__( 'CREATIVE TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ),
+												'three' => esc_html__( 'VIDEO TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ),
 											);
 										}
 
 										$offer_templates_array = array(
-											'one'   => esc_html__( 'STANDARD TEMPLATE', 'woo-one-click-upsell-funnel' ),
-											'two'   => esc_html__( 'CREATIVE TEMPLATE', 'woo-one-click-upsell-funnel' ),
-											'three' => esc_html__( 'VIDEO TEMPLATE', 'woo-one-click-upsell-funnel' ),
+											'one'   => esc_html__( 'STANDARD TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ),
+											'two'   => esc_html__( 'CREATIVE TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ),
+											'three' => esc_html__( 'VIDEO TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ),
 										);
 
 
@@ -1161,15 +1161,15 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 															<?php if ( (string) $template_key !== (string) $offer_template_active ) : ?>
 
-																<button class="button-primary wps_upsell_activate_offer_template" data-template-id="<?php echo esc_html( $template_key ); ?>" data-offer-id="<?php echo esc_html( $current_offer_id ); ?>" data-funnel-id="<?php echo esc_html( $wps_wocuf_pro_funnel_id ); ?>" data-offer-post-id="<?php echo esc_html( $assigned_post_id ); ?>"><?php esc_html_e( 'Insert and Activate', 'woo-one-click-upsell-funnel' ); ?></button>
+																<button class="button-primary wps_upsell_activate_offer_template" data-template-id="<?php echo esc_html( $template_key ); ?>" data-offer-id="<?php echo esc_html( $current_offer_id ); ?>" data-funnel-id="<?php echo esc_html( $wps_wocuf_pro_funnel_id ); ?>" data-offer-post-id="<?php echo esc_html( $assigned_post_id ); ?>"><?php esc_html_e( 'Insert and Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
 
 															<?php else : ?>
 
-																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 																<?php
 																if ( ! wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
 																	?>
-																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																	<?php
 																}
@@ -1195,29 +1195,29 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 													<div class="wps_upsell_offer_template_sub_div">
 
-														<h5> <?php esc_html_e( 'FITNESS TEMPLATE', 'woo-one-click-upsell-funnel' ); ?></h5>
+														<h5> <?php esc_html_e( 'FITNESS TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ); ?></h5>
 
 														<div class="wps_upsell_offer_preview">
 
 															<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="four">
-																<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-four.png' ); ?>"></a>
+																<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-four.png' ); ?>"></a>
 														</div>
 
 														<div class="wps_upsell_offer_action">
 
 															<?php if ( $template_key !== $offer_template_active ) : ?>
 
-																<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'woo-one-click-upsell-funnel' ); ?>" />
+																<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>" />
 
 
 															<?php else : ?>
 
-																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																<?php
 																if ( ! wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
 																	?>
-																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																	<?php
 																}
@@ -1236,28 +1236,28 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 													<div class="wps_upsell_offer_template_sub_div">
 
-														<h5> <?php esc_html_e( 'PET SHOP TEMPLATE', 'woo-one-click-upsell-funnel' ); ?></h5>
+														<h5> <?php esc_html_e( 'PET SHOP TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ); ?></h5>
 
 														<div class="wps_upsell_offer_preview">
 
 															<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="five">
-																<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-five.png' ); ?>"></a>
+																<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-five.png' ); ?>"></a>
 														</div>
 
 														<div class="wps_upsell_offer_action">
 
 															<?php if ( $template_key !== $offer_template_active ) : ?>
 
-																<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'woo-one-click-upsell-funnel' ); ?>" />
+																<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>" />
 
 															<?php else : ?>
 
-																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																<?php
 																if ( ! wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
 																	?>
-																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																	<?php
 																}
@@ -1278,29 +1278,29 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 													<div class="wps_upsell_offer_template_sub_div">
 
-														<h5> <?php esc_html_e( 'BEAUTY & MAKEUP TEMPLATE', 'woo-one-click-upsell-funnel' ); ?></h5>
+														<h5> <?php esc_html_e( 'BEAUTY & MAKEUP TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ); ?></h5>
 
 														<div class="wps_upsell_offer_preview">
 
 															<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="seven">
-																<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-seven.png' ); ?>"></a>
+																<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-seven.png' ); ?>"></a>
 														</div>
 
 														<div class="wps_upsell_offer_action">
 
 															<?php if ( $template_key !== $offer_template_active ) : ?>
 
-																<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'woo-one-click-upsell-funnel' ); ?>" />
+																<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>" />
 
 
 															<?php else : ?>
 
-																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																<?php
 																if ( ! wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
 																	?>
-																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																	<?php
 																}
@@ -1317,29 +1317,29 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 													<div class="wps_upsell_offer_template_sub_div">
 
-														<h5> <?php esc_html_e( 'ROSE PINK TEMPLATE', 'woo-one-click-upsell-funnel' ); ?></h5>
+														<h5> <?php esc_html_e( 'ROSE PINK TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ); ?></h5>
 
 														<div class="wps_upsell_offer_preview">
 
 															<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="six">
-																<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-six.png' ); ?>"></a>
+																<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-six.png' ); ?>"></a>
 														</div>
 
 														<div class="wps_upsell_offer_action">
 
 															<?php if ( $template_key !== $offer_template_active ) : ?>
 
-																<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'woo-one-click-upsell-funnel' ); ?>" />
+																<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>" />
 
 
 															<?php else : ?>
 
-																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																<?php
 																if ( ! wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
 																	?>
-																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																	<?php
 																}
@@ -1358,29 +1358,29 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 													<div class="wps_upsell_offer_template_sub_div">
 
-														<h5> <?php esc_html_e( 'JULIUS-SCISSOR TEMPLATE', 'woo-one-click-upsell-funnel' ); ?></h5>
+														<h5> <?php esc_html_e( 'JULIUS-SCISSOR TEMPLATE', 'upsell-order-bump-offer-for-woocommerce' ); ?></h5>
 
 														<div class="wps_upsell_offer_preview">
 
 															<a href="javascript:void(0)" class="wps_upsell_view_offer_template" data-template-id="eight">
-																<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'woo-one-click-upsell-funnel' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-eight.png' ); ?>"></a>
+																<span class="wps_wupsell_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span><img src="<?php echo esc_url( WPS_WOCUF_URL_FUNNEL_BUILDER . 'admin/resources/offer-thumbnails/offer-template-eight.png' ); ?>"></a>
 														</div>
 
 														<div class="wps_upsell_offer_action">
 
 															<?php if ( $template_key !== $offer_template_active ) : ?>
 
-																<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'woo-one-click-upsell-funnel' ); ?>" />
+																<input type="button" class=" wps_upsell_activate_offer_template_pro ubo_offer_input" value="<?php esc_html_e( 'Upgrade To Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>" />
 
 
 															<?php else : ?>
 
-																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																<a class="button" href="<?php echo esc_url( get_permalink( $assigned_post_id ) ); ?>" target="_blank"><?php esc_html_e( 'View &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																<?php
 																if ( ! wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
 																	?>
-																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+																	<a class="button" href="<?php echo esc_url( admin_url( "post.php?post=$assigned_post_id&action=elementor" ) ); ?>" target="_blank"><?php esc_html_e( 'Customize &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 																	<?php
 																}
@@ -1400,16 +1400,16 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 												<div class="wps_upsell_offer_template_sub_div">
 
-													<h5><?php esc_html_e( 'LINK TO CUSTOM PAGE', 'woo-one-click-upsell-funnel' ); ?></h5>
+													<h5><?php esc_html_e( 'LINK TO CUSTOM PAGE', 'upsell-order-bump-offer-for-woocommerce' ); ?></h5>
 
 													<?php if ( 'custom' !== $offer_template_active ) : ?>
 
-														<button class="button-primary wps_upsell_activate_offer_template" data-template-id="custom" data-offer-id="<?php echo esc_html( $current_offer_id ); ?>" data-funnel-id="<?php echo esc_html( $wps_wocuf_pro_funnel_id ); ?>" data-offer-post-id="<?php echo esc_html( $assigned_post_id ); ?>"><?php esc_html_e( 'Activate', 'woo-one-click-upsell-funnel' ); ?></button>
+														<button class="button-primary wps_upsell_activate_offer_template" data-template-id="custom" data-offer-id="<?php echo esc_html( $current_offer_id ); ?>" data-funnel-id="<?php echo esc_html( $wps_wocuf_pro_funnel_id ); ?>" data-offer-post-id="<?php echo esc_html( $assigned_post_id ); ?>"><?php esc_html_e( 'Activate', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
 
 													<?php else : ?>
 
-														<h6><?php esc_html_e( 'Activated', 'woo-one-click-upsell-funnel' ); ?></h6>
-														<p><?php esc_html_e( 'Please enter and save your custom page link below.', 'woo-one-click-upsell-funnel' ); ?></p>
+														<h6><?php esc_html_e( 'Activated', 'upsell-order-bump-offer-for-woocommerce' ); ?></h6>
+														<p><?php esc_html_e( 'Please enter and save your custom page link below.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
 													<?php endif; ?>
 
@@ -1425,7 +1425,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 										<div class="wps_upsell_offer_template_unsupported">
 
-											<h4><?php esc_html_e( 'Please activate Elementor / Divi Theme if you want to use our Pre-defined Templates, else make a custom page yourself and add link below.', 'woo-one-click-upsell-funnel' ); ?></h4>
+											<h4><?php esc_html_e( 'Please activate Elementor / Divi Theme if you want to use our Pre-defined Templates, else make a custom page yourself and add link below.', 'upsell-order-bump-offer-for-woocommerce' ); ?></h4>
 										</div>
 
 										<?php
@@ -1439,7 +1439,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 							<!-- Custom offer page url start -->
 							<tr>
 								<th><label>
-										<h4><?php esc_html_e( 'Offer Custom Page Link', 'woo-one-click-upsell-funnel' ); ?></h4>
+										<h4><?php esc_html_e( 'Offer Custom Page Link', 'upsell-order-bump-offer-for-woocommerce' ); ?></h4>
 									</label>
 								</th>
 
@@ -1453,7 +1453,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 							<!-- Delete current offer ( Saved one ) -->
 							<tr>
 								<td colspan="2">
-									<button class="button wps_wocuf_pro_delete_old_created_offers" data-id="<?php echo esc_html( $current_offer_id ); ?>"><?php esc_html_e( 'Delete', 'woo-one-click-upsell-funnel' ); ?></button>
+									<button class="button wps_wocuf_pro_delete_old_created_offers" data-id="<?php echo esc_html( $current_offer_id ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
 								</td>
 							</tr>
 							<!-- Delete current offer ( Saved one ) -->
@@ -1478,13 +1478,13 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 		<!-- Add new Offer button with current funnel id as data-id -->
 		<div class="wps_wocuf_pro_new_offer">
 			<button id="wps_upsell_create_new_offer" class="wps_wocuf_pro_create_new_offer" data-id="<?php echo esc_html( $wps_wocuf_pro_funnel_id ); ?>">
-				<?php esc_html_e( 'Add New Offer', 'woo-one-click-upsell-funnel' ); ?>
+				<?php esc_html_e( 'Add New Offer', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 			</button>
 		</div>
 
 		<!-- Save Changes for whole funnel -->
 		<p class="submit wps-wocuf-sticky-btn">
-			<input type="submit" value="<?php esc_html_e( 'Save Changes', 'woo-one-click-upsell-funnel' ); ?>" class="button-primary woocommerce-save-button" name="wps_wocuf_pro_creation_setting_save" id="wps_wocuf_pro_creation_setting_save">
+			<input type="submit" value="<?php esc_html_e( 'Save Changes', 'upsell-order-bump-offer-for-woocommerce' ); ?>" class="button-primary woocommerce-save-button" name="wps_wocuf_pro_creation_setting_save" id="wps_wocuf_pro_creation_setting_save">
 		</p>
 	</div>
 </form>

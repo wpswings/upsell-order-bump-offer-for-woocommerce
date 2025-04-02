@@ -59,7 +59,7 @@ class Upsell_Desc extends Widget_Base
 	 */
 	public function get_title()
 	{
-		return esc_html__('Upsell Description', 'woo-one-click-upsell-funnel');
+		return esc_html__('Upsell Description', 'upsell-order-bump-offer-for-woocommerce');
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Upsell_Desc extends Widget_Base
 		$this->start_controls_section(
 			'section_editor',
 			array(
-				'label' => esc_html__('Text Editor', 'woo-one-click-upsell-funnel'),
+				'label' => esc_html__('Text Editor', 'upsell-order-bump-offer-for-woocommerce'),
 			)
 		);
 
@@ -138,10 +138,10 @@ class Upsell_Desc extends Widget_Base
 		$this->add_control(
 			'drop_cap',
 			array(
-				'label'              => esc_html__('Drop Cap', 'woo-one-click-upsell-funnel'),
+				'label'              => esc_html__('Drop Cap', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'               => Controls_Manager::SWITCHER,
-				'label_off'          => esc_html__('Off', 'woo-one-click-upsell-funnel'),
-				'label_on'           => esc_html__('On', 'woo-one-click-upsell-funnel'),
+				'label_off'          => esc_html__('Off', 'upsell-order-bump-offer-for-woocommerce'),
+				'label_on'           => esc_html__('On', 'upsell-order-bump-offer-for-woocommerce'),
 				'prefix_class'       => 'elementor-drop-cap-',
 				'frontend_available' => true,
 			)
@@ -149,12 +149,12 @@ class Upsell_Desc extends Widget_Base
 
 		$text_columns     = range(1, 10);
 		$text_columns     = array_combine($text_columns, $text_columns);
-		$text_columns[''] = esc_html__('Default', 'woo-one-click-upsell-funnel');
+		$text_columns[''] = esc_html__('Default', 'upsell-order-bump-offer-for-woocommerce');
 
 		$this->add_responsive_control(
 			'text_columns',
 			array(
-				'label'     => esc_html__('Columns', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Columns', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::SELECT,
 				'separator' => 'before',
 				'options'   => $text_columns,
@@ -167,7 +167,7 @@ class Upsell_Desc extends Widget_Base
 		$this->add_responsive_control(
 			'column_gap',
 			array(
-				'label'      => esc_html__('Columns Gap', 'woo-one-click-upsell-funnel'),
+				'label'      => esc_html__('Columns Gap', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array('px', '%', 'em', 'vw'),
 				'range'      => array(
@@ -198,7 +198,7 @@ class Upsell_Desc extends Widget_Base
 		$this->start_controls_section(
 			'section_style',
 			array(
-				'label' => esc_html__('Text Editor', 'woo-one-click-upsell-funnel'),
+				'label' => esc_html__('Text Editor', 'upsell-order-bump-offer-for-woocommerce'),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -206,23 +206,23 @@ class Upsell_Desc extends Widget_Base
 		$this->add_responsive_control(
 			'align',
 			array(
-				'label'     => esc_html__('Alignment', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Alignment', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'left'    => array(
-						'title' => esc_html__('Left', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Left', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-left',
 					),
 					'center'  => array(
-						'title' => esc_html__('Center', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Center', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'   => array(
-						'title' => esc_html__('Right', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Right', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-right',
 					),
 					'justify' => array(
-						'title' => esc_html__('Justified', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Justified', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-justify',
 					),
 				),
@@ -235,7 +235,7 @@ class Upsell_Desc extends Widget_Base
 		$this->add_control(
 			'text_color',
 			array(
-				'label'     => esc_html__('Text Color', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Text Color', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
@@ -270,7 +270,7 @@ class Upsell_Desc extends Widget_Base
 		$this->start_controls_section(
 			'section_drop_cap',
 			array(
-				'label'     => esc_html__('Drop Cap', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Drop Cap', 'upsell-order-bump-offer-for-woocommerce'),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'drop_cap' => 'yes',
@@ -281,12 +281,12 @@ class Upsell_Desc extends Widget_Base
 		$this->add_control(
 			'drop_cap_view',
 			array(
-				'label'        => esc_html__('View', 'woo-one-click-upsell-funnel'),
+				'label'        => esc_html__('View', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'         => Controls_Manager::SELECT,
 				'options'      => array(
-					'default' => esc_html__('Default', 'woo-one-click-upsell-funnel'),
-					'stacked' => esc_html__('Stacked', 'woo-one-click-upsell-funnel'),
-					'framed'  => esc_html__('Framed', 'woo-one-click-upsell-funnel'),
+					'default' => esc_html__('Default', 'upsell-order-bump-offer-for-woocommerce'),
+					'stacked' => esc_html__('Stacked', 'upsell-order-bump-offer-for-woocommerce'),
+					'framed'  => esc_html__('Framed', 'upsell-order-bump-offer-for-woocommerce'),
 				),
 				'default'      => 'default',
 				'prefix_class' => 'elementor-drop-cap-view-',
@@ -296,7 +296,7 @@ class Upsell_Desc extends Widget_Base
 		$this->add_control(
 			'drop_cap_primary_color',
 			array(
-				'label'     => esc_html__('Primary Color', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Primary Color', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}}.elementor-drop-cap-view-stacked .elementor-drop-cap' => 'background-color: {{VALUE}};',
@@ -311,7 +311,7 @@ class Upsell_Desc extends Widget_Base
 		$this->add_control(
 			'drop_cap_secondary_color',
 			array(
-				'label'     => esc_html__('Secondary Color', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Secondary Color', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}}.elementor-drop-cap-view-framed .elementor-drop-cap' => 'background-color: {{VALUE}};',
@@ -334,7 +334,7 @@ class Upsell_Desc extends Widget_Base
 		$this->add_control(
 			'drop_cap_size',
 			array(
-				'label'     => esc_html__('Size', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Size', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::SLIDER,
 				'default'   => array(
 					'size' => 5,
@@ -356,7 +356,7 @@ class Upsell_Desc extends Widget_Base
 		$this->add_control(
 			'drop_cap_space',
 			array(
-				'label'     => esc_html__('Space', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Space', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::SLIDER,
 				'default'   => array(
 					'size' => 10,
@@ -376,7 +376,7 @@ class Upsell_Desc extends Widget_Base
 		$this->add_control(
 			'drop_cap_border_radius',
 			array(
-				'label'      => esc_html__('Border Radius', 'woo-one-click-upsell-funnel'),
+				'label'      => esc_html__('Border Radius', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array('%', 'px'),
 				'default'    => array(
@@ -396,7 +396,7 @@ class Upsell_Desc extends Widget_Base
 		$this->add_control(
 			'drop_cap_border_width',
 			array(
-				'label'     => esc_html__('Border Width', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Border Width', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::DIMENSIONS,
 				'selectors' => array(
 					'{{WRAPPER}} .elementor-drop-cap' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',

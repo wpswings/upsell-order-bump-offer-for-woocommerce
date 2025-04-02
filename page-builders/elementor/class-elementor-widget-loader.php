@@ -90,7 +90,7 @@ final class Elementor_Widget_Loader {
 	 */
 	public function admin_notice_minimum_elementor_version() {
 		?>
-		<div class="notice notice-warning is-dismissible"><p><strong><?php esc_html_e( 'Elementor Widgets ', 'woo-one-click-upsell-funnel' ); ?></strong><?php esc_html_e( 'requires ', 'woo-one-click-upsell-funnel' ); ?><strong> <?php esc_html_e( 'Elementor ', 'woo-one-click-upsell-funnel' ); ?></strong><?php esc_html_e( ' version ', 'woo-one-click-upsell-funnel' ); ?><?php echo esc_html( self::MINIMUM_ELEMENTOR_VERSION ); ?><?php esc_html__( ' or greater.', 'woo-one-click-upsell-funnel' ); ?></p></div>
+		<div class="notice notice-warning is-dismissible"><p><strong><?php esc_html_e( 'Elementor Widgets ', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( 'requires ', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong> <?php esc_html_e( 'Elementor ', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( ' version ', 'upsell-order-bump-offer-for-woocommerce' ); ?><?php echo esc_html( self::MINIMUM_ELEMENTOR_VERSION ); ?><?php esc_html__( ' or greater.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p></div>
 		<?php
 	}
 
@@ -104,7 +104,7 @@ final class Elementor_Widget_Loader {
 	 */
 	public function admin_notice_minimum_php_version() {
 		?>
-		<div class="notice notice-warning is-dismissible"><p><strong><?php esc_html_e( 'Elementor Widgets ', 'woo-one-click-upsell-funnel' ); ?></strong><?php esc_html_e( 'requires ', 'woo-one-click-upsell-funnel' ); ?><strong> <?php esc_html_e( 'PHP ', 'woo-one-click-upsell-funnel' ); ?></strong><?php esc_html_e( ' version ', 'woo-one-click-upsell-funnel' ); ?><?php echo esc_html( self::MINIMUM_PHP_VERSION ); ?><?php esc_html__( ' or greater.', 'woo-one-click-upsell-funnel' ); ?></p></div>
+		<div class="notice notice-warning is-dismissible"><p><strong><?php esc_html_e( 'Elementor Widgets ', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( 'requires ', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong> <?php esc_html_e( 'PHP ', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( ' version ', 'upsell-order-bump-offer-for-woocommerce' ); ?><?php echo esc_html( self::MINIMUM_PHP_VERSION ); ?><?php esc_html__( ' or greater.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p></div>
 		<?php
 	}
 }

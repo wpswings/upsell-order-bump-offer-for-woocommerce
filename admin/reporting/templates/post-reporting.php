@@ -27,32 +27,32 @@ $funnels_list = get_option( 'wps_wocuf_funnels_list' );
 <div class="wps_wocuf_pro_funnels_list">
 
 	<div class="wps_uspell_reporting_heading" >
-		<h2><?php esc_html_e( 'Upsell Sales - Reports', 'woo-one-click-upsell-funnel' ); ?></h2>
-		<a target="_blank" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-reports&tab=upsell' ) ); ?>"><?php esc_html_e( 'Visit here &rarr;', 'woo-one-click-upsell-funnel' ); ?></a>
+		<h2><?php esc_html_e( 'Upsell Sales - Reports', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+		<a target="_blank" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-reports&tab=upsell' ) ); ?>"><?php esc_html_e( 'Visit here &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 	</div>
 
 	<hr class="wps_uspell_reporting_funnel_stats_hr">
 
-	<div class="wps_uspell_stats_heading" ><h2><?php esc_html_e( 'Upsell - Behavioral Analytics', 'woo-one-click-upsell-funnel' ); ?></h2></div>
+	<div class="wps_uspell_stats_heading" ><h2><?php esc_html_e( 'Upsell - Behavioral Analytics', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2></div>
 
 	<?php if ( empty( $funnels_list ) ) : ?>
 
-		<p class="wps_wocuf_pro_no_funnel"><?php esc_html_e( 'No Upsell Data found', 'woo-one-click-upsell-funnel' ); ?></p>
+		<p class="wps_wocuf_pro_no_funnel"><?php esc_html_e( 'No Upsell Data found', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
 	<?php endif; ?>
 
 	<?php if ( ! empty( $funnels_list ) ) : ?>
 		<table>
 			<tr>
-				<th><?php esc_html_e( 'Funnel Name', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Trigger Count', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Success Count', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Offers Viewed', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Offers Accepted', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Offers Rejected', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Offers Pending', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Conversion Rate', 'woo-one-click-upsell-funnel' ); ?></th>
-				<th><?php esc_html_e( 'Total Sales', 'woo-one-click-upsell-funnel' ); ?></th>
+				<th><?php esc_html_e( 'Funnel Name', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Trigger Count', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Success Count', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Offers Viewed', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Offers Accepted', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Offers Rejected', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Offers Pending', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Conversion Rate', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Total Sales', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
 			</tr>
 
 			<!-- Foreach Funnel start -->
@@ -158,7 +158,7 @@ $funnels_list = get_option( 'wps_wocuf_funnels_list' );
 
 						$conversion_rate = number_format( (float) $conversion_rate, 2 );
 
-						echo '<div class="wps_upsell_stats_conversion_rate"><p>' . esc_html( $conversion_rate ) . esc_html__( '%', 'woo-one-click-upsell-funnel' ) . '</p><div>';
+						echo '<div class="wps_upsell_stats_conversion_rate"><p>' . esc_html( $conversion_rate ) . esc_html__( '%', 'upsell-order-bump-offer-for-woocommerce' ) . '</p><div>';
 
 						?>
 

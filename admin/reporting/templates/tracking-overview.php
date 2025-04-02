@@ -23,8 +23,8 @@ $nonce_facebook = wp_create_nonce('view_upsell_tracking_fb'); // Create nonce.
 <div id="wps_upsell_lite_overview">
 	<div id="wps_upsell_lite_overview_pro_version">
 
-		<h2><?php esc_html_e('eCommerce Analytics & Tracking', 'woo-one-click-upsell-funnel'); ?></h2>
-		<h3><?php esc_html_e('Supported Analytics Tools', 'woo-one-click-upsell-funnel'); ?></h3>
+		<h2><?php esc_html_e('eCommerce Analytics & Tracking', 'upsell-order-bump-offer-for-woocommerce'); ?></h2>
+		<h3><?php esc_html_e('Supported Analytics Tools', 'upsell-order-bump-offer-for-woocommerce'); ?></h3>
 
 		<div class="wps_upsell_overview_supported_product">
 			<div class="wps_upsell_overview_product_icon simple">

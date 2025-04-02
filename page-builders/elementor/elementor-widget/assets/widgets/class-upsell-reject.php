@@ -66,7 +66,7 @@ class Upsell_Reject extends Widget_Button
 	 */
 	public function get_title()
 	{
-		return __('Upsell No Button', 'woo-one-click-upsell-funnel');
+		return __('Upsell No Button', 'upsell-order-bump-offer-for-woocommerce');
 	}
 
 	/**
@@ -131,22 +131,22 @@ class Upsell_Reject extends Widget_Button
 		$this->start_controls_section(
 			'section_button',
 			array(
-				'label' => esc_html__('Button', 'woo-one-click-upsell-funnel'),
+				'label' => esc_html__('Button', 'upsell-order-bump-offer-for-woocommerce'),
 			)
 		);
 
 		$this->add_control(
 			'button_type',
 			array(
-				'label'        => esc_html__('Type', 'woo-one-click-upsell-funnel'),
+				'label'        => esc_html__('Type', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'         => Controls_Manager::SELECT,
 				'default'      => 'danger',
 				'options'      => array(
-					''        => esc_html__('Default', 'woo-one-click-upsell-funnel'),
-					'info'    => esc_html__('Info', 'woo-one-click-upsell-funnel'),
-					'success' => esc_html__('Success', 'woo-one-click-upsell-funnel'),
-					'warning' => esc_html__('Warning', 'woo-one-click-upsell-funnel'),
-					'danger'  => esc_html__('Danger', 'woo-one-click-upsell-funnel'),
+					''        => esc_html__('Default', 'upsell-order-bump-offer-for-woocommerce'),
+					'info'    => esc_html__('Info', 'upsell-order-bump-offer-for-woocommerce'),
+					'success' => esc_html__('Success', 'upsell-order-bump-offer-for-woocommerce'),
+					'warning' => esc_html__('Warning', 'upsell-order-bump-offer-for-woocommerce'),
+					'danger'  => esc_html__('Danger', 'upsell-order-bump-offer-for-woocommerce'),
 				),
 				'prefix_class' => 'elementor-button-',
 			)
@@ -155,25 +155,25 @@ class Upsell_Reject extends Widget_Button
 		$this->add_control(
 			'text',
 			array(
-				'label'       => esc_html__('Text', 'woo-one-click-upsell-funnel'),
+				'label'       => esc_html__('Text', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array(
 					'active' => true,
 				),
-				'default'     => esc_html__('Reject this offer', 'woo-one-click-upsell-funnel'),
-				'placeholder' => esc_html__('Reject button text', 'woo-one-click-upsell-funnel'),
+				'default'     => esc_html__('Reject this offer', 'upsell-order-bump-offer-for-woocommerce'),
+				'placeholder' => esc_html__('Reject button text', 'upsell-order-bump-offer-for-woocommerce'),
 			)
 		);
 
 		$this->add_control(
 			'link',
 			array(
-				'label'       => esc_html__('Link', 'woo-one-click-upsell-funnel'),
+				'label'       => esc_html__('Link', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'        => Controls_Manager::URL,
 				'dynamic'     => array(
 					'active' => true,
 				),
-				'placeholder' => esc_html__('Add Upsell no shortcode here', 'woo-one-click-upsell-funnel'),
+				'placeholder' => esc_html__('Add Upsell no shortcode here', 'upsell-order-bump-offer-for-woocommerce'),
 				'default'     => array(
 					'url' => '[wps_upsell_no]',
 				),
@@ -183,23 +183,23 @@ class Upsell_Reject extends Widget_Button
 		$this->add_responsive_control(
 			'align',
 			array(
-				'label'        => esc_html__('Alignment', 'woo-one-click-upsell-funnel'),
+				'label'        => esc_html__('Alignment', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'         => Controls_Manager::CHOOSE,
 				'options'      => array(
 					'left'    => array(
-						'title' => esc_html__('Left', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Left', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-left',
 					),
 					'center'  => array(
-						'title' => esc_html__('Center', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Center', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'   => array(
-						'title' => esc_html__('Right', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Right', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-right',
 					),
 					'justify' => array(
-						'title' => esc_html__('Justified', 'woo-one-click-upsell-funnel'),
+						'title' => esc_html__('Justified', 'upsell-order-bump-offer-for-woocommerce'),
 						'icon'  => 'eicon-text-align-justify',
 					),
 				),
@@ -211,7 +211,7 @@ class Upsell_Reject extends Widget_Button
 		$this->add_control(
 			'size',
 			array(
-				'label'          => esc_html__('Size', 'woo-one-click-upsell-funnel'),
+				'label'          => esc_html__('Size', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'           => Controls_Manager::SELECT,
 				'default'        => 'sm',
 				'options'        => self::get_button_sizes(),
@@ -222,7 +222,7 @@ class Upsell_Reject extends Widget_Button
 		$this->add_control(
 			'selected_icon',
 			array(
-				'label'            => esc_html__('Icon', 'woo-one-click-upsell-funnel'),
+				'label'            => esc_html__('Icon', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'             => Controls_Manager::ICONS,
 				'fa4compatibility' => 'icon',
 				'skin'             => 'inline',
@@ -233,12 +233,12 @@ class Upsell_Reject extends Widget_Button
 		$this->add_control(
 			'icon_align',
 			array(
-				'label'     => esc_html__('Icon Position', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Icon Position', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'left',
 				'options'   => array(
-					'left'  => esc_html__('Before', 'woo-one-click-upsell-funnel'),
-					'right' => esc_html__('After', 'woo-one-click-upsell-funnel'),
+					'left'  => esc_html__('Before', 'upsell-order-bump-offer-for-woocommerce'),
+					'right' => esc_html__('After', 'upsell-order-bump-offer-for-woocommerce'),
 				),
 				'condition' => array(
 					'selected_icon[value]!' => '',
@@ -249,7 +249,7 @@ class Upsell_Reject extends Widget_Button
 		$this->add_control(
 			'icon_indent',
 			array(
-				'label'     => esc_html__('Icon Spacing', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Icon Spacing', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::SLIDER,
 				'range'     => array(
 					'px' => array(
@@ -266,7 +266,7 @@ class Upsell_Reject extends Widget_Button
 		$this->add_control(
 			'view',
 			array(
-				'label'   => esc_html__('View', 'woo-one-click-upsell-funnel'),
+				'label'   => esc_html__('View', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'    => Controls_Manager::HIDDEN,
 				'default' => 'traditional',
 			)
@@ -275,16 +275,16 @@ class Upsell_Reject extends Widget_Button
 		$this->add_control(
 			'button_css_id',
 			array(
-				'label'       => esc_html__('Button ID', 'woo-one-click-upsell-funnel'),
+				'label'       => esc_html__('Button ID', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => array(
 					'active' => true,
 				),
 				'default'     => '',
-				'title'       => esc_html__('Add your custom id WITHOUT the Pound key. e.g: my-id', 'woo-one-click-upsell-funnel'),
+				'title'       => esc_html__('Add your custom id WITHOUT the Pound key. e.g: my-id', 'upsell-order-bump-offer-for-woocommerce'),
 				'description' => sprintf(
 					/* translators: 1: Code open tag, 2: Code close tag. */
-					esc_html__('Please make sure the ID is unique and not used elsewhere on the page this form is displayed. This field allows %1$sA-z 0-9%2$s & underscore chars without spaces.', 'woo-one-click-upsell-funnel'),
+					esc_html__('Please make sure the ID is unique and not used elsewhere on the page this form is displayed. This field allows %1$sA-z 0-9%2$s & underscore chars without spaces.', 'upsell-order-bump-offer-for-woocommerce'),
 					'<code>',
 					'</code>'
 				),
@@ -298,7 +298,7 @@ class Upsell_Reject extends Widget_Button
 		$this->start_controls_section(
 			'section_style',
 			array(
-				'label' => esc_html__('Button', 'woo-one-click-upsell-funnel'),
+				'label' => esc_html__('Button', 'upsell-order-bump-offer-for-woocommerce'),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -308,14 +308,14 @@ class Upsell_Reject extends Widget_Button
 		$this->start_controls_tab(
 			'tab_button_normal',
 			array(
-				'label' => esc_html__('Normal', 'woo-one-click-upsell-funnel'),
+				'label' => esc_html__('Normal', 'upsell-order-bump-offer-for-woocommerce'),
 			)
 		);
 
 		$this->add_control(
 			'button_text_color',
 			array(
-				'label'     => esc_html__('Text Color', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Text Color', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
@@ -329,14 +329,14 @@ class Upsell_Reject extends Widget_Button
 		$this->start_controls_tab(
 			'tab_button_hover',
 			array(
-				'label' => esc_html__('Hover', 'woo-one-click-upsell-funnel'),
+				'label' => esc_html__('Hover', 'upsell-order-bump-offer-for-woocommerce'),
 			)
 		);
 
 		$this->add_control(
 			'hover_color',
 			array(
-				'label'     => esc_html__('Text Color', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Text Color', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .elementor-button:hover, {{WRAPPER}} .elementor-button:focus' => 'color: {{VALUE}};',
@@ -348,7 +348,7 @@ class Upsell_Reject extends Widget_Button
 		$this->add_control(
 			'button_hover_border_color',
 			array(
-				'label'     => esc_html__('Border Color', 'woo-one-click-upsell-funnel'),
+				'label'     => esc_html__('Border Color', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => array(
 					'border_border!' => '',
@@ -362,7 +362,7 @@ class Upsell_Reject extends Widget_Button
 		$this->add_control(
 			'hover_animation',
 			array(
-				'label' => esc_html__('Hover Animation', 'woo-one-click-upsell-funnel'),
+				'label' => esc_html__('Hover Animation', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'  => Controls_Manager::HOVER_ANIMATION,
 			)
 		);
@@ -372,7 +372,7 @@ class Upsell_Reject extends Widget_Button
 		$this->add_control(
 			'border_radius',
 			array(
-				'label'      => esc_html__('Border Radius', 'woo-one-click-upsell-funnel'),
+				'label'      => esc_html__('Border Radius', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array('px', '%', 'em'),
 				'selectors'  => array(
@@ -384,7 +384,7 @@ class Upsell_Reject extends Widget_Button
 		$this->add_responsive_control(
 			'text_padding',
 			array(
-				'label'      => esc_html__('Padding', 'woo-one-click-upsell-funnel'),
+				'label'      => esc_html__('Padding', 'upsell-order-bump-offer-for-woocommerce'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array('px', 'em', '%'),
 				'selectors'  => array(
