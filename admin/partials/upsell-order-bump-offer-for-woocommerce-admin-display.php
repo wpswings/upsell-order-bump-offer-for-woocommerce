@@ -154,7 +154,6 @@ do_action( 'wps_ubo_lite_tab_active' );
 			include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-creation.php';
 		} elseif ( 'pre-list-offer-section' === $global_setting_sub_tab ) {
 			// Include listing file from pro version.
-			// include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . '/admin/partials/templates/wps-upsell-bump-list.php';
 			include_once 'templates/wps-ubo-lite-list.php';
 		} elseif ( 'settings' === $wps_ubo_lite_active_tab ) {
 			// Include setting file from org version.
