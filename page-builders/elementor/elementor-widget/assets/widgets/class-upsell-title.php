@@ -33,7 +33,7 @@ use Elementor\Utils;
  *
  * @since 1.0.0
  */
-class Upsell_Title extends Widget_Base
+class Upsell_Title_bump extends Widget_Base
 {
 
 	/**

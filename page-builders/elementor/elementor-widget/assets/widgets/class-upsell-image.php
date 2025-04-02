@@ -25,7 +25,7 @@ use Elementor\Controls_Manager;
  *
  * @since 1.0.0
  */
-class Upsell_Image extends Widget_Base
+class Upsell_Image_bump extends Widget_Base
 {
 
 	/**

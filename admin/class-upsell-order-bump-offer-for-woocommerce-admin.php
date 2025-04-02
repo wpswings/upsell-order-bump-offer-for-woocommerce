@@ -2117,7 +2117,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin
 	{
 
 		$upsell_order = wps_wocfo_hpos_get_meta_data_funnel_builder($post_id, 'wps_wocuf_upsell_order', true);
-
+		$wps_onclick_upsell_already_existed =get_option('wps_manual_create_upsell' , '');
+		if (  wps_ubo_lite_is_plugin_active( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) ) {
+			
+			if ('done' != $wps_onclick_upsell_already_existed ) {
+				return;
+			}
+		}
+		
 		switch ($column) {
 
 			case 'wps-upsell-orders':

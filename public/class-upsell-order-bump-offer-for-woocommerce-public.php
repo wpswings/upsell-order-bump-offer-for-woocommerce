@@ -5235,7 +5235,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		wps_wocfo_hpos_update_meta_data_funnel_builder($order_id, 'wps_upsell_funnel_id', $funnel_id);
 
 		// Add Funnel Triggered count and Offer View Count for the current Funnel.
-		$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel($funnel_id);
+		$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel_bump($funnel_id);
 		$sales_by_funnel->add_funnel_triggered_count();
 		$sales_by_funnel->add_offer_view_count();
 
@@ -5416,7 +5416,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 			}
 
 			// Add Offer Reject Count for the current Funnel.
-			$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel($funnel_id);
+			$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel_bump($funnel_id);
 			$sales_by_funnel->add_offer_reject_count();
 
 			$wps_wocuf_pro_all_funnels = get_option('wps_wocuf_funnels_list', array());
@@ -5521,7 +5521,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 				}
 
 				// Add Offer View Count for the current Funnel.
-				$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel($funnel_id);
+				$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel_bump($funnel_id);
 				$sales_by_funnel->add_offer_view_count();
 
 				wp_redirect($url); //phpcs:ignore
@@ -5632,7 +5632,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 						$upsell_item_id = $order->add_product($upsell_product, $offer_quantity);
 
 						// Add Offer Accept Count for the current Funnel.
-						$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel($funnel_id);
+						$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel_bump($funnel_id);
 						$sales_by_funnel->add_offer_accept_count();
 
 						$target_item_id = wps_wocfo_hpos_get_meta_data_funnel_builder($order_id, '__smart_offer_upgrade_target_key', true);
@@ -5773,7 +5773,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 						}
 
 						// Add Offer View Count for the current Funnel.
-						$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel($funnel_id);
+						$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel_bump($funnel_id);
 						$sales_by_funnel->add_offer_view_count();
 
 						wp_redirect($url); //phpcs:ignore
@@ -6050,7 +6050,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public
 		if ($upsell_purchased) {
 
 			// Add Funnel Success count and Total Sales for the current Funnel.
-			$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel($funnel_id);
+			$sales_by_funnel = new WPS_Upsell_Report_Sales_By_Funnel_bump($funnel_id);
 
 			$sales_by_funnel->add_funnel_success_count();
 			$sales_by_funnel->add_funnel_total_sales($upsell_item_total);

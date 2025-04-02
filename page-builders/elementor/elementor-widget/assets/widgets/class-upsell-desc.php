@@ -29,7 +29,7 @@ use Elementor\Group_Control_Text_Shadow;
  *
  * @since 1.0.0
  */
-class Upsell_Desc extends Widget_Base
+class Upsell_Desc_bump extends Widget_Base
 {
 
 	/**

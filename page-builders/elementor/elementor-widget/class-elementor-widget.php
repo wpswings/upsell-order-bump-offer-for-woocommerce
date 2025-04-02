@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Widgets loader for elementor.
  */
-class Elementor_Widget {
+class Elementor_Widget_bump_bump {
 
 	/**
 	 * Instance
@@ -87,22 +87,29 @@ class Elementor_Widget {
 	 * @access public
 	 */
 	public function register_widgets() {
-
+		// $already_existed =	get_option('wps_manual_create_upsell');
+		
+		// if (  wps_plugin_exists( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) ) {
+			
+		// 	if ( $already_existed  != 'done' ) {
+		// 		return;
+		// 	}
+		// }
 		// It's now safe to include Widgets files.
 		$this->include_widgets_files();
 
 		// Register the plugin widget classes.
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Accept() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Reject() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Title() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Image() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Price() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Variations() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Desc() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Short_Desc() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Star_Review() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Quantity() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Forms() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Accept_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Reject_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Title_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Image_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Price_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Variations_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Desc_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Short_Desc_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Star_Review_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Quantity_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Forms_bump() );
 	}
 
 	/**
@@ -120,4 +127,4 @@ class Elementor_Widget {
 }
 
 // Instantiate the Widgets class.
-Elementor_Widget::instance();
+Elementor_Widget_bump_bump::instance();

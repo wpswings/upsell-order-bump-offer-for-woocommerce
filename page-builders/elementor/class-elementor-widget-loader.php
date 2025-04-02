@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Widgets loader for elementor.
  */
-final class Elementor_Widget_Loader {
+final class Elementor_Widget_Loader_bump {
 
 	/**
 	 * Minimum Elementor Version
@@ -110,4 +110,4 @@ final class Elementor_Widget_Loader {
 }
 
 // Instantiate Elementor Widgets.
-new Elementor_Widget_Loader();
+new Elementor_Widget_Loader_bump();

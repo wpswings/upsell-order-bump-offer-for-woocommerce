@@ -14,14 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( class_exists( 'WPS_Upsell_Widget_Loader' ) ) {
-	return;
-}
+
 
 /**
- * WPS_Upsell_Widget_Loader.
+ * WPS_Upsell_Widget_Loader_bump.
  */
-if ( ! class_exists( 'WPS_Upsell_Widget_Loader' ) ) {
+if ( ! class_exists( 'WPS_Upsell_Widget_Loader_bump' ) ) {
 	/**
 	 * WPS Upsell Widget Loader Class.
 	 *
@@ -29,10 +27,10 @@ if ( ! class_exists( 'WPS_Upsell_Widget_Loader' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	class WPS_Upsell_Widget_Loader {
+	class WPS_Upsell_Widget_Loader_bump {
 
 
-		const WPS_UPSELL_WIDGET_LOADER = WPS_WOCUF_DIRPATH_FUNNEL_BUILDER . 'page-builders/';
+		const WPS_Upsell_Widget_Loader_bump = WPS_WOCUF_DIRPATH_FUNNEL_BUILDER . 'page-builders/';
 
 		/**
 		 * The instance.
@@ -131,7 +129,7 @@ if ( ! class_exists( 'WPS_Upsell_Widget_Loader' ) ) {
 			if ( ! empty( $this->active_builders ) && is_array( $this->active_builders ) ) {
 				foreach ( $this->active_builders as $b_slug => $b_name ) {
 					$widget_file = $this->retrieve_loader_file( $b_slug, $b_slug );
-					$widget_path = self::WPS_UPSELL_WIDGET_LOADER . $widget_file;
+					$widget_path = self::WPS_Upsell_Widget_Loader_bump . $widget_file;
 
 					if ( file_exists( $widget_path ) ) {
 						require_once $widget_path;

@@ -261,8 +261,8 @@ if ( $activated ) {
 	 * The file responsible for Upsell Widgets added within every page builder.
 	 */
 	require_once plugin_dir_path( __FILE__ ) . 'page-builders/class-wps-upsell-widget-loader.php';
-	if ( class_exists( 'WPS_Upsell_Widget_Loader' ) ) {
-		WPS_Upsell_Widget_Loader::get_instance();
+	if ( class_exists( 'WPS_Upsell_Widget_Loader_bump' ) ) {
+		WPS_Upsell_Widget_Loader_bump::get_instance();
 	}
 
 
@@ -390,6 +390,7 @@ if ( $activated ) {
 		 */
 		function wps_activate_plugin() {
 			if ( ! wps_plugin_exists( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) ) {
+				update_option('wps_manual_create_upsell', 'done');
 				wps_create_plugin_folder(); // Create the plugin folder and file.
 				wps_activate_created_plugin();
 			}
@@ -463,6 +464,14 @@ if ( $activated ) {
 		 */
 		function wps_remove_deactivate_option( $actions, $plugin_file, $plugin_data, $context ) {
 			$protected_plugin = 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php';
+
+			$already_existed =	get_option('wps_manual_create_upsell');
+			if (  wps_ubo_lite_is_plugin_active( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) ) {
+				
+				if ( $already_existed  != 'done' ) {
+					return $actions;
+				}
+			}
 
 			if ( $plugin_file === $protected_plugin ) {
 				unset( $actions['deactivate'] ); // Remove the "Deactivate" button.

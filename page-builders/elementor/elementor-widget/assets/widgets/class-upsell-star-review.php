@@ -25,7 +25,7 @@ use Elementor\Controls_Manager;
  *
  * @since 1.0.0
  */
-class Upsell_Star_Review extends Widget_Base
+class Upsell_Star_Review_bump extends Widget_Base
 {
 
 	/**

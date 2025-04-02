@@ -25,7 +25,7 @@ defined('ABSPATH') || die();
  *
  * @since 3.1.2
  */
-class Upsell_Accept extends Widget_Button
+class Upsell_Accept_bump extends Widget_Button
 {
 
 	/**
