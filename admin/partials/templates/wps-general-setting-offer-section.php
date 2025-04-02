@@ -41,7 +41,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'wps_ubo_global_options', $wps_bump_upsell_global_options );
 	$wps_smart_already_purchased = ! empty( $_POST['wps_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_offer_purchased_earlier'] ) ) : 'no';
-	$wps_upsell_global_options = array();
+	$wps_upsell_global_options =  get_option('wps_upsell_global_options',array());
 	// V3.5.0 :: Smart Skip If already purchased start For Upsell Funnel.
 	$wps_smart_skip_val = '';
 	if ( 'yes' == $wps_smart_already_purchased ) {
@@ -50,10 +50,18 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 		$wps_smart_skip_val = 'off';
 	}
 	$wps_upsell_global_options['wps_wocuf_pro_enable_smart_skip'] = $wps_smart_skip_val;
+	$wps_upsell_global_options['skip_similar_offer'] = ! empty( $_POST['wps_bump_skip_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_skip_offer'] ) ) : 'yes';;
+	
+	$wps_price_html_format = ! empty( $_POST['wps_ubo_offer_price_html'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_offer_price_html'] ) ) : '';
+	if('regular_to_offer' == $wps_price_html_format){
+		$wps_upsell_global_options['offer_price_html_type'] = 'regular';
+	} else {
+		$wps_upsell_global_options['offer_price_html_type'] = 'sale';
+	}
 	update_option( 'wps_upsell_global_options', $wps_upsell_global_options );
 
 	// For Upsell Org.
-	$wps_upsell_global_options_orgupsell = array();
+	$wps_upsell_global_options_orgupsell = get_option('wps_upsell_lite_global_options',array());
 	$wps_upsell_global_options_orgupsell['smart_skip_if_purchased'] = $wps_smart_already_purchased;
 	update_option( 'wps_upsell_lite_global_options', $wps_upsell_global_options_orgupsell );
 	?>
