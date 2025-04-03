@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Upsell elementor widgets collection loader file.
  *
@@ -10,15 +9,15 @@
  * @subpackage woo-one-click-upsell-funnel/page-builders/elementor
  */
 
-if (! defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 /**
  * Widgets loader for elementor.
  */
-final class Elementor_Widget_Loader_bump
-{
+final class Elementor_Widget_Loader_Bump {
+
 
 	/**
 	 * Minimum Elementor Version
@@ -42,11 +41,10 @@ final class Elementor_Widget_Loader_bump
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		// Initialize the plugin.
-		add_action('plugins_loaded', array($this, 'init'));
+		add_action( 'plugins_loaded', array( $this, 'init' ) );
 	}
 
 	/**
@@ -61,22 +59,21 @@ final class Elementor_Widget_Loader_bump
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function init()
-	{
+	public function init() {
 
 		// Check if Elementor installed and activated.
-		if (! did_action('elementor/loaded')) {
+		if ( ! did_action( 'elementor/loaded' ) ) {
 			return;
 		}
 
 		// Check for required Elementor version.
-		if (! version_compare(ELEMENTOR_VERSION, self::MINIMUM_ELEMENTOR_VERSION, '>=')) {
-			add_action('admin_notices', array($this, 'admin_notice_minimum_elementor_version'));
+		if ( ! version_compare( ELEMENTOR_VERSION, self::MINIMUM_ELEMENTOR_VERSION, '>=' ) ) {
+			add_action( 'admin_notices', array( $this, 'admin_notice_minimum_elementor_version' ) );
 			return;
 		};
 		// Check for required PHP version.
-		if (version_compare(PHP_VERSION, self::MINIMUM_PHP_VERSION, '<')) {
-			add_action('admin_notices', array($this, 'admin_notice_minimum_php_version'));
+		if ( version_compare( PHP_VERSION, self::MINIMUM_PHP_VERSION, '<' ) ) {
+			add_action( 'admin_notices', array( $this, 'admin_notice_minimum_php_version' ) );
 			return;
 		}
 
@@ -92,13 +89,12 @@ final class Elementor_Widget_Loader_bump
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function admin_notice_minimum_elementor_version()
-	{
-?>
+	public function admin_notice_minimum_elementor_version() {
+		?>
 		<div class="notice notice-warning is-dismissible">
-			<p><strong><?php esc_html_e('Elementor Widgets ', 'upsell-order-bump-offer-for-woocommerce'); ?></strong><?php esc_html_e('requires ', 'upsell-order-bump-offer-for-woocommerce'); ?><strong> <?php esc_html_e('Elementor ', 'upsell-order-bump-offer-for-woocommerce'); ?></strong><?php esc_html_e(' version ', 'upsell-order-bump-offer-for-woocommerce'); ?><?php echo esc_html(self::MINIMUM_ELEMENTOR_VERSION); ?><?php esc_html__(' or greater.', 'upsell-order-bump-offer-for-woocommerce'); ?></p>
+			<p><strong><?php esc_html_e( 'Elementor Widgets ', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( 'requires ', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong> <?php esc_html_e( 'Elementor ', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( ' version ', 'upsell-order-bump-offer-for-woocommerce' ); ?><?php echo esc_html( self::MINIMUM_ELEMENTOR_VERSION ); ?><?php esc_html__( ' or greater.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -109,15 +105,14 @@ final class Elementor_Widget_Loader_bump
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function admin_notice_minimum_php_version()
-	{
-	?>
+	public function admin_notice_minimum_php_version() {
+		?>
 		<div class="notice notice-warning is-dismissible">
-			<p><strong><?php esc_html_e('Elementor Widgets ', 'upsell-order-bump-offer-for-woocommerce'); ?></strong><?php esc_html_e('requires ', 'upsell-order-bump-offer-for-woocommerce'); ?><strong> <?php esc_html_e('PHP ', 'upsell-order-bump-offer-for-woocommerce'); ?></strong><?php esc_html_e(' version ', 'upsell-order-bump-offer-for-woocommerce'); ?><?php echo esc_html(self::MINIMUM_PHP_VERSION); ?><?php esc_html__(' or greater.', 'upsell-order-bump-offer-for-woocommerce'); ?></p>
+			<p><strong><?php esc_html_e( 'Elementor Widgets ', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( 'requires ', 'upsell-order-bump-offer-for-woocommerce' ); ?><strong> <?php esc_html_e( 'PHP ', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><?php esc_html_e( ' version ', 'upsell-order-bump-offer-for-woocommerce' ); ?><?php echo esc_html( self::MINIMUM_PHP_VERSION ); ?><?php esc_html__( ' or greater.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 		</div>
-<?php
+		<?php
 	}
 }
 
 // Instantiate Elementor Widgets.
-new Elementor_Widget_Loader_bump();
+new Elementor_Widget_Loader_Bump();

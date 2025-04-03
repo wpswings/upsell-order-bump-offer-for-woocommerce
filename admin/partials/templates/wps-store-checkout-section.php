@@ -14,7 +14,7 @@
 /**
  * Exit if accessed directly.
  */
-if (! defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -33,10 +33,10 @@ $billing_address_default = array(
 );
 
 $default_basic_billing_field = array(
-	'billing-basic-wrap-id' => array('billing_address_2', 'billing_company'),
+	'billing-basic-wrap-id' => array( 'billing_address_2', 'billing_company' ),
 );
 $default_basic_shipping_field = array(
-	'shipping-basic-wrap-id' => array('shipping_address_2', 'shipping_company', 'shipping_phone'),
+	'shipping-basic-wrap-id' => array( 'shipping_address_2', 'shipping_company', 'shipping_phone' ),
 );
 $shipping_address_default = array(
 	'shipping-information' => array(
@@ -52,12 +52,12 @@ $shipping_address_default = array(
 );
 
 
-$billing_address_data = get_option('wps_wocuf_store_checkout_fields_billing_data', $billing_address_default);
-$shipping_address_data = get_option('wps_wocuf_store_checkout_fields_shipping_data', $shipping_address_default);
-$shipping_basic_address_data = get_option('wps_wocuf_store_checkout_basic_fields_shipping_data', $default_basic_shipping_field);
-$billing_basic_address_data = get_option('wps_wocuf_store_checkout_basic_fields_billing_data', $default_basic_billing_field);
+$billing_address_data = get_option( 'wps_wocuf_store_checkout_fields_billing_data', $billing_address_default );
+$shipping_address_data = get_option( 'wps_wocuf_store_checkout_fields_shipping_data', $shipping_address_default );
+$shipping_basic_address_data = get_option( 'wps_wocuf_store_checkout_basic_fields_shipping_data', $default_basic_shipping_field );
+$billing_basic_address_data = get_option( 'wps_wocuf_store_checkout_basic_fields_billing_data', $default_basic_billing_field );
 
-wps_upsee_lite_go_pro_funnel_builder('pro');
+wps_upsee_lite_go_pro_funnel_builder( 'pro' );
 $is_store_checkout_enabled = '';
 ?>
 <input type='hidden' id='wps_ubo_pro_status' value='inactive'>
@@ -69,17 +69,17 @@ $is_store_checkout_enabled = '';
 
 			<th scope="row" class="titledesc">
 				<span class="wps_wupsell_premium_strip">Pro</span>
-				<label for="wps_wocuf_pro_enable_plugin_store_checkout"><?php esc_html_e('Enable Upsell Store Checkout', 'upsell-order-bump-offer-for-woocommerce'); ?></label>
+				<label for="wps_wocuf_pro_enable_plugin_store_checkout"><?php esc_html_e( 'Enable Upsell Store Checkout', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 			</th>
 
 			<td class="forminp forminp-text">
 				<?php
-				$attribut_description = esc_html__('Enable store checkout functionality to use our custom checkout for upsell.', 'upsell-order-bump-offer-for-woocommerce');
-				wps_upsell_lite_wc_help_tip($attribut_description);
+				$attribut_description = esc_html__( 'Enable store checkout functionality to use our custom checkout for upsell.', 'upsell-order-bump-offer-for-woocommerce' );
+				wps_upsell_lite_wc_help_tip( $attribut_description );
 				?>
 
 				<label class="wps_wocuf_pro_enable_plugin_label">
-					<input class="wps_wocuf_pro_enable_plugin_input ubo_offer_input" type="checkbox" <?php echo ('enabled' === $is_store_checkout_enabled) ? esc_html("checked='checked'") : ''; ?> name="wps_wocuf_pro_enable_plugin_store_checkout" id="wps_wocuf_pro_enable_plugin_store_checkout">
+					<input class="wps_wocuf_pro_enable_plugin_input ubo_offer_input" type="checkbox" <?php echo ( 'enabled' === $is_store_checkout_enabled ) ? esc_html( "checked='checked'" ) : ''; ?> name="wps_wocuf_pro_enable_plugin_store_checkout" id="wps_wocuf_pro_enable_plugin_store_checkout">
 					<span class="wps_wocuf_pro_enable_plugin_span"></span>
 				</label>
 			</td>
@@ -94,19 +94,19 @@ $is_store_checkout_enabled = '';
 
 	<section class="wps-ufw_m-sec">
 		<article class="wps-ufw_ms-head wps-ufw_msh-check" id="wps-ufw_msh-check">
-			<span class="wps-ufw_ms-btn-link"> <?php esc_html_e('Checkout', 'upsell-order-bump-offer-for-woocommerce'); ?></span>
+			<span class="wps-ufw_ms-btn-link"> <?php esc_html_e( 'Checkout', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
 			<main class="wps-ufw_ms-main">
 				<header class="wps-ufw_msm-head">
 
-					<span class="dashicons dashicons-arrow-left-alt"></span> <?php esc_html_e('Checkout', 'upsell-order-bump-offer-for-woocommerce'); ?>
+					<span class="dashicons dashicons-arrow-left-alt"></span> <?php esc_html_e( 'Checkout', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 					<div class="wps-ufw_msmh-in">
-						<span class="wps-ufw_pri-txt-btn wps-ufw_reset-confirmation ubo_offer_input"> <?php esc_html_e('Reset', 'upsell-order-bump-offer-for-woocommerce'); ?></span>
-						<span class="wps-ufw_pri-btn wps-ufw_msmh-in-btn ubo_offer_input"> <?php esc_html_e('Save', 'upsell-order-bump-offer-for-woocommerce'); ?></span>
-						<span class="wps-ufw_pri-btn-preview wps-ufw_msmh-in-btn-data ubo_offer_input"><a href="#"> <?php esc_html_e('Preview', 'upsell-order-bump-offer-for-woocommerce'); ?></a></span>
+						<span class="wps-ufw_pri-txt-btn wps-ufw_reset-confirmation ubo_offer_input"> <?php esc_html_e( 'Reset', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<span class="wps-ufw_pri-btn wps-ufw_msmh-in-btn ubo_offer_input"> <?php esc_html_e( 'Save', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<span class="wps-ufw_pri-btn-preview wps-ufw_msmh-in-btn-data ubo_offer_input"><a href="#"> <?php esc_html_e( 'Preview', 'upsell-order-bump-offer-for-woocommerce' ); ?></a></span>
 
 					</div>
-					<div class="wps-ufw_confirmation"><?php esc_html_e('Saved!', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
+					<div class="wps-ufw_confirmation"><?php esc_html_e( 'Saved!', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 					<div class="wps-ufw_msms-head" id="wps-section-for-store-checkout">
 						<h3></h3>
 
@@ -118,10 +118,10 @@ $is_store_checkout_enabled = '';
 				<div class="notice-settings"> </div>
 
 				<div class="wps_wocuf_tab">
-					<button class="wps_wocuf_tablinks" onclick="openTab(event, 'Tab1')" id="defaultOpen"> <?php esc_html_e('Billing Information', 'upsell-order-bump-offer-for-woocommerce'); ?></button>
-					<button class="wps_wocuf_tablinks" onclick="openTab(event, 'Tab2')"> <?php esc_html_e('Shipping Information', 'upsell-order-bump-offer-for-woocommerce'); ?></button>
-					<button class="wps_wocuf_tablinks" onclick="openTab(event, 'Tab3')"> <?php esc_html_e('Other Settings', 'upsell-order-bump-offer-for-woocommerce'); ?></button>
-					<button class="wps_wocuf_tablinks" onclick="openTab(event, 'Tab4')"> <?php esc_html_e('Payment Gateway', 'upsell-order-bump-offer-for-woocommerce'); ?></button>
+					<button class="wps_wocuf_tablinks" onclick="openTab(event, 'Tab1')" id="defaultOpen"> <?php esc_html_e( 'Billing Information', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+					<button class="wps_wocuf_tablinks" onclick="openTab(event, 'Tab2')"> <?php esc_html_e( 'Shipping Information', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+					<button class="wps_wocuf_tablinks" onclick="openTab(event, 'Tab3')"> <?php esc_html_e( 'Other Settings', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+					<button class="wps_wocuf_tablinks" onclick="openTab(event, 'Tab4')"> <?php esc_html_e( 'Payment Gateway', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
 				</div>
 
 				<div id="Tab1" class="wps_wocuf_tabcontent">
@@ -133,15 +133,15 @@ $is_store_checkout_enabled = '';
 							<article class="wps-ufw_msmsm wps-ufw_msmsm-left">
 								<div class="wps-ufw_msmsml-item billing-information-wrap" data-id="10">
 
-									<div class="wps-ufw_msmsmli-title" id="billing-information-wrap-editable" data-id="10" contenteditable="true"> <?php esc_html_e('Billing Information', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
+									<div class="wps-ufw_msmsmli-title" id="billing-information-wrap-editable" data-id="10" contenteditable="true"> <?php esc_html_e( 'Billing Information', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 									<div class="wps-ufw_msmsmli-wrap ui-droppable ubo_offer_input" id="billing-information-wrap-id">
 										<?php
 
-										foreach ($billing_address_data as $key => $values) {
+										foreach ( $billing_address_data as $key => $values ) {
 
-											if (is_array($values) && ! empty($values)) {
-												foreach ($values as $value) {
-													echo '<span class="wps-ufw_msmsmr-item ' . esc_html($value) . '" data-id="' . esc_html($value) . '">' . esc_html(ucwords(str_replace('-', ' ', $value))) . '</span>';
+											if ( is_array( $values ) && ! empty( $values ) ) {
+												foreach ( $values as $value ) {
+													echo '<span class="wps-ufw_msmsmr-item ' . esc_html( $value ) . '" data-id="' . esc_html( $value ) . '">' . esc_html( ucwords( str_replace( '-', ' ', $value ) ) ) . '</span>';
 												}
 											}
 										}
@@ -155,15 +155,15 @@ $is_store_checkout_enabled = '';
 
 							</article>
 							<article class="wps-ufw_msmsm wps-ufw_msmsm-right">
-								<h4 class="wps-ufw_msmsmr-head"><?php esc_html_e('Billing Fields', 'upsell-order-bump-offer-for-woocommerce'); ?></h4>
+								<h4 class="wps-ufw_msmsmr-head"><?php esc_html_e( 'Billing Fields', 'upsell-order-bump-offer-for-woocommerce' ); ?></h4>
 								<div class="wps-ufw_msmsmli-wrap wps-ufw_msmsmr-wrap billing-basic-wrap ubo_offer_input" id="billing-basic-wrap-id">
 									<?php
 
-									foreach ($billing_basic_address_data as $key => $values) {
+									foreach ( $billing_basic_address_data as $key => $values ) {
 
-										if (is_array($values) && ! empty($values)) {
-											foreach ($values as $value) {
-												echo '<span class="wps-ufw_msmsmr-item ' . esc_html($value) . '" data-id="' . esc_html($value) . '">' . esc_html(ucwords(str_replace('-', ' ', $value))) . '</span>';
+										if ( is_array( $values ) && ! empty( $values ) ) {
+											foreach ( $values as $value ) {
+												echo '<span class="wps-ufw_msmsmr-item ' . esc_html( $value ) . '" data-id="' . esc_html( $value ) . '">' . esc_html( ucwords( str_replace( '-', ' ', $value ) ) ) . '</span>';
 											}
 										}
 									}
@@ -188,15 +188,15 @@ $is_store_checkout_enabled = '';
 							<article class="wps-ufw_msmsm wps-ufw_msmsm-left">
 								<div class="wps-ufw_msmsml-item shipping-information-wrap" data-id="10">
 
-									<div class="wps-ufw_msmsmli-title" id="shipping-information-wrap-editable" data-id="10" contenteditable="true"> <?php esc_html_e('Shipping Information', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
+									<div class="wps-ufw_msmsmli-title" id="shipping-information-wrap-editable" data-id="10" contenteditable="true"> <?php esc_html_e( 'Shipping Information', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 									<div class="wps-ufw_msmsmli-wrap ui-droppable ubo_offer_input" id="shipping-information-wrap-id">
 										<?php
 
-										foreach ($shipping_address_data as $key => $values) {
+										foreach ( $shipping_address_data as $key => $values ) {
 
-											if (is_array($values) && ! empty($values)) {
-												foreach ($values as $value) {
-													echo '<span class="wps-ufw_msmsmr-item ' . esc_html($value) . '" data-id="' . esc_html($value) . '">' . esc_html(ucwords(str_replace('-', ' ', $value))) . '</span>';
+											if ( is_array( $values ) && ! empty( $values ) ) {
+												foreach ( $values as $value ) {
+													echo '<span class="wps-ufw_msmsmr-item ' . esc_html( $value ) . '" data-id="' . esc_html( $value ) . '">' . esc_html( ucwords( str_replace( '-', ' ', $value ) ) ) . '</span>';
 												}
 											}
 										}
@@ -210,15 +210,15 @@ $is_store_checkout_enabled = '';
 
 							</article>
 							<article class="wps-ufw_msmsm wps-ufw_msmsm-right">
-								<h4 class="wps-ufw_msmsmr-head"><?php esc_html_e('Shipping Fields', 'upsell-order-bump-offer-for-woocommerce'); ?></h4>
+								<h4 class="wps-ufw_msmsmr-head"><?php esc_html_e( 'Shipping Fields', 'upsell-order-bump-offer-for-woocommerce' ); ?></h4>
 								<div class="wps-ufw_msmsmli-wrap wps-ufw_msmsmr-wrap shipping-basic-wrap ubo_offer_input" id="shipping-basic-wrap-id">
 									<?php
 
-									foreach ($shipping_basic_address_data as $key => $values) {
+									foreach ( $shipping_basic_address_data as $key => $values ) {
 
-										if (is_array($values) && ! empty($values)) {
-											foreach ($values as $value) {
-												echo '<span class="wps-ufw_msmsmr-item ' . esc_html($value) . '" data-id="' . esc_html($value) . '">' . esc_html(ucwords(str_replace('-', ' ', $value))) . '</span>';
+										if ( is_array( $values ) && ! empty( $values ) ) {
+											foreach ( $values as $value ) {
+												echo '<span class="wps-ufw_msmsmr-item ' . esc_html( $value ) . '" data-id="' . esc_html( $value ) . '">' . esc_html( ucwords( str_replace( '-', ' ', $value ) ) ) . '</span>';
 											}
 										}
 									}
@@ -241,20 +241,20 @@ $is_store_checkout_enabled = '';
 				?>
 				<div id="Tab3" class="wps_wocuf_tabcontent">
 					<h3>
-						<?php esc_html_e('Other Setting For Checkout Page', 'upsell-order-bump-offer-for-woocommerce'); ?>
+						<?php esc_html_e( 'Other Setting For Checkout Page', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 					</h3>
 					<p>
 						<label>
 							<input type="checkbox" class="ubo_offer_input" name="coupon_field_checkout" id="coupon_field_checkout" value="1" <?php echo '1' === $checkbox_enabled_coupon_code ? 'checked' : ''; ?>>
 
-							<?php esc_html_e('Disable Coupon on Checkout page', 'upsell-order-bump-offer-for-woocommerce'); ?>
+							<?php esc_html_e( 'Disable Coupon on Checkout page', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 						</label>
 					</p>
 					<p>
 						<label>
 							<input type="checkbox" class="ubo_offer_input" name="order_note_checkout" id="order_note_checkout" value="1" <?php echo '1' === $checkbox_enabled_order_note ? 'checked' : ''; ?>>
 
-							<?php esc_html_e('Disable Order Note on Checkout page', 'upsell-order-bump-offer-for-woocommerce'); ?>
+							<?php esc_html_e( 'Disable Order Note on Checkout page', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 						</label>
 					</p>
 				</div>
@@ -267,10 +267,10 @@ $is_store_checkout_enabled = '';
 							<article class="wps-ufw_msmsm wps-ufw_msmsm-left">
 								<div class="wps-ufw_msmsml-item payment-gateway-wrap" data-id="10">
 
-									<div class="wps-ufw_msmsmli-title" id="payment-gateway-wrap-editable" data-id="10" contenteditable="true"><?php esc_html_e('Payment Gateway', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
+									<div class="wps-ufw_msmsmli-title" id="payment-gateway-wrap-editable" data-id="10" contenteditable="true"><?php esc_html_e( 'Payment Gateway', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 									<div class="wps-ufw_msmsmli-wrap ui-droppable ubo_offer_input" id="payment-gateway-wrap-id">
 
-										<?php esc_html_e('Note: Payment Information containing gateways will be automatically added to the end of order form.', 'upsell-order-bump-offer-for-woocommerce'); ?>
+										<?php esc_html_e( 'Note: Payment Information containing gateways will be automatically added to the end of order form.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 									</div>
 								</div>
 
@@ -288,14 +288,14 @@ $is_store_checkout_enabled = '';
 			</main>
 		</article>
 		<article class="wps-ufw_ms-head wps-ufw_msh-thanks" id="wps-ufw_msh-thanks">
-			<span class="wps-ufw_ms-btn-link"><?php esc_html_e('ThankYou', 'upsell-order-bump-offer-for-woocommerce'); ?></span>
+			<span class="wps-ufw_ms-btn-link"><?php esc_html_e( 'ThankYou', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
 			<main class="wps-ufw_ms-main">
 				<header class="wps-ufw_msm-head">
-					<span class="dashicons dashicons-arrow-left-alt"></span> <?php esc_html_e('ThankYou', 'upsell-order-bump-offer-for-woocommerce'); ?>
+					<span class="dashicons dashicons-arrow-left-alt"></span> <?php esc_html_e( 'ThankYou', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 					<div class="wps-ufw_msmh-in">
-						<span class="wps-ufw_pri-txt-btn wps-ufw_thanks-reset-confirmation ubo_offer_input"><?php esc_html_e('Reset', 'upsell-order-bump-offer-for-woocommerce'); ?></span>
-						<span class="wps-ufw_pri-btn wps-ufw_msmhthy-in-btn ubo_offer_input"><?php esc_html_e('Save', 'upsell-order-bump-offer-for-woocommerce'); ?></span>
+						<span class="wps-ufw_pri-txt-btn wps-ufw_thanks-reset-confirmation ubo_offer_input"><?php esc_html_e( 'Reset', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<span class="wps-ufw_pri-btn wps-ufw_msmhthy-in-btn ubo_offer_input"><?php esc_html_e( 'Save', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 					</div>
 					<div class="wps-ufw_confirmation">Saved!</div>
 				</header>
@@ -312,22 +312,22 @@ $is_store_checkout_enabled = '';
 
 					</div>
 					<div class="wps-ufw_msms-main" id="wps-ufw_msms-main">
-						<h3 class="wps-ufw_msmsmt-title"><?php esc_html_e('Modify Content Thank You Page ', 'upsell-order-bump-offer-for-woocommerce'); ?> </h3>
+						<h3 class="wps-ufw_msmsmt-title"><?php esc_html_e( 'Modify Content Thank You Page ', 'upsell-order-bump-offer-for-woocommerce' ); ?> </h3>
 						<section class="wps-ufw_msmsmt-sec">
 							<article class="wps-ufw_msmsmts-art">
-								<label for="wps-ufw_msmsmtsa-input"><?php esc_html_e('Modify Thank You Page Header Text', 'upsell-order-bump-offer-for-woocommerce'); ?></label>
-								<input type="text" class="ubo_offer_input" id="wps_wocuf_content_page_header_title" name="wps_wocuf_content_page_header_title" value="<?php esc_attr_e('Thank you. Your order has been received.', 'upsell-order-bump-offer-for-woocommerce'); ?>" />
+								<label for="wps-ufw_msmsmtsa-input"><?php esc_html_e( 'Modify Thank You Page Header Text', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+								<input type="text" class="ubo_offer_input" id="wps_wocuf_content_page_header_title" name="wps_wocuf_content_page_header_title" value="<?php esc_attr_e( 'Thank you. Your order has been received.', 'upsell-order-bump-offer-for-woocommerce' ); ?>" />
 							</article>
 							<article class="wps-ufw_msmsmts-art">
-								<label for="wps-ufw_msmsmtsa-input"> <?php esc_html_e('Add Content Before Order Details', 'upsell-order-bump-offer-for-woocommerce'); ?></label>
+								<label for="wps-ufw_msmsmtsa-input"> <?php esc_html_e( 'Add Content Before Order Details', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 								<textarea id="wps_wocuf_content_before_order_details" class="ubo_offer_input" name="wps_wocuf_content_before_order_details" rows="4" cols="50" placeholder="Enter your text here..."></textarea>
 							</article>
 							<article class="wps-ufw_msmsmts-art">
-								<label for="wps-ufw_msmsmtsa-input"><?php esc_html_e('Add Content After Order Details', 'upsell-order-bump-offer-for-woocommerce'); ?></label>
+								<label for="wps-ufw_msmsmtsa-input"><?php esc_html_e( 'Add Content After Order Details', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 								<textarea id="wps_wocuf_content_after_order_details" class="ubo_offer_input" name="wps_wocuf_content_after_order_details" rows="4" cols="50" placeholder="Enter your text here..."></textarea>
 							</article>
 							<article class="wps-ufw_msmsmts-art">
-								<label for="wps-ufw_msmsmtsa-input"><?php esc_html_e('Add Content After Billing or Shipping Address', 'upsell-order-bump-offer-for-woocommerce'); ?></label>
+								<label for="wps-ufw_msmsmtsa-input"><?php esc_html_e( 'Add Content After Billing or Shipping Address', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 								<textarea id="wps_wocuf_content_billing_and_shipping" class="ubo_offer_input" name="wps_wocuf_content_billing_and_shipping" rows="4" cols="50" placeholder="Enter your text here..."></textarea>
 							</article>
 						</section>

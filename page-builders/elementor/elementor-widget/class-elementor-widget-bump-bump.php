@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Widgets loader for elementor.
  */
-class Elementor_Widget_bump_bump {
+class Elementor_Widget_Bump_Bump {
 
 	/**
 	 * Instance
@@ -92,17 +92,17 @@ class Elementor_Widget_bump_bump {
 		$this->include_widgets_files();
 
 		// Register the plugin widget classes.
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Accept_bump() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Reject_bump() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Title_bump() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Image_bump() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Price_bump() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Variations_bump() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Desc_bump() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Short_Desc_bump() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Star_Review_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Accept_Bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Reject_Bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Title_Bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Image_Bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Price_Bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Variations_Bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Desc_Bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Short_Desc_Bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Star_Review_Bump() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Quantity_bump() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Forms_bump() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Upsell_Forms_Bump() );
 	}
 
 	/**
@@ -120,4 +120,4 @@ class Elementor_Widget_bump_bump {
 }
 
 // Instantiate the Widgets class.
-Elementor_Widget_bump_bump::instance();
+Elementor_Widget_Bump_Bump::instance();

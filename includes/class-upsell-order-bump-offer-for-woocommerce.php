@@ -99,49 +99,49 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		   * The class responsible for orchestrating the actions and filters of the
 		   * core plugin.
 		   */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-i18n.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-upsell-order-bump-offer-for-woocommerce-admin.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-upsell-order-bump-offer-for-woocommerce-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-upsell-order-bump-offer-for-woocommerce-public.php';
+		require_once plugin_dir_path( __DIR__ ) . 'public/class-upsell-order-bump-offer-for-woocommerce-public.php';
 
 		/**
 		 * The class responsible for defining all global functions that are used through
 		 * out the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php';
 
 		/**
 		 * The file responsible for defining Woocommerce Subscriptions compatibility
 		 * and handling functions.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-woocommerce-one-click-upsell-funnel-org-subs-comp.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-woocommerce-one-click-upsell-funnel-org-subs-comp.php';
 
 		/**
 		 * The class responsible for the Onboarding functionality.
 		 */
 		if ( ! class_exists( 'Wpswings_Onboarding_Helper' ) ) {
 
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wpswings-onboarding-helper.php';
+			require_once plugin_dir_path( __DIR__ ) . 'includes/class-wpswings-onboarding-helper.php';
 		}
 
 		/**
 		 * The class responsible for Sales by Order Bump - Data handling and Stats.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'reporting/class-wps-upsell-order-bump-report-sales-by-bump.php';
+		require_once plugin_dir_path( __DIR__ ) . 'reporting/class-wps-upsell-order-bump-report-sales-by-bump.php';
 
 		$this->loader = new Upsell_Order_Bump_Offer_For_Woocommerce_Loader();
 	}
@@ -220,16 +220,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			if ( 'on' === $wps_upsell_bump_enable_plugin ) {
 
 				if ( ! wps_upsell_lite_is_plugin_active_funnel_builder( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
-				// Adding Upsell Orders column in Orders table in backend.
-				$this->loader->add_filter( 'manage_edit-shop_order_columns', $plugin_admin, 'wps_wocuf_pro_add_columns_to_admin_orders', 11 );
+					// Adding Upsell Orders column in Orders table in backend.
+					$this->loader->add_filter( 'manage_edit-shop_order_columns', $plugin_admin, 'wps_wocuf_pro_add_columns_to_admin_orders', 11 );
 
-				// Populating Upsell Orders column with Single Order or Upsell order.
-				$this->loader->add_action( 'manage_shop_order_posts_custom_column', $plugin_admin, 'wps_wocuf_pro_populate_upsell_order_column', 10, 2 );
+					// Populating Upsell Orders column with Single Order or Upsell order.
+					$this->loader->add_action( 'manage_shop_order_posts_custom_column', $plugin_admin, 'wps_wocuf_pro_populate_upsell_order_column', 10, 2 );
 
-				$this->loader->add_action( 'woocommerce_shop_order_list_table_custom_column', $plugin_admin, 'wps_wocuf_pro_populate_upsell_order_column', 10, 2 );
-				$this->loader->add_filter( 'woocommerce_shop_order_list_table_columns', $plugin_admin, 'wps_wocuf_pro_add_columns_to_admin_orders', 99 );
+					$this->loader->add_action( 'woocommerce_shop_order_list_table_custom_column', $plugin_admin, 'wps_wocuf_pro_populate_upsell_order_column', 10, 2 );
+					$this->loader->add_filter( 'woocommerce_shop_order_list_table_columns', $plugin_admin, 'wps_wocuf_pro_add_columns_to_admin_orders', 99 );
 				}
-				
+
 				// Add Upsell Filtering dropdown for All Orders, No Upsell Orders, Only Upsell Orders.
 				$this->loader->add_filter( 'restrict_manage_posts', $plugin_admin, 'wps_wocuf_pro_restrict_manage_posts' );
 
@@ -554,10 +554,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	public static function wps_upsell_bump_list_callback_return() {
 		 $wps_ubo_offer_array_collection = get_option( 'wps_ubo_bump_list', array() );
 
-		 if (!isset($wps_ubo_offer_array_collection) || empty($wps_ubo_offer_array_collection)) {
+		if ( ! isset( $wps_ubo_offer_array_collection ) || empty( $wps_ubo_offer_array_collection ) ) {
 			$wps_ubo_offer_array_collection = array();
 		}
-		 
+
 		if ( wps_ubo_lite_if_pro_exists() && class_exists( 'Upsell_Order_Bump_Offer_For_Woocommerce_Pro' ) ) {
 
 			$wps_upsell_bump_callname_lic = Upsell_Order_Bump_Offer_For_Woocommerce_Pro::$wps_upsell_bump_lic_callback_function;

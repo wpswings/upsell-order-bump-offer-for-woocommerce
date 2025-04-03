@@ -47,7 +47,6 @@ class WPS_Upsell_Report_Sales_By_Date extends WC_Admin_Report {
 			$this->query_report_data();
 		}
 		return $this->report_data;
-
 	}
 
 	/**

@@ -29,7 +29,7 @@ use Elementor\Group_Control_Text_Shadow;
  *
  * @since 1.0.0
  */
-class Upsell_Short_Desc_bump extends Widget_Base {
+class Upsell_Short_Desc_Bump extends Widget_Base {
 
 	/**
 	 * Get widget name.

@@ -29,8 +29,8 @@ use Elementor\Group_Control_Text_Shadow;
  *
  * @since 1.0.0
  */
-class Upsell_Desc_bump extends Widget_Base
-{
+class Upsell_Desc_Bump extends Widget_Base {
+
 
 	/**
 	 * Get widget name.
@@ -42,8 +42,7 @@ class Upsell_Desc_bump extends Widget_Base
 	 *
 	 * @return string Widget name.
 	 */
-	public function get_name()
-	{
+	public function get_name() {
 		return 'Upsell-product-desc';
 	}
 
@@ -57,9 +56,8 @@ class Upsell_Desc_bump extends Widget_Base
 	 *
 	 * @return string Widget title.
 	 */
-	public function get_title()
-	{
-		return esc_html__('Upsell Description', 'upsell-order-bump-offer-for-woocommerce');
+	public function get_title() {
+		return esc_html__( 'Upsell Description', 'upsell-order-bump-offer-for-woocommerce' );
 	}
 
 	/**
@@ -72,8 +70,7 @@ class Upsell_Desc_bump extends Widget_Base
 	 *
 	 * @return string Widget icon.
 	 */
-	public function get_icon()
-	{
+	public function get_icon() {
 		return 'eicon-product-description';
 	}
 
@@ -89,9 +86,8 @@ class Upsell_Desc_bump extends Widget_Base
 	 *
 	 * @return array Widget categories.
 	 */
-	public function get_categories()
-	{
-		return array('basic');
+	public function get_categories() {
+		return array( 'basic' );
 	}
 
 	/**
@@ -104,9 +100,8 @@ class Upsell_Desc_bump extends Widget_Base
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords()
-	{
-		return array('text', 'editor');
+	public function get_keywords() {
+		return array( 'text', 'editor' );
 	}
 
 	/**
@@ -117,12 +112,11 @@ class Upsell_Desc_bump extends Widget_Base
 	 * @since 3.1.0
 	 * @access protected
 	 */
-	protected function register_controls()
-	{
+	protected function register_controls() {
 		$this->start_controls_section(
 			'section_editor',
 			array(
-				'label' => esc_html__('Text Editor', 'upsell-order-bump-offer-for-woocommerce'),
+				'label' => esc_html__( 'Text Editor', 'upsell-order-bump-offer-for-woocommerce' ),
 			)
 		);
 
@@ -138,23 +132,23 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_control(
 			'drop_cap',
 			array(
-				'label'              => esc_html__('Drop Cap', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'              => esc_html__( 'Drop Cap', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'               => Controls_Manager::SWITCHER,
-				'label_off'          => esc_html__('Off', 'upsell-order-bump-offer-for-woocommerce'),
-				'label_on'           => esc_html__('On', 'upsell-order-bump-offer-for-woocommerce'),
+				'label_off'          => esc_html__( 'Off', 'upsell-order-bump-offer-for-woocommerce' ),
+				'label_on'           => esc_html__( 'On', 'upsell-order-bump-offer-for-woocommerce' ),
 				'prefix_class'       => 'elementor-drop-cap-',
 				'frontend_available' => true,
 			)
 		);
 
-		$text_columns     = range(1, 10);
-		$text_columns     = array_combine($text_columns, $text_columns);
-		$text_columns[''] = esc_html__('Default', 'upsell-order-bump-offer-for-woocommerce');
+		$text_columns     = range( 1, 10 );
+		$text_columns     = array_combine( $text_columns, $text_columns );
+		$text_columns[''] = esc_html__( 'Default', 'upsell-order-bump-offer-for-woocommerce' );
 
 		$this->add_responsive_control(
 			'text_columns',
 			array(
-				'label'     => esc_html__('Columns', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Columns', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::SELECT,
 				'separator' => 'before',
 				'options'   => $text_columns,
@@ -167,9 +161,9 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_responsive_control(
 			'column_gap',
 			array(
-				'label'      => esc_html__('Columns Gap', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'      => esc_html__( 'Columns Gap', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array('px', '%', 'em', 'vw'),
+				'size_units' => array( 'px', '%', 'em', 'vw' ),
 				'range'      => array(
 					'px' => array(
 						'max' => 100,
@@ -198,7 +192,7 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->start_controls_section(
 			'section_style',
 			array(
-				'label' => esc_html__('Text Editor', 'upsell-order-bump-offer-for-woocommerce'),
+				'label' => esc_html__( 'Text Editor', 'upsell-order-bump-offer-for-woocommerce' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -206,23 +200,23 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_responsive_control(
 			'align',
 			array(
-				'label'     => esc_html__('Alignment', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Alignment', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'left'    => array(
-						'title' => esc_html__('Left', 'upsell-order-bump-offer-for-woocommerce'),
+						'title' => esc_html__( 'Left', 'upsell-order-bump-offer-for-woocommerce' ),
 						'icon'  => 'eicon-text-align-left',
 					),
 					'center'  => array(
-						'title' => esc_html__('Center', 'upsell-order-bump-offer-for-woocommerce'),
+						'title' => esc_html__( 'Center', 'upsell-order-bump-offer-for-woocommerce' ),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'   => array(
-						'title' => esc_html__('Right', 'upsell-order-bump-offer-for-woocommerce'),
+						'title' => esc_html__( 'Right', 'upsell-order-bump-offer-for-woocommerce' ),
 						'icon'  => 'eicon-text-align-right',
 					),
 					'justify' => array(
-						'title' => esc_html__('Justified', 'upsell-order-bump-offer-for-woocommerce'),
+						'title' => esc_html__( 'Justified', 'upsell-order-bump-offer-for-woocommerce' ),
 						'icon'  => 'eicon-text-align-justify',
 					),
 				),
@@ -235,7 +229,7 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_control(
 			'text_color',
 			array(
-				'label'     => esc_html__('Text Color', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Text Color', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
@@ -270,7 +264,7 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->start_controls_section(
 			'section_drop_cap',
 			array(
-				'label'     => esc_html__('Drop Cap', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Drop Cap', 'upsell-order-bump-offer-for-woocommerce' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'drop_cap' => 'yes',
@@ -281,12 +275,12 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_control(
 			'drop_cap_view',
 			array(
-				'label'        => esc_html__('View', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'        => esc_html__( 'View', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'         => Controls_Manager::SELECT,
 				'options'      => array(
-					'default' => esc_html__('Default', 'upsell-order-bump-offer-for-woocommerce'),
-					'stacked' => esc_html__('Stacked', 'upsell-order-bump-offer-for-woocommerce'),
-					'framed'  => esc_html__('Framed', 'upsell-order-bump-offer-for-woocommerce'),
+					'default' => esc_html__( 'Default', 'upsell-order-bump-offer-for-woocommerce' ),
+					'stacked' => esc_html__( 'Stacked', 'upsell-order-bump-offer-for-woocommerce' ),
+					'framed'  => esc_html__( 'Framed', 'upsell-order-bump-offer-for-woocommerce' ),
 				),
 				'default'      => 'default',
 				'prefix_class' => 'elementor-drop-cap-view-',
@@ -296,7 +290,7 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_control(
 			'drop_cap_primary_color',
 			array(
-				'label'     => esc_html__('Primary Color', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Primary Color', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}}.elementor-drop-cap-view-stacked .elementor-drop-cap' => 'background-color: {{VALUE}};',
@@ -311,7 +305,7 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_control(
 			'drop_cap_secondary_color',
 			array(
-				'label'     => esc_html__('Secondary Color', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Secondary Color', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}}.elementor-drop-cap-view-framed .elementor-drop-cap' => 'background-color: {{VALUE}};',
@@ -334,7 +328,7 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_control(
 			'drop_cap_size',
 			array(
-				'label'     => esc_html__('Size', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Size', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::SLIDER,
 				'default'   => array(
 					'size' => 5,
@@ -356,7 +350,7 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_control(
 			'drop_cap_space',
 			array(
-				'label'     => esc_html__('Space', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Space', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::SLIDER,
 				'default'   => array(
 					'size' => 10,
@@ -376,9 +370,9 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_control(
 			'drop_cap_border_radius',
 			array(
-				'label'      => esc_html__('Border Radius', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'      => esc_html__( 'Border Radius', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array('%', 'px'),
+				'size_units' => array( '%', 'px' ),
 				'default'    => array(
 					'unit' => '%',
 				),
@@ -396,7 +390,7 @@ class Upsell_Desc_bump extends Widget_Base
 		$this->add_control(
 			'drop_cap_border_width',
 			array(
-				'label'     => esc_html__('Border Width', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Border Width', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::DIMENSIONS,
 				'selectors' => array(
 					'{{WRAPPER}} .elementor-drop-cap' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -429,33 +423,32 @@ class Upsell_Desc_bump extends Widget_Base
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function render()
-	{
-		$is_dom_optimized             = \Elementor\Plugin::$instance->experiments->is_feature_active('e_dom_optimization');
+	protected function render() {
+		$is_dom_optimized             = \Elementor\Plugin::$instance->experiments->is_feature_active( 'e_dom_optimization' );
 		$is_edit_mode                 = \Elementor\Plugin::$instance->editor->is_edit_mode();
-		$should_render_inline_editing = (! $is_dom_optimized || $is_edit_mode);
+		$should_render_inline_editing = ( ! $is_dom_optimized || $is_edit_mode );
 
-		$editor_content = $this->get_settings_for_display('editor');
-		$editor_content = $this->parse_text_editor($editor_content);
+		$editor_content = $this->get_settings_for_display( 'editor' );
+		$editor_content = $this->parse_text_editor( $editor_content );
 
-		if ($should_render_inline_editing) {
-			$this->add_render_attribute('editor', 'class', array('elementor-text-editor', 'elementor-clearfix'));
+		if ( $should_render_inline_editing ) {
+			$this->add_render_attribute( 'editor', 'class', array( 'elementor-text-editor', 'elementor-clearfix' ) );
 		}
 
-		$this->add_inline_editing_attributes('editor', 'advanced');
-?>
-		<?php if ($should_render_inline_editing) { ?>
-			<div <?php $this->print_render_attribute_string('editor'); ?>>
+		$this->add_inline_editing_attributes( 'editor', 'advanced' );
+		?>
+		<?php if ( $should_render_inline_editing ) { ?>
+			<div <?php $this->print_render_attribute_string( 'editor' ); ?>>
 			<?php } ?>
 			<?php
 			// PHPCS - the main text of a widget should not be escaped.
 
-			echo wp_kses($editor_content, wps_upsell_lite_allowed_html_funnel_builder());
+			echo wp_kses( $editor_content, wps_upsell_lite_allowed_html_funnel_builder() );
 			?>
-			<?php if ($should_render_inline_editing) { ?>
+			<?php if ( $should_render_inline_editing ) { ?>
 			</div>
 		<?php } ?>
-	<?php
+		<?php
 	}
 
 	/**
@@ -466,10 +459,9 @@ class Upsell_Desc_bump extends Widget_Base
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function render_plain_content()
-	{
+	public function render_plain_content() {
 		// In plain mode, render without shortcode.
-		$this->print_unescaped_setting('editor');
+		$this->print_unescaped_setting( 'editor' );
 	}
 
 	/**
@@ -480,9 +472,8 @@ class Upsell_Desc_bump extends Widget_Base
 	 * @since 2.9.0
 	 * @access protected
 	 */
-	protected function content_template()
-	{
-	?>
+	protected function content_template() {
+		?>
 		<#
 			const isDomOptimized=! ! elementorFrontend.config.experimentalFeatures.e_dom_optimization,
 			isEditMode=elementorFrontend.isEditMode(),

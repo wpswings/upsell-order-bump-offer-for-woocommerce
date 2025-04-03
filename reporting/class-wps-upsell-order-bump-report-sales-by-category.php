@@ -346,7 +346,7 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report {
 				$product_ids         = $this->get_products_in_category( $category->term_id );
 				$category_chart_data = array();
 
-				for ( $i = 0; $i <= $this->chart_interval; $i ++ ) {
+				for ( $i = 0; $i <= $this->chart_interval; $i++ ) {
 
 					$interval_total = 0;
 

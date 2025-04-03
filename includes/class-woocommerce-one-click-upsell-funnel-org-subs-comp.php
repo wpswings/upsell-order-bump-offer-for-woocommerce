@@ -524,13 +524,10 @@ function wps_upsell_org_subs_set_price_accordingly_funnel_builder( $product ) {
 
 			$product_price += $sign_up_fee;
 		}
-	} else { // When singup fee is not set.
-
-		if ( ! empty( $trial_length ) ) {
+	} elseif ( ! empty( $trial_length ) ) { // When singup fee is not set.
 
 			$product_price = 0;
 			$product->set_price( $product_price );
-		}
 	}
 	$upsell_offered_discount = wps_upsell_org_get_product_discount();
 	if ( $product_price_change ) {

@@ -1045,7 +1045,8 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 								</th>
 
 								<td>
-									<?php echo wp_kses($wps_wocuf_pro_buy_now_action_html, wps_upsell_lite_allowed_html_funnel_builder()); // phpcs:ignore 
+									<?php
+									echo wp_kses( $wps_wocuf_pro_buy_now_action_html, wps_upsell_lite_allowed_html_funnel_builder() ); // phpcs:ignore 
 									?>
 
 									<span class="wps_upsell_offer_description"><?php esc_html_e( 'Select where the customer will be redirected after accepting this offer', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
@@ -1061,7 +1062,8 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 								</th>
 
 								<td>
-									<?php echo wp_kses($wps_wocuf_pro_no_thanks_action_html, wps_upsell_lite_allowed_html_funnel_builder());  // phpcs:ignore 
+									<?php
+									echo wp_kses( $wps_wocuf_pro_no_thanks_action_html, wps_upsell_lite_allowed_html_funnel_builder() );  // phpcs:ignore 
 									?>
 									<span class="wps_upsell_offer_description"><?php esc_html_e( 'Select where the customer will be redirected after rejecting this offer', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 								</td>

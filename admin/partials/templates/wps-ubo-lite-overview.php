@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<h2><?php esc_html_e( 'What Is Upsell Funnel Builder For WooCommerce?', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
 		<div class="wps_ubo_lite_cont_vid">
 			<div class="wps_ubo_lite_overview_cont">
-			<p><?php esc_html_e( "Upsell Funnel Builder for WooCommerce is a sales funnel builder that merchants can use to present their customers with One-Click Upsell, Cross-Sell, Product Recommendations, and order bump offers right where they’re most likely to buy!  This plugin allows merchants to create engaging sales funnels and bump offers that convert.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'Upsell Funnel Builder for WooCommerce is a sales funnel builder that merchants can use to present their customers with One-Click Upsell, Cross-Sell, Product Recommendations, and order bump offers right where they’re most likely to buy!  This plugin allows merchants to create engaging sales funnels and bump offers that convert.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 
 <p><?php esc_html_e( 'Store owners can enhance customers’ shopping experience and convert opportunities into transactions.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 

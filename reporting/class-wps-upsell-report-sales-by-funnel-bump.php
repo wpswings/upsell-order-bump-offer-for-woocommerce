@@ -14,18 +14,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( class_exists( 'WPS_Upsell_Report_Sales_By_Funnel_bump' ) ) {
+if ( class_exists( 'WPS_Upsell_Report_Sales_By_Funnel_Bump' ) ) {
 	return;
 }
 
 /**
  * WPS_Upsell_Report_Sales_By_Funnel.
  */
-if ( ! class_exists( 'WPS_Upsell_Report_Sales_By_Funnel_bump' ) ) {
+if ( ! class_exists( 'WPS_Upsell_Report_Sales_By_Funnel_Bump' ) ) {
 	/**
 	 * WPS_Upsell_Report_Sales_By_Funnel.
 	 */
-	class WPS_Upsell_Report_Sales_By_Funnel_bump {
+	class WPS_Upsell_Report_Sales_By_Funnel_Bump {
 
 		/**
 		 * Upsell Funnel ID for operations.

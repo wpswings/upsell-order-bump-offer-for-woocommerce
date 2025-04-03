@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Upsell widgets collection loader file.
  *
@@ -10,7 +9,7 @@
  * @subpackage woo-one-click-upsell-funnel/page-builders
  */
 
-if (! defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 
 	exit; // Exit if accessed directly.
 }
@@ -18,9 +17,9 @@ if (! defined('ABSPATH')) {
 
 
 /**
- * WPS_Upsell_Widget_Loader_bump.
+ * WPS_UPSELL_WIDGET_LOADER_BUMP.
  */
-if (! class_exists('WPS_Upsell_Widget_Loader_bump')) {
+if ( ! class_exists( 'WPS_UPSELL_WIDGET_LOADER_BUMP' ) ) {
 	/**
 	 * WPS Upsell Widget Loader Class.
 	 *
@@ -28,11 +27,11 @@ if (! class_exists('WPS_Upsell_Widget_Loader_bump')) {
 	 *
 	 * @since 1.0.0
 	 */
-	class WPS_Upsell_Widget_Loader_bump
-	{
+	class WPS_UPSELL_WIDGET_LOADER_BUMP {
 
 
-		const WPS_Upsell_Widget_Loader_bump = WPS_WOCUF_DIRPATH_FUNNEL_BUILDER . 'page-builders/';
+
+		const WPS_UPSELL_WIDGET_LOADER_BUMP = WPS_WOCUF_DIRPATH_FUNNEL_BUILDER . 'page-builders/';
 
 		/**
 		 * The instance.
@@ -71,8 +70,7 @@ if (! class_exists('WPS_Upsell_Widget_Loader_bump')) {
 		 *
 		 * @since    3.1.2
 		 */
-		public function __construct()
-		{
+		public function __construct() {
 			$this->load_builders();
 			$this->load_widgets();
 		}
@@ -84,9 +82,8 @@ if (! class_exists('WPS_Upsell_Widget_Loader_bump')) {
 		 * @static
 		 * @return Widget Loader - Main instance.
 		 */
-		public static function get_instance()
-		{
-			if (is_null(self::$instance)) {
+		public static function get_instance() {
+			if ( is_null( self::$instance ) ) {
 
 				self::$instance = new self();
 			}
@@ -99,28 +96,27 @@ if (! class_exists('WPS_Upsell_Widget_Loader_bump')) {
 		 *
 		 * @since 3.1.2
 		 */
-		public function load_builders()
-		{
+		public function load_builders() {
 			$builders = self::COMPATIBLE_BUILDERS;
 
-			if (! empty($builders) && is_array($builders)) {
-				foreach ($builders as $slug => $class_name) {
+			if ( ! empty( $builders ) && is_array( $builders ) ) {
+				foreach ( $builders as $slug => $class_name ) {
 					$active = false;
 
-					if (wps_upsell_lite_is_plugin_active_funnel_builder($slug)) {
+					if ( wps_upsell_lite_is_plugin_active_funnel_builder( $slug ) ) {
 						$active = true;
-					} elseif (class_exists($class_name)) {
+					} elseif ( class_exists( $class_name ) ) {
 						$active = true;
 					}
 
-					if (! $active) {
+					if ( ! $active ) {
 						// If still in active then unset from active builders.
-						unset($builders[$slug]);
+						unset( $builders[ $slug ] );
 					}
 				}
 			}
 
-			$this->active_builders = apply_filters('wps_active_page_builders', $builders);
+			$this->active_builders = apply_filters( 'wps_active_page_builders', $builders );
 
 			return $this->active_builders;
 		}
@@ -130,14 +126,13 @@ if (! class_exists('WPS_Upsell_Widget_Loader_bump')) {
 		 *
 		 * @since 3.1.2
 		 */
-		public function load_widgets()
-		{
-			if (! empty($this->active_builders) && is_array($this->active_builders)) {
-				foreach ($this->active_builders as $b_slug => $b_name) {
-					$widget_file = $this->retrieve_loader_file($b_slug, $b_slug);
-					$widget_path = self::WPS_Upsell_Widget_Loader_bump . $widget_file;
+		public function load_widgets() {
+			if ( ! empty( $this->active_builders ) && is_array( $this->active_builders ) ) {
+				foreach ( $this->active_builders as $b_slug => $b_name ) {
+					$widget_file = $this->retrieve_loader_file( $b_slug, $b_slug );
+					$widget_path = self::WPS_UPSELL_WIDGET_LOADER_BUMP . $widget_file;
 
-					if (file_exists($widget_path)) {
+					if ( file_exists( $widget_path ) ) {
 						require_once $widget_path;
 					}
 				}
@@ -151,14 +146,13 @@ if (! class_exists('WPS_Upsell_Widget_Loader_bump')) {
 		 * @param string $builders The builders name.
 		 * @since 3.1.2
 		 */
-		public function retrieve_loader_file($slug = '', $builders = '')
-		{
+		public function retrieve_loader_file( $slug = '', $builders = '' ) {
 
-			if (empty($slug) && empty($builders)) {
+			if ( empty( $slug ) && empty( $builders ) ) {
 				return false;
 			}
 
-			switch ($slug) {
+			switch ( $slug ) {
 				case 'elementor/elementor.php':
 					$loader_file = 'elementor/class-elementor-widget-loader-bump.php';
 					break;

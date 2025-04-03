@@ -11,7 +11,7 @@
 
 namespace ElementorUpsellWidgets\Widgets;
 
-if (! defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
@@ -25,8 +25,8 @@ use Elementor\Controls_Manager;
  *
  * @since 1.0.0
  */
-class Upsell_Star_Review_bump extends Widget_Base
-{
+class Upsell_Star_Review_Bump extends Widget_Base {
+
 
 	/**
 	 * Get widget name.
@@ -38,8 +38,7 @@ class Upsell_Star_Review_bump extends Widget_Base
 	 *
 	 * @return string Widget name.
 	 */
-	public function get_name()
-	{
+	public function get_name() {
 		return 'upsell-star-review';
 	}
 
@@ -53,9 +52,8 @@ class Upsell_Star_Review_bump extends Widget_Base
 	 *
 	 * @return string Widget title.
 	 */
-	public function get_title()
-	{
-		return esc_html__('Upsell Star Ratings', 'upsell-order-bump-offer-for-woocommerce');
+	public function get_title() {
+		return esc_html__( 'Upsell Star Ratings', 'upsell-order-bump-offer-for-woocommerce' );
 	}
 
 	/**
@@ -68,8 +66,7 @@ class Upsell_Star_Review_bump extends Widget_Base
 	 *
 	 * @return string Widget icon.
 	 */
-	public function get_icon()
-	{
+	public function get_icon() {
 		return 'eicon-rating';
 	}
 
@@ -83,9 +80,8 @@ class Upsell_Star_Review_bump extends Widget_Base
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords()
-	{
-		return array('shortcode', 'code');
+	public function get_keywords() {
+		return array( 'shortcode', 'code' );
 	}
 
 	/**
@@ -98,8 +94,7 @@ class Upsell_Star_Review_bump extends Widget_Base
 	 *
 	 * @return bool Whether the reload preview is required.
 	 */
-	public function is_reload_preview_required()
-	{
+	public function is_reload_preview_required() {
 		return true;
 	}
 
@@ -111,19 +106,18 @@ class Upsell_Star_Review_bump extends Widget_Base
 	 * @since 3.1.0
 	 * @access protected
 	 */
-	protected function register_controls()
-	{
+	protected function register_controls() {
 		$this->start_controls_section(
 			'section_shortcode',
 			array(
-				'label' => esc_html__('Shortcode', 'upsell-order-bump-offer-for-woocommerce'),
+				'label' => esc_html__( 'Shortcode', 'upsell-order-bump-offer-for-woocommerce' ),
 			)
 		);
 
 		$this->add_control(
 			'shortcode',
 			array(
-				'label'       => esc_html__('Enter upsell star review shortcode', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'       => esc_html__( 'Enter upsell star review shortcode', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'        => Controls_Manager::TEXTAREA,
 				'dynamic'     => array(
 					'active' => true,
@@ -144,14 +138,13 @@ class Upsell_Star_Review_bump extends Widget_Base
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function render()
-	{
-		$shortcode = $this->get_settings_for_display('shortcode');
+	protected function render() {
+		$shortcode = $this->get_settings_for_display( 'shortcode' );
 
-		$shortcode = do_shortcode(shortcode_unautop($shortcode));
-?>
-		<div class="elementor-shortcode"><?php echo wp_kses($shortcode, wps_upsell_lite_allowed_html_funnel_builder()); ?></div>
-<?php
+		$shortcode = do_shortcode( shortcode_unautop( $shortcode ) );
+		?>
+		<div class="elementor-shortcode"><?php echo wp_kses( $shortcode, wps_upsell_lite_allowed_html_funnel_builder() ); ?></div>
+		<?php
 	}
 
 	/**
@@ -162,10 +155,9 @@ class Upsell_Star_Review_bump extends Widget_Base
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function render_plain_content()
-	{
+	public function render_plain_content() {
 		// In plain mode, render without shortcode..
-		$this->print_unescaped_setting('shortcode');
+		$this->print_unescaped_setting( 'shortcode' );
 	}
 
 	/**

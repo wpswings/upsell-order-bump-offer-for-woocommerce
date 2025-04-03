@@ -11,7 +11,7 @@
 
 namespace ElementorUpsellWidgets\Widgets;
 
-if (! defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
@@ -33,8 +33,8 @@ use Elementor\Utils;
  *
  * @since 1.0.0
  */
-class Upsell_Title_bump extends Widget_Base
-{
+class Upsell_Title_Bump extends Widget_Base {
+
 
 	/**
 	 * Get widget name.
@@ -46,8 +46,7 @@ class Upsell_Title_bump extends Widget_Base
 	 *
 	 * @return string Widget name.
 	 */
-	public function get_name()
-	{
+	public function get_name() {
 		return 'upsell_title';
 	}
 
@@ -61,9 +60,8 @@ class Upsell_Title_bump extends Widget_Base
 	 *
 	 * @return string Widget title.
 	 */
-	public function get_title()
-	{
-		return esc_html__('Upsell Title', 'upsell-order-bump-offer-for-woocommerce');
+	public function get_title() {
+		return esc_html__( 'Upsell Title', 'upsell-order-bump-offer-for-woocommerce' );
 	}
 
 	/**
@@ -76,8 +74,7 @@ class Upsell_Title_bump extends Widget_Base
 	 *
 	 * @return string Widget icon.
 	 */
-	public function get_icon()
-	{
+	public function get_icon() {
 		return 'eicon-t-letter';
 	}
 
@@ -93,9 +90,8 @@ class Upsell_Title_bump extends Widget_Base
 	 *
 	 * @return array Widget categories.
 	 */
-	public function get_categories()
-	{
-		return array('basic');
+	public function get_categories() {
+		return array( 'basic' );
 	}
 
 	/**
@@ -108,9 +104,8 @@ class Upsell_Title_bump extends Widget_Base
 	 *
 	 * @return array Widget keywords.
 	 */
-	public function get_keywords()
-	{
-		return array('heading', 'title', 'text');
+	public function get_keywords() {
+		return array( 'heading', 'title', 'text' );
 	}
 
 	/**
@@ -121,32 +116,31 @@ class Upsell_Title_bump extends Widget_Base
 	 * @since 3.1.0
 	 * @access protected
 	 */
-	protected function register_controls()
-	{
+	protected function register_controls() {
 		$this->start_controls_section(
 			'section_title',
 			array(
-				'label' => esc_html__('Title', 'upsell-order-bump-offer-for-woocommerce'),
+				'label' => esc_html__( 'Title', 'upsell-order-bump-offer-for-woocommerce' ),
 			)
 		);
 
 		$this->add_control(
 			'title',
 			array(
-				'label'       => esc_html__('Title', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'       => esc_html__( 'Title', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'        => Controls_Manager::TEXTAREA,
 				'dynamic'     => array(
 					'active' => true,
 				),
-				'placeholder' => esc_html__('Enter your title', 'upsell-order-bump-offer-for-woocommerce'),
-				'default'     => esc_html__('[wps_upsell_title]', 'upsell-order-bump-offer-for-woocommerce'),
+				'placeholder' => esc_html__( 'Enter your title', 'upsell-order-bump-offer-for-woocommerce' ),
+				'default'     => esc_html__( '[wps_upsell_title]', 'upsell-order-bump-offer-for-woocommerce' ),
 			)
 		);
 
 		$this->add_control(
 			'link',
 			array(
-				'label'     => esc_html__('Link', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Link', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::URL,
 				'dynamic'   => array(
 					'active' => true,
@@ -161,16 +155,16 @@ class Upsell_Title_bump extends Widget_Base
 		$this->add_control(
 			'size',
 			array(
-				'label'   => esc_html__('Size', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'   => esc_html__( 'Size', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'default',
 				'options' => array(
-					'default' => esc_html__('Default', 'upsell-order-bump-offer-for-woocommerce'),
-					'small'   => esc_html__('Small', 'upsell-order-bump-offer-for-woocommerce'),
-					'medium'  => esc_html__('Medium', 'upsell-order-bump-offer-for-woocommerce'),
-					'large'   => esc_html__('Large', 'upsell-order-bump-offer-for-woocommerce'),
-					'xl'      => esc_html__('XL', 'upsell-order-bump-offer-for-woocommerce'),
-					'xxl'     => esc_html__('XXL', 'upsell-order-bump-offer-for-woocommerce'),
+					'default' => esc_html__( 'Default', 'upsell-order-bump-offer-for-woocommerce' ),
+					'small'   => esc_html__( 'Small', 'upsell-order-bump-offer-for-woocommerce' ),
+					'medium'  => esc_html__( 'Medium', 'upsell-order-bump-offer-for-woocommerce' ),
+					'large'   => esc_html__( 'Large', 'upsell-order-bump-offer-for-woocommerce' ),
+					'xl'      => esc_html__( 'XL', 'upsell-order-bump-offer-for-woocommerce' ),
+					'xxl'     => esc_html__( 'XXL', 'upsell-order-bump-offer-for-woocommerce' ),
 				),
 			)
 		);
@@ -178,7 +172,7 @@ class Upsell_Title_bump extends Widget_Base
 		$this->add_control(
 			'header_size',
 			array(
-				'label'   => esc_html__('HTML Tag', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'   => esc_html__( 'HTML Tag', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'    => Controls_Manager::SELECT,
 				'options' => array(
 					'h1'   => 'H1',
@@ -198,23 +192,23 @@ class Upsell_Title_bump extends Widget_Base
 		$this->add_responsive_control(
 			'align',
 			array(
-				'label'     => esc_html__('Alignment', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Alignment', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => array(
 					'left'    => array(
-						'title' => esc_html__('Left', 'upsell-order-bump-offer-for-woocommerce'),
+						'title' => esc_html__( 'Left', 'upsell-order-bump-offer-for-woocommerce' ),
 						'icon'  => 'eicon-text-align-left',
 					),
 					'center'  => array(
-						'title' => esc_html__('Center', 'upsell-order-bump-offer-for-woocommerce'),
+						'title' => esc_html__( 'Center', 'upsell-order-bump-offer-for-woocommerce' ),
 						'icon'  => 'eicon-text-align-center',
 					),
 					'right'   => array(
-						'title' => esc_html__('Right', 'upsell-order-bump-offer-for-woocommerce'),
+						'title' => esc_html__( 'Right', 'upsell-order-bump-offer-for-woocommerce' ),
 						'icon'  => 'eicon-text-align-right',
 					),
 					'justify' => array(
-						'title' => esc_html__('Justified', 'upsell-order-bump-offer-for-woocommerce'),
+						'title' => esc_html__( 'Justified', 'upsell-order-bump-offer-for-woocommerce' ),
 						'icon'  => 'eicon-text-align-justify',
 					),
 				),
@@ -228,7 +222,7 @@ class Upsell_Title_bump extends Widget_Base
 		$this->add_control(
 			'view',
 			array(
-				'label'   => esc_html__('View', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'   => esc_html__( 'View', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'    => Controls_Manager::HIDDEN,
 				'default' => 'traditional',
 			)
@@ -239,7 +233,7 @@ class Upsell_Title_bump extends Widget_Base
 		$this->start_controls_section(
 			'section_title_style',
 			array(
-				'label' => esc_html__('Title', 'upsell-order-bump-offer-for-woocommerce'),
+				'label' => esc_html__( 'Title', 'upsell-order-bump-offer-for-woocommerce' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -247,7 +241,7 @@ class Upsell_Title_bump extends Widget_Base
 		$this->add_control(
 			'title_color',
 			array(
-				'label'     => esc_html__('Text Color', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Text Color', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::COLOR,
 				'global'    => array(
 					'default' => Global_Colors::COLOR_PRIMARY,
@@ -280,10 +274,10 @@ class Upsell_Title_bump extends Widget_Base
 		$this->add_control(
 			'blend_mode',
 			array(
-				'label'     => esc_html__('Blend Mode', 'upsell-order-bump-offer-for-woocommerce'),
+				'label'     => esc_html__( 'Blend Mode', 'upsell-order-bump-offer-for-woocommerce' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => array(
-					''            => esc_html__('Normal', 'upsell-order-bump-offer-for-woocommerce'),
+					''            => esc_html__( 'Normal', 'upsell-order-bump-offer-for-woocommerce' ),
 					'multiply'    => 'Multiply',
 					'screen'      => 'Screen',
 					'overlay'     => 'Overlay',
@@ -315,34 +309,33 @@ class Upsell_Title_bump extends Widget_Base
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function render()
-	{
+	protected function render() {
 		$settings = $this->get_settings_for_display();
 
-		if ('' === $settings['title']) {
+		if ( '' === $settings['title'] ) {
 			return;
 		}
 
-		$this->add_render_attribute('title', 'class', 'elementor-heading-title');
+		$this->add_render_attribute( 'title', 'class', 'elementor-heading-title' );
 
-		if (! empty($settings['size'])) {
-			$this->add_render_attribute('title', 'class', 'elementor-size-' . $settings['size']);
+		if ( ! empty( $settings['size'] ) ) {
+			$this->add_render_attribute( 'title', 'class', 'elementor-size-' . $settings['size'] );
 		}
 
-		$this->add_inline_editing_attributes('title');
+		$this->add_inline_editing_attributes( 'title' );
 
 		$title = $settings['title'];
 
-		if (! empty($settings['link']['url'])) {
-			$this->add_link_attributes('url', $settings['link']);
+		if ( ! empty( $settings['link']['url'] ) ) {
+			$this->add_link_attributes( 'url', $settings['link'] );
 
-			$title = sprintf('<a %1$s>%2$s</a>', $this->get_render_attribute_string('url'), $title);
+			$title = sprintf( '<a %1$s>%2$s</a>', $this->get_render_attribute_string( 'url' ), $title );
 		}
 
-		$title_html = sprintf('<%1$s %2$s>%3$s</%1$s>', Utils::validate_html_tag($settings['header_size']), $this->get_render_attribute_string('title'), $title);
+		$title_html = sprintf( '<%1$s %2$s>%3$s</%1$s>', Utils::validate_html_tag( $settings['header_size'] ), $this->get_render_attribute_string( 'title' ), $title );
 
 		// PHPCS - the variable $title_html holds safe data.
-		echo wp_kses($title_html, wps_upsell_lite_allowed_html_funnel_builder()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses( $title_html, wps_upsell_lite_allowed_html_funnel_builder() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -353,9 +346,8 @@ class Upsell_Title_bump extends Widget_Base
 	 * @since 2.9.0
 	 * @access protected
 	 */
-	protected function content_template()
-	{
-?>
+	protected function content_template() {
+		?>
 		<#
 			var title=settings.title;
 
@@ -372,6 +364,6 @@ class Upsell_Title_bump extends Widget_Base
 
 			print( title_html );
 			#>
-	<?php
+		<?php
 	}
 }
