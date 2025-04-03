@@ -60,17 +60,17 @@ class Elementor_Widget_Bump_Bump {
 	private function include_widgets_files() {
 
 		$widget_files = array(
-			'upsell-accept',
-			'upsell-reject',
-			'upsell-image',
-			'upsell-title',
-			'upsell-price',
-			'upsell-variations',
-			'upsell-desc',
-			'upsell-short-desc',
-			'upsell-star-review',
-			'upsell-quantity',
-			'upsell-forms',
+			'upsell-accept-bump',
+			'upsell-reject-bump',
+			'upsell-image-bump',
+			'upsell-title-bump',
+			'upsell-price-bump',
+			'upsell-variations-bump',
+			'upsell-desc-bump',
+			'upsell-short-desc-bump',
+			'upsell-star-review-bump',
+			'upsell-quantity-bump',
+			'upsell-forms-bump',
 		);
 
 		foreach ( $widget_files as $key => $file_name ) {
