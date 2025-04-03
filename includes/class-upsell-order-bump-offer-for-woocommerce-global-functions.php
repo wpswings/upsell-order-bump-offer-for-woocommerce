@@ -3339,7 +3339,6 @@ function wps_ubo_lite_bump_offer_html_3($bump, $encountered_order_bump_id = '', 
 
 		<?php echo esc_html($order_bump_div_id); ?> p.wps_upsell_offer_product_price {
 			font-size: <?php echo esc_html($product_section_text_price_size) . esc_html('px'); ?>;
-			/* font-weight: 700; */
 			color: <?php echo esc_html($product_section_price_text_color); ?>;
 		}
 
@@ -3364,7 +3363,6 @@ function wps_ubo_lite_bump_offer_html_3($bump, $encountered_order_bump_id = '', 
 		}
 
 		<?php echo esc_html($order_bump_div_id); ?> .wps_upsell_offer_product_content {
-			/* width: calc(100% - 90px); */
 			word-break: break-word;
 		}
 
@@ -3961,7 +3959,6 @@ function wps_ubo_lite_bump_offer_html_4($bump, $encountered_order_bump_id = '', 
 		}
 
 		<?php echo esc_html($order_bump_div_id); ?> .wps_upsell_offer_product_content {
-			/* width: calc(100% - 90px); */
 			word-break: break-word;
 		}
 
@@ -4104,7 +4101,6 @@ function wps_ubo_lite_bump_offer_html_4($bump, $encountered_order_bump_id = '', 
 		}
 
 		<?php echo esc_html($order_bump_div_id); ?> .wps_upsell_offer_image {
-			/* width: 90px; */
 			margin-right: 10px;
 		}
 
@@ -4677,7 +4673,6 @@ function wps_ubo_lite_bump_offer_html_5($bump, $encountered_order_bump_id = '', 
 		<?php echo esc_html($order_bump_div_id); ?> .wps_upsell_offer_arrow svg {
 			width: 100%;
 			height: auto;
-			/* fill: #eb483f; */
 			fill: <?php echo esc_html($primary_section_arrow_color); ?>
 		}
 
@@ -5526,7 +5521,6 @@ function wps_ubo_lite_bump_offer_html_10($bump, $encountered_order_bump_id = '',
 		}
 
 		<?php echo esc_html($order_bump_div_id); ?> .wps_upsell_offer_arrow svg {
-			/* fill: #eb483f; */
 			fill: <?php echo esc_html($primary_section_arrow_color); ?>
 		}
 
@@ -6179,7 +6173,6 @@ function wps_ubo_lite_bump_offer_html_11($bump, $encountered_order_bump_id = '',
 		}
 
 		<?php echo esc_html($order_bump_div_id); ?> .wps_upsell_offer_arrow svg {
-			/* fill: #eb483f; */
 			fill: <?php echo esc_html($primary_section_arrow_color); ?>
 		}
 
@@ -6197,7 +6190,6 @@ function wps_ubo_lite_bump_offer_html_11($bump, $encountered_order_bump_id = '',
 
 		<?php echo esc_html($order_bump_div_id); ?> .bump-offer-container {
 			background-color: <?php echo esc_html($parent_background_color); ?>;
-			/* padding : 20px; */
 		}
 
 		<?php echo esc_html($order_bump_div_id); ?> .bump-offer-title {

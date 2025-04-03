@@ -87,14 +87,7 @@ class Elementor_Widget_bump_bump {
 	 * @access public
 	 */
 	public function register_widgets() {
-		// $already_existed =	get_option('wps_manual_create_upsell');
-		
-		// if (  wps_plugin_exists( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) ) {
-			
-		// 	if ( $already_existed  != 'done' ) {
-		// 		return;
-		// 	}
-		// }
+
 		// It's now safe to include Widgets files.
 		$this->include_widgets_files();
 
