@@ -127,12 +127,12 @@ wps_upsee_lite_go_pro_funnel_builder( 'pro' );
 
 					<th scope="row" class="titledesc">
 						<span class="wps_wupsell_premium_strip">Pro</span>
-						<label for="wps_wocuf_pro_enable_free_upsell"><?php esc_html_e( 'Free Order Upsell', 'one-click-upsell-funnel-for-woocommerce-pro' ); ?></label>
+						<label for="wps_wocuf_pro_enable_free_upsell"><?php esc_html_e( 'Free Order Upsell', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
 						<?php
-						$attribut_description = esc_html__( 'Enable Upsell funnels even on Cart total zero.', 'one-click-upsell-funnel-for-woocommerce-pro' );
+						$attribut_description = esc_html__( 'Enable Upsell funnels even on Cart total zero.', 'upsell-order-bump-offer-for-woocommerce' );
 						wps_ubo_lite_help_tip( $attribut_description );
 						?>
 						<label class="wps_wocuf_pro_enable_plugin_label">
