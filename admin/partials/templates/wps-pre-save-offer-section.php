@@ -270,7 +270,7 @@ global $wp_roles;
 
 $all_roles = $wp_roles->roles;
 $all_roles['guest'] = array(
-	'name' => esc_html__( 'Guest/Logged Out User' ),
+	'name' => esc_html__( 'Guest/Logged Out User' , 'upsell-order-bump-offer-for-woocommerce'),
 );
 
 

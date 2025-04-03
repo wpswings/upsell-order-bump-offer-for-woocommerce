@@ -424,10 +424,16 @@ if ( $activated ) {
 			$plugin_dir  = WP_PLUGIN_DIR . '/woo-one-click-upsell-funnel/';
 			$plugin_file = $plugin_dir . 'woocommerce-one-click-upsell-funnel.php';
 
-			// Create the folder if it doesn't exist.
-			if ( ! file_exists( $plugin_dir ) ) {
-				mkdir( $plugin_dir, 0755, true );
+			// Initialize WP_Filesystem.
+			if ( function_exists( 'WP_Filesystem' ) ) {
+				WP_Filesystem();
+
+				global $wp_filesystem;
+			// Create the directory if it doesn't exist.
+			if ( ! $wp_filesystem->is_dir( $plugin_dir ) ) {
+				$wp_filesystem->mkdir( $plugin_dir, 0755 , true );
 			}
+
 
 			// Create the plugin file if it doesn't exist.
 			if ( ! file_exists( $plugin_file ) ) {
@@ -443,6 +449,7 @@ if ( $activated ) {
 				';
 				file_put_contents( $plugin_file, $plugin_content );
 			}
+		}
 		}
 
 
