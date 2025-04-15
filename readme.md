@@ -1,6 +1,7 @@
 ![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-5000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.7.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-9.6.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
-# Create Sales Funnels with WooCommerce Upsell, Cross-sell, Frequently Bought Together on Product, Cart & Checkout Page in One Click
-![Upsell Order Bump Offer for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg?rev=2672066)
+# Upsell Funnel Builder for WooCommerce 
+
+![Upsell Funnel Builder for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772X250.jpg?rev=3266379)
 * Contributors: WP Swings
 * Author URI: [**WP Swings**](https://wpswings.com/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=official-page)
 * Tags: ab test, frequently bought together, order bump, upsell, woocommerce
@@ -8,9 +9,9 @@
 
 # Description
 
-**UPSELL ORDER BUMP OFFER FOR WOOCOMMERCE IS AN UPSELLING AND CROSS-SELLING PLUGIN THAT LETS THE WOOCOMMERCE MERCHANTS SHOW PRODUCT RECOMMENDATIONS ON THE PRODUCT, CART & CHECKOUT PAGE TO BOOST AOV AND INCREASE SALES.**
+**UPSELL FUNNEL BUILDER FOR WOOCOMMERCE IS A SALES FUNNEL BUILDER WITH UPSELLING AND CROSS-SELLING THAT LETS THE WOOCOMMERCE MERCHANTS SHOW PRODUCT RECOMMENDATIONS ON THE PRODUCT, CART & CHECKOUT PAGE TO BOOST AOV AND INCREASE SALES.**
 
-The [**WooCommerce Upsell Order Bump**](https://wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-pro) plugin facilitates store owners to make special offers exclusively on their checkout page, enabling them to increase their conversions and Average Order Value. The offer gets added to the customer’s existing order in just a single click, which allows them to order bump upsell.
+The [**Upsell Funnel Builder for WooCommerce**](https://wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-pro) allows store owners to make special offers exclusively on their checkout and thank you pages, enabling them to increase their conversions and Average Order Value. The merchants can create post-purchase upsell and cross-sell offers. This plugin allows merchants to create engaging sales funnels and bump offers that convert. 
 
 Show your customers an exclusive [**WooCommerce upsell**](https://wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-pro) and [**WooCommerce cross-sell**](https://wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-pro) offer deals at an unbelievable price at the very moment that they are checking out.
 
@@ -21,7 +22,12 @@ Relevant bump offers can be set for specific targets with WooCommerce Order Bump
 
 [**Upsell Order Bump Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-frontend-demo) | [**Order Bump Offer Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=contactus)
 
-## WITH THE WOOCOMMERCE ORDER BUMP PLUGIN YOU CAN:
+## Why Choose Our WooCommerce Upsell Plugin?
+
+Unlock exclusive upgrades and choose to boost your sales at checkout with our WooCommerce upsell and order bump plugin, the perfect solution for seamless offers and cross-sells. 
+
+
+## ⭐ Salient Features Of Upsell Funnel Builder:
 
 * Create special upsell smart offers WooCommerce on the checkout page.
 * Customize responsive offer design specifically according to your WooCommerce upsell products.
@@ -38,59 +44,73 @@ Relevant bump offers can be set for specific targets with WooCommerce Order Bump
 
 ## WHAT’S INCLUDED IN OUR ORDER BUMP UPSELL PLUGIN FREE: 
 
-### 1) Show Cross-Sell Offers Across The Website: 
-The admins can now incorporate bump offers across the website as per their requirements, using this [wps_bump_offer_shortcode] shortcode. This increases the accessibility of the bump offers, further increasing the overall user experience.
+### 1) Shortcodes To Build Useful Offer Page Elements  
+This WordPress upsell plugin provides various shortcodes to create different offer page elements. The plugin offers shortcodes for Buy Now, No Thanks, Product Title, Description, Short Description, Image, Price, Variations, Offer Quantity, and Urgency Timer. The admins can incorporate bump offers across the website as per their requirements, using this [wpsbumpoffer_shortcode] shortcode. This increases the accessibility of the bump offers, further increasing the overall user experience.
 
-### 2) Set Custom Order Success Page: 
-The WooCommerce Order Bump plugin is taking customization and personalization to a whole new level. The admin can now customize and make their very own order success page. You can do this by creating a page first. After successfully creating a page, you will have to click on the “quick edit” button, to get the “slug” of the created or existing page. Now, just copy the slug, and paste it into the field. After doing this, you and your customers will see the checkout success page, that you have customized.   
+### 2) Set Custom Order Success Page  
+Take customization and personalization to a whole new level. The admin can now customize and make their very own order success page. You can do this by creating a page.
 
-### 3) Special WooCommerce Upsell On the Checkout Page: 
-The WooCommerce order bump plugin provides a unique form of a well-timed offer as a checkout bump. This can also be a one-time exclusive offer that allows the customers to purchase things at a well-valued price.
+### 3) Special Bump Offer On The Checkout Page  
+The Upsell Funnel Builder plugin provides a unique form of a well-timed offer, such as a checkout bump. This can also be a one-time exclusive offer allowing customers to purchase things at a well-valued price.
 
-### 4) One Click to Accept the Upsell Offers:
-Our WooCommerce Upsell Order Bump Plugin can be accepted in just a single click in which the customer can simply tick the checkbox to add the offer to their existing order.
+### 4) Popup Maker  
+You have the option to display an eCommerce sales pop-up featuring the order bump product image or title on the checkout page using the upsell pop-up feature. A radio button allows you to enable or disable the pop-up display. Additionally, the exit-intent pop-up feature triggers a pop-up when a customer attempts to leave the browser, making it a powerful upselling hack for your business.
 
-### 5) WooCommerce Upsell Popup: 
-You have the choice to display the sales pop-up screen of the WooCommerce order bump product image or title at the checkout page thanks to the WooCommerce upsell popup feature. You can choose whether to display an upsell popup or not using the radio button. You can show the items that go with your transaction using the WooCommerce checkout popup. 
+### 5) Category-Based Offer Triggering  
+Using the Plugin, you can trigger your checkout offers based on the target category of products. Setting up the target category saves a lot of time from adding individual products as targets and you can set up related offers that will show up for the right category.
 
-### 6) Category-Based Offer Triggering: 
-You can trigger your WooCommerce checkout upsell offers based on the target category of products. For example, if anyone purchases a product from the Electronics category then your Order Bump Upsell offer will be triggered and the offer will be shown. Setting up the target category saves a lot of time from adding individual products as targets and you can set up related upsell WooCommerce offers that will show up for the right category.
+### 6) Smart Post-Purchase Upsell Offer Scheduling  
+Utilize the smart offer feature, and schedule order bumps for specific weekdays which can make them exclusive and available only for that set time.
 
-### 7) Smart Order Bumps Offer Scheduling: 
-Utilize the smart offer WooCommerce feature, and schedule order bumps for specific weekdays which can make them exclusive and available only for that set time.
+### 7) Related Product-Specific Cross-Sell Offers  
+Each of your Order Bumps can be designed and customized differently and specifically according to the offered product.
 
-### 8) Product-Specific WooCommerce Cross-sell Offers: 
-Each of your WooCommerce Order Bumps can be designed and customized differently and specifically according to the offered product.
+### 8) Upsell Template Customization With Sandbox Mode  
+Merchants can customize order bump offers and view Live Preview at the same time. Live Preview is available for Template, Design, and Content. Live Preview Customization helps in creating appealing offers for your WooCommerce store.
 
-### 9) Upsell Template Customization with Live Preview: 
-Merchants can customize order bump offers and view Live Preview at the same time. Live Preview is available for Template, Design, and Content. Live Preview Customization helps in creating appealing Order Bumps for your WooCommerce store.
+### 9) Multiple Locations On The WooCommerce Upsell Checkout Page  
+The additional upsell offers can be displayed in multiple locations on the WooCommerce after the Checkout Page. You can display them as “Before Order Summary”, “Before Payment Gateways”, “After Payment Gateways”, and “Before Place Order Button”.
 
-### 10) Multiple Locations on the WooCommerce Checkout Upsell page: 
-The additional offers can be displayed in multiple locations on the WooCommerce Upsell after the Checkout Page. You can display them as “Before Order Summary”, “Before Payment Gateways”, “After Payment Gateways”, and “Before Place Order Button”.
+### 10) Choose The Background Color Of The Bump Offer Box  
+Customize the background color of the WooCommerce bump offer box as per your liking using the background color feature. Make the offer as attractive as you can by choosing the righteous color combinations and elevate your AOV.
 
-### 11) Choose the Background Color of the Bump Offer Box: 
-Customize the background color of the bump offer box as per your liking using the background color feature. Make the offer as attractive as you can by choosing the righteous color combinations and elevate your AOV
+### 11) Responsive Order Bumps Design  
+The offers are completely responsive for every type of device no matter whether it is a Desktop, Mobile, or Tablet.
 
-### 12) Sandbox Mode: 
-Our WooCommerce Order Bump plugin has Sandbox mode that gives you the ability to Live Preview and Customize the Order Bump Offer layout and modify every element before making it Live.
+### 12) Behavioral Reporting  
+Merchants can analyze the customer behavior for every individual offer. With this behavioral report, a merchant can check the number of times a particular offer was viewed, accepted, or removed from the cart.
 
-### 13) Responsive Order Bumps design: 
-The WooCommerce upsell plugin offers are completely responsive for every type of device no matter whether it is Desktop, Mobile, or Tablet.
+### 13) Sales Report  
+With the Sales Report, a merchant can track the sale of the products that were sold as a bump offer. It lets you track the sale of those products for a specific time and also enables you to track the sales as per individual products and product categories.
 
-### 14) Behavioral Reporting: 
-Merchants can analyze the customer behavior for every individual order bump offer. With this behavioral report, a merchant can check the number of times a particular offer was viewed, accepted, or removed from the cart. It also shows the conversion rate and the total sales for every order bump upsell offer.
+### 14) Enable Permalink On Product Title And Image  
+By enabling the permalink option from the Global Settings your customers can view the bump offer product in detail. Customers can click either on the product title or the product image of the WooCommerce bump offer product on the checkout page.
 
-### 15) WooCommerce Upsell Order Bump and Cross-sell Sales Report: 
-With the WooCommerce Order Bump Sales Report, a merchant can track the sale of the products that were sold as a bump offer. It lets you track the sale of those products for a specific time and also enables you to track the sales as per individual products and product categories.
+### 15) Add a Custom Image  
+The admin can change the default order bump offer product image from the funnel setting and replace it with a custom image.
 
-### 16) Major Product Types Support: 
-The WooCommerce Order Bump plugin comes with full compatibility with simple, variable, and subscription product types. This increases the range of product offerings that you can provide to your customers.
+### 16) Variable Products & Category Support  
+The WooCommerce Upsell plugin allows you to create multiple one-time upsell offers specifically for variable products and on categories, giving you the flexibility to offer different variations and upsell on categories.
 
-### 17) Enable Permalink On WooCoomerce Upsell Product Title And Image: 
-By enabling the permalink option from the Global Settings your customers can view the bump offer product in detail. Customers can click either on the product title or the product image of the bump offer product on the checkout page. As a result, the customer will be redirected to a new page to view the complete information.
+### 17) Free Order Upsell  
+The Upsell funnel has the option to trigger the upsell funnel on a zero cart amount, after enabling this setting upsell will be triggered even if the checkout value is zero.
 
-### 18) Add Custom Image: 
-This is one of our recent features. The admin can change the default order bump offer product image from the funnel setting and replace it with a custom image.
+### 18) Unlimited Funnels with an Unlimited Number of Offers  
+You can create unlimited sales funnels with any number of Upsell and Cross Sell Offers. Show your customers multiple post-purchase or aftersale offers in a single sales funnel which increases the impulse buys, average order value, and revenue of your store.
+
+### 19) Add the Shipping Price On COD One Click Upsells  
+Our free click funnel plugin allows you to set the shipping price for the cash-on-delivery payment method for upsell offers. This allows you to cover operational costs for delivering the COD upsell products and maintain your profits.
+
+### 20) Global Funnels  
+Create global one-click funnels that trigger independently without needing target products. Utilize the universal WooCommerce one-click upsell to show offers to your customers every time they purchase in your online store.
+
+### 21) Exclusive Offer Feature  
+The upsell sales funnel builder creates exclusive offers for the customers, which will be shown to customers only once based on the order email. Such one-click upsell offers garner higher conversion rates.
+
+### 22) Page Builder Support to Build Responsive Upsell Offers  
+Build the one-click upsell funnel for WooCommerce with Elementor Page Builder and other top builders available on WordPress. Our plugin allows you to easily create and customize your upsell offer pages without coding knowledge.
+
+
 
 Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc) to learn more about the features and work of the plugin.
 
@@ -120,23 +140,23 @@ Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://su
 
 ### 🏆 What Premium Version Of WooCommerce Order Bump Offers:
 
-#### 1. Frequently Bought Together ####
- With this feature, merchants can showcase a list of products bought together so customers can consider buying them. 
+### 1) Multiple Locations  
+Include bump offers across the website using a shortcode, enhancing accessibility and improving the overall customer experience.
 
-#### 2. Recommendation Product With Discount ####
-Set bump recommendations for different products listed on their platforms, which will reflect on the product & cart page when the customer adds a product to their cart.
+### 2) Customizable Upsell Templates With Live Preview  
+With the WooCommerce order bump, merchants can select, customize, and preview real-time changes in templates using pre-made funnel templates.
 
-#### 3. WooCommerce Upsell Popup ####
-Display the sales pop-up screen of the WooCommerce upsell products image or title as per your choice at the WooCommerce checkout page.
+### 3) Sales Urgency Countdown Timer  
+One of the easiest strategies to boost conversions and elevate sales is to use a countdown timer on smart offers in WooCommerce to generate urgency.
 
-#### 4. Multiple Order Bumps: ####
-Merchants can show multiple offers as order bumps on a single checkout page. 
+### 4) Upsell Sales Report  
+Merchants can monitor the performance of all created upsell funnels based on key metrics like net sales, orders placed, orders purchased, and more.
 
-#### 5. Countdown Timer ####
-Boost conversions and elevate sales by using a countdown timer on smart offers WooCommerce. 
+### 5) Select The Target Products & Categories  
+You can select the products and categories that trigger WooCommerce upsell offers upon purchase.
 
-#### 6. Role-based Order Bumps ####
-Create bumps that can be limited to specific user roles for example if a user is logged in as a subscriber, the user can only see the products of bumps set by the admin
+### 6) Smart Offer Skip  
+The Smart Skip feature prevents the WooCommerce upsell funnel from triggering if the customer has already purchased the product shown in the offer.
 
 
 > Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-github-page&utm_campaign=order-bump-pro)
