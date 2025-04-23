@@ -23,9 +23,6 @@ use Automattic\WooCommerce\Utilities\OrderUtil;
  */
 class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
-
-
-
 	/**
 	 * The ID of this plugin.
 	 *
