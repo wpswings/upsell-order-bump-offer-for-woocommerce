@@ -39,10 +39,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Activator {
 
 			$wps_upsell_global_options = get_option( 'wps_upsell_lite_global_options', array() );
 			$wps_bump_upsell_global_options = get_option( 'wps_ubo_global_options', array() );
-			$wps_bump_upsell_global_options['wps_bump_enable_plugin'] = $wps_upsell_global_options['wps_wocuf_enable_plugin'];
-			$wps_bump_upsell_global_options['wps_bump_skip_offer'] = $wps_upsell_global_options['skip_similar_offer'];
-			$wps_bump_upsell_global_options['wps_ubo_offer_price_html'] = $wps_upsell_global_options['offer_price_html_type'];
-			if ( 'sale' == $wps_upsell_global_options['offer_price_html_type'] ) {
+
+			$wps_bump_upsell_global_options['wps_bump_enable_plugin'] = isset( $wps_upsell_global_options['wps_wocuf_enable_plugin'] ) ? $wps_upsell_global_options['wps_wocuf_enable_plugin'] : '';
+			$wps_bump_upsell_global_options['wps_bump_skip_offer'] = isset( $wps_upsell_global_options['skip_similar_offer'] ) ? $wps_upsell_global_options['skip_similar_offer'] : '';
+			$wps_bump_upsell_global_options['wps_ubo_offer_price_html'] = isset( $wps_upsell_global_options['offer_price_html_type'] ) ? $wps_upsell_global_options['offer_price_html_type'] : '';
+
+			if ( isset( $wps_upsell_global_options['offer_price_html_type'] ) && 'sale' === $wps_upsell_global_options['offer_price_html_type'] ) {
 				$wps_bump_upsell_global_options['wps_ubo_offer_price_html'] = 'sale_to_offer';
 			} else {
 				$wps_bump_upsell_global_options['wps_ubo_offer_price_html'] = 'regular_to_offer';
