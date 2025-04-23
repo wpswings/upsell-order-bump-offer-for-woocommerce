@@ -4,10 +4,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: Funnel Builder, one click upsell, woocommerce upsell, popup maker, frequently bought together,
 Requires at least: 5.5.0
-Tested up to: 6.7.2
+Tested up to: 6.8
 WC requires at least: 5.5.0
-WC tested up to: 9.7.1
-Stable tag: 3.0.0
+WC tested up to: 9.8.2
+Stable tag: 3.0.1
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -249,31 +249,31 @@ Manual installation of the plugin is another option to install the plugin in the
 == Screenshots ==
 
 1.  General settings
-2.  Global Settings - Pre Bump 
-3.  Global Settings - Post Bump
-4.  Order Bump Settings - Pre-Bump List
-5.  Order Bump Settings - Save Order Bump Settings 
-6.  Order Bump Settings - Save Order Bump Settings - Order Bump Offer Settings 
-7.  Order Bump Settings - Save Order Bump Settings - Appearance - Template 
-8.  Order Bump Settings - Save Order Bump Settings - Appearance - Design 
-9.  Order Bump Settings - Save Order Bump Settings - Appearance - Content 
-10. One- Click Settings - Post Bump List
-11. One Click Settings - Savel Funnel Settings - Upsell Funnel Settings
-12. One Click Settings - Savel Funnel Settings - Funnel Offers 
+2.  Global Settings – Pre Bump 
+3.  Global Settings – Post Bump
+4.  Order Bump Settings – Pre-Bump List
+5.  Order Bump Settings – Save Order Bump Settings 
+6.  Order Bump Settings – Save Order Bump Settings – Order Bump Offer Settings 
+7.  Order Bump Settings – Save Order Bump Settings – Appearance – Template 
+8.  Order Bump Settings – Save Order Bump Settings – Appearance – Design 
+9.  Order Bump Settings – Save Order Bump Settings – Appearance – Content 
+10. One- Click Settings – Post Bump List
+11. One Click Settings – Savel Funnel Settings – Upsell Funnel Settings
+12. One Click Settings – Savel Funnel Settings – Funnel Offers 
 13. Store Checkout Settings
-14. Store Checkout Settings - Checkout Page (Customize Billing Information)
-15. Store Checkout Settings - Checkout Page (Customize Shipping Information) 
-16. Store Checkout Settings - Checkout Page (Customize Other Settings)
-17. Store Checkout Settings - Checkout Page (Customize Payment Gateways)
-18. Store Checkout Settings - Thank You Page 
+14. Store Checkout Settings – Checkout Page (Customize Billing Information)
+15. Store Checkout Settings – Checkout Page (Customize Shipping Information) 
+16. Store Checkout Settings – Checkout Page (Customize Other Settings)
+17. Store Checkout Settings – Checkout Page (Customize Payment Gateways)
+18. Store Checkout Settings – Thank You Page 
 19. Shortcodes
 20. Sales Reports & Analytics 
-21. Pre Sales Reports & Analytics - Order Bump WooCommerce Sales Report
-22. Pre-Sales Reports & Analytics - Order Bump Behavioral Analytics
-23. Post-Sales Reports & Analytics - Sales Report 
-24. Post-Sales Reports & Analytics - Upsell - Behavioral Analytics
-25. Post-Sales Reports & Analytics - Google Analytics 
-26. Post-Sales Reports & Analytics - FB Pixel 
+21. Pre Sales Reports & Analytics – Order Bump WooCommerce Sales Report
+22. Pre-Sales Reports & Analytics – Order Bump Behavioral Analytics
+23. Post-Sales Reports & Analytics – Sales Report 
+24. Post-Sales Reports & Analytics – Upsell – Behavioral Analytics
+25. Post-Sales Reports & Analytics – Google Analytics 
+26. Post-Sales Reports & Analytics – FB Pixel 
 
 
 
@@ -444,6 +444,9 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 
 == Changelog ==
+= 3.0.1 – Released on 23 April 2025 = 
+* New: Compatibility with WordPress 6.8 and WooCommerce 9.8.2
+* Enhancement: Improved template appearance on Cart and Checkout pages.
 
 = 3.0.0 – Released on 3 April 2025 = 
 * New: Latest WP (6.7.2) and WC (9.7.1) compatibility
@@ -661,22 +664,6 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 3.0.0 – Released on 3 April 2025 = 
-* New: Latest WP (6.7.2) and WC (9.7.1) compatibility
-* New: Funnel Schedule
-* New: Global Funnel
-* New: Exclusive Offer 
-* New: Smart Offer Upgrade
-* New: Pre-Designed Upsell Funnel Templates 
-* New: Funnel List
-* New: One Click Upsell Shortcodes
-* New: Payment Gateway Support 
-* New: Exit intent Popup for upsell funnel 
-* New: Global CSS and JS
-* New: Dynamic Shipping Price on Upsell 
-* New: Upsell Sales Report Tracking 
-* New: GA4 and Facebook Pixel Tracking 
-* New: Product & Category Based Triggering
-* New: Schedule Offers
-* New: Upsell Templated Customization 
-* New: Page Builder Support
+= 3.0.1 – Released on 23 April 2025 = 
+* New: Compatibility with WordPress 6.8 and WooCommerce 9.8.2
+* Enhancement: Improved template appearance on Cart and Checkout pages.
