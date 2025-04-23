@@ -12,7 +12,7 @@ Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Upsell Funnel Builder lets you create Post Purchase Upsell, One Click upsell, Cross-Sells, Frequently Bought, and Popups. 
+Upsell Funnel Builder lets you create Post Purchase Upsell, Order Bumps, One Click upsell, Cross-Sells, Frequently Bought, and Popups. 
 
 === Description ===
 
@@ -248,20 +248,33 @@ Manual installation of the plugin is another option to install the plugin in the
 
 == Screenshots ==
 
-1.  Order bump
-2.  Order bump for variable product
-3.  Popup to select variations of offer product
-4.  Target Products and Category
-5.  Offer Product
-6.  Predefined Templates
-7.  Design Customization with Live Preview
-8.  Content for Order Bump
-9.  Order Bump Listing
-10. Global Settings
-11. Order with accepted Order Bump
-12. Behavioral Analytics: Check the performance of each Order Bump
-13. Sales Report by date: Check Order Bump sales for a set time
-14. New Order Bump Template
+1.  General settings
+2.  Global Settings - Pre Bump 
+3.  Global Settings - Post Bump
+4.  Order Bump Settings - Pre-Bump List
+5.  Order Bump Settings - Save Order Bump Settings 
+6.  Order Bump Settings - Save Order Bump Settings - Order Bump Offer Settings 
+7.  Order Bump Settings - Save Order Bump Settings - Appearance - Template 
+8.  Order Bump Settings - Save Order Bump Settings - Appearance - Design 
+9.  Order Bump Settings - Save Order Bump Settings - Appearance - Content 
+10. One- Click Settings - Post Bump List
+11. One Click Settings - Savel Funnel Settings - Upsell Funnel Settings
+12. One Click Settings - Savel Funnel Settings - Funnel Offers 
+13. Store Checkout Settings
+14. Store Checkout Settings - Checkout Page (Customize Billing Information)
+15. Store Checkout Settings - Checkout Page (Customize Shipping Information) 
+16. Store Checkout Settings - Checkout Page (Customize Other Settings)
+17. Store Checkout Settings - Checkout Page (Customize Payment Gateways)
+18. Store Checkout Settings - Thank You Page 
+19. Shortcodes
+20. Sales Reports & Analytics 
+21. Pre Sales Reports & Analytics - Order Bump WooCommerce Sales Report
+22. Pre-Sales Reports & Analytics - Order Bump Behavioral Analytics
+23. Post-Sales Reports & Analytics - Sales Report 
+24. Post-Sales Reports & Analytics - Upsell - Behavioral Analytics
+25. Post-Sales Reports & Analytics - Google Analytics 
+26. Post-Sales Reports & Analytics - FB Pixel 
+
 
 
 == Frequently Asked Questions ==
@@ -440,7 +453,7 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 * New: Smart Offer Upgrade
 * New: Pre-Designed Upsell Funnel Templates 
 * New: Funnel List
-* New: One Click Upsell Shortcodes 
+* New: One Click Upsell Shortcodes
 * New: Payment Gateway Support 
 * New: Exit intent Popup for upsell funnel 
 * New: Global CSS and JS
@@ -449,7 +462,7 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 * New: GA4 and Facebook Pixel Tracking 
 * New: Product & Category Based Triggering
 * New: Schedule Offers
-* New: Upsell Template Customization 
+* New: Upsell Templated Customization 
 * New: Page Builder Support
 
 
@@ -656,7 +669,7 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 * New: Smart Offer Upgrade
 * New: Pre-Designed Upsell Funnel Templates 
 * New: Funnel List
-* New: One Click Upsell Shortcodes 
+* New: One Click Upsell Shortcodes
 * New: Payment Gateway Support 
 * New: Exit intent Popup for upsell funnel 
 * New: Global CSS and JS
