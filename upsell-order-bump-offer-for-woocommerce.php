@@ -22,7 +22,7 @@
  * WC tested up to:         9.7.1
  *
  * Requires Plugins: woocommerce
- * Version:           3.0.0
+ * Version:           3.0.2
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -37,6 +37,8 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Automattic\WooCommerce\Utilities\OrderUtil;
+// To Suppress The Notices on text doman.
+add_filter( 'doing_it_wrong_trigger_error', '__return_false' );
 
 $activated      = false;
 $active_plugins = get_option( 'active_plugins', array() );
@@ -252,9 +254,9 @@ if ( $activated ) {
 	/**
 	 * The file responsible for Upsell Sales by Funnel - Data handling and Stats.
 	 */
-	if ( ! wps_ubo_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
+	// if ( ! wps_ubo_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
 		require_once plugin_dir_path( __FILE__ ) . 'reporting/class-wps-upsell-report-sales-by-funnel-bump.php';
-	}
+	// }
 
 
 	/**

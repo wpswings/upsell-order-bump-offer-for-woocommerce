@@ -194,18 +194,28 @@ do_action( 'wps_ubo_lite_tab_active' );
 				if ( wps_ubo_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
 					include_once WPS_WOCUF_PRO_DIRPATH . 'admin/partials/templates/wps-wocuf-pro-settings.php';
 				} else {
+					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '4.0.0' ) ) {
+						include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . 'admin/partials/templates/wps-wocuf-pro-settings.php';
+					} else {
 
-					include_once 'templates/wps-post-upsell-global-section.php';
+						include_once 'templates/wps-post-upsell-global-section.php';
+
+					}
 				}
+
 			}
 		}
+
+		
 
 		// General setting rendering.
 		if ( 'general-setting' === $wps_ubo_lite_active_tab || ( isset( $_GET['page'] ) && 'upsell-order-bump-offer-for-woocommerce-setting' === $_GET['page'] && count( $_GET ) === 1 ) ) {
 			include_once 'templates/wps-general-setting-offer-section.php';
 		}
 
+
 		// One click upsell list rendering.
+		// Changes For the one click funnel builder pro.
 		if ( 'one-click-section' === $wps_ubo_lite_active_tab ) {
 			$global_setting_sub_tab = isset( $_GET['sub_tab'] ) ? sanitize_text_field( wp_unslash( $_GET['sub_tab'] ) ) : 'post-list-offer-section';
 
@@ -214,14 +224,29 @@ do_action( 'wps_ubo_lite_tab_active' );
 				if ( wps_ubo_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
 					include_once WPS_WOCUF_PRO_DIRPATH . 'admin/partials/templates/wps-wocuf-pro-funnels-list.php';
 				} else {
-					include_once 'templates/wps-post-list-offer-section.php';
+					
+					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '4.0.0' ) ) {
+
+					include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH .'admin/partials/templates/wps-wocuf-pro-funnels-list.php';
+
+					} else {
+
+						include_once 'templates/wps-post-list-offer-section.php';
+
+					}
+
 				}
 			} elseif ( 'post-save-offer-section' === $global_setting_sub_tab ) {
 
 				if ( wps_ubo_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
 					include_once WPS_WOCUF_PRO_DIRPATH . 'admin/partials/templates/wps-wocuf-pro-creation.php';
 				} else {
-					include_once 'templates/wps-post-save-offer-section.php';
+					
+					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '4.0.0' ) ) {
+					include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH .  'admin/partials/templates/wps-wocuf-pro-creation.php';
+					} else {
+						include_once 'templates/wps-post-save-offer-section.php';
+					}
 				}
 			}
 		}
@@ -235,8 +260,8 @@ do_action( 'wps_ubo_lite_tab_active' );
 		// Store Checkout setting rendering.
 		if ( 'store-checkout-section' === $wps_ubo_lite_active_tab ) {
 
-			if ( wps_ubo_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
-				include_once WPS_WOCUF_PRO_DIRPATH . 'admin/partials/templates/wps-wocuf-pro-store-checkout.php';
+			if ( wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
+				include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . 'admin/partials/templates/wps-wocuf-pro-store-checkout.php';
 			} else {
 				include_once 'templates/wps-store-checkout-section.php';
 			}
@@ -248,7 +273,12 @@ do_action( 'wps_ubo_lite_tab_active' );
 		}
 
 		if ( 'creation-setting-post' === $wps_ubo_lite_active_tab ) {
-			include_once 'templates/wps-post-save-offer-section.php';
+			
+			if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '4.0.0' ) ) {
+			include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH .  'admin/partials/templates/wps-wocuf-pro-creation.php';
+			} else {
+				include_once 'templates/wps-post-save-offer-section.php';
+			}
 		}
 	} else if ( ! $plugin_version ) {
 

@@ -7716,4 +7716,25 @@ if ( ! function_exists( 'wps_upsell_lite_live_offer_url_params_funnel_builder' )
 		// phpcs:enable
 		return $params;
 	}
+
+
+	if ( ! function_exists( 'wps_is_plugin_active_with_version' ) ) {
+		function wps_is_plugin_active_with_version( $plugin_file, $required_version = '0.0.0' ) {
+			// Ensure necessary function is loaded
+			if ( ! function_exists( 'get_plugin_data' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}
+	
+			// Check if plugin is active
+			if ( is_plugin_active( $plugin_file ) ) {
+				$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_file );
+				$current_version = $plugin_data['Version'];
+	
+				return version_compare( $current_version, $required_version, '>=' );
+			}
+	
+			return false;
+		}
+	}
+	
 }
