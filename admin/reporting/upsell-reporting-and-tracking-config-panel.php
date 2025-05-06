@@ -52,7 +52,7 @@ if (  wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pr
 	</div>
 
 	<div class="wps_wocuf_pro_header">
-		<?php if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '4.0.0' ) ) { ?>
+		<?php if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) { ?>
 		<div class="wps_wocuf_pro_setting_title"><?php esc_html_e( 'Upsell Funnel Builder for WooCommerce Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 	    <?php  } else { ?>
 			<div class="wps_wocuf_pro_setting_title"><?php esc_html_e( 'Upsell Funnel Builder for WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>

@@ -194,7 +194,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 				if ( wps_ubo_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
 					include_once WPS_WOCUF_PRO_DIRPATH . 'admin/partials/templates/wps-wocuf-pro-settings.php';
 				} else {
-					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '4.0.0' ) ) {
+					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
 						include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH . 'admin/partials/templates/wps-wocuf-pro-settings.php';
 					} else {
 
@@ -225,7 +225,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 					include_once WPS_WOCUF_PRO_DIRPATH . 'admin/partials/templates/wps-wocuf-pro-funnels-list.php';
 				} else {
 					
-					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '4.0.0' ) ) {
+					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
 
 					include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH .'admin/partials/templates/wps-wocuf-pro-funnels-list.php';
 
@@ -242,7 +242,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 					include_once WPS_WOCUF_PRO_DIRPATH . 'admin/partials/templates/wps-wocuf-pro-creation.php';
 				} else {
 					
-					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '4.0.0' ) ) {
+					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
 					include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH .  'admin/partials/templates/wps-wocuf-pro-creation.php';
 					} else {
 						include_once 'templates/wps-post-save-offer-section.php';
@@ -274,7 +274,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 
 		if ( 'creation-setting-post' === $wps_ubo_lite_active_tab ) {
 			
-			if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '4.0.0' ) ) {
+			if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
 			include_once UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_DIRPATH .  'admin/partials/templates/wps-wocuf-pro-creation.php';
 			} else {
 				include_once 'templates/wps-post-save-offer-section.php';

@@ -20,10 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Get all funnels.
-$funnels_list = get_option( 'wps_wocuf_pro_funnels_list' );
-$org_upsell_funnels = get_option( 'wps_wocuf_funnels_list' );
-$pro_upsell_funnels = get_option( 'wps_wocuf_pro_funnels_list' );
-
+if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
+	$funnels_list = get_option( 'wps_wocuf_pro_funnels_list' );
+} else {
+	$funnels_list = get_option( 'wps_wocuf_funnels_list' );
+}
 ?>
 
 <div class="wps_wocuf_pro_funnels_list">
@@ -66,7 +67,7 @@ $pro_upsell_funnels = get_option( 'wps_wocuf_pro_funnels_list' );
 				<tr>		
 					<!-- Funnel Name -->
 				<?php 
-					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '4.0.0' ) ) {
+					if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
 					 ?>
 					<td><a class="wps_upsell_funnel_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting-post&sub_tab=post-list-offer-section&funnel_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['wps_wocuf_pro_funnel_name'] ); ?></a></td>
 					<?php 
