@@ -22,7 +22,7 @@ $form_fields = apply_filters( 'wps_on_boarding_form_fields', array() );
 ?>
 
 <?php if ( ! empty( $form_fields ) ) : ?>
-	<div class="wps-onboarding-section">
+	<div class="wps-onboarding-section-funnel-bulder">
 		<div class="wps-on-boarding-wrapper-background">
 		<div class="wps-on-boarding-wrapper">
 			<div class="wps-on-boarding-close-btn">

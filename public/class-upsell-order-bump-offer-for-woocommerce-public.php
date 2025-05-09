@@ -5254,8 +5254,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			$url    = wps_wocfo_hpos_get_meta_data_funnel_builder( $order_id, 'wps_wocuf_upsell_funnel_order_redirection_link', true );
 
-			wp_redirect($url); //phpcs:ignore
-			exit();
+			if ( isset( $result['result'] ) && 'success' === $result['result'] ) {
+
+				wp_redirect($result['redirect']); //phpcs:ignore
+				exit;
+			}
 		}
 
 		$url = $order->get_checkout_order_received_url();
@@ -6877,7 +6880,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$payment_method = $order->get_payment_method();
 
 			if ( ! empty( $payment_method ) ) {
+
 				$result = $gateways[ $payment_method ]->process_payment( $order_id, 'true' );
+			}
+			if ( ! empty( $result ) ) {
+				$thankyou_url = wc_get_endpoint_url(
+					'order-received',
+					$order_id,
+					wc_get_checkout_url()
+				);
+
+				$thankyou_url = add_query_arg( 'key', $order->get_order_key(), $thankyou_url );
+				$result['redirect'] = $thankyou_url;
 			}
 
 			$order->reduce_order_stock();

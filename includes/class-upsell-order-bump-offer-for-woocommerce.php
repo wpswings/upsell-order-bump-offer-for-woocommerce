@@ -575,7 +575,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			}
 		} else {
 
-			$single_first_bump = array( key( $wps_ubo_offer_array_collection ) => $wps_ubo_offer_array_collection[ key( $wps_ubo_offer_array_collection ) ] );
+			if ( ! empty( $wps_ubo_offer_array_collection ) ) {
+				$first_key = array_key_first( $wps_ubo_offer_array_collection ); // safer.
+				$single_first_bump = array(
+					$first_key => $wps_ubo_offer_array_collection[ $first_key ],
+				);
+			} else {
+				$single_first_bump = array(); // or handle the case appropriately.
+			}
 
 			// Unset Smart Offer Upgrade in case as it's a pro feature.
 			$single_first_bump[ key( $wps_ubo_offer_array_collection ) ]['wps_ubo_offer_replace_target'] = 'no';
