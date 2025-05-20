@@ -209,7 +209,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_filter( 'page_template', $plugin_admin, 'wps_wocuf_pro_page_template' );
 
 			// Create new offer - ajax handle function.
-			// $this->loader->add_action( 'wp_ajax_wps_wocuf_pro_return_offer_content', $plugin_admin, 'return_funnel_offer_section_content' );
+			$this->loader->add_action( 'wp_ajax_wps_wocuf_pro_return_offer_content', $plugin_admin, 'return_funnel_offer_section_content' );
 
 			// Insert and Activate respective template ajax handle function.
 			$this->loader->add_action( 'wp_ajax_wps_upsell_activate_offer_template_ajax', $plugin_admin, 'activate_respective_offer_template' );
@@ -575,7 +575,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			}
 		} else {
 
-			$single_first_bump = array( key( $wps_ubo_offer_array_collection ) => $wps_ubo_offer_array_collection[ key( $wps_ubo_offer_array_collection ) ] );
+			if ( ! empty( $wps_ubo_offer_array_collection ) ) {
+				$first_key = array_key_first( $wps_ubo_offer_array_collection ); // safer.
+				$single_first_bump = array(
+					$first_key => $wps_ubo_offer_array_collection[ $first_key ],
+				);
+			} else {
+				$single_first_bump = array(); // or handle the case appropriately.
+			}
 
 			// Unset Smart Offer Upgrade in case as it's a pro feature.
 			$single_first_bump[ key( $wps_ubo_offer_array_collection ) ]['wps_ubo_offer_replace_target'] = 'no';

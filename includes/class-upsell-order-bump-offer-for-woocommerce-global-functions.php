@@ -1019,6 +1019,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			font-size: <?php echo esc_html( $product_section_text_price_size ) . esc_html( 'px' ); ?>;
 			font-weight: 700;
 			color: <?php echo esc_html( $product_section_price_text_color ); ?>;
+			text-align: center !important;
 		}
 
 		<?php echo esc_html( $order_bump_div_id ); ?> p.wps_upsell_offer_product_price del {
@@ -1269,8 +1270,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	// parent wrapper start.
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	$bumphtml .= '<input type="hidden" class ="offer_shown_id" value="' . $bump['id'] . '">';
-	$bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
+	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -1610,17 +1610,17 @@ function wps_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 			'_before_order_summary'      => array(
 				'hook'     => 'woocommerce_checkout_order_review',
 				'priority' => 9,
-				'name'     => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+				'name'     => 'Before Order Summary',
 			),
 			'_before_payment_gateways'   => array(
 				'hook'     => 'woocommerce_checkout_order_review',
 				'priority' => 11,
-				'name'     => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+				'name'     =>  'Before Payment Gateways',
 			),
 			'_after_payment_gateways'    => array(
 				'hook'     => 'wps_ubo_after_pg_before_terms',
 				'priority' => 19,
-				'name'     => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+				'name'     =>  'After Payment Gateways',
 			),
 		);
 
@@ -1630,14 +1630,14 @@ function wps_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 			$location_details['_before_place_order_button'] = array(
 				'hook'     => 'woocommerce_review_order_after_payment',
 				'priority' => 10,
-				'name'     => esc_html__( 'Before Place order button', 'upsell-order-bump-offer-for-woocommerce' ),
+				'name'     => 'Before Place order button',
 			);
 		} else {
 			// If not active, add the default hook.
 			$location_details['_before_place_order_button'] = array(
 				'hook'     => 'woocommerce_review_order_before_submit',
 				'priority' => 21,
-				'name'     => esc_html__( 'Before Place order button', 'upsell-order-bump-offer-for-woocommerce' ),
+				'name'     => 'Before Place order button',
 			);
 		}
 	} else {   // Code For Comapatibility With CheckoutWC plugin.
@@ -1645,22 +1645,22 @@ function wps_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 			'_before_order_summary'      => array(
 				'hook'     => 'cfw_checkout_cart_summary',
 				'priority' => 10,
-				'name'     => esc_html__( 'Before Order Summary', 'upsell-order-bump-offer-for-woocommerce' ),
+				'name'     => 'Before Order Summary',
 			),
 			'_before_payment_gateways'   => array(
 				'hook'     => 'cfw_before_payment_method_heading',
 				'priority' => 11,
-				'name'     => esc_html__( 'Before Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+				'name'     => 'Before Payment Gateways',
 			),
 			'_after_payment_gateways'    => array(
 				'hook'     => 'cfw_checkout_after_payment_methods',
 				'priority' => 19,
-				'name'     => esc_html__( 'After Payment Gateways', 'upsell-order-bump-offer-for-woocommerce' ),
+				'name'     =>  'After Payment Gateways', 
 			),
 			'_before_place_order_button' => array(
 				'hook'     => 'woocommerce_review_order_before_submit',
 				'priority' => 21,
-				'name'     => esc_html__( 'Before Place order button', 'upsell-order-bump-offer-for-woocommerce' ),
+				'name'     => 'Before Place order button',
 			),
 		);
 	}
@@ -3551,8 +3551,7 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 	// parent wrapper start.
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	$bumphtml .= '<input type="hidden" class ="offer_shown_id" value="' . $bump['id'] . '">';
-	$bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
+	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -4149,8 +4148,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 	// parent wrapper start.
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	$bumphtml .= '<input type="hidden" class ="offer_shown_id" value="' . $bump['id'] . '">';
-	$bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
+	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -4776,8 +4774,7 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 	// parent wrapper start.
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	$bumphtml .= '<input type="hidden" class ="offer_shown_id" value="' . $bump['id'] . '">';
-	$bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
+	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -5204,8 +5201,7 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 	$bumphtml .= '<div id="wps-ubo__temp-sec">';
 	$bumphtml .= '<section id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class="wps-ubo__temp wps_upsell_offer_parent_wrapper ' . $wps_class_template_pro . ' wps_parent_wrapper_order_bump_' . $order_bump_key . '">'; // phpcs:ignore
 
-	$bumphtml .= '<input type="hidden" class ="offer_shown_id" value="' . $bump['id'] . '">';
-	$bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
+	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -5659,8 +5655,8 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	$bumphtml .= '<input type="hidden" class ="offer_shown_id" value="' . $bump['id'] . '">';
-	$bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
+	// $bumphtml .= '<input type="hidden" class ="offer_shown_id" value="' . $bump['id'] . '">';
+	// $bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -5942,8 +5938,7 @@ function wps_ubo_lite_bump_offer_html_11( $bump, $encountered_order_bump_id = ''
 
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	$bumphtml .= '<input type="hidden" class ="offer_shown_id" value="' . $bump['id'] . '">';
-	$bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
+
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -6472,8 +6467,7 @@ function wps_ubo_lite_bump_offer_html_12( $bump, $encountered_order_bump_id = ''
 		*/
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_new_template_12 wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	$bumphtml .= '<input type="hidden" class ="offer_shown_id" value="' . $bump['id'] . '">';
-	$bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
+	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';

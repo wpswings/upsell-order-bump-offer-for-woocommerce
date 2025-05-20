@@ -357,6 +357,7 @@ jQuery(document).ready(
 				// Required Data.
 				bump_id = selected_order_bump.find('.offer_shown_id').val();
 				bump_discount = selected_order_bump.find('.offer_shown_discount').val();
+				wps_order_bump_id = $(this).attr('order_bump_index');
 
 				jQuery.ajax(
 					{
@@ -370,6 +371,7 @@ jQuery(document).ready(
 							attributes_selected_options: attributes_selected,
 							id: bump_id,
 							discount: bump_discount,
+							wps_order_bump_id : wps_order_bump_id,
 						},
 
 						success: function (msg) {
