@@ -183,6 +183,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<span class="wps_upsell_shortcode_content"><?php echo esc_html__( '[wps_upsell_timer]', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 						</p>
 					</div>
+					<?php if(wps_upsell_lite_is_plugin_active_funnel_builder('woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php') || wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0') ){ ?>
+					<div class="wps_upsell_shortcode_div">
+							<p class="wps_upsell_shortcode">
+								<?php
+
+								$attribute_description = sprintf( '<p class="wps_upsell_tip_tip">%s</p>', esc_html__( 'This shortcode creates a custom form on upsell offer page .', 'one-click-upsell-funnel-for-woocommerce-pro' ) );
+								wps_wc_help_tip( $attribute_description );
+
+								?>
+								<span class="wps_upsell_shortcode_title"><?php esc_html_e( 'Custom Form &rarr;', 'one-click-upsell-funnel-for-woocommerce-pro' ); ?></span>
+								<span class="wps_upsell_shortcode_content"><?php echo esc_html__( '[wps_form]' ); ?></span>
+							</p>
+						</div>
+						<div class="wps_upsell_shortcode_div">
+							<p class="wps_upsell_shortcode">
+								<?php
+
+								$attribute_description = sprintf( '<p class="wps_upsell_tip_tip">%s</p>', esc_html__( 'This shortcode Displays Frequently Bought products on upsell offer page .', 'one-click-upsell-funnel-for-woocommerce-pro' ) );
+								wps_wc_help_tip( $attribute_description );
+
+								?>
+								<span class="wps_upsell_shortcode_title"><?php esc_html_e( 'Frequently Bought &rarr;', 'one-click-upsell-funnel-for-woocommerce-pro' ); ?></span>
+								<span class="wps_upsell_shortcode_content"><?php echo esc_html__( '[wps_frequently_bought_offers]' ); ?></span>
+							</p>
+						</div>
+						<?php } ?>
 				</td>
 			</tr>
 			<!-- Other shortcodes ends-->

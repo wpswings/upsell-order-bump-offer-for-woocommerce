@@ -328,8 +328,9 @@ jQuery(document).ready(function ($) {
 		   });		
 		});
 	
-		// Create New Offer.
-		jQuery( '#wps_upsell_create_new_offer' ).on( 'click', function(e) {
+	// Create New Offer.
+	if (!wps_ubo_lite_ajaxurl.funnel_builder_pro_is_enable) {
+		jQuery('#wps_upsell_create_new_offer').on('click', function (e) {
 			e.preventDefault();
 	
 			// Last offer id.
@@ -342,26 +343,26 @@ jQuery(document).ready(function ($) {
 			$('#wps_wocuf_pro_loader').removeClass('hide');
 			$('#wps_wocuf_pro_loader').addClass('show');
 	
-			upsell_create_new_offer_post_request( index, funnel );		
+			upsell_create_new_offer_post_request(index, funnel);
 		});
 	
 	
-		function upsell_create_new_offer_post_request( index, funnel ) {
+		function upsell_create_new_offer_post_request(index, funnel) {
 
 			// Increase offer id.
 			++index;
 	
 			$.ajax({
-				type:'POST',
-				url :wps_ubo_lite_ajaxurl.ajaxurl,
-				data:{
+				type: 'POST',
+				url: wps_ubo_lite_ajaxurl.ajaxurl,
+				data: {
 					action: 'wps_wocuf_pro_return_offer_content',
-					nonce : wps_ubo_lite_ajaxurl.one_click_funnel_nonce,
+					nonce: wps_ubo_lite_ajaxurl.one_click_funnel_nonce,
 					wps_wocuf_pro_flag: index,
 					wps_wocuf_pro_funnel: funnel
 				},
 	
-				success:function( data ) {
+				success: function (data) {
 	
 					// Hide loading icon.
 					jQuery('#wps_wocuf_pro_loader').removeClass('show');
@@ -370,45 +371,43 @@ jQuery(document).ready(function ($) {
 					jQuery('.new_offers').append(data);
 	
 					// Slidedown.
-					jQuery('.new_created_offers').slideDown( 1500 );
+					jQuery('.new_created_offers').slideDown(1500);
 	
 					// Scrolldown Animate.
 					var scroll_height = $(document).height() - 300;
-					$('html, body').animate({ scrollTop: scroll_height }, 1000 );
+					$('html, body').animate({ scrollTop: scroll_height }, 1000);
 	
 	
 					// Remove Added Offers.
-					jQuery('.wps_wocuf_pro_delete_new_created_offers').on( 'click', function(e) {
+					jQuery('.wps_wocuf_pro_delete_new_created_offers').on('click', function (e) {
 						e.preventDefault();
-						var btn_id = $(this).data( 'id' );
-						jQuery("div.new_created_offers[data-id='" + btn_id + "']").slideUp( 'slow', function() { $(this).remove(); } );
+						var btn_id = $(this).data('id');
+						jQuery("div.new_created_offers[data-id='" + btn_id + "']").slideUp('slow', function () { $(this).remove(); });
 					});
 	
 					// Reinitialize product search in new offer.
 					jQuery('.wc-offer-product-search').select2({
-						  ajax:{
-								url :wps_ubo_lite_ajaxurl.ajaxurl,
-								dataType: 'json',
-								delay: 200,
-								data: function (params) {
-									  return {
-										q: params.term,
-										nonce : wps_ubo_lite_ajaxurl.one_click_funnel_nonce,
-										action: 'seach_products_for_offers'
-									  };
-								},
-								processResults: function( data ) {
+						ajax: {
+							url: wps_ubo_lite_ajaxurl.ajaxurl,
+							dataType: 'json',
+							delay: 200,
+							data: function (params) {
+								return {
+									q: params.term,
+									nonce: wps_ubo_lite_ajaxurl.one_click_funnel_nonce,
+									action: 'seach_products_for_offers'
+								};
+							},
+							processResults: function (data) {
 								var options = [];
-								if ( data ) 
-								{
-									$.each( data, function( index, text )
-									{
-										text[1]+='( #'+text[0]+')';
-										options.push( { id: text[0], text: text[1]  } );
+								if (data) {
+									$.each(data, function (index, text) {
+										text[1] += '( #' + text[0] + ')';
+										options.push({ id: text[0], text: text[1] });
 									});
 								}
 								return {
-									results:options
+									results: options
 								};
 							},
 							cache: true
@@ -417,7 +416,8 @@ jQuery(document).ready(function ($) {
 					});
 	
 				}
-		   });
+			});
+		}
 	}
 	
 

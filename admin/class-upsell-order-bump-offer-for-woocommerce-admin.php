@@ -260,6 +260,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 						'auth_nonce' => wp_create_nonce( 'wps_onboarding_nonce' ),
 						'one_click_funnel_nonce' => wp_create_nonce( 'wps_wocuf_nonce' ),
 						'screen_id' => $screen->id,
+						'funnel_builder_pro_is_enable' => wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ),
 					)
 				);
 

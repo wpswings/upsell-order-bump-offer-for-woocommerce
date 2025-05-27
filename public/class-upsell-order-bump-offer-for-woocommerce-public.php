@@ -344,6 +344,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$upsell_loader_redirect_link = ! empty( $upsell_global_options['upsell_actions_message'] ) ? sanitize_text_field( $upsell_global_options['upsell_actions_message'] ) : '';
 		}
 
+		if (! wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' )) {
 		wp_localize_script(
 			'woocommerce-one-click-upsell-public-script-lite',
 			'wps_upsell_public',
@@ -354,6 +355,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'upsell_actions_message' => ! empty( $show_upsell_loader ) ? $upsell_loader_redirect_link : '',
 			)
 		);
+	}
 
 		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
 		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
@@ -365,7 +367,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			}
 		}
 
-		if ( ! empty( $is_upsell_page ) ) {
+		if ( ! empty( $is_upsell_page ) && ! wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' )) {
 			$upsell_global_options = get_option( 'wps_upsell_lite_global_options', array() );
 			$upsell_skip_function = ! empty( $upsell_global_options['wps_wocuf_pro_skip_exit_intent_toggle'] ) ? sanitize_text_field( $upsell_global_options['wps_wocuf_pro_skip_exit_intent_toggle'] ) : '';
 			$upsell_exit_intent_message = __( 'Enhance your shopping experience! Explore additional products at a discount before you exit.', 'upsell-order-bump-offer-for-woocommerce' );

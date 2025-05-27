@@ -116,21 +116,28 @@ if ( $activated ) {
 		 * @return array
 		 */
 		function wps_upsell_lite_is_plugin_active_funnel_builder( $plugin_slug ) {
-
 			if ( empty( $plugin_slug ) ) {
-
 				return false;
 			}
-
+		
 			$active_plugins = (array) get_option( 'active_plugins', array() );
-
-			if ( is_multisite() ) {
-
-				$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+		
+			// Check regular activation
+			if ( in_array( $plugin_slug, $active_plugins, true ) ) {
+				return true;
 			}
-
-			return in_array( $plugin_slug, $active_plugins, true ) || array_key_exists( $plugin_slug, $active_plugins );
+		
+			// Check multisite network activation
+			if ( is_multisite() ) {
+				$network_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
+				if ( isset( $network_plugins[ $plugin_slug ] ) ) {
+					return true;
+				}
+			}
+		
+			return false;
 		}
+		
 	}
 
 	/**
