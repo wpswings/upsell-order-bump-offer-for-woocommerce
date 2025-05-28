@@ -119,25 +119,24 @@ if ( $activated ) {
 			if ( empty( $plugin_slug ) ) {
 				return false;
 			}
-		
+
 			$active_plugins = (array) get_option( 'active_plugins', array() );
-		
-			// Check regular activation
+
+			// Check regular activation.
 			if ( in_array( $plugin_slug, $active_plugins, true ) ) {
 				return true;
 			}
-		
-			// Check multisite network activation
+
+			// Check multisite network activation.
 			if ( is_multisite() ) {
 				$network_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
 				if ( isset( $network_plugins[ $plugin_slug ] ) ) {
 					return true;
 				}
 			}
-		
+
 			return false;
 		}
-		
 	}
 
 	/**
@@ -261,9 +260,9 @@ if ( $activated ) {
 	/**
 	 * The file responsible for Upsell Sales by Funnel - Data handling and Stats.
 	 */
-	// if ( ! wps_ubo_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {
+	// if ( ! wps_ubo_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {.
 		require_once plugin_dir_path( __FILE__ ) . 'reporting/class-wps-upsell-report-sales-by-funnel-bump.php';
-	// }
+	// }.
 
 
 	/**
@@ -438,15 +437,14 @@ if ( $activated ) {
 				WP_Filesystem();
 
 				global $wp_filesystem;
-			// Create the directory if it doesn't exist.
-			if ( ! $wp_filesystem->is_dir( $plugin_dir ) ) {
-				$wp_filesystem->mkdir( $plugin_dir, 0755 , true );
-			}
+				// Create the directory if it doesn't exist.
+				if ( ! $wp_filesystem->is_dir( $plugin_dir ) ) {
+					$wp_filesystem->mkdir( $plugin_dir, 0755, true );
+				}
 
-
-			// Create the plugin file if it doesn't exist.
-			if ( ! file_exists( $plugin_file ) ) {
-				$plugin_content = '<?php
+				// Create the plugin file if it doesn't exist.
+				if ( ! file_exists( $plugin_file ) ) {
+					$plugin_content = '<?php
 				/*
 				Plugin Name: Woo One Click Upsell Funnel
 				Plugin URI: https://example.com
@@ -456,9 +454,9 @@ if ( $activated ) {
 				Author URI: https://wpswings.com/
 				*/
 				';
-				file_put_contents( $plugin_file, $plugin_content );
+					file_put_contents( $plugin_file, $plugin_content );
+				}
 			}
-		}
 		}
 
 
