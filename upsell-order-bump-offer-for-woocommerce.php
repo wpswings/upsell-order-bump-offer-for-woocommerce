@@ -39,6 +39,17 @@ if ( ! defined( 'WPINC' ) ) {
 use Automattic\WooCommerce\Utilities\OrderUtil;
 // To Suppress The Notices on text doman.
 add_filter( 'doing_it_wrong_trigger_error', '__return_false' );
+register_activation_hook(__FILE__, 'wps_plugin_safe_activation');
+
+function wps_plugin_safe_activation() {
+    ob_start(); // Start output buffering.
+
+    // Your activation logic here.
+    // Avoid using echo/print/var_dump etc. inside this block.
+
+    ob_end_clean(); // Clean (discard) the buffer.
+}
+
 
 $activated      = false;
 $active_plugins = get_option( 'active_plugins', array() );
