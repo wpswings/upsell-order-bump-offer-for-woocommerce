@@ -252,8 +252,10 @@ if ( $activated ) {
 	 * @since    1.0.0
 	 */
 	function activate_upsell_order_bump_offer_for_woocommerce() {
+		ob_start();
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-offer-for-woocommerce-activator.php';
 		Upsell_Order_Bump_Offer_For_Woocommerce_Activator::activate();
+		ob_end_clean();
 	}
 
 
@@ -397,11 +399,13 @@ if ( $activated ) {
 		 * @return void
 		 */
 		function wps_activate_plugin() {
+			 ob_start();
 			if ( ! wps_plugin_exists( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) ) {
 				update_option( 'wps_manual_create_upsell', 'done' );
 				wps_create_plugin_folder(); // Create the plugin folder and file.
 				wps_activate_created_plugin();
 			}
+			ob_end_clean(); // Discard buffer content.
 		}
 
 
