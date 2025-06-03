@@ -70,12 +70,21 @@ jQuery(document).ready(function($){
 	 * Sweet Alert when Upsell Action Buttons are clicked in Preview Mode. 
 	 * since v3.0.0
 	 */
-	$('a[href="#preview"]').on( 'click', function(e) {
+	jQuery(document).ready(function($) {
+		$(document).on('click', 'a[href$="#preview"]', function(e) {
+			e.preventDefault();
 
-		e.preventDefault();
-
-		swal( wps_upsell_public.alert_preview_title, wps_upsell_public.alert_preview_content, 'info' );
+			// Check if SweetAlert is available
+			if (typeof swal !== 'undefined') {
+				swal(wps_upsell_public.alert_preview_title, wps_upsell_public.alert_preview_content, 'info');
+			} else if (typeof Swal !== 'undefined') {
+				Swal.fire(wps_upsell_public.alert_preview_title, wps_upsell_public.alert_preview_content, 'info');
+			} else {
+				alert(wps_upsell_public.alert_preview_title + "\n\n" + wps_upsell_public.alert_preview_content);
+			}
+		});
 	});
+
 
 
 	/**
