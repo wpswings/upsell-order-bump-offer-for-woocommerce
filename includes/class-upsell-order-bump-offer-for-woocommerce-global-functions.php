@@ -1270,7 +1270,6 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	// parent wrapper start.
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -1615,12 +1614,12 @@ function wps_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 			'_before_payment_gateways'   => array(
 				'hook'     => 'woocommerce_checkout_order_review',
 				'priority' => 11,
-				'name'     =>  'Before Payment Gateways',
+				'name'     => 'Before Payment Gateways',
 			),
 			'_after_payment_gateways'    => array(
 				'hook'     => 'wps_ubo_after_pg_before_terms',
 				'priority' => 19,
-				'name'     =>  'After Payment Gateways',
+				'name'     => 'After Payment Gateways',
 			),
 		);
 
@@ -1655,7 +1654,7 @@ function wps_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 			'_after_payment_gateways'    => array(
 				'hook'     => 'cfw_checkout_after_payment_methods',
 				'priority' => 19,
-				'name'     =>  'After Payment Gateways', 
+				'name'     => 'After Payment Gateways',
 			),
 			'_before_place_order_button' => array(
 				'hook'     => 'woocommerce_review_order_before_submit',
@@ -3551,7 +3550,6 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 	// parent wrapper start.
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -4148,7 +4146,6 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 	// parent wrapper start.
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -4774,7 +4771,6 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 	// parent wrapper start.
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -5201,7 +5197,6 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 	$bumphtml .= '<div id="wps-ubo__temp-sec">';
 	$bumphtml .= '<section id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class="wps-ubo__temp wps_upsell_offer_parent_wrapper ' . $wps_class_template_pro . ' wps_parent_wrapper_order_bump_' . $order_bump_key . '">'; // phpcs:ignore
 
-	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -5938,7 +5933,6 @@ function wps_ubo_lite_bump_offer_html_11( $bump, $encountered_order_bump_id = ''
 
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -6467,7 +6461,6 @@ function wps_ubo_lite_bump_offer_html_12( $bump, $encountered_order_bump_id = ''
 		*/
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_new_template_12 wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';
@@ -7713,22 +7706,28 @@ if ( ! function_exists( 'wps_upsell_lite_live_offer_url_params_funnel_builder' )
 
 
 	if ( ! function_exists( 'wps_is_plugin_active_with_version' ) ) {
+		/**
+		 * Check if a plugin is active and meets the required version.
+		 *
+		 * @param string $plugin_file The plugin file path relative to the plugins directory.
+		 * @param string $required_version The minimum required version of the plugin.
+		 * @return bool True if the plugin is active and meets the version requirement, false otherwise.
+		 */
 		function wps_is_plugin_active_with_version( $plugin_file, $required_version = '0.0.0' ) {
-			// Ensure necessary function is loaded
+			// Ensure necessary function is loaded.
 			if ( ! function_exists( 'get_plugin_data' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			}
-	
-			// Check if plugin is active
+
+			// Check if plugin is active.
 			if ( is_plugin_active( $plugin_file ) ) {
 				$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_file );
 				$current_version = $plugin_data['Version'];
-	
+
 				return version_compare( $current_version, $required_version, '>=' );
 			}
-	
+
 			return false;
 		}
 	}
-	
 }
