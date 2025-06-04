@@ -5650,8 +5650,6 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 
 	$bumphtml .= '<div id="wps_upsell_offer_main_id_' . $encountered_order_bump_id . '" class = "wps_upsell_offer_main_wrapper wps_ubo_wrapper_index_' . $order_bump_key . '" >';
 
-	// $bumphtml .= '<input type="hidden" class ="offer_shown_id" value="' . $bump['id'] . '">';
-	// $bumphtml .= '<input type="hidden" class ="offer_shown_discount" value="' . $bump['discount_price'] . '">';
 	$bumphtml .= '<input type="hidden" class ="target_id_cart_key" value="' . $bump['target_key'] . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_index" value="index_' . $order_bump_key . '">';
 	$bumphtml .= '<input type="hidden" class ="order_bump_id" value="' . $encountered_order_bump_id . '">';

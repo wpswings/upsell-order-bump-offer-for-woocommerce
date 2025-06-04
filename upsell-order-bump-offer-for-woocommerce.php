@@ -262,9 +262,7 @@ if ( $activated ) {
 	/**
 	 * The file responsible for Upsell Sales by Funnel - Data handling and Stats.
 	 */
-	// if ( ! wps_ubo_lite_is_plugin_active( 'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php' ) ) {.
 		require_once plugin_dir_path( __FILE__ ) . 'reporting/class-wps-upsell-report-sales-by-funnel-bump.php';
-	// }.
 
 
 	/**
