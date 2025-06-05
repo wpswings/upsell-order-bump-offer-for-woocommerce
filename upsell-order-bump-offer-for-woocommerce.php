@@ -142,7 +142,7 @@ if ( $activated ) {
 	/**
 	 * Currently plugin version.
 	 */
-	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '3.0.0' );
+	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '3.0.3' );
 	if ( ! defined( 'WPS_WOCUF_URL_FUNNEL_BUILDER' ) ) {
 		define( 'WPS_WOCUF_URL_FUNNEL_BUILDER', plugin_dir_url( __FILE__ ) );
 	}
