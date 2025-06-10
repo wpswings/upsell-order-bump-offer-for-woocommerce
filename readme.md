@@ -1,7 +1,7 @@
-![Build Status](https://img.shields.io/travis/twbs/bootstrap/master.svg) ![Active installs](https://img.shields.io/badge/Active-5000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.7.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-9.6.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Active installs](https://img.shields.io/badge/Active-4000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.8.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-9.8.5-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
 # Upsell Funnel Builder for WooCommerce 
 
-![Upsell Funnel Builder for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772X250.jpg?rev=3266379)
+![Upsell Funnel Builder for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg?rev=3307092)
 * Contributors: WP Swings
 * Author URI: [**WP Swings**](https://wpswings.com/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=official-page)
 * Tags: ab test, frequently bought together, order bump, upsell, woocommerce
@@ -9,9 +9,9 @@
 
 # Description
 
-**UPSELL FUNNEL BUILDER FOR WOOCOMMERCE IS A SALES FUNNEL BUILDER WITH UPSELLING AND CROSS-SELLING THAT LETS THE WOOCOMMERCE MERCHANTS SHOW PRODUCT RECOMMENDATIONS ON THE PRODUCT, CART & CHECKOUT PAGE TO BOOST AOV AND INCREASE SALES.**
+**Upsell Order Bump is now Upsell Funnel Builder for WooCommerce which is a new sales funnel builder with upselling and cross-selling that lets woocommerce merchants show post-purchase upsell, order bumps, one-click upsell, cross-sells, frequently bought, popups and product recommendations on the product, cart and checkout page to boost aov and increase sales.**
 
-The [**Upsell Funnel Builder for WooCommerce**](https://wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-pro) allows store owners to make special offers exclusively on their checkout and thank you pages, enabling them to increase their conversions and Average Order Value. The merchants can create post-purchase upsell and cross-sell offers. This plugin allows merchants to create engaging sales funnels and bump offers that convert. 
+The [**Upsell Funnel Builder**](https://wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-pro) allows store owners to make special offers exclusively on their checkout and thank you pages, enabling them to increase their conversions and Average Order Value. The merchants can create post-purchase upsell and cross-sell offers. This plugin allows merchants to create engaging sales funnels and bump offers that convert. 
 
 Show your customers an exclusive [**WooCommerce upsell**](https://wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-pro) and [**WooCommerce cross-sell**](https://wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-pro) offer deals at an unbelievable price at the very moment that they are checking out.
 
@@ -20,7 +20,7 @@ Relevant bump offers can be set for specific targets with WooCommerce Order Bump
 [**Video**] - [**How To Create Upsell Order Bumps In Your WooCommerce Store?**](https://www.youtube.com/watch?v=BtMO0nH3EtE)
 
 
-[**Upsell Order Bump Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-frontend-demo) | [**Order Bump Offer Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=contactus)
+[**Upsell Funnel Builder Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-frontend-demo) | [**Order Funnel Builder Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=contactus)
 
 ## Why Choose Our WooCommerce Upsell Plugin?
 
@@ -29,14 +29,21 @@ Unlock exclusive upgrades and choose to boost your sales at checkout with our Wo
 
 ## ⭐ Salient Features Of Upsell Funnel Builder:
 
-* Create special upsell smart offers WooCommerce on the checkout page.
-* Customize responsive offer design specifically according to your WooCommerce upsell products.
-* Grow your average order value and customer satisfaction rate.
-* Schedule your bump offers for specific days.
-* Edit your offers in Sandbox mode.
+* Create fullscreen upsell, Upsell Popups, Frequently Bought Cross-Sell,  
+* Use pre-defined shortcodes to create offer page elements.
+* Create unlimited WordPress funnels with an unlimited number of WooCommerce upselling and cross-selling offers.
+* View and edit your WooCommerce upsell funnels in sandbox mode.
+* Get a comprehensive tracking report for every sales funnel.
+* Admins also get access to three free order bumps funnel templates to utilize.
+* Track your WordPress upsell funnel data on Google Analytics and Facebook Pixel.
+* Create fully customizable upsell offer pages without any coding skills.
+* Build responsive and product-specific offer pages.
+* Create global woo-funnels that trigger regardless of any product or category.
+* Offer an upgrade of the existing product in the cart
+* Show exclusive product upsell offers based on the order email.
+* Display intelligently upsell offers if a customer skips the first funnel for a specific product in the purchase.
+* Customize responsive bump offer design specifically according to your WooCommerce upsell products.
 * Skip bump offers if the offer product is already added to the cart.
-* Offer simple, variable, and subscription products as WooCommerce order bump upsell offers.
-* Track order bumps performance with Upsell Order Bump Sales Reports and Behavioral Analytics.
 
 ### ORDER BUMP PLUGIN MEETS YOUR REQUIREMENT, SO
 [**Download Now !!**](https://downloads.wordpress.org/plugin/upsell-order-bump-offer-for-woocommerce.zip)
@@ -112,18 +119,18 @@ Build the one-click upsell funnel for WooCommerce with Elementor Page Builder an
 
 
 
-Visit [**Upsell Order Bump Offer for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc) to learn more about the features and work of the plugin.
+Visit [**Upsell Funnel Builder for WooCommerce Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc) to learn more about the features and work of the plugin.
 
-Checkout [**Upsell Order Bump Offer for WooCommerce Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-kb)
+Checkout [**Upsell Funnel Builder for WooCommerce Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-kb)
 
 ### LIVE DEMO OF UPSELL ORDER BUMP OFFER PLUGIN
 
-* [**Upsell Order Bump Offer for WooCommerce Frontend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-frontend-demo)
+* [**UpselL Funnel Builder for WooCommerce Frontend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-frontend-demo)
 
-* [**Upsell Order Bump Offer for WooCommerce Backend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/request-for-personal-demo/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-backend-demo)
+* [**Upsell Funnel Builder for WooCommerce Backend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/request-for-personal-demo/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-backend-demo)
 
 
-### WOOCOMMERCE UPSELL BUMP PLUGIN COMPATIBILITIES
+### WOOCOMMERCE FUNNEL BUILDER PLUGIN COMPATIBILITIES
 
 * The Upsell Order Bump Offer plugin is compatible with the [**Ultimate Gift Cards for WooCommerce**](https://wordpress.org/plugins/woo-gift-cards-lite/) plugin that allows your customers to redeem their gift cards and earn even more discounts. This will allow the merchants to offer more payment options to their customers for the bump offers.
 
@@ -159,11 +166,11 @@ You can select the products and categories that trigger WooCommerce upsell offer
 The Smart Skip feature prevents the WooCommerce upsell funnel from triggering if the customer has already purchased the product shown in the offer.
 
 
-> Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-github-page&utm_campaign=order-bump-pro)
+> Note:  Get [**Upsell Funnel Builder for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=wpswings-order-bump-pro&utm_medium=order-bump-github-page&utm_campaign=order-bump-pro)
 
 ### DOCUMENTATION OF PREMIUM VERSION
 
-* Check out [**Upsell Order Bump Offer for WooCommerce Pro Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc)
+* Check out [**Upsell Funnel Builder for WooCommerce Pro Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-github-page&utm_medium=referral&utm_campaign=order-bump-doc)
 
 ### SEE WHAT MUSIC PARK IS SAYING ABOUT THE UPSELL ORDER BUMP PLUGIN:
 
