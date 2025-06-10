@@ -19,10 +19,10 @@
  * Requires at least:       5.5.0
  * Tested up to:            6.8.1
  * WC requires at least:    6.1.0
- * WC tested up to:         9.8.5
+ * WC tested up to:         9.9.3
  *
  * Requires Plugins: woocommerce
- * Version:           3.0.3
+ * Version:           3.0.4
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -142,7 +142,7 @@ if ( $activated ) {
 	/**
 	 * Currently plugin version.
 	 */
-	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '3.0.3' );
+	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '3.0.4' );
 	if ( ! defined( 'WPS_WOCUF_URL_FUNNEL_BUILDER' ) ) {
 		define( 'WPS_WOCUF_URL_FUNNEL_BUILDER', plugin_dir_url( __FILE__ ) );
 	}
@@ -758,6 +758,121 @@ if ( $activated ) {
 			}
 		}
 	}
+
+	/**
+	 * Add a custom cron schedule for hourly events.
+	 *
+	 * @param array $schedules Existing cron schedules.
+	 * @return array Modified cron schedules.
+	 */
+	add_filter( 'cron_schedules', 'wps_add_hourly_cron_schedule' );
+	/**
+	 * Adds a custom hourly schedule to the cron schedules.
+	 *
+	 * This function adds a new schedule called 'hourly' that runs every hour.
+	 *
+	 * @param array $schedules Existing cron schedules.
+	 * @return array Modified cron schedules with the new 'hourly' schedule.
+	 */
+	if ( ! function_exists( 'wps_add_hourly_cron_schedule' ) ) {
+		function wps_add_hourly_cron_schedule( $schedules ) {
+			if ( ! isset( $schedules['hourly'] ) ) {
+				$schedules['hourly'] = array(
+					'interval' => 3600, // 1 hour in seconds
+					'display'  => __( 'Once Hourly' ),
+				);
+			}
+		return $schedules;
+	}
+	}
+
+	add_action( 'wps_upsell_bump_check_event_funnel_builder_pro', 'wps_check_pro_plugin_update' );
+	add_filter( 'pre_set_site_transient_update_plugins', 'wps_inject_pro_plugin_update' );
+
+	/**
+	 * Checks for updates of the Pro plugin.
+	 *
+	 * This function checks if the Pro plugin has an update available by sending a request
+	 * to the WPSwings update server. If an update is available, it stores the version and
+	 * download URL in the WordPress options table.
+	 *
+	 * @since 2.0.0
+	 */
+	if ( ! function_exists( 'wps_check_pro_plugin_update' ) ) {
+	/**
+	 * Wps_check_pro_plugin_update.
+	 *
+	 * @since 2.0.0
+	 * @return void
+	 */
+	function wps_check_pro_plugin_update() {
+		
+		$wps_upsell_bump_license_key = get_option( 'wps_upsell_bump_license_key', '' );
+
+		$response = wp_remote_post( 'https://wpswings.com/pluginupdates/upsell-order-bump-offer-for-woocommerce-pro/update.php', [
+			'body' => [
+				'action'      => 'check_update',
+				'license_key' => $wps_upsell_bump_license_key,
+			]
+		] );
+
+		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+			update_option( 'wps_pro_plugin_update_data', false );
+			return;
+		}
+
+		list( $version, $download_url ) = explode( '~', $response['body'] );
+
+		update_option( 'wps_pro_plugin_update_data', [
+			'version' => $version,
+			'package' => $download_url,
+		] );
+	}
+	}
+
+	/**
+	 * Injects the Pro plugin update data into the transient.
+	 *
+	 * @param object $transient The transient object.
+	 * @return object The modified transient object.
+	 */
+	if ( ! function_exists( 'wps_inject_pro_plugin_update' ) ) {
+		/**
+		 * Wps_inject_pro_plugin_update.
+		 *
+		 * @since 2.0.0
+		 * @param object $transient The transient object.
+		 * @return object The modified transient object.
+		 */
+
+	function wps_inject_pro_plugin_update( $transient ) {
+		if ( empty( $transient->checked ) ) {
+			return $transient;
+		}
+
+		$plugin_slug     = 'upsell-order-bump-offer-for-woocommerce-pro'; // Replace with your actual folder name.
+		$plugin_file     = 'upsell-order-bump-offer-for-woocommerce-pro.php'; // Replace with your actual main file.
+		$plugin_basename = $plugin_slug . '/' . $plugin_file;
+
+		$current_version = isset( $transient->checked[ $plugin_basename ] ) ? $transient->checked[ $plugin_basename ] : null;
+		$update_data     = get_option( 'wps_pro_plugin_update_data' , array() );
+
+		if ( ! $update_data || ! $current_version || version_compare( $current_version, $update_data['version'], '>=' ) ) {
+			return $transient;
+		}
+
+		$transient->response[ $plugin_basename ] = (object) [
+			'slug'        => $plugin_slug,
+			'new_version' => $update_data['version'],
+			'url'         => 'https://wpswings.com',
+			'package'     => $update_data['package'],
+		];
+
+		return $transient;
+	}
+	}
+
+
 
 
 

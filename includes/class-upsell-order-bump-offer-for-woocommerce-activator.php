@@ -29,6 +29,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Activator {
 	public static function activate() {
 
 		set_transient( 'wps_ubo_lite_default_settings_tab', 'overview', 300 );
+
+		
+		 if ( ! wp_next_scheduled( 'wps_upsell_bump_check_event_funnel_builder_pro' ) ) {
+			// Schedule the event to run daily.
+       wp_schedule_event( time(), 'hourly', 'wps_upsell_bump_check_event_funnel_builder_pro' );
+    	}
+
 		// Check if the option already exists; if not, add it with an empty array.
 		if ( ! get_option( 'wps_ubo_global_options' ) ) {
 			add_option( 'wps_ubo_global_options', array() );
