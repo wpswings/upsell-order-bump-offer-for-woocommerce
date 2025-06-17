@@ -3519,7 +3519,7 @@ input#wps_upsell_bump_cart_offer_quantity {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  flex: 1;
+  flex: 1 0 10%;
 }
 
 #wps_upsell_bump_setting_wrapper .wps_main_global_wrapper a {
@@ -3771,10 +3771,10 @@ input#wps_upsell_bump_cart_offer_quantity {
 }
 
 #wps_upsell_bump_setting_wrapper .nav-tab {
-  background: #2196f3;
-  border: 0;
-  border-radius: 5px;
-  margin: 0 10px 0 0;
+    background: #2196f3;
+    border: 0;
+    border-radius: 5px;
+    flex: 1 0 10%;
 }
 
 #wps_upsell_bump_setting_wrapper .nav-tab.nav-tab-active {
