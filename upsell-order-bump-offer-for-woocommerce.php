@@ -19,7 +19,7 @@
  * Requires at least:       5.5.0
  * Tested up to:            6.8.1
  * WC requires at least:    6.1.0
- * WC tested up to:         9.9.3
+ * WC tested up to:         9.9.4
  *
  * Requires Plugins: woocommerce
  * Version:           3.0.4
