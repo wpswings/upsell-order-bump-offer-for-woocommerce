@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 3.0.3\n"
-"POT-Creation-Date: 2025-06-04 17:40+0530\n"
-"PO-Revision-Date: 2025-06-04 17:40+0530\n"
+"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 3.0.4\n"
+"POT-Creation-Date: 2025-06-18 18:18+0530\n"
+"PO-Revision-Date: 2025-06-18 18:18+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
 "Language: en_US\n"
@@ -95,7 +95,7 @@ msgstr ""
 #: reporting/class-wps-upsell-report-sales-by-product.php:187
 #: reporting/class-wps-upsell-report-sales-by-product.php:479
 #: upsell-order-bump-offer-for-woocommerce.php:554
-#: upsell-order-bump-offer-for-woocommerce.php:809
+#: upsell-order-bump-offer-for-woocommerce.php:936
 msgid "Nonce Not verified"
 msgstr ""
 
@@ -4441,4 +4441,8 @@ msgstr ""
 
 #: upsell-order-bump-offer-for-woocommerce.php:582
 msgid " is not activated, Please activate WooCommerce first to activate "
+msgstr ""
+
+#: upsell-order-bump-offer-for-woocommerce.php:789
+msgid "Once Hourly"
 msgstr ""

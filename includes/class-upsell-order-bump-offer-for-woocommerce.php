@@ -69,7 +69,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		if ( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION' ) ) {
 			$this->version = UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '3.0.4';
 		}
 		$this->plugin_name = 'upsell-order-bump-offer-for-woocommerce';
 
