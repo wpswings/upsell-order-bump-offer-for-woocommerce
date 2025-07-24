@@ -77,6 +77,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'plugins',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-pre-reporting',
 			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-post-reporting',
+			'upsell-order-bump-offer-for-woocommerce-abandoned-cart-reporting',
+			'upsell-funnel-builder_page_upsell-order-bump-offer-for-woocommerce-abandoned-cart-reporting',
 		);
 
 		$screen = get_current_screen();
@@ -230,6 +232,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					array(
 						'ajaxurl'    => admin_url( 'admin-ajax.php' ),
 						'auth_nonce' => wp_create_nonce( 'wps_admin_nonce' ),
+						'check_pro_activate'     => ! wps_upsell_funnel_builder_is_pdf_pro_plugin_active(),
 					)
 				);
 
@@ -300,6 +303,20 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		/**
 		 * Add sub-menu for order bump reportings settings.
 		 */
+		if ( is_plugin_active( 'woo-cart-abandonment-recovery/woo-cart-abandonment-recovery.php' ) && is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' )) {
+		add_submenu_page(
+			'upsell-order-bump-offer-for-woocommerce-setting',
+			esc_html__( 'Abandoned Cart Bump List', 'upsell-order-bump-offer-for-woocommerce' ),
+			esc_html__( 'Abandoned Cart Bump List', 'upsell-order-bump-offer-for-woocommerce' ),
+			'manage_woocommerce',
+			'upsell-order-bump-offer-for-woocommerce-abandoned-cart-reporting', // UNIQUE SLUG.
+			array( $this, 'pre_add_submenu_page_reporting_callback_pro' )
+		);
+	}
+
+		/**
+		 * Add sub-menu for one click upsell reportings settings.
+		 */
 		add_submenu_page(
 			'upsell-order-bump-offer-for-woocommerce-setting',
 			esc_html__( 'Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ),
@@ -320,7 +337,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'upsell-order-bump-offer-for-woocommerce-post-reporting', // UNIQUE SLUG.
 			array( $this, 'post_add_submenu_page_reporting_callback' )
 		);
+
 	}
+
+
 
 	/**
 	 * Callable function for upsell bump menu page.
@@ -1055,7 +1075,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			update_option( 'wps_wgm_notify_new_banner_image', $banner_image );
 			update_option( 'wps_wgm_notify_new_banner_url', $banner_url );
 			if ( 'regular' == $banner_type ) {
-				update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
+				update_option( 'wps_wgm_notify_hide_baneer_notification', 0 );
 			}
 		}
 	}
@@ -2415,5 +2435,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			wp_safe_redirect( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=general-setting' ) );
 			exit;
 		}
+	}
+
+
+function pre_add_submenu_page_reporting_callback_pro() {
+	include_once WPS_WOCUF_DIRPATH_FUNNEL_BUILDER . '/admin/partials/templates/wps-upsell-cart-abandoned-bump.php';
 	}
 } // End of class.

@@ -16,13 +16,13 @@
  * Plugin URI:        https://wordpress.org/plugins/upsell-order-bump-offer-for-woocommerce/
  * Description:       <code><strong>Upsell Funnel Builder for WooCommerce</strong></code>helps merchants maximize sales and generate revenue by curating one-click upsell and bump offers!. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
  *
- * Requires at least:       5.5.0
- * Tested up to:            6.8.1
- * WC requires at least:    6.1.0
- * WC tested up to:         9.9.4
+ * Requires at least:       6.7.0
+ * Tested up to:            6.8.2
+ * WC requires at least:    6.5.0
+ * WC tested up to:         10.0.4
  *
  * Requires Plugins: woocommerce
- * Version:           3.0.4
+ * Version:           3.0.5
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -142,7 +142,7 @@ if ( $activated ) {
 	/**
 	 * Currently plugin version.
 	 */
-	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '3.0.4' );
+	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '3.0.5' );
 	if ( ! defined( 'WPS_WOCUF_URL_FUNNEL_BUILDER' ) ) {
 		define( 'WPS_WOCUF_URL_FUNNEL_BUILDER', plugin_dir_url( __FILE__ ) );
 	}
@@ -514,6 +514,21 @@ if ( $activated ) {
 			}
 		}
 
+		/**
+		 * This function is used to check PAR pro plugin is active or not.
+		 *
+		 * @return bool
+		 */
+		function wps_upsell_funnel_builder_is_pdf_pro_plugin_active() {
+
+			$flag = false;
+			if ( is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
+
+				$flag = true;
+			}
+			return $flag;
+		}
+
 
 
 		/**
@@ -627,7 +642,7 @@ if ( $activated ) {
 			if ( isset( $screen->id ) ) {
 				$pagescreen = $screen->id;
 			}
-			if ( 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' === $pagescreen || 'plugins' === $pagescreen || 'order-bump_page_upsell-order-bump-offer-for-woocommerce-reporting' == $pagescreen ) {
+			if ( 'toplevel_page_upsell-order-bump-offer-for-woocommerce-setting' === $pagescreen || 'plugins' === $pagescreen || 'order-bump_page_upsell-order-bump-offer-for-woocommerce-reporting' == $pagescreen || 'dashboard' == $pagescreen ) {
 				$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
 				if ( isset( $banner_id ) && '' !== $banner_id ) {
 					$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );

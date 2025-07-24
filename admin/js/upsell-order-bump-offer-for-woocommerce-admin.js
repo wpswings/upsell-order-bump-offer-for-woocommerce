@@ -1161,23 +1161,27 @@ jQuery( document ).ready(
 		$( document ).on(
 			'click',
 			'#dismiss-banner',
-			function(e){
-				e.preventDefault();
-				var data = {
-					action:'wps_sfw_dismiss_notice_banner',
-					wps_nonce:wps_ubo_lite_banner_offer_section_obj.auth_nonce
-				};
-				$.ajax(
-					{
-						url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
-						type: "POST",
-						data: data,
-						success: function(response)
+			function (e) {
+				if (wps_ubo_lite_banner_offer_section_obj.check_pro_activate) {
+
+					jQuery(document).find('.wps-offer-notice').hide();
+				} else {
+					e.preventDefault();
+					var data = {
+						action: 'wps_sfw_dismiss_notice_banner',
+						wps_nonce: wps_ubo_lite_banner_offer_section_obj.auth_nonce
+					};
+					$.ajax(
 						{
-							window.location.reload();
+							url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+							type: "POST",
+							data: data,
+							success: function (response) {
+								window.location.reload();
+							}
 						}
-					}
-				);
+					);
+				}
 			}
 		);
 	}
