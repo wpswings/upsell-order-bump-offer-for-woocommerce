@@ -120,7 +120,7 @@ if ( ! empty( $wps_upsell_bumps_list ) ) {
 			<?php foreach ( $wps_upsell_bumps_list as $key => $value ) : ?>
 				<?php
 					// Skip if key 'wps_is_abandoned_bump' exists in serialized cart data
-					if ( ! isset( $value['wps_is_abandoned_bump'] ) ) {
+					if (  isset( $value['wps_is_abandoned_bump'] ) && 'yes' != $value['wps_is_abandoned_bump'] ) {
 						// $cart_info = maybe_unserialize( $value['wps_is_abandoned_bump'] );
 
 						// if ( is_array( $cart_info ) && array_key_exists( 'wps_is_abandoned_bump', $cart_info ) ) {

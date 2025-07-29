@@ -37,6 +37,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 
 	$wps_bump_upsell_global_options['wps_ubo_offer_purchased_earlier'] = ! empty( $_POST['wps_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_offer_purchased_earlier'] ) ) : 'no';
 
+	$wps_bump_upsell_global_options['wps_ubo_abandoned_cart'] = ! empty( $_POST['wps_ubo_abandoned_cart'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_abandoned_cart'] ) ) : 'no';
 
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'wps_ubo_global_options', $wps_bump_upsell_global_options );
@@ -105,6 +106,8 @@ $wps_bump_enable_skip = ! empty( $wps_ubo_global_options['wps_bump_skip_offer'] 
 $bump_offer_price_html = ! empty( $wps_ubo_global_options['wps_ubo_offer_price_html'] ) ? $wps_ubo_global_options['wps_ubo_offer_price_html'] : 'regular_to_offer';
 
 $bump_offer_preorder_skip = ! empty( $wps_ubo_global_options['wps_ubo_offer_purchased_earlier'] ) ? $wps_ubo_global_options['wps_ubo_offer_purchased_earlier'] : 'no';
+
+$wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned_cart'] ) ? $wps_ubo_global_options['wps_ubo_abandoned_cart'] : 'no';
 ?>
 <form action="" method="POST">
 
@@ -239,6 +242,29 @@ $bump_offer_preorder_skip = ! empty( $wps_ubo_global_options['wps_ubo_offer_purc
 					</td>
 				</tr>
 				<!-- Pre-order feature skip end. -->
+
+				<!-- Abandoned Cart Plugin start. -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+
+						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+
+						<label for="wps_ubo_abandoned_cart"><?php esc_html_e( 'Abandoned Cart Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+
+						<?php
+					$attribute_description = esc_html__( 'Enable Abandoned Cart Bump Offer via Installing the WooCommerce Cart Abandonment Recovery plugin.', 'upsell-order-bump-offer-for-woocommerce' );
+						wps_ubo_lite_help_tip( $attribute_description );
+						?>
+						<label class="wps_ubo_abandoned_cart" for="wps_abandoned_cart_offer">
+							<input class="wps_ubo_abandoned_cart-wrap" type='checkbox' <?php echo wps_ubo_lite_if_pro_exists() && ! empty( $wps_abandoned_cart_enable ) && 'yes' === $wps_abandoned_cart_enable ? 'checked' : ''; ?> id='wps_abandoned_cart_offer' value='yes' name='wps_ubo_abandoned_cart'>
+							<span class="wps_ubo_abandoned_cart-btn"></span>
+						</label>
+					</td>
+				</tr>
+				<!-- Enable Plugin end. -->
 			</tbody>
 		</table>
 	</div>

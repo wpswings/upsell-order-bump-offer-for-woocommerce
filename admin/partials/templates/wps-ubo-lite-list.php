@@ -112,12 +112,13 @@ if ( ! empty( $wps_upsell_bumps_list ) ) {
 
 
 $count_abandoned_bumps = 0;
+if(is_array($wps_upsell_bumps_list) && !empty($wps_upsell_bumps_list)) {
 foreach ( $wps_upsell_bumps_list as $key => $value ) {
     if ((isset($value['wps_is_abandoned_bump']) && $value['wps_is_abandoned_bump'] !== 'yes') || !isset($value['wps_is_abandoned_bump'])) {
         $count_abandoned_bumps++; // Increment count for each abandoned bump.
     } 
 }
-// echo $count_abandoned_bumps; // This will output the count of abandoned bumps, excluding those with 'wps_is_abandoned_bump' set to 'yes'.
+}
 ?>
 
 <div class="wps_upsell_bumps_list">
