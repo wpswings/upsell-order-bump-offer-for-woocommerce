@@ -303,7 +303,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		/**
 		 * Add sub-menu for order bump reportings settings.
 		 */
-		if ( is_plugin_active( 'woo-cart-abandonment-recovery/woo-cart-abandonment-recovery.php' ) && is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' )) {
+		// Saved Global Options.
+		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array());
+		$wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned_cart'] ) ? $wps_ubo_global_options['wps_ubo_abandoned_cart'] : 'no';
+		if ( is_plugin_active( 'woo-cart-abandonment-recovery/woo-cart-abandonment-recovery.php' ) && is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) && 'yes' === $wps_abandoned_cart_enable ) {
 		add_submenu_page(
 			'upsell-order-bump-offer-for-woocommerce-setting',
 			esc_html__( 'Abandoned Cart Bump List', 'upsell-order-bump-offer-for-woocommerce' ),
