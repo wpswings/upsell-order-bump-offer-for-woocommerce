@@ -32,6 +32,31 @@ $id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 if ( ! $id_nonce_verified ) {
 	wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
 }
+
+
+// Delete bumps.
+if ( isset( $_GET['del_bump_id'] ) ) {
+
+	$bump_id = sanitize_text_field( wp_unslash( $_GET['del_bump_id'] ) );
+
+	// Get all bumps.
+	$wps_upsell_bumps = get_option( 'wps_ubo_bump_list' );
+
+	foreach ( $wps_upsell_bumps as $single_bump => $data ) {
+
+		if ( (string) $bump_id === (string) $single_bump ) {
+
+			unset( $wps_upsell_bumps[ $single_bump ] );
+			break;
+		}
+	}
+
+	update_option( 'wps_ubo_bump_list', $wps_upsell_bumps );
+
+	wp_redirect( esc_url_raw( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-abandoned-cart-reporting' ) ) );
+
+	exit();
+}
 ?>
 <div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
 	<div class="wps_upsell_bump_setting_title"><?php echo esc_html( apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Funnel Builder for WooCommerce ', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
@@ -233,7 +258,7 @@ if ( ! empty( $wps_upsell_bumps_list ) ) {
 						<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'View / Edit', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 						<!-- Bump Delete link. -->
-						<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section&del_bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+						<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-abandoned-cart-reporting&del_bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
 						<?php if ( wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) { ?>
 							<!--Below will work for pro only -->
