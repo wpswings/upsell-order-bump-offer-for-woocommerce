@@ -112,12 +112,12 @@ if ( ! empty( $wps_upsell_bumps_list ) ) {
 
 
 $count_abandoned_bumps = 0;
-if(is_array($wps_upsell_bumps_list) && !empty($wps_upsell_bumps_list)) {
-foreach ( $wps_upsell_bumps_list as $key => $value ) {
-    if ((isset($value['wps_is_abandoned_bump']) && $value['wps_is_abandoned_bump'] !== 'yes') || !isset($value['wps_is_abandoned_bump'])) {
-        $count_abandoned_bumps++; // Increment count for each abandoned bump.
-    } 
-}
+if ( is_array( $wps_upsell_bumps_list ) && ! empty( $wps_upsell_bumps_list ) ) {
+	foreach ( $wps_upsell_bumps_list as $key => $value ) {
+		if ( ( isset( $value['wps_is_abandoned_bump'] ) && 'yes' !== $value['wps_is_abandoned_bump'] ) || ! isset( $value['wps_is_abandoned_bump'] ) ) {
+			$count_abandoned_bumps++; // Increment count for each abandoned bump.
+		}
+	}
 }
 ?>
 
@@ -151,10 +151,10 @@ foreach ( $wps_upsell_bumps_list as $key => $value ) {
 			<!-- Foreach Bump start. -->
 			<?php foreach ( $wps_upsell_bumps_list as $key => $value ) : ?>
 				<?php
-					// Skip if key 'wps_is_abandoned_bump' exists in serialized cart data
-					if ( isset( $value['wps_is_abandoned_bump'] ) && ! empty( $value['wps_is_abandoned_bump'] ) && ($value['wps_is_abandoned_bump'] === 'yes') ) {
-							continue; // skip this row.
-					}
+					// Skip if key 'wps_is_abandoned_bump' exists in serialized cart data.
+				if ( isset( $value['wps_is_abandoned_bump'] ) && ! empty( $value['wps_is_abandoned_bump'] ) && ( 'yes' === $value['wps_is_abandoned_bump'] ) ) {
+						continue; // skip this row.
+				}
 				?>
 
 				<tr>

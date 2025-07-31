@@ -150,8 +150,8 @@ if ( 'without_popup' == $wps_bump_target_popup_bump || ( isset( $wps_upsell_bump
 	} else {
 		$t = $encountered_bump_ids_array;
 	}
-	$current_user = wp_get_current_user();
-	$current_user_email = $current_user->user_email;
+	$wps_current_user = wp_get_current_user();
+	$current_user_email = $wps_current_user->user_email;
 	// Bump offer html section without popup function.
 	foreach ( $t as $key => $order_bump_id ) {
 
@@ -175,24 +175,22 @@ if ( 'without_popup' == $wps_bump_target_popup_bump || ( isset( $wps_upsell_bump
 		$wps_offer_product = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
 		$offer_product = wc_get_product( $wps_offer_product );
 
-		  	if (
+		if (
 			isset( $order_bump_collections[ $order_bump_id ]['wps_is_abandoned_bump'], $order_bump_collections[ $order_bump_id ]['wps_abandoned_checkout_useremail'] ) &&
-			$order_bump_collections[ $order_bump_id ]['wps_is_abandoned_bump'] === 'yes' &&
-		strtolower( $order_bump_collections[ $order_bump_id ]['wps_abandoned_checkout_useremail'] ) === strtolower( $current_user_email )
-	) {
+			'yes' === $order_bump_collections[ $order_bump_id ]['wps_is_abandoned_bump'] &&
+		strtolower( $current_user_email ) === strtolower( $order_bump_collections[ $order_bump_id ]['wps_abandoned_checkout_useremail'] )
+		) {
 
 
-	wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
-		
-	} elseif(isset( $order_bump_collections[ $order_bump_id ]['wps_is_abandoned_bump'] ) &&
-			$order_bump_collections[ $order_bump_id ]['wps_is_abandoned_bump'] != 'yes'){
+			wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
+
+		} elseif ( isset( $order_bump_collections[ $order_bump_id ]['wps_is_abandoned_bump'] ) && 'yes' !=
+			$order_bump_collections[ $order_bump_id ]['wps_is_abandoned_bump'] ) {
 				wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
 
-	} elseif(! isset(  $order_bump_collections[ $order_bump_id ]['wps_is_abandoned_bump'] )){
-		// echo 'Werrererer';
-		wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
-	}
-
+		} elseif ( ! isset( $order_bump_collections[ $order_bump_id ]['wps_is_abandoned_bump'] ) ) {
+			wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
+		}
 	}
 }
 ?>
