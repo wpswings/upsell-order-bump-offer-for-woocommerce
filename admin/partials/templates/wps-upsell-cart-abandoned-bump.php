@@ -38,19 +38,33 @@ if ( ! $id_nonce_verified ) {
 if ( isset( $_GET['del_bump_id'] ) ) {
 
 	$bump_id = sanitize_text_field( wp_unslash( $_GET['del_bump_id'] ) );
-
 	// Get all bumps.
 	$wps_upsell_bumps = get_option( 'wps_ubo_bump_list' );
+	$wps_deleted_abandoned_cart = (array) get_option( 'wps_ubo_deleted_abandoned_cart', array() );
 
 	foreach ( $wps_upsell_bumps as $single_bump => $data ) {
 
-		if ( (string) $bump_id === (string) $single_bump ) {
+		if (
+		isset( $wps_upsell_bumps[ $single_bump ]['wps_abandoned_session_id'] ) &&
+		isset( $wps_upsell_bumps[ $single_bump ]['wps_abandoned_checkout_useremail'] ) &&
+		isset( $wps_upsell_bumps[ $single_bump ]['wps_upsell_bump_products_in_offer'] )
+		) {
+			$wps_deleted_abandoned_cart[] =
+			$wps_upsell_bumps[ $single_bump ]['wps_abandoned_session_id']
+			. $wps_upsell_bumps[ $single_bump ]['wps_abandoned_checkout_useremail']
+			. $wps_upsell_bumps[ $single_bump ]['wps_upsell_bump_products_in_offer'];
 
+
+		}
+
+		if ( (string) $bump_id === (string) $single_bump ) {
+			// $data = maybe_unserialize( $data );
 			unset( $wps_upsell_bumps[ $single_bump ] );
 			break;
 		}
 	}
 
+	update_option( 'wps_ubo_deleted_abandoned_cart', $wps_deleted_abandoned_cart );
 	update_option( 'wps_ubo_bump_list', $wps_upsell_bumps );
 
 	wp_redirect( esc_url_raw( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-abandoned-cart-reporting' ) ) );
@@ -73,46 +87,46 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 	<?php
 
 
-// Get all bumps.
-$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list' );
-$last_key = 0;
-if ( ! empty( $wps_upsell_bumps_list ) ) {
-    $keys = array_keys( $wps_upsell_bumps_list );
-    $int_keys = array_filter( $keys, 'is_numeric' );
-    if ( ! empty( $int_keys ) ) {
-        $last_key = max( $int_keys ); // Last numeric key
-    }
-}
+	// Get all bumps.
+	$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list' );
+	$last_key = 0;
+	if ( ! empty( $wps_upsell_bumps_list ) ) {
+		$keys = array_keys( $wps_upsell_bumps_list );
+		$int_keys = array_filter( $keys, 'is_numeric' );
+		if ( ! empty( $int_keys ) ) {
+			$last_key = max( $int_keys ); // Last numeric key.
+		}
+	}
 
-$wps_count_for_ab = 0;
-if ( is_array( $wps_upsell_bumps_list ) && ! empty( $wps_upsell_bumps_list ) ) {
-	foreach ( $wps_upsell_bumps_list as $key => $value ) {
-		if ( is_array( $value ) && ! empty( $value ) && isset( $value['wps_display_method'] ) && ! empty( $value['wps_display_method'] ) ) {
-			if ( isset( $value['wps_display_method'] ) && ! empty( $value['wps_display_method'] ) && 'ab_method' == $value['wps_display_method'] ) {
-				$wps_count_for_ab++;
+	$wps_count_for_ab = 0;
+	if ( is_array( $wps_upsell_bumps_list ) && ! empty( $wps_upsell_bumps_list ) ) {
+		foreach ( $wps_upsell_bumps_list as $key => $value ) {
+			if ( is_array( $value ) && ! empty( $value ) && isset( $value['wps_display_method'] ) && ! empty( $value['wps_display_method'] ) ) {
+				if ( isset( $value['wps_display_method'] ) && ! empty( $value['wps_display_method'] ) && 'ab_method' == $value['wps_display_method'] ) {
+					$wps_count_for_ab++;
+				}
 			}
 		}
 	}
-}
 
 
-if ( ! empty( $wps_upsell_bumps_list ) ) {
+	if ( ! empty( $wps_upsell_bumps_list ) ) {
 
-	// Temp bump variable.
-	$wps_upsell_bumps_list_duplicate = $wps_upsell_bumps_list;
+		// Temp bump variable.
+		$wps_upsell_bumps_list_duplicate = $wps_upsell_bumps_list;
 
-	// Make key pointer point to the end bump.
-	end( $wps_upsell_bumps_list_duplicate );
+		// Make key pointer point to the end bump.
+		end( $wps_upsell_bumps_list_duplicate );
 
-	// Now key function will return last bump key.
-	$wps_upsell_bumps_last_index = key( $wps_upsell_bumps_list_duplicate );
-} else {
+		// Now key function will return last bump key.
+		$wps_upsell_bumps_last_index = key( $wps_upsell_bumps_list_duplicate );
+	} else {
 
-	// When no bump is there then new bump id will be 1 (0+1).
-	$wps_upsell_bumps_last_index = 0;
-}
+		// When no bump is there then new bump id will be 1 (0+1).
+		$wps_upsell_bumps_last_index = 0;
+	}
 
-?>
+	?>
 
 <div class="wps_upsell_bumps_list">
 
@@ -144,14 +158,11 @@ if ( ! empty( $wps_upsell_bumps_list ) ) {
 			<!-- Foreach Bump start. -->
 			<?php foreach ( $wps_upsell_bumps_list as $key => $value ) : ?>
 				<?php
-					// Skip if key 'wps_is_abandoned_bump' exists in serialized cart data
-					if (  isset( $value['wps_is_abandoned_bump'] ) && 'yes' != $value['wps_is_abandoned_bump'] ) {
-						// $cart_info = maybe_unserialize( $value['wps_is_abandoned_bump'] );
+					// Skip if key 'wps_is_abandoned_bump' exists in serialized cart data.
+				if ( isset( $value['wps_is_abandoned_bump'] ) && 'yes' != $value['wps_is_abandoned_bump'] ) {
 
-						// if ( is_array( $cart_info ) && array_key_exists( 'wps_is_abandoned_bump', $cart_info ) ) {
-							continue; // skip this row
-						// }
-					}
+						continue; // skip this row.
+				}
 				?>
 
 				<tr>
