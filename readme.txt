@@ -2,12 +2,12 @@
 
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags: Funnel Builder, one click upsell, woocommerce upsell, popup maker, frequently bought together,
-Requires at least: 5.5.0
-Tested up to: 6.8.1
-WC requires at least: 5.5.0
-WC tested up to: 9.9.4
-Stable tag: 3.0.4
+Tags: Funnel Builder, one click upsell, woocommerce upsell, popup maker, frequently bought together
+Requires at least: 6.7.0
+Tested up to: 6.8.2
+WC requires at least: 6.5.0
+WC tested up to: 10.0.4
+Stable tag: 3.0.6
 Requires PHP: 7.0.0
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,7 +18,7 @@ Upsell Funnel Builder lets you create Post Purchase Upsell, Order Bumps, One Cli
 
 **Upsell Funnel Builder for WooCommerce is a sales and marketing funnel builder with upselling and cross-selling that lets woocommerce merchants show post-purchase upsell, order bumps, one-click upsell, cross-sells, frequently bought, popups, and product recommendations on the product, cart, and checkout page to boost aov and increase sales.**
 
-The [**Upsell Funnel Builder**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro) allows store owners to make special offers exclusively on their product, checkout, and thank you pages, enabling them to increase their conversions and Average Order Value. The merchants can create post-purchase upsell and cross-sell offers. This plugin allows merchants to create engaging sales funnels and pop-up offers that convert.
+The Upsell Funnel Builder is now integrated with the One Click Upsell Plugin, which enables store owners to create exclusive offers on their product, checkout, and thank-you pages, allowing them to increase conversions and Average Order Value. The merchants can create post-purchase upsell and cross-sell offers. This plugin allows merchants to create engaging sales funnels and pop-up offers that convert.
 
 Show your customers an exclusive upsell popup and cross-sell offers at an unbelievable price at the very moment that they are checking out. 
 
@@ -32,6 +32,27 @@ Relevant popup offers can be set for specific targets with WooCommerce Order Bum
 === Why Choose Our WooCommerce Upsell Funnel Builder Plugin? ===
 
 Unlock exclusive upgrades and choose to boost your sales at checkout with our WooCommerce upsell and order bump plugin, the perfect solution for seamless offers and cross-sells. 
+
+== WITH THE WOOCOMMERCE FUNNEL BUILDER PLUGIN YOU CAN: ==
+
+* Use pre-defined shortcodes to create offer page elements.
+* Create unlimited WordPress funnels with an unlimited number of WooCommerce upselling and cross-selling offers.
+* View and edit your WooCommerce upsell funnels in sandbox mode.
+* Get a comprehensive tracking report for every sales funnel.
+* Admins also get access to three free order bumps funnel templates to utilize. 
+* Track your WordPress upsell funnel data on Google Analytics and Facebook Pixel.
+* Create fully customizable upsell offer pages without any coding skills.
+* Build responsive and product-specific offer pages.
+* Create global woo-funnels that trigger regardless of any product or category.
+* Offer an upgrade of the existing product in the cart 
+* Show exclusive product upsell offers based on the order email.
+* Display intelligently upsell offers if a customer skips the first funnel for a specific product in the purchase.
+* Customize responsive bump offer design specifically according to your WooCommerce upsell products.
+* Skip bump offers if the offer product is already added to the cart.
+
+== START SELLING MORE TODAY == 
+
+[**Upsell Funnel Builder Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro)
 
 
 == ⭐ Salient Features Of Upsell Funnel Builder for WooCommerce ==
@@ -133,22 +154,11 @@ The upsell sales funnel builder creates exclusive offers for the customers, whic
 
 * [**Upsell Order Bump Offer Backend Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/request-for-personal-demo/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-backend-demo)
 
-== WITH THE WOOCOMMERCE FUNNEL BUILDER PLUGIN YOU CAN: ==
 
-* Use pre-defined shortcodes to create offer page elements.
-* Create unlimited WordPress funnels with an unlimited number of WooCommerce upselling and cross-selling offers.
-* View and edit your WooCommerce upsell funnels in sandbox mode.
-* Get a comprehensive tracking report for every sales funnel.
-* Admins also get access to three free order bumps funnel templates to utilize. 
-* Track your WordPress upsell funnel data on Google Analytics and Facebook Pixel.
-* Create fully customizable upsell offer pages without any coding skills.
-* Build responsive and product-specific offer pages.
-* Create global woo-funnels that trigger regardless of any product or category.
-* Offer an upgrade of the existing product in the cart 
-* Show exclusive product upsell offers based on the order email.
-* Display intelligently upsell offers if a customer skips the first funnel for a specific product in the purchase.
-* Customize responsive bump offer design specifically according to your WooCommerce upsell products.
-* Skip bump offers if the offer product is already added to the cart.
+==  🔄 + 💵 Improve Subscription Recurring Revenue with Upselling Bundle == 
+
+Get [**Subscription + Upsell Funnel Builder Bundle**](https://wpswings.com/offers/?utm_source=order-bump-org&utm_medium=referral&utm_campaing=upselling-bundle-offer)
+
 
 
 == 🤝 UPSELL FUNNEL BUILDER PLUGIN COMPATIBILITIES ==
@@ -208,11 +218,11 @@ With the One Click Upsell functionality, you can create full-screen popups to di
 	
 > Note:  Get [**Upsell Order Bump Offer for WooCommerce Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-pro)
 
-#### #1 WordPress Funnel Builder Combo 
+#### #1 Upsell Funnel Builder 
 
-Combine the Power of Order Bump Offers and One Click Upsell Funnels for Your Woocommerce Store. Create an Engaging and Persuasive Sales Funnel Strategy to Target Your Best Customers, Engage Them With Frequently Bought Together, Upsell, and Cross-Sell Products, Increase Your Average Order Value, and Boost Sales in One Click.
+⚠️ Update: Combined the Power of Order Bump Offers and One-Click Upsell Funnels for Your Woocommerce Store. Create an Engaging and Persuasive Sales Funnel, to Target Your Best Customers, Engage Them With Frequently Bought Together, Upsell, and Cross-Sell Products, Increase Your Average Order Value, and Boost Sales in One Click.
 
-> Note: Get [**One Click Upsell Funnel for WooCommerce for Free**](https://wordpress.org/plugins/woo-one-click-upsell-funnel/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=upsell-org-funnel-builder)
+> Get: [**Upsell Funnel Builder Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro)
 
 
 == See What Heel Holland Fotografeert Is Saying About The Upsell Order Bump Plugin ==
@@ -450,7 +460,16 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Changelog ==
 
-= 3.0.4 – Released on 19 May 2025 =
+= 3.0.6 – Released on 1 August 2025 =
+* New: Compatibility with the WooCommerce Cart Abandonment Recovery plugin. 
+* Enhancement: Offer notice placement changes and banner updates
+
+= 3.0.5 – Released on 30 July 2025 =
+* New: Compatibility with WordPress (6.8.2) and WooCommerce (10.0.4)
+* Fix: Product Edit Tab Switch Condition.
+
+
+= 3.0.4 – Released on 19 June 2025 =
 * Enhancement: Improved license handling code for the Pro version.
 * New: Added an Admin UI tab for the "Features" section.
 * New: Compatibility with WordPress (6.8.1) and WooCommerce (9.9.4).
@@ -680,7 +699,6 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 3.0.4 – Released on 19 May 2025 =
-* Enhancement: Improved license handling code for the Pro version.
-* New: Added an Admin UI tab for the "Features" section.
-* New: Compatibility with WordPress (6.8.1) and WooCommerce (9.9.4).
+= 3.0.6 – Released on 1 August 2025 =
+* New: Compatibility with the WooCommerce Cart Abandonment Recovery plugin. 
+* Enhancement: Offer notice placement changes and banner updates
