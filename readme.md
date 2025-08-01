@@ -1,4 +1,4 @@
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Active installs](https://img.shields.io/badge/Active-4000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.8.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-9.8.5-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Active installs](https://img.shields.io/badge/Active-4000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.8.2-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-10.0.4-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.0.0-blue)
 # Upsell Funnel Builder for WooCommerce 
 
 ![Upsell Funnel Builder for WooCommerce](https://ps.w.org/upsell-order-bump-offer-for-woocommerce/assets/banner-772x250.jpg?rev=3307092)
@@ -143,6 +143,8 @@ Checkout [**Upsell Funnel Builder for WooCommerce Knowledge Base**](https://supp
 * The Upsell Order Bump Plugin is now compatible with [**CheckoutWC**](https://www.checkoutwc.com/), which provides users with optimized checkout templates that will help users improve their conversion rates. The users can now run upsell order bump offers seamlessly without any hiccups!
 
 * Compatible with [**Direct Checkout for WooCommerce plugin by QuadLayers**](https://wordpress.org/plugins/woocommerce-direct-checkout/) which simplifies the checkout process by skipping the shopping cart page and provides one-click checkout.
+
+* Compatibility with the [**WooCommerce Cart Abandonment Recovery plugin**](https://wordpress.org/plugins/woo-cart-abandonment-recovery/).
 
 
 ### 🏆 What Premium Version Of WooCommerce Order Bump Offers:
