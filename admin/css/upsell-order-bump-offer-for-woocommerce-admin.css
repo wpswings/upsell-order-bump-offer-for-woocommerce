@@ -6577,6 +6577,47 @@ main.wps-ufw_ms-main {
   display: none;
 }
 
-html, body {
+/* html, body {
   overflow: auto !important;
-}
+} */
+
+        .chart-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .chart-container.collapsed {
+            display: block;
+        }
+        .toggle-button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .toggle-button:hover {
+            background-color: #005bb5;
+        }
+        
+
+        /* Chart container styles */
+        .wps-post-chart-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .wps-post-chart-container.collapsed {
+            display: block;
+        }
+        .wps-post-toggle-button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .wps-post-toggle-button:hover {
+            background-color: #005bb5;
+        }
+        

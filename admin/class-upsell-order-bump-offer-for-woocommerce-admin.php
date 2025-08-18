@@ -175,7 +175,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				wp_enqueue_script( $this->plugin_name . '_masonry_effects', plugin_dir_url( __FILE__ ) . 'js/masonry_effects.js', array( 'jquery' ), $this->version, false );
 				wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/select2.min.js', array( 'jquery' ), $this->version, false );
 				wp_enqueue_script( $this->plugin_name . '_sweet_alert', plugin_dir_url( __FILE__ ) . 'js/swal.js', array( 'jquery' ), $this->version, false );
-				wp_enqueue_script( 'wps_ubo_lite_admin_script', plugin_dir_url( __FILE__ ) . 'js/upsell-order-bump-offer-for-woocommerce-admin.js', array( 'jquery' ), $this->version, false );
+				wp_enqueue_script( 'chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', array( 'jquery' ), time(), false );
+				wp_enqueue_script( 'wps_ubo_lite_admin_script', plugin_dir_url( __FILE__ ) . 'js/upsell-order-bump-offer-for-woocommerce-admin.js', array( 'jquery' ), time(), false );
 				wp_register_script( 'woocommerce_admin', WC()->plugin_url() . '/assets/js/admin/woocommerce_admin.js', array( 'jquery', 'jquery-blockui', 'jquery-ui-sortable', 'jquery-ui-widget', 'jquery-ui-core', 'jquery-tiptip', 'wc-enhanced-select' ), WC_VERSION, false );
 				wp_register_script( 'jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.js', array( 'jquery', 'dompurify' ), WC_VERSION, true );
 				$locale  = localeconv();
@@ -226,6 +227,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					);
 				}
 
+				// Get all funnels.
+				if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
+					$funnels_list = get_option( 'wps_wocuf_pro_funnels_list', array() );
+				} else {
+					$funnels_list = get_option( 'wps_wocuf_funnels_list', array() );
+				}
+
 				wp_localize_script(
 					'wps_ubo_lite_admin_script',
 					'wps_ubo_lite_banner_offer_section_obj',
@@ -233,6 +241,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 						'ajaxurl'    => admin_url( 'admin-ajax.php' ),
 						'auth_nonce' => wp_create_nonce( 'wps_admin_nonce' ),
 						'check_pro_activate'     => ! wps_upsell_funnel_builder_is_pdf_pro_plugin_active(),
+						'wps_all_order_bump_data' => get_option( 'wps_ubo_bump_list', array() ),
+						'wps_post_funnels_list'    => $funnels_list,
 					)
 				);
 

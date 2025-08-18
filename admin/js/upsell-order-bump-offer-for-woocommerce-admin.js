@@ -1260,3 +1260,214 @@ jQuery(document).ready(function () {
 		jQuery("#mwb_pop").fadeOut();
 	});
 });
+
+
+jQuery(document).ready(function () {
+	const newdata = wps_ubo_lite_banner_offer_section_obj.wps_all_order_bump_data;
+	// Loop with forEach
+	Object.entries(newdata).forEach(([key, bump]) => {
+	const el = document.getElementById(`myPieChart${key}`);
+	if (!el) {
+		console.warn(`Canvas not found for key: ${key}`);
+		return; // skip this iteration
+	}
+	const ctx = el.getContext("2d");
+		const wps_conversion_rate = bump.offer_view_count 
+		? ((bump.bump_success_count / bump.offer_view_count) * 100).toFixed(2)
+			: 0;
+		
+			const views   = Number(bump.offer_view_count)    || 0;
+			const success = Number(bump.bump_success_count)  || 0;
+			const accepts = Number(bump.offer_accept_count)  || 0;
+			const sales   = Number(bump.bump_total_sales)    || 0;
+			// skip if ALL metrics are zero/falsy.
+			if ([views, success, accepts, sales].every(v => !v)) return;
+
+
+             // Data to display in the chart
+                const chartData = {
+                    labels: ["View Count", "Success Count", "Offer Accept Count", "Offer Remove Count", "Conversion Rate", "Total Sales"],
+                    datasets: [{
+                        label: bump.label,
+                        data: [
+                            bump.offer_view_count || 0,
+                            bump.bump_success_count || 0,
+                            bump.offer_accept_count || 0,
+                            bump.offer_remove_count || 0,
+                            wps_conversion_rate,
+                            bump.bump_total_sales || 0
+                        ],
+                        backgroundColor: ["#FF0000", "#0000FF", "#FFFF00", "#00FF00", "#FF00FF", "#00FFFF"],
+                        borderColor: ["#FF0000", "#0000FF", "#FFFF00", "#00FF00", "#FF00FF", "#00FFFF"],
+                        borderWidth: 1
+                    }]
+                };
+
+		        // Configuration for Pie chart
+                const config = {
+                    type: "pie",
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        animation: {
+                            duration: 1000,
+                            easing: "easeOutBounce"
+                        },
+                        plugins: {
+                            legend: {
+                                position: "top",
+                                labels: {
+                                    usePointStyle: true
+                                }
+                            }
+                        },
+                        onClick: function(evt) {
+                            const chart = this;
+                            const activePoints = chart.getElementsAtEventForMode(evt, "nearest", { intersect: true }, true);
+                            if (activePoints.length) {
+                                const firstPoint = activePoints[0];
+                                const label = chart.data.labels[firstPoint.key];
+                                const value = chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.key];
+                                // alert("Clicked label: " + label + "\nClicked value: " + value);
+                            }
+                        }
+                    }
+                };
+
+ 				// Create the Pie chart
+                new Chart(ctx, config);
+
+                // Toggle functionality for Show/Hide
+                const toggleButton = document.getElementById("toggleButton" + key);
+                const chartContainer = document.getElementById("chartContainer" + key);
+
+                toggleButton.addEventListener("click", function() {
+                    chartContainer.classList.toggle("collapsed");
+                    const isCollapsed = chartContainer.classList.contains("collapsed");
+					toggleButton.innerText = isCollapsed ? "Hide Chart" : "Show Chart For " + bump.wps_upsell_bump_name;
+                });
+		});
+});
+
+jQuery(document).ready(function () {
+	const newdata = wps_ubo_lite_banner_offer_section_obj.wps_post_funnels_list;
+	console.log(newdata);
+
+	// Loop with forEach
+	Object.entries(newdata).forEach(([key, bump]) => {
+	const el = document.getElementById(`wps-post-myPieChart${key}`);
+	if (!el) {
+		console.warn(`Canvas not found for key: ${key}`);
+		return; // skip this iteration
+	}
+	const ctx = el.getContext("2d");
+	
+			const views   = Number( bump.offers_view_count) || 0;
+			const success = Number( bump.funnel_success_count)  || 0;
+			const accepts = Number(bump.offers_accept_count) || 0;
+			const sales   = Number(bump.funnel_total_sales) || 0;
+			// skip if ALL metrics are zero/falsy.
+			if ([views, success, accepts, sales].every(v => !v)) return;
+
+			const wps_conversion_rate = bump.funnel_triggered_count
+				? ((bump.funnel_success_count /bump.funnel_triggered_count) * 100).toFixed(2)
+				: 0;
+		
+			//$offers_pending_count = $offers_view_count - $offers_accept_count - $offers_reject_count;
+			const wps_offers_pending_count = views - accepts - (bump.offers_reject_count || 0);		
+
+             // Data to display in the chart
+				const chartData = {
+				labels: [
+					"Trigger Count",
+					"Success Count",
+					"Offers Viewed",
+					"Offers Accepted",
+					"Offers Rejected",
+					"Offers Pending",
+					"Conversion Rate",
+					"Total Sales"
+				],
+				datasets: [{
+					label: bump.label,
+					data: [
+						bump.funnel_triggered_count || 0,
+						bump.funnel_success_count || 0,
+						bump.offers_view_count || 0,
+						bump.offers_accept_count || 0,
+						bump.offers_reject_count || 0,
+						wps_offers_pending_count || 0,
+						wps_conversion_rate || 0,
+						bump.funnel_total_sales || 0
+					],
+					backgroundColor: [
+						"#FF6384", // reddish
+						"#36A2EB", // blue
+						"#FFCE56", // yellow
+						"#4BC0C0", // teal
+						"#9966FF", // purple
+						"#FF9F40", // orange
+						"#8AFF33", // green
+						"#FF33F6"  // pink
+					],
+					borderColor: [
+						"#FF6384",
+						"#36A2EB",
+						"#FFCE56",
+						"#4BC0C0",
+						"#9966FF",
+						"#FF9F40",
+						"#8AFF33",
+						"#FF33F6"
+					],
+					borderWidth: 1
+				}]
+			};
+
+		        // Configuration for Pie chart
+                const config = {
+                    type: "pie",
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        animation: {
+                            duration: 1000,
+                            easing: "easeOutBounce"
+                        },
+                        plugins: {
+                            legend: {
+                                position: "top",
+                                labels: {
+                                    usePointStyle: true
+                                }
+                            }
+                        },
+                        onClick: function(evt) {
+                            const chart = this;
+                            const activePoints = chart.getElementsAtEventForMode(evt, "nearest", { intersect: true }, true);
+                            if (activePoints.length) {
+                                const firstPoint = activePoints[0];
+                                const label = chart.data.labels[firstPoint.key];
+                                const value = chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.key];
+                                // alert("Clicked label: " + label + "\nClicked value: " + value);
+                            }
+                        }
+                    }
+                };
+
+ 				// Create the Pie chart
+                new Chart(ctx, config);
+
+                // Toggle functionality for Show/Hide
+                const toggleButton = document.getElementById("wps-post-toggleButton" + key);
+                const chartContainer = document.getElementById("wps-post-chartContainer" + key);
+
+                toggleButton.addEventListener("click", function() {
+                    chartContainer.classList.toggle("collapsed");
+                    const isCollapsed = chartContainer.classList.contains("collapsed");
+					toggleButton.innerText = isCollapsed ? "Hide Chart" : "Show Chart For " + bump.wps_wocuf_pro_funnel_name;
+                });
+		});
+
+
+	});
