@@ -1514,11 +1514,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Removing offer or target product manually by cart.
 		add_action( 'woocommerce_remove_cart_item', array( $this, 'after_remove_product' ), 10, 2 );
 
-		// Add meta data to order item for order review.
-		add_action( 'woocommerce_checkout_create_order', array( $this, 'add_order_item_meta' ), 10 );
-
-		// Add Order Bump - Order Post meta.
-		add_action( 'woocommerce_checkout_order_processed', array( $this, 'add_bump_order_post_meta' ), 10 );
+        // Classic checkout Add Order Bump - Order Post meta.
+		add_action( 'woocommerce_checkout_order_processed',  array( $this,'wps_mark_bump_order_if_needed'), 10, 1 );
+		// Store API / Checkout Block Add Order Bump - Order Post meta.
+		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this,'wps_mark_bump_order_if_needed'), 10, 1 );
 
 		// Handle Order Bump Orders on Thankyou for Success Rate and Stats.
 		add_action( 'woocommerce_thankyou', array( $this, 'report_sales_by_bump_handling' ), 15 );
@@ -1530,7 +1529,66 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		// Add the custom price for the recommendation product on product page.
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'wps_add_custom_price_to_cart_item' ) );
+
+		add_action( 'woocommerce_checkout_create_order_line_item', array( $this, 'add_order_item_meta_new' ), 10, 4 );
+
 	}
+
+	/**
+	 * Mark order as bump order if needed.
+	 *
+	 * @param int $order_id The order ID.
+	 */
+	public function wps_mark_bump_order_if_needed( $order_id ) {
+	$order = wc_get_order( $order_id );
+	if ( ! $order ) {
+		return;
+	}
+
+	$is_bump_order = false;
+
+	foreach ( $order->get_items( 'line_item' ) as $item ) {
+		$flag = $item->get_meta( 'is_order_bump_purchase', true );
+
+		if ( $flag === 'true' || $flag === '1' || $flag === 1 || $flag === true ) {
+			$is_bump_order = true;
+			break;
+		}
+	}
+
+	if ( $is_bump_order ) {
+		$order->update_meta_data( 'wps_bump_order', 'true' );
+		$order->update_meta_data( 'wps_bump_order_process_sales_stats', 'true' );
+		$order->save();
+	}
+}
+
+
+
+   /**
+	 * Add order item meta for new items.
+	 *
+	 * @param object $item         The order item.
+	 * @param string $cart_item_key The cart item key.
+	 * @param array  $values      The cart item values.
+	 * @param object $order       The order object.
+	 */
+	public function add_order_item_meta_new( $item, $cart_item_key, $values, $order ) {
+
+    if ( ! empty( $values['wps_ubo_offer_product'] ) ) {
+        $item->update_meta_data( 'is_order_bump_purchase', 'true' );
+    }
+
+    if ( ! empty( $values['wps_ubo_bump_id'] ) ) {
+        $item->update_meta_data( 'wps_order_bump_id', $values['wps_ubo_bump_id'] );
+    }
+
+    if ( ! empty( $values['wps_ubo_meta_form'] ) && is_array( $values['wps_ubo_meta_form'] ) ) {
+        foreach ( $values['wps_ubo_meta_form'] as $field ) {
+            $item->update_meta_data( $field['name'], $field['value'] );
+        }
+    }
+}
 
 	/**
 	 * Add order item meta to bump product.

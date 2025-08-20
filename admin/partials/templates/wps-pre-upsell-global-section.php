@@ -53,6 +53,9 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_pre_global'] ) ) {
 	// In Version 2.1.9.
 	$wps_bump_upsell_global_options['wps_bump_target_link_attr_val'] = ! empty( $_POST['wps_bump_target_attr'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_target_attr'] ) ) : 'no';
 
+	// Enable fluent crm integration.
+	$wps_bump_upsell_global_options['wps_ubo_enable_fluentcrm'] = ! empty( $_POST['wps_ubo_enable_fluentcrm'] ) ? 'on' : 'off';
+
 
 	$wps_bump_upsell_global_options['wps_bump_popup_bump_offer'] = ! empty( $_POST['wps_bump_popup_bump_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_popup_bump_offer'] ) ) : 'no';
 	// After v2.1.2.
@@ -134,6 +137,8 @@ $bump_cart_offer_location = ! empty( $wps_ubo_global_options['wps_enable_cart_up
 
 // Enable popup exit intent setting.
 $wps_ubo_enable_popup_exit_intent = ! empty( $wps_ubo_global_options['wps_ubo_enable_popup_exit_intent'] ) ? $wps_ubo_global_options['wps_ubo_enable_popup_exit_intent'] : '';
+
+$wps_ubo_enable_fluentcrm_integration = ! empty( $wps_ubo_global_options['wps_ubo_enable_fluentcrm'] ) ? $wps_ubo_global_options['wps_ubo_enable_fluentcrm'] : '';
 
 // After v2.1.2.
 $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red_arrow_feature'] ) ? $wps_ubo_global_options['wps_enable_red_arrow_feature'] : 'no';
@@ -229,6 +234,31 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 					</td>
 				</tr>
 				<!-- Enable/disable Popup exit intent feature end -->
+
+
+				<!-- Enable/disable FluentCRM feature start -->
+				<tr valign="top">
+					<th scope="row" class="titledesc">
+						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						<label for="wps_ubo_enable_fluentcrm_switch"><?php esc_html_e( 'Enable Email Marketing Automation', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+						<?php
+						$attribute_description = esc_html__( 'Integrate with FluentCRM for advanced marketing automation.', 'upsell-order-bump-offer-for-woocommerce' );
+
+						wps_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label for="wps_ubo_enable_fluentcrm_switch" class="wps_upsell_bump_enable_permalink_label wps_bump_enable_permalink_support">
+
+							<input id="wps_ubo_enable_fluentcrm_switch" class="wps_upsell_bump_enable_permalink_input" type="checkbox" <?php echo ( 'on' === $wps_ubo_enable_fluentcrm_integration ) ? "checked='checked'" : ''; ?> name="wps_ubo_enable_fluentcrm">
+							<span class="wps_upsell_bump_enable_permalink_span"></span>
+
+						</label>
+					</td>
+				</tr>
+				<!-- Enable/disable FluentCRM feature end -->
 
 				<!-- Enable the Pop Up for bump Offer start. -->
 				<tr valign="top">

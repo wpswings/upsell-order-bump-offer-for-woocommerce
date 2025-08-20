@@ -200,6 +200,29 @@ wps_upsee_lite_go_pro_funnel_builder( 'pro' );
 				</tr>
 				<!--  Exit Intent skip end -->
 
+				<!-- Exit Intent starts  -->
+					<tr valign="top">
+					<th scope="row" class="titledesc">
+						<span class="wps_wupsell_premium_strip">Pro</span>
+						<label for="wps_wocuf_pro_enable_free_upsell"><?php esc_html_e( 'Enable Email Marketing Automation', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+						<td class="forminp forminp-text">
+							<?php
+							$attribut_description = esc_html__( 'Integrate with FluentCRM for advanced marketing automation.', 'upsell-order-bump-offer-for-woocommerce' );
+							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
+
+							$wps_ubo_enable_fluentcrm_integration = ! empty( $wps_upsell_global_settings['wps_ubo_enable_fluentcrm_post'] ) ? $wps_upsell_global_settings['wps_ubo_enable_fluentcrm_post'] : '';
+							?>
+
+							<label class="wps_wocuf_pro_enable_plugin_label">
+								<input  class="wps_wocuf_pro_enable_plugin_input ubo_offer_input " type="checkbox" <?php echo ( 'on' === $wps_ubo_enable_fluentcrm_integration ) ? "checked='checked'" : ''; ?> name="wps_ubo_enable_fluentcrm_integration">
+								<span class="wps_wocuf_pro_enable_plugin_span"></span>
+							</label>
+						</td>
+					</tr>
+					<!--  Exit Intent skip end -->
+
 
 				<!-- V3.5.0 :: Exit Intent start -->
 				<tr valign="top">

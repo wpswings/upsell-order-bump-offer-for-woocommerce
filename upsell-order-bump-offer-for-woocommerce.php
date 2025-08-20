@@ -19,10 +19,10 @@
  * Requires at least:       6.7.0
  * Tested up to:            6.8.2
  * WC requires at least:    6.5.0
- * WC tested up to:         10.0.4
+ * WC tested up to:         10.1.0
  *
  * Requires Plugins: woocommerce
- * Version:           3.0.6
+ * Version:           3.0.7
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -142,7 +142,7 @@ if ( $activated ) {
 	/**
 	 * Currently plugin version.
 	 */
-	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '3.0.6' );
+	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '3.0.7' );
 	if ( ! defined( 'WPS_WOCUF_URL_FUNNEL_BUILDER' ) ) {
 		define( 'WPS_WOCUF_URL_FUNNEL_BUILDER', plugin_dir_url( __FILE__ ) );
 	}
