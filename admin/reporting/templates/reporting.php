@@ -26,13 +26,6 @@ $order_bumps = get_option( 'wps_ubo_bump_list' );
 
 <div class="wps_upsell_bumps_list" >
 
-	<div class="wps_ubo_reporting_heading" >
-		<h2><?php esc_html_e( 'Order Bump Sales - Reports', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
-		<a target="_blank" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-reports&tab=wps_order_bump' ) ); ?>"><?php esc_html_e( 'Visit here &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-	</div>
-
-	<hr class="wps_ubo_reporting_funnel_stats_hr">
-
 	<div class="wps_ubo_stats_heading" ><h2><?php esc_html_e( 'Order Bump - Behavioral Analytics', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2></div>
 
 	<?php if ( empty( $order_bumps ) ) : ?>
@@ -42,7 +35,7 @@ $order_bumps = get_option( 'wps_ubo_bump_list' );
 		<?php endif; ?>
 
 		<?php if ( ! empty( $order_bumps ) ) : ?>
-		<div class="bump-offer-container" style="display:flex;flex-wrap:wrap;gap:20px;">
+		<div class="wps-bump-offer-container">
 			<?php foreach ( $order_bumps as $key => $value ) : ?>
             <?php 
              if(empty($value['offer_view_count']) && empty($value['bump_success_count']) && empty($value['offer_accept_count']) && empty($value['bump_total_sales'])){
@@ -50,7 +43,7 @@ $order_bumps = get_option( 'wps_ubo_bump_list' );
 			 }
 			?>
 
-			<div class="bump-offer" style="width:48%;">
+			<div class="bump-offer">
 				<button
 				id="toggleButton<?php echo esc_attr( $key ); ?>"
 				class="toggle-button"
@@ -62,8 +55,7 @@ $order_bumps = get_option( 'wps_ubo_bump_list' );
 				id="chartContainer<?php echo esc_attr( $key ); ?>"
 				class="chart-container collapsed">
 				<canvas
-					id="myPieChart<?php echo esc_attr( $key ); ?>"
-					width="400" height="400"></canvas>
+					id="myPieChart<?php echo esc_attr( $key ); ?>"></canvas>
 				</div>
 			</div>
 			<?php endforeach; ?>

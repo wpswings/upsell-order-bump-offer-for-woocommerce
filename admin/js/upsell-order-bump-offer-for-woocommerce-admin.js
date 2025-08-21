@@ -1297,9 +1297,29 @@ jQuery(document).ready(function () {
                             wps_conversion_rate,
                             bump.bump_total_sales || 0
                         ],
-                        backgroundColor: ["#FF0000", "#0000FF", "#FFFF00", "#00FF00", "#FF00FF", "#00FFFF"],
-                        borderColor: ["#FF0000", "#0000FF", "#FFFF00", "#00FF00", "#FF00FF", "#00FFFF"],
-                        borderWidth: 1
+                       				backgroundColor: [
+    "#FF6384", // Light Coral / Reddish Pink
+    "#36A2EB", // Dodger Blue
+    "#FFCE56", // Gold / Mustard Yellow
+    "#4BC0C0", // Medium Turquoise / Teal
+    "#9966FF", // Amethyst / Medium Purple
+    "#8AFF33", // Lime Green / Bright Green
+]
+,
+			
+borderColor: [
+    "#CC204D", // Dark Red / Crimson
+    "#1E75BB", // Dark Blue / Denim
+    "#E6B800", // Dark Goldenrod
+    "#008B8B", // Dark Cyan / Teal
+    "#5A2D9D", // Dark Purple / Indigo
+    "#4CAF00", // Dark Green
+],
+                        borderWidth: 2,
+    hoverBorderWidth: 3,
+
+    // Pop-out effect: offset the hovered slice
+    offset: (ctx) => ctx.active ? 12 : 0,
                     }]
                 };
 
@@ -1351,14 +1371,12 @@ jQuery(document).ready(function () {
 
 jQuery(document).ready(function () {
 	const newdata = wps_ubo_lite_banner_offer_section_obj.wps_post_funnels_list;
-	console.log(newdata);
-
+	
 	// Loop with forEach
 	Object.entries(newdata).forEach(([key, bump]) => {
-	const el = document.getElementById(`wps-post-myPieChart${key}`);
+		const el = document.getElementById(`wps-post-myPieChart${key}`);
 	if (!el) {
-		console.warn(`Canvas not found for key: ${key}`);
-		return; // skip this iteration
+		return; // skip this iteration.
 	}
 	const ctx = el.getContext("2d");
 	
@@ -1400,27 +1418,33 @@ jQuery(document).ready(function () {
 						wps_conversion_rate || 0,
 						bump.funnel_total_sales || 0
 					],
-					backgroundColor: [
-						"#FF6384", // reddish
-						"#36A2EB", // blue
-						"#FFCE56", // yellow
-						"#4BC0C0", // teal
-						"#9966FF", // purple
-						"#FF9F40", // orange
-						"#8AFF33", // green
-						"#FF33F6"  // pink
-					],
-					borderColor: [
-						"#FF6384",
-						"#36A2EB",
-						"#FFCE56",
-						"#4BC0C0",
-						"#9966FF",
-						"#FF9F40",
-						"#8AFF33",
-						"#FF33F6"
-					],
-					borderWidth: 1
+				backgroundColor: [
+    "#FF6384", // Light Coral / Reddish Pink
+    "#36A2EB", // Dodger Blue
+    "#FFCE56", // Gold / Mustard Yellow
+    "#4BC0C0", // Medium Turquoise / Teal
+    "#9966FF", // Amethyst / Medium Purple
+    "#FF9F40", // Deep Saffron / Orange
+    "#8AFF33", // Lime Green / Bright Green
+    "#FF33F6"  // Hot Pink / Neon Pink
+]
+,
+			
+borderColor: [
+    "#CC204D", // Dark Red / Crimson
+    "#1E75BB", // Dark Blue / Denim
+    "#E6B800", // Dark Goldenrod
+    "#008B8B", // Dark Cyan / Teal
+    "#5A2D9D", // Dark Purple / Indigo
+    "#CC5500", // Burnt Orange
+    "#4CAF00", // Dark Green
+    "#CC0099"  // Dark Magenta / Pink
+],
+					 borderWidth: 2,
+    hoverBorderWidth: 3,
+
+    // Pop-out effect: offset the hovered slice
+    offset: (ctx) => ctx.active ? 12 : 0,
 				}]
 			};
 
@@ -1465,7 +1489,7 @@ jQuery(document).ready(function () {
                 toggleButton.addEventListener("click", function() {
                     chartContainer.classList.toggle("collapsed");
                     const isCollapsed = chartContainer.classList.contains("collapsed");
-					toggleButton.innerText = isCollapsed ? "Hide Chart" : "Show Chart For " + bump.wps_wocuf_pro_funnel_name;
+					toggleButton.innerText = isCollapsed ? "Hide Chart" : "Show Chart For " + bump.wps_wocuf_funnel_name;  //wps_wocuf_pro_funnel_name
                 });
 		});
 

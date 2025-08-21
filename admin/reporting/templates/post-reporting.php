@@ -28,14 +28,7 @@ if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce
 ?>
 
 <div class="wps_wocuf_pro_funnels_list">
-
-	<div class="wps_uspell_reporting_heading" >
-		<h2><?php esc_html_e( 'Upsell Sales - Reports', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
-		<a target="_blank" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-reports&tab=upsell' ) ); ?>"><?php esc_html_e( 'Visit here &rarr;', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-	</div>
-
-	<hr class="wps_uspell_reporting_funnel_stats_hr">
-
+	
 	<div class="wps_uspell_stats_heading" ><h2><?php esc_html_e( 'Upsell - Behavioral Analytics', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2></div>
 
 	<?php if ( empty( $funnels_list ) ) : ?>
@@ -45,7 +38,7 @@ if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce
 	<?php endif; ?>
 
 	<?php if ( ! empty( $funnels_list ) ) : ?>
-	<div class="bump-offer-container" style="display:flex;flex-wrap:wrap;gap:20px;">
+	<div class="wps-bump-offer-container">
 			<!-- Foreach Funnel start -->
 			<?php foreach ( $funnels_list as $key => $value ) : ?>
 			<?php 
@@ -53,7 +46,7 @@ if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce
 						return;
 					}
 			?>
-			<div class="bump-offer" style="width:48%;">
+			<div class="bump-offer">
 							<button
 							id="wps-post-toggleButton<?php echo esc_attr( $key ); ?>"
 							class="wps-post-toggle-button"

@@ -32,11 +32,6 @@ $nonce_pixel = wp_create_nonce( 'view_upsell_tracking_pixel' ); // Create nonce.
 $nonce_overview = wp_create_nonce( 'view_upsell_tracking_over' ); // Create nonce.
 
 ?>
-
-<div class="wps-notice-wrapper">
-<?php do_action( 'wps_wocuf_pro_setting_tab_active', '', '', '' ); ?>
-</div>
-
 <div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
 
 	<!-- To make WordPress notice appear at this place. As it searchs from top and appears at the 1st heading tag-->
@@ -46,14 +41,13 @@ $nonce_overview = wp_create_nonce( 'view_upsell_tracking_over' ); // Create nonc
 		<img id="wps-wocuf-loading-image" src="<?php echo 'images/spinner-2x.gif'; ?>" >
 	</div>
 
-	<div class="wps_wocuf_pro_header">
-		<?php if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) { ?>
-		<div class="wps_wocuf_pro_setting_title"><?php esc_html_e( 'Upsell Funnel Builder for WooCommerce Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
-		<?php } else { ?>
-			<div class="wps_wocuf_pro_setting_title"><?php esc_html_e( 'Upsell Funnel Builder for WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
-		<?php } ?>
-	</div>
-
+	<div class="wps_wocuf_pro_header wps_upsell_bump_setting_title pre-bump-report_analytics">
+			<div class="wps_wocuf_pro_setting_title"><?php esc_html_e( 'Post Sales Report & Analytics', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+			<a target="_blank" href="<?php echo esc_url(admin_url('admin.php?page=wc-reports&tab=wps_order_bump')); ?>"><?php esc_html_e('View Sale Report', 'upsell-order-bump-offer-for-woocommerce'); ?></a>
+		</div>
+		<div class="wps-notice-wrapper">
+		<?php do_action( 'wps_wocuf_pro_setting_tab_active', '', '', '' ); ?>
+		</div>
 	<nav class="nav-tab-wrapper woo-nav-tab-wrapper">
 
 		<a class="nav-tab <?php echo 'reporting' === $active_tab ? 'nav-tab-active' : ''; ?>" href="?page=upsell-order-bump-offer-for-woocommerce-post-reporting&tab=reporting&nonce=<?php echo esc_html( $nonce_reporting ); ?>"><?php esc_html_e( 'Sales Reports', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>

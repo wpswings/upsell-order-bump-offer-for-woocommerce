@@ -1596,33 +1596,33 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param    object $order      The order in which bump offer is added.
 	 * @since    1.0.0
 	 */
-	public function add_order_item_meta( $order ) {
+	// public function add_order_item_meta( $order ) {
 
-		$order_items = $order->get_items();
+	// 	$order_items = $order->get_items();
 
-		if ( ! empty( $order_items ) && is_array( $order_items ) ) {
+	// 	if ( ! empty( $order_items ) && is_array( $order_items ) ) {
 
-			foreach ( $order_items as $item_key => $single_order_item ) {
+	// 		foreach ( $order_items as $item_key => $single_order_item ) {
 
-				if ( ! empty( $single_order_item->legacy_values['wps_ubo_offer_product'] ) ) {
+	// 			if ( ! empty( $single_order_item->legacy_values['wps_ubo_offer_product'] ) ) {
 
-					$single_order_item->update_meta_data( 'is_order_bump_purchase', 'true' );
-				}
+	// 				$single_order_item->update_meta_data( 'is_order_bump_purchase', 'true' );
+	// 			}
 
-				if ( ! empty( $single_order_item->legacy_values['wps_ubo_bump_id'] ) ) {
+	// 			if ( ! empty( $single_order_item->legacy_values['wps_ubo_bump_id'] ) ) {
 
-					$single_order_item->update_meta_data( 'wps_order_bump_id', $single_order_item->legacy_values['wps_ubo_bump_id'] );
-				}
+	// 				$single_order_item->update_meta_data( 'wps_order_bump_id', $single_order_item->legacy_values['wps_ubo_bump_id'] );
+	// 			}
 
-				if ( ! empty( $single_order_item->legacy_values['wps_ubo_meta_form'] ) && is_array( $single_order_item->legacy_values['wps_ubo_meta_form'] ) ) {
+	// 			if ( ! empty( $single_order_item->legacy_values['wps_ubo_meta_form'] ) && is_array( $single_order_item->legacy_values['wps_ubo_meta_form'] ) ) {
 
-					foreach ( $single_order_item->legacy_values['wps_ubo_meta_form'] as $key => $value ) {
-						$single_order_item->update_meta_data( $value['name'], $value['value'] );
-					}
-				}
-			}
-		}
-	}
+	// 				foreach ( $single_order_item->legacy_values['wps_ubo_meta_form'] as $key => $value ) {
+	// 					$single_order_item->update_meta_data( $value['name'], $value['value'] );
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	/**
 	 * Hide Order Bump meta from order items.

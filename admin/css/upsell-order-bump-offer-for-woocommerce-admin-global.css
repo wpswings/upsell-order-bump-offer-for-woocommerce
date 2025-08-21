@@ -1,9 +1,9 @@
 .wps-ufbo-menu-custom-class .wp-menu-image img {
-    opacity: 1;
-    height: auto;
-    width: 28px;
-  }
-  .wps-offer-notice.notice.notice-warning {
+  opacity: 1;
+  height: auto;
+  width: 28px;
+}
+.wps-offer-notice.notice.notice-warning {
   padding: 0;
   border: none;
   margin-left: 2px;
@@ -14,4 +14,76 @@
   display: block;
   width: 100%;
   height: auto;
+}
+
+.wps-bump-offer-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.wps-bump-offer-container .bump-offer {
+  flex: 0 0 33%;
+}
+
+.wps-bump-offer-container .bump-offer canvas {
+  border: none;
+}
+
+.wps-bump-offer-container .bump-offer .chart-container {
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  margin: 10px 0 0;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.wps-bump-offer-container .bump-offer .wps-post-chart-container {
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  margin: 10px 0 0;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.wps-bump-offer-container .bump-offer .wps-post-toggle-button {
+  border-radius: 5px;
+}
+
+.wps-bump-offer-container .bump-offer .toggle-button {
+  border-radius: 5px;
+}
+
+#wps_upsell_bump_setting_wrapper
+  .wps_upsell_bump_setting_title.pre-bump-report_analytics {
+  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.wps_upsell_bump_setting_title.pre-bump-report_analytics a {
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  color: #fff;
+  background: #0073e6;
+  padding: 2px 15px;
+  line-height: 1.5;
+  border-radius: 5px;
+  transition: all 0.2s linear;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1180px) {
+  .wps-bump-offer-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .wps-bump-offer-container {
+    grid-template-columns: 1fr;
+  }
 }
