@@ -1,122 +1,122 @@
 var wps_wocuf_pro_custom_offer_bought = false;
 
-jQuery(document).ready(function($){
+jQuery(document).ready(function ($) {
+  jQuery("#wps_wocuf_pro_offer_loader").hide();
 
-	
-	
-	jQuery('#wps_wocuf_pro_offer_loader').hide();
+  jQuery(".wps_wocuf_pro_custom_buy").on("click", function (e) {
+    jQuery("#wps_wocuf_pro_offer_loader").show();
 
-	jQuery('.wps_wocuf_pro_custom_buy').on('click',function(e) {
+    if (wps_wocuf_pro_custom_offer_bought) {
+      e.preventDefault();
+      return;
+    }
 
-		jQuery('#wps_wocuf_pro_offer_loader').show();
+    wps_wocuf_pro_custom_offer_bought = true;
+  });
 
-		if( wps_wocuf_pro_custom_offer_bought ) {
-			e.preventDefault();
-			return;
-		}
+  jQuery(".wps_wocuf_pro_no").on("click", function (e) {
+    jQuery("#wps_wocuf_pro_offer_loader").show();
+  });
 
-	    wps_wocuf_pro_custom_offer_bought = true;
-	});
+  /**
+   * Shortcode Scripts since v3.0.0
+   */
+  jQuery(".wps_upsell_quantity_input").on("change", function (e) {
+    var updated_quantity = jQuery(this).val();
 
-	jQuery('.wps_wocuf_pro_no').on('click',function(e){
+    jQuery("a").map(function () {
+      // Check if any of them are empty.
+      if (this.href.includes("wps_wocuf_pro_buy")) {
+        if (false == this.href.includes("fetch")) {
+          var paramurl = this.href + "&fetch=1";
+          jQuery(this).attr("href", paramurl);
+        }
 
-		jQuery('#wps_wocuf_pro_offer_loader').show();
-		
-	});
+        var currentquantity = jQuery(this).attr("href").split("fetch=");
 
-	/**
-	 * Shortcode Scripts since v3.0.0
-	 */
-	jQuery( '.wps_upsell_quantity_input' ).on( 'change',function(e) {
+        if ("" != currentquantity[1]) {
+          currentquantity = currentquantity[1];
+        } else {
+          currentquantity = 1;
+        }
 
-		var updated_quantity = jQuery( this ).val();
+        var newUrl = this.href.replace(
+          "fetch=" + currentquantity,
+          "fetch=" + updated_quantity
+        );
+        jQuery(this).attr("href", newUrl);
+      }
 
-		jQuery( 'a' ).map( function() {
-            
-            // Check if any of them are empty.
-            if( this.href.includes( 'wps_wocuf_pro_buy' ) ) {
+      // For variable products.
+      else if (this.href.includes("#wps_upsell")) {
+        jQuery(".wps_wocuf_pro_quantity").val(updated_quantity);
+      }
+    });
+  });
 
-            	if( false == this.href.includes( 'fetch' ) ) {
+  /**
+   * Sweet Alert when Upsell Action Buttons are clicked in Preview Mode.
+   * since v3.0.0
+   */
+  jQuery(document).ready(function ($) {
+    $(document).on("click", 'a[href$="#preview"]', function (e) {
+      e.preventDefault();
 
-            		var paramurl = this.href + '&fetch=1';
-            		jQuery( this ).attr( 'href', paramurl );
-            	}
+      // Check if SweetAlert is available
+      if (typeof swal !== "undefined") {
+        swal(
+          wps_upsell_public.alert_preview_title,
+          wps_upsell_public.alert_preview_content,
+          "info"
+        );
+      } else if (typeof Swal !== "undefined") {
+        Swal.fire(
+          wps_upsell_public.alert_preview_title,
+          wps_upsell_public.alert_preview_content,
+          "info"
+        );
+      } else {
+        alert(
+          wps_upsell_public.alert_preview_title +
+            "\n\n" +
+            wps_upsell_public.alert_preview_content
+        );
+      }
+    });
+  });
 
-            	var currentquantity = jQuery( this ).attr( 'href' ).split('fetch=');
+  /**
+   * Adding Upsell Loader since v3.0.0
+   */
+  if ("undefined" !== typeof wps_upsell_public) {
+    if (wps_upsell_public.show_upsell_loader) {
+      wps_upsell_loader_message = wps_upsell_public.upsell_actions_message;
 
-            	if( '' != currentquantity[1] ) {
+      wps_upsell_loader_message_html = "";
 
-            		currentquantity = currentquantity[1];
-            	}
+      if (wps_upsell_loader_message.length) {
+        wps_upsell_loader_message_html =
+          '<p class="wps_upsell_loader_text">' +
+          wps_upsell_loader_message +
+          "</p>";
+      }
 
-            	else {
+      jQuery("body").append(
+        '<div class="wps_upsell_loader">' +
+          wps_upsell_loader_message_html +
+          "</div>"
+      );
 
-            		currentquantity = 1;
-            	}
-
-            	var newUrl = this.href.replace( 'fetch=' + currentquantity , 'fetch=' + updated_quantity );
-            	jQuery( this ).attr( 'href', newUrl );
-            }
-
-            // For variable products.
-            else if( this.href.includes( '#wps_upsell' ) ) {
-
-            	jQuery( '.wps_wocuf_pro_quantity' ).val( updated_quantity );
-            }
-        });
-	});
-
-	/**
-	 * Sweet Alert when Upsell Action Buttons are clicked in Preview Mode. 
-	 * since v3.0.0
-	 */
-	jQuery(document).ready(function($) {
-		$(document).on('click', 'a[href$="#preview"]', function(e) {
-			e.preventDefault();
-
-			// Check if SweetAlert is available
-			if (typeof swal !== 'undefined') {
-				swal(wps_upsell_public.alert_preview_title, wps_upsell_public.alert_preview_content, 'info');
-			} else if (typeof Swal !== 'undefined') {
-				Swal.fire(wps_upsell_public.alert_preview_title, wps_upsell_public.alert_preview_content, 'info');
-			} else {
-				alert(wps_upsell_public.alert_preview_title + "\n\n" + wps_upsell_public.alert_preview_content);
-			}
-		});
-	});
-
-
-
-	/**
-	 * Adding Upsell Loader since v3.0.0
-	 */
-	if( 'undefined' !== typeof( wps_upsell_public ) ) {
-
-		if( wps_upsell_public.show_upsell_loader ) {
-
-			wps_upsell_loader_message = wps_upsell_public.upsell_actions_message;
-
-			wps_upsell_loader_message_html = '';
-
-			if( wps_upsell_loader_message.length ) {
-
-				wps_upsell_loader_message_html = '<p class="wps_upsell_loader_text">' + wps_upsell_loader_message + '</p>';
-			}
-
-			jQuery( 'body' ).append( '<div class="wps_upsell_loader">' + wps_upsell_loader_message_html + '</div>' );
-
-			jQuery( document ).on('click', 'a', function(e) {
-
-				// Check if any of them are empty.
-	            if( this.href.includes( 'wps_wocuf_pro_buy' ) || this.href.includes( '#wps_upsell' ) ) {
-
-	            	// Show loader on click.
-	            	jQuery( '.wps_upsell_loader' ).show();
-	            }
-			});
-		}
-	}
-
+      jQuery(document).on("click", "a", function (e) {
+        // Check if any of them are empty.
+        if (
+          this.href.includes("wps_wocuf_pro_buy") ||
+          this.href.includes("#wps_upsell")
+        ) {
+          // Show loader on click.
+          jQuery(".wps_upsell_loader").show();
+        }
+      });
+    }
+  }
 });
-
-

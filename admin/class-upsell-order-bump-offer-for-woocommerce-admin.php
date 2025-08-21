@@ -243,6 +243,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 						'check_pro_activate'     => ! wps_upsell_funnel_builder_is_pdf_pro_plugin_active(),
 						'wps_all_order_bump_data' => get_option( 'wps_ubo_bump_list', array() ),
 						'wps_post_funnels_list'    => $funnels_list,
+						'is_pro_active' => wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ),
 					)
 				);
 
