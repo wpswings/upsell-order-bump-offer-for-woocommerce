@@ -1519,6 +1519,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Store API / Checkout Block Add Order Bump - Order Post meta.
 		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this,'wps_mark_bump_order_if_needed'), 10, 1 );
 
+				// Add Order Bump - Order Post meta.
+		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'add_bump_order_post_meta' ), 10 );
+
 		// Handle Order Bump Orders on Thankyou for Success Rate and Stats.
 		add_action( 'woocommerce_thankyou', array( $this, 'report_sales_by_bump_handling' ), 15 );
 
@@ -1531,6 +1534,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'wps_add_custom_price_to_cart_item' ) );
 
 		add_action( 'woocommerce_checkout_create_order_line_item', array( $this, 'add_order_item_meta_new' ), 10, 4 );
+				// Add meta data to order item for order review.
+		add_action( 'woocommerce_checkout_create_order', array( $this, 'add_order_item_meta' ), 10 );
 
 	}
 
@@ -1575,20 +1580,31 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function add_order_item_meta_new( $item, $cart_item_key, $values, $order ) {
 
-    if ( ! empty( $values['wps_ubo_offer_product'] ) ) {
-        $item->update_meta_data( 'is_order_bump_purchase', 'true' );
-    }
+		// / Log the $values array to confirm the data is available at this exact point.
+        error_log( 'Values received by add_order_item_meta_new: ' . print_r( $values, true ) );
 
-    if ( ! empty( $values['wps_ubo_bump_id'] ) ) {
-        $item->update_meta_data( 'wps_order_bump_id', $values['wps_ubo_bump_id'] );
-    }
-
-    if ( ! empty( $values['wps_ubo_meta_form'] ) && is_array( $values['wps_ubo_meta_form'] ) ) {
-        foreach ( $values['wps_ubo_meta_form'] as $field ) {
-            $item->update_meta_data( $field['name'], $field['value'] );
+        // Check if the 'wps_ubo_offer_product' flag is set.
+        if ( ! empty( $values['wps_ubo_offer_product'] ) ) {
+            $item->update_meta_data( 'is_order_bump_purchase', 'true' );
         }
+
+        // Check and save the 'wps_ubo_bump_id' meta.
+        if ( isset( $values['wps_ubo_bump_id'] ) ) {
+           $item->update_meta_data( 'wps_order_bump_id', $values['wps_ubo_bump_id'] );
+        }
+
+        // Check and save the form data.
+        if ( ! empty( $values['wps_ubo_meta_form'] ) && is_array( $values['wps_ubo_meta_form'] ) ) {
+            foreach ( $values['wps_ubo_meta_form'] as $field ) {
+                if ( isset( $field['name'] ) && isset( $field['value'] ) ) {
+                    $item->update_meta_data( $field['name'], $field['value'] );
+                }
+            }
+        }
+
+        // Make sure to save the item data.
+        $item->save();
     }
-}
 
 	/**
 	 * Add order item meta to bump product.
@@ -1596,33 +1612,33 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param    object $order      The order in which bump offer is added.
 	 * @since    1.0.0
 	 */
-	// public function add_order_item_meta( $order ) {
+	public function add_order_item_meta( $order ) {
 
-	// 	$order_items = $order->get_items();
+		$order_items = $order->get_items();
 
-	// 	if ( ! empty( $order_items ) && is_array( $order_items ) ) {
+		if ( ! empty( $order_items ) && is_array( $order_items ) ) {
 
-	// 		foreach ( $order_items as $item_key => $single_order_item ) {
+			foreach ( $order_items as $item_key => $single_order_item ) {
 
-	// 			if ( ! empty( $single_order_item->legacy_values['wps_ubo_offer_product'] ) ) {
+				if ( ! empty( $single_order_item->legacy_values['wps_ubo_offer_product'] ) ) {
 
-	// 				$single_order_item->update_meta_data( 'is_order_bump_purchase', 'true' );
-	// 			}
+					$single_order_item->update_meta_data( 'is_order_bump_purchase', 'true' );
+				}
 
-	// 			if ( ! empty( $single_order_item->legacy_values['wps_ubo_bump_id'] ) ) {
+				if ( ! empty( $single_order_item->legacy_values['wps_ubo_bump_id'] ) ) {
 
-	// 				$single_order_item->update_meta_data( 'wps_order_bump_id', $single_order_item->legacy_values['wps_ubo_bump_id'] );
-	// 			}
+					$single_order_item->update_meta_data( 'wps_order_bump_id', $single_order_item->legacy_values['wps_ubo_bump_id'] );
+				}
 
-	// 			if ( ! empty( $single_order_item->legacy_values['wps_ubo_meta_form'] ) && is_array( $single_order_item->legacy_values['wps_ubo_meta_form'] ) ) {
+				if ( ! empty( $single_order_item->legacy_values['wps_ubo_meta_form'] ) && is_array( $single_order_item->legacy_values['wps_ubo_meta_form'] ) ) {
 
-	// 				foreach ( $single_order_item->legacy_values['wps_ubo_meta_form'] as $key => $value ) {
-	// 					$single_order_item->update_meta_data( $value['name'], $value['value'] );
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
+					foreach ( $single_order_item->legacy_values['wps_ubo_meta_form'] as $key => $value ) {
+						$single_order_item->update_meta_data( $value['name'], $value['value'] );
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * Hide Order Bump meta from order items.
@@ -1911,6 +1927,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'wps_ubo_meta_form'     => $form_data,
 			);
 		}
+
+		// print_r($cart_item_data);
 
 		$_product = wc_get_product( $wps_bump_product_id );
 
