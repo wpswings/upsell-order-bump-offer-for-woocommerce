@@ -2214,9 +2214,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_product_price = isset( $_POST['wps_product_price'] ) ? absint( $_POST['wps_product_price'] ) : '';
 
 			$wps_target_product_id = isset( $_POST['wps_target_product_id'] ) ? absint( $_POST['wps_target_product_id'] ) : '';
+			$wps_target_var_product_id = isset( $_POST['wps_variation_product_id'] ) ? absint( $_POST['wps_variation_product_id'] ) : '';
+
+			if(! empty( $wps_target_var_product_id )) {
+				$wps_select_option_discount = get_post_meta( $wps_target_var_product_id, 'wps_select_option_discount', true );
+				$wps_recommendation_discount_val = get_post_meta( $wps_target_var_product_id, 'wps_recommendation_discount_val', true );
+			}	else {
 
 			$wps_select_option_discount = get_post_meta( $wps_target_product_id, 'wps_select_option_discount', true );
 			$wps_recommendation_discount_val = get_post_meta( $wps_target_product_id, 'wps_recommendation_discount_val', true );
+			}
 
 			if ( 'no_disc' == $wps_select_option_discount ) {
 
@@ -5205,6 +5212,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 * and other purposes.
 		 */
 		wps_wocfo_hpos_update_meta_data_funnel_builder( $order_id, 'wps_upsell_order_started', 'true' );
+		wps_wocfo_hpos_update_meta_data_funnel_builder( $order_id, 'wps_funnel_id_for_crm_data', $funnel_id );
 
 		// Add Upsell Funnel Id to order meta for Sales by Funnel tracking.
 		wps_wocfo_hpos_update_meta_data_funnel_builder( $order_id, 'wps_upsell_funnel_id', $funnel_id );

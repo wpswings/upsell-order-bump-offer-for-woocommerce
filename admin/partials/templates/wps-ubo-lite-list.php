@@ -262,10 +262,11 @@ if ( is_array( $wps_upsell_bumps_list ) && ! empty( $wps_upsell_bumps_list ) ) {
 				<?php 
 				$wps_display_method = ! empty( $value['wps_display_method'] ) ? sanitize_text_field( wp_unslash( $value['wps_display_method'] ) ) : '';
 						if ( 'on' === $bump_offer_ab_method && wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' )) :
-							if ( 'ab_method' === $wps_display_method ) :
 				?>
 				<td>
+					
 					<?php
+						if ( 'ab_method' === $wps_display_method ) :
 							$has_two_bumps = ( isset( $wps_count_for_ab ) && (int) $wps_count_for_ab > 1 );
 							if ( $has_two_bumps ) :
 
@@ -314,9 +315,10 @@ if ( is_array( $wps_upsell_bumps_list ) && ! empty( $wps_upsell_bumps_list ) ) {
 								</div>
 								<div class="wpsb-muted"><?php esc_html_e( 'A/B method is not active for this bump.', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></div>
 							</div>
-							</td>
 							<?php
-							endif;
+							endif; ?>
+							</td>
+							<?php 
 						endif;
 						?>
 					<!-- Bump Action. -->
