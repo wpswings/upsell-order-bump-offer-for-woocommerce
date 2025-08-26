@@ -28,9 +28,6 @@
  */
 class Upsell_Order_Bump_Offer_For_Woocommerce {
 
-
-
-
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.

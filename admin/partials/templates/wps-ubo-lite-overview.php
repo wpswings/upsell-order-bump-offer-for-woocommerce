@@ -163,11 +163,3 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php endif; ?>
 </div>
-
-<div id="mwb_pop" class="mwb_pop">
-	<div class="mwb_pop-shad"></div>
-	<div class="mwb_pop-con">
-		<span class="mwb_pop-close">&times;</span>
-		<a href="https://wpswings.com/offers/?utm_source=order-bump-org-backend&utm_medium=referral&utm_campaign=order-bump-bundle-popup"><img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/bump-bundle-offer.jpg' ); ?>" /></a>
-	</div>
-</div>

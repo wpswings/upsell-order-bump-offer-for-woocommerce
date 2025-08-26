@@ -58,8 +58,7 @@ if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce
 							id="wps-post-chartContainer<?php echo esc_attr( $key ); ?>"
 							class="wps-post-chart-container collapsed">
 							<canvas
-								id="wps-post-myPieChart<?php echo esc_attr( $key ); ?>"
-								width="400" height="400"></canvas>
+								id="wps-post-myPieChart<?php echo esc_attr( $key ); ?>"></canvas>
 							</div>
 						</div>
 			<?php endforeach; ?>

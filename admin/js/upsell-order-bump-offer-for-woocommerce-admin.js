@@ -1043,23 +1043,23 @@ jQuery(document).ready(function ($) {
 //Banner Image.
 jQuery(document).ready(function ($) {
   $(document).on("click", "#dismiss-banner", function (e) {
-    if (wps_ubo_lite_banner_offer_section_obj.check_pro_activate) {
-      jQuery(document).find(".wps-offer-notice").hide();
-    } else {
-      e.preventDefault();
-      var data = {
-        action: "wps_sfw_dismiss_notice_banner",
-        wps_nonce: wps_ubo_lite_banner_offer_section_obj.auth_nonce,
-      };
-      $.ajax({
-        url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
-        type: "POST",
-        data: data,
-        success: function (response) {
-          window.location.reload();
-        },
-      });
-    }
+    // if (wps_ubo_lite_banner_offer_section_obj.check_pro_activate) {
+    //   jQuery(document).find(".wps-offer-notice").hide();
+    // } else {
+    e.preventDefault();
+    var data = {
+      action: "wps_sfw_dismiss_notice_banner",
+      wps_nonce: wps_ubo_lite_banner_offer_section_obj.auth_nonce,
+    };
+    $.ajax({
+      url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+      type: "POST",
+      data: data,
+      success: function (response) {
+        window.location.reload();
+      },
+    });
+    // }
   });
 });
 
@@ -1114,19 +1114,6 @@ jQuery(document).ready(function () {
 });
 
 jQuery(document).ready(function () {
-  // Without Local.
-  function openPopupAfterDelay() {
-    setTimeout(function () {
-      jQuery("#mwb_pop").fadeIn();
-    }, 1000);
-  }
-  openPopupAfterDelay();
-  jQuery(".mwb_pop-close,.mwb_pop-shad").click(function () {
-    jQuery("#mwb_pop").fadeOut();
-  });
-});
-
-jQuery(document).ready(function () {
   const newdata = wps_ubo_lite_banner_offer_section_obj.wps_all_order_bump_data;
   // Loop with forEach
   Object.entries(newdata).forEach(([key, bump]) => {
@@ -1168,12 +1155,12 @@ jQuery(document).ready(function () {
             bump.bump_total_sales || 0,
           ],
           backgroundColor: [
-            "#FF6384", // Light Coral / Reddish Pink
-            "#36A2EB", // Dodger Blue
-            "#FFCE56", // Gold / Mustard Yellow
-            "#4BC0C0", // Medium Turquoise / Teal
-            "#9966FF", // Amethyst / Medium Purple
-            "#8AFF33", // Lime Green / Bright Green
+            "#FF638499", // Light Coral / Reddish Pink
+            "#36A2EB99", // Dodger Blue
+            "#FFCE5699", // Gold / Mustard Yellow
+            "#4BC0C099", // Medium Turquoise / Teal
+            "#9966FF99", // Amethyst / Medium Purple
+            "#8AFF3399", // Lime Green / Bright Green
           ],
           borderColor: [
             "#CC204D", // Dark Red / Crimson
@@ -1300,13 +1287,13 @@ jQuery(document).ready(function () {
             bump.funnel_total_sales || 0,
           ],
           backgroundColor: [
-            "#FF6384", // Light Coral / Reddish Pink
-            "#36A2EB", // Dodger Blue
-            "#FFCE56", // Gold / Mustard Yellow
-            "#4BC0C0", // Medium Turquoise / Teal
-            "#9966FF", // Amethyst / Medium Purple
-            "#FF9F40", // Deep Saffron / Orange
-            "#8AFF33", // Lime Green / Bright Green
+            "#FF638499", // Light Coral / Reddish Pink
+            "#36A2EB99", // Dodger Blue
+            "#FFCE5699", // Gold / Mustard Yellow
+            "#4BC0C099", // Medium Turquoise / Teal
+            "#9966FF99", // Amethyst / Medium Purple
+            "#FF9F4099", // Deep Saffron / Orange
+            "#8AFF3399", // Lime Green / Bright Green
             "#FF33F6", // Hot Pink / Neon Pink
           ],
           borderColor: [
@@ -1373,7 +1360,7 @@ jQuery(document).ready(function () {
     const chartContainer = document.getElementById(
       "wps-post-chartContainer" + key
     );
-    var wps_funnel_name = '';
+    var wps_funnel_name = "";
     if (wps_ubo_lite_banner_offer_section_obj.is_pro_active) {
       wps_funnel_name = bump.wps_wocuf_pro_funnel_name;
     } else {
