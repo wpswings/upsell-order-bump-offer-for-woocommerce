@@ -1155,20 +1155,20 @@ jQuery(document).ready(function () {
             bump.bump_total_sales || 0,
           ],
           backgroundColor: [
-            "#FF638499", // Light Coral / Reddish Pink
-            "#36A2EB99", // Dodger Blue
-            "#FFCE5699", // Gold / Mustard Yellow
-            "#4BC0C099", // Medium Turquoise / Teal
-            "#9966FF99", // Amethyst / Medium Purple
-            "#8AFF3399", // Lime Green / Bright Green
+            "#FF638499",
+            "#36A2EB99",
+            "#FFCE5699",
+            "#4BC0C099",
+            "#9966FF99",
+            "#8AFF3399",
           ],
           borderColor: [
-            "#CC204D", // Dark Red / Crimson
-            "#1E75BB", // Dark Blue / Denim
-            "#E6B800", // Dark Goldenrod
-            "#008B8B", // Dark Cyan / Teal
-            "#5A2D9D", // Dark Purple / Indigo
-            "#4CAF00", // Dark Green
+            "#CC204D",
+            "#1E75BB",
+            "#E6B800",
+            "#008B8B",
+            "#5A2D9D",
+            "#4CAF00",
           ],
           borderWidth: 2,
           hoverBorderWidth: 3,
@@ -1210,7 +1210,6 @@ jQuery(document).ready(function () {
             const label = chart.data.labels[firstPoint.key];
             const value =
               chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.key];
-            // alert("Clicked label: " + label + "\nClicked value: " + value);
           }
         },
       },
@@ -1287,24 +1286,24 @@ jQuery(document).ready(function () {
             bump.funnel_total_sales || 0,
           ],
           backgroundColor: [
-            "#FF638499", // Light Coral / Reddish Pink
-            "#36A2EB99", // Dodger Blue
-            "#FFCE5699", // Gold / Mustard Yellow
-            "#4BC0C099", // Medium Turquoise / Teal
-            "#9966FF99", // Amethyst / Medium Purple
-            "#FF9F4099", // Deep Saffron / Orange
-            "#8AFF3399", // Lime Green / Bright Green
-            "#FF33F6", // Hot Pink / Neon Pink
+            "#FF638499",
+            "#36A2EB99",
+            "#FFCE5699",
+            "#4BC0C099",
+            "#9966FF99",
+            "#FF9F4099",
+            "#8AFF3399",
+            "#FF33F6",
           ],
           borderColor: [
-            "#CC204D", // Dark Red / Crimson
-            "#1E75BB", // Dark Blue / Denim
-            "#E6B800", // Dark Goldenrod
-            "#008B8B", // Dark Cyan / Teal
-            "#5A2D9D", // Dark Purple / Indigo
-            "#CC5500", // Burnt Orange
-            "#4CAF00", // Dark Green
-            "#CC0099", // Dark Magenta / Pink
+            "#CC204D",
+            "#1E75BB",
+            "#E6B800",
+            "#008B8B",
+            "#5A2D9D",
+            "#CC5500",
+            "#4CAF00",
+            "#CC0099",
           ],
           borderWidth: 2,
           hoverBorderWidth: 3,
@@ -1346,7 +1345,6 @@ jQuery(document).ready(function () {
             const label = chart.data.labels[firstPoint.key];
             const value =
               chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.key];
-            // alert("Clicked label: " + label + "\nClicked value: " + value);
           }
         },
       },

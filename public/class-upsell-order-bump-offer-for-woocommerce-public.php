@@ -627,7 +627,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					}
 				}
 			}
-
+			$sales_by_bump->remove_unwanted_view_count();
 			echo wp_json_encode( $added );
 		}
 
@@ -681,6 +681,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		check_ajax_referer( 'wps_ubo_lite_nonce', 'nonce' );
 
 		$bump_index = ! empty( $_POST['bump_index'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
+		$order_bump_id         = ! empty( $_POST['order_bump_id'] ) ? sanitize_text_field( wp_unslash( $_POST['order_bump_id'] ) ) : '';
 
 		if ( null !== WC()->session->get( "bump_offer_status_$bump_index" ) ) {
 
@@ -708,7 +709,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				}
 			}
 		}
-
+        $sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
+		$sales_by_bump->remove_unwanted_view_count();
 		echo wp_json_encode( 'removed' );
 
 		wp_die();
@@ -884,6 +886,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				Upsell_Order_Bump_Offer_For_Woocommerce_Pro::wps_ubo_upgrade_offer( $bump_offer_cart_item_key, $bump_target_cart_key );
 			}
 		}
+		$sales_by_bump->remove_unwanted_view_count();
 		echo wp_json_encode( $added );
 		wp_die();
 	}

@@ -130,19 +130,41 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Bump {
 	 */
 	public function add_offer_accept_count() {
 
-		if ( $this->validate_bump_series() ) {
+				if ( $this->validate_bump_series() ) {
 
-			if ( ! empty( $this->bump_series[ $this->bump_id ]['offer_accept_count'] ) ) {
+					if ( ! empty( $this->bump_series[ $this->bump_id ]['offer_accept_count'] ) ) {
 
-				$this->bump_series[ $this->bump_id ]['offer_accept_count'] += 1;
-			} else {
+						$this->bump_series[ $this->bump_id ]['offer_accept_count'] += 1;
+					} else {
 
-				$this->bump_series[ $this->bump_id ]['offer_accept_count'] = 1;
-			}
+						$this->bump_series[ $this->bump_id ]['offer_accept_count'] = 1;
+					}
 
-			$this->save_bump_series( $this->bump_series );
-		}
+					$this->save_bump_series( $this->bump_series );
+				}
 	}
+
+
+       /**
+	 * Remove unwanted view count for the current Order Bump.
+	 *
+	 * @since    1.4.0
+	 * @access   public
+	 */
+	public function remove_unwanted_view_count() {
+
+				if ( $this->validate_bump_series() ) {
+
+					if ( ! empty( $this->bump_series[ $this->bump_id ]['offer_view_count'] ) ) {
+
+						$this->bump_series[ $this->bump_id ]['offer_view_count'] -= 1;
+					}
+
+					$this->save_bump_series( $this->bump_series );
+				}
+
+				return $this->bump_series[ $this->bump_id ]['offer_view_count'];
+		}
 
 
 	/**
