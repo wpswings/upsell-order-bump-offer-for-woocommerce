@@ -1,16 +1,20 @@
 jQuery( document ).ready(
 	function ($) {
 
-		$(document).on('click', '.wps-ob_ta-o-title', function(e) {
-			// Check if the target element exists.
-			var bumpButton = document.querySelector('.add_offer_in_cart');
-			if (bumpButton) {
-				// Trigger the click event on the target element
-				bumpButton.click();
-			} else {
-				console.log('Element with class .add_offer_in_cart not found.');
+		$( document ).on(
+			'click',
+			'.wps-ob_ta-o-title',
+			function(e) {
+				// Check if the target element exists.
+				var bumpButton = document.querySelector( '.add_offer_in_cart' );
+				if (bumpButton) {
+					// Trigger the click event on the target element
+					bumpButton.click();
+				} else {
+					console.log( 'Element with class .add_offer_in_cart not found.' );
+				}
 			}
-		});
+		);
 
 		$( document ).on(
 			'click',
@@ -71,4 +75,3 @@ jQuery( document ).ready(
 		);
 	}
 );
-

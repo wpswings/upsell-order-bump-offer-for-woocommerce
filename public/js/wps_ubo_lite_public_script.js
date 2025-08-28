@@ -847,7 +847,7 @@ jQuery(document).ready(function ($) {
     // Onclick outside the div close the popup.
     $('body').click(function (e) {
 
-        if (e.target.className.search('wps_bump_popup_wrapper') == 0) {
+        if (e.target.className.toString().search('wps_bump_popup_wrapper') == 0) {
 
             order_bump_index = e.target.className.replace('wps_bump_popup_wrapper wps_bump_popup_', '');
 

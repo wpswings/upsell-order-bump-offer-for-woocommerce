@@ -2,6 +2,16 @@
   "use strict";
   $(document).ready(function () {
     $(document).ready(function () {
+
+      const targetElement = document.querySelector(".wps-bump-offer-container");
+
+        // Scroll the page to the target element
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth', // Smooth scroll
+            block: 'start'      // Align to the top of the viewport
+          });
+        }
       // Function to check and update the visibility of the setting
       function togglePopUpSetting() {
         if ($("#wps_Offer_With_Pop_Up_id_pro_1").is(":checked")) {

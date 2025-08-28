@@ -3,99 +3,99 @@
  * included in this file.
  */
  .wps-wocuf_pro-no-offer{
-    width:60%;
-    margin: 20px auto;
-    text-align: center;
+	width:60%;
+	margin: 20px auto;
+	text-align: center;
   }
    .wps_wocuf_pro_offer_container{
-    padding:50px 150px;
-    background: white;
+	padding:50px 150px;
+	background: white;
   }
   .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_special_offer_banner {
-    margin-bottom: 60px;
-    text-align: center;
-    font-weight: bold;
+	margin-bottom: 60px;
+	text-align: center;
+	font-weight: bold;
   }
   .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_main_wrapper .wps_wocuf_pro_product_image img {
-    width: 40%;
-    margin: 0 auto;
+	width: 40%;
+	margin: 0 auto;
   }
   .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_main_wrapper::after {
-    clear: both;
-    content: "";
-    display: block;
-    position: absolute;
+	clear: both;
+	content: "";
+	display: block;
+	position: absolute;
   }
   .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_main_wrapper{
-    overflow: hidden;
+	overflow: hidden;
   }
   .wps_wocuf_pro_offered_product_description {
-    box-sizing: border-box;
-    padding: 15px;
-    text-align: center;
+	box-sizing: border-box;
+	padding: 15px;
+	text-align: center;
   }
   .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_main_wrapper .wps_wocuf_pro_product_title {
-    text-align: center;
-    width:50%;
-    margin: 20px auto;
-    font-size: 20px;
+	text-align: center;
+	width:50%;
+	margin: 20px auto;
+	font-size: 20px;
   }
   .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_product_price > h4 ,.wps_wocuf_pro_variable_price_html.display{
-    box-shadow: 0 2px 5px rgba(0,0,0, 0.25);
-    display: inline-block;
-    padding: 10px 40px;
+	box-shadow: 0 2px 5px rgba(0,0,0, 0.25);
+	display: inline-block;
+	padding: 10px 40px;
   }
   .wps_wocuf_pro_variations .wps_wocuf_offer_variation_select {
-    height: 36px;
-    width: 100%;
-    border-radius: 0;
-    border: 1px solid #bababa;
-    font-size: 15px;
-    background: #fff;
+	height: 36px;
+	width: 100%;
+	border-radius: 0;
+	border: 1px solid #bababa;
+	font-size: 15px;
+	background: #fff;
   }
   .wps_wocuf_pro_variations {
-    width:50%;
-    margin: 0 auto;
+	width:50%;
+	margin: 0 auto;
   }
   .wps_wocuf_pro_variations .wps_wocuf_offer_variation_select option {
-    padding: 10px;
+	padding: 10px;
   }
   .wps_wocuf_pro_variations .variations .label label{
-    margin-right: 20px;
-    color: black;
-    font-size: 20px;
-    font-weight: bold;
+	margin-right: 20px;
+	color: black;
+	font-size: 20px;
+	font-weight: bold;
   }
   .wps_wocuf_pro_special_offers_for_you .woocommerce-Price-amount.amount {
-    font-weight: bold;
+	font-weight: bold;
   }
   .wps_wocuf_pro_variable_price_html del .woocommerce-Price-amount.amount {
-    font-weight: 500;
+	font-weight: 500;
   }
   .wps_wocuf_pro_variations tr td {
    border: none;
   }
   .wps_wocuf_pro_product_price h4 {
-    background-color: #f2f5f7;
-    color: #000;
-    border: solid 2px #cecece;
-    border-style: dashed;
-    font-size: 27px;
-    text-align: center;
+	background-color: #f2f5f7;
+	color: #000;
+	border: solid 2px #cecece;
+	border-style: dashed;
+	font-size: 27px;
+	text-align: center;
   }
   .wps_wocuf_pro_product_price h4 del {
-    color: #000;
-    padding-left: 10px;
+	color: #000;
+	padding-left: 10px;
   }
   .wps_wocuf_pro_product_price h4 ins {
-    background-color: #fff;
-    color: #000;
+	background-color: #fff;
+	color: #000;
   }
   .wps_wocuf_pro_offered_product_actions {
-    overflow: hidden;
-    width: 100%;
-    text-align: center;
-    margin: 15px 0px;
+	overflow: hidden;
+	width: 100%;
+	text-align: center;
+	margin: 15px 0px;
   }
   .wps_wocuf_pro_offered_product_actions button.wps_wocuf_pro_buy{
    padding: 15px 25px !important;
@@ -108,29 +108,29 @@
    border-radius: 10px;
   }
   .wps_wocuf_pro_offered_product_actions a.wps_wocuf_pro_skip{
-    padding: 5px 20px;
-    font-size: 25px;
-    cursor: pointer;
-    display: inline-block;
-    position: initial;
-    text-align: right;
-    border: solid 1px;
-    border-radius: 20px;
-    top: -5px;
+	padding: 5px 20px;
+	font-size: 25px;
+	cursor: pointer;
+	display: inline-block;
+	position: initial;
+	text-align: right;
+	border: solid 1px;
+	border-radius: 20px;
+	top: -5px;
   }
   .wps_wocuf_pro_variations table {
-    margin: 0 auto;
+	margin: 0 auto;
   }
   .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_product_price {
-    margin: 0 auto;
-    text-align: center;
+	margin: 0 auto;
+	text-align: center;
   }
   .wps_wocuf_pro_display{
-    display: block;
-    padding: 15px;
+	display: block;
+	padding: 15px;
   }
   .wps_wocuf_pro_hide{
-    display: none;
+	display: none;
   }
   .wps_wocuf_pro_demotext {
    color: #000;
@@ -158,383 +158,383 @@
    right: 0;
    top: 40%;
   }
-  
+
   .woocommerce-info.wps-wocuf-stripe-test-mode {
-    margin-top: -14px;
-    margin-bottom: 15px;
+	margin-top: -14px;
+	margin-bottom: 15px;
   }
-  
+
   #wps-wocuf-stripe-test-mode-notice {
-    font-weight: bold;
+	font-weight: bold;
   }
-  
+
   .payment_method_wps_upsell_authorize-dot-net img {
-  
-    width: 90px;
+
+	width: 90px;
   }
-  
+
   /*Fixing default offer page css*/
   .wps_wocuf_pro_product_image {
-      text-align: center;
+	  text-align: center;
   }
   .wps_wocuf_pro_offered_product_actions {
-      margin-top: 30px;
+	  margin-top: 30px;
   }
-  
+
   .wps_wocuf_pro_skip.wps_wocuf_pro_no {
-      margin-top: 20px;
+	  margin-top: 20px;
   }
-  
+
   /**
    * V3.0.0 CSS STARTS HERE ------------>>>>>>>>>>>>>>>>>>>
-   * 
+   *
    */
-  
+
   /*since v3.0.0 - OFFER Price - Start*/
-  
+
   .wps_upsell_offer_product_price {
-      display: inline-block;
+	  display: inline-block;
   }
-  
+
   .wps_upsell_offer_product_price del {
-      font-size: 85%;
+	  font-size: 85%;
   }
-  
+
   .wps_upsell_offer_product_price ins {
-      text-decoration: none;
+	  text-decoration: none;
   }
-  
+
   /*since v3.0.0 - OFFER Price - End*/
-  
-  
+
+
   /*since v3.0.0 - OFFER Variations - Start*/
-  
+
   .wps_upsell_offer_product_variations table{
-     width: 100%;
+	 width: 100%;
   }
-  
+
   .wps_upsell_offer_product_variations table td, table th {
-     padding: 1em 1.41575em;
-     vertical-align: middle;
+	 padding: 1em 1.41575em;
+	 vertical-align: middle;
   }
-  
+
   .wps_upsell_offer_product_variations .wps_upsell_offer_variation_select {
-      width: 160px;
-      background-color: #fff;
-      height: 30px;
-      border-radius: 4px;
-      border: 0;
-      padding: 0px 7px;
-      border: solid 1px #ccc;
-      font-size: inherit;
-      font-family: inherit;
+	  width: 160px;
+	  background-color: #fff;
+	  height: 30px;
+	  border-radius: 4px;
+	  border: 0;
+	  padding: 0px 7px;
+	  border: solid 1px #ccc;
+	  font-size: inherit;
+	  font-family: inherit;
   }
-  
+
   .wps_upsell_offer_product_variations table tbody td,
   .wps_upsell_offer_product_variations table tbody th {
-      background-color: transparent !important; 
-      text-align: center;
+	  background-color: transparent !important;
+	  text-align: center;
   }
-  
+
   .wps_upsell_offer_product_variations table tbody td:first-child {
-      width: 35%;
+	  width: 35%;
   }
   .wps_upsell_offer_product_variations table tbody td:last-child {
-      width: 65%;
+	  width: 65%;
   }
-  
+
   /*since v3.0.0 - OFFER Variations - End*/
-  
+
   /*since v3.0.0 - OFFER Image - Start*/
-  
+
   .wps_upsell_offer_product_image {
-      display: inline-block;
+	  display: inline-block;
   }
-  
+
   /*since v3.0.0 - OFFER Image - End*/
-  
+
   /*since v3.0.0 - OFFER star review - Start*/
-  
+
   @font-face {
-      font-family: 'star';
-      src: url('star.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
+	  font-family: 'star';
+	  src: url('star.ttf') format('truetype');
+	  font-weight: normal;
+	  font-style: normal;
   }
-  
+
   .wps-upsell-star-rating {
-      display: inline-block;
+	  display: inline-block;
   }
-  
+
   .wps-upsell-star-rating {
-      overflow: hidden;
-      position: relative;
-      height: 1.618em;
-      line-height: 1.618;
-      font-size: 1em;
-      width: 5.3em;
-      font-family: star;
-      font-weight: 400;
+	  overflow: hidden;
+	  position: relative;
+	  height: 1.618em;
+	  line-height: 1.618;
+	  font-size: 1em;
+	  width: 5.3em;
+	  font-family: star;
+	  font-weight: 400;
   }
-  
+
   .wps-upsell-star-rating::before {
-      content: '\53\53\53\53\53';
-      opacity: .25;
-      float: left;
-      top: 0;
-      left: 0;
-      position: absolute;
+	  content: '\53\53\53\53\53';
+	  opacity: .25;
+	  float: left;
+	  top: 0;
+	  left: 0;
+	  position: absolute;
   }
-  
+
   .wps-upsell-star-rating span {
-      overflow: hidden;
-      float: left;
-      top: 0;
-      left: 0;
-      position: absolute;
-      padding-top: 1.5em;
+	  overflow: hidden;
+	  float: left;
+	  top: 0;
+	  left: 0;
+	  position: absolute;
+	  padding-top: 1.5em;
   }
-  
+
   .wps-upsell-star-rating span::before {
-      content: '\53\53\53\53\53';
-      top: 0;
-      position: absolute;
-      left: 0;
-      color: #f1c40f;
+	  content: '\53\53\53\53\53';
+	  top: 0;
+	  position: absolute;
+	  left: 0;
+	  color: #f1c40f;
   }
-  
+
   /*since v3.0.0 - OFFER star review - End*/
-  
+
   /*since v3.0.0 - Default offer ( gutenberg ) - Start */
-  
+
   .wps_upsell_default_offer_buy_now a {
-    width: calc(100% - 40%);
-    padding: 15px 10px;
+	width: calc(100% - 40%);
+	padding: 15px 10px;
   }
-  
+
   .wps_upsell_default_offer_buy_now,
   .wps_upsell_default_offer_no_thanks {
-    margin: inherit !important;
-    text-align:center;
+	margin: inherit !important;
+	text-align:center;
   }
   .wps_upsell_default_offer_no_thanks a {
-    width: calc(100% - 55%);
+	width: calc(100% - 55%);
   }
   .wps_upsell_default_offer_image {
-     text-align: center;
+	 text-align: center;
   }
-  
+
   .wps_upsell_default_offer_image .wps_upsell_offer_product_image {
-     width: 100%;
-     max-width: 400px;
-     margin: 0 auto;
+	 width: 100%;
+	 max-width: 400px;
+	 margin: 0 auto;
   }
-  
+
   .wps_upsell_default_offer_buy_now a:hover{
   background-color: #80d600 !important;
   }
   .wps_upsell_default_offer_no_thanks a:hover {
   background-color: #bf0000 !important;
   }
-  
+
   .wps_upsell_default_offer_variations .wps_upsell_offer_product_variations {
-    max-width: 700px;
-    margin: 0 auto;
+	max-width: 700px;
+	margin: 0 auto;
   }
-  
+
   .wps_upsell_default_offer_variations .wps_upsell_offer_product_variations table tbody td:first-child {
-      width: 40%;
+	  width: 40%;
   }
-  
+
   .wps_upsell_default_offer_description {
-      text-align: center;
-      margin: 30px 10%;
+	  text-align: center;
+	  margin: 30px 10%;
   }
-  
+
   /*since v3.0.0 - Default offer ( gutenberg ) - End */
-  
+
   /*since v3.0.0 - Stripe cc icons - Start */
-  
+
   .woocommerce-checkout #payment ul.payment_methods li img.stripe-icon, #add_payment_method #payment ul.payment_methods li img.stripe-icon {
-    float: right;
-    max-width: 40px;
-    padding-left: 3px;
-    margin: 0;
+	float: right;
+	max-width: 40px;
+	padding-left: 3px;
+	margin: 0;
   }
   /* since v3.0.0 - Stripe cc icons - End */
-  
+
   /**==================
    * Version 3.0.0 CSS
    * Updates CSS.
    ====================*/
-  
+
    /* Quantity Shortcode */
   .wps_upsell_quantity {
-    text-align: center;
+	text-align: center;
   }
-  
+
   /* since v3.0.0 - Upsell Actions loader - Start */
   .wps_upsell_loader {
-    position: fixed;
-    width: 100%;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: rgba(21, 21, 21, 0.7);
-    z-index: 9999;
-    display: none;
+	position: fixed;
+	width: 100%;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: rgba(21, 21, 21, 0.7);
+	z-index: 9999;
+	display: none;
   }
   @-webkit-keyframes spin {
-    from {-webkit-transform:rotate(0deg);}
-    to {-webkit-transform:rotate(360deg);}
+	from {-webkit-transform:rotate(0deg);}
+	to {-webkit-transform:rotate(360deg);}
   }
   @keyframes spin {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(360deg);}
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
   }
   .wps_upsell_loader::after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 40%;
-    width: 80px;
-    height: 80px;
-    border-style: solid;
-    border-color: white;
-    border-top-color: transparent;
-    border-width: 6px;
-    border-radius: 50%;
-    -webkit-animation: spin .8s linear infinite;
-    animation: spin .8s linear infinite;
-    margin: 0 auto;
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 40%;
+	width: 80px;
+	height: 80px;
+	border-style: solid;
+	border-color: white;
+	border-top-color: transparent;
+	border-width: 6px;
+	border-radius: 50%;
+	-webkit-animation: spin .8s linear infinite;
+	animation: spin .8s linear infinite;
+	margin: 0 auto;
   }
   .wps_upsell_loader .wps_upsell_loader_text {
-    font-size: 22px;
-    position: absolute;
-    top: 58%;
-    right: 0;
-    left: 0;
-    text-align: center;
-    z-index: 999999;
-    transform: translateY(-50%);
-    width: 100%;
-    max-width: 600px;
-    margin: 10px auto;
-    color: #ffffff;
+	font-size: 22px;
+	position: absolute;
+	top: 58%;
+	right: 0;
+	left: 0;
+	text-align: center;
+	z-index: 999999;
+	transform: translateY(-50%);
+	width: 100%;
+	max-width: 600px;
+	margin: 10px auto;
+	color: #ffffff;
   }
   /* since v3.0.0 - Upsell Actions loader - End */
-  
+
   /**=========================================
-   *        Media query for here.  
+   *        Media query for here.
   ==========================================*/
   @media only screen and (max-width: 1200px){
-    .wps_wocuf_pro_offer_container {
-      padding: 50px 50px;
-    }
+	.wps_wocuf_pro_offer_container {
+	  padding: 50px 50px;
+	}
   }
   @media only screen and (max-width: 1024px){
-    .wps_upsell_loader::after {
-      width: 50px;
-      height: 50px;
-      border-width: 5px;
-    }
-    .wps_upsell_loader .wps_upsell_loader_text {
-      font-size: 19px;
-      top: 54%;
-    }
+	.wps_upsell_loader::after {
+	  width: 50px;
+	  height: 50px;
+	  border-width: 5px;
+	}
+	.wps_upsell_loader .wps_upsell_loader_text {
+	  font-size: 19px;
+	  top: 54%;
+	}
   }
   @media only screen and (max-width: 768px){
-    .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_main_wrapper .wps_wocuf_pro_product_image {
-      float: none;
-      max-width: 100%;
-    }
-    .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_main_wrapper .wps_wocuf_pro_offered_product {
-      float: none;
-      padding: 15px;
-      width: 100%;
-    }
-    .wps_wocuf_pro_variations .wps_wocuf_pro_variations_select {
-      height: 44px;
-      width: 100%;
-    }
-    .wps_wocuf_pro_offer_container {
-      padding: 10px;
-    }
-    /****** Responsive CSS ******/
-    .wps_wocuf_pro_special_offers_for_you * {
-      box-sizing: border-box;
-    }
-    .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_main_wrapper .wps_wocuf_pro_offered_product {
-      padding: 15px 0;
-    }
-    .wps_wocuf_pro_variations .wps_wocuf_offer_variation_select {
-      width: 100%;
-    }
+	.wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_main_wrapper .wps_wocuf_pro_product_image {
+	  float: none;
+	  max-width: 100%;
+	}
+	.wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_main_wrapper .wps_wocuf_pro_offered_product {
+	  float: none;
+	  padding: 15px;
+	  width: 100%;
+	}
+	.wps_wocuf_pro_variations .wps_wocuf_pro_variations_select {
+	  height: 44px;
+	  width: 100%;
+	}
+	.wps_wocuf_pro_offer_container {
+	  padding: 10px;
+	}
+	/****** Responsive CSS ******/
+	.wps_wocuf_pro_special_offers_for_you * {
+	  box-sizing: border-box;
+	}
+	.wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_main_wrapper .wps_wocuf_pro_offered_product {
+	  padding: 15px 0;
+	}
+	.wps_wocuf_pro_variations .wps_wocuf_offer_variation_select {
+	  width: 100%;
+	}
   }
   @media only screen and (max-width: 550px){
-    .wps_wocuf_pro_product_price h4{
-      font-size: 20px !important;
-    }
-    .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_special_offer_banner{
-      margin-bottom: 20px !important;
-    }
+	.wps_wocuf_pro_product_price h4{
+	  font-size: 20px !important;
+	}
+	.wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_special_offer_banner{
+	  margin-bottom: 20px !important;
+	}
    .wps_wocuf_pro_special_offers_for_you .wps_wocuf_pro_special_offer_banner h1 {
-      font-size: 20px;
-    }
+	  font-size: 20px;
+	}
   }
-  
+
   .theme-betheme .wps_upsell_offer_product_price {
-    margin: 15px 0;
+	margin: 15px 0;
   }
-  
+
   .theme-Divi .wps_upsell_offer_product_price {
-    margin: 15px 0;
+	margin: 15px 0;
   }
-  
-  
-  
+
+
+
   /* Modal css */
   body {font-family: Arial, Helvetica, sans-serif;}
-  
+
   /* The Modal (background) */
   .wps_lite_modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   }
-  
+
   /* Modal Content */
   .wps_lite_modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 100%;
-    max-width:600px;
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 100%;
+	max-width:600px;
   }
-  
+
   /* The Close Button */
   .wps_lite_close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
   }
-  
+
   .wps_lite_close:hover,
   .wps_lite_close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
   }

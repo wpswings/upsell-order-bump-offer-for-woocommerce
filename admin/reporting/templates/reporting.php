@@ -38,8 +38,8 @@ $order_bumps = get_option( 'wps_ubo_bump_list' );
 		<div class="wps-bump-offer-container">
 			<?php foreach ( $order_bumps as $key => $value ) : ?>
             <?php 
-             if(empty($value['offer_view_count']) && empty($value['bump_success_count']) && empty($value['offer_accept_count']) && empty($value['bump_total_sales'])){
-				return;
+             if(empty($value['offer_view_count'])){
+				return 'No Data Found';
 			 }
 			?>
 
