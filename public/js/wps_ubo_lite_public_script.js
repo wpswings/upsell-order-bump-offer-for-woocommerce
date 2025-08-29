@@ -436,9 +436,7 @@ jQuery(document).ready(function ($) {
             bump_discount = object.closest('.wps_upsell_offer_main_wrapper').find('.offer_shown_discount').val();
             bump_target_cart_key = object.closest('.wps_upsell_offer_main_wrapper').find('.target_id_cart_key').val();
             smart_offer_upgrade = object.closest('.wps_upsell_offer_main_wrapper').find('.order_bump_smo').val();
-            // alert('i am click');
-            // console.log(formdata);
-            
+
             // Add product to cart.
             jQuery.ajax({
 
