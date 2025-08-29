@@ -209,7 +209,7 @@ wps_upsee_lite_go_pro_funnel_builder( 'pro' );
 
 						<td class="forminp forminp-text">
 							<?php
-							$attribut_description = esc_html__( 'Integrate with FluentCRM for advanced marketing automation.', 'upsell-order-bump-offer-for-woocommerce' );
+							$attribut_description = esc_html__( 'Integrate with FluentCRM for advanced marketing automation for the post funnel offer.', 'upsell-order-bump-offer-for-woocommerce' );
 							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
 
 							$wps_ubo_enable_fluentcrm_integration = ! empty( $wps_upsell_global_settings['wps_ubo_enable_fluentcrm_post'] ) ? $wps_upsell_global_settings['wps_ubo_enable_fluentcrm_post'] : '';

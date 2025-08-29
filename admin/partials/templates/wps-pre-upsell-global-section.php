@@ -245,7 +245,7 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 
 					<td class="forminp forminp-text">
 						<?php
-						$attribute_description = esc_html__( 'Integrate with FluentCRM for advanced marketing automation.', 'upsell-order-bump-offer-for-woocommerce' );
+						$attribute_description = esc_html__( 'Integrate with FluentCRM for advanced marketing automation for pre bump offers.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
