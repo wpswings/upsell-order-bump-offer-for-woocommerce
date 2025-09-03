@@ -82,6 +82,7 @@ if ( isset( $_GET['clone_bump_id'] ) ) {
 // Get all bumps.
 $wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list' );
 
+
 $wps_count_for_ab = 0;
 if ( is_array( $wps_upsell_bumps_list ) && ! empty( $wps_upsell_bumps_list ) ) {
 	foreach ( $wps_upsell_bumps_list as $key => $value ) {
@@ -160,11 +161,14 @@ if ( is_array( $wps_upsell_bumps_list ) && ! empty( $wps_upsell_bumps_list ) ) {
 				if ( isset( $value['wps_is_abandoned_bump'] ) && ! empty( $value['wps_is_abandoned_bump'] ) && ( 'yes' === $value['wps_is_abandoned_bump'] ) ) {
 						continue; // skip this row.
 				}
+
+				list( $color_hex, $label_name ) = array_pad( explode( '/',  $value['wps_bump_label_campaign'], 2 ), 2, '' );
 				?>
 
 				<tr>
 					<!-- Bump Name. -->
 					<td>
+						<span class="wps_label_color" style="background-color: <?php echo esc_attr( $color_hex ); ?>;"><?php echo esc_html( $label_name ); ?></span>
 						<a class="wps_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['wps_upsell_bump_name'] ); ?></a>
 						<p><i><?php esc_html_e( 'Priority : ', 'upsell-order-bump-offer-for-woocommerce' ); ?><span class="wps-bump-priority"><?php echo esc_html( ! empty( $value['wps_upsell_bump_priority'] ) ? $value['wps_upsell_bump_priority'] : 'No Priority' ); ?></span></i></p>
 					</td>

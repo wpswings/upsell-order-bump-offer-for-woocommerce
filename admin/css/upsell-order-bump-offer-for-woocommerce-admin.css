@@ -1543,7 +1543,10 @@ table.form-table.wps_upsell_bump_creation_setting
 
 table.form-table.wps_upsell_bump_creation_setting
   .wps_upsell_bump_enable_plugin_label
-  span.wps_upsell_bump_enable_plugin_span {
+  span.wps_upsell_bump_enable_plugin_span,
+table.form-table.wps_upsell_bump_creation_setting
+  .wps_upsell_bump_enable_plugin_label
+  span.wps_upsell_bump_enable_plugin_span1 {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -1558,7 +1561,10 @@ table.form-table.wps_upsell_bump_creation_setting
 
 table.form-table.wps_upsell_bump_creation_setting
   .wps_upsell_bump_enable_deletedata_label
-  span.wps_upsell_bump_enable_plugin_span {
+  span.wps_upsell_bump_enable_plugin_span,
+table.form-table.wps_upsell_bump_creation_setting
+  .wps_upsell_bump_enable_deletedata_label
+  span.wps_upsell_bump_enable_plugin_span1 {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -1573,7 +1579,10 @@ table.form-table.wps_upsell_bump_creation_setting
 
 table.form-table.wps_upsell_bump_creation_setting
   .wps_upsell_bump_enable_deletedata_label
-  span.wps_upsell_bump_enable_plugin_span:before {
+  span.wps_upsell_bump_enable_plugin_span:before,
+table.form-table.wps_upsell_bump_creation_setting
+  .wps_upsell_bump_enable_deletedata_label
+  span.wps_upsell_bump_enable_plugin_span1:before {
   position: absolute;
   content: "";
   height: 26px;
@@ -1589,7 +1598,11 @@ table.form-table.wps_upsell_bump_creation_setting
 table.form-table.wps_upsell_bump_creation_setting
   .wps_upsell_bump_enable_deletedata_label
   .wps_upsell_bump_enable_plugin_input:checked
-  + .wps_upsell_bump_enable_plugin_span:before {
+  + .wps_upsell_bump_enable_plugin_span:before,
+table.form-table.wps_upsell_bump_creation_setting
+  .wps_upsell_bump_enable_deletedata_label
+  .wps_upsell_bump_enable_plugin_input:checked
+  + .wps_upsell_bump_enable_plugin_span1before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
@@ -1598,13 +1611,20 @@ table.form-table.wps_upsell_bump_creation_setting
 table.form-table.wps_upsell_bump_creation_setting
   .wps_upsell_bump_enable_deletedata_label
   .wps_upsell_bump_enable_plugin_input:checked
-  + .wps_upsell_bump_enable_plugin_span {
+  + .wps_upsell_bump_enable_plugin_span,
+table.form-table.wps_upsell_bump_creation_setting
+  .wps_upsell_bump_enable_deletedata_label
+  .wps_upsell_bump_enable_plugin_input:checked
+  + .wps_upsell_bump_enable_plugin_span1 {
   background-color: #6dbe45;
 }
 
 table.form-table.wps_upsell_bump_creation_setting
   .wps_upsell_bump_enable_plugin_label
-  span.wps_upsell_bump_enable_plugin_span:before {
+  span.wps_upsell_bump_enable_plugin_span:before,
+table.form-table.wps_upsell_bump_creation_setting
+  .wps_upsell_bump_enable_plugin_label
+  span.wps_upsell_bump_enable_plugin_span1:before {
   position: absolute;
   content: "";
   height: 26px;
@@ -1620,7 +1640,11 @@ table.form-table.wps_upsell_bump_creation_setting
 table.form-table.wps_upsell_bump_creation_setting
   .wps_upsell_bump_enable_plugin_label
   .wps_upsell_bump_enable_plugin_input:checked
-  + .wps_upsell_bump_enable_plugin_span:before {
+  + .wps_upsell_bump_enable_plugin_span:before,
+table.form-table.wps_upsell_bump_creation_setting
+  .wps_upsell_bump_enable_plugin_label
+  .wps_upsell_bump_enable_plugin_input:checked
+  + .wps_upsell_bump_enable_plugin_span1:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
@@ -1629,7 +1653,11 @@ table.form-table.wps_upsell_bump_creation_setting
 table.form-table.wps_upsell_bump_creation_setting
   .wps_upsell_bump_enable_plugin_label
   .wps_upsell_bump_enable_plugin_input:checked
-  + .wps_upsell_bump_enable_plugin_span {
+  + .wps_upsell_bump_enable_plugin_span,
+table.form-table.wps_upsell_bump_creation_setting
+  .wps_upsell_bump_enable_plugin_label
+  .wps_upsell_bump_enable_plugin_input:checked
+  + .wps_upsell_bump_enable_plugin_span1 {
   background-color: #6dbe45;
 }
 
@@ -2033,7 +2061,7 @@ select.wps_select_for_description_class {
 .wps-upsell-smart-offer-upgrade
   .wps-upsell-smart-offer-upgrade-wrap:checked
   + .upsell-smart-offer-upgrade-btn,
-  .wps_ubo_abandoned_cart
+.wps_ubo_abandoned_cart
   .wps_ubo_abandoned_cart-wrap:checked
   + .wps_ubo_abandoned_cart-btn,
 .wps-upsell-smart-pre-order-skip
@@ -3785,10 +3813,10 @@ input#wps_upsell_bump_cart_offer_quantity {
 }
 
 #wps_upsell_bump_setting_wrapper .nav-tab {
-    background: #2196f3;
-    border: 0;
-    border-radius: 5px;
-    flex: 1 0 10%;
+  background: #2196f3;
+  border: 0;
+  border-radius: 5px;
+  flex: 1 0 10%;
 }
 
 #wps_upsell_bump_setting_wrapper .nav-tab.nav-tab-active {
@@ -6581,43 +6609,58 @@ main.wps-ufw_ms-main {
   overflow: auto !important;
 } */
 
-        .chart-container {
-            display: none;
-            margin-top: 20px;
-        }
-        .chart-container.collapsed {
-            display: block;
-        }
-        .toggle-button {
-            background-color: #0073e6;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .toggle-button:hover {
-            background-color: #005bb5;
-        }
-        
+.chart-container {
+  display: none;
+  margin-top: 20px;
+}
+.chart-container.collapsed {
+  display: block;
+}
+.toggle-button {
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+.toggle-button:hover {
+  background-color: #005bb5;
+}
 
-        /* Chart container styles */
-        .wps-post-chart-container {
-            display: none;
-            margin-top: 20px;
-        }
-        .wps-post-chart-container.collapsed {
-            display: block;
-        }
-        .wps-post-toggle-button {
-            background-color: #0073e6;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .wps-post-toggle-button:hover {
-            background-color: #005bb5;
-        }
-        
+/* Chart container styles */
+.wps-post-chart-container {
+  display: none;
+  margin-top: 20px;
+}
+.wps-post-chart-container.collapsed {
+  display: block;
+}
+.wps-post-toggle-button {
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+.wps-post-toggle-button:hover {
+  background-color: #005bb5;
+}
+
+#wps_upsell_bump_setting_wrapper .wps_upsell_bumps_list .wps_label_color {
+  padding: 5px 20px 5px 10px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  clip-path: polygon(100% 0, calc(100% - 10px) 50%, 100% 100%, 0 100%, 0 0);
+}
+
+#wps_upsell_bump_setting_wrapper .wps_wocuf_pro_funnels_list .wps_label_color {
+  padding: 5px 20px 5px 10px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  clip-path: polygon(100% 0, calc(100% - 10px) 50%, 100% 100%, 0 100%, 0 0);
+}
+

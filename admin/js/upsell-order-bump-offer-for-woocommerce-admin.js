@@ -1008,12 +1008,6 @@ jQuery(document).ready(function ($) {
     });
   });
 
-  var pro_status = document.getElementById("wps_ubo_pro_status");
-  // if (null != pro_status) {
-  // 	document.getElementById( "wps_Offer_Without_Pop_Up_id_org_2" ).checked = true;
-  // 	document.getElementById( "wps_Offer_With_Pop_Up_id_org_2" ).checked = false;
-  // }
-
   var wps_selected_template_id = $("#wps_templete_select_id").val();
   if (
     6 == wps_selected_template_id ||
@@ -1053,9 +1047,6 @@ jQuery(document).ready(function ($) {
 //Banner Image.
 jQuery(document).ready(function ($) {
   $(document).on("click", "#dismiss-banner", function (e) {
-    // if (wps_ubo_lite_banner_offer_section_obj.check_pro_activate) {
-    //   jQuery(document).find(".wps-offer-notice").hide();
-    // } else {
     e.preventDefault();
     var data = {
       action: "wps_sfw_dismiss_notice_banner",
@@ -1069,7 +1060,6 @@ jQuery(document).ready(function ($) {
         window.location.reload();
       },
     });
-    // }
   });
 });
 
@@ -1383,4 +1373,60 @@ jQuery(document).ready(function () {
         : "Show Chart For " + wps_funnel_name;
     });
   });
+});
+
+// JavaScript to handle popup and AJAX request (save as wps-ubo-popup.js)
+jQuery(document).ready(function($) {
+    // Open the popup when the button is clicked
+    $('#wps_ubo_open_popup').click(function(e) {
+        e.preventDefault(); // Prevent default button behavior
+      $('#wps_ubo_label_popup').addClass('show');
+       $('.wps_ubo_popup_wrap').show();
+    });
+
+    // Close the popup when the close button is clicked
+    $('#wps_ubo_close_popup').click(function() {
+         $('#wps_ubo_label_popup').removeClass('show');
+    });
+  
+     // Close the popup if the user clicks outside of the popup content
+    $(document).click(function(event) {
+        if (!$(event.target).closest('.wps-ubo-popup-content').length && !$(event.target).is('#wps_ubo_open_popup')) {
+            $('#wps_ubo_label_popup').removeClass('show'); // Close the popup when clicking outside
+        }
+    });
+
+    // Handle the form submission for creating the label
+    $('#wps_ubo_create_label').click(function() {
+        var labelName = $('#wps_ubo_label_name').val();
+      var labelColor = $('#wps_ubo_label_color').val();
+      
+
+        // Validate input
+      if (labelName && labelColor) {
+          console.log(labelColor + ' ' + labelName);
+            // AJAX request to create the label
+            $.ajax({
+                url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'wps_ubo_create_label',
+                    wps_ubo_label_name: labelName,
+                    wps_ubo_label_color: labelColor
+                },
+              success: function (response) {
+                console.log(response);
+                    if (response) {
+                        alert('Label created successfully!');
+                      $('#wps_ubo_label_popup').removeClass('show');
+                       $('.wps_ubo_popup_wrap').hide();
+                    } else {
+                        // alert('Error creating label. Please try again.');
+                    }
+                }
+            });
+        } else {
+            alert('Please provide both label name and color.');
+        }
+    });
 });

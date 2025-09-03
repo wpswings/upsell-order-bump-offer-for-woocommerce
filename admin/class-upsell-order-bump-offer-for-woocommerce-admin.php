@@ -2459,4 +2459,48 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	public function pre_add_submenu_page_reporting_callback_pro() {
 		include_once WPS_WOCUF_DIRPATH_FUNNEL_BUILDER . '/admin/partials/templates/wps-upsell-cart-abandoned-bump.php';
 	}
+
+
+    /**
+	 * Create label callback.
+	 *
+	 * @since       3.0.0
+	 */
+	public function wps_ubo_create_label_callback(){
+    // Sanitize incoming data from the AJAX request
+    $labelName = isset($_POST['wps_ubo_label_name']) ? sanitize_text_field($_POST['wps_ubo_label_name']) : '';
+    $labelColor = isset($_POST['wps_ubo_label_color']) ? sanitize_text_field($_POST['wps_ubo_label_color']) : '';
+
+    // Get current options
+// Retrieve the existing options from the database.
+$wps_bump_upsell_global_options = get_option('wps_ubo_global_options', array());
+
+
+// Ensure the 'wps_bump_label' key exists and is an array.
+// This prevents errors if the option is new or structured differently.
+if (!isset($wps_bump_upsell_global_options['wps_bump_label']) || !is_array($wps_bump_upsell_global_options['wps_bump_label'])) {
+    $wps_bump_upsell_global_options['wps_bump_label'] = array();
+}
+
+// Create the new label and color data.
+// Replace $labelName and $labelColor with your actual variables.
+$new_label = array(
+    'name'  => $labelName,
+    'color' => $labelColor
+);
+
+// Add the new label to the existing array.
+// array_unshift() is used to add it to the beginning of the array.
+array_unshift($wps_bump_upsell_global_options['wps_bump_label'], $new_label);
+
+// Save the entire updated options array back to the database.
+update_option('wps_ubo_global_options', $wps_bump_upsell_global_options);
+
+        // Return success response
+        wp_send_json_success('Label and color saved successfully');
+    // } else {
+    //     wp_send_json_error('Invalid data');
+    // }
+		wp_die();
+	}
 } // End of class.

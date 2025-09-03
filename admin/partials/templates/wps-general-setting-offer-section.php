@@ -28,6 +28,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 
 	// Enable Plugin.
 	$wps_bump_upsell_global_options['wps_bump_enable_plugin'] = ! empty( $_POST['wps_bump_enable_plugin'] ) ? 'on' : 'off';
+	$wps_bump_upsell_global_options['wps_bump_enable_campaign_labels'] = ! empty( $_POST['wps_upsell_bump_enable_campaign_labels'] ) ? 'on' : 'off';
 
 	$wps_bump_upsell_global_options['wps_bump_skip_offer'] = ! empty( $_POST['wps_bump_skip_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_skip_offer'] ) ) : 'yes';
 
@@ -81,6 +82,8 @@ $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_def
 $wps_one_click_upsell_on = get_option( 'wps_upsell_lite_global_options', array() );
 $wps_bump_upsell_global_options = get_option( 'wps_ubo_global_options', array() );
 
+
+
 // Check if the 'wps_bump_enable_plugin' key exists and its value is 'on'.
 if ( isset( $wps_bump_upsell_global_options['wps_bump_enable_plugin'] ) &&
 	( $wps_bump_upsell_global_options['wps_bump_enable_plugin'] ) === 'on' ) {
@@ -97,6 +100,9 @@ update_option( 'wps_upsell_lite_global_options', $wps_one_click_upsell_on );
 
 // By default plugin will be enabled.
 $wps_bump_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : '';
+
+// By default plugin will be enabled.
+$wps_bump_enable_campaign_labels = ! empty( $wps_ubo_global_options['wps_bump_enable_campaign_labels'] ) ? $wps_ubo_global_options['wps_bump_enable_campaign_labels'] : '';
 
 
 // Bump Offer skip.
@@ -127,7 +133,7 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_bump_enable_plugin  "><?php esc_html_e( 'Enable Upsell Order Bumps', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="wps_bump_enable_plugin  "><?php esc_html_e( 'Enable Funnel Builder', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
@@ -146,6 +152,33 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 					</td>
 				</tr>
 				<!-- Enable Plugin end. -->
+
+				<!-- Enable Campaign Labels. -->
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+						<label for="wps_bump_enable_plugin  "><?php esc_html_e( 'Enable Campaign Labels', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+						<?php
+						$attribute_description = esc_html__( 'Enable Campaign Labels for Post Bump Offers and Pre funnel offers.', 'upsell-order-bump-offer-for-woocommerce' );
+
+						wps_ubo_lite_help_tip( $attribute_description );
+						?>
+
+						<label for="wps_upsell_bump_enable_plugin_span1" class="wps_upsell_bump_enable_plugin_label wps_bump_enable_plugin_support">
+
+							<input id="wps_upsell_bump_enable_plugin_span1" class="wps_upsell_bump_enable_plugin_input" type="checkbox" <?php echo ( 'on' === $wps_bump_enable_campaign_labels ) ? "checked='checked'" : ''; ?> name="wps_upsell_bump_enable_campaign_labels">
+							<span class="wps_upsell_bump_enable_plugin_span1"></span>
+
+						</label>
+						<span class="wps_upsell_bump_campaign_create">
+						<button class="button wps_upsell_bump_campaign_select_button" id = 'wps_ubo_open_popup'><?php esc_html_e( 'Add Labels', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+						</span>
+					</td>
+				</tr>
+				<!-- Enable campaign labels end. -->
 
 				<!-- Skip offer start. -->
 				<tr valign="top">
@@ -280,6 +313,7 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 <!-- Adding go pro popup here. -->
 
 <?php wps_ubo_go_pro( 'pro' ); ?>
+<?php wps_ubo_add_popup_button(); ?>
 
 <!-- Update required Popup -->
 <div class="wps_ubo_update_popup_wrapper">
