@@ -42,9 +42,9 @@ if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce
 			<!-- Foreach Funnel start -->
 			<?php foreach ( $funnels_list as $key => $value ) : ?>
 			<?php 
-					if(empty($value['offers_view_count']) && empty($value['funnel_success_count']) && empty($value['offers_accept_count']) && empty($value['funnel_total_sales'])){
-						return;
-					}
+					if(empty($value['offers_view_count']) && empty($value['funnel_success_count']) && empty($value['offers_accept_count']) && empty($value['funnel_total_sales'])){ ?>
+						<p class="wps_wocuf_pro_no_funnel"><?php esc_html_e( 'No Upsell Data found', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+				<?php 	}
 			?>
 			<div class="bump-offer">
 							<button

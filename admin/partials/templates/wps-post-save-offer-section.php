@@ -724,6 +724,9 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<!-- Smart Offer Upgrade end -->
 
 				<!-- label Campaign start -->
+				 <?php $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() ); ?>
+				 <?php $wps_bump_enable_campaign_labels = ! empty( $wps_ubo_global_options['wps_bump_enable_campaign_labels'] ) ? $wps_ubo_global_options['wps_bump_enable_campaign_labels'] : ''; ?>
+				<?php if('on' === $wps_bump_enable_campaign_labels){ ?>
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
@@ -759,6 +762,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 						?>
 					</td>
 				</tr>
+				<?php } ?>
 				<!-- label Campaign end -->
 
 				<tr valign="top">

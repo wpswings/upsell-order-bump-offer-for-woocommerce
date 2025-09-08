@@ -825,7 +825,7 @@ jQuery(document).ready(function ($) {
    * Scripts after v1.0.2
    */
   $(
-    "#wps_ubo_enable_fluentcrm_switch,#wps_ubo_offer_purchased_earlier,#wps_ubo_enable_popup_exit_intent_switch,#wps_enable_fbt_upsell_feature,#wps_ubo_offer_fbt_location_set,#wps_enable_cart_upsell_location,#wps_ubo_offer_timer,#wps_ubo_offer_product_image_slider,#wps_enable_cart_upsell, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature,.wps_bump_offer_popup_case ,#wps_ubo_offer_restrict_coupons, #wps_ubo_offer_ab_method,#wps_upsell_bump_priority,#wps_upsell_bump_min_cart, #wps_upsell_bump_min_cart,#wps_ubo_img_width_slider_pop_up,#wps_ubo_img_height_slider_pop_up,#wps_ubo_select_accept_offer_acolor_pop_up"
+    "#wps_ubo_enable_fluentcrm_switch,#wps_ubo_product_offer_strip,#wps_ubo_offer_purchased_earlier,#wps_ubo_enable_popup_exit_intent_switch,#wps_enable_fbt_upsell_feature,#wps_ubo_offer_fbt_location_set,#wps_enable_cart_upsell_location,#wps_ubo_offer_timer,#wps_ubo_offer_product_image_slider,#wps_enable_cart_upsell, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature,.wps_bump_offer_popup_case ,#wps_ubo_offer_restrict_coupons, #wps_ubo_offer_ab_method,#wps_upsell_bump_priority,#wps_upsell_bump_min_cart, #wps_upsell_bump_min_cart,#wps_ubo_img_width_slider_pop_up,#wps_ubo_img_height_slider_pop_up,#wps_ubo_select_accept_offer_acolor_pop_up"
   ).on("click", function (e) {
     // Add popup to unlock pro features.
     var pro_status = document.getElementById("wps_ubo_pro_status");
@@ -1396,37 +1396,61 @@ jQuery(document).ready(function($) {
         }
     });
 
-    // Handle the form submission for creating the label
-    $('#wps_ubo_create_label').click(function() {
-        var labelName = $('#wps_ubo_label_name').val();
-      var labelColor = $('#wps_ubo_label_color').val();
-      
+// Handle the form submission for creating the label
+$('#wps_ubo_create_label').click(function() {
+    var labelName = $('#wps_ubo_label_name').val();
+    var labelColor = $('#wps_ubo_label_color').val();
 
-        // Validate input
-      if (labelName && labelColor) {
-          console.log(labelColor + ' ' + labelName);
-            // AJAX request to create the label
-            $.ajax({
-                url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
-                type: 'POST',
-                data: {
-                    action: 'wps_ubo_create_label',
-                    wps_ubo_label_name: labelName,
-                    wps_ubo_label_color: labelColor
-                },
-              success: function (response) {
+    // Validate input
+    if (labelName && labelColor) {
+        console.log(labelColor + ' ' + labelName);
+        // AJAX request to create the label
+        $.ajax({
+            url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'wps_ubo_create_label',
+                wps_ubo_label_name: labelName,
+                wps_ubo_label_color: labelColor,
+                nonce: wps_ubo_lite_banner_offer_section_obj.nonce
+            },
+            success: function (response) {
                 console.log(response);
-                    if (response) {
-                        alert('Label created successfully!');
-                      $('#wps_ubo_label_popup').removeClass('show');
-                       $('.wps_ubo_popup_wrap').hide();
-                    } else {
-                        // alert('Error creating label. Please try again.');
-                    }
+                if (response.success) {
+                    alert(response.data.message || 'Label created successfully!');
+                    $('#wps_ubo_label_popup').removeClass('show');
+                    $('.wps_ubo_popup_wrap').hide();
+                } else {
+                    alert(response.data.message || 'Error creating label. Please try again.');
                 }
-            });
+            },
+            error: function () {
+                alert('AJAX error occurred.');
+            }
+        });
+    } else {
+        alert('Please provide both label name and color.');
+    }
+});
+  
+    const $checkbox = $('#wps_upsell_bump_enable_plugin_span1');
+    const $campaignCreate = $('.wps_upsell_bump_campaign_create');
+
+    // Initial check on page load
+    if ($checkbox.is(':checked')) {
+        $campaignCreate.show();
+    } else {
+        $campaignCreate.hide();
+    }
+
+    // Toggle on change
+    $checkbox.on('change', function () {
+        if ($(this).is(':checked')) {
+            $campaignCreate.show();
         } else {
-            alert('Please provide both label name and color.');
+            $campaignCreate.hide();
         }
     });
+
 });

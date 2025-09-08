@@ -2040,6 +2040,7 @@ select.wps_select_for_description_class {
 
 .wps-upsell-smart-offer-upgrade,
 .wps_ubo_abandoned_cart,
+.wps-upsell-product-offer-strip,
 .wps-upsell-smart-pre-order-skip {
   position: relative;
   display: inline-block;
@@ -2054,6 +2055,7 @@ select.wps_select_for_description_class {
 
 .wps-upsell-smart-offer-upgrade .wps-upsell-smart-offer-upgrade-wrap,
 .wps_ubo_abandoned_cart .wps_ubo_abandoned_cart-wrap,
+.wps-upsell-product-offer-strip .upsell-product-offer-strip-wrap,
 .wps-upsell-smart-pre-order-skip .wps-upsell-smart-pre-order-skip-wrap {
   opacity: 0;
 }
@@ -2064,6 +2066,9 @@ select.wps_select_for_description_class {
 .wps_ubo_abandoned_cart
   .wps_ubo_abandoned_cart-wrap:checked
   + .wps_ubo_abandoned_cart-btn,
+  .wps-upsell-product-offer-strip
+  .upsell-product-offer-strip-wrap:checked
+  + .upsell-product-offer-strip-btn,
 .wps-upsell-smart-pre-order-skip
   .wps-upsell-smart-pre-order-skip-wrap:checked
   + .upsell-smart-pre-order-skip-btn {
@@ -2072,6 +2077,7 @@ select.wps_select_for_description_class {
 
 .upsell-smart-offer-upgrade-btn,
 .wps_ubo_abandoned_cart-btn,
+.upsell-product-offer-strip-btn,
 .upsell-smart-pre-order-skip-btn {
   position: absolute;
   cursor: pointer;
@@ -2087,6 +2093,7 @@ select.wps_select_for_description_class {
 
 .upsell-smart-offer-upgrade-btn:before,
 .wps_ubo_abandoned_cart-btn:before,
+.upsell-product-offer-strip-btn:before,
 .upsell-smart-pre-order-skip-btn:before {
   position: absolute;
   content: "";
@@ -2103,6 +2110,9 @@ select.wps_select_for_description_class {
 .wps-upsell-smart-offer-upgrade
   .wps-upsell-smart-offer-upgrade-wrap:checked
   + .upsell-smart-offer-upgrade-btn:before,
+   .wps-upsell-product-offer-strip
+  .upsell-product-offer-strip-wrap:checked
+  +.upsell-product-offer-strip-btn:before,
 .wps_ubo_abandoned_cart
   .wps_ubo_abandoned_cart-wrap:checked
   + .wps_ubo_abandoned_cart-btn:before,

@@ -168,7 +168,13 @@ if ( is_array( $wps_upsell_bumps_list ) && ! empty( $wps_upsell_bumps_list ) ) {
 				<tr>
 					<!-- Bump Name. -->
 					<td>
+
+				<?php $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() ); ?>
+				 <?php $wps_bump_enable_campaign_labels = ! empty( $wps_ubo_global_options['wps_bump_enable_campaign_labels'] ) ? $wps_ubo_global_options['wps_bump_enable_campaign_labels'] : ''; ?>
+				<?php if('on' === $wps_bump_enable_campaign_labels){ ?>
 						<span class="wps_label_color" style="background-color: <?php echo esc_attr( $color_hex ); ?>;"><?php echo esc_html( $label_name ); ?></span>
+                    <?php } ?>
+
 						<a class="wps_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['wps_upsell_bump_name'] ); ?></a>
 						<p><i><?php esc_html_e( 'Priority : ', 'upsell-order-bump-offer-for-woocommerce' ); ?><span class="wps-bump-priority"><?php echo esc_html( ! empty( $value['wps_upsell_bump_priority'] ) ? $value['wps_upsell_bump_priority'] : 'No Priority' ); ?></span></i></p>
 					</td>

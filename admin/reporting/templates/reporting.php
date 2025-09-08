@@ -21,7 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Get all Order Bumps.
 $order_bumps = get_option( 'wps_ubo_bump_list' );
-
 ?>
 
 <div class="wps_upsell_bumps_list" >
@@ -38,9 +37,9 @@ $order_bumps = get_option( 'wps_ubo_bump_list' );
 		<div class="wps-bump-offer-container">
 			<?php foreach ( $order_bumps as $key => $value ) : ?>
             <?php 
-             if(empty($value['offer_view_count'])){
-				return 'No Data Found';
-			 }
+             if(empty($value['offer_view_count']) && empty($value['offer_accept_count']) && empty($value['offer_remove_count']) &&empty($value['bump_success_count']) &&empty($value['bump_total_sales'])){?>
+			<p class="wps_upsell_bump_no_bump"><?php esc_html_e( 'No Order Bumps Data Found!! ', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+			<?php  return; }
 			?>
 
 			<div class="bump-offer">

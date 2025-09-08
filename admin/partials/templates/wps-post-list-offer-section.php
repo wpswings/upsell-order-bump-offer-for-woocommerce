@@ -105,7 +105,11 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 				<tr>
 					<!-- Funnel Name -->
 					<td>
+				<?php $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() ); ?>
+				 <?php $wps_bump_enable_campaign_labels = ! empty( $wps_ubo_global_options['wps_bump_enable_campaign_labels'] ) ? $wps_ubo_global_options['wps_bump_enable_campaign_labels'] : ''; ?>
+				<?php if('on' === $wps_bump_enable_campaign_labels){ ?>
 						<span class="wps_label_color" style="background-color: <?php echo esc_attr( $color_hex ); ?>;"><?php echo esc_html( $label_name ); ?></span>
+						<?php } ?>
 						<a class="wps_upsell_funnel_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&sub_tab=post-list-offer-section&funnel_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['wps_wocuf_funnel_name'] ); ?></a></td>
 
 					<!-- Funnel Status -->

@@ -1,16 +1,240 @@
-/**
- * All of the CSS for your product edit admin-specific functionality should be
- * included in this file.
- */
+:root {
+  --primary-offer-color: #2271b1;
+}
 
 .wps_select_disc_for_recommdation select {
-	margin: 4px !important;
-  }
-  .wps_select_disc_for_recommdation input {
-	margin: 4px !important;
-  }
+  margin: 4px !important;
+}
 
-  input.wps_upsell_offer_input_type_recommendation {
-    width: 100%;
-    max-width: 194px;
+.wps_select_disc_for_recommdation input {
+  margin: 4px !important;
+}
+
+input.wps_upsell_offer_input_type_recommendation {
+  width: 100%;
+  max-width: 194px;
+}
+
+.wps-subtabs {
+  display: flex;
+  gap: 8px;
+  padding: 15px 10px 0;
+}
+
+.wps-subtab-btn.button {
+  border-radius: 4px;
+}
+
+.wps-subtab-btn.is-active,
+.wps-subtab-btn.is-active:focus {
+  background: #2271b1;
+  color: #fff;
+  border-color: #2271b1;
+}
+
+.wps-subtab-panel {
+  display: none;
+}
+
+.wps-subtab-panel.is-active {
+  display: block;
+}
+
+.wps-offer-strip-grid {
+  display: flex;
+  align-items: flex-start;
+}
+
+.wps-offer-strip-grid .options_group {
+  flex: 1;
+}
+
+.wps-preview-container-in {
+  flex: 1;
+}
+
+.wps-preview-container {
+  flex: 1;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border: 1.5px solid #f2f2f2;
+  background-color: #fff;
+  border-radius: 10px;
+  position: sticky;
+  top: 30px;
+  align-self: flex-start;
+  max-width: 520px;
+  margin-right: 40px;
+}
+
+.wps-preview-out {
+  display: flex;
+  gap: 20px;
+}
+
+.wps-preview-container img {
+  width: 100%;
+  max-width: 200px;
+  border-radius: 5px;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.wps-preview-container h3 {
+  text-align: center;
+  font-size: 14px;
+  position: absolute;
+  bottom: 5px;
+  line-height: 1;
+  right: 15px;
+  margin: 0;
+  padding: 5px;
+  color: #dcdcdc;
+}
+
+.wps-preview-container h4 {
+  font-size: 18px;
+  color: #000;
+  line-height: 1.25;
+  margin: 8px 0;
+}
+
+.wps-preview-container .short-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  margin: 0 0 10px;
+}
+
+.wps-preview-container .price {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 10px;
+}
+
+.wps-preview-container .btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  background: #2271b1;
+  display: inline-block;
+  color: #fff;
+  cursor: not-allowed;
+  border-radius: 50px;
+}
+
+/* Existing strip styles follow... */
+.wps-strip {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ... rest of your existing CSS ... */
+.wps-strip--classic {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.wps-strip--classic .wps-strip-badge {
+  background-color: var(--primary-offer-color);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.wps-strip--badge {
+  background-color: #fff;
+  border: 2px solid var(--primary-offer-color);
+  color: var(--primary-offer-color);
+}
+
+.wps-strip--badge .wps-strip-badge {
+  font-size: 20px;
+}
+
+.wps-strip--bar {
+  background-color: var(--primary-offer-color);
+  color: #fff;
+  padding: 8px 15px;
+}
+
+.wps-strip-text {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.wps-strip-timer {
+  font-weight: bold;
+}
+
+.wps-preview-container .btn.prev {
+  background: transparent;
+  border: 1.5px solid #2271b1;
+  color: #2271b1;
+  cursor: pointer;
+}
+
+.wps-preview-container.prev-active-popup .btn.prev {
+  color: red;
+  border-color: red;
+}
+
+.wps-preview-container.prev-active-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999999;
+  max-width: 700px;
+  width: 100%;
+  margin: 0;
+}
+
+.wps-preview-container.prev-active-popup img {
+  display: block;
+  max-width: 300px;
+}
+
+.wps-preview-container.prev-active-popup h4 {
+  font-size: 28px;
+  margin: 15px 0;
+}
+
+.wps-preview-container.prev-active-popup .short-desc {
+  font-size: 16px;
+  margin: 0 0 15px;
+}
+
+.wps-preview-container.prev-active-popup .price {
+  font-size: 24px;
+  margin: 0 0 15px;
+}
+
+.wps-preview-container.prev-active-popup .btn {
+  padding: 8px 16px;
+  font-size: 16px;
+}
+
+.wps-preview-container.prev-active-popup + .wps-preview-container--shadow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 9999998;
+}
+
+.wps-preview-container.prev-active-popup .wps-strip {
+  margin: 0 auto 15;
 }

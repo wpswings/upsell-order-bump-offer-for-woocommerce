@@ -517,6 +517,10 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 				</tr>
 				<!-- Exclude roles ends. -->
 
+
+			 <?php $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() ); ?>
+				 <?php $wps_bump_enable_campaign_labels = ! empty( $wps_ubo_global_options['wps_bump_enable_campaign_labels'] ) ? $wps_ubo_global_options['wps_bump_enable_campaign_labels'] : ''; ?>
+				<?php if('on' === $wps_bump_enable_campaign_labels){ ?>
 				<tr valign="top">
 					<th scope="row" class="titledesc">
 
@@ -551,6 +555,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 				</td>
 				</tr>
+				<?php } ?>
 
 
 				<!-- Schedule your Bump start. -->

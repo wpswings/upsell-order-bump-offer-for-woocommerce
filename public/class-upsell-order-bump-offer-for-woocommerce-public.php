@@ -4303,30 +4303,33 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function upsell_product_shipping_price_shortcode_content( $atts ) {
 
-		$validate_shortcode = $this->validate_shortcode();
+    $validate_shortcode = $this->validate_shortcode();
 
-		if ( $validate_shortcode ) {
+    if ( $validate_shortcode ) {
 
-			$product_id = $this->get_upsell_product_id_for_shortcode();
-			$atts = shortcode_atts(
-				array(
-					'id'    => '',
-					'class' => '',
-					'style' => '',
-				),
-				$atts
-			);
-			$id    = $atts['id'];
-			$class = $atts['class'];
-			$style = $atts['style'];
-			$upsell_shipping_product = wps_wocfo_hpos_get_meta_data_funnel_builder( $product_id, 'wps_upsell_simple_shipping_product_' . $product_id, true );
+        $product_id = $this->get_upsell_product_id_for_shortcode();
+        $atts       = shortcode_atts(
+            array(
+                'id'    => '',
+                'class' => '',
+                'style' => '',
+            ),
+            $atts
+        );
 
-			$upsell_product_price_html_div = "Shipping Price <br> <div id='$id' class='wps_upsell_offer_product_price $class' style='$style'>
-						" . wc_price( $upsell_shipping_product ) . '</div>';
-		}
+        // Sanitize and escape user-provided attributes.
+        $id    = esc_attr( $atts['id'] );
+        $class = esc_attr( $atts['class'] );
+        $style = esc_attr( $atts['style'] );
 
-		return $upsell_product_price_html_div;
-	}
+        $upsell_shipping_product = wps_wocfo_hpos_get_meta_data_funnel_builder( $product_id, 'wps_upsell_simple_shipping_product_' . $product_id, true );
+
+        $upsell_product_price_html_div = "Shipping Price <br> <div id='$id' class='wps_upsell_offer_product_price $class' style='$style'>
+                    " . wc_price( $upsell_shipping_product ) . '</div>';
+    }
+
+    return $upsell_product_price_html_div;
+}
 
 	/**
 	 * Shortcode for offer - product variations.
