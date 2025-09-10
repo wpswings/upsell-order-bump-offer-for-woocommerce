@@ -22,43 +22,51 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Get all Order Bumps.
 $order_bumps = get_option( 'wps_ubo_bump_list' );
 ?>
-
 <div class="wps_upsell_bumps_list" >
-
 	<div class="wps_ubo_stats_heading" ><h2><?php esc_html_e( 'Order Bump - Behavioral Analytics', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2></div>
+<?php if ( empty( $order_bumps ) ) : ?>
 
-	<?php if ( empty( $order_bumps ) ) : ?>
+    <p class="wps_upsell_bump_no_bump">
+        <?php esc_html_e( 'No Order Bumps added', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+    </p>
 
-		<p class="wps_upsell_bump_no_bump"><?php esc_html_e( 'No Order Bumps added', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
-
-		<?php endif; ?>
-
-		<?php if ( ! empty( $order_bumps ) ) : ?>
-		<div class="wps-bump-offer-container">
-			<?php foreach ( $order_bumps as $key => $value ) : ?>
+<?php else : ?>
+    <?php $has_data = false; ?>
+    <div class="wps-bump-offer-container">
+        <?php foreach ( $order_bumps as $key => $value ) : ?>
             <?php 
-             if(empty($value['offer_view_count']) && empty($value['offer_accept_count']) && empty($value['offer_remove_count']) &&empty($value['bump_success_count']) &&empty($value['bump_total_sales'])){?>
-			<p class="wps_upsell_bump_no_bump"><?php esc_html_e( 'No Order Bumps Data Found!! ', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
-			<?php  return; }
-			?>
+            if ( ! empty( $value['offer_view_count'] ) 
+                || ! empty( $value['offer_accept_count'] ) 
+                || ! empty( $value['offer_remove_count'] ) 
+                || ! empty( $value['bump_success_count'] ) 
+                || ! empty( $value['bump_total_sales'] ) ) : 
+                
+                $has_data = true;
+            ?>
+                <div class="bump-offer">
+                    <button
+                        id="toggleButton<?php echo esc_attr( $key ); ?>"
+                        class="toggle-button"
+                        data-bump="<?php echo esc_attr( $key ); ?>">
+                        Hide Chart
+                    </button>
 
-			<div class="bump-offer">
-				<button
-				id="toggleButton<?php echo esc_attr( $key ); ?>"
-				class="toggle-button"
-				data-bump="<?php echo esc_attr( $key ); ?>">
-				Hide Chart
-				</button>
+                    <div
+                        id="chartContainer<?php echo esc_attr( $key ); ?>"
+                        class="chart-container collapsed">
+                        <canvas id="myPieChart<?php echo esc_attr( $key ); ?>"></canvas>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
 
-				<div
-				id="chartContainer<?php echo esc_attr( $key ); ?>"
-				class="chart-container collapsed">
-				<canvas
-					id="myPieChart<?php echo esc_attr( $key ); ?>"></canvas>
-				</div>
-			</div>
-			<?php endforeach; ?>
-		</div>
-		<?php endif; ?>
+        <?php if ( ! $has_data ) : ?>
+            <p class="wps_upsell_bump_no_bump">
+                <?php esc_html_e( 'No Order Bumps Hit!!', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+            </p>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+
 
 </div>

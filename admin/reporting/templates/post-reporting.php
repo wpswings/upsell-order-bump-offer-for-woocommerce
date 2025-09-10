@@ -38,31 +38,42 @@ if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce
 	<?php endif; ?>
 
 	<?php if ( ! empty( $funnels_list ) ) : ?>
-	<div class="wps-bump-offer-container">
-			<!-- Foreach Funnel start -->
-			<?php foreach ( $funnels_list as $key => $value ) : ?>
-			<?php 
-					if(empty($value['offers_view_count']) && empty($value['funnel_success_count']) && empty($value['offers_accept_count']) && empty($value['funnel_total_sales'])){ ?>
-						<p class="wps_wocuf_pro_no_funnel"><?php esc_html_e( 'No Upsell Data found', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
-				<?php 	}
-			?>
-			<div class="bump-offer">
-							<button
-							id="wps-post-toggleButton<?php echo esc_attr( $key ); ?>"
-							class="wps-post-toggle-button"
-							data-bump="<?php echo esc_attr( $key ); ?>">
-							Hide Chart
-							</button>
+    <?php 
+    $has_data = false;
+    ?>
+    <div class="wps-bump-offer-container">
+        <!-- Foreach Funnel start -->
+        <?php foreach ( $funnels_list as $key => $value ) : ?>
+            <?php 
+            if ( ! empty( $value['offers_view_count'] ) 
+                || ! empty( $value['funnel_success_count'] ) 
+                || ! empty( $value['offers_accept_count'] ) 
+                || ! empty( $value['funnel_total_sales'] ) ) : 
+                
+                $has_data = true;
+            ?>
+                <div class="bump-offer">
+                    <button
+                        id="wps-post-toggleButton<?php echo esc_attr( $key ); ?>"
+                        class="wps-post-toggle-button"
+                        data-bump="<?php echo esc_attr( $key ); ?>">
+                        Hide Chart
+                    </button>
 
-							<div
-							id="wps-post-chartContainer<?php echo esc_attr( $key ); ?>"
-							class="wps-post-chart-container collapsed">
-							<canvas
-								id="wps-post-myPieChart<?php echo esc_attr( $key ); ?>"></canvas>
-							</div>
-						</div>
-			<?php endforeach; ?>
-			</div>
-			<!-- Foreach Funnel end -->
-	<?php endif; ?>
+                    <div
+                        id="wps-post-chartContainer<?php echo esc_attr( $key ); ?>"
+                        class="wps-post-chart-container collapsed">
+                        <canvas id="wps-post-myPieChart<?php echo esc_attr( $key ); ?>"></canvas>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+        <?php if ( ! $has_data ) : ?>
+			<p class="wps_wocuf_pro_no_funnel"><strong><?php esc_html_e( 'No funnel was hit', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong></p>
+        <?php endif; ?>
+    </div>
+    <!-- Foreach Funnel end -->
+<?php endif; ?>
+
 </div>

@@ -6664,6 +6664,8 @@ main.wps-ufw_ms-main {
   font-size: 14px;
   line-height: 1.5;
   clip-path: polygon(100% 0, calc(100% - 10px) 50%, 100% 100%, 0 100%, 0 0);
+  display: block;
+  margin-bottom: 5px;
 }
 
 #wps_upsell_bump_setting_wrapper .wps_wocuf_pro_funnels_list .wps_label_color {
@@ -6672,5 +6674,9 @@ main.wps-ufw_ms-main {
   font-size: 14px;
   line-height: 1.5;
   clip-path: polygon(100% 0, calc(100% - 10px) 50%, 100% 100%, 0 100%, 0 0);
+  display: block;
+  margin-bottom: 5px;
 }
-
+.wps_ubo_popup_wrap {
+  display: none;
+}

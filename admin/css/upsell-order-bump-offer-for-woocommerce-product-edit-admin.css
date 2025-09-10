@@ -238,3 +238,13 @@ input.wps_upsell_offer_input_type_recommendation {
 .wps-preview-container.prev-active-popup .wps-strip {
   margin: 0 auto 15;
 }
+
+@media only screen and (max-width: 1600px) {
+    .wps-preview-container img {
+      display: none;
+    }
+    .wps-preview-container.prev-active-popup img {
+    display: block;
+  }
+
+}

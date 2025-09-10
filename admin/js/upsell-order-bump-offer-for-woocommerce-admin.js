@@ -1377,34 +1377,32 @@ jQuery(document).ready(function () {
 
 // JavaScript to handle popup and AJAX request (save as wps-ubo-popup.js)
 jQuery(document).ready(function($) {
-    // Open the popup when the button is clicked
     $('#wps_ubo_open_popup').click(function(e) {
-        e.preventDefault(); // Prevent default button behavior
+        e.preventDefault();
       $('#wps_ubo_label_popup').addClass('show');
-       $('.wps_ubo_popup_wrap').show();
+      $('.wps_ubo_popup_wrap').addClass('show');
+      $('.wps_ubo_popup_wrap').show();
     });
 
     // Close the popup when the close button is clicked
     $('#wps_ubo_close_popup').click(function() {
-         $('#wps_ubo_label_popup').removeClass('show');
+      $('#wps_ubo_label_popup').removeClass('show');
+       $('.wps_ubo_popup_wrap').removeClass('show');
     });
   
-     // Close the popup if the user clicks outside of the popup content
     $(document).click(function(event) {
         if (!$(event.target).closest('.wps-ubo-popup-content').length && !$(event.target).is('#wps_ubo_open_popup')) {
-            $('#wps_ubo_label_popup').removeClass('show'); // Close the popup when clicking outside
+          $('#wps_ubo_label_popup').removeClass('show'); // Close the popup when clicking outside.
+            $('.wps_ubo_popup_wrap').removeClass('show');
         }
     });
 
-// Handle the form submission for creating the label
+// Handle the form submission for creating the label.
 $('#wps_ubo_create_label').click(function() {
     var labelName = $('#wps_ubo_label_name').val();
     var labelColor = $('#wps_ubo_label_color').val();
 
-    // Validate input
     if (labelName && labelColor) {
-        console.log(labelColor + ' ' + labelName);
-        // AJAX request to create the label
         $.ajax({
             url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
             type: 'POST',
@@ -1426,7 +1424,7 @@ $('#wps_ubo_create_label').click(function() {
                 }
             },
             error: function () {
-                alert('AJAX error occurred.');
+                console.log('AJAX error occurred.');
             }
         });
     } else {

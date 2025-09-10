@@ -1583,9 +1583,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function add_order_item_meta_new( $item, $cart_item_key, $values, $order ) {
 
-		// / Log the $values array to confirm the data is available at this exact point.
-		error_log( 'Values received by add_order_item_meta_new: ' . print_r( $values, true ) );
-
 		// Check if the 'wps_ubo_offer_product' flag is set.
 		if ( ! empty( $values['wps_ubo_offer_product'] ) ) {
 			$item->update_meta_data( 'is_order_bump_purchase', 'true' );
