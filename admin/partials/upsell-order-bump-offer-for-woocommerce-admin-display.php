@@ -80,7 +80,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 
 				<div class="nav-sub-tabs">
 					<a class="sub-tab <?php echo esc_html( 'pre-list-offer-section' === $_GET['sub_tab'] ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section"><?php esc_html_e( 'Pre Bump List', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-					<a class="sub-tab <?php echo esc_html( 'pre-save-offer-section' === $_GET['sub_tab'] ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-save-offer-section"><?php esc_html_e( 'Save', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+					<a class="sub-tab <?php echo esc_html( 'pre-save-offer-section' === $_GET['sub_tab'] ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-save-offer-section"><?php esc_html_e( 'Create Pre Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 				</div>
 			<?php endif; ?>
 		</div>
@@ -102,7 +102,7 @@ do_action( 'wps_ubo_lite_tab_active' );
 
 				<div class="nav-sub-tabs">
 					<a class="sub-tab <?php echo esc_html( 'post-list-offer-section' === $_GET['sub_tab'] ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=one-click-section&sub_tab=post-list-offer-section"><?php esc_html_e( 'Post Bump List', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-					<a class="sub-tab <?php echo esc_html( 'post-save-offer-section' === $_GET['sub_tab'] ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=one-click-section&sub_tab=post-save-offer-section"><?php esc_html_e( 'Save', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+					<a class="sub-tab <?php echo esc_html( 'post-save-offer-section' === $_GET['sub_tab'] ? 'nav-tab-active' : '' ); ?>" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=one-click-section&sub_tab=post-save-offer-section"><?php esc_html_e( 'Create Post Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 				</div>
 			<?php endif; ?>
 		</div>

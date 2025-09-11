@@ -63,7 +63,7 @@ input.wps_upsell_offer_input_type_recommendation {
   position: sticky;
   top: 30px;
   align-self: flex-start;
-  max-width: 520px;
+  max-width: 300px;
   margin-right: 40px;
 }
 
@@ -120,7 +120,7 @@ input.wps_upsell_offer_input_type_recommendation {
   display: inline-block;
   color: #fff;
   cursor: not-allowed;
-  border-radius: 50px;
+  border-radius: 8px;
 }
 
 /* Existing strip styles follow... */
@@ -240,11 +240,40 @@ input.wps_upsell_offer_input_type_recommendation {
 }
 
 @media only screen and (max-width: 1600px) {
-    .wps-preview-container img {
-      display: none;
-    }
-    .wps-preview-container.prev-active-popup img {
+  .wps-preview-container img {
+    display: none;
+  }
+
+  .wps-preview-container-in * {
+    filter: blur(10px);
+  }
+
+  .wps-preview-container-in .btn.prev {
+    filter: unset;
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 6px;
+    right: 6px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+  }
+
+  .wps-preview-container.prev-active-popup img {
     display: block;
   }
 
+  .wps-preview-container.prev-active-popup .wps-preview-container-in * {
+    filter: unset;
+  }
+
+  .wps-preview-container.prev-active-popup .wps-preview-container-in .btn.prev {
+    position: unset;
+    font-size: 16px;
+    display: inline-block;
+    border-radius: 8px;
+  }
 }
