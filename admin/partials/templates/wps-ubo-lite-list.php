@@ -371,11 +371,6 @@ if ( is_array( $wps_upsell_bumps_list ) && ! empty( $wps_upsell_bumps_list ) ) {
 <?php } else { ?>
 	<div class="wps_upsell_bump_create_new_bump">
 		<a href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $wps_upsell_bumps_last_index + 1 ); ?>"><?php esc_html_e( '+Create New Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-		<?php if ( is_plugin_active( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) ) { ?>
-			<a href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=one-click-section&sub_tab=post-list-offer-section"><?php esc_html_e( '+Create New Post Order Bump', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-		<?php } elseif ( ! array_key_exists( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php', $installed_plugins ) ) { ?>
-			<a id="wps_one_click_upsell" href="#"><?php esc_html_e( '+Create New Funnel', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-		<?php } ?>
 	</div>
 <?php } ?>
 <!-- Add Go pro popup. -->
