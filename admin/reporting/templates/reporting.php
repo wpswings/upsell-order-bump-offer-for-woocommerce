@@ -62,7 +62,7 @@ $order_bumps = get_option( 'wps_ubo_bump_list' );
 
         <?php if ( ! $has_data ) : ?>
             <p class="wps_upsell_bump_no_bump">
-                <?php esc_html_e( 'No Order Bumps Hit!!', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+                <?php esc_html_e( 'No Order Bumps Triggered!', 'upsell-order-bump-offer-for-woocommerce' ); ?>
             </p>
         <?php endif; ?>
     </div>

@@ -1,37 +1,33 @@
 (function ($) {
   "use strict";
   $(document).ready(function () {
-    $(document).ready(function () {
 
       const targetElement = document.querySelector(".wps-bump-offer-container");
 
-        // Scroll the page to the target element
         if (targetElement) {
           targetElement.scrollIntoView({
-            behavior: 'smooth', // Smooth scroll
-            block: 'start'      // Align to the top of the viewport
+            behavior: 'smooth',
+            block: 'start'
           });
         }
-      // Function to check and update the visibility of the setting
+    
       function togglePopUpSetting() {
         if ($("#wps_Offer_With_Pop_Up_id_pro_1").is(":checked")) {
-          $(".wps_target_bump_for_popup").show(800); // Show the setting if "Offer With Pop-Up" is selected
+          $(".wps_target_bump_for_popup").show(800);
         } else {
-          $(".wps_target_bump_for_popup").hide(800); // Hide the setting if "Offer Without Pop-Up" is selected
+          $(".wps_target_bump_for_popup").hide(800);
         }
       }
 
-      // Run the function initially based on the current radio button selection
+      // Run the function initially based on the current radio button selection.
       togglePopUpSetting();
 
       // Listen for changes to the radio buttons.
       $('input[name="wps_bump_popup_bump_offer"]').on("change", function () {
-        togglePopUpSetting(); // Update visibility when a new radio button is selected.
+        togglePopUpSetting();
       });
-    });
 
-    jQuery(document).ready(function ($) {
-      // Event delegation to handle dynamic elements
+      // Event delegation to handle dynamic elements.
       $(document).on("click", ".wps-ob_temp-alpha", function () {
         var $checkbox = $(this).find("#wps-ob_temp-alpha-check");
         if ($checkbox.is(":checked")) {
@@ -42,17 +38,15 @@
           $(this).addClass("wps-ob_checked");
         }
       });
-    });
 
     var myDiv = document.getElementById("wps_ubo_lite_save_changes_bump");
+    let isHidden = false;
 
-    let isHidden = false; // Flag to track if the div is hidden
-
-    // Function to check if the user has reached the bottom of the page
+    // Function to check if the user has reached the bottom of the page.
     function isBottomOfPage() {
-      const windowHeight =
+        const windowHeight =
         window.innerHeight || document.documentElement.clientHeight;
-      const documentHeight = Math.max(
+        const documentHeight = Math.max(
         document.body.scrollHeight,
         document.body.offsetHeight,
         document.documentElement.clientHeight,
@@ -65,10 +59,10 @@
         window.pageYOffset ||
         document.documentElement.scrollTop;
 
-      return documentHeight - (scrollPosition + windowHeight) < 50; // Adjust the value as needed
+      return documentHeight - (scrollPosition + windowHeight) < 50;
     }
 
-    // Function to hide the div
+    // Function to hide the div.
     function hideDiv() {
       if (myDiv && myDiv.style) {
         myDiv.style.display = "none";
@@ -76,7 +70,7 @@
       }
     }
 
-    // Function to show the div
+    // Function to show the div.
     function showDiv() {
       if (myDiv && myDiv.style) {
         myDiv.style.display = "inline-flex";
@@ -84,7 +78,7 @@
       }
     }
 
-    // Listen for the scroll event
+    // Listen for the scroll event.
     window.addEventListener("scroll", function () {
       if (isBottomOfPage() && !isHidden) {
         hideDiv();
@@ -93,7 +87,7 @@
       }
     });
 
-    var wps_is_pro_active = woocommerce_admin.is_pro_active;
+    var wps_is_pro_active = wps_ubo_lite_banner_offer_section_obj.is_pro_active;
     if (1 == wps_is_pro_active) {
       $(".wps_ubo_premium_strip").hide();
     }
@@ -322,16 +316,16 @@
       // Template chnage css and design.
 
       e.preventDefault();
-      $(".wps_ubo_template").val(temp_id); // Select temp id
-      $(".wps_ubo_selected_template").val(temp_id); // Select temp id
-      $(".wps_ubo_animation_loader").css("display", "flex"); // Loader
+      $(".wps_ubo_template").val(temp_id);
+      $(".wps_ubo_selected_template").val(temp_id);
+      $(".wps_ubo_animation_loader").css("display", "flex");
 
       // For Scroll back.
       var href_bump_current_url = window.location.href;
       href_bump_current_url += "&wps-bump-template-section=" + temp_id;
       window.history.replaceState({}, "", href_bump_current_url);
 
-      $("#wps_upsell_bump_creation_setting_save").click(); // Save bump
+      $("#wps_upsell_bump_creation_setting_save").click();
       $(".wps_ubo_skin_popup_wrapper").css("display", "none");
     });
 
@@ -351,14 +345,12 @@
     // Available Template preview - Ends.
 
     // Text Fields Preview.
-
     $(".wps_upsell_offer_input_type").on("change paste keyup", function () {
       var text_id = $(this).attr("text_id");
       var msg = ""; // Check which field in changed
       var price = $(".offer_shown_discount").val().split("+");
 
       if (text_id == "fixed") {
-        // Fixed Price Text.
 
         if (price[1] == "fixed") {
           var fixed = "$" + price[0];
@@ -377,7 +369,6 @@
       }
 
       if (text_id == "percent") {
-        // % Price Text.
 
         if (price[1] == "%") {
           var percent = price[0] + "%";
@@ -1108,7 +1099,6 @@ jQuery(document).ready(function () {
     //For the new template 10 js.
     var wps_ob_con = jQuery(".wps-ob-st");
     if (wps_ob_con.width() < 700) {
-      // wps_ob_con.addClass('ob_cont-full');
     }
   }, 1000);
 });
@@ -1173,7 +1163,7 @@ jQuery(document).ready(function () {
           borderWidth: 2,
           hoverBorderWidth: 3,
 
-          // Pop-out effect: offset the hovered slice
+          // Pop-out effect: offset the hovered slice.
           offset: (ctx) => (ctx.active ? 12 : 0),
         },
       ],
@@ -1218,7 +1208,7 @@ jQuery(document).ready(function () {
     // Create the Pie chart
     new Chart(ctx, config);
 
-    // Toggle functionality for Show/Hide
+    // Toggle functionality for Show/Hide.
     const toggleButton = document.getElementById("toggleButton" + key);
     const chartContainer = document.getElementById("chartContainer" + key);
 
@@ -1308,7 +1298,7 @@ jQuery(document).ready(function () {
           borderWidth: 2,
           hoverBorderWidth: 3,
 
-          // Pop-out effect: offset the hovered slice
+          // Pop-out effect: offset the hovered slice.
           offset: (ctx) => (ctx.active ? 12 : 0),
         },
       ],
@@ -1375,7 +1365,7 @@ jQuery(document).ready(function () {
   });
 });
 
-// JavaScript to handle popup and AJAX request (save as wps-ubo-popup.js)
+// JavaScript to handle popup and AJAX request.
 jQuery(document).ready(function($) {
     $('#wps_ubo_open_popup').click(function(e) {
         e.preventDefault();

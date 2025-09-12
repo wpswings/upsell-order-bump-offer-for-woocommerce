@@ -27,7 +27,7 @@ $active_tab = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])
 ?>
 
 <div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
-	<div class="wps_upsell_bump_setting_title pre-bump-report_analytics"><?php echo esc_html__('Pre Sales Report & Analytics', 'upsell-order-bump-offer-for-woocommerce'); ?>
+	<div class="wps_upsell_bump_setting_title pre-bump-report_analytics"><?php echo esc_html__('Order Bump Sales Report & Analytics', 'upsell-order-bump-offer-for-woocommerce'); ?>
 
 		<a target="_blank" href="<?php echo esc_url(admin_url('admin.php?page=wc-reports&tab=wps_order_bump')); ?>"><?php esc_html_e('View Sale Report', 'upsell-order-bump-offer-for-woocommerce'); ?></a>
 	</div>

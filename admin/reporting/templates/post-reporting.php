@@ -70,7 +70,7 @@ if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce
         <?php endforeach; ?>
 
         <?php if ( ! $has_data ) : ?>
-			<p class="wps_wocuf_pro_no_funnel"><strong><?php esc_html_e( 'No funnel was hit', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong></p>
+			<p class="wps_wocuf_pro_no_funnel"><strong><?php esc_html_e( 'No Funnel was Triggered!', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong></p>
         <?php endif; ?>
     </div>
     <!-- Foreach Funnel end -->

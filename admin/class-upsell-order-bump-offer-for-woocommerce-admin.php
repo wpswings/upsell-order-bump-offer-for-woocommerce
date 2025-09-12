@@ -262,7 +262,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				}
 
 				wp_localize_script( 'woocommerce_admin', 'woocommerce_admin', $params );
-
 				wp_enqueue_script( 'woocommerce_admin' );
 
 				wp_enqueue_script( 'wps_ubo_lite_add_new_offer_script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_add_new_offer_script.js', array( 'woocommerce_admin', 'wc-enhanced-select' ), $this->version, false );
@@ -334,8 +333,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		 */
 		add_submenu_page(
 			'upsell-order-bump-offer-for-woocommerce-setting',
-			esc_html__( 'Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ),
-			esc_html__( 'Pre Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ),
+			esc_html__( 'Order Bump Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ),
+			esc_html__( 'Order Bump Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ),
 			'manage_woocommerce',
 			'upsell-order-bump-offer-for-woocommerce-pre-reporting', // UNIQUE SLUG.
 			array( $this, 'pre_add_submenu_page_reporting_callback' )
@@ -346,8 +345,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		 */
 		add_submenu_page(
 			'upsell-order-bump-offer-for-woocommerce-setting',
-			esc_html__( 'Post Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ),
-			esc_html__( 'Post Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ),
+			esc_html__( 'Upsell Funnel Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ),
+			esc_html__( 'Upsell Funnel Sales Reports & Analytics', 'upsell-order-bump-offer-for-woocommerce' ),
 			'manage_woocommerce',
 			'upsell-order-bump-offer-for-woocommerce-post-reporting', // UNIQUE SLUG.
 			array( $this, 'post_add_submenu_page_reporting_callback' )

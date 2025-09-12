@@ -40,11 +40,13 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 
 	$wps_bump_upsell_global_options['wps_ubo_abandoned_cart'] = ! empty( $_POST['wps_ubo_abandoned_cart'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_abandoned_cart'] ) ) : 'no';
 
+	$wps_bump_upsell_global_options['wps_ubo_product_offer_strip'] = ! empty( $_POST['wps_ubo_product_offer_strip'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_product_offer_strip'] ) ) : 'no';
+
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'wps_ubo_global_options', $wps_bump_upsell_global_options );
 
 	$wps_smart_already_purchased = ! empty( $_POST['wps_ubo_offer_purchased_earlier'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_offer_purchased_earlier'] ) ) : 'no';
-	$wps_ubo_product_offer_strip = ! empty( $_POST['wps_ubo_product_offer_strip'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_product_offer_strip'] ) ) : 'no';
+
 	$wps_upsell_global_options = get_option( 'wps_upsell_global_options', array() );
 	// V3.5.0 :: Smart Skip If already purchased start For Upsell Funnel.
 	$wps_smart_skip_val = '';
@@ -54,14 +56,14 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 		$wps_smart_skip_val = 'off';
 	}
 
-//    die($_POST['wps_ubo_product_offer_strip']);
-	$wps_product_stripe_val = '';
-	if ( 'yes' == $wps_ubo_product_offer_strip ) {
-		$wps_product_stripe_val = 'on';
-	} else {
-		$wps_product_stripe_val = 'off';
-	}
-	$wps_upsell_global_options['wps_ubo_product_offer_strip'] = $wps_product_stripe_val;
+// //    die($_POST['wps_ubo_product_offer_strip']);
+// 	$wps_product_stripe_val = '';
+// 	if ( 'yes' == $wps_ubo_product_offer_strip ) {
+// 		$wps_product_stripe_val = 'on';
+// 	} else {
+// 		$wps_product_stripe_val = 'off';
+// 	}
+// 	$wps_upsell_global_options['wps_ubo_product_offer_strip'] = $wps_product_stripe_val;
 	$wps_upsell_global_options['wps_wocuf_pro_enable_smart_skip'] = $wps_smart_skip_val;
 	$wps_upsell_global_options['skip_similar_offer'] = ! empty( $_POST['wps_bump_skip_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_skip_offer'] ) ) : 'yes';
 	;
@@ -306,7 +308,7 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
 						<label class="wps-upsell-product-offer-strip" for="wps_ubo_product_offer_strip">
-							<input class="upsell-product-offer-strip-wrap" type='checkbox' <?php echo wps_ubo_lite_if_pro_exists() && ! empty( $wps_ubo_product_offer_strip) && 'yes' === $wps_ubo_product_offer_strip ? 'checked' : ''; ?> id='wps_ubo_product_offer_strip' value='yes' name='wps_ubo_product_offer_strip'>
+							<input class="upsell-product-offer-strip-wrap" type='checkbox' <?php echo wps_ubo_lite_if_pro_exists() && ! empty( $wps_ubo_product_offer_strip_enable) && 'yes' === $wps_ubo_product_offer_strip_enable ? 'checked' : ''; ?> id='wps_ubo_product_offer_strip' value='yes' name='wps_ubo_product_offer_strip'>
 							<span class="upsell-product-offer-strip-btn"></span>
 						</label>
 					</td>
