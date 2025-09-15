@@ -111,7 +111,6 @@ do_action( 'wps_ubo_lite_tab_active' );
 					<?php } else { ?>
 								<a class="sub-tab wps_ubo_lite_bump_create_button" href="#"><?php esc_html_e( 'Create', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 						<?php } ?>
-
 				</div>
 			<?php endif; ?>
 		</div>

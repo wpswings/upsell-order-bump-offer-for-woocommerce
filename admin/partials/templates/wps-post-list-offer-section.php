@@ -71,6 +71,12 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 }
 
 ?>
+<!-- Add section to trigger Go Pro popup. -->
+<?php if ( ! empty( $wps_wocuf_pro_funnels_list ) && count( $wps_wocuf_pro_funnels_list ) ) : ?>
+
+	<input type="hidden" class="wps_ubo_lite_saved_funnel" value="<?php echo ( count( $wps_wocuf_pro_funnels_list ) ); ?>">
+
+<?php endif; ?>
 
 <div class="wps_wocuf_pro_funnels_list">
 
