@@ -520,7 +520,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 			 <?php $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() ); ?>
 				 <?php $wps_bump_enable_campaign_labels = ! empty( $wps_ubo_global_options['wps_bump_enable_campaign_labels'] ) ? $wps_ubo_global_options['wps_bump_enable_campaign_labels'] : ''; ?>
-				<?php if('on' === $wps_bump_enable_campaign_labels){ ?>
+				<?php if ( 'on' === $wps_bump_enable_campaign_labels ) { ?>
 				<tr valign="top">
 					<th scope="row" class="titledesc">
 
@@ -529,27 +529,26 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 					<td class="forminp forminp-text">
 
-				<?php
+					<?php
 					$attribute_description = esc_html__( 'This feature allows you to set the campaign label for the order bump offer.', 'upsell-order-bump-offer-for-woocommerce' );
 					wps_ubo_lite_help_tip( $attribute_description );
 
 					// Retrieve the global options. Use an empty array as a default fallback.
-					$wps_bump_upsell_global_options = get_option('wps_ubo_global_options', array());
+					$wps_bump_upsell_global_options = get_option( 'wps_ubo_global_options', array() );
 
-					// Safely get the labels array, defaulting to an empty array to prevent errors
 					// if the key doesn't exist.
-					$labels = isset($wps_bump_upsell_global_options['wps_bump_label']) ? (array) $wps_bump_upsell_global_options['wps_bump_label'] : array();
+					$labels = isset( $wps_bump_upsell_global_options['wps_bump_label'] ) ? (array) $wps_bump_upsell_global_options['wps_bump_label'] : array();
 					$wps_bump_label_campaign = ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_bump_label_campaign'] ) ? sanitize_text_field( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_bump_label_campaign'] ) : '';
-
-					// Render just the field (e.g., inside a meta box or settings page custom markup)
-					wps_render_campaign_label_select( array(
-						'id'          => 'wps_bump_label_campaign_select',
-						'name'        => 'wps_bump_label_campaign',
-						'options'     => $labels,
-						'value'       => $wps_bump_label_campaign, // preselect by hex if needed, e.g. '#22c55e'
-						'placeholder' => 'Select a campaign label',
-						'width'       => '320px', // or '100%'
-					) );
+					wps_render_campaign_label_select(
+						array(
+							'id'          => 'wps_bump_label_campaign_select',
+							'name'        => 'wps_bump_label_campaign',
+							'options'     => $labels,
+							'value'       => $wps_bump_label_campaign,
+							'placeholder' => 'Select a campaign label',
+							'width'       => '320px',
+						)
+					);
 					?>
 
 

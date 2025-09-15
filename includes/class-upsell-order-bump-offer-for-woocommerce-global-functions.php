@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -6268,7 +6267,6 @@ function wps_ubo_lite_bump_offer_html_11( $bump, $encountered_order_bump_id = ''
  * @since   1.0.0
  */
 function wps_ubo_lite_bump_offer_html_12( $bump, $encountered_order_bump_id = '', $order_bump_key = '' ) {
-	
 
 	$discount_title_fixed = ! empty( $bump['design_text']['wps_ubo_discount_title_for_fixed'] ) ? $bump['design_text']['wps_ubo_discount_title_for_fixed'] : '';   // Discount Title. for fixes price.
 
@@ -7695,7 +7693,11 @@ if ( ! function_exists( 'wps_upsell_lite_live_offer_url_params_funnel_builder' )
 		}
 	}
 
-	// Add a button to trigger the popup
+	/**
+	 * Add Popup HTML for Create Label button.
+	 *
+	 * @since 2.0.0
+	 */
 	function wps_ubo_add_popup_button() {
 		?>
 		<style>
@@ -7774,19 +7776,19 @@ if ( ! function_exists( 'wps_upsell_lite_live_offer_url_params_funnel_builder' )
 			<div id="wps_ubo_label_popup" class="wps-ubo-popup">
 				<div class="wps-ubo-popup-content">
 					<div class="wps-ubo-popup-wrapper">
-						<h3><?php _e( 'Create Label', 'wps-ubo' ); ?></h3>
+						<h3><?php esc_html_e( 'Create Label', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 					</div>
 					<form id="wps_ubo_label_form">
-						<label for="wps_ubo_label_name" class="wps_ubo_label_name"><?php _e( 'Label Name', 'wps-ubo' ); ?></label>
+						<label for="wps_ubo_label_name" class="wps_ubo_label_name"><?php esc_html_e( 'Label Name', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 						<input type="text" id="wps_ubo_label_name" name="wps_ubo_label_name" required />
 
-						<label for="wps_ubo_label_color" class="wps_ubo_label_color"><?php _e( 'Choose Color', 'wps-ubo' ); ?></label>
+						<label for="wps_ubo_label_color" class="wps_ubo_label_color"><?php esc_html_e( 'Choose Color', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 						<input type="color" id="wps_ubo_label_color" name="wps_ubo_label_color" value="#000000" required />
 						<p class="description" style="font-size: 12px; color: red; font-style: italic; margin-top: -10px; margin-bottom: 10px;">
-							<?php _e( '* Note: Once a label is created, it cannot be edited or removed.', 'wps-ubo' ); ?>
+							<?php esc_html_e( '* Note: Once a label is created, it cannot be edited or removed.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 						</p>
-						<button type="button" id="wps_ubo_create_label" class="button button-primary"><?php _e( 'Create', 'wps-ubo' ); ?></button>
-						<button type="button" id="wps_ubo_close_popup" class="button"><?php _e( 'Close', 'wps-ubo' ); ?></button>
+						<button type="button" id="wps_ubo_create_label" class="button button-primary"><?php esc_html_e( 'Create', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+						<button type="button" id="wps_ubo_close_popup" class="button"><?php esc_html_e( 'Close', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
 					</form>
 				</div>
 			</div>
@@ -7798,7 +7800,7 @@ if ( ! function_exists( 'wps_upsell_lite_live_offer_url_params_funnel_builder' )
 /**
  * Render a reusable Color-Label custom select.
  *
- * @param array $args {
+ * @param array $args {.
  *   @type string $id          Unique DOM id (required).
  *   @type string $name        Input name for form submission (required).
  *   @type array  $options     Array of ['name' => 'Label X', 'color' => '#hex'] (required).
@@ -7993,9 +7995,11 @@ function wps_render_campaign_label_select( $args ) {
 /**
  * (Optional) Helper to render as a WooCommerce settings row.
  *
- * @param string $title
- * @param string $desc
- * @param array  $select_args  See wps_render_campaign_label_select().
+ * @param string $title        The title text for the settings row.
+ * @param string $desc         The description text for the settings row.
+ * @param array  $select_args  Arguments passed to wps_render_campaign_label_select().
+ *
+ * @return void
  */
 function wps_render_wc_settings_row_campaign_select( $title, $desc, $select_args ) {
 	?>

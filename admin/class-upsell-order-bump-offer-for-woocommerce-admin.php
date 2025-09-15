@@ -2476,8 +2476,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		}
 
 		// ✅ Snake_case + sanitize + unslash.
-		$label_name_raw  = isset( $_POST['wps_ubo_label_name'] ) ? wp_unslash( $_POST['wps_ubo_label_name'] ) : '';
-		$label_color_raw = isset( $_POST['wps_ubo_label_color'] ) ? wp_unslash( $_POST['wps_ubo_label_color'] ) : '';
+		$label_name_raw  = isset( $_POST['wps_ubo_label_name'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_label_name'] ) ) : '';
+		$label_color_raw = isset( $_POST['wps_ubo_label_color'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_label_color'] ) ) : '';
 
 		$label_name  = sanitize_text_field( $label_name_raw );
 		$label_color = sanitize_hex_color( $label_color_raw );

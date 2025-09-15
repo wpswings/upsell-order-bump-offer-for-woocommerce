@@ -131,7 +131,7 @@ if ( isset( $_POST['wps_wocuf_pro_creation_setting_save'] ) ) {
 	$wps_wocuf_pro_funnel['wps_wocuf_funnel_id']      = ! empty( $_POST['wps_wocuf_funnel_id'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wocuf_funnel_id'] ) ) : '';
 	$wps_wocuf_pro_funnel['wps_upsell_fsav3']         = ! empty( $_POST['wps_upsell_fsav3'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_upsell_fsav3'] ) ) : '';
 	$wps_wocuf_pro_funnel['wps_wocuf_funnel_name']    = ! empty( $_POST['wps_wocuf_funnel_name'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wocuf_funnel_name'] ) ) : '';
-	$wps_wocuf_pro_funnel['wps_bump_label_campaign'] = ! empty($_POST['wps_bump_label_campaign']) ? sanitize_text_field(wp_unslash($_POST['wps_bump_label_campaign'])) : '';
+	$wps_wocuf_pro_funnel['wps_bump_label_campaign'] = ! empty( $_POST['wps_bump_label_campaign'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_label_campaign'] ) ) : '';
 
 	// Sanitize and strip slashes for Funnel Target products.
 	$target_pro_schedule_array = ! empty( $_POST['wps_wocuf_pro_funnel_schedule'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['wps_wocuf_pro_funnel_schedule'] ) ) : array();
@@ -292,7 +292,7 @@ if ( isset( $_POST['wps_wocuf_pro_creation_setting_save'] ) ) {
 
 // Get all funnels.
 $wps_wocuf_pro_funnel_data = get_option( 'wps_wocuf_funnels_list', array() );
-$wps_wocuf_funnel_data_pro = get_option('wps_wocuf_pro_funnels_list', array()); //pro
+$wps_wocuf_funnel_data_pro = get_option( 'wps_wocuf_pro_funnels_list', array() ); // pro.
 
 // Not used anywhere I guess.
 $wps_wocuf_pro_custom_th_page = ! empty( $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_wocuf_pro_custom_th_page'] ) ? $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_wocuf_pro_custom_th_page'] : 'off';
@@ -726,11 +726,11 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 				<!-- label Campaign start -->
 				 <?php $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() ); ?>
 				 <?php $wps_bump_enable_campaign_labels = ! empty( $wps_ubo_global_options['wps_bump_enable_campaign_labels'] ) ? $wps_ubo_global_options['wps_bump_enable_campaign_labels'] : ''; ?>
-				<?php if('on' === $wps_bump_enable_campaign_labels){ ?>
+				<?php if ( 'on' === $wps_bump_enable_campaign_labels ) { ?>
 				<tr valign="top">
 
 					<th scope="row" class="titledesc">
-						<label for="wps_wocuf_pro_enable_plugin"><?php esc_html_e('Set Campaign label', 'upsell-order-bump-offer-for-woocommerce-pro'); ?></label>
+						<label for="wps_wocuf_pro_enable_plugin"><?php esc_html_e( 'Set Campaign label', 'upsell-order-bump-offer-for-woocommerce-pro' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">
@@ -738,27 +738,24 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 						$attribute_description = esc_html__( 'This feature allows you to set the campaign label for the funnel offer.', 'upsell-order-bump-offer-for-woocommerce' );
 
-						wps_upsell_lite_wc_help_tip( $attribute_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						wps_upsell_lite_wc_help_tip( $attribute_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
 
-						$wps_bump_label_campaign = ! empty($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_bump_label_campaign']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_bump_label_campaign'] : '';
+						$wps_bump_label_campaign = ! empty( $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_bump_label_campaign'] ) ? $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_bump_label_campaign'] : '';
 
 
 						// Retrieve the global options. Use an empty array as a default fallback.
-						$wps_bump_upsell_global_options = get_option('wps_ubo_global_options', array());
-
-						// Safely get the labels array, defaulting to an empty array to prevent errors
-						// if the key doesn't exist.
-						$labels = isset($wps_bump_upsell_global_options['wps_bump_label']) ? (array) $wps_bump_upsell_global_options['wps_bump_label'] : array();
-	
-						// Render just the field (e.g., inside a meta box or settings page custom markup)
-						wps_render_campaign_label_select( array(
-							'id'          => 'wps_bump_label_campaign_select',
-							'name'        => 'wps_bump_label_campaign',
-							'options'     => $labels,
-							'value'       => $wps_bump_label_campaign, // preselect by hex if needed, e.g. '#22c55e'
-							'placeholder' => 'Select a campaign label',
-							'width'       => '320px', // or '100%'
-						) );
+						$wps_bump_upsell_global_options = get_option( 'wps_ubo_global_options', array() );
+						$labels = isset( $wps_bump_upsell_global_options['wps_bump_label'] ) ? (array) $wps_bump_upsell_global_options['wps_bump_label'] : array();
+						wps_render_campaign_label_select(
+							array(
+								'id'          => 'wps_bump_label_campaign_select',
+								'name'        => 'wps_bump_label_campaign',
+								'options'     => $labels,
+								'value'       => $wps_bump_label_campaign,
+								'placeholder' => 'Select a campaign label',
+								'width'       => '320px', // or '100%'.
+							)
+						);
 						?>
 					</td>
 				</tr>
