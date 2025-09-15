@@ -2778,8 +2778,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				$validate_shortcode = $this->validate_shortcode();
 
 				if ( wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
-
-					// 1833px
 					update_post_meta( $post->ID, '_et_pb_page_layout', 'et_no_sidebar' );
 					?>
 					<style type="text/css">

@@ -71,7 +71,6 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 	// For Upsell Org.
 	$wps_upsell_global_options_orgupsell = get_option( 'wps_upsell_lite_global_options', array() );
 	$wps_upsell_global_options_orgupsell['smart_skip_if_purchased'] = $wps_smart_already_purchased;
-	// $wps_upsell_global_options_orgupsell['wps_ubo_product_offer_strip'] = $wps_ubo_product_offer_strip;
 	update_option( 'wps_upsell_lite_global_options', $wps_upsell_global_options_orgupsell );
 	?>
 	<!-- Settings saved notice. -->

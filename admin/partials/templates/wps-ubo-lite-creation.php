@@ -119,7 +119,6 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 	$wps_upsell_new_bump['wps_upsell_bump_priority']      = ! empty( $_POST['wps_upsell_bump_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_upsell_bump_priority'] ) ) : '';
 	$wps_upsell_new_bump['wps_upsell_bump_exclude_roles'] = ! empty( $_POST['wps_upsell_bump_exclude_roles'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['wps_upsell_bump_exclude_roles'] ) ) : '';
 	$wps_upsell_new_bump['wps_bump_label_campaign']        = ! empty( $_POST['wps_bump_label_campaign'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_label_campaign'] ) ) : '';
-	// die($_POST['wps_bump_label_campaign']);;
 	// When Bump is saved for the first time so load default Design Settings.
 	if ( empty( $_POST['parent_border_type'] ) ) {
 
