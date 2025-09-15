@@ -7782,7 +7782,9 @@ if ( ! function_exists( 'wps_upsell_lite_live_offer_url_params_funnel_builder' )
 
 						<label for="wps_ubo_label_color" class="wps_ubo_label_color"><?php _e( 'Choose Color', 'wps-ubo' ); ?></label>
 						<input type="color" id="wps_ubo_label_color" name="wps_ubo_label_color" value="#000000" required />
-
+						<p class="description" style="font-size: 12px; color: red; font-style: italic; margin-top: -10px; margin-bottom: 10px;">
+							<?php _e( '* Note: Once a label is created, it cannot be edited or removed.', 'wps-ubo' ); ?>
+						</p>
 						<button type="button" id="wps_ubo_create_label" class="button button-primary"><?php _e( 'Create', 'wps-ubo' ); ?></button>
 						<button type="button" id="wps_ubo_close_popup" class="button"><?php _e( 'Close', 'wps-ubo' ); ?></button>
 					</form>

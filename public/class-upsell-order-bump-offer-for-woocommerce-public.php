@@ -2424,6 +2424,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 									foreach ( $values as $value ) {
 
 										$product = wc_get_product( $value );
+									if ( $product && is_a( $product, 'WC_Product' ) ) {
 
 										$image = wp_get_attachment_image_src( get_post_thumbnail_id( $value ), 'single-post-thumbnail' );
 										if ( is_array( $image ) && isset( $image[0] ) ) {
@@ -2472,6 +2473,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 										$wps_html_discount_section .= '<input id="wps_cart_offer_product_price_' . $value . '" type="hidden" value =' . $product->get_price() . '>';
 										$wps_html_discount_section .= '</div>';
 									}
+								}
 								}
 							}
 						} else {

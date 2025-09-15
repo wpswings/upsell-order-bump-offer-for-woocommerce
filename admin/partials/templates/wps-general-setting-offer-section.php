@@ -56,14 +56,6 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 		$wps_smart_skip_val = 'off';
 	}
 
-// //    die($_POST['wps_ubo_product_offer_strip']);
-// 	$wps_product_stripe_val = '';
-// 	if ( 'yes' == $wps_ubo_product_offer_strip ) {
-// 		$wps_product_stripe_val = 'on';
-// 	} else {
-// 		$wps_product_stripe_val = 'off';
-// 	}
-// 	$wps_upsell_global_options['wps_ubo_product_offer_strip'] = $wps_product_stripe_val;
 	$wps_upsell_global_options['wps_wocuf_pro_enable_smart_skip'] = $wps_smart_skip_val;
 	$wps_upsell_global_options['skip_similar_offer'] = ! empty( $_POST['wps_bump_skip_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_skip_offer'] ) ) : 'yes';
 	;
@@ -79,7 +71,7 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_general'] ) ) {
 	// For Upsell Org.
 	$wps_upsell_global_options_orgupsell = get_option( 'wps_upsell_lite_global_options', array() );
 	$wps_upsell_global_options_orgupsell['smart_skip_if_purchased'] = $wps_smart_already_purchased;
-	$wps_upsell_global_options_orgupsell['wps_ubo_product_offer_strip'] = $wps_ubo_product_offer_strip;
+	// $wps_upsell_global_options_orgupsell['wps_ubo_product_offer_strip'] = $wps_ubo_product_offer_strip;
 	update_option( 'wps_upsell_lite_global_options', $wps_upsell_global_options_orgupsell );
 	?>
 	<!-- Settings saved notice. -->
@@ -154,7 +146,7 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 
 					<td class="forminp forminp-text">
 						<?php
-						$attribute_description = esc_html__( 'Enable Upsell Order Bump Offer plugin.', 'upsell-order-bump-offer-for-woocommerce' );
+						$attribute_description = esc_html__( 'Enable Upsell Funnel Builder plugin.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
@@ -178,7 +170,7 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 
 					<td class="forminp forminp-text">
 						<?php
-						$attribute_description = esc_html__( 'Enable Campaign Labels for Post Bump Offers and Pre funnel offers.', 'upsell-order-bump-offer-for-woocommerce' );
+						$attribute_description = esc_html__( 'Enable Campaign Labels for Upsell Funnel Offers and Order Bump Offers.', 'upsell-order-bump-offer-for-woocommerce' );
 
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
@@ -207,7 +199,7 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 
 					<td class="forminp forminp-text">
 						<?php
-						$attribute_description = esc_html__( 'Skip Bump offer if offer product is already present in cart.', 'upsell-order-bump-offer-for-woocommerce' );
+						$attribute_description = esc_html__( 'Skip Upsell Funnel Offer or Order Bump Offer if offer product is already present in cart.', 'upsell-order-bump-offer-for-woocommerce' );
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
 
@@ -283,7 +275,7 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 					<td class="forminp forminp-text">
 
 						<?php
-						$attribute_description = esc_html__( 'Skip the Order Bump offer for those customers who have already purchased the offer product anytime before in previous orders.', 'upsell-order-bump-offer-for-woocommerce' );
+						$attribute_description = esc_html__( 'Skip the Order Bump Offer or Upsell Funnel Offer for those customers who have already purchased the offer product anytime before in previous orders.', 'upsell-order-bump-offer-for-woocommerce' );
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
 						<label class="wps-upsell-smart-pre-order-skip" for="wps_ubo_offer_purchased_earlier">
