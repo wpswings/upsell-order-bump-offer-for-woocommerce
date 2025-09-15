@@ -7983,7 +7983,7 @@ function wps_render_campaign_label_select( $args ) {
 		<div class="wps-options">
 			<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo $options_markup;
+			echo wp_kses_post( $options_markup );
 			?>
 		</div>
 
