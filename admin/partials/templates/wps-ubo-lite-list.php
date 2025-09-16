@@ -162,7 +162,9 @@ if ( is_array( $wps_upsell_bumps_list ) && ! empty( $wps_upsell_bumps_list ) ) {
 						continue; // skip this row.
 				}
 
-				list( $color_hex, $label_name ) = array_pad( explode( '/',  $value['wps_bump_label_campaign'], 2 ), 2, '' );
+				$label_campaign = isset( $value['wps_bump_label_campaign'] ) ? $value['wps_bump_label_campaign'] : '';
+
+				list( $color_hex, $label_name ) = array_pad( explode( '/',  $label_campaign, 2 ), 2, '' );
 				?>
 
 				<tr>

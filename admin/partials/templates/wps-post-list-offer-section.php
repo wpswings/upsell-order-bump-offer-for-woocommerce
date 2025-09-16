@@ -104,7 +104,9 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 				$offers_count = ! empty( $value['wps_wocuf_products_in_offer'] ) ? $value['wps_wocuf_products_in_offer'] : array();
 
 				$offers_count = count( $offers_count );
-				list( $color_hex, $label_name ) = array_pad( explode( '/',  $value['wps_bump_label_campaign'], 2 ), 2, '' );
+				$label_campaign = isset( $value['wps_bump_label_campaign'] ) ? $value['wps_bump_label_campaign'] : '';
+
+				list( $color_hex, $label_name ) = array_pad( explode( '/',  $label_campaign, 2 ), 2, '' );
 
 				?>
 
