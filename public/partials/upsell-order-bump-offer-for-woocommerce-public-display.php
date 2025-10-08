@@ -232,59 +232,69 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 	}
 
 	// Below is bump offer in pop-up except variable.
-	if ( $data_for_popup ) {
-		?>
-<a class="open-button" id="wps_open_modal" popup-open="popup-1" href="javascript:void(0)">click</a>
+if ( $data_for_popup ) {
+    // Filter out variable products
+    foreach ( $data_for_popup as $key => $order_bump_id ) {
+        $wps_offer_id = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
+        $offer_product = wc_get_product( $wps_offer_id );
+        
+        // Check if product exists and is a variable product
+        if ( $offer_product && $offer_product->is_type( 'variable' ) ) {
+            // Remove this key from the array
+            unset( $data_for_popup[ $key ] );
+        }
+    }
 
-<div class="popup wps_uobo_product_popup" id="wps_slider" popup-name="popup-1">
-	<div class="wps-popup-content">
-		<?php
-		// For Each Order Bump Ids array.
-		foreach ( $data_for_popup as $key => $order_bump_id ) {
+    // Re-index the array after unsetting keys
+    $data_for_popup = array_values( $data_for_popup );
+    
+    // Only show the popup button and wrapper if there are non-variable products
+    if ( ! empty( $data_for_popup ) ) {
+        ?>
+        <a class="open-button" id="wps_open_modal" popup-open="popup-1" href="javascript:void(0)">click</a>
 
-			if ( true === is_valid_user_role( $order_bump_id ) ) {
-				continue;
-			}
+        <div class="popup wps_uobo_product_popup" id="wps_slider" popup-name="popup-1">
+            <div class="wps-popup-content">
+                <?php
+                // For Each Order Bump Ids array.
+                foreach ( $data_for_popup as $key => $order_bump_id ) {
 
-			$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
-			if ( ! empty( $min_cart_value_wps ) ) {
-				$cart_total = WC()->cart->get_cart_contents_total();
-				if ( (int) $cart_total < (int) $min_cart_value_wps ) {
-					continue;
-				}
-			}
+                    if ( true === is_valid_user_role( $order_bump_id ) ) {
+                        continue;
+                    }
 
-			$encountered_order_bump_id = $order_bump_id;
+                    $min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
+                    if ( ! empty( $min_cart_value_wps ) ) {
+                        $cart_total = WC()->cart->get_cart_contents_total();
+                        if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+                            continue;
+                        }
+                    }
 
-			if ( ! empty( $encountered_bump_tarket_key_array ) ) {
-				$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
-			}
+                    $encountered_order_bump_id = $order_bump_id;
 
-			$wps_offer_id = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
-			$offer_product = wc_get_product( $wps_offer_id );
+                    if ( ! empty( $encountered_bump_tarket_key_array ) ) {
+                        $encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
+                    }
 
-			if ( ! $offer_product->is_type( 'variable' ) ) {
-				/**
-				 * Passing bump id as key ( 2nd param ) also, so that the index is set according to bump id.
-				 * So that right session index is set and right order bumps remain checked.
-				 */
-				?>
-		<div class ="wps_bump_offer_modal_wrapper">
-				<?php
-				wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
-				?>
-	</div>
-				<?php
-			}
-		}
-		?>
-</div>
-<div class="wps_close_modal">
-<a class="close-button" popup-close="popup-1" href="javascript:void(0)"></a>
-</div>
-</div>
-		<?php
-	}
+                    // No need to check product type again since we already filtered variable products
+                    ?>
+                    <div class="wps_bump_offer_modal_wrapper">
+                        <?php
+                        wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
+                        ?>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+            <div class="wps_close_modal">
+                <a class="close-button" popup-close="popup-1" href="javascript:void(0)"></a>
+            </div>
+        </div>
+        <?php
+    }
+}
 }
 ?>
   </div>
