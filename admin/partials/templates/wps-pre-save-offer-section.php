@@ -25,7 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Get all Bump if already some funnels are present.
 $wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
-
 if ( ! empty( $wps_upsell_bumps_list ) ) {
 
 	reset( $wps_upsell_bumps_list );
@@ -120,6 +119,24 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 	$wps_upsell_new_bump['wps_upsell_offer_image']        = ! empty( $_POST['wps_upsell_offer_image'] ) ? absint( sanitize_text_field( wp_unslash( $_POST['wps_upsell_offer_image'] ) ) ) : '';
 	$wps_upsell_new_bump['wps_upsell_bump_priority']      = ! empty( $_POST['wps_upsell_bump_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_upsell_bump_priority'] ) ) : '';
 	$wps_upsell_new_bump['wps_upsell_bump_exclude_roles'] = ! empty( $_POST['wps_upsell_bump_exclude_roles'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['wps_upsell_bump_exclude_roles'] ) ) : '';
+
+	// Process Condition Show settings
+	$wps_upsell_new_bump['wps_ubo_condition_show'] = ! empty( $_POST['wps_ubo_condition_show'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_condition_show'] ) ) : 'no';
+	
+	// Process condition rules
+	$condition_rules = array();
+	if ( ! empty( $_POST['wps_ubo_condition_rules'] ) && is_array( $_POST['wps_ubo_condition_rules'] ) ) {
+		foreach ( $_POST['wps_ubo_condition_rules'] as $rule ) {
+			if ( ! empty( $rule['field'] ) && ! empty( $rule['operator'] ) && ! empty( $rule['value'] ) ) {
+				$condition_rules[] = array(
+					'field'    => sanitize_text_field( $rule['field'] ),
+					'operator' => sanitize_text_field( $rule['operator'] ),
+					'value'    => sanitize_text_field( $rule['value'] ),
+				);
+			}
+		}
+	}
+	$wps_upsell_new_bump['wps_ubo_condition_rules'] = $condition_rules;
 
 	// When Bump is saved for the first time so load default Design Settings.
 	if ( empty( $_POST['parent_border_type'] ) ) {

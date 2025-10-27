@@ -852,3 +852,659 @@ if ( $activated ) {
 		}
 	}
 }
+
+
+/**
+ * ======================================================
+ * WooCommerce Dynamic Discount Rules (with Select2)
+ * ======================================================
+ * Conditions supported:
+ * - Cart Total
+ * - Subtotal
+ * - Payment Method (Select2 Multi)
+ * - Coupon Applied (Select2 Multi)
+ * ======================================================
+ */
+
+// --- 1. ADMIN PAGE ---
+// Enqueue Select2 and styles globally
+// add_action('wp_enqueue_scripts', function () {
+// wp_enqueue_style('select2-css', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css');
+// wp_enqueue_script('select2-js', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', ['jquery'], null, true);
+// });
+
+// // Enqueue for admin as well
+// add_action('admin_enqueue_scripts', function () {
+// wp_enqueue_style('select2-css', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css');
+// wp_enqueue_script('select2-js', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', ['jquery'], null, true);
+// });
+
+/**
+ * Display Dynamic Discount Conditions Popup Modal
+ *
+ * @param array $args Configuration array
+ *  - 'modal_id' => unique ID for the modal (default: 'wc-discount-popup')
+ *  - 'button_id' => ID of trigger button (default: 'show-discount-conditions')
+ *  - 'callback' => callback function to execute on save
+ *  - 'rules' => existing rules (default: get from option)
+ */
+function wc_render_discount_conditions_popup( $args = array() ) {
+	$defaults = array(
+		'modal_id'   => 'wc-discount-popup',
+		'button_id'  => 'show-discount-conditions',
+		'callback'   => null,
+		'rules'      => get_option( 'wc_dynamic_discount_rules', array() ),
+		'discount_amount' => get_option( 'wc_dynamic_discount_amount', 0 ),
+	);
+	$args = wp_parse_args( $args, $defaults );
+
+	$rules = ! is_array( $args['rules'] ) ? array() : $args['rules'];
+	$coupons = get_posts(
+		array(
+			'post_type' => 'shop_coupon',
+			'posts_per_page' => -1,
+		)
+	);
+	?>
+
+	<style>
+		.wc-discount-modal {
+			display: none !important;
+			position: fixed !important;
+			z-index: 999999 !important;
+			left: 0 !important;
+			top: 0 !important;
+			width: 100% !important;
+			height: 100% !important;
+			background-color: rgba(0, 0, 0, 0.5) !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			border: none !important;
+		}
+		.wc-discount-modal.show {
+			display: flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+		}
+		.wc-discount-modal-content {
+			background-color: #fefefe !important;
+			padding: 30px !important;
+			border: 1px solid #888 !important;
+			border-radius: 8px !important;
+			width: 90% !important;
+			max-width: 900px !important;
+			max-height: 80vh !important;
+			overflow-y: auto !important;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+			position: relative !important;
+			margin: auto !important;
+		}
+		.wc-discount-modal-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 20px;
+			border-bottom: 1px solid #ddd;
+			padding-bottom: 10px;
+		}
+		.wc-discount-modal-header h2 {
+			margin: 0;
+			font-size: 24px;
+		}
+		.wc-discount-close {
+			font-size: 28px;
+			font-weight: bold;
+			color: #aaa;
+			cursor: pointer;
+			border: none;
+			background: none;
+			padding: 0;
+			line-height: 1;
+		}
+		.wc-discount-close:hover {
+			color: #000;
+		}
+		.wc-discount-form {
+			margin: 20px 0;
+		}
+		.wc-discount-rules-table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+		}
+		.wc-discount-rules-table thead {
+			background-color: #f5f5f5;
+		}
+		.wc-discount-rules-table th,
+		.wc-discount-rules-table td {
+			border: 1px solid #ddd;
+			padding: 12px;
+			text-align: left;
+		}
+		.wc-discount-rules-table th {
+			font-weight: 600;
+			background-color: #f9f9f9;
+		}
+		.wc-discount-rules-table button {
+			margin: 0;
+		}
+		.wc-discount-form-group {
+			margin-bottom: 20px;
+		}
+		.wc-discount-form-group label {
+			display: block;
+			margin-bottom: 8px;
+			font-weight: 600;
+		}
+		.wc-discount-form-group input[type="number"] {
+			width: 200px;
+			padding: 8px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+		}
+		.wc-discount-modal-footer {
+			display: flex;
+			gap: 10px;
+			justify-content: flex-end;
+			border-top: 1px solid #ddd;
+			padding-top: 20px;
+			margin-top: 20px;
+		}
+		.wc-discount-modal-footer button {
+			padding: 10px 20px;
+			font-size: 14px;
+			cursor: pointer;
+			border-radius: 4px;
+			border: 1px solid #ddd;
+		}
+		.wc-discount-modal-footer .btn-primary {
+			background-color: #0073aa;
+			color: white;
+			border-color: #0073aa;
+		}
+		.wc-discount-modal-footer .btn-primary:hover {
+			background-color: #005a87;
+		}
+		.wc-discount-modal-footer .btn-secondary {
+			background-color: #f3f3f3;
+			color: #333;
+		}
+		.wc-discount-modal-footer .btn-secondary:hover {
+			background-color: #e0e0e0;
+		}
+		.wc-discount-add-btn {
+			margin-bottom: 15px;
+		}
+		/* .select2-container {
+			width: 100% !important;
+			font-size: 14px !important;
+		} */
+		/* .select2-container--default .select2-selection--multiple {
+			border: 1px solid #ddd !important;
+			border-radius: 4px !important;
+			padding: 4px !important;
+			min-height: 38px !important;
+		} */
+		/* .select2-container--default.select2-container--focus .select2-selection--multiple {
+			border-color: #0073aa !important;
+			box-shadow: 0 0 0 1px #0073aa !important;
+		} */
+		/* .select2-container--default .select2-selection--multiple .select2-selection__choice {
+			background-color: #0073aa !important;
+			border-color: #005a87 !important;
+			color: white !important;
+			padding: 4px 8px !important;
+			margin: 2px !important;
+		} */
+		.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+			color: white !important;
+			margin-right: 4px !important;
+		}
+		.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+			color: #fff !important;
+		}
+		.select2-dropdown {
+			border: 1px solid #ddd !important;
+			border-radius: 4px !important;
+		}
+		.select2-results__option {
+			padding: 8px 12px !important;
+		}
+		.select2-results__option--highlighted {
+			background-color: #0073aa !important;
+		}
+		.select2-container--default .select2-selection--single {
+			border: 1px solid #ddd !important;
+			border-radius: 4px !important;
+			height: 38px !important;
+			padding: 0 !important;
+		}
+		.select2-container--default .select2-selection--single .select2-selection__rendered {
+			padding: 8px 12px !important;
+			line-height: 22px !important;
+		}
+	</style>
+
+	<!-- Modal -->
+	<div id="<?php echo esc_attr( $args['modal_id'] ); ?>" class="wc-discount-modal">
+		<div class="wc-discount-modal-content">
+			<div class="wc-discount-modal-header">
+				<h2>Visibility Conditions</h2>
+				<button type="button" class="wc-discount-close">&times;</button>
+			</div>
+
+			<form method="post" class="wc-discount-form" id="wc-discount-condition-form">
+				<?php wp_nonce_field( 'wc_save_dynamic_rules', 'wc_dynamic_rules_nonce' ); ?>
+
+				<table class="wc-discount-rules-table" id="dynamic-rules-table">
+					<thead>
+						<tr>
+							<th>Condition Field</th>
+							<th>Operator</th>
+							<th>Value</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php if ( ! empty( $rules ) ) : ?>
+							<?php
+							foreach ( $rules as $index => $rule ) :
+								$field    = esc_attr( $rule['field'] );
+								$operator = esc_attr( $rule['operator'] );
+								$value    = is_array( $rule['value'] ) ? $rule['value'] : array( $rule['value'] );
+								?>
+								<tr>
+									<td>
+										<select class="rule-field" name="rules[<?php echo $index; ?>][field]">
+											<option value="cart_total" <?php selected( $field, 'cart_total' ); ?>>Cart Total</option>
+											<option value="subtotal" <?php selected( $field, 'subtotal' ); ?>>Subtotal</option>
+											<option value="coupon_applied" <?php selected( $field, 'coupon_applied' ); ?>>Coupon Applied</option>
+											<option value="user_status" <?php selected( $field, 'user_status' ); ?>>User Login Status</option>
+											<option value="user_registered" <?php selected( $field, 'user_registered' ); ?>>Specific Registered User</option>
+										</select>
+									</td>
+									<td>
+										<select class="rule-operator" name="rules[<?php echo $index; ?>][operator]">
+											<option value="greater_than" <?php selected( $operator, 'greater_than' ); ?>>Greater Than</option>
+											<option value="less_than" <?php selected( $operator, 'less_than' ); ?>>Less Than</option>
+											<option value="is" <?php selected( $operator, 'is' ); ?>>Is</option>
+											<option value="is_not" <?php selected( $operator, 'is_not' ); ?>>Is Not</option>
+										</select>
+									</td>
+									<td class="value-cell">
+										<?php echo wc_render_value_input( $field, $index, $value, $coupons ); ?>
+									</td>
+									<td><button type="button" class="button remove-row">Remove</button></td>
+								</tr>
+							<?php endforeach; ?>
+						<?php else : ?>
+							<tr>
+								<td>
+									<select class="rule-field" name="rules[0][field]">
+										<option value="cart_total">Cart Total</option>
+										<option value="subtotal">Subtotal</option>
+										<option value="coupon_applied">Coupon Applied</option>
+										<option value="user_status">User Login Status</option>
+										<option value="user_registered">Specific Registered User</option>
+									</select>
+								</td>
+								<td>
+									<select class="rule-operator" name="rules[0][operator]">
+										<option value="greater_than">Greater Than</option>
+										<option value="less_than">Less Than</option>
+										<option value="is">Is</option>
+										<option value="is_not">Is Not</option>
+									</select>
+								</td>
+								<td class="value-cell"><input type="text" name="rules[0][value][]" value="" /></td>
+								<td><button type="button" class="button remove-row">Remove</button></td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
+
+				<p class="wc-discount-add-btn"><button type="button" id="add-rule" class="button button-primary">+ Add Condition</button></p>
+			</form>
+
+			<div class="wc-discount-modal-footer">
+				<button type="button" class="button btn-secondary wc-discount-cancel">Cancel</button>
+				<button type="button" class="button btn-primary wc-discount-save">Save Conditions</button>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	jQuery(document).ready(function ($) {
+		const modalId = '<?php echo esc_js( $args['modal_id'] ); ?>';
+		const $modal = $('#' + modalId);
+		const $form = $modal.find('#wc-discount-condition-form');
+
+		function initSelect2() {
+			$modal.find('.select2-field').select2({
+				width: '100%',
+				placeholder: 'Select value(s)',
+				allowClear: true,
+				dropdownParent: $modal
+			});
+		}
+
+		// Initialize
+		initSelect2();
+		let rowIndex = $modal.find('#dynamic-rules-table tbody tr').length;
+
+		// Open/Close Modal
+		$('.wc-discount-close, .wc-discount-cancel').on('click', function () {
+			$modal.removeClass('show');
+		});
+
+		$(window).on('click', function (event) {
+			if (event.target === $modal[0]) {
+				$modal.removeClass('show');
+			}
+		});
+
+		// Add new condition
+		$modal.find('#add-rule').on('click', function () {
+			const newRow = `
+				<tr>
+					<td>
+						<select class="rule-field" name="rules[${rowIndex}][field]">
+							<option value="cart_total">Cart Total</option>
+							<option value="subtotal">Subtotal</option>
+							<option value="coupon_applied">Coupon Applied</option>
+							<option value="user_status">User Login Status</option>
+							<option value="user_registered">Specific Registered User</option>
+						</select>
+					</td>
+					<td>
+						<select class="rule-operator" name="rules[${rowIndex}][operator]">
+							<option value="greater_than">Greater Than</option>
+							<option value="less_than">Less Than</option>
+							<option value="is">Is</option>
+							<option value="is_not">Is Not</option>
+						</select>
+					</td>
+					<td class="value-cell"><input type="text" name="rules[${rowIndex}][value][]" value="" /></td>
+					<td><button type="button" class="button remove-row">Remove</button></td>
+				</tr>`;
+			$modal.find('#dynamic-rules-table tbody').append(newRow);
+			rowIndex++;
+		});
+
+		// Remove condition
+		$modal.on('click', '.remove-row', function () {
+			$(this).closest('tr').remove();
+		});
+
+		// Filter operators
+		function filterOperators($row) {
+			const field = $row.find('.rule-field').val();
+			const $operator = $row.find('.rule-operator');
+			$operator.find('option').show();
+
+			if (['coupon_applied', 'user_status', 'user_registered'].includes(field)) {
+				$operator.find('option[value="greater_than"], option[value="less_than"]').hide();
+				if (['greater_than', 'less_than'].includes($operator.val())) {
+					$operator.val('is');
+				}
+			}
+		}
+
+		$modal.on('change', '.rule-field', function () {
+			const $row = $(this).closest('tr');
+			const $td = $row.find('.value-cell');
+			const field = $(this).val();
+			filterOperators($row);
+
+			$.ajax({
+				url: ajaxurl,
+				method: 'POST',
+				data: { action: 'wc_get_dynamic_value_field', field },
+				success: function (html) {
+					$td.html(html);
+					initSelect2();
+				}
+			});
+		});
+
+		$modal.find('#dynamic-rules-table tbody tr').each(function () {
+			filterOperators($(this));
+		});
+
+		// Save conditions
+		$modal.find('.wc-discount-save').on('click', function () {
+			const formData = $form.serialize();
+			const bump_id = new URLSearchParams(window.location.search).get('bump_id');
+			console.log(bump_id);
+			
+
+			$.ajax({
+				url: ajaxurl,
+				method: 'POST',
+				data: formData + '&action=wc_save_dynamic_discount_rules',
+				
+				success: function (response) {
+					alert('Conditions saved successfully!');
+					$modal.removeClass('show');
+					// Trigger custom event or callback
+					$(document).trigger('wc_discount_conditions_saved', response);
+				},
+				error: function () {
+					alert('Error saving conditions. Please try again.');
+				}
+			});
+		});
+	});
+	</script>
+	<?php
+}
+
+// AJAX: Save conditions
+add_action(
+	'wp_ajax_wc_save_dynamic_discount_rules',
+	function () {
+		if ( ! isset( $_POST['wc_dynamic_rules_nonce'] ) || ! wp_verify_nonce( $_POST['wc_dynamic_rules_nonce'], 'wc_save_dynamic_rules' ) ) {
+			wp_send_json_error( 'Nonce verification failed' );
+		}
+
+		$rules = array();
+		if ( ! empty( $_POST['rules'] ) ) {
+			foreach ( $_POST['rules'] as $r ) {
+				$rules[] = array(
+					'field'    => sanitize_text_field( $r['field'] ),
+					'operator' => sanitize_text_field( $r['operator'] ),
+					'value'    => array_map( 'sanitize_text_field', (array) $r['value'] ),
+				);
+			}
+		}
+		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
+
+		update_option( 'wc_dynamic_discount_rules', $rules );
+		update_option( 'wc_dynamic_discount_amount', floatval( $_POST['discount_amount'] ?? 0 ) );
+
+		wp_send_json_success( 'Rules saved successfully' );
+	}
+);
+
+// --- RENDER VALUE INPUT ---
+function wc_render_value_input( $field, $index, $values, $coupons ) {
+	ob_start();
+	switch ( $field ) {
+		case 'coupon_applied':
+			echo '<select multiple class="select2-field" name="rules[' . $index . '][value][]">';
+			foreach ( $coupons as $coupon ) {
+				$coupon_code = $coupon->post_name;
+				$selected = in_array( $coupon_code, $values ) ? 'selected' : '';
+				echo '<option value="' . esc_attr( $coupon_code ) . '" ' . $selected . '>' . esc_html( $coupon->post_title ) . '</option>';
+			}
+			echo '</select>';
+			break;
+
+		case 'user_status':
+			echo '<select class="select2-field" name="rules[' . $index . '][value][]">';
+			$statuses = array(
+				'logged_in' => 'Logged In User',
+				'guest' => 'Guest User',
+			);
+			foreach ( $statuses as $key => $label ) {
+				$selected = in_array( $key, $values ) ? 'selected' : '';
+				echo '<option value="' . esc_attr( $key ) . '" ' . $selected . '>' . esc_html( $label ) . '</option>';
+			}
+			echo '</select>';
+			break;
+
+		case 'user_registered':
+			echo '<select multiple class="select2-field" name="rules[' . $index . '][value][]">';
+			$users = get_users( array( 'fields' => array( 'ID', 'display_name', 'user_login' ) ) );
+			foreach ( $users as $user ) {
+				$selected = in_array( (string) $user->ID, $values ) ? 'selected' : '';
+				echo '<option value="' . esc_attr( $user->ID ) . '" ' . $selected . '>'
+					 . esc_html( $user->display_name . ' (' . $user->user_login . ')' )
+					 . '</option>';
+			}
+			echo '</select>';
+			break;
+
+		default:
+			echo '<input type="text" name="rules[' . $index . '][value][]" value="' . esc_attr( implode( ',', $values ) ) . '" />';
+	}
+	return ob_get_clean();
+}
+
+// --- AJAX dynamic field rendering ---
+add_action(
+	'wp_ajax_wc_get_dynamic_value_field',
+	function () {
+		$field = sanitize_text_field( $_POST['field'] ?? '' );
+		$coupons = get_posts(
+			array(
+				'post_type' => 'shop_coupon',
+				'posts_per_page' => -1,
+			)
+		);
+		echo wc_render_value_input( $field, rand( 1, 9999 ), array(), $coupons );
+		wp_die();
+	}
+);
+
+// --- EXISTING CONDITION CHECK FUNCTIONS (unchanged) ---
+function wc_dynamic_discount_conditions_pass() {
+	$rules = get_option( 'wc_dynamic_discount_rules', array() );
+	if ( empty( $rules ) ) {
+		return false;
+	}
+
+	$cart = WC()->cart;
+	if ( ! $cart || $cart->get_cart_contents_count() === 0 ) {
+		$response = wp_remote_get( home_url( '/?rest_route=/wc/store/v1/cart' ) );
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+		$cart_data = json_decode( wp_remote_retrieve_body( $response ), true );
+		if ( empty( $cart_data ) ) {
+			return false;
+		}
+		foreach ( $rules as $rule ) {
+			if ( ! wc_evaluate_rule_condition_block( $rule, $cart_data ) ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	foreach ( $rules as $rule ) {
+		if ( ! wc_evaluate_rule_condition( $rule, $cart ) ) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function wc_evaluate_rule_condition( $rule, $cart ) {
+	$field = $rule['field'];
+	$operator = $rule['operator'];
+	$values = $rule['value'];
+
+	switch ( $field ) {
+		case 'cart_total':
+			$target = floatval( $cart->get_cart_contents_total() + $cart->get_shipping_total() + $cart->get_taxes_total() );
+			break;
+		case 'subtotal':
+			$target = floatval( $cart->get_subtotal() );
+			break;
+		case 'coupon_applied':
+			$target = $cart->get_applied_coupons();
+			break;
+		case 'user_status':
+			$target = is_user_logged_in() ? 'logged_in' : 'guest';
+			break;
+		case 'user_registered':
+			if ( is_user_logged_in() ) {
+				$user = wp_get_current_user();
+				$target = (string) $user->ID;
+			} else {
+				$target = '';
+			}
+			break;
+		default:
+			return false;
+	}
+
+	return wc_compare_rule_value( $field, $operator, $target, $values );
+}
+
+function wc_evaluate_rule_condition_block( $rule, $cart_data ) {
+	$field = $rule['field'];
+	$operator = $rule['operator'];
+	$values = $rule['value'];
+
+	switch ( $field ) {
+		case 'cart_total':
+			$target = floatval( $cart_data['totals']['total_price'] ?? 0 );
+			break;
+		case 'subtotal':
+			$target = floatval( $cart_data['totals']['subtotal'] ?? 0 );
+			break;
+		case 'coupon_applied':
+			$target = wp_list_pluck( $cart_data['coupons'] ?? array(), 'code' );
+			break;
+		case 'user_status':
+			$target = is_user_logged_in() ? 'logged_in' : 'guest';
+			break;
+		case 'user_registered':
+			if ( is_user_logged_in() ) {
+				$user = wp_get_current_user();
+				$target = (string) $user->ID;
+			} else {
+				$target = '';
+			}
+			break;
+		default:
+			return false;
+	}
+
+	return wc_compare_rule_value( $field, $operator, $target, $values );
+}
+
+function wc_compare_rule_value( $field, $operator, $target, $values ) {
+	switch ( $operator ) {
+		case 'greater_than':
+			return floatval( $target ) > floatval( $values[0] );
+		case 'less_than':
+			return floatval( $target ) < floatval( $values[0] );
+		case 'is':
+			$target = (array) $target;
+			$values = (array) $values;
+			$target = array_map( 'strtolower', $target );
+			$values = array_map( 'strtolower', $values );
+			return count( array_intersect( $target, $values ) ) > 0;
+		case 'is_not':
+			$target = (array) $target;
+			$values = (array) $values;
+			$target = array_map( 'strtolower', $target );
+			$values = array_map( 'strtolower', $values );
+			return count( array_intersect( $target, $values ) ) == 0;
+		default:
+			return false;
+	}
+}

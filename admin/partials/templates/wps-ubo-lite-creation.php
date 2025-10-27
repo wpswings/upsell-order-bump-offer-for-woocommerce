@@ -26,6 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Get all Bump if already some funnels are present.
 $wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
 
+// die;
 if ( ! empty( $wps_upsell_bumps_list ) ) {
 
 	reset( $wps_upsell_bumps_list );
@@ -119,6 +120,7 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 	$wps_upsell_new_bump['wps_upsell_bump_priority']      = ! empty( $_POST['wps_upsell_bump_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_upsell_bump_priority'] ) ) : '';
 	$wps_upsell_new_bump['wps_upsell_bump_exclude_roles'] = ! empty( $_POST['wps_upsell_bump_exclude_roles'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['wps_upsell_bump_exclude_roles'] ) ) : '';
 	$wps_upsell_new_bump['wps_bump_label_campaign']        = ! empty( $_POST['wps_bump_label_campaign'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_label_campaign'] ) ) : '';
+	$wps_upsell_new_bump['wps_ubo_condition_show']        = ! empty( $_POST['wps_ubo_condition_show'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_condition_show'] ) ) : '';
 	// When Bump is saved for the first time so load default Design Settings.
 	if ( empty( $_POST['parent_border_type'] ) ) {
 
@@ -599,6 +601,33 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					</td>
 				</tr>
 				<!-- Schedule your Bump end. -->
+
+			<!-- Condition Show start. -->
+			<tr valign="top">
+    <th scope="row" class="titledesc">
+        <label for="wps_ubo_condition_show"><?php esc_html_e( 'Condition Show', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+    </th>
+
+    <td class="forminp forminp-text">
+        <?php
+        $attribute_description = esc_html__( 'Enable dynamic conditions to control when this offer is displayed based on cart total, user role, coupons, and other criteria.', 'upsell-order-bump-offer-for-woocommerce' );
+        wps_ubo_lite_help_tip( $attribute_description );
+        ?>
+
+        <label class="wps-upsell-smart-offer-upgrade" for="wps_ubo_condition_show">
+            <input class="wps-upsell-smart-offer-upgrade-wrap" type='checkbox' id='wps_ubo_condition_show' name='wps_ubo_condition_show' value='yes'  <?php echo  'yes' === $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_ubo_condition_show'] ? 'checked' : ''; ?>>
+            <span class="upsell-smart-offer-upgrade-btn"></span>
+        </label>
+
+        <label>
+            <!-- Discount Condition Button, initially hidden -->
+            <button id="show-discount-conditions" class="button button-primary" style="display:none;">Add visibility Conditions</button>
+        </label>
+    </td>
+</tr>
+
+
+				<!-- Condition Show end. -->
 
 				<!-- Replace with target start. -->
 				<tr valign="top">
@@ -1779,3 +1808,16 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 <!-- Add Go pro popup. -->
 <?php wps_ubo_go_pro( 'pro' ); ?>
+<?php 
+// In your template or page
+wc_render_discount_conditions_popup();
+?>
+
+<script>
+jQuery(document).ready(function($) {
+    $('#show-discount-conditions').on('click', function(e) {
+		e.preventDefault();
+        $('#wc-discount-popup').addClass('show');
+    });
+});
+</script>

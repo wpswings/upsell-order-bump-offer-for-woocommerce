@@ -244,6 +244,8 @@ if ( isset( $_POST['wps_wocuf_pro_creation_setting_save'] ) ) {
 		$wps_wocuf_pro_funnel['funnel_total_sales'] = ! empty( $funnel_stats_funnel['funnel_total_sales'] ) ? $funnel_stats_funnel['funnel_total_sales'] : 0;
 	}
 
+		$wps_wocuf_pro_funnel['wps_ubo_condition_show']        = ! empty( $_POST['wps_ubo_condition_show'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_condition_show'] ) ) : '';
+
 	$wps_wocuf_pro_funnel_series = array();
 
 	// POST funnel as array at funnel id key.
@@ -671,6 +673,32 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 					</td>
 				</tr>
 				<!-- Global Funnel end -->
+				 		<!-- Condition Show start. -->
+			<tr valign="top">
+    <th scope="row" class="titledesc">
+        <label for="wps_ubo_condition_show"><?php esc_html_e( 'Condition Show', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+    </th>
+
+    <td class="forminp forminp-text">
+        <?php
+        $attribute_description = esc_html__( 'Enable dynamic conditions to control when this offer is displayed based on cart total, user role, coupons, and other criteria.', 'upsell-order-bump-offer-for-woocommerce' );
+        wps_ubo_lite_help_tip( $attribute_description );
+        ?>
+
+        <label class="wps-upsell-smart-offer-upgrade" for="wps_ubo_condition_show">
+            <input class="wps-upsell-smart-offer-upgrade-wrap" type='checkbox' id='wps_ubo_condition_show' name='wps_ubo_condition_show' value='yes'  <?php echo  'yes' === $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ]['wps_ubo_condition_show'] ? 'checked' : ''; ?>>
+            <span class="upsell-smart-offer-upgrade-btn"></span>
+        </label>
+
+        <label>
+            <!-- Discount Condition Button, initially hidden -->
+            <button id="show-discount-conditions" class="button button-primary" style="display:none;">Add visibility Conditions</button>
+        </label>
+    </td>
+</tr>
+
+
+				<!-- Condition Show end. -->
 
 				<!-- Exclusive Offer start -->
 				<tr valign="top">
@@ -1536,3 +1564,16 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 		</p>
 	</div>
 </form>
+<?php 
+// In your template or page
+wc_render_discount_conditions_popup();
+?>
+
+<script>
+jQuery(document).ready(function($) {
+    $('#show-discount-conditions').on('click', function(e) {
+		e.preventDefault();
+        $('#wc-discount-popup').addClass('show');
+    });
+});
+</script>

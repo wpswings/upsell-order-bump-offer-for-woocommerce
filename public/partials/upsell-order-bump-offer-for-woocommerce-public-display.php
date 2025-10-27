@@ -100,6 +100,8 @@ foreach ( $encountered_bump_ids_array as $order_bump_id ) {
 	$sales_by_bump->add_offer_view_count();
 }
 
+
+
 /**===========================================
 		Order bump html section start
 ===========================================*/
@@ -140,6 +142,10 @@ foreach ( $encountered_bump_ids_array as $wps ) {
 
 // Merge the unique elements.
 $t = '';
+// echo '<pre>';
+// var_dump( wc_dynamic_discount_conditions_pass() );
+// echo '</pre>';
+if(wc_dynamic_discount_conditions_pass()){
 ?>
 <div class="wps_order_bump_without_popup_wrap" >
 <?php
@@ -294,6 +300,7 @@ if ( $data_for_popup ) {
         </div>
         <?php
     }
+}
 }
 }
 ?>

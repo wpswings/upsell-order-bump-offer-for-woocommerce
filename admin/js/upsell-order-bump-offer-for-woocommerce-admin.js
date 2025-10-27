@@ -1442,3 +1442,24 @@ $('#wps_ubo_create_label').click(function() {
     });
 
 });
+
+    jQuery(document).ready(function ($) {
+        // Check initial state of the checkbox and toggle button visibility
+        toggleDiscountConditionsButton();
+
+        // When checkbox state changes, toggle button visibility
+        $('#wps_ubo_condition_show').on('change', function() {
+            toggleDiscountConditionsButton();
+        });
+
+        // Function to show or hide the button based on checkbox state
+        function toggleDiscountConditionsButton() {
+            if ($('#wps_ubo_condition_show').prop('checked')) {
+                // If checkbox is checked, show the button
+                $('#show-discount-conditions').show();
+            } else {
+                // If checkbox is unchecked, hide the button
+                $('#show-discount-conditions').hide();
+            }
+        }
+    });
