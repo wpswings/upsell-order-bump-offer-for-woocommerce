@@ -888,7 +888,7 @@ if ( $activated ) {
  *  - 'callback' => callback function to execute on save
  *  - 'rules' => existing rules (default: get from option)
  */
-function wc_render_discount_conditions_popup( $args = array() ) {
+function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = '', $args = array() ) {
 	$defaults = array(
 		'modal_id'   => 'wc-discount-popup',
 		'button_id'  => 'show-discount-conditions',
@@ -898,7 +898,12 @@ function wc_render_discount_conditions_popup( $args = array() ) {
 	);
 	$args = wp_parse_args( $args, $defaults );
 
-	$rules = ! is_array( $args['rules'] ) ? array() : $args['rules'];
+	// Get rules for this funnel type and bump ID
+	$rules = array();
+	if ( ! empty( $wps_funnel_type ) && ! empty( $bump_id ) && isset( $args['rules'][$wps_funnel_type][$bump_id] ) ) {
+		$rules = $args['rules'][$wps_funnel_type][$bump_id];
+	}
+
 	$coupons = get_posts(
 		array(
 			'post_type' => 'shop_coupon',
@@ -1022,40 +1027,19 @@ function wc_render_discount_conditions_popup( $args = array() ) {
 			color: white;
 			border-color: #0073aa;
 		}
-		.wc-discount-modal-footer .btn-primary:hover {
-			background-color: #005a87;
-		}
+		/* .wc-discount-modal-footer .btn-primary:hover {
+			background-color: #4a6cacff;
+		} */
 		.wc-discount-modal-footer .btn-secondary {
 			background-color: #f3f3f3;
 			color: #333;
 		}
-		.wc-discount-modal-footer .btn-secondary:hover {
+		/* .wc-discount-modal-footer .btn-secondary:hover {
 			background-color: #e0e0e0;
-		}
+		} */
 		.wc-discount-add-btn {
 			margin-bottom: 15px;
 		}
-		/* .select2-container {
-			width: 100% !important;
-			font-size: 14px !important;
-		} */
-		/* .select2-container--default .select2-selection--multiple {
-			border: 1px solid #ddd !important;
-			border-radius: 4px !important;
-			padding: 4px !important;
-			min-height: 38px !important;
-		} */
-		/* .select2-container--default.select2-container--focus .select2-selection--multiple {
-			border-color: #0073aa !important;
-			box-shadow: 0 0 0 1px #0073aa !important;
-		} */
-		/* .select2-container--default .select2-selection--multiple .select2-selection__choice {
-			background-color: #0073aa !important;
-			border-color: #005a87 !important;
-			color: white !important;
-			padding: 4px 8px !important;
-			margin: 2px !important;
-		} */
 		.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
 			color: white !important;
 			margin-right: 4px !important;
@@ -1175,11 +1159,12 @@ function wc_render_discount_conditions_popup( $args = array() ) {
 
 	<script type="text/javascript">
 	jQuery(document).ready(function ($) {
-		const modalId = '<?php echo esc_js( $args['modal_id'] ); ?>';
-		const $modal = $('#' + modalId);
+		
+		const modal_id = '<?php echo esc_js( $args['modal_id'] ); ?>';
+		const $modal = $('#' + modal_id);
 		const $form = $modal.find('#wc-discount-condition-form');
 
-		function initSelect2() {
+		function init_select2() {
 			$modal.find('.select2-field').select2({
 				width: '100%',
 				placeholder: 'Select value(s)',
@@ -1189,8 +1174,8 @@ function wc_render_discount_conditions_popup( $args = array() ) {
 		}
 
 		// Initialize
-		initSelect2();
-		let rowIndex = $modal.find('#dynamic-rules-table tbody tr').length;
+		init_select2();
+		let row_index = $modal.find('#dynamic-rules-table tbody tr').length;
 
 		// Open/Close Modal
 		$('.wc-discount-close, .wc-discount-cancel').on('click', function () {
@@ -1205,10 +1190,10 @@ function wc_render_discount_conditions_popup( $args = array() ) {
 
 		// Add new condition
 		$modal.find('#add-rule').on('click', function () {
-			const newRow = `
+			const new_row = `
 				<tr>
 					<td>
-						<select class="rule-field" name="rules[${rowIndex}][field]">
+						<select class="rule-field" name="rules[${row_index}][field]">
 							<option value="cart_total">Cart Total</option>
 							<option value="subtotal">Subtotal</option>
 							<option value="coupon_applied">Coupon Applied</option>
@@ -1217,18 +1202,35 @@ function wc_render_discount_conditions_popup( $args = array() ) {
 						</select>
 					</td>
 					<td>
-						<select class="rule-operator" name="rules[${rowIndex}][operator]">
+						<select class="rule-operator" name="rules[${row_index}][operator]">
 							<option value="greater_than">Greater Than</option>
 							<option value="less_than">Less Than</option>
 							<option value="is">Is</option>
 							<option value="is_not">Is Not</option>
 						</select>
 					</td>
-					<td class="value-cell"><input type="text" name="rules[${rowIndex}][value][]" value="" /></td>
+					<td class="value-cell"><input type="text" name="rules[${row_index}][value][]" value="" /></td>
 					<td><button type="button" class="button remove-row">Remove</button></td>
 				</tr>`;
-			$modal.find('#dynamic-rules-table tbody').append(newRow);
-			rowIndex++;
+			$modal.find('#dynamic-rules-table tbody').append(new_row);
+			
+			// Get the newly added row and render the correct value input
+			const $new_row = $modal.find('#dynamic-rules-table tbody tr').last();
+			const field = $new_row.find('.rule-field').val();
+			const $td = $new_row.find('.value-cell');
+			
+			$.ajax({
+				url: ajaxurl,
+				method: 'POST',
+				data: { action: 'wc_get_dynamic_value_field', field, row_idx: row_index },
+				success: function (html) {
+					$td.html(html);
+					init_select2();
+					filter_operators($new_row);
+				}
+			});
+			
+			row_index++;
 		});
 
 		// Remove condition
@@ -1237,7 +1239,7 @@ function wc_render_discount_conditions_popup( $args = array() ) {
 		});
 
 		// Filter operators
-		function filterOperators($row) {
+		function filter_operators($row) {
 			const field = $row.find('.rule-field').val();
 			const $operator = $row.find('.rule-operator');
 			$operator.find('option').show();
@@ -1254,34 +1256,50 @@ function wc_render_discount_conditions_popup( $args = array() ) {
 			const $row = $(this).closest('tr');
 			const $td = $row.find('.value-cell');
 			const field = $(this).val();
-			filterOperators($row);
+			const row_idx = $(this).attr('name').match(/\d+/)[0];
+			filter_operators($row);
 
 			$.ajax({
 				url: ajaxurl,
 				method: 'POST',
-				data: { action: 'wc_get_dynamic_value_field', field },
+				data: { action: 'wc_get_dynamic_value_field', field, row_idx },
 				success: function (html) {
 					$td.html(html);
-					initSelect2();
+					init_select2();
 				}
 			});
 		});
 
 		$modal.find('#dynamic-rules-table tbody tr').each(function () {
-			filterOperators($(this));
+			filter_operators($(this));
 		});
 
 		// Save conditions
 		$modal.find('.wc-discount-save').on('click', function () {
-			const formData = $form.serialize();
-			const bump_id = new URLSearchParams(window.location.search).get('bump_id');
-			console.log(bump_id);
+			const form_data = $form.serialize();
+
+			const bump_id_one = new URLSearchParams(window.location.search).get('bump_id');
+			const funnel_id_one = new URLSearchParams(window.location.search).get('funnel_id');
+			let bump_id = '';
+
+			if (bump_id_one) {
+			bump_id = bump_id_one;
+			} else if (funnel_id_one) {
+			bump_id = funnel_id_one;
+			}
+
+
+			const funnel_type = $('#wps_funnel_type').val();
 			
+			if ( !bump_id || !funnel_type ) {
+				alert('Missing bump_id or funnel_type');
+				return;
+			}
 
 			$.ajax({
 				url: ajaxurl,
 				method: 'POST',
-				data: formData + '&action=wc_save_dynamic_discount_rules',
+				data: form_data + '&action=wc_save_dynamic_discount_rules&bump_id=' + encodeURIComponent(bump_id) + '&funnel_type=' + encodeURIComponent(funnel_type),
 				
 				success: function (response) {
 					alert('Conditions saved successfully!');
@@ -1307,22 +1325,64 @@ add_action(
 			wp_send_json_error( 'Nonce verification failed' );
 		}
 
+		// Get funnel type and bump ID first
+		$funnel_type = isset( $_POST['funnel_type'] ) ? sanitize_text_field( $_POST['funnel_type'] ) : '';
+		$bump_id = isset( $_POST['bump_id'] ) ? sanitize_text_field( $_POST['bump_id'] ) : '';
+
+		// Debug logging
+		error_log( 'Funnel Type: ' . $funnel_type );
+		error_log( 'Bump ID: ' . $bump_id );
+		error_log( 'Rules POST: ' . print_r( $_POST['rules'] ?? array(), true ) );
+
+		// Validate that we have both funnel_type and bump_id
+		if ( empty( $funnel_type ) || empty( $bump_id ) ) {
+			wp_send_json_error( array( 'message' => 'Funnel type or bump ID is missing', 'funnel_type' => $funnel_type, 'bump_id' => $bump_id ) );
+		}
+
 		$rules = array();
 		if ( ! empty( $_POST['rules'] ) ) {
 			foreach ( $_POST['rules'] as $r ) {
+				// Skip rules with empty field or operator
+				if ( empty( $r['field'] ) || empty( $r['operator'] ) ) {
+					continue;
+				}
+
+				// Skip rules with empty value
+				$value = array_filter( array_map( 'sanitize_text_field', (array) $r['value'] ) );
+				if ( empty( $value ) ) {
+					continue;
+				}
+
 				$rules[] = array(
 					'field'    => sanitize_text_field( $r['field'] ),
 					'operator' => sanitize_text_field( $r['operator'] ),
-					'value'    => array_map( 'sanitize_text_field', (array) $r['value'] ),
+					'value'    => $value,
 				);
 			}
 		}
-		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
 
-		update_option( 'wc_dynamic_discount_rules', $rules );
+		error_log( 'Processed Rules: ' . print_r( $rules, true ) );
+
+		// Get existing rules
+		$wc_dynamic_discount_rules = get_option( 'wc_dynamic_discount_rules', array() );
+
+		// Check if funnel type exists
+		if ( ! isset( $wc_dynamic_discount_rules[$funnel_type] ) ) {
+			$wc_dynamic_discount_rules[$funnel_type] = array();
+		}
+
+		// Replace rules for this funnel_type and bump_id
+		$wc_dynamic_discount_rules[$funnel_type][$bump_id] = $rules;
+
+		error_log( 'Final Data to Save: ' . print_r( $wc_dynamic_discount_rules, true ) );
+
+		// Update options with all funnel types, bump IDs and their rules
+		$updated = update_option( 'wc_dynamic_discount_rules', $wc_dynamic_discount_rules );
 		update_option( 'wc_dynamic_discount_amount', floatval( $_POST['discount_amount'] ?? 0 ) );
 
-		wp_send_json_success( 'Rules saved successfully' );
+		error_log( 'Update Result: ' . ( $updated ? 'true' : 'false' ) );
+
+		wp_send_json_success( array( 'message' => 'Rules saved successfully', 'rules' => $rules, 'funnel_type' => $funnel_type, 'bump_id' => $bump_id ) );
 	}
 );
 
@@ -1376,20 +1436,29 @@ add_action(
 	'wp_ajax_wc_get_dynamic_value_field',
 	function () {
 		$field = sanitize_text_field( $_POST['field'] ?? '' );
+		$row_idx = sanitize_text_field( $_POST['row_idx'] ?? 0 );
 		$coupons = get_posts(
 			array(
 				'post_type' => 'shop_coupon',
 				'posts_per_page' => -1,
 			)
 		);
-		echo wc_render_value_input( $field, rand( 1, 9999 ), array(), $coupons );
+		echo wc_render_value_input( $field, $row_idx, array(), $coupons );
 		wp_die();
 	}
 );
 
-// --- EXISTING CONDITION CHECK FUNCTIONS (unchanged) ---
-function wc_dynamic_discount_conditions_pass() {
-	$rules = get_option( 'wc_dynamic_discount_rules', array() );
+// --- EXISTING CONDITION CHECK FUNCTIONS ---
+function wc_dynamic_discount_conditions_pass( $funnel_type = '', $bump_id = '' ) {
+	$all_rules = get_option( 'wc_dynamic_discount_rules', array() );
+	
+	// If funnel type and bump ID provided, get specific rules
+	if ( ! empty( $funnel_type ) && ! empty( $bump_id ) && isset( $all_rules[$funnel_type][$bump_id] ) ) {
+		$rules = $all_rules[$funnel_type][$bump_id];
+	} else {
+		return false;
+	}
+
 	if ( empty( $rules ) ) {
 		return false;
 	}

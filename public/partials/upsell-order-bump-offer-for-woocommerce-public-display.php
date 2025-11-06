@@ -145,7 +145,10 @@ $t = '';
 // echo '<pre>';
 // var_dump( wc_dynamic_discount_conditions_pass() );
 // echo '</pre>';
-if(wc_dynamic_discount_conditions_pass()){
+// if(wc_dynamic_discount_conditions_pass( 'wps_bump_one, 1)){
+// echo '<pre>';
+// print_r(wc_dynamic_discount_conditions_pass( 'wps_bump_one', '1'));
+// echo '</pre>';
 ?>
 <div class="wps_order_bump_without_popup_wrap" >
 <?php
@@ -162,6 +165,10 @@ if ( 'without_popup' == $wps_bump_target_popup_bump || ( isset( $wps_upsell_bump
 	foreach ( $t as $key => $order_bump_id ) {
 
 		if ( true === is_valid_user_role( $order_bump_id ) ) {
+			continue;
+		}
+
+		if(!wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id)){
 			continue;
 		}
 
@@ -215,6 +222,11 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 		if ( true === is_valid_user_role( $order_bump_id ) ) {
 			continue;
 		}
+
+		if(!wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id)){
+			continue;
+		}
+
 
 		$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
 		if ( ! empty( $min_cart_value_wps ) ) {
@@ -302,7 +314,7 @@ if ( $data_for_popup ) {
     }
 }
 }
-}
+// }
 ?>
   </div>
 <?php

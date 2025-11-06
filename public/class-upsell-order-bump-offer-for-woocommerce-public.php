@@ -4759,6 +4759,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 										}
 									}
 
+								//Dynamic condition check to show the funnel.
+								$wps_ubo_condition_show = ! empty($wps_wocuf_pro_all_funnels[$wps_wocuf_pro_single_funnel]['wps_ubo_condition_show']) ? $wps_wocuf_pro_all_funnels[$wps_wocuf_pro_single_funnel]['wps_ubo_condition_show'] : '';
+									if ('yes' === $wps_ubo_condition_show) {
+										if (!wc_dynamic_discount_conditions_pass('wps_funnel_one',  $wps_wocuf_pro_single_funnel)) {
+										break;
+									}
+									}
+
 									/**
 									 * Check for funnel schedule.
 									 * Since v3.0.0 convert data into array first.
