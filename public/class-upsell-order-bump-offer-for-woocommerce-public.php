@@ -1582,29 +1582,27 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param object $order       The order object.
 	 */
 	public function add_order_item_meta_new( $item, $cart_item_key, $values, $order ) {
-
-		// Check if the 'wps_ubo_offer_product' flag is set.
-		if ( ! empty( $values['wps_ubo_offer_product'] ) ) {
-			$item->update_meta_data( 'is_order_bump_purchase', 'true' );
-		}
-
-		// Check and save the 'wps_ubo_bump_id' meta.
-		if ( isset( $values['wps_ubo_bump_id'] ) ) {
-			$item->update_meta_data( 'wps_order_bump_id', $values['wps_ubo_bump_id'] );
-		}
-
-		// Check and save the form data.
-		if ( ! empty( $values['wps_ubo_meta_form'] ) && is_array( $values['wps_ubo_meta_form'] ) ) {
-			foreach ( $values['wps_ubo_meta_form'] as $field ) {
-				if ( isset( $field['name'] ) && isset( $field['value'] ) ) {
-					$item->update_meta_data( $field['name'], $field['value'] );
-				}
-			}
-		}
-
-		// Make sure to save the item data.
-		$item->save();
-	}
+ 
+    // Mark if this item came from an Order Bump.
+    if ( ! empty( $values['wps_ubo_offer_product'] ) ) {
+        $item->update_meta_data( 'is_order_bump_purchase', 'true' );
+    }
+ 
+    // Save bump offer ID if available.
+    if ( isset( $values['wps_ubo_bump_id'] ) ) {
+        $item->update_meta_data( 'wps_order_bump_id', $values['wps_ubo_bump_id'] );
+    }
+ 
+    // Save custom form fields attached to the item.
+    if ( ! empty( $values['wps_ubo_meta_form'] ) && is_array( $values['wps_ubo_meta_form'] ) ) {
+        foreach ( $values['wps_ubo_meta_form'] as $field ) {
+            if ( isset( $field['name'], $field['value'] ) ) {
+                $item->update_meta_data( sanitize_key( $field['name'] ), sanitize_text_field( $field['value'] ) );
+            }
+        }
+    }
+ 
+}
 
 	/**
 	 * Add order item meta to bump product.
@@ -6992,6 +6990,34 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$order->reduce_order_stock();
 			return $result;
 		}
+	}
+
+
+	/**
+	 * Fucntion to convert different currency according to base price.
+	 *
+	 * @param string $price
+	 * @return void
+	 */
+	public function wps_ubo_convert_diffrent_currency_base_price_callback( $price ) {
+		if ( class_exists( 'WOOCS' ) ) {
+			global $WOOCS;
+			$amount = 0;
+ 
+			if ( $WOOCS->is_multiple_allowed ) {
+				$currrent = $WOOCS->current_currency;
+				if ( $currrent != $WOOCS->default_currency ) {
+ 
+					$currencies = $WOOCS->get_currencies();
+					$rate       = $currencies[ $currrent ]['rate'];
+					$amount     = $price / ( $rate );
+					return round( $amount );
+				} else {
+					return round( $price );
+				}
+			}
+		}
+		return round( $price );
 	}
 
 	// End of class.

@@ -316,6 +316,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 				$offer_location_details = wps_ubo_lite_retrieve_bump_location_details( $bump_offer_location );
 			}
 
+
+			// Fox currency.
+			$this->loader->add_filter( 'wps_ubo_convert_base_price_diffrent_currency', $plugin_public, 'wps_ubo_convert_diffrent_currency_base_price_callback' );
+
 			// Show bump offer.
 			$this->loader->add_action( $offer_location_details['hook'], $plugin_public, 'show_offer_bump', $offer_location_details['priority'] );
 

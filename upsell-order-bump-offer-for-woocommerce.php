@@ -900,8 +900,8 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 
 	// Get rules for this funnel type and bump ID
 	$rules = array();
-	if ( ! empty( $wps_funnel_type ) && ! empty( $bump_id ) && isset( $args['rules'][$wps_funnel_type][$bump_id] ) ) {
-		$rules = $args['rules'][$wps_funnel_type][$bump_id];
+	if ( ! empty( $wps_funnel_type ) && ! empty( $bump_id ) && isset( $args['rules'][ $wps_funnel_type ][ $bump_id ] ) ) {
+		$rules = $args['rules'][ $wps_funnel_type ][ $bump_id ];
 	}
 
 	$coupons = get_posts(
@@ -1336,7 +1336,13 @@ add_action(
 
 		// Validate that we have both funnel_type and bump_id
 		if ( empty( $funnel_type ) || empty( $bump_id ) ) {
-			wp_send_json_error( array( 'message' => 'Funnel type or bump ID is missing', 'funnel_type' => $funnel_type, 'bump_id' => $bump_id ) );
+			wp_send_json_error(
+				array(
+					'message' => 'Funnel type or bump ID is missing',
+					'funnel_type' => $funnel_type,
+					'bump_id' => $bump_id,
+				)
+			);
 		}
 
 		$rules = array();
@@ -1367,12 +1373,12 @@ add_action(
 		$wc_dynamic_discount_rules = get_option( 'wc_dynamic_discount_rules', array() );
 
 		// Check if funnel type exists
-		if ( ! isset( $wc_dynamic_discount_rules[$funnel_type] ) ) {
-			$wc_dynamic_discount_rules[$funnel_type] = array();
+		if ( ! isset( $wc_dynamic_discount_rules[ $funnel_type ] ) ) {
+			$wc_dynamic_discount_rules[ $funnel_type ] = array();
 		}
 
 		// Replace rules for this funnel_type and bump_id
-		$wc_dynamic_discount_rules[$funnel_type][$bump_id] = $rules;
+		$wc_dynamic_discount_rules[ $funnel_type ][ $bump_id ] = $rules;
 
 		error_log( 'Final Data to Save: ' . print_r( $wc_dynamic_discount_rules, true ) );
 
@@ -1382,7 +1388,14 @@ add_action(
 
 		error_log( 'Update Result: ' . ( $updated ? 'true' : 'false' ) );
 
-		wp_send_json_success( array( 'message' => 'Rules saved successfully', 'rules' => $rules, 'funnel_type' => $funnel_type, 'bump_id' => $bump_id ) );
+		wp_send_json_success(
+			array(
+				'message' => 'Rules saved successfully',
+				'rules' => $rules,
+				'funnel_type' => $funnel_type,
+				'bump_id' => $bump_id,
+			)
+		);
 	}
 );
 
@@ -1451,10 +1464,10 @@ add_action(
 // --- EXISTING CONDITION CHECK FUNCTIONS ---
 function wc_dynamic_discount_conditions_pass( $funnel_type = '', $bump_id = '' ) {
 	$all_rules = get_option( 'wc_dynamic_discount_rules', array() );
-	
+
 	// If funnel type and bump ID provided, get specific rules
-	if ( ! empty( $funnel_type ) && ! empty( $bump_id ) && isset( $all_rules[$funnel_type][$bump_id] ) ) {
-		$rules = $all_rules[$funnel_type][$bump_id];
+	if ( ! empty( $funnel_type ) && ! empty( $bump_id ) && isset( $all_rules[ $funnel_type ][ $bump_id ] ) ) {
+		$rules = $all_rules[ $funnel_type ][ $bump_id ];
 	} else {
 		return false;
 	}
@@ -1576,4 +1589,10 @@ function wc_compare_rule_value( $field, $operator, $target, $values ) {
 		default:
 			return false;
 	}
+}
+add_shortcode( 'display_error', 'display_error_callback' );
+function display_error_callback(){
+	echo '<pre>';
+	print_r(get_option( 'wc_dynamic_discount_rules', array() ));
+	echo '</pre>';
 }

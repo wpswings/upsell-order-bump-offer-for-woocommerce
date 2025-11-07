@@ -46,6 +46,33 @@ if ( ! empty( $_GET['del_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_u
 		}
 
 		update_option( 'wps_wocuf_funnels_list', $wps_wocuf_pro_funnels );
+		// Delete associated discount rules.
+			$wc_dynamic_discount_rules = get_option( 'wc_dynamic_discount_rules', array() );
+			
+			$funnel_type = 'wps_funnel_one';
+			if ( ! empty( $funnel_type ) ) {
+				
+				if ( isset( $wc_dynamic_discount_rules[$funnel_type][$funnel_id] ) ) {
+					unset( $wc_dynamic_discount_rules[$funnel_type][$funnel_id] );
+				}
+
+				if ( empty( $wc_dynamic_discount_rules[$funnel_type] ) ) {
+					unset( $wc_dynamic_discount_rules[$funnel_type] );
+				}
+			} else {
+				foreach ( $wc_dynamic_discount_rules as $funnel_key => $bumps ) {
+					
+					if ( isset( $wc_dynamic_discount_rules[$funnel_key][$funnel_id] ) ) {
+						unset( $wc_dynamic_discount_rules[$funnel_key][$funnel_id] );
+					}
+
+					if ( empty( $wc_dynamic_discount_rules[$funnel_key] ) ) {
+						unset( $wc_dynamic_discount_rules[$funnel_key] );
+					}
+				}
+			}
+
+			update_option( 'wc_dynamic_discount_rules', $wc_dynamic_discount_rules );
 
 		wp_redirect( esc_url_raw( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=one-click-section&sub_tab=post-list-offer-section' ) ) );
 		exit;

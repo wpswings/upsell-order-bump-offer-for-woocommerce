@@ -49,8 +49,36 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 			break;
 		}
 	}
-
+     
 	update_option( 'wps_ubo_bump_list', $wps_upsell_bumps );
+
+	// Delete associated discount rules.
+	$wc_dynamic_discount_rules = get_option( 'wc_dynamic_discount_rules', array() );
+	
+	$funnel_type = 'wps_bump_one';
+	if ( ! empty( $funnel_type ) ) {
+		
+		if ( isset( $wc_dynamic_discount_rules[$funnel_type][$bump_id] ) ) {
+			unset( $wc_dynamic_discount_rules[$funnel_type][$bump_id] );
+		}
+
+		if ( empty( $wc_dynamic_discount_rules[$funnel_type] ) ) {
+			unset( $wc_dynamic_discount_rules[$funnel_type] );
+		}
+	} else {
+		foreach ( $wc_dynamic_discount_rules as $funnel_key => $bumps ) {
+			
+			if ( isset( $wc_dynamic_discount_rules[$funnel_key][$bump_id] ) ) {
+				unset( $wc_dynamic_discount_rules[$funnel_key][$bump_id] );
+			}
+
+			if ( empty( $wc_dynamic_discount_rules[$funnel_key] ) ) {
+				unset( $wc_dynamic_discount_rules[$funnel_key] );
+			}
+		}
+	}
+
+	update_option( 'wc_dynamic_discount_rules', $wc_dynamic_discount_rules );
 
 	wp_redirect( esc_url_raw( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section' ) ) );
 

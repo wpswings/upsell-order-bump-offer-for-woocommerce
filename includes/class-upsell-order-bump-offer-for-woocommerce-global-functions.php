@@ -2488,8 +2488,8 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 	// If only bump offer price is needed.
 	if ( 'price' === $get ) {
-
-		return $bump_price;
+	$bump_price         = apply_filters( 'wps_ubo_convert_base_price_diffrent_currency',$bump_price );
+	return $bump_price; //need to get which prce is get the divided by exchnage rate.
 	}
 
 	/**
