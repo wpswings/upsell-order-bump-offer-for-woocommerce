@@ -759,7 +759,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 					<tr valign="top">
 
 						<th scope="row" class="titledesc">
-							<label for="wps_wocuf_pro_enable_plugin"><?php esc_html_e('Set Campaign label', 'upsell-order-bump-offer-for-woocommerce-pro'); ?></label>
+							<label for="wps_wocuf_pro_enable_plugin"><?php esc_html_e('Set Campaign label', 'upsell-order-bump-offer-for-woocommerce'); ?></label>
 						</th>
 
 						<td class="forminp forminp-text">
@@ -1578,7 +1578,7 @@ wc_render_discount_conditions_popup($wps_funnel_type, $wps_wocuf_pro_funnel_id)
 	jQuery(document).ready(function($) {
 		$('#show-discount-conditions').on('click', function(e) {
 			e.preventDefault();
-			$('#wc-discount-popup').addClass('show');
+			$('#wc-discount-popup').addClass('ubo_show');
 		});
 	});
 </script>

@@ -80,7 +80,7 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 
 	update_option( 'wc_dynamic_discount_rules', $wc_dynamic_discount_rules );
 
-	wp_redirect( esc_url_raw( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section' ) ) );
+wp_safe_redirect( esc_url_raw( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section' ) ) );
 
 	exit();
 }

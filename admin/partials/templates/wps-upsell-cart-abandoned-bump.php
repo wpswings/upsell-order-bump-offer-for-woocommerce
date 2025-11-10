@@ -67,7 +67,7 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 	update_option( 'wps_ubo_deleted_abandoned_cart', $wps_deleted_abandoned_cart );
 	update_option( 'wps_ubo_bump_list', $wps_upsell_bumps );
 
-	wp_redirect( esc_url_raw( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-abandoned-cart-reporting' ) ) );
+	wp_safe_redirect( esc_url_raw( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-abandoned-cart-reporting' ) ) );
 
 	exit();
 }

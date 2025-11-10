@@ -1822,7 +1822,7 @@ wc_render_discount_conditions_popup($wps_funnel_type, $wps_upsell_bump_id)
 	jQuery(document).ready(function($) {
 		$('#show-discount-conditions').on('click', function(e) {
 			e.preventDefault();
-			$('#wc-discount-popup').addClass('show');
+			$('#wc-discount-popup').addClass('ubo_show');
 		});
 	});
 </script>

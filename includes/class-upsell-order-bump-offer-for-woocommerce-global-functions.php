@@ -15,7 +15,7 @@
  * @since    1.0.0
  */
 function wps_ubo_lite_if_pro_exists() {
-	// Check if pro plugin exists.
+	 // Check if pro plugin exists.
 	if ( wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) {
 
 		return true;
@@ -654,7 +654,7 @@ function wps_ubo_lite_offer_template_9() {
  * @since    1.0.0
  */
 function wps_ubo_lite_offer_template_10() {
-	// Template 10.
+	 // Template 10.
 	$wps_bump_upsell_global_css['parent_border_type']      = 'solid';
 	$wps_bump_upsell_global_css['parent_border_color']     = '#000000';
 	$wps_bump_upsell_global_css['parent_background_color'] = '#ffffff';
@@ -698,7 +698,7 @@ function wps_ubo_lite_offer_template_10() {
  * @since    1.0.0
  */
 function wps_ubo_lite_offer_template_11() {
-	// Template 10.
+	 // Template 10.
 	$wps_bump_upsell_global_css['parent_border_type']      = 'solid';
 	$wps_bump_upsell_global_css['parent_border_color']     = '#000000';
 	$wps_bump_upsell_global_css['parent_background_color'] = '#ffffff';
@@ -742,7 +742,7 @@ function wps_ubo_lite_offer_template_11() {
  * @since    1.0.0
  */
 function wps_ubo_lite_offer_template_12() {
-	// Template 10.
+	 // Template 10.
 	$wps_bump_upsell_global_css['parent_border_type']      = 'solid';
 	$wps_bump_upsell_global_css['parent_border_color']     = '#000000';
 	$wps_bump_upsell_global_css['parent_background_color'] = '#d6eab9';
@@ -966,7 +966,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			border: none;
 		}
 
-		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_discount_section h3 .amount {
+		<?php echo esc_html( $order_bump_div_id ); ?>.wps_upsell_offer_discount_section h3 .amount {
 			font-size: inherit;
 			color: inherit;
 		}
@@ -982,7 +982,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			align-items: start;
 		}
 
-		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_product_section .wps_upsell_offer_product_description {
+		<?php echo esc_html( $order_bump_div_id ); ?>.wps_upsell_offer_product_section .wps_upsell_offer_product_description {
 			margin: 0;
 			color: <?php echo esc_html( $product_section_text_color ); ?>;
 			font-size: <?php echo esc_html( $product_section_text_size ) . esc_html( 'px' ); ?>;
@@ -1095,7 +1095,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			}
 		}
 
-		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_arrow {
+		<?php echo esc_html( $order_bump_div_id ); ?>.wps_upsell_offer_arrow {
 			width: 40px;
 			margin-right: 4px;
 			transform: scaleX(-1);
@@ -1125,7 +1125,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		}
 
 		/* On mouse-over, add a grey background color. */
-		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_bump_checkbox_container:hover input~.checkmark {
+		<?php echo esc_html( $order_bump_div_id ); ?>.wps_upsell_bump_checkbox_container:hover input~.checkmark {
 			background-color: #ccc;
 		}
 
@@ -1135,7 +1135,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		}
 
 		/* Create the checkmark/indicator (hidden when not checked). */
-		<?php echo esc_html( $order_bump_div_id ); ?> .checkmark:after {
+		<?php echo esc_html( $order_bump_div_id ); ?>.checkmark:after {
 			content: "";
 			position: absolute;
 			display: none;
@@ -1147,7 +1147,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		}
 
 		/* Style the checkmark/indicator. */
-		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_bump_checkbox_container .checkmark:after {
+		<?php echo esc_html( $order_bump_div_id ); ?>.wps_upsell_bump_checkbox_container .checkmark:after {
 			left: 9px;
 			top: 5px;
 			width: 5px;
@@ -1163,7 +1163,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 			margin-right: 10px;
 		}
 
-		<?php echo esc_html( $order_bump_div_id ); ?> .wps_upsell_offer_img {
+		<?php echo esc_html( $order_bump_div_id ); ?>.wps_upsell_offer_img {
 			width: <?php echo esc_html( $product_section_img_width . 'px' ); ?>;
 			height: <?php echo esc_html( $product_section_img_height . 'px' ); ?>;
 			max-width: 200px;
@@ -2488,8 +2488,8 @@ function wps_ubo_lite_custom_price_html( $product_id = '', $bump_discount = '', 
 
 	// If only bump offer price is needed.
 	if ( 'price' === $get ) {
-	$bump_price         = apply_filters( 'wps_ubo_convert_base_price_diffrent_currency',$bump_price );
-	return $bump_price; //need to get which prce is get the divided by exchnage rate.
+		$bump_price         = apply_filters( 'wps_ubo_convert_base_price_diffrent_currency', $bump_price );
+		return $bump_price; // need to get which prce is get the divided by exchnage rate.
 	}
 
 	/**
@@ -6946,7 +6946,7 @@ if ( ! function_exists( 'wps_upselllite_allowed_html_funnel_builder' ) ) {
 	 * @return array
 	 */
 	function wps_upselllite_allowed_html_funnel_builder() {
-		// Return the complete html elements defined by us.
+		 // Return the complete html elements defined by us.
 		$allowed_html = array(
 			'input'   => array(
 				'class'       => array(
@@ -7528,7 +7528,7 @@ if ( ! function_exists( 'wps_upsell_lite_get_pid_from_url_params_funnel_builder'
 	 * @return array
 	 */
 	function wps_upsell_lite_get_pid_from_url_params_funnel_builder() {
-		$params['status']  = 'false';
+		 $params['status']  = 'false';
 		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
 		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
 
@@ -7836,7 +7836,11 @@ function wps_render_campaign_label_select( $args ) {
 				width: 320px;
 				font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 			}
-			.wps-select.wps-has-width { width: auto; }
+
+			.wps-select.wps-has-width {
+				width: auto;
+			}
+
 			.wps-selected {
 				background: #fff;
 				border: 1px solid #dcdcdc;
@@ -7847,35 +7851,85 @@ function wps_render_campaign_label_select( $args ) {
 				justify-content: space-between;
 				align-items: center;
 			}
-			.wps-selected-left { display: flex; align-items: center; gap: 10px; }
+
+			.wps-selected-left {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+			}
+
 			.wps-selected-color {
-				width: 18px; height: 18px; border-radius: 50%;
-				border: 1px solid #cfcfcf; background: transparent;
+				width: 18px;
+				height: 18px;
+				border-radius: 50%;
+				border: 1px solid #cfcfcf;
+				background: transparent;
 			}
-			.wps-selected-label { color: #32373c; }
-			.wps-arrow { width: 20px; height: 20px; transition: transform .2s ease; opacity: .7; }
-			.wps-arrow.wps-rot { transform: rotate(180deg); }
+
+			.wps-selected-label {
+				color: #32373c;
+			}
+
+			.wps-arrow {
+				width: 20px;
+				height: 20px;
+				transition: transform .2s ease;
+				opacity: .7;
+			}
+
+			.wps-arrow.wps-rot {
+				transform: rotate(180deg);
+			}
+
 			.wps-options {
-				position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff;
-				border: 1px solid #e2e2e2; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.08);
-				max-height: 260px; overflow-y: auto; z-index: 9999; display: none;
+				position: absolute;
+				top: calc(100% + 6px);
+				left: 0;
+				right: 0;
+				background: #fff;
+				border: 1px solid #e2e2e2;
+				border-radius: 8px;
+				box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+				max-height: 260px;
+				overflow-y: auto;
+				z-index: 9999;
+				display: none;
 			}
-			.wps-option { display: flex; align-items: center; gap: 10px; padding: 10px 12px; cursor: pointer; }
-			.wps-option:hover { background: #f6f6f6; }
-			.wps-option-color { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #cfcfcf; }
-			.wps-hide { display: none !important; }
+
+			.wps-option {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				padding: 10px 12px;
+				cursor: pointer;
+			}
+
+			.wps-option:hover {
+				background: #f6f6f6;
+			}
+
+			.wps-option-color {
+				width: 18px;
+				height: 18px;
+				border-radius: 50%;
+				border: 1px solid #cfcfcf;
+			}
+
+			.wps-hide {
+				display: none !important;
+			}
 		</style>
 		<script>
 			(function() {
 				function init(container) {
 					if (!container) return;
 
-					const selected  = container.querySelector('.wps-selected');
+					const selected = container.querySelector('.wps-selected');
 					const labelSpan = container.querySelector('.wps-selected-label');
-					const colorDot  = container.querySelector('.wps-selected-color');
+					const colorDot = container.querySelector('.wps-selected-color');
 					const optionsEl = container.querySelector('.wps-options');
-					const hidden    = container.querySelector('input[type="hidden"]');
-					const arrow     = container.querySelector('.wps-arrow');
+					const hidden = container.querySelector('input[type="hidden"]');
+					const arrow = container.querySelector('.wps-arrow');
 
 					function setSelected(label, hex) {
 						labelSpan.textContent = label || container.dataset.placeholder || 'Select a campaign label';
@@ -8017,4 +8071,675 @@ function wps_render_wc_settings_row_campaign_select( $title, $desc, $select_args
 	<?php
 }
 
+/**
+ * Wc_render_discount_conditions_popup.
+ *
+ * @param string $wps_funnel_type funnel type.
+ * @param string $bump_id  bump/funnel id.
+ * @param array  $args argument.
+ * @return void
+ */
+function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = '', $args = array() ) {
+	$defaults = array(
+		'modal_id'   => 'wc-discount-popup',
+		'button_id'  => 'show-discount-conditions',
+		'callback'   => null,
+		'rules'      => get_option( 'wc_dynamic_discount_rules', array() ),
+		'discount_amount' => get_option( 'wc_dynamic_discount_amount', 0 ),
+	);
+	$args = wp_parse_args( $args, $defaults );
 
+	// Get rules for this funnel type and bump ID.
+	$rules = array();
+	if ( ! empty( $wps_funnel_type ) && ! empty( $bump_id ) && isset( $args['rules'][ $wps_funnel_type ][ $bump_id ] ) ) {
+		$rules = $args['rules'][ $wps_funnel_type ][ $bump_id ];
+	}
+
+	$coupons = get_posts(
+		array(
+			'post_type' => 'shop_coupon',
+			'posts_per_page' => -1,
+		)
+	);
+	?>
+
+	<!-- Modal. -->
+	<div id="<?php echo esc_attr( $args['modal_id'] ); ?>" class="wc-discount-modal">
+		<div class="wc-discount-modal-content">
+			<div class="wc-discount-modal-header">
+				<h2>Visibility Conditions</h2>
+				<button type="button" class="wc-discount-close">&times;</button>
+			</div>
+
+			<form method="post" class="wc-discount-form" id="wc-discount-condition-form">
+				<?php wp_nonce_field( 'wc_save_dynamic_rules', 'wc_dynamic_rules_nonce' ); ?>
+
+				<div class="wc-discount-rules-table-wrap">
+					<table class="wc-discount-rules-table" id="dynamic-rules-table">
+						<thead>
+							<tr>
+								<th>Condition Field</th>
+								<th>Operator</th>
+								<th>Value</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php if ( ! empty( $rules ) ) : ?>
+								<?php
+								foreach ( $rules as $index => $rule ) :
+									$field    = esc_attr( $rule['field'] );
+									$operator = esc_attr( $rule['operator'] );
+									$value    = is_array( $rule['value'] ) ? $rule['value'] : array( $rule['value'] );
+									?>
+									<tr>
+										<td>
+											<select class="rule-field" name="rules[<?php echo esc_attr( $index ); ?>][field]">
+												<option value="cart_total" <?php selected( $field, 'cart_total' ); ?>>Cart Total</option>
+												<option value="subtotal" <?php selected( $field, 'subtotal' ); ?>>Subtotal</option>
+												<option value="coupon_applied" <?php selected( $field, 'coupon_applied' ); ?>>Coupon Applied</option>
+												<option value="user_status" <?php selected( $field, 'user_status' ); ?>>User Login Status</option>
+												<option value="user_registered" <?php selected( $field, 'user_registered' ); ?>>Specific Registered User</option>
+											</select>
+										</td>
+										<td>
+											<select class="rule-operator" name="rules[<?php echo esc_attr( $index ); ?>][operator]">
+												<option value="greater_than" <?php selected( $operator, 'greater_than' ); ?>>Greater Than</option>
+												<option value="less_than" <?php selected( $operator, 'less_than' ); ?>>Less Than</option>
+												<option value="is" <?php selected( $operator, 'is' ); ?>>Is</option>
+												<option value="is_not" <?php selected( $operator, 'is_not' ); ?>>Is Not</option>
+											</select>
+										</td>
+										<td class="value-cell">
+
+											<?php
+											// Define allowed HTML tags and attributes for select and input elements.
+											$allowed_html = array(
+												'select' => array(
+													'class' => array(),
+													'name' => array(),
+													'multiple' => array(),
+												),
+												'option' => array(
+													'value' => array(),
+													'selected' => array(),
+												),
+												'input' => array(
+													'type' => array(),
+													'name' => array(),
+													'value' => array(),
+													'class' => array(),
+												),
+											);
+
+											// Use wp_kses to sanitize the output.
+											echo wp_kses( wc_render_value_input( $field, $index, $value, $coupons ), $allowed_html );
+											?>
+										</td>
+										<td><button type="button" class="button remove-row">Remove</button></td>
+									</tr>
+								<?php endforeach; ?>
+							<?php else : ?>
+								<tr>
+									<td>
+										<select class="rule-field" name="rules[0][field]">
+											<option value="cart_total">Cart Total</option>
+											<option value="subtotal">Subtotal</option>
+											<option value="coupon_applied">Coupon Applied</option>
+											<option value="user_status">User Login Status</option>
+											<option value="user_registered">Specific Registered User</option>
+										</select>
+									</td>
+									<td>
+										<select class="rule-operator" name="rules[0][operator]">
+											<option value="greater_than">Greater Than</option>
+											<option value="less_than">Less Than</option>
+											<option value="is">Is</option>
+											<option value="is_not">Is Not</option>
+										</select>
+									</td>
+									<td class="value-cell"><input type="text" name="rules[0][value][]" value="" /></td>
+									<td><button type="button" class="button remove-row">Remove</button></td>
+								</tr>
+							<?php endif; ?>
+						</tbody>
+					</table>
+				</div>
+
+				<p class="wc-discount-add-btn"><button type="button" id="add-rule" class="button button-primary">+ Add Condition</button></p>
+			</form>
+
+			<div class="wc-discount-modal-footer">
+				<button type="button" class="button btn-secondary wc-discount-cancel">Cancel</button>
+				<button type="button" class="button btn-primary wc-discount-save">Save Conditions</button>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function($) {
+
+			const modal_id = '<?php echo esc_js( $args['modal_id'] ); ?>';
+			const $modal = $('#' + modal_id);
+			const $form = $modal.find('#wc-discount-condition-form');
+
+			function init_select2() {
+				$modal.find('.select2-field').select2({
+					width: '100%',
+					placeholder: 'Select value(s)',
+					allowClear: true,
+					dropdownParent: $modal
+				});
+			}
+
+			// Initialize.
+			init_select2();
+			let row_index = $modal.find('#dynamic-rules-table tbody tr').length;
+
+			// Open/Close Modal.
+			$('.wc-discount-close, .wc-discount-cancel').on('click', function() {
+				$modal.removeClass('ubo_show');
+			});
+
+			$(window).on('click', function(event) {
+				if (event.target === $modal[0]) {
+					$modal.removeClass('ubo_show');
+				}
+			});
+
+			// Add new condition.
+			$modal.find('#add-rule').on('click', function() {
+				const new_row = `
+				<tr>
+					<td>
+						<select class="rule-field" name="rules[${row_index}][field]">
+							<option value="cart_total">Cart Total</option>
+							<option value="subtotal">Subtotal</option>
+							<option value="coupon_applied">Coupon Applied</option>
+							<option value="user_status">User Login Status</option>
+							<option value="user_registered">Specific Registered User</option>
+						</select>
+					</td>
+					<td>
+						<select class="rule-operator" name="rules[${row_index}][operator]">
+							<option value="greater_than">Greater Than</option>
+							<option value="less_than">Less Than</option>
+							<option value="is">Is</option>
+							<option value="is_not">Is Not</option>
+						</select>
+					</td>
+					<td class="value-cell"><input type="text" name="rules[${row_index}][value][]" value="" /></td>
+					<td><button type="button" class="button remove-row">Remove</button></td>
+				</tr>`;
+				$modal.find('#dynamic-rules-table tbody').append(new_row);
+
+				// Get the newly added row and render the correct value input.
+				const $new_row = $modal.find('#dynamic-rules-table tbody tr').last();
+				const field = $new_row.find('.rule-field').val();
+				const $td = $new_row.find('.value-cell');
+
+				$.ajax({
+					url: ajaxurl,
+					method: 'POST',
+					data: {
+						action: 'wc_get_dynamic_value_field',
+						field,
+						row_idx: row_index,
+						wc_dynamic_rules_nonce: '<?php echo esc_attr( wp_create_nonce( 'wc_save_dynamic_rules' ) ); ?>'
+					},
+					success: function(html) {
+						$td.html(html);
+						init_select2();
+						filter_operators($new_row);
+					}
+				});
+
+				row_index++;
+			});
+
+			// Remove condition.
+			$modal.on('click', '.remove-row', function() {
+				$(this).closest('tr').remove();
+			});
+
+			// Filter operators.
+			function filter_operators($row) {
+				const field = $row.find('.rule-field').val();
+				const $operator = $row.find('.rule-operator');
+				$operator.find('option').show();
+
+				if (['coupon_applied', 'user_status', 'user_registered'].includes(field)) {
+					$operator.find('option[value="greater_than"], option[value="less_than"]').hide();
+					if (['greater_than', 'less_than'].includes($operator.val())) {
+						$operator.val('is');
+					}
+				}
+			}
+
+			$modal.on('change', '.rule-field', function() {
+				const $row = $(this).closest('tr');
+				const $td = $row.find('.value-cell');
+				const field = $(this).val();
+				const row_idx = $(this).attr('name').match(/\d+/)[0];
+				filter_operators($row);
+
+				$.ajax({
+					url: ajaxurl,
+					method: 'POST',
+					data: {
+						action: 'wc_get_dynamic_value_field',
+						field,
+						row_idx
+					},
+					success: function(html) {
+						$td.html(html);
+						init_select2();
+					}
+				});
+			});
+
+			$modal.find('#dynamic-rules-table tbody tr').each(function() {
+				filter_operators($(this));
+			});
+
+			// Save conditions.
+			$modal.find('.wc-discount-save').on('click', function() {
+				const form_data = $form.serialize();
+
+				const bump_id_one = new URLSearchParams(window.location.search).get('bump_id');
+				const funnel_id_one = new URLSearchParams(window.location.search).get('funnel_id');
+				let bump_id = '';
+
+				if (bump_id_one) {
+					bump_id = bump_id_one;
+				} else if (funnel_id_one) {
+					bump_id = funnel_id_one;
+				}
+
+
+				const funnel_type = $('#wps_funnel_type').val();
+
+				if (!bump_id || !funnel_type) {
+					alert('Missing bump_id or funnel_type');
+					return;
+				}
+
+				$.ajax({
+					url: ajaxurl,
+					method: 'POST',
+					data: form_data + '&action=wc_save_dynamic_discount_rules&bump_id=' + encodeURIComponent(bump_id) + '&funnel_type=' + encodeURIComponent(funnel_type),
+
+					success: function(response) {
+						alert('Conditions saved successfully!');
+						$modal.removeClass('ubo_show');
+						// Trigger custom event or callback
+						$(document).trigger('wc_discount_conditions_saved', response);
+					},
+					error: function() {
+						alert('Error saving conditions. Please try again.');
+					}
+				});
+			});
+		});
+	</script>
+	<?php
+}
+
+// AJAX: Save conditions.
+add_action(
+	'wp_ajax_wc_save_dynamic_discount_rules',
+	function () {
+		$nonce = isset( $_POST['wc_dynamic_rules_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wc_dynamic_rules_nonce'] ) ) : '';
+
+		if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wc_save_dynamic_rules' ) ) {
+			wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
+		}
+
+		// Get funnel type and bump ID first.
+		$funnel_type = isset( $_POST['funnel_type'] ) ? sanitize_text_field( wp_unslash( $_POST['funnel_type'] ) ) : '';
+		$bump_id = isset( $_POST['bump_id'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_id'] ) ) : '';
+
+		// Validate that we have both funnel_type and bump_id.
+		if ( empty( $funnel_type ) || empty( $bump_id ) ) {
+			wp_send_json_error(
+				array(
+					'message' => 'Funnel type or bump ID is missing',
+					'funnel_type' => $funnel_type,
+					'bump_id' => $bump_id,
+				)
+			);
+		}
+
+		$rules = array();
+		$wps_rules_ubo = ! empty( $_POST['rules'] ) && is_array( $_POST['rules'] ) ? map_deep( wp_unslash( $_POST['rules'] ), 'sanitize_text_field' ) : array();
+
+		if ( ! empty( $_POST['rules'] ) ) {
+			foreach ( $wps_rules_ubo as $r ) {
+				if ( empty( $r['field'] ) || empty( $r['operator'] ) ) {
+					continue;
+				}
+
+				// Skip rules with empty value.
+				$value = array_filter( array_map( 'sanitize_text_field', (array) $r['value'] ) );
+				if ( empty( $value ) ) {
+					continue;
+				}
+
+				$rules[] = array(
+					'field'    => sanitize_text_field( $r['field'] ),
+					'operator' => sanitize_text_field( $r['operator'] ),
+					'value'    => $value,
+				);
+			}
+		}
+
+		// Get existing rules.
+		$wc_dynamic_discount_rules = get_option( 'wc_dynamic_discount_rules', array() );
+
+		// Check if funnel type exists.
+		if ( ! isset( $wc_dynamic_discount_rules[ $funnel_type ] ) ) {
+			$wc_dynamic_discount_rules[ $funnel_type ] = array();
+		}
+
+		// Replace rules for this funnel_type and bump_id.
+		$wc_dynamic_discount_rules[ $funnel_type ][ $bump_id ] = $rules;
+
+		// Update options with all funnel types, bump IDs and their rules.
+		$updated = update_option( 'wc_dynamic_discount_rules', $wc_dynamic_discount_rules );
+		update_option( 'wc_dynamic_discount_amount', floatval( $_POST['discount_amount'] ?? 0 ) );
+
+		wp_send_json_success(
+			array(
+				'message' => 'Rules saved successfully',
+				'rules' => $rules,
+				'funnel_type' => $funnel_type,
+				'bump_id' => $bump_id,
+			)
+		);
+	}
+);
+
+/**
+ * Sanitized array function.
+ *
+ * @param array $rules rules.
+ * @return array
+ */
+function sanitize_rules_array( $rules ) {
+	if ( ! is_array( $rules ) ) {
+		return sanitize_text_field( $rules );
+	}
+
+	$sanitized = array();
+	foreach ( $rules as $key => $rule ) {
+		if ( is_array( $rule ) ) {
+			$sanitized[ $key ] = sanitize_rules_array( $rule );
+		} else {
+			$sanitized[ $key ] = sanitize_text_field( $rule );
+		}
+	}
+	return $sanitized;
+}
+
+
+/**
+ * Render Value Input
+ *
+ * @param string $field field.
+ * @param string $index index.
+ * @param string $values values.
+ * @param string $coupons coupons.
+ * @return string
+ */
+function wc_render_value_input( $field, $index, $values, $coupons ) {
+	$html = '';
+
+	switch ( $field ) {
+		case 'coupon_applied':
+			$html .= '<select multiple class="select2-field" name="rules[' . $index . '][value][]">';
+			foreach ( $coupons as $coupon ) {
+				$coupon_code = $coupon->post_name;
+				$selected = in_array( $coupon_code, $values ) ? 'selected' : '';
+				$html .= '<option value="' . esc_attr( $coupon_code ) . '" ' . $selected . '>' . esc_html( $coupon->post_title ) . '</option>';
+			}
+			$html .= '</select>';
+			break;
+
+		case 'user_status':
+			$html .= '<select class="select2-field" name="rules[' . $index . '][value][]">';
+			$statuses = array(
+				'logged_in' => 'Logged In User',
+				'guest' => 'Guest User',
+			);
+			foreach ( $statuses as $key => $label ) {
+				$selected = in_array( $key, $values ) ? 'selected' : '';
+				$html .= '<option value="' . esc_attr( $key ) . '" ' . $selected . '>' . esc_html( $label ) . '</option>';
+			}
+			$html .= '</select>';
+			break;
+
+		case 'user_registered':
+			$html .= '<select multiple class="select2-field" name="rules[' . $index . '][value][]">';
+			$users = get_users( array( 'fields' => array( 'ID', 'display_name', 'user_login' ) ) );
+			foreach ( $users as $user ) {
+				$selected = in_array( (string) $user->ID, $values ) ? 'selected' : '';
+				$html .= '<option value="' . esc_attr( $user->ID ) . '" ' . $selected . '>'
+					. esc_html( $user->display_name . ' (' . $user->user_login . ')' )
+					. '</option>';
+			}
+			$html .= '</select>';
+			break;
+
+		default:
+			$html .= '<input type="text" name="rules[' . $index . '][value][]" value="' . esc_attr( implode( ',', $values ) ) . '" />';
+	}
+
+	return $html;
+}
+
+// --- AJAX dynamic field rendering. ---
+add_action(
+	'wp_ajax_wc_get_dynamic_value_field',
+	function () {
+		// Verify nonce first.
+		// $nonce = isset( $_POST['wc_dynamic_rules_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wc_dynamic_rules_nonce'] ) ) : '';
+
+		// if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wc_save_dynamic_rules' ) ) {
+		// 	wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
+		// }
+		
+
+		// Sanitize and unslash POST data.
+		$field = isset( $_POST['field'] ) ? sanitize_text_field( wp_unslash( $_POST['field'] ) ) : '';
+		$row_idx = isset( $_POST['row_idx'] ) ? sanitize_text_field( wp_unslash( $_POST['row_idx'] ) ) : 0;
+
+		$coupons = get_posts(
+			array(
+				'post_type' => 'shop_coupon',
+				'posts_per_page' => -1,
+			)
+		);
+
+		$allowed_html = array(
+			'select' => array(
+				'class' => array(),
+				'name' => array(),
+				'multiple' => array(),
+			),
+			'option' => array(
+				'value' => array(),
+				'selected' => array(),
+			),
+			'input' => array(
+				'type' => array(),
+				'name' => array(),
+				'value' => array(),
+				'class' => array(),
+			),
+		);
+
+		$html = wc_render_value_input( $field, $row_idx, array(), $coupons );
+		echo wp_kses( $html, $allowed_html );
+		wp_die();
+	}
+);
+
+
+/**
+ * Wc_dynamic_discount_conditions_pass.
+ *
+ * @param string $funnel_type funnel type.
+ * @param string $bump_id bump id.
+ * @return boolean
+ */
+function wc_dynamic_discount_conditions_pass( $funnel_type = '', $bump_id = '' ) {
+	$all_rules = get_option( 'wc_dynamic_discount_rules', array() );
+
+	// If funnel type and bump ID provided, get specific rules.
+	if ( ! empty( $funnel_type ) && ! empty( $bump_id ) && isset( $all_rules[ $funnel_type ][ $bump_id ] ) ) {
+		$rules = $all_rules[ $funnel_type ][ $bump_id ];
+	} else {
+		return false;
+	}
+
+	if ( empty( $rules ) ) {
+		return false;
+	}
+
+	$cart = WC()->cart;
+	if ( ! $cart || $cart->get_cart_contents_count() === 0 ) {
+		$response = wp_remote_get( home_url( '/?rest_route=/wc/store/v1/cart' ) );
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+		$cart_data = json_decode( wp_remote_retrieve_body( $response ), true );
+		if ( empty( $cart_data ) ) {
+			return false;
+		}
+		foreach ( $rules as $rule ) {
+			if ( ! wc_evaluate_rule_condition_block( $rule, $cart_data ) ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	foreach ( $rules as $rule ) {
+		if ( ! wc_evaluate_rule_condition( $rule, $cart ) ) {
+			return false;
+		}
+	}
+	return true;
+}
+
+/**
+ * Wc_evaluate_rule_condition.
+ *
+ * @param array $rule rule.
+ * @param array $cart cart.
+ * @return string
+ */
+function wc_evaluate_rule_condition( $rule, $cart ) {
+	$field = $rule['field'];
+	$operator = $rule['operator'];
+	$values = $rule['value'];
+
+	switch ( $field ) {
+		case 'cart_total':
+			$target = floatval( $cart->get_cart_contents_total() + $cart->get_shipping_total() + $cart->get_taxes_total() );
+			break;
+		case 'subtotal':
+			$target = floatval( $cart->get_subtotal() );
+			break;
+		case 'coupon_applied':
+			$target = $cart->get_applied_coupons();
+			break;
+		case 'user_status':
+			$target = is_user_logged_in() ? 'logged_in' : 'guest';
+			break;
+		case 'user_registered':
+			if ( is_user_logged_in() ) {
+				$user = wp_get_current_user();
+				$target = (string) $user->ID;
+			} else {
+				$target = '';
+			}
+			break;
+		default:
+			return false;
+	}
+
+	return wc_compare_rule_value( $field, $operator, $target, $values );
+}
+
+/**
+ * Evalauate the condition
+ *
+ * @param array $rule rule.
+ * @param array $cart_data cart data.
+ * @return string
+ */
+function wc_evaluate_rule_condition_block( $rule, $cart_data ) {
+	$field = $rule['field'];
+	$operator = $rule['operator'];
+	$values = $rule['value'];
+
+	switch ( $field ) {
+		case 'cart_total':
+			$target = floatval( $cart_data['totals']['total_price'] ?? 0 );
+			break;
+		case 'subtotal':
+			$target = floatval( $cart_data['totals']['subtotal'] ?? 0 );
+			break;
+		case 'coupon_applied':
+			$target = wp_list_pluck( $cart_data['coupons'] ?? array(), 'code' );
+			break;
+		case 'user_status':
+			$target = is_user_logged_in() ? 'logged_in' : 'guest';
+			break;
+		case 'user_registered':
+			if ( is_user_logged_in() ) {
+				$user = wp_get_current_user();
+				$target = (string) $user->ID;
+			} else {
+				$target = '';
+			}
+			break;
+		default:
+			return false;
+	}
+
+	return wc_compare_rule_value( $field, $operator, $target, $values );
+}
+
+/**
+ * Compare the rules to give output.
+ *
+ * @param  array $field field field.
+ * @param  array $operator operator.
+ * @param  array $target target.
+ * @param  array $values value.
+ * @return string
+ */
+function wc_compare_rule_value( $field, $operator, $target, $values ) {
+	switch ( $operator ) {
+		case 'greater_than':
+			return floatval( $target ) > floatval( $values[0] );
+		case 'less_than':
+			return floatval( $target ) < floatval( $values[0] );
+		case 'is':
+			$target = (array) $target;
+			$values = (array) $values;
+			$target = array_map( 'strtolower', $target );
+			$values = array_map( 'strtolower', $values );
+			return count( array_intersect( $target, $values ) ) > 0;
+		case 'is_not':
+			$target = (array) $target;
+			$values = (array) $values;
+			$target = array_map( 'strtolower', $target );
+			$values = array_map( 'strtolower', $values );
+			return count( array_intersect( $target, $values ) ) == 0;
+		default:
+			return false;
+	}
+}
