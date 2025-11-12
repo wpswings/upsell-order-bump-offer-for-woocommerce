@@ -1211,7 +1211,8 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 
 	// If still not found.
 	if ( empty( $image ) ) {
-		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $bump['id'] ), 'single-post-thumbnail' )[0];
+		$image_src = wp_get_attachment_image_src( get_post_thumbnail_id( $bump['id'] ), 'single-post-thumbnail' );
+		$image = $image_src ? $image_src[0] : '';
 	}
 
 	if ( empty( $image ) ) {

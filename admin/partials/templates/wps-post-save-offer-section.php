@@ -684,10 +684,11 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 						<?php
 						$attribute_description = esc_html__('Enable dynamic conditions to control when this offer is displayed based on cart total, user role, coupons, and other criteria.', 'upsell-order-bump-offer-for-woocommerce');
 						wps_ubo_lite_help_tip($attribute_description);
+						$wps_ubo_condition_show = ! empty($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_ubo_condition_show']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_ubo_condition_show'] : 'no';
 						?>
 
 						<label class="wps-upsell-smart-offer-upgrade" for="wps_ubo_condition_show">
-							<input class="wps-upsell-smart-offer-upgrade-wrap" type='checkbox' id='wps_ubo_condition_show' name='wps_ubo_condition_show' value='yes' <?php echo  'yes' === $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_ubo_condition_show'] ? 'checked' : ''; ?>>
+							<input class="wps-upsell-smart-offer-upgrade-wrap" type='checkbox' id='wps_ubo_condition_show' name='wps_ubo_condition_show' value='yes' <?php echo  'yes' === $wps_ubo_condition_show ? 'checked' : ''; ?>>
 							<span class="upsell-smart-offer-upgrade-btn"></span>
 						</label>
 
