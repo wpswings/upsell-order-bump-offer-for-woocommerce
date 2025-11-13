@@ -65,7 +65,18 @@
   transition: all 0.2s linear;
   cursor: pointer;
 }
-
+ 
+.wc-discount-form {
+    margin: 20px 0;
+    max-height: 50vh;
+    overflow: auto;
+}
+ 
+#wps_upsell_bump_setting_wrapper p.wc-discount-add-btn {
+    position: absolute;
+    bottom: 18px;
+}
+ 
 @media screen and (max-width: 1180px) {
   .wps-bump-offer-container {
     grid-template-columns: 1fr 1fr;
@@ -76,4 +87,7 @@
   .wps-bump-offer-container {
     grid-template-columns: 1fr;
   }
+  #wps_upsell_bump_setting_wrapper p.wc-discount-add-btn {
+    position: unset;
+}
 }

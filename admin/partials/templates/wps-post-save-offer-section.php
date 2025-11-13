@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Provide a admin area view for the plugin
  *
@@ -1570,11 +1569,9 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 <?php
 // In your template or page
-// echo 'dsfdsf---->' .$wps_upsell_bump_id ;
 $wps_funnel_type = 'wps_funnel_one';
 wc_render_discount_conditions_popup($wps_funnel_type, $wps_wocuf_pro_funnel_id)
 ?>
-
 <script>
 	jQuery(document).ready(function($) {
 		$('#show-discount-conditions').on('click', function(e) {

@@ -1463,3 +1463,25 @@ $('#wps_ubo_create_label').click(function() {
             }
         }
     });
+
+    jQuery(document).ready(function($) {
+    $('.wps_number_validation').on('input', function() {
+    let value = $(this).val();
+
+    // Remove alphabets and special chars — keep only digits and one dot
+    value = value.replace(/[^0-9.]/g, '');
+
+    // Prevent more than one decimal point
+    const parts = value.split('.');
+    if (parts.length > 2) {
+      value = parts[0] + '.' + parts[1];
+    }
+
+    // Prevent negative values
+    if (value !== '' && parseFloat(value) < 0) {
+      value = '';
+    }
+
+    $(this).val(value);
+  });
+});

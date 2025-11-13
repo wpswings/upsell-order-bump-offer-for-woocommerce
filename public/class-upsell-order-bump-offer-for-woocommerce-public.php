@@ -175,7 +175,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_bump_popup_exit_intent = ! empty( $wps_ubo_global_options['wps_ubo_enable_popup_exit_intent'] ) ? $wps_ubo_global_options['wps_ubo_enable_popup_exit_intent'] : 'on';
 
 			// Public Script.
-			wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery', 'wp-element', 'wp-plugins', 'wp-data', 'wc-blocks-checkout' ), $this->version, false );
 			wp_enqueue_script( 'wps-ubo-lite-public-script-new', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script_new_template.js', array( 'jquery' ), $this->version, false );
 
 			// Checkout Block and Cart block Comaptibility.
@@ -1582,27 +1582,27 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param object $order       The order object.
 	 */
 	public function add_order_item_meta_new( $item, $cart_item_key, $values, $order ) {
- 
-    // Mark if this item came from an Order Bump.
-    if ( ! empty( $values['wps_ubo_offer_product'] ) ) {
-        $item->update_meta_data( 'is_order_bump_purchase', 'true' );
-    }
- 
-    // Save bump offer ID if available.
-    if ( isset( $values['wps_ubo_bump_id'] ) ) {
-        $item->update_meta_data( 'wps_order_bump_id', $values['wps_ubo_bump_id'] );
-    }
- 
-    // Save custom form fields attached to the item.
-    if ( ! empty( $values['wps_ubo_meta_form'] ) && is_array( $values['wps_ubo_meta_form'] ) ) {
-        foreach ( $values['wps_ubo_meta_form'] as $field ) {
-            if ( isset( $field['name'], $field['value'] ) ) {
-                $item->update_meta_data( sanitize_key( $field['name'] ), sanitize_text_field( $field['value'] ) );
-            }
-        }
-    }
- 
-}
+
+		// Mark if this item came from an Order Bump.
+		if ( ! empty( $values['wps_ubo_offer_product'] ) ) {
+			$item->update_meta_data( 'is_order_bump_purchase', 'true' );
+		}
+
+		// Save bump offer ID if available.
+		if ( isset( $values['wps_ubo_bump_id'] ) ) {
+			$item->update_meta_data( 'wps_order_bump_id', $values['wps_ubo_bump_id'] );
+		}
+
+		// Save custom form fields attached to the item.
+		if ( ! empty( $values['wps_ubo_meta_form'] ) && is_array( $values['wps_ubo_meta_form'] ) ) {
+			foreach ( $values['wps_ubo_meta_form'] as $field ) {
+				if ( isset( $field['name'], $field['value'] ) ) {
+					$item->update_meta_data( sanitize_key( $field['name'] ), sanitize_text_field( $field['value'] ) );
+				}
+			}
+		}
+
+	}
 
 	/**
 	 * Add order item meta to bump product.
@@ -2422,56 +2422,56 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 									foreach ( $values as $value ) {
 
 										$product = wc_get_product( $value );
-									if ( $product && is_a( $product, 'WC_Product' ) ) {
+										if ( $product && is_a( $product, 'WC_Product' ) ) {
 
-										$image = wp_get_attachment_image_src( get_post_thumbnail_id( $value ), 'single-post-thumbnail' );
-										if ( is_array( $image ) && isset( $image[0] ) ) {
-											$wps_image_url = esc_url( $image[0] );
-										} else {
-											$wps_image_url = '';
-										}
-
-										$wps_html_discount_section .= '<div class="wps_main_class_order" id="wps_main_class_id_' . $value . '">';
-										$wps_html_discount_section .= '<div class ="wps_product_image"><img width="100" height="300" src =' . esc_url( $wps_image_url ) . ' /></div>';
-										$wps_html_discount_section .= '<div class ="wps_product_name">' . $product->get_name() . '</div>';
-
-										if ( $product->is_type( 'variable' ) ) {
-											// Get all variations of the parent product.
-											$variations = $product->get_available_variations();
-
-											$wps_html_discount_section .= '<div class ="wps_product_select"> <select name="select-category" id="wps-order-bump-child-id_' . $value . '">';
-
-											foreach ( $variations as $variation ) {
-
-												$variation_id = $variation['variation_id'];
-												$variation_obj = wc_get_product( $variation_id );
-												$variation_name = $variation_obj->get_name();
-												$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $variation_obj->get_price() );
-												$wps_html_discount_section .= ' <option value="' . $variation_id . '">' . $variation_name . ' - ' . wc_price( $wps_discount_price ) . '</option>';
+											$image = wp_get_attachment_image_src( get_post_thumbnail_id( $value ), 'single-post-thumbnail' );
+											if ( is_array( $image ) && isset( $image[0] ) ) {
+												$wps_image_url = esc_url( $image[0] );
+											} else {
+												$wps_image_url = '';
 											}
 
-											$wps_html_discount_section .= '</select>';
+											$wps_html_discount_section .= '<div class="wps_main_class_order" id="wps_main_class_id_' . $value . '">';
+											$wps_html_discount_section .= '<div class ="wps_product_image"><img width="100" height="300" src =' . esc_url( $wps_image_url ) . ' /></div>';
+											$wps_html_discount_section .= '<div class ="wps_product_name">' . $product->get_name() . '</div>';
+
+											if ( $product->is_type( 'variable' ) ) {
+												// Get all variations of the parent product.
+												$variations = $product->get_available_variations();
+
+												$wps_html_discount_section .= '<div class ="wps_product_select"> <select name="select-category" id="wps-order-bump-child-id_' . $value . '">';
+
+												foreach ( $variations as $variation ) {
+
+													$variation_id = $variation['variation_id'];
+													$variation_obj = wc_get_product( $variation_id );
+													$variation_name = $variation_obj->get_name();
+													$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $variation_obj->get_price() );
+													$wps_html_discount_section .= ' <option value="' . $variation_id . '">' . $variation_name . ' - ' . wc_price( $wps_discount_price ) . '</option>';
+												}
+
+												$wps_html_discount_section .= '</select>';
+												$wps_html_discount_section .= '</div>';
+											}
+
+											$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $product->get_price() );
+
+											if ( 'no_disc' == $wps_offer_product_discount_type[0] ) {
+												$wps_html_discount_section .= '<div class ="wps_discounted_price">' . esc_html__( 'Price:', 'upsell-order-bump-offer-for-woocommerce' ) . wc_price( $product->get_price() ) . '</div>';
+											} else {
+												$wps_html_discount_section .= '<div class ="wps_discounted_price">' . esc_html__( 'Price:', 'upsell-order-bump-offer-for-woocommerce' ) . '<strike>' . wc_price( $product->get_price() ) . '</strike>' . wc_price( $wps_discount_price ) . '</div>';
+											}
+
+											$wps_html_discount_section .= '<div class ="wps_discounted_qty">' . esc_html__( 'Quantity: 01', 'upsell-order-bump-offer-for-woocommerce' ) . '</div>';
+											$wps_html_discount_section .= '<div class ="wps_discounted_offer_title">' . esc_html__( 'Offer!', 'upsell-order-bump-offer-for-woocommerce' ) . '</div>';
+											$wps_html_discount_section .= '<div class ="wps_product_discount" value =' . $value . '><button type="button" class="button">' . esc_html__( 'Add to Cart', 'upsell-order-bump-offer-for-woocommerce' ) . '</button></div>';
+											$wps_html_discount_section .= '<input id="wps_cart_offer_quantity" type="hidden" value ="1">';
+											$wps_html_discount_section .= '<input id="wps_cart_offer_product_id_' . $value . '" type="hidden" value =' . $cart_item['product_id'] . '>';
+											$wps_html_discount_section .= '<input class ="wps_offered_product_id" type="hidden" value =' . $value . '>';
+											$wps_html_discount_section .= '<input id="wps_cart_offer_product_price_' . $value . '" type="hidden" value =' . $product->get_price() . '>';
 											$wps_html_discount_section .= '</div>';
 										}
-
-										$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $product->get_price() );
-
-										if ( 'no_disc' == $wps_offer_product_discount_type[0] ) {
-											$wps_html_discount_section .= '<div class ="wps_discounted_price">' . esc_html__( 'Price:', 'upsell-order-bump-offer-for-woocommerce' ) . wc_price( $product->get_price() ) . '</div>';
-										} else {
-											$wps_html_discount_section .= '<div class ="wps_discounted_price">' . esc_html__( 'Price:', 'upsell-order-bump-offer-for-woocommerce' ) . '<strike>' . wc_price( $product->get_price() ) . '</strike>' . wc_price( $wps_discount_price ) . '</div>';
-										}
-
-										$wps_html_discount_section .= '<div class ="wps_discounted_qty">' . esc_html__( 'Quantity: 01', 'upsell-order-bump-offer-for-woocommerce' ) . '</div>';
-										$wps_html_discount_section .= '<div class ="wps_discounted_offer_title">' . esc_html__( 'Offer!', 'upsell-order-bump-offer-for-woocommerce' ) . '</div>';
-										$wps_html_discount_section .= '<div class ="wps_product_discount" value =' . $value . '><button type="button" class="button">' . esc_html__( 'Add to Cart', 'upsell-order-bump-offer-for-woocommerce' ) . '</button></div>';
-										$wps_html_discount_section .= '<input id="wps_cart_offer_quantity" type="hidden" value ="1">';
-										$wps_html_discount_section .= '<input id="wps_cart_offer_product_id_' . $value . '" type="hidden" value =' . $cart_item['product_id'] . '>';
-										$wps_html_discount_section .= '<input class ="wps_offered_product_id" type="hidden" value =' . $value . '>';
-										$wps_html_discount_section .= '<input id="wps_cart_offer_product_price_' . $value . '" type="hidden" value =' . $product->get_price() . '>';
-										$wps_html_discount_section .= '</div>';
 									}
-								}
 								}
 							}
 						} else {
@@ -4298,33 +4298,33 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function upsell_product_shipping_price_shortcode_content( $atts ) {
 
-    $validate_shortcode = $this->validate_shortcode();
+		$validate_shortcode = $this->validate_shortcode();
 
-    if ( $validate_shortcode ) {
+		if ( $validate_shortcode ) {
 
-        $product_id = $this->get_upsell_product_id_for_shortcode();
-        $atts       = shortcode_atts(
-            array(
-                'id'    => '',
-                'class' => '',
-                'style' => '',
-            ),
-            $atts
-        );
+			$product_id = $this->get_upsell_product_id_for_shortcode();
+			$atts       = shortcode_atts(
+				array(
+					'id'    => '',
+					'class' => '',
+					'style' => '',
+				),
+				$atts
+			);
 
-        // Sanitize and escape user-provided attributes.
-        $id    = esc_attr( $atts['id'] );
-        $class = esc_attr( $atts['class'] );
-        $style = esc_attr( $atts['style'] );
+			// Sanitize and escape user-provided attributes.
+			$id    = esc_attr( $atts['id'] );
+			$class = esc_attr( $atts['class'] );
+			$style = esc_attr( $atts['style'] );
 
-        $upsell_shipping_product = wps_wocfo_hpos_get_meta_data_funnel_builder( $product_id, 'wps_upsell_simple_shipping_product_' . $product_id, true );
+			$upsell_shipping_product = wps_wocfo_hpos_get_meta_data_funnel_builder( $product_id, 'wps_upsell_simple_shipping_product_' . $product_id, true );
 
-        $upsell_product_price_html_div = "Shipping Price <br> <div id='$id' class='wps_upsell_offer_product_price $class' style='$style'>
+			$upsell_product_price_html_div = "Shipping Price <br> <div id='$id' class='wps_upsell_offer_product_price $class' style='$style'>
                     " . wc_price( $upsell_shipping_product ) . '</div>';
-    }
+		}
 
-    return $upsell_product_price_html_div;
-}
+		return $upsell_product_price_html_div;
+	}
 
 	/**
 	 * Shortcode for offer - product variations.
@@ -4757,12 +4757,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 										}
 									}
 
-								//Dynamic condition check to show the funnel.
-								$wps_ubo_condition_show = ! empty($wps_wocuf_pro_all_funnels[$wps_wocuf_pro_single_funnel]['wps_ubo_condition_show']) ? $wps_wocuf_pro_all_funnels[$wps_wocuf_pro_single_funnel]['wps_ubo_condition_show'] : '';
-									if ('yes' === $wps_ubo_condition_show) {
-										if (!wc_dynamic_discount_conditions_pass('wps_funnel_one',  $wps_wocuf_pro_single_funnel)) {
-										break;
-									}
+									// Dynamic condition check to show the funnel.
+									$wps_ubo_condition_show = ! empty( $wps_wocuf_pro_all_funnels[ $wps_wocuf_pro_single_funnel ]['wps_ubo_condition_show'] ) ? $wps_wocuf_pro_all_funnels[ $wps_wocuf_pro_single_funnel ]['wps_ubo_condition_show'] : '';
+									if ( 'yes' === $wps_ubo_condition_show ) {
+										if ( ! wc_dynamic_discount_conditions_pass( 'wps_funnel_one', $wps_wocuf_pro_single_funnel ) ) {
+											break;
+										}
 									}
 
 									/**
@@ -6996,18 +6996,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	/**
 	 * Fucntion to convert different currency according to base price.
 	 *
-	 * @param string $price
-	 * @return void
+	 * @param string $price price.
+	 * @return int
 	 */
 	public function wps_ubo_convert_diffrent_currency_base_price_callback( $price ) {
 		if ( class_exists( 'WOOCS' ) ) {
 			global $WOOCS;
 			$amount = 0;
- 
+
 			if ( $WOOCS->is_multiple_allowed ) {
 				$currrent = $WOOCS->current_currency;
 				if ( $currrent != $WOOCS->default_currency ) {
- 
+
 					$currencies = $WOOCS->get_currencies();
 					$rate       = $currencies[ $currrent ]['rate'];
 					$amount     = $price / ( $rate );

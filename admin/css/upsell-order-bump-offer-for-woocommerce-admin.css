@@ -6701,16 +6701,19 @@ main.wps-ufw_ms-main {
   justify-content: center;
 }
 .wc-discount-modal-content {
-  background-color: #fefefe;
-  padding: 30px;
-  border: 1px solid #888;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 900px;
-  max-height: 80vh;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
-  margin: auto;
+    background-color: #fefefe;
+    padding: 30px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 900px;
+    max-height: 80vh;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    margin: auto;
 }
 .wc-discount-modal-header {
   display: flex;
@@ -6847,8 +6850,13 @@ main.wps-ufw_ms-main {
   line-height: 22px !important;
 }
 
-.wc-discount-modal-content table#dynamic-rules-table input[type="text"] {
+.wc-discount-modal-content table#dynamic-rules-table input[type="text"],.wc-discount-modal-content table#dynamic-rules-table span.select2, .wc-discount-modal-content table#dynamic-rules-table select {
   width: 100%;
+  max-width:250px;
+}
+
+.wc-discount-modal-content table#dynamic-rules-table td.value-cell {
+  max-width:175px;
 }
 
 .wc-discount-modal-content .wc-discount-save:hover {
@@ -6858,4 +6866,21 @@ main.wps-ufw_ms-main {
 
 .wc-discount-rules-table-wrap {
   overflow: auto;
+}
+
+button.button.btn-primary.wc-discount-save:focus {
+    background-color: #0073aa;
+    color: white;
+}
+
+.wc-discount-modal-content table#dynamic-rules-table input.select2-search__field {
+    height: auto !important;
+    min-height: 0!important;
+    line-height: 1;
+    font-size: 14px !important;
+    padding: 0 5px!important;
+}
+
+.wc-discount-modal-content table#dynamic-rules-table li.select2-search {
+    margin: 0 !important;
 }

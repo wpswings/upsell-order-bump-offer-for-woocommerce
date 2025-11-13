@@ -8199,7 +8199,7 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 											<option value="is_not">Is Not</option>
 										</select>
 									</td>
-									<td class="value-cell"><input type="text" name="rules[0][value][]" value="" /></td>
+									<td class="value-cell"><input type="number" name="rules[0][value][]" value="" /></td>
 									<td><button type="button" class="button remove-row">Remove</button></td>
 								</tr>
 							<?php endif; ?>
@@ -8239,12 +8239,14 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 
 			// Open/Close Modal.
 			$('.wc-discount-close, .wc-discount-cancel').on('click', function() {
-				$modal.removeClass('ubo_show');
+				$('.wc-discount-modal').removeClass('ubo_show');
+				$('.wc-discount-modal').removeClass('show');
 			});
 
 			$(window).on('click', function(event) {
 				if (event.target === $modal[0]) {
-					$modal.removeClass('ubo_show');
+					$('.wc-discount-modal').removeClass('ubo_show');
+					$('.wc-discount-modal').removeClass('show');
 				}
 			});
 
@@ -8269,7 +8271,7 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 							<option value="is_not">Is Not</option>
 						</select>
 					</td>
-					<td class="value-cell"><input type="text" name="rules[${row_index}][value][]" value="" /></td>
+					<td class="value-cell"><input type="number" class =¨wps_number_validation¨ name="rules[${row_index}][value][]" value="" /></td>
 					<td><button type="button" class="button remove-row">Remove</button></td>
 				</tr>`;
 				$modal.find('#dynamic-rules-table tbody').append(new_row);
@@ -8330,7 +8332,8 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 					data: {
 						action: 'wc_get_dynamic_value_field',
 						field,
-						row_idx
+						row_idx,
+						wc_dynamic_rules_nonce: '<?php echo esc_attr( wp_create_nonce( 'wc_save_dynamic_rules' ) ); ?>'
 					},
 					success: function(html) {
 						$td.html(html);
@@ -8372,7 +8375,8 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 
 					success: function(response) {
 						alert('Conditions saved successfully!');
-						$modal.removeClass('ubo_show');
+						$('.wc-discount-modal').removeClass('ubo_show');
+						$('.wc-discount-modal').removeClass('show');
 						// Trigger custom event or callback
 						$(document).trigger('wc_discount_conditions_saved', response);
 					},
@@ -8507,7 +8511,7 @@ function wc_render_value_input( $field, $index, $values, $coupons ) {
 			break;
 
 		case 'user_status':
-			$html .= '<select class="select2-field" name="rules[' . $index . '][value][]">';
+			$html .= '<select name="rules[' . $index . '][value][]">';
 			$statuses = array(
 				'logged_in' => 'Logged In User',
 				'guest' => 'Guest User',
@@ -8532,7 +8536,7 @@ function wc_render_value_input( $field, $index, $values, $coupons ) {
 			break;
 
 		default:
-			$html .= '<input type="text" name="rules[' . $index . '][value][]" value="' . esc_attr( implode( ',', $values ) ) . '" />';
+			$html .= '<input type="number" class = ¨wps_number_validation¨ min =¨0¨ name="rules[' . $index . '][value][]" value="' . esc_attr( implode( ',', $values ) ) . '" />';
 	}
 
 	return $html;
@@ -8543,12 +8547,11 @@ add_action(
 	'wp_ajax_wc_get_dynamic_value_field',
 	function () {
 		// Verify nonce first.
-		// $nonce = isset( $_POST['wc_dynamic_rules_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wc_dynamic_rules_nonce'] ) ) : '';
+		$nonce = isset( $_POST['wc_dynamic_rules_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wc_dynamic_rules_nonce'] ) ) : '';
 
-		// if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wc_save_dynamic_rules' ) ) {
-		// 	wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
-		// }
-		
+		if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wc_save_dynamic_rules' ) ) {
+			wp_send_json_error( array( 'message' => 'Nonce verification failed' ) );
+		}
 
 		// Sanitize and unslash POST data.
 		$field = isset( $_POST['field'] ) ? sanitize_text_field( wp_unslash( $_POST['field'] ) ) : '';
