@@ -1568,7 +1568,6 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 <input type="hidden" id="wps_funnel_type" value="wps_funnel_one" />
 
 <?php
-// In your template or page
 $wps_funnel_type = 'wps_funnel_one';
 wc_render_discount_conditions_popup($wps_funnel_type, $wps_wocuf_pro_funnel_id)
 ?>
