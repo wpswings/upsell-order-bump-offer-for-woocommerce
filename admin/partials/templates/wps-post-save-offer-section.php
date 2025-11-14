@@ -693,7 +693,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 						<label>
 							<!-- Discount Condition Button, initially hidden -->
-							<button id="show-discount-conditions" class="button button-primary" style="display:none;">Add Conditional Rules</button>
+							<button id="show-discount-conditions" class="button button-primary" style="display:none;"><?php esc_html_e('Add Conditional Rules', 'upsell-order-bump-offer-for-woocommerce'); ?></button>
 						</label>
 					</td>
 				</tr>
