@@ -8108,7 +8108,7 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 	<div id="<?php echo esc_attr( $args['modal_id'] ); ?>" class="wc-discount-modal">
 		<div class="wc-discount-modal-content">
 			<div class="wc-discount-modal-header">
-				<h2>Visibility Conditions</h2>
+				<h2><?php esc_html_e( 'Visibility Conditions', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
 				<button type="button" class="wc-discount-close">&times;</button>
 			</div>
 
@@ -8119,10 +8119,10 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 					<table class="wc-discount-rules-table" id="dynamic-rules-table">
 						<thead>
 							<tr>
-								<th>Condition Field</th>
-								<th>Operator</th>
-								<th>Value</th>
-								<th>Action</th>
+								<th><?php esc_html_e( 'Condition Field', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+								<th><?php esc_html_e( 'Operator', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+								<th><?php esc_html_e( 'Value', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+								<th><?php esc_html_e( 'Action', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -8136,19 +8136,19 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 									<tr>
 										<td>
 											<select class="rule-field" name="rules[<?php echo esc_attr( $index ); ?>][field]">
-												<option value="cart_total" <?php selected( $field, 'cart_total' ); ?>>Cart Total</option>
-												<option value="subtotal" <?php selected( $field, 'subtotal' ); ?>>Subtotal</option>
-												<option value="coupon_applied" <?php selected( $field, 'coupon_applied' ); ?>>Coupon Applied</option>
-												<option value="user_status" <?php selected( $field, 'user_status' ); ?>>User Login Status</option>
-												<option value="user_registered" <?php selected( $field, 'user_registered' ); ?>>Specific Registered User</option>
+												<option value="cart_total" <?php selected( $field, 'cart_total' ); ?>><?php esc_html_e( 'Cart Total', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+												<option value="subtotal" <?php selected( $field, 'subtotal' ); ?>><?php esc_html_e( 'Subtotal', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+												<option value="coupon_applied" <?php selected( $field, 'coupon_applied' ); ?>><?php esc_html_e( 'Coupon Applied', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+												<option value="user_status" <?php selected( $field, 'user_status' ); ?>><?php esc_html_e( 'User Login Status', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+												<option value="user_registered" <?php selected( $field, 'user_registered' ); ?>><?php esc_html_e( 'Specific Registered User', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 											</select>
 										</td>
 										<td>
 											<select class="rule-operator" name="rules[<?php echo esc_attr( $index ); ?>][operator]">
-												<option value="greater_than" <?php selected( $operator, 'greater_than' ); ?>>Greater Than</option>
-												<option value="less_than" <?php selected( $operator, 'less_than' ); ?>>Less Than</option>
-												<option value="is" <?php selected( $operator, 'is' ); ?>>Is</option>
-												<option value="is_not" <?php selected( $operator, 'is_not' ); ?>>Is Not</option>
+												<option value="greater_than" <?php selected( $operator, 'greater_than' ); ?>><?php esc_html_e( 'Greater Than', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+												<option value="less_than" <?php selected( $operator, 'less_than' ); ?>><?php esc_html_e( 'Less Than', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+												<option value="is" <?php selected( $operator, 'is' ); ?>><?php esc_html_e( 'Is', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+												<option value="is_not" <?php selected( $operator, 'is_not' ); ?>><?php esc_html_e( 'Is Not', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 											</select>
 										</td>
 										<td class="value-cell">
@@ -8177,30 +8177,30 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 											echo wp_kses( wc_render_value_input( $field, $index, $value, $coupons ), $allowed_html );
 											?>
 										</td>
-										<td><button type="button" class="button remove-row">Remove</button></td>
+										<td><button type="button" class="button remove-row"><?php esc_html_e( 'Remove', 'upsell-order-bump-offer-for-woocommerce' ); ?></button></td>
 									</tr>
 								<?php endforeach; ?>
 							<?php else : ?>
 								<tr>
 									<td>
 										<select class="rule-field" name="rules[0][field]">
-											<option value="cart_total">Cart Total</option>
-											<option value="subtotal">Subtotal</option>
-											<option value="coupon_applied">Coupon Applied</option>
-											<option value="user_status">User Login Status</option>
-											<option value="user_registered">Specific Registered User</option>
+											<option value="cart_total"><?php esc_html_e( 'Cart Total', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+											<option value="subtotal"><?php esc_html_e( 'Subtotal', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+											<option value="coupon_applied"><?php esc_html_e( 'Coupon Applied', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+											<option value="user_status"><?php esc_html_e( 'User Login Status', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+											<option value="user_registered"><?php esc_html_e( 'Specific Registered User', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 										</select>
 									</td>
 									<td>
 										<select class="rule-operator" name="rules[0][operator]">
-											<option value="greater_than">Greater Than</option>
-											<option value="less_than">Less Than</option>
-											<option value="is">Is</option>
-											<option value="is_not">Is Not</option>
+											<option value="greater_than"><?php esc_html_e( 'Greater Than', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+											<option value="less_than"><?php esc_html_e( 'Less Than', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+											<option value="is"><?php esc_html_e( 'Is', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+											<option value="is_not"><?php esc_html_e( 'Is Not', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 										</select>
 									</td>
 									<td class="value-cell"><input type="number" name="rules[0][value][]" value="" /></td>
-									<td><button type="button" class="button remove-row">Remove</button></td>
+									<td><button type="button" class="button remove-row"><?php esc_html_e( 'Remove', 'upsell-order-bump-offer-for-woocommerce' ); ?></button></td>
 								</tr>
 							<?php endif; ?>
 						</tbody>
@@ -8211,8 +8211,8 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 			</form>
 
 			<div class="wc-discount-modal-footer">
-				<button type="button" class="button btn-secondary wc-discount-cancel">Cancel</button>
-				<button type="button" class="button btn-primary wc-discount-save">Save Conditions</button>
+				<button type="button" class="button btn-secondary wc-discount-cancel"><?php esc_html_e( 'Cancel', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+				<button type="button" class="button btn-primary wc-discount-save"><?php esc_html_e( 'Save Conditions', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
 			</div>
 		</div>
 	</div>
@@ -8253,28 +8253,37 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 			// Add new condition.
 			$modal.find('#add-rule').on('click', function() {
 				const new_row = `
-				<tr>
-					<td>
-						<select class="rule-field" name="rules[${row_index}][field]">
-							<option value="cart_total">Cart Total</option>
-							<option value="subtotal">Subtotal</option>
-							<option value="coupon_applied">Coupon Applied</option>
-							<option value="user_status">User Login Status</option>
-							<option value="user_registered">Specific Registered User</option>
-						</select>
-					</td>
-					<td>
-						<select class="rule-operator" name="rules[${row_index}][operator]">
-							<option value="greater_than">Greater Than</option>
-							<option value="less_than">Less Than</option>
-							<option value="is">Is</option>
-							<option value="is_not">Is Not</option>
-						</select>
-					</td>
-					<td class="value-cell"><input type="number" class =¨wps_number_validation¨ name="rules[${row_index}][value][]" value="" /></td>
-					<td><button type="button" class="button remove-row">Remove</button></td>
-				</tr>`;
-				$modal.find('#dynamic-rules-table tbody').append(new_row);
+					<tr>
+						<td>
+							<select class="rule-field" name="rules[${row_index}][field]">
+								<option value="cart_total"><?php esc_html_e( 'Cart Total', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option value="subtotal"><?php esc_html_e( 'Subtotal', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option value="coupon_applied"><?php esc_html_e( 'Coupon Applied', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option value="user_status"><?php esc_html_e( 'User Login Status', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option value="user_registered"><?php esc_html_e( 'Specific Registered User', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+							</select>
+						</td>
+
+						<td>
+							<select class="rule-operator" name="rules[${row_index}][operator]">
+								<option value="greater_than"><?php esc_html_e( 'Greater Than', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option value="less_than"><?php esc_html_e( 'Less Than', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option value="is"><?php esc_html_e( 'Is', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option value="is_not"><?php esc_html_e( 'Is Not', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+							</select>
+						</td>
+
+						<td class="value-cell">
+							<input type="number" class="wps_number_validation" name="rules[${row_index}][value][]" value="" />
+						</td>
+
+						<td>
+							<button type="button" class="button remove-row">
+								<?php esc_html_e( 'Remove', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+							</button>
+						</td>
+					</tr>`;
+					$modal.find('#dynamic-rules-table tbody').append(new_row);
 
 				// Get the newly added row and render the correct value input.
 				const $new_row = $modal.find('#dynamic-rules-table tbody tr').last();

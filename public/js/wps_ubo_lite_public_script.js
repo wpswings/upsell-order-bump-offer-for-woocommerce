@@ -1252,58 +1252,60 @@ jQuery(document).ready(function ($) {
 // Evergreen timer end here.
 
 (function () {
-    function waitForWooBlocksReady(callback, tries = 0) {
-        if (tries > 50) return;
-        const wcBlocks = window?.wc?.blocksCheckout;
-        if (wcBlocks?.ExperimentalOrderMeta && wp?.element && wp?.data) {
-            callback(wcBlocks);
-            return;
-        }
-        setTimeout(() => waitForWooBlocksReady(callback, tries + 1), 200);
+  if(wps_ubo_lite_public.is_checkout_page){
+  function waitForWooBlocksReady(callback, tries = 0) {
+    if (tries > 50) return;
+    const wcBlocks = window?.wc?.blocksCheckout;
+    if (wcBlocks?.ExperimentalOrderMeta && wp?.element && wp?.data) {
+      callback(wcBlocks);
+      return;
     }
+    setTimeout(() => waitForWooBlocksReady(callback, tries + 1), 200);
+  }
 
-    waitForWooBlocksReady((wcBlocks) => {
-        const { registerPlugin } = wp.plugins;
-        const { createElement, useEffect, useState } = wp.element;
-        const { select, subscribe } = wp.data;
-        const { ExperimentalOrderMeta } = wcBlocks;
+  waitForWooBlocksReady((wcBlocks) => {
+    const { registerPlugin } = wp.plugins;
+    const { createElement, useEffect, useState } = wp.element;
+    const { select, subscribe } = wp.data;
+    const { ExperimentalOrderMeta } = wcBlocks;
 
-        const CouponNotice = () => {
-            const [coupons, setCoupons] = useState([]);
+    const CouponNotice = () => {
+      const [coupons, setCoupons] = useState([]);
 
-            useEffect(() => {
-                const cart = select('wc/store/cart').getCartData();
-                setCoupons(cart?.coupons || []);
+      useEffect(() => {
+        const cart = select('wc/store/cart').getCartData();
+        setCoupons(cart?.coupons || []);
 
-                let lastCouponCodes = (cart?.coupons || []).map(c => c.code).join(',');
+        let lastCouponCodes = (cart?.coupons || []).map(c => c.code).join(',');
 
-                const unsubscribe = subscribe(() => {
-                    const updated = select('wc/store/cart').getCartData();
-                    const currentCodes = (updated?.coupons || []).map(c => c.code).join(',');
+        const unsubscribe = subscribe(() => {
+          const updated = select('wc/store/cart').getCartData();
+          const currentCodes = (updated?.coupons || []).map(c => c.code).join(',');
 
-                    setCoupons(updated?.coupons || []);
+          setCoupons(updated?.coupons || []);
 
-                    if (currentCodes !== lastCouponCodes) {
-                        lastCouponCodes = currentCodes;
-                        location.reload();
-                    }
-                });
-
-                return () => unsubscribe();
-            }, []);
-        };
-
-        const render = () =>
-            createElement(
-                ExperimentalOrderMeta,
-                null,
-                createElement(CouponNotice, null)
-            );
-
-        registerPlugin('my-coupon-notice', {
-            render,
-            scope: 'woocommerce-checkout',
+          if (currentCodes !== lastCouponCodes) {
+            lastCouponCodes = currentCodes;
+            location.reload();
+          }
         });
+
+        return () => unsubscribe();
+      }, []);
+    };
+
+    const render = () =>
+      createElement(
+        ExperimentalOrderMeta,
+        null,
+        createElement(CouponNotice, null)
+      );
+
+    registerPlugin('my-coupon-notice', {
+      render,
+      scope: 'woocommerce-checkout',
     });
+  });
+}
 })();
 //Script end here.
