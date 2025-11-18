@@ -816,7 +816,7 @@ jQuery(document).ready(function ($) {
    * Scripts after v1.0.2
    */
   $(
-    "#wps_ubo_enable_fluentcrm_switch,#wps_ubo_product_offer_strip,#wps_ubo_offer_purchased_earlier,#wps_ubo_enable_popup_exit_intent_switch,#wps_enable_fbt_upsell_feature,#wps_ubo_offer_fbt_location_set,#wps_enable_cart_upsell_location,#wps_ubo_offer_timer,#wps_ubo_offer_product_image_slider,#wps_enable_cart_upsell, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature,.wps_bump_offer_popup_case ,#wps_ubo_offer_restrict_coupons, #wps_ubo_offer_ab_method,#wps_upsell_bump_priority,#wps_upsell_bump_min_cart, #wps_upsell_bump_min_cart,#wps_ubo_img_width_slider_pop_up,#wps_ubo_img_height_slider_pop_up,#wps_ubo_select_accept_offer_acolor_pop_up"
+    "#wps_ubo_enable_popup_system_switch,#wps_ubo_enable_fluentcrm_switch,#wps_ubo_product_offer_strip,#wps_ubo_offer_purchased_earlier,#wps_ubo_enable_popup_exit_intent_switch,#wps_enable_fbt_upsell_feature,#wps_ubo_offer_fbt_location_set,#wps_enable_cart_upsell_location,#wps_ubo_offer_timer,#wps_ubo_offer_product_image_slider,#wps_enable_cart_upsell, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature,.wps_bump_offer_popup_case ,#wps_ubo_offer_restrict_coupons, #wps_ubo_offer_ab_method,#wps_upsell_bump_priority,#wps_upsell_bump_min_cart, #wps_upsell_bump_min_cart,#wps_ubo_img_width_slider_pop_up,#wps_ubo_img_height_slider_pop_up,#wps_ubo_select_accept_offer_acolor_pop_up"
   ).on("click", function (e) {
     // Add popup to unlock pro features.
     var pro_status = document.getElementById("wps_ubo_pro_status");
@@ -1468,20 +1468,85 @@ $('#wps_ubo_create_label').click(function() {
     $('.wps_number_validation').on('input', function() {
     let value = $(this).val();
 
-    // Remove alphabets and special chars — keep only digits and one dot
+    // Remove alphabets and special chars — keep only digits and one dot.
     value = value.replace(/[^0-9.]/g, '');
 
-    // Prevent more than one decimal point
+    // Prevent more than one decimal point.
     const parts = value.split('.');
     if (parts.length > 2) {
       value = parts[0] + '.' + parts[1];
     }
 
-    // Prevent negative values
+    // Prevent negative values.
     if (value !== '' && parseFloat(value) < 0) {
       value = '';
     }
 
     $(this).val(value);
-  });
+    });
+      
+    function wps_bump_toggle_popup_button() {
+        if ($("#wps_ubo_enable_popup_system_switch").is(":checked")) {
+            $("#wps_ubo_popup_configure_btn").show();
+        } else {
+            $("#wps_ubo_popup_configure_btn").hide();
+        }
+    }
+
+    // Run on load
+    wps_bump_toggle_popup_button();
+    $("#wps_ubo_enable_popup_system_switch").on("change", function(){
+        wps_bump_toggle_popup_button();
+    });
+      
+    // OPEN modal.
+      $("#wps_ubo_popup_configure_btn").on("click", function () {
+          var wps_is_pro_active = wps_ubo_lite_banner_offer_section_obj.is_pro_active;
+        if (1 == wps_is_pro_active) {
+          $("#wps_ubo_popup_modal").fadeIn(150);
+        }
+    });
+
+    // CLOSE modal (via X).
+    $(".wps-ubo-modal-close").on("click", function(){
+        $("#wps_ubo_popup_modal").fadeOut(150);
+    });
+
+    // CLOSE modal (click outside box).
+    $("#wps_ubo_popup_modal").on("click", function(e){
+        if (e.target === this) {
+            $(this).fadeOut(150);
+        }
+    });
+
+      $("#wps_ubo_save_popup_settings").on("click", function () {
+        let type  = $("#wps_ubo_popup_type").val();
+        let delay = $("#wps_ubo_popup_delay").val();
+        var wps_is_pro_active = wps_ubo_lite_banner_offer_section_obj.is_pro_active;
+        if (1 != wps_is_pro_active) {
+         return;
+        }
+
+        $.ajax({
+            url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'wps_ubo_save_popup_system_settings',
+              nonce: wps_ubo_lite_banner_offer_section_obj.nonce,
+              popup_type: type,
+              popup_delay: delay,
+            },
+            success: function (response) {
+                console.log(response);
+              if (response.success) {
+                alert(response.data.message || 'Popup settings saved successfully!');
+                $("#wps_ubo_popup_modal").fadeOut(150);
+                }
+            },
+            error: function () {
+                console.log('AJAX error occurred.');
+            }
+        });
+    }); 
 });

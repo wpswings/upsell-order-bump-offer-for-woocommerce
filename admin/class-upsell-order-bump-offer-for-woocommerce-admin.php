@@ -2535,4 +2535,31 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			)
 		);
 	}
+
+	/**
+	 * Create label callback.
+	 *
+	 * @since       3.0.0
+	 */
+	public function wps_ubo_save_popup_system_settings_callback() {
+		check_ajax_referer( 'wps_ubo_labels', 'nonce' );
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Unauthorized.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		$popup_type = isset( $_POST['popup_type'] ) ? sanitize_text_field( wp_unslash( $_POST['popup_type'] ) ) : '';
+		$popup_delay = isset( $_POST['popup_delay'] ) ? intval( $_POST['popup_delay'] ) : 1;
+
+		update_option( 'wps_ubo_popup_type', $popup_type );
+		update_option( 'wps_ubo_popup_delay', $popup_delay );
+
+		wp_send_json_success(
+			array(
+				'message' => 'Popup settings saved successfully',
+				'popup_type' => $popup_type,
+				'popup_delay' => $popup_delay,
+			)
+		);
+	}
+
 }

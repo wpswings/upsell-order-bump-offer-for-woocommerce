@@ -249,6 +249,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 				$this->loader->add_action( 'wp_ajax_wps_ubo_create_label', $plugin_admin, 'wps_ubo_create_label_callback' );
 			}
 
+			$this->loader->add_action( 'wp_ajax_wps_ubo_save_popup_system_settings', $plugin_admin, 'wps_ubo_save_popup_system_settings_callback' );
+
 			$this->loader->add_filter( 'woocommerce_admin_reports', $plugin_admin, 'add_upsell_reporting' );
 
 			// Rest functionality for order table.

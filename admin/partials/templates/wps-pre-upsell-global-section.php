@@ -56,6 +56,9 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save_pre_global'] ) ) {
 	// Enable fluent crm integration.
 	$wps_bump_upsell_global_options['wps_ubo_enable_fluentcrm'] = ! empty( $_POST['wps_ubo_enable_fluentcrm'] ) ? 'on' : 'off';
 
+	// Enable Popup System.
+	$wps_bump_upsell_global_options['wps_ubo_enable_popup_system'] = ! empty( $_POST['wps_ubo_enable_popup_system'] ) ? 'on' : 'off';
+
 
 	$wps_bump_upsell_global_options['wps_bump_popup_bump_offer'] = ! empty( $_POST['wps_bump_popup_bump_offer'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_popup_bump_offer'] ) ) : 'no';
 	// After v2.1.2.
@@ -139,6 +142,7 @@ $bump_cart_offer_location = ! empty( $wps_ubo_global_options['wps_enable_cart_up
 $wps_ubo_enable_popup_exit_intent = ! empty( $wps_ubo_global_options['wps_ubo_enable_popup_exit_intent'] ) ? $wps_ubo_global_options['wps_ubo_enable_popup_exit_intent'] : '';
 
 $wps_ubo_enable_fluentcrm_integration = ! empty( $wps_ubo_global_options['wps_ubo_enable_fluentcrm'] ) ? $wps_ubo_global_options['wps_ubo_enable_fluentcrm'] : '';
+$wps_ubo_enable_popup_system = ! empty( $wps_ubo_global_options['wps_ubo_enable_popup_system'] ) ? $wps_ubo_global_options['wps_ubo_enable_popup_system'] : '';
 
 // After v2.1.2.
 $wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red_arrow_feature'] ) ? $wps_ubo_global_options['wps_enable_red_arrow_feature'] : 'no';
@@ -235,6 +239,31 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 				</tr>
 				<!-- Enable/disable Popup exit intent feature end -->
 
+					<!-- Enable/disable Popup system feature start. -->
+					<tr valign="top">
+						<th scope="row" class="titledesc">
+							<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							<label for="wps_ubo_enable_popup_system_switch"><?php esc_html_e( 'Enable Smart Popup', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						</th>
+						<td class="forminp forminp-text">
+							<?php
+							$attribute_description = esc_html__( 'Enable this option to configure and apply a specific popup type on the cart or checkout pages.', 'upsell-order-bump-offer-for-woocommerce' );
+							wps_ubo_lite_help_tip( $attribute_description );
+							?>
+							<label for="wps_ubo_enable_popup_system_switch" class="wps_upsell_bump_enable_permalink_label wps_bump_enable_permalink_support">
+							<input id="wps_ubo_enable_popup_system_switch" class="wps_upsell_bump_enable_permalink_input" type="checkbox" <?php echo ( 'on' === $wps_ubo_enable_popup_system ) ? "checked='checked'" : ''; ?> name="wps_ubo_enable_popup_system">
+							<span class="wps_upsell_bump_enable_permalink_span"></span>
+							</label>
+							<button type="button"
+		id="wps_ubo_popup_configure_btn"
+		class="button button-secondary"
+		style="margin-left:12px; display:none;">
+	<?php esc_html_e( 'Configure', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+</button>
+
+						</td>
+					</tr>
+					<!-- Enable/disable Popup system feature end.-->
 
 				<!-- Enable/disable FluentCRM feature start -->
 				<tr valign="top">
@@ -883,5 +912,51 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 				<a href="javascript:void(0);" class="wps_ubo_update_no"><?php esc_html_e( "Don't update", 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 			</div>
 		</div>
+	</div>
+</div>
+
+
+<!-- WPS UBO Popup Settings Modal -->
+<div id="wps_ubo_popup_modal" class="wps-ubo-modal">
+	<div class="wps-ubo-modal-content">
+
+		<span class="wps-ubo-modal-close">&times;</span>
+
+		<h2><?php esc_html_e( 'Popup Settings', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
+
+		<table class="form-table">
+			<tr>
+				<th><?php esc_html_e( 'Select Popup Type', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<td>
+				<?php $saved_type = get_option( 'wps_ubo_popup_type', 'lightbox' ); ?>
+
+				<select id="wps_ubo_popup_type" style="width:250px;">
+					<option value="lightbox"  <?php selected( $saved_type, 'lightbox' ); ?>>
+						<?php esc_html_e( 'Lightbox', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+					</option>
+
+					<option value="slidein"  <?php selected( $saved_type, 'slidein' ); ?>>
+						<?php esc_html_e( 'Slide-in', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+					</option>
+
+					<option value="fullscreen" <?php selected( $saved_type, 'fullscreen' ); ?>>
+						<?php esc_html_e( 'Full Screen', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+					</option>
+				</select>
+				</td>
+			</tr>
+
+			<tr>
+				<th><?php esc_html_e( 'Popup Delay (seconds)', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+				<td>
+					<input type="number" id="wps_ubo_popup_delay" style="width:120px;" value="<?php echo esc_attr( get_option( 'wps_ubo_popup_delay', 0 ) ); ?>" min="0" step="1">
+				</td>
+			</tr>
+		</table>
+
+		<button class="button button-primary" id="wps_ubo_save_popup_settings">
+			<?php esc_html_e( 'Save Settings', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+		</button>
+
 	</div>
 </div>
