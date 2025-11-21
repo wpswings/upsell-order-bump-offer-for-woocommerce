@@ -82,7 +82,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		if ( is_checkout() || is_cart() || $wps_is_shortcode ) {
 			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
-			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), time(), 'all' );
 		}
 
 		wp_enqueue_style( $this->plugin_name . 'one-click-front', plugin_dir_url( __FILE__ ) . 'css/woocommerce_one_click_upsell_funnel_pro-public.css', array(), $this->version, 'all' );
@@ -199,6 +199,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'wps_enable_cart_upsell' => $bump_cart_offer_enable,
 				'wps_is_checkout_block_use' => $wps_traditional_checkout,
 				'wps_is_cart_block_use' => $wps_traditional_cart,
+				'wps_popup_type' => get_option( 'wps_ubo_popup_type', 'lightbox' ),
+				'wps_delay_time' => get_option( 'wps_ubo_popup_delay', 1 ),
 			);
 
 			// Timer Functionality starts.
@@ -324,7 +326,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		);
 
 		// Public facing regarding popup.
-		wp_enqueue_script( 'wps-ubo-lite-public-script-for-fbt', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_fbt.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'wps-ubo-lite-public-script-for-fbt', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_fbt.js', array( 'jquery' ), time(), false );
 		wp_localize_script(
 			'wps-ubo-lite-public-script-for-fbt',
 			'wps_ubo_lite_public_fbt',

@@ -1108,11 +1108,49 @@ jQuery(document).ready(function ($) {
     $(".close-button").parent().show();
     setTimeout(function () {
       wps_show_pop_up();
-    }, 1000);
+    }, wps_ubo_lite_public.wps_delay_time * 1000);
   }
 
   function wps_show_pop_up() {
-    $('[popup-name="' + "popup-1" + '"]').fadeIn(300);
+    // Cache popup selector (faster & cleaner)
+    const popup = $('[popup-name="popup-1"]');
+    const type = wps_ubo_lite_public.wps_popup_type;
+    switch (type) {
+      case "lightbox":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-lightbox");
+        break;
+
+      case "slidein":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-down");
+        break;
+
+      case "fullscreen":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-full");
+        const popCont = $(".wrapup_order_bump");
+        $(popCont).detach().insertBefore("header");
+        break;
+
+      case "slideleft":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-left");
+        break;
+
+      case "slideright":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-right");
+        break;
+
+      case "slideup":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-up");
+        break;
+
+      case "zoomout":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-zoomout");
+        break;
+
+      default:
+        popup.fadeIn(300); // fallback effect
+        break;
+    }
+
     $(".fusion-header-wrapper").css("display", "none"); ///Avada header hidden on popup.
     $(".wps-popup-content").slick({
       slidesToShow: 1,
@@ -1120,9 +1158,9 @@ jQuery(document).ready(function ($) {
       autoplay: false,
       autoplaySpeed: 1500,
       lazyLoad: "ondemand",
-      fade: true, // 👈 Enables fade effect
-      speed: 800, // 👈 Controls fade transition duration (in ms)
-      cssEase: "ease-in-out", // 👈 Makes the fade smoother
+      fade: true,
+      speed: 800,
+      cssEase: "ease-in-out",
       prevArrow: '<span class="slide-arrow prev-arrow"></span>',
       nextArrow: '<span class="slide-arrow next-arrow"></span>',
       useTransform: true,
@@ -1153,7 +1191,7 @@ jQuery(document).ready(function ($) {
       console.log("in");
       $(".wps-popup-content").prepend(closeItemDetach);
     }
-  }, 1000);
+  }, wps_ubo_lite_public.wps_delay_time * 1000);
 
   // Open Popup
   $(document).on("click", ".open-button", function (e) {
@@ -1178,17 +1216,17 @@ jQuery(document).ready(function ($) {
     body.classList.remove("wps_body_class_popup");
   });
 
-//   // Close Popup When Click Outside
-//   $(".popup").on("click", function () {
-//     $(".fusion-header-wrapper").css("display", "block");
-//   });
-    
-    $(document).on("click", function (e) {
-        // Check if the click is outside the .content element
-        if (!$(e.target).closest(".wps-popup-content").length) {
-            $(".wrapup_order_bump .popup").css("display", "none"); // Hide modal
-        }
-    });
+  //   // Close Popup When Click Outside
+  //   $(".popup").on("click", function () {
+  //     $(".fusion-header-wrapper").css("display", "block");
+  //   });
+
+  $(document).on("click", function (e) {
+    // Check if the click is outside the .content element
+    if (!$(e.target).closest(".wps-popup-content").length) {
+      $(".wrapup_order_bump .popup").css("display", "none"); // Hide modal
+    }
+  });
 
   //Increase and descrease the quantity value on bump offer.
   $(document).on("click", ".wps-ubo__temp-prod-price-qty-add", function (e) {
@@ -1252,60 +1290,64 @@ jQuery(document).ready(function ($) {
 // Evergreen timer end here.
 
 (function () {
-  if(wps_ubo_lite_public.is_checkout_page){
-  function waitForWooBlocksReady(callback, tries = 0) {
-    if (tries > 50) return;
-    const wcBlocks = window?.wc?.blocksCheckout;
-    if (wcBlocks?.ExperimentalOrderMeta && wp?.element && wp?.data) {
-      callback(wcBlocks);
-      return;
+  if (wps_ubo_lite_public.is_checkout_page) {
+    function waitForWooBlocksReady(callback, tries = 0) {
+      if (tries > 50) return;
+      const wcBlocks = window?.wc?.blocksCheckout;
+      if (wcBlocks?.ExperimentalOrderMeta && wp?.element && wp?.data) {
+        callback(wcBlocks);
+        return;
+      }
+      setTimeout(() => waitForWooBlocksReady(callback, tries + 1), 200);
     }
-    setTimeout(() => waitForWooBlocksReady(callback, tries + 1), 200);
-  }
 
-  waitForWooBlocksReady((wcBlocks) => {
-    const { registerPlugin } = wp.plugins;
-    const { createElement, useEffect, useState } = wp.element;
-    const { select, subscribe } = wp.data;
-    const { ExperimentalOrderMeta } = wcBlocks;
+    waitForWooBlocksReady((wcBlocks) => {
+      const { registerPlugin } = wp.plugins;
+      const { createElement, useEffect, useState } = wp.element;
+      const { select, subscribe } = wp.data;
+      const { ExperimentalOrderMeta } = wcBlocks;
 
-    const CouponNotice = () => {
-      const [coupons, setCoupons] = useState([]);
+      const CouponNotice = () => {
+        const [coupons, setCoupons] = useState([]);
 
-      useEffect(() => {
-        const cart = select('wc/store/cart').getCartData();
-        setCoupons(cart?.coupons || []);
+        useEffect(() => {
+          const cart = select("wc/store/cart").getCartData();
+          setCoupons(cart?.coupons || []);
 
-        let lastCouponCodes = (cart?.coupons || []).map(c => c.code).join(',');
+          let lastCouponCodes = (cart?.coupons || [])
+            .map((c) => c.code)
+            .join(",");
 
-        const unsubscribe = subscribe(() => {
-          const updated = select('wc/store/cart').getCartData();
-          const currentCodes = (updated?.coupons || []).map(c => c.code).join(',');
+          const unsubscribe = subscribe(() => {
+            const updated = select("wc/store/cart").getCartData();
+            const currentCodes = (updated?.coupons || [])
+              .map((c) => c.code)
+              .join(",");
 
-          setCoupons(updated?.coupons || []);
+            setCoupons(updated?.coupons || []);
 
-          if (currentCodes !== lastCouponCodes) {
-            lastCouponCodes = currentCodes;
-            location.reload();
-          }
-        });
+            if (currentCodes !== lastCouponCodes) {
+              lastCouponCodes = currentCodes;
+              location.reload();
+            }
+          });
 
-        return () => unsubscribe();
-      }, []);
-    };
+          return () => unsubscribe();
+        }, []);
+      };
 
-    const render = () =>
-      createElement(
-        ExperimentalOrderMeta,
-        null,
-        createElement(CouponNotice, null)
-      );
+      const render = () =>
+        createElement(
+          ExperimentalOrderMeta,
+          null,
+          createElement(CouponNotice, null)
+        );
 
-    registerPlugin('my-coupon-notice', {
-      render,
-      scope: 'woocommerce-checkout',
+      registerPlugin("my-coupon-notice", {
+        render,
+        scope: "woocommerce-checkout",
+      });
     });
-  });
-}
+  }
 })();
 //Script end here.
