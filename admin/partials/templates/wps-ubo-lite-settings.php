@@ -75,6 +75,9 @@ if ( isset( $_POST['wps_upsell_bump_common_settings_save'] ) ) {
 	$wps_bump_upsell_global_options['wps_ubo_enable_popup_exit_intent'] = ! empty( $_POST['wps_ubo_enable_popup_exit_intent'] ) ? 'on' : 'off';
 
 	$wps_bump_upsell_global_options['wps_ubo_offer_ab_method'] = ! empty( $_POST['wps_ubo_offer_ab_method'] ) ? 'on' : 'off';
+
+	$wps_bump_upsell_global_options['wps_upsell_bump_target_ids_popup'] = ! empty( $_POST['wps_upsell_bump_target_ids_popup'] ) ? map_deep( wp_unslash( $_POST['wps_upsell_bump_target_ids_popup'] ), 'sanitize_text_field' ) : array();
+
 	// SAVE GLOBAL OPTIONS.
 	update_option( 'wps_ubo_global_options', $wps_bump_upsell_global_options );
 
@@ -92,6 +95,9 @@ $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_def
 
 // By default plugin will be enabled.
 $wps_bump_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : '';
+
+// Bump offer showing setting.
+$wps_upsell_bump_target_ids_popup = ! empty( $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] ) ? $wps_ubo_global_options['wps_upsell_bump_target_ids_popup'] : '';
 
 // Enable permalink setting.
 $wps_bump_enable_permalink = ! empty( $wps_ubo_global_options['wps_bump_enable_permalink'] ) ? $wps_ubo_global_options['wps_bump_enable_permalink'] : '';
@@ -296,6 +302,44 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 					</td>
 				</tr>
 				<!--Enable the Pop Up for bump Offer end. -->
+
+				<!-- Select bump id to apply popup start here -->
+				<tr valign="top" class="wps_target_bump_for_popup">
+
+					<th scope="row" class="titledesc">
+						<label for="wps_upsell_bump_target_ids_search"><?php esc_html_e( 'Select target bumps(s)', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td class="forminp forminp-text">
+						<?php
+
+						$description = esc_html__( 'In these the order bump that are selected in these will show in popup.', 'upsell-order-bump-offer-for-woocommerce' );
+						wps_ubo_lite_help_tip( $description );
+						?>
+
+						<select id="wps_upsell_bump_target_ids_search" class="wc-bump-offer-search" multiple="multiple" name="wps_upsell_bump_target_ids_popup[]" data-placeholder="<?php esc_attr_e( 'Search for a product&hellip;', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
+							<?php
+							if ( ! empty( $wps_upsell_bump_target_ids_popup ) ) {
+
+								if ( $wps_upsell_bump_target_ids_popup ) {
+
+									foreach ( $wps_upsell_bump_target_ids_popup as $wps_upsell_bump_single_target_products_ids ) {
+
+										$product_name = wps_ubo_lite_get_bump_title( $wps_upsell_bump_single_target_products_ids );
+										?>
+
+										<option value="<?php echo esc_html( $wps_upsell_bump_single_target_products_ids ); ?>" selected="selected"><?php echo( esc_html( $product_name ) . '(#' . esc_html( $wps_upsell_bump_single_target_products_ids ) . ')' ); ?></option>';
+
+										<?php
+									}
+								}
+							}
+
+							?>
+						</select>		
+					</td>	
+				</tr>
+				<!-- Select bump id to apply popup ends here -->
 
 				<!-- Permalink target location start. -->
 				<tr valign="top">
@@ -853,7 +897,7 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 						?>
 
 						<input type="text" min="1" id="wps_bump_order_bump_limit" name="wps_custom_order_success_page" value="<?php echo esc_html( $wps_custom_order_success_page ); ?>">
-						<a href="<?php esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" style="text-decoration: none;"><i><?php esc_html_e( 'From here ,create custom order success page', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></a>
+						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" style="text-decoration: none;"><i><?php esc_html_e( 'From here ,create custom order success page', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></a>
 					</td>
 				</tr>
 				<!-- Set Order Success Page End. -->

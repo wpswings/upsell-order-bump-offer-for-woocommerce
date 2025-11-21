@@ -51,7 +51,6 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Date extends WC_Admin_Report {
 			$this->query_report_data();
 		}
 		return $this->report_data;
-
 	}
 
 	/**

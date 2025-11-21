@@ -734,7 +734,7 @@ class Wpswings_Onboarding_Helper {
 			$found = current(
 				array_filter(
 					$formatted_data,
-					function( $item ) {
+					function ( $item ) {
 						return isset( $item['name'] ) && 'plugin_deactivation_reason' === $item['name'];
 					}
 				)
@@ -908,7 +908,6 @@ class Wpswings_Onboarding_Helper {
 			'response'    => $_response,
 			'errors'      => $errors,
 		);
-
 	}
 
 	/**

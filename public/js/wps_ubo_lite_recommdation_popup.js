@@ -133,8 +133,6 @@ jQuery( document ).ready(
 					// For variation product.
 					var wps_variation_product_id = jQuery( 'input[name="product_id"]' ).val();
 
-					console.log( wps_variation_product_id + ' ' + wps_target_product_id + ' ' + productId + ' ' + product_price_id );
-
 					jQuery.ajax(
 						{
 							type: 'post',
@@ -145,7 +143,8 @@ jQuery( document ).ready(
 								action: 'add_to_cart_recommendation',
 								wps_product_id : productId,
 								wps_product_price : product_price_id,
-								wps_target_product_id : wps_target_product_id,
+								wps_target_product_id: wps_target_product_id,
+								wps_variation_product_id: wps_variation_product_id,
 							},
 							success: function (msg) {
 
