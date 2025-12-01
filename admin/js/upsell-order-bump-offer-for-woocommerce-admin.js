@@ -1543,6 +1543,7 @@ jQuery(document).ready(function ($) {
         if (response.success) {
           alert(response.data.message || "Popup settings saved successfully!");
           $("#wps_ubo_popup_modal").removeClass("active-pop");
+          jQuery('#wps_upsell_bump_creation_setting_save').trigger('click');
         }
       },
       error: function () {

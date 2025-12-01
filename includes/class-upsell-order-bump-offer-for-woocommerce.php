@@ -323,6 +323,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_filter( 'wps_ubo_convert_base_price_diffrent_currency', $plugin_public, 'wps_ubo_convert_diffrent_currency_base_price_callback' );
 
 			// Show bump offer.
+			$wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : 'on';
+
+			// Bump offer html section with popup function.
+			if ( 'with_popup' == $wps_bump_target_popup_bump ) {
+			$this->loader->add_action( 'wp_footer', $plugin_public, 'show_offer_bump', 9999 );
+			}
 			$this->loader->add_action( $offer_location_details['hook'], $plugin_public, 'show_offer_bump', $offer_location_details['priority'] );
 
 			// bump shortcode for all page.

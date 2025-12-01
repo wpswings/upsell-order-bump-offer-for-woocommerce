@@ -2922,7 +2922,12 @@ function wps_ubo_lite_getcat_title( $cat_id = '' ) {
  * @param   int    $encountered_order_bump_id                  Single order bump id.
  * @since   1.4.0
  */
-function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_target_key, int $encountered_order_bump_id = null ) {
+function wps_ubo_analyse_and_display_order_bump( 
+    $key, 
+    $encountered_respective_target_key, 
+    ?int $encountered_order_bump_id = null 
+) {
+
 
 	if ( empty( $encountered_order_bump_id ) ) {
 
@@ -3016,7 +3021,11 @@ function wps_ubo_analyse_and_display_order_bump( $key, $encountered_respective_t
  * @param   int   $encountered_order_bump_id          Single order bump id.
  * @since   1.4.0
  */
-function wps_ubo_order_bump_session_validations( $wps_ubo_offer_array_collection, $wps_ubo_global_options, int $encountered_order_bump_id = null ) {
+function wps_ubo_order_bump_session_validations(
+	$wps_ubo_offer_array_collection,
+	$wps_ubo_global_options,
+	?int $encountered_order_bump_id = null
+) {
 
 	if ( empty( $encountered_order_bump_id ) || empty( $wps_ubo_offer_array_collection[ $encountered_order_bump_id ] ) ) {
 

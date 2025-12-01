@@ -175,7 +175,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_bump_popup_exit_intent = ! empty( $wps_ubo_global_options['wps_ubo_enable_popup_exit_intent'] ) ? $wps_ubo_global_options['wps_ubo_enable_popup_exit_intent'] : 'on';
 
 			// Public Script.
-			wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery', 'wp-element', 'wp-plugins', 'wp-data', 'wc-blocks-checkout' ), $this->version, false );
+			wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery', 'wp-element', 'wp-plugins', 'wp-data', 'wc-blocks-checkout' ), time(), false );
 			wp_enqueue_script( 'wps-ubo-lite-public-script-new', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script_new_template.js', array( 'jquery' ), $this->version, false );
 
 			// Checkout Block and Cart block Comaptibility.
@@ -201,6 +201,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'wps_is_cart_block_use' => $wps_traditional_cart,
 				'wps_popup_type' => get_option( 'wps_ubo_popup_type', 'lightbox' ),
 				'wps_delay_time' => get_option( 'wps_ubo_popup_delay', 1 ),
+				
 			);
 
 			// Timer Functionality starts.
@@ -1079,9 +1080,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 							$value['data']->set_price( $bump_price );
 						} else {
+							$price_discount = number_format( $price_discount, 2, '.', '' );
 							$value['data']->set_price( $price_discount );
 						}
 					} else {
+						$price_discount = number_format( $price_discount, 2, '.', '' );
 						$value['data']->set_price( $price_discount );
 					}
 				}
@@ -7012,14 +7015,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 					$currencies = $WOOCS->get_currencies();
 					$rate       = $currencies[ $currrent ]['rate'];
-					$amount     = $price / ( $rate );
-					return round( $amount );
+					$amount     = $price / $rate;
+
+					return round( $amount, 2 ); // <— FIXED
 				} else {
-					return round( $price );
+					return round( $price, 2 ); // <— FIXED
 				}
 			}
 		}
-		return round( $price );
+		return round( $price, 2 ); // <— FIXED
 	}
 
 	// End of class.
