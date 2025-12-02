@@ -8111,6 +8111,10 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 			'posts_per_page' => -1,
 		)
 	);
+	// ========== NEW: Get list of countries for dropdown ==========
+	$countries_obj = new WC_Countries();
+	$countries = $countries_obj->get_countries();
+	// =============================================================
 	?>
 
 	<!-- Modal. -->
@@ -8150,6 +8154,11 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 												<option value="coupon_applied" <?php selected( $field, 'coupon_applied' ); ?>><?php esc_html_e( 'Coupon Applied', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 												<option value="user_status" <?php selected( $field, 'user_status' ); ?>><?php esc_html_e( 'User Login Status', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 												<option value="user_registered" <?php selected( $field, 'user_registered' ); ?>><?php esc_html_e( 'Specific Registered User', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+											<!-- ========== NEW: Device Type Option ========== -->
+<option value="device_type" <?php selected( $field, 'device_type' ); ?>><?php esc_html_e( 'Device Type', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+<!-- ========== NEW: Country/Region Option ========== -->
+<option value="country" <?php selected( $field, 'country' ); ?>><?php esc_html_e( 'Country / Region', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+<!-- ============================================== -->
 											</select>
 										</td>
 										<td>
@@ -8183,7 +8192,10 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 											);
 
 											// Use wp_kses to sanitize the output.
-											echo wp_kses( wc_render_value_input( $field, $index, $value, $coupons ), $allowed_html );
+											// echo wp_kses( wc_render_value_input( $field, $index, $value, $coupons ), $allowed_html );
+											// ========== MODIFIED: Pass countries to render function ==========
+echo wp_kses( wc_render_value_input( $field, $index, $value, $coupons, $countries ), $allowed_html );
+// =================================================================
 											?>
 										</td>
 										<td><button type="button" class="button remove-row"><?php esc_html_e( 'Remove', 'upsell-order-bump-offer-for-woocommerce' ); ?></button></td>
@@ -8198,6 +8210,11 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 											<option value="coupon_applied"><?php esc_html_e( 'Coupon Applied', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 											<option value="user_status"><?php esc_html_e( 'User Login Status', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 											<option value="user_registered"><?php esc_html_e( 'Specific Registered User', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+											<!-- ========== NEW: Device Type Option ========== -->
+<option value="device_type"><?php esc_html_e( 'Device Type', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+<!-- ========== NEW: Country/Region Option ========== -->
+<option value="country"><?php esc_html_e( 'Country / Region', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+<!-- ============================================== -->
 										</select>
 									</td>
 									<td>
@@ -8270,6 +8287,8 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 								<option value="coupon_applied"><?php esc_html_e( 'Coupon Applied', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 								<option value="user_status"><?php esc_html_e( 'User Login Status', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 								<option value="user_registered"><?php esc_html_e( 'Specific Registered User', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option value="device_type"><?php esc_html_e( 'Device Type', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
+								<option value="country"><?php esc_html_e( 'Country / Region', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 							</select>
 						</td>
 
@@ -8324,18 +8343,21 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 			});
 
 			// Filter operators.
-			function filter_operators($row) {
-				const field = $row.find('.rule-field').val();
-				const $operator = $row.find('.rule-operator');
-				$operator.find('option').show();
+// ========== MODIFIED: Updated to include new field types ==========
+function filter_operators($row) {
+    const field = $row.find('.rule-field').val();
+    const $operator = $row.find('.rule-operator');
+    $operator.find('option').show();
 
-				if (['coupon_applied', 'user_status', 'user_registered'].includes(field)) {
-					$operator.find('option[value="greater_than"], option[value="less_than"]').hide();
-					if (['greater_than', 'less_than'].includes($operator.val())) {
-						$operator.val('is');
-					}
-				}
-			}
+    // Hide greater_than/less_than for non-numeric fields
+    if (['coupon_applied', 'user_status', 'user_registered', 'device_type', 'country'].includes(field)) {
+        $operator.find('option[value="greater_than"], option[value="less_than"]').hide();
+        if (['greater_than', 'less_than'].includes($operator.val())) {
+            $operator.val('is');
+        }
+    }
+}
+// ================================================================
 
 			$modal.on('change', '.rule-field', function() {
 				const $row = $(this).closest('tr');
@@ -8512,9 +8534,10 @@ function sanitize_rules_array( $rules ) {
  * @param string $index index.
  * @param string $values values.
  * @param string $coupons coupons.
+ * @param array  $countries countries list. // NEW: Added parameter
  * @return string
  */
-function wc_render_value_input( $field, $index, $values, $coupons ) {
+function wc_render_value_input( $field, $index, $values, $coupons, $countries = array() ) {
 	$html = '';
 
 	switch ( $field ) {
@@ -8553,8 +8576,34 @@ function wc_render_value_input( $field, $index, $values, $coupons ) {
 			$html .= '</select>';
 			break;
 
+		// ========== NEW: Device Type Case ==========
+		case 'device_type':
+			$html .= '<select name="rules[' . $index . '][value][]">';
+			$devices = array(
+				'mobile' => 'Mobile',
+				'desktop' => 'Desktop',
+			);
+			foreach ( $devices as $key => $label ) {
+				$selected = in_array( $key, $values ) ? 'selected' : '';
+				$html .= '<option value="' . esc_attr( $key ) . '" ' . $selected . '>' . esc_html( $label ) . '</option>';
+			}
+			$html .= '</select>';
+			break;
+		// ===========================================
+
+		// ========== NEW: Country Case ==========
+		case 'country':
+			$html .= '<select multiple class="select2-field" name="rules[' . $index . '][value][]">';
+			foreach ( $countries as $code => $name ) {
+				$selected = in_array( $code, $values ) ? 'selected' : '';
+				$html .= '<option value="' . esc_attr( $code ) . '" ' . $selected . '>' . esc_html( $name ) . '</option>';
+			}
+			$html .= '</select>';
+			break;
+		// =======================================
+
 		default:
-			$html .= '<input type="number" class = ¨wps_number_validation¨ min =¨0¨ name="rules[' . $index . '][value][]" value="' . esc_attr( implode( ',', $values ) ) . '" />';
+			$html .= '<input type="number" class="wps_number_validation" min="0" name="rules[' . $index . '][value][]" value="' . esc_attr( implode( ',', $values ) ) . '" />';
 	}
 
 	return $html;
@@ -8582,6 +8631,11 @@ add_action(
 			)
 		);
 
+		// ========== NEW: Get countries for AJAX response ==========
+		$countries_obj = new WC_Countries();
+		$countries = $countries_obj->get_countries();
+		// ==========================================================
+
 		$allowed_html = array(
 			'select' => array(
 				'class' => array(),
@@ -8597,14 +8651,70 @@ add_action(
 				'name' => array(),
 				'value' => array(),
 				'class' => array(),
+				'min' => array(), // NEW: Added min attribute
 			),
 		);
 
-		$html = wc_render_value_input( $field, $row_idx, array(), $coupons );
+		// ========== MODIFIED: Pass countries to function ==========
+		$html = wc_render_value_input( $field, $row_idx, array(), $coupons, $countries );
+		// ==========================================================
 		echo wp_kses( $html, $allowed_html );
 		wp_die();
 	}
 );
+
+// ========== NEW: Helper function to detect device type ==========
+/**
+ * Detect if user is on mobile device
+ *
+ * @return string 'mobile' or 'desktop'
+ */
+function wc_detect_device_type() {
+	$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
+	
+	$mobile_agents = array(
+		'Android', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 
+		'Windows Phone', 'webOS', 'Mobile', 'Tablet'
+	);
+	
+	foreach ( $mobile_agents as $agent ) {
+		if ( stripos( $user_agent, $agent ) !== false ) {
+			return 'mobile';
+		}
+	}
+	
+	return 'desktop';
+}
+// ================================================================
+
+// ========== NEW: Helper function to get user's country via GeoIP ==========
+/**
+ * Get user's country code using WooCommerce GeoIP
+ *
+ * @return string Country code (e.g., 'US', 'IN')
+ */
+function wc_get_user_country() {
+	$country = '';
+	
+	// Try WooCommerce geolocation first
+	if ( class_exists( 'WC_Geolocation' ) ) {
+		$location = WC_Geolocation::geolocate_ip();
+		$country = ! empty( $location['country'] ) ? $location['country'] : '';
+	}
+	
+	// Fallback to customer session
+	if ( empty( $country ) && WC()->customer ) {
+		$country = WC()->customer->get_billing_country();
+	}
+	
+	// Fallback to shipping country
+	if ( empty( $country ) && WC()->customer ) {
+		$country = WC()->customer->get_shipping_country();
+	}
+	
+	return $country;
+}
+// ===========================================================================
 
 
 /**
@@ -8687,6 +8797,16 @@ function wc_evaluate_rule_condition( $rule, $cart ) {
 				$target = '';
 			}
 			break;
+		// ========== NEW: Device Type Case ==========
+		case 'device_type':
+			$target = wc_detect_device_type();
+			break;
+		// ===========================================
+		// ========== NEW: Country Case ==========
+		case 'country':
+			$target = wc_get_user_country();
+			break;
+		// =======================================
 		default:
 			return false;
 	}
@@ -8727,6 +8847,16 @@ function wc_evaluate_rule_condition_block( $rule, $cart_data ) {
 				$target = '';
 			}
 			break;
+		// ========== NEW: Device Type Case ==========
+		case 'device_type':
+			$target = wc_detect_device_type();
+			break;
+		// ===========================================
+		// ========== NEW: Country Case ==========
+		case 'country':
+			$target = wc_get_user_country();
+			break;
+		// =======================================
 		default:
 			return false;
 	}

@@ -77,7 +77,8 @@ jQuery(document).ready(function ($) {
       wps_is_cart_block_use &&
       document.querySelector(".woocommerce-cart")
     ) {
-
+      console.log("Cart Block is used");
+      console.log(wps_ubo_lite_public.wps_order_bump_location_on_cart);
       if (jQuery(".wrapup_order_bump").length > 0) {
         var data = jQuery(".wrapup_order_bump").html();
         if (
@@ -88,6 +89,7 @@ jQuery(document).ready(function ($) {
             '<div class = "wrapup_order_bump">' + data + "</div>"
           );
           $(".wp-block-woocommerce-cart").prev().remove();
+          $(".wrapup_order_bump").first().remove();
         } else if (
           "woocommerce_cart_collaterals" ==
           wps_ubo_lite_public.wps_order_bump_location_on_cart
@@ -96,6 +98,7 @@ jQuery(document).ready(function ($) {
             '<div class = "wrapup_order_bump">' + data + "</div>"
           );
           $(".wp-block-woocommerce-cart").prev().remove();
+          $(".wrapup_order_bump").first().remove();
         } else if (
           "woocommerce_before_cart_totals" ==
           wps_ubo_lite_public.wps_order_bump_location_on_cart
@@ -104,6 +107,7 @@ jQuery(document).ready(function ($) {
             jQuery(".wp-block-woocommerce-cart-line-items-block").parent()
           ).append('<div class = "wrapup_order_bump">' + data + "</div>");
           $(".wp-block-woocommerce-cart").prev().remove();
+          $(".wrapup_order_bump").first().remove();
 
         }
       }

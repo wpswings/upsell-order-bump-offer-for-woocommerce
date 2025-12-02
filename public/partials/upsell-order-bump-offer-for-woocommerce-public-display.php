@@ -164,6 +164,7 @@ if ( 'without_popup' == $wps_bump_target_popup_bump || ( isset( $wps_upsell_bump
 		$wps_ubo_condition_show = ! empty( $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] ) ? $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] : 0;
 		if ( 'yes' === $wps_ubo_condition_show ) {
 			{
+			var_dump( wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) );
 			if ( ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
 				continue;
 			}
