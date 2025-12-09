@@ -17,9 +17,9 @@
  * Description:       <code><strong>Upsell Funnel Builder for WooCommerce</strong></code>helps merchants maximize sales and generate revenue by curating one-click upsell and bump offers!. <a target="_blank" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-orderbump-shop&utm_medium=orderbump-pro-backend&utm_campaign=shop-page" >Elevate your eCommerce store by exploring more on <strong>WP Swings</strong></a>.
  *
  * Requires at least:       6.7.0
- * Tested up to:            6.8.3
+ * Tested up to:            6.9.0
  * WC requires at least:    6.5.0
- * WC tested up to:         10.3.5
+ * WC tested up to:         10.3.6
  *
  * Requires Plugins: woocommerce
  * Version:           3.1.0
