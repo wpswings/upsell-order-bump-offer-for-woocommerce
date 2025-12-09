@@ -6249,7 +6249,9 @@ function wps_ubo_lite_bump_offer_html_11( $bump, $encountered_order_bump_id = ''
 
 	$bumphtml .= $wps_ubo_red_arrow_html;
 
-	$bumphtml .= '<label class="wps_upsell_bump_checkbox_container"><input type="checkbox"' . $check . ' class="add_offer_in_cart" id="wps_checkbox_offer' . esc_html( $order_bump_key ) . '">
+	$check_attr = ! empty( $check ) ? ' ' . $check : '';
+
+	$bumphtml .= '<label class="wps_upsell_bump_checkbox_container"><input type="checkbox"' . $check_attr . ' class="add_offer_in_cart" id="wps_checkbox_offer' . esc_html( $order_bump_key ) . '">
 			<span class="checkmark"></span></label>
             <span class = "wps_accetp_offer_title">' . $title . '</span></div>
         </div>

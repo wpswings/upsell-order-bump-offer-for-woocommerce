@@ -154,6 +154,7 @@ if ( 'without_popup' == $wps_bump_target_popup_bump || ( isset( $wps_upsell_bump
 	}
 	$wps_current_user = wp_get_current_user();
 	$current_user_email = $wps_current_user->user_email;
+	$wc_dynamic_rules = get_option( 'wc_dynamic_discount_rules', array() );
 	// Bump offer html section without popup function.
 	foreach ( $t as $key => $order_bump_id ) {
 
@@ -164,8 +165,19 @@ if ( 'without_popup' == $wps_bump_target_popup_bump || ( isset( $wps_upsell_bump
 		$wps_ubo_condition_show = ! empty( $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] ) ? $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] : 0;
 		if ( 'yes' === $wps_ubo_condition_show ) {
 			{
-			var_dump( wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) );
-			if ( ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
+			$device_country_ok = true;
+			if ( isset( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] ) ) {
+				foreach ( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] as $rule ) {
+					if ( in_array( $rule['field'], array( 'device_type', 'country' ), true ) ) {
+						$target = 'device_type' === $rule['field'] ? wc_detect_device_type() : wc_get_user_country();
+						if ( ! wc_compare_rule_value( $rule['field'], $rule['operator'], $target, $rule['value'] ) ) {
+							$device_country_ok = false;
+							break;
+						}
+					}
+				}
+			}
+			if ( ! $device_country_ok || ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
 				continue;
 			}
 
@@ -223,9 +235,15 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 			continue;
 		}
 
-		if ( ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
-			continue;
-		}
+
+		$wps_ubo_condition_show = ! empty( $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] ) ? $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] : 0;
+		if ( 'yes' === $wps_ubo_condition_show ) {
+			{
+			if ( ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
+				continue;
+			}
+
+			}}
 
 
 		$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
@@ -255,6 +273,26 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 		foreach ( $data_for_popup as $key => $order_bump_id ) {
 			$wps_offer_id = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
 			$offer_product = wc_get_product( $wps_offer_id );
+
+			$wps_ubo_condition_show = ! empty( $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] ) ? $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] : 0;
+			if ( 'yes' === $wps_ubo_condition_show ) {
+				$device_country_ok = true;
+				if ( isset( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] ) ) {
+					foreach ( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] as $rule ) {
+						if ( in_array( $rule['field'], array( 'device_type', 'country' ), true ) ) {
+							$target = 'device_type' === $rule['field'] ? wc_detect_device_type() : wc_get_user_country();
+							if ( ! wc_compare_rule_value( $rule['field'], $rule['operator'], $target, $rule['value'] ) ) {
+								$device_country_ok = false;
+								break;
+							}
+						}
+					}
+				}
+				if ( ! $device_country_ok || ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
+					unset( $data_for_popup[ $key ] );
+					continue;
+				}
+			}
 
 			// Check if product exists and is a variable product.
 			if ( $offer_product && $offer_product->is_type( 'variable' ) ) {
@@ -286,6 +324,26 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 						if ( ! empty( $min_cart_value_wps ) ) {
 							$cart_total = WC()->cart->get_cart_contents_total();
 							if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+								continue;
+							}
+						}
+
+						// Respect conditional visibility (device type, country, etc.).
+						$wps_ubo_condition_show = ! empty( $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] ) ? $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] : 0;
+						if ( 'yes' === $wps_ubo_condition_show ) {
+							$device_country_ok = true;
+							if ( isset( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] ) ) {
+								foreach ( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] as $rule ) {
+									if ( in_array( $rule['field'], array( 'device_type', 'country' ), true ) ) {
+										$target = 'device_type' === $rule['field'] ? wc_detect_device_type() : wc_get_user_country();
+										if ( ! wc_compare_rule_value( $rule['field'], $rule['operator'], $target, $rule['value'] ) ) {
+											$device_country_ok = false;
+											break;
+										}
+									}
+								}
+							}
+							if ( ! $device_country_ok || ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
 								continue;
 							}
 						}

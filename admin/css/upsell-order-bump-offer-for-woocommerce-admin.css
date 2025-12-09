@@ -6947,3 +6947,11 @@ button.button.btn-primary.wc-discount-save:focus {
   color: #111;
   transform: rotate(90deg);
 }
+
+/* Ensure popup type and delay fields share the same width */
+#wps_ubo_popup_modal #wps_ubo_popup_type,
+#wps_ubo_popup_modal #wps_ubo_popup_delay {
+  width: 260px;
+  max-width: 100%;
+  box-sizing: border-box;
+}

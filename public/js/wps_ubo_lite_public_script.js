@@ -56,6 +56,8 @@ jQuery(document).ready(function ($) {
         else if (wps_ubo_lite_public.wps_order_bump_location_on_checkout == "_before_order_summary") {
 
           $(".wrapup_order_bump").first().remove();
+          //  $(".wrapup_order_bump").first().find(".wps_uobo_product_popup").remove();
+
           $(".wp-block-woocommerce-checkout-order-summary-coupon-form-block")
             .append('<div class="wrapup_order_bump">' + data + "</div>");
         }
@@ -88,8 +90,8 @@ jQuery(document).ready(function ($) {
           jQuery(".wp-block-woocommerce-cart-totals-block").append(
             '<div class = "wrapup_order_bump">' + data + "</div>"
           );
-          $(".wp-block-woocommerce-cart").prev().remove();
-          $(".wrapup_order_bump").first().remove();
+          // $(".wp-block-woocommerce-cart").prev().remove();        //this part of the code is good but need to be check in other themes also.
+          $(".wrapup_order_bump").first().remove();   //this is working
         } else if (
           "woocommerce_cart_collaterals" ==
           wps_ubo_lite_public.wps_order_bump_location_on_cart
@@ -97,7 +99,7 @@ jQuery(document).ready(function ($) {
           jQuery(".wc-block-components-totals-footer-item").append(
             '<div class = "wrapup_order_bump">' + data + "</div>"
           );
-          $(".wp-block-woocommerce-cart").prev().remove();
+          // $(".wp-block-woocommerce-cart").prev().remove();
           $(".wrapup_order_bump").first().remove();
         } else if (
           "woocommerce_before_cart_totals" ==
@@ -106,7 +108,7 @@ jQuery(document).ready(function ($) {
           jQuery(
             jQuery(".wp-block-woocommerce-cart-line-items-block").parent()
           ).append('<div class = "wrapup_order_bump">' + data + "</div>");
-          $(".wp-block-woocommerce-cart").prev().remove();
+          // $(".wp-block-woocommerce-cart").prev().remove();
           $(".wrapup_order_bump").first().remove();
 
         }
@@ -1196,13 +1198,40 @@ jQuery(document).ready(function ($) {
     }
   }
 
-  // setTimeout(function () {
-    var popItem = $(".wrapup_order_bump");
-    console.log(popItem);
-      var popItemDetach = popItem.detach();
-      console.log("in");
-      $("body.woocommerce-checkout, body.woocommerce-cart").prepend(popItemDetach);
-  // }, 2000);
+  setTimeout(function () {
+    //this need to be run for popup only , if avada theme only , we need to check this. 
+     var wps_current_theme = wps_ubo_lite_public.current_theme;
+    if ("Avada" == wps_current_theme) {
+      // var popItem = $(".wps_uobo_product_popup");
+      // // var popItem = $(".wrapup_order_bump").hasClass("wrapup_order_bump");
+      // console.log(popItem);
+      // var data = $(".wrapup_order_bump:has(.wps_uobo_product_popup)").html() || '';
+      // console.log(data);
+      // var popItemDetach = popItem.detach();
+      // $("body.woocommerce-checkout, body.woocommerce-cart").prepend('<div class = "wrapup_order_bump">' + data + "</div>");
+
+      // Select the original wrap
+var wrap = $(".wrapup_order_bump").first();
+
+// Clone the wrap so we can extract clean HTML
+var cloned = wrap.clone();
+
+// Remove unwanted section from clone
+cloned.find(".wps_order_bump_without_popup_wrap").remove();
+
+// Get only the HTML that will be moved
+var data = cloned.html();
+
+// Prepend the cleaned content to checkout/cart body
+$("body.woocommerce-checkout, body.woocommerce-cart")
+    .prepend('<div class="wrapup_order_bump">' + data + '</div>');
+
+// NOW REMOVE only the moved parts from original
+wrap.find(".open-button").remove();
+wrap.find(".wps_uobo_product_popup").remove();
+
+    }
+  }, 2000);
 
   // // Open Popup
   // $(document).on("click", ".open-button", function (e) {
