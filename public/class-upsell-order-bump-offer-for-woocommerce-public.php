@@ -200,7 +200,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'wps_is_checkout_block_use' => $wps_traditional_checkout,
 				'wps_is_cart_block_use' => $wps_traditional_cart,
 				'wps_popup_type' => get_option( 'wps_ubo_popup_type', 'lightbox' ),
-				'wps_delay_time' => get_option( 'wps_ubo_popup_delay', 1 ),
+				'wps_delay_time' => get_option( 'wps_ubo_popup_delay', 3 ),
 				
 			);
 

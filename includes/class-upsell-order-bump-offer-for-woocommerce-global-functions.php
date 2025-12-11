@@ -2922,12 +2922,11 @@ function wps_ubo_lite_getcat_title( $cat_id = '' ) {
  * @param   int    $encountered_order_bump_id                  Single order bump id.
  * @since   1.4.0
  */
-function wps_ubo_analyse_and_display_order_bump( 
-    $key, 
-    $encountered_respective_target_key, 
-    ?int $encountered_order_bump_id = null 
+function wps_ubo_analyse_and_display_order_bump(
+	$key,
+	$encountered_respective_target_key,
+	?int $encountered_order_bump_id = null
 ) {
-
 
 	if ( empty( $encountered_order_bump_id ) ) {
 
@@ -8194,10 +8193,9 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 											);
 
 											// Use wp_kses to sanitize the output.
-											// echo wp_kses( wc_render_value_input( $field, $index, $value, $coupons ), $allowed_html );
-											// ========== MODIFIED: Pass countries to render function ==========
-echo wp_kses( wc_render_value_input( $field, $index, $value, $coupons, $countries ), $allowed_html );
-// =================================================================
+											// ========== MODIFIED: Pass countries to render function. ==========
+											echo wp_kses( wc_render_value_input( $field, $index, $value, $coupons, $countries ), $allowed_html );
+											// =================================================================
 											?>
 										</td>
 										<td><button type="button" class="button remove-row"><?php esc_html_e( 'Remove', 'upsell-order-bump-offer-for-woocommerce' ); ?></button></td>
@@ -8347,17 +8345,17 @@ echo wp_kses( wc_render_value_input( $field, $index, $value, $coupons, $countrie
 			// Filter operators.
 // ========== MODIFIED: Updated to include new field types ==========
 function filter_operators($row) {
-    const field = $row.find('.rule-field').val();
-    const $operator = $row.find('.rule-operator');
-    $operator.find('option').show();
+	const field = $row.find('.rule-field').val();
+	const $operator = $row.find('.rule-operator');
+	$operator.find('option').show();
 
-    // Hide greater_than/less_than for non-numeric fields
-    if (['coupon_applied', 'user_status', 'user_registered', 'device_type', 'country'].includes(field)) {
-        $operator.find('option[value="greater_than"], option[value="less_than"]').hide();
-        if (['greater_than', 'less_than'].includes($operator.val())) {
-            $operator.val('is');
-        }
-    }
+	// Hide greater_than/less_than for non-numeric fields
+	if (['coupon_applied', 'user_status', 'user_registered', 'device_type', 'country'].includes(field)) {
+		$operator.find('option[value="greater_than"], option[value="less_than"]').hide();
+		if (['greater_than', 'less_than'].includes($operator.val())) {
+			$operator.val('is');
+		}
+	}
 }
 // ================================================================
 
@@ -8536,7 +8534,7 @@ function sanitize_rules_array( $rules ) {
  * @param string $index index.
  * @param string $values values.
  * @param string $coupons coupons.
- * @param array  $countries countries list. // NEW: Added parameter
+ * @param array  $countries countries list.
  * @return string
  */
 function wc_render_value_input( $field, $index, $values, $coupons, $countries = array() ) {
@@ -8653,11 +8651,11 @@ add_action(
 				'name' => array(),
 				'value' => array(),
 				'class' => array(),
-				'min' => array(), // NEW: Added min attribute
+				'min' => array(),
 			),
 		);
 
-		// ========== MODIFIED: Pass countries to function ==========
+		// ========== MODIFIED: Pass countries to function. ==========
 		$html = wc_render_value_input( $field, $row_idx, array(), $coupons, $countries );
 		// ==========================================================
 		echo wp_kses( $html, $allowed_html );
@@ -8665,58 +8663,62 @@ add_action(
 	}
 );
 
-// ========== NEW: Helper function to detect device type ==========
+// ========== NEW: Helper function to detect device type. ==========
 /**
- * Detect if user is on mobile device
+ * Detect if user is on mobile device.
  *
- * @return string 'mobile' or 'desktop'
+ * @return string 'mobile' or 'desktop'.
  */
 function wc_detect_device_type() {
 	$user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
-	
+
 	$mobile_agents = array(
-		'Android', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 
-		'Windows Phone', 'webOS', 'Mobile', 'Tablet'
+		'Android',
+		'iPhone',
+		'iPad',
+		'iPod',
+		'BlackBerry',
+		'Windows Phone',
+		'webOS',
+		'Mobile',
+		'Tablet',
 	);
-	
+
 	foreach ( $mobile_agents as $agent ) {
 		if ( stripos( $user_agent, $agent ) !== false ) {
 			return 'mobile';
 		}
 	}
-	
+
 	return 'desktop';
 }
-// ================================================================
 
-// ========== NEW: Helper function to get user's country via GeoIP ==========
 /**
- * Get user's country code using WooCommerce GeoIP
+ * Get user's country code using WooCommerce GeoIP.
  *
- * @return string Country code (e.g., 'US', 'IN')
+ * @return string Country code (e.g., 'US', 'IN').
  */
 function wc_get_user_country() {
 	$country = '';
-	
-	// Try WooCommerce geolocation first
+
+	// Try WooCommerce geolocation first.
 	if ( class_exists( 'WC_Geolocation' ) ) {
 		$location = WC_Geolocation::geolocate_ip();
 		$country = ! empty( $location['country'] ) ? $location['country'] : '';
 	}
-	
-	// Fallback to customer session
+
+	// Fallback to customer session.
 	if ( empty( $country ) && WC()->customer ) {
 		$country = WC()->customer->get_billing_country();
 	}
-	
-	// Fallback to shipping country
+
+	// Fallback to shipping country.
 	if ( empty( $country ) && WC()->customer ) {
 		$country = WC()->customer->get_shipping_country();
 	}
-	
+
 	return $country;
 }
-// ===========================================================================
 
 
 /**

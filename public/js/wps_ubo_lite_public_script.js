@@ -1,18 +1,4 @@
 jQuery(document).ready(function ($) {
-  // jQuery('.wrapup_order_bump').first().remove();
-  // console.log(wps_ubo_lite_public.wps_order_bump_location_on_checkout);
-  $(document).ready(function () {
-    var wps_current_theme = wps_ubo_lite_public.current_theme;
-    if (
-      "Twenty Twenty-Five" == wps_current_theme ||
-      "Twenty Twenty-Three" == wps_current_theme ||
-      "Twenty Twenty-Four" == wps_current_theme ||
-      "Betheme" == wps_current_theme
-    ) {
-      // $("body > div.wrapup_order_bump").first().hide();
-    }
-  });
-
   if (document.querySelector(".woocommerce-order-received")) {
     // You are on the cart page.
     $(".wrapup_order_bump").hide();
@@ -31,43 +17,58 @@ jQuery(document).ready(function ($) {
 
   setTimeout(function () {
     //Bump Shown on the checkout page code starts here.
-    var wps_is_checkout_block_use = wps_ubo_lite_public.wps_is_checkout_block_use;
+    var wps_is_checkout_block_use =
+      wps_ubo_lite_public.wps_is_checkout_block_use;
 
-    if (wps_is_checkout_block_use && $("body").hasClass("woocommerce-checkout")) {
+    if (
+      wps_is_checkout_block_use &&
+      $("body").hasClass("woocommerce-checkout")
+    ) {
       if ($(".wrapup_order_bump").length > 0) {
-
         var data = $(".wrapup_order_bump").html();
 
         // ===== LOCATION: Before Place Order =====
-        if (wps_ubo_lite_public.wps_order_bump_location_on_checkout == "_before_place_order_button") {
+        if (
+          wps_ubo_lite_public.wps_order_bump_location_on_checkout ==
+          "_before_place_order_button"
+        ) {
           $(".wrapup_order_bump").first().remove();
-          $(".wp-block-woocommerce-checkout-order-summary-block")
-            .append('<div class="wrapup_order_bump">' + data + "</div>");
+          $(".wp-block-woocommerce-checkout-order-summary-block").append(
+            '<div class="wrapup_order_bump">' + data + "</div>"
+          );
         }
 
         // ===== LOCATION: After Payment Gateways =====
-        else if (wps_ubo_lite_public.wps_order_bump_location_on_checkout == "_after_payment_gateways") {
+        else if (
+          wps_ubo_lite_public.wps_order_bump_location_on_checkout ==
+          "_after_payment_gateways"
+        ) {
           $(".wrapup_order_bump").first().remove();
-          $(".wc-block-checkout__payment-method")
-            .append('<div class="wrapup_order_bump">' + data + "</div>");
+          $(".wc-block-checkout__payment-method").append(
+            '<div class="wrapup_order_bump">' + data + "</div>"
+          );
         }
 
         // ===== LOCATION: Before Order Summary =====
-        else if (wps_ubo_lite_public.wps_order_bump_location_on_checkout == "_before_order_summary") {
-
+        else if (
+          wps_ubo_lite_public.wps_order_bump_location_on_checkout ==
+          "_before_order_summary"
+        ) {
           $(".wrapup_order_bump").first().remove();
-          //  $(".wrapup_order_bump").first().find(".wps_uobo_product_popup").remove();
-
-          $(".wp-block-woocommerce-checkout-order-summary-coupon-form-block")
-            .append('<div class="wrapup_order_bump">' + data + "</div>");
+          $(
+            ".wp-block-woocommerce-checkout-order-summary-coupon-form-block"
+          ).append('<div class="wrapup_order_bump">' + data + "</div>");
         }
 
         // ===== LOCATION: Before Payment Gateways =====
-        else if (wps_ubo_lite_public.wps_order_bump_location_on_checkout == "_before_payment_gateways") {
-
+        else if (
+          wps_ubo_lite_public.wps_order_bump_location_on_checkout ==
+          "_before_payment_gateways"
+        ) {
           $(".wrapup_order_bump").first().remove();
-          $(".wp-block-woocommerce-checkout")
-            .prepend('<div class="wrapup_order_bump">' + data + "</div>");
+          $(".wp-block-woocommerce-checkout").prepend(
+            '<div class="wrapup_order_bump">' + data + "</div>"
+          );
         }
       }
     }
@@ -90,8 +91,7 @@ jQuery(document).ready(function ($) {
           jQuery(".wp-block-woocommerce-cart-totals-block").append(
             '<div class = "wrapup_order_bump">' + data + "</div>"
           );
-          // $(".wp-block-woocommerce-cart").prev().remove();        //this part of the code is good but need to be check in other themes also.
-          $(".wrapup_order_bump").first().remove();   //this is working
+          $(".wrapup_order_bump").first().remove();
         } else if (
           "woocommerce_cart_collaterals" ==
           wps_ubo_lite_public.wps_order_bump_location_on_cart
@@ -99,7 +99,6 @@ jQuery(document).ready(function ($) {
           jQuery(".wc-block-components-totals-footer-item").append(
             '<div class = "wrapup_order_bump">' + data + "</div>"
           );
-          // $(".wp-block-woocommerce-cart").prev().remove();
           $(".wrapup_order_bump").first().remove();
         } else if (
           "woocommerce_before_cart_totals" ==
@@ -108,9 +107,7 @@ jQuery(document).ready(function ($) {
           jQuery(
             jQuery(".wp-block-woocommerce-cart-line-items-block").parent()
           ).append('<div class = "wrapup_order_bump">' + data + "</div>");
-          // $(".wp-block-woocommerce-cart").prev().remove();
           $(".wrapup_order_bump").first().remove();
-
         }
       }
     }
@@ -599,8 +596,6 @@ jQuery(document).ready(function ($) {
         .closest(".wps_upsell_offer_main_wrapper")
         .find(".order_bump_smo")
         .val();
-      // alert('i am click');
-      // console.log(formdata);
 
       // Add product to cart.
       jQuery.ajax({
@@ -1199,47 +1194,27 @@ jQuery(document).ready(function ($) {
   }
 
   setTimeout(function () {
-    //this need to be run for popup only , if avada theme only , we need to check this. 
-     var wps_current_theme = wps_ubo_lite_public.current_theme;
-    if ("Avada" == wps_current_theme) {
-      // var popItem = $(".wps_uobo_product_popup");
-      // // var popItem = $(".wrapup_order_bump").hasClass("wrapup_order_bump");
-      // console.log(popItem);
-      // var data = $(".wrapup_order_bump:has(.wps_uobo_product_popup)").html() || '';
-      // console.log(data);
-      // var popItemDetach = popItem.detach();
-      // $("body.woocommerce-checkout, body.woocommerce-cart").prepend('<div class = "wrapup_order_bump">' + data + "</div>");
+    // Select the original wrap
+    var wrap = $(".wrapup_order_bump").first();
 
-      // Select the original wrap
-var wrap = $(".wrapup_order_bump").first();
+    // Clone the wrap so we can extract clean HTML
+    var cloned = wrap.clone();
 
-// Clone the wrap so we can extract clean HTML
-var cloned = wrap.clone();
+    // Remove unwanted section from clone
+    cloned.find(".wps_order_bump_without_popup_wrap").remove();
 
-// Remove unwanted section from clone
-cloned.find(".wps_order_bump_without_popup_wrap").remove();
+    // Get only the HTML that will be moved
+    var data = cloned.html();
 
-// Get only the HTML that will be moved
-var data = cloned.html();
+    // Prepend the cleaned content to checkout/cart body
+    $("body.woocommerce-checkout, body.woocommerce-cart").prepend(
+      '<div class="wrapup_order_bump">' + data + "</div>"
+    );
 
-// Prepend the cleaned content to checkout/cart body
-$("body.woocommerce-checkout, body.woocommerce-cart")
-    .prepend('<div class="wrapup_order_bump">' + data + '</div>');
-
-// NOW REMOVE only the moved parts from original
-wrap.find(".open-button").remove();
-wrap.find(".wps_uobo_product_popup").remove();
-
-    }
+    // NOW REMOVE only the moved parts from original
+    wrap.find(".open-button").remove();
+    wrap.find(".wps_uobo_product_popup").remove();
   }, 2000);
-
-  // // Open Popup
-  // $(document).on("click", ".open-button", function (e) {
-  //   var popup_name = $(this).attr("popup-open");
-  //   $('[popup-name="' + popup_name + '"]').fadeIn(300);
-  //   var body = document.body;
-  //   body.classList.add("wps_body_class_popup");
-  // });
 
   // Close Popup.
   $(document).on("click", ".close-button ", function (e) {
@@ -1255,10 +1230,7 @@ wrap.find(".wps_uobo_product_popup").remove();
     body.classList.remove("wps_body_class_popup");
   });
 
-  //   // Close Popup When Click Outside
-  //   $(".popup").on("click", function () {
-  //     $(".fusion-header-wrapper").css("display", "block");
-  //   });
+
 
   $(document).on("click", function (e) {
     // Check if the click is outside the .content element
@@ -1274,7 +1246,6 @@ wrap.find(".wps_uobo_product_popup").remove();
   $(document).on("click", ".wps-ubo__temp-prod-price-qty-sub", function (e) {
     document.getElementById("inputtag").value--;
   });
-  // END OF SCRIPT.
 });
 
 // Evergreen timer Start here.

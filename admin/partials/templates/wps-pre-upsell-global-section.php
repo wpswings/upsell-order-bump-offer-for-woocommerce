@@ -965,7 +965,7 @@ $bump_offer_ab_method  = ! empty($wps_ubo_global_options['wps_ubo_offer_ab_metho
 			<tr>
 				<th><?php esc_html_e('Popup Delay (seconds)', 'upsell-order-bump-offer-for-woocommerce'); ?></th>
 				<td>
-					<input type="number" id="wps_ubo_popup_delay" style="width:260px; max-width:100%;" value="<?php echo esc_attr(get_option('wps_ubo_popup_delay', 1)); ?>" min="0" step="1">
+					<input type="number" id="wps_ubo_popup_delay" style="width:260px; max-width:100%;" value="<?php echo esc_attr(get_option('wps_ubo_popup_delay', 3)); ?>" min="0" step="1">
 				</td>
 			</tr>
 		</table>
