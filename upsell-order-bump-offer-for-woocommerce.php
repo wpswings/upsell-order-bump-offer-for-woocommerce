@@ -857,13 +857,3 @@ if ( $wps_ubo_activated ) {
 		}
 	}
 }
-
-// add_action( 'init', function() { for testing
-//     if ( isset($_GET['set_country']) ) {
-//         WC()->customer->set_billing_country( $_GET['set_country'] );
-//         WC()->customer->set_shipping_country( $_GET['set_country'] );
-//         WC()->customer->save();
-//         echo 'Country changed to: ' . $_GET['set_country'];
-//         exit;
-//     }
-// });
