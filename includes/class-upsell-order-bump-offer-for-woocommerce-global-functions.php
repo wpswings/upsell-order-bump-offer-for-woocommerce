@@ -8262,6 +8262,41 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 			// Initialize.
 			init_select2();
 			let row_index = $modal.find('#dynamic-rules-table tbody tr').length;
+			let rules_saved = false;
+
+			// Count rules that have field, operator, and at least one value.
+			function get_valid_rule_count() {
+				const $rows = $modal.find('#dynamic-rules-table tbody tr');
+				if (!$rows.length) {
+					return 0;
+				}
+
+				let valid_count = 0;
+
+				$rows.each(function() {
+					const field_val = $(this).find('.rule-field').val();
+					const operator_val = $(this).find('.rule-operator').val();
+					let has_value = false;
+
+					$(this).find('.value-cell').find('input, select').each(function() {
+						const current_val = $(this).val();
+
+						if (Array.isArray(current_val)) {
+							if (current_val.filter(Boolean).length > 0) {
+								has_value = true;
+							}
+						} else if (current_val !== null && $.trim(current_val) !== '') {
+							has_value = true;
+						}
+					});
+
+					if (field_val && operator_val && has_value) {
+						valid_count++;
+					}
+				});
+
+				return valid_count;
+			}
 
 			// Open/Close Modal.
 			$('.wc-discount-close, .wc-discount-cancel').on('click', function() {
@@ -8335,11 +8370,13 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 				});
 
 				row_index++;
+				rules_saved = false;
 			});
 
 			// Remove condition.
 			$modal.on('click', '.remove-row', function() {
 				$(this).closest('tr').remove();
+				rules_saved = false;
 			});
 
 			// Filter operators.
@@ -8365,6 +8402,7 @@ function filter_operators($row) {
 				const field = $(this).val();
 				const row_idx = $(this).attr('name').match(/\d+/)[0];
 				filter_operators($row);
+				rules_saved = false;
 
 				$.ajax({
 					url: ajaxurl,
@@ -8386,8 +8424,19 @@ function filter_operators($row) {
 				filter_operators($(this));
 			});
 
+			// Mark unsaved when value changes.
+			$modal.on('change input', '.rule-operator, .value-cell input, .value-cell select', function() {
+				rules_saved = false;
+			});
+
 			// Save conditions.
 			$modal.find('.wc-discount-save').on('click', function() {
+				const valid_rules = get_valid_rule_count();
+				if (0 === valid_rules) {
+					alert('<?php echo esc_js( __( 'Please add at least one visibility condition with a value before saving.', 'upsell-order-bump-offer-for-woocommerce' ) ); ?>');
+					return;
+				}
+
 				const form_data = $form.serialize();
 
 				const bump_id_one = new URLSearchParams(window.location.search).get('bump_id');
@@ -8415,6 +8464,7 @@ function filter_operators($row) {
 
 					success: function(response) {
 						alert('Conditions saved successfully!');
+						rules_saved = true;
 						$('.wc-discount-modal').removeClass('ubo_show');
 						$('.wc-discount-modal').removeClass('show');
 						// Trigger custom event or callback
@@ -8425,6 +8475,19 @@ function filter_operators($row) {
 					}
 				});
 			});
+
+			// Prevent saving the bump/funnel when conditional display is enabled without valid rules.
+			const $conditional_toggle = $('#wps_ubo_condition_show');
+			const $conditional_form = $conditional_toggle.length ? $conditional_toggle.closest('form') : null;
+
+			if ($conditional_form && $conditional_form.length) {
+				$conditional_form.on('submit', function(e) {
+					if ($conditional_toggle.is(':checked') && (0 === get_valid_rule_count() || !rules_saved)) {
+						e.preventDefault();
+						alert('<?php echo esc_js( __( 'Add at least one visibility condition or disable conditional display.', 'upsell-order-bump-offer-for-woocommerce' ) ); ?>');
+					}
+				});
+			}
 		});
 	</script>
 	<?php
