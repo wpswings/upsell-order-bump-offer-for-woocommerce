@@ -8193,7 +8193,7 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 											);
 
 											// Use wp_kses to sanitize the output.
-											// ========== MODIFIED: Pass countries to render function. ==========
+											// MODIFIED: Pass countries to render function.
 											echo wp_kses( wc_render_value_input( $field, $index, $value, $coupons, $countries ), $allowed_html );
 											// =================================================================
 											?>

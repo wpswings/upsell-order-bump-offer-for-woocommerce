@@ -7005,25 +7005,25 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @return int
 	 */
 	public function wps_ubo_convert_diffrent_currency_base_price_callback( $price ) {
-		if ( class_exists( 'WOOCS' ) ) {
-			global $WOOCS;
+		if ( class_exists( 'WOOCS' ) && ! empty( $GLOBALS['WOOCS'] ) ) {
+			$w_o_o_c_s = $GLOBALS['WOOCS'];
 			$amount = 0;
 
-			if ( $WOOCS->is_multiple_allowed ) {
-				$currrent = $WOOCS->current_currency;
-				if ( $currrent != $WOOCS->default_currency ) {
+			if ( $w_o_o_c_s->is_multiple_allowed ) {
+				$currrent = $w_o_o_c_s->current_currency;
+				if ( $currrent != $w_o_o_c_s->default_currency ) {
 
-					$currencies = $WOOCS->get_currencies();
+					$currencies = $w_o_o_c_s->get_currencies();
 					$rate       = $currencies[ $currrent ]['rate'];
 					$amount     = $price / $rate;
 
-					return round( $amount, 2 ); // <— FIXED
+					return round( $amount, 2 );
 				} else {
-					return round( $price, 2 ); // <— FIXED
+					return round( $price, 2 );
 				}
 			}
 		}
-		return round( $price, 2 ); // <— FIXED
+		return round( $price, 2 );
 	}
 
 	// End of class.
