@@ -616,15 +616,17 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 						?>
 
-						<label class="wps-upsell-smart-offer-upgrade" for="wps_ubo_condition_show">
-							<input class="wps-upsell-smart-offer-upgrade-wrap" type='checkbox' id='wps_ubo_condition_show' name='wps_ubo_condition_show' value='yes' <?php echo ! empty( $wps_ubo_condition_show ) && 'yes' === $wps_ubo_condition_show ? 'checked' : ''; ?>>
-							<span class="upsell-smart-offer-upgrade-btn"></span>
-						</label>
+						<div class="wps_ubo_condition_button_wrap">
+							<label class="wps-upsell-smart-offer-upgrade" for="wps_ubo_condition_show">
+								<input class="wps-upsell-smart-offer-upgrade-wrap" type='checkbox' id='wps_ubo_condition_show' name='wps_ubo_condition_show' value='yes' <?php echo ! empty( $wps_ubo_condition_show ) && 'yes' === $wps_ubo_condition_show ? 'checked' : ''; ?>>
+								<span class="upsell-smart-offer-upgrade-btn"></span>
+							</label>
 
-						<label>
-							<!-- Discount Condition Button, initially hidden -->
-							<button id="show-discount-conditions" class="button button-primary" style="display:none;">Add Conditional Rules</button>
-						</label>
+							<label>
+								<!-- Discount Condition Button, initially hidden -->
+								<button id="show-discount-conditions" class="button button-primary" style="display:none;">Add Conditional Rules</button>
+							</label>
+						</div>
 					</td>
 				</tr>
 

@@ -216,15 +216,16 @@ if (is_array($wps_upsell_bumps_list) && ! empty($wps_upsell_bumps_list)) {
 
 						$bump_status = ! empty($value['wps_upsell_bump_status']) ? $value['wps_upsell_bump_status'] : 'no';
 
-						if ('yes' === $bump_status) {
-
-							echo '<span class="wps_upsell_bump_list_live"></span><span class="wps_upsell_bump_list_live_name">' . esc_html__('Live', 'upsell-order-bump-offer-for-woocommerce') . '</span>';
-						} else {
-
-							echo '<span class="wps_upsell_bump_list_sandbox"></span><span class="wps_upsell_bump_list_sandbox_name">' . esc_html__('Sandbox', 'upsell-order-bump-offer-for-woocommerce') . '</span>';
-						}
-
+						$checked = 'yes' === $bump_status ? 'checked' : '';
 						?>
+						<label class="wps_ubo_bump_toggle_wrap">
+							<input type="checkbox" class="wps_ubo_bump_status_toggle" data-bump-id="<?php echo esc_attr($key); ?>" <?php echo esc_html($checked); ?> />
+							<span class="wps_ubo_bump_toggle_slider" aria-hidden="true"></span>
+						</label>
+						<span class="wps_ubo_bump_status_text" data-bump-id="<?php echo esc_attr($key); ?>">
+							<?php echo 'yes' === $bump_status ? esc_html__('Live', 'upsell-order-bump-offer-for-woocommerce') : esc_html__('Sandbox', 'upsell-order-bump-offer-for-woocommerce'); ?>
+						</span>
+
 					</td>
 
 					<!-- Bump Target products. -->
@@ -405,3 +406,83 @@ if (is_array($wps_upsell_bumps_list) && ! empty($wps_upsell_bumps_list)) {
 <?php } ?>
 <!-- Add Go pro popup. -->
 <?php wps_ubo_go_pro('list'); ?>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		const toggleNonce = '<?php echo esc_js( wp_create_nonce( 'wps_ubo_toggle_bump_status' ) ); ?>';
+
+		$('.wps_ubo_bump_status_toggle').on('change', function() {
+			const $toggle = $(this);
+			const bumpId = $toggle.data('bump-id');
+			const isChecked = $toggle.is(':checked');
+			const $text = $('.wps_ubo_bump_status_text[data-bump-id="' + bumpId + '"]');
+
+			$toggle.prop('disabled', true);
+
+			$.ajax({
+				url: ajaxurl,
+				method: 'POST',
+				data: {
+					action: 'wps_ubo_toggle_bump_status',
+					bump_id: bumpId,
+					status: isChecked ? 'yes' : 'no',
+					nonce: toggleNonce
+				},
+				success: function(response) {
+					if (response && response.success) {
+						$text.text(response.data.status_label);
+					} else {
+						$toggle.prop('checked', !isChecked);
+						alert(response && response.data && response.data.message ? response.data.message : '<?php echo esc_js( __( 'Unable to update status. Please try again.', 'upsell-order-bump-offer-for-woocommerce' ) ); ?>');
+					}
+				},
+				error: function() {
+					$toggle.prop('checked', !isChecked);
+					alert('<?php echo esc_js( __( 'Error updating status. Please try again.', 'upsell-order-bump-offer-for-woocommerce' ) ); ?>');
+				},
+				complete: function() {
+					$toggle.prop('disabled', false);
+				}
+			});
+		});
+	});
+</script>
+
+<style>
+.wps_ubo_bump_toggle_wrap {
+	display: inline-flex;
+	align-items: center;
+	margin-right: 8px;
+}
+.wps_ubo_bump_toggle_wrap input[type="checkbox"] {
+	display: none;
+}
+.wps_ubo_bump_toggle_slider {
+	position: relative;
+	width: 42px;
+	height: 22px;
+	background: #c5c5c5;
+	border-radius: 11px;
+	cursor: pointer;
+	transition: background 0.2s ease;
+	display: inline-block;
+}
+.wps_ubo_bump_toggle_slider:before {
+	content: '';
+	position: absolute;
+	left: 3px;
+	top: 3px;
+	width: 16px;
+	height: 16px;
+	background: #fff;
+	border-radius: 50%;
+	transition: transform 0.2s ease;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.wps_ubo_bump_toggle_wrap input:checked + .wps_ubo_bump_toggle_slider {
+	background: #4caf50;
+}
+.wps_ubo_bump_toggle_wrap input:checked + .wps_ubo_bump_toggle_slider:before {
+	transform: translateX(20px);
+}
+</style>

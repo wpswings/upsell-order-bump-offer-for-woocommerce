@@ -6854,11 +6854,11 @@ main.wps-ufw_ms-main {
 .wc-discount-modal-content table#dynamic-rules-table span.select2,
 .wc-discount-modal-content table#dynamic-rules-table select {
   width: 100%;
-  max-width: 250px;
+  max-width: none;
 }
 
 .wc-discount-modal-content table#dynamic-rules-table td.value-cell {
-  max-width: 175px;
+  max-width: 220px;
 }
 
 .wc-discount-modal-content .wc-discount-save:hover {

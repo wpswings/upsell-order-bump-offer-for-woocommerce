@@ -8568,6 +8568,105 @@ add_action(
 );
 
 /**
+ * Toggle bump status from listing (AJAX).
+ */
+add_action(
+	'wp_ajax_wps_ubo_toggle_bump_status',
+	function () {
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wps_ubo_toggle_bump_status' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		$bump_id = isset( $_POST['bump_id'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_id'] ) ) : '';
+		$status  = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
+
+		if ( '' === $bump_id || '' === $status ) {
+			wp_send_json_error( array( 'message' => __( 'Missing bump id or status', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		$wps_upsell_bumps = get_option( 'wps_ubo_bump_list', array() );
+		if ( empty( $wps_upsell_bumps[ $bump_id ] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Bump not found', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		$wps_upsell_bumps[ $bump_id ]['wps_upsell_bump_status'] = 'yes' === $status ? 'yes' : 'no';
+		update_option( 'wps_ubo_bump_list', $wps_upsell_bumps );
+
+		$status_label = 'yes' === $status ? __( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) : __( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' );
+
+		wp_send_json_success(
+			array(
+				'status'       => $wps_upsell_bumps[ $bump_id ]['wps_upsell_bump_status'],
+				'status_label' => $status_label,
+			)
+		);
+	}
+);
+
+/**
+ * Toggle funnel status from listing (AJAX).
+ */
+add_action(
+	'wp_ajax_wps_ubo_toggle_funnel_status',
+	function () {
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'wps_ubo_toggle_bump_status' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		$funnel_id = isset( $_POST['funnel_id'] ) ? sanitize_text_field( wp_unslash( $_POST['funnel_id'] ) ) : '';
+		$status    = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
+
+		if ( '' === $funnel_id || '' === $status ) {
+			wp_send_json_error( array( 'message' => __( 'Missing funnel id or status', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		$wps_funnels       = get_option( 'wps_wocuf_funnels_list', array() );
+		$funnel_option_key = 'wps_wocuf_funnels_list';
+
+		if ( empty( $wps_funnels ) || ( ! array_key_exists( $funnel_id, $wps_funnels ) && ! isset( $wps_funnels[ $funnel_id ] ) ) ) {
+			$wps_funnels       = get_option( 'wps_wocuf_pro_funnels_list', array() );
+			$funnel_option_key = 'wps_wocuf_pro_funnels_list';
+		}
+
+		// If still not found by key, try matching stored funnel_id inside each record.
+		if ( empty( $wps_funnels[ $funnel_id ] ) ) {
+			foreach ( $wps_funnels as $stored_key => $funnel_data ) {
+				if ( isset( $funnel_data['wps_wocuf_funnel_id'] ) && (string) $funnel_data['wps_wocuf_funnel_id'] === (string) $funnel_id ) {
+					$funnel_id = $stored_key;
+					break;
+				}
+			}
+		}
+
+		if ( empty( $wps_funnels[ $funnel_id ] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Funnel not found', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		$wps_funnels[ $funnel_id ]['wps_upsell_funnel_status'] = 'yes' === $status ? 'yes' : 'no';
+		update_option( $funnel_option_key, $wps_funnels );
+
+		$status_label = 'yes' === $status ? __( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) : __( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' );
+
+		wp_send_json_success(
+			array(
+				'status'       => $wps_funnels[ $funnel_id ]['wps_upsell_funnel_status'],
+				'status_label' => $status_label,
+			)
+		);
+	}
+);
+
+/**
  * Sanitized array function.
  *
  * @param array $rules rules.

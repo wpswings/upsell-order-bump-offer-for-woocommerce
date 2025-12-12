@@ -1041,6 +1041,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 								<td>
 									<select class="wc-offer-product-search wps_upsell_offer_product" name="wps_wocuf_products_in_offer[<?php echo esc_html($current_offer_id); ?>]" data-placeholder="<?php esc_html_e('Search for a product&hellip;', 'upsell-order-bump-offer-for-woocommerce'); ?>">
+										<option value=""><?php esc_html_e( 'Search for a product…', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 										<?php
 
 										$current_offer_product_id = '';

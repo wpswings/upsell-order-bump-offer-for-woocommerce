@@ -1,6 +1,19 @@
 jQuery(document).ready(function ($) {
+  // Safely init select2, but keep native selects visible if select2/assets are missing.
+  function safeSelect2($el, config) {
+    if (!$.fn.select2) {
+      $el.show();
+      return;
+    }
+    try {
+      $el.select2(config);
+    } catch (e) {
+      $el.show();
+    }
+  }
+
   // Target product search.
-  jQuery(".wc-bump-coupon-search").select2({
+  safeSelect2(jQuery(".wc-bump-coupon-search"), {
     ajax: {
       url: wps_ubo_lite_ajaxurl.ajaxurl,
       dataType: "json",
@@ -29,7 +42,7 @@ jQuery(document).ready(function ($) {
   });
 
   // Target product search.
-  jQuery(".wc-bump-product-search").select2({
+  safeSelect2(jQuery(".wc-bump-product-search"), {
     ajax: {
       url: wps_ubo_lite_ajaxurl.ajaxurl,
       dataType: "json",
@@ -58,7 +71,7 @@ jQuery(document).ready(function ($) {
   });
 
   // Target bump search.
-  jQuery(".wc-bump-offer-search").select2({
+  safeSelect2(jQuery(".wc-bump-offer-search"), {
     ajax: {
       url: wps_ubo_lite_ajaxurl.ajaxurl,
       dataType: "json",
@@ -87,7 +100,7 @@ jQuery(document).ready(function ($) {
   });
 
   // Offer product search.
-  jQuery(".wc-offer-product-search").select2({
+  safeSelect2(jQuery(".wc-offer-product-search"), {
     ajax: {
       url: wps_ubo_lite_ajaxurl.ajaxurl,
       dataType: "json",
@@ -116,7 +129,7 @@ jQuery(document).ready(function ($) {
   });
 
   // Target Categories Search.
-  jQuery(".wc-bump-product-category-search").select2({
+  safeSelect2(jQuery(".wc-bump-product-category-search"), {
     ajax: {
       url: wps_ubo_lite_ajaxurl.ajaxurl,
       dataType: "json",
@@ -145,8 +158,8 @@ jQuery(document).ready(function ($) {
   });
 
   // Target date.
-  jQuery(".wc-bump-schedule-search").select2();
-  jQuery(".wc-bump-exclude-roles-search").select2();
+  safeSelect2(jQuery(".wc-bump-schedule-search"));
+  safeSelect2(jQuery(".wc-bump-exclude-roles-search"));
 
   $(document).on("click", "#wps_one_click_upsell", function (e) {
     e.preventDefault();
@@ -171,7 +184,7 @@ jQuery(document).ready(function ($) {
   });
 
   //Product Search Script Of One CLick Upsell Funnel.
-  jQuery(".wc-offer-product-search").select2({
+  safeSelect2(jQuery(".wc-offer-product-search"), {
     ajax: {
       url: wps_ubo_lite_ajaxurl.ajaxurl,
       dataType: "json",
