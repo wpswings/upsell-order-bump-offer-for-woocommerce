@@ -818,7 +818,11 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 		$wps_upsell_bump_product_in_offer = ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? sanitize_text_field( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_bump_products_in_offer'] ) : '';
 
 		// Offers with discount.
-		$wps_upsell_bump_products_discount = ( ! empty( $wps_upsell_bumps_list ) && '' !== $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_bump_offer_discount_price'] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_bump_offer_discount_price'] : '20';
+		$wps_upsell_bump_products_discount = ( ! empty( $wps_upsell_bumps_list )
+		&& isset( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_bump_offer_discount_price'] )
+		&& '' !== $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_bump_offer_discount_price'] )
+			? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_bump_offer_discount_price']
+			: '20';
 
 		?>
 		<!-- Loader for template generation starts. -->
@@ -1157,9 +1161,36 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 												<option value=""><?php esc_html_e( '----Select Border Type----', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 
 												<?php
-												foreach ( $border_type_array as $value => $name ) :
-													?>
-													<option <?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['parent_border_type'] === $value ? 'selected' : '' ); ?> value="<?php echo esc_html( $value ); ?>"><?php echo esc_html( $name ); ?></option>
+									$design_css = isset( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css'] ) && is_array( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css'] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css'] : array();
+									$design_css = wp_parse_args(
+										$design_css,
+										array(
+											'parent_border_type'             => '',
+											'parent_border_color'            => '',
+											'parent_background_color'        => '',
+											'top_vertical_spacing'           => '10',
+											'bottom_vertical_spacing'        => '10',
+											'discount_section_text_size'     => '20',
+											'discount_section_background_color' => '',
+											'discount_section_text_color'    => '',
+											'product_section_price_text_color' => '',
+											'product_section_text_size'      => '16',
+											'product_section_price_text_size'=> '14',
+											'primary_section_background_color' => '',
+											'primary_section_text_color'     => '',
+											'primary_section_text_size'      => '18',
+											'secondary_section_background_color' => '',
+											'secondary_section_text_color'   => '',
+											'secondary_section_text_size'    => '16',
+											'offer_description_section_bg_color' => '',
+											'offer_description_section_text_color' => '',
+											'offer_description_section_text_size' => '16',
+										)
+									);
+
+									foreach ( $border_type_array as $value => $name ) :
+												?>
+													<option <?php echo isset( $design_css['parent_border_type'] ) && $design_css['parent_border_type'] === $value ? 'selected' : ''; ?> value="<?php echo esc_html( $value ); ?>"><?php echo esc_html( $name ); ?></option>
 												<?php endforeach; ?>
 											</select>
 
@@ -1182,7 +1213,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Color picker for description background. -->
-											<input type="text" name="parent_border_color" class="wps_ubo_colorpicker wps_ubo_preview_select_border_color" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['parent_border_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['parent_border_color'] ) : ''; ?>">
+											<input type="text" name="parent_border_color" class="wps_ubo_colorpicker wps_ubo_preview_select_border_color" value="<?php echo ! empty( $design_css['parent_border_color'] ) ? esc_html( $design_css['parent_border_color'] ) : ''; ?>">
 										</label>
 									</td>
 
@@ -1203,7 +1234,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 											?>
 											<label>
 												<!-- Color picker for description background. -->
-												<input type="text" name="parent_background_color" class="wps_ubo_colorpicker wps_ubo_preview_select_background_color" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['parent_background_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['parent_background_color'] ) : ''; ?>">
+											<input type="text" name="parent_background_color" class="wps_ubo_colorpicker wps_ubo_preview_select_background_color" value="<?php echo ! empty( $design_css['parent_background_color'] ) ? esc_html( $design_css['parent_background_color'] ) : ''; ?>">
 											</label>
 										</td>
 
@@ -1225,8 +1256,11 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 										<label>
 											<!-- Slider for spacing. -->
-											<input type="range" min="10" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['top_vertical_spacing'] ); ?>" max="40" value="" name='top_vertical_spacing' class="wps_ubo_top_vertical_spacing_slider" />
-											<span class="wps_ubo_top_spacing_slider_size"><?php echo esc_html( ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['top_vertical_spacing'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['top_vertical_spacing'] . 'px' ) : '0px' ); ?></span>
+											<?php
+											$top_vertical_spacing = isset( $design_css['top_vertical_spacing'] ) ? $design_css['top_vertical_spacing'] : '10';
+											?>
+											<input type="range" min="10" value="<?php echo esc_html( $top_vertical_spacing ); ?>" max="40" value="" name='top_vertical_spacing' class="wps_ubo_top_vertical_spacing_slider" />
+											<span class="wps_ubo_top_spacing_slider_size"><?php echo esc_html( ! empty( $top_vertical_spacing ) ? esc_html( $top_vertical_spacing . 'px' ) : '0px' ); ?></span>
 										</label>
 									</td>
 								</tr>
@@ -1245,9 +1279,12 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Slider for spacing. -->
-											<input type="range" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['bottom_vertical_spacing'] ); ?>" min="10" max="40" value="" name='bottom_vertical_spacing' class="wps_ubo_bottom_vertical_spacing_slider" />
+											<?php
+											$bottom_vertical_spacing = isset( $design_css['bottom_vertical_spacing'] ) ? $design_css['bottom_vertical_spacing'] : '10';
+											?>
+											<input type="range" value="<?php echo esc_html( $bottom_vertical_spacing ); ?>" min="10" max="40" value="" name='bottom_vertical_spacing' class="wps_ubo_bottom_vertical_spacing_slider" />
 											<span class="wps_ubo_bottom_spacing_slider_size">
-												<?php echo esc_html( ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['bottom_vertical_spacing'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['bottom_vertical_spacing'] . 'px' ) : '0px' ); ?>
+												<?php echo esc_html( ! empty( $bottom_vertical_spacing ) ? esc_html( $bottom_vertical_spacing . 'px' ) : '0px' ); ?>
 											</span>
 										</label>
 									</td>
@@ -1277,7 +1314,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Color picker for description background. -->
-											<input type="text" name="discount_section_background_color" class="wps_ubo_colorpicker wps_ubo_select_discount_bcolor" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['discount_section_background_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['discount_section_background_color'] ) : ''; ?>">
+											<input type="text" name="discount_section_background_color" class="wps_ubo_colorpicker wps_ubo_select_discount_bcolor" value="<?php echo ! empty( $design_css['discount_section_background_color'] ) ? esc_html( $design_css['discount_section_background_color'] ) : ''; ?>">
 
 										</label>
 									</td>
@@ -1297,7 +1334,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Color picker for description text. -->
-											<input type="text" name="discount_section_text_color" class="wps_ubo_colorpicker wps_ubo_select_discount_tcolor" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['discount_section_text_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['discount_section_text_color'] ) : ''; ?>">
+											<input type="text" name="discount_section_text_color" class="wps_ubo_colorpicker wps_ubo_select_discount_tcolor" value="<?php echo ! empty( $design_css['discount_section_text_color'] ) ? esc_html( $design_css['discount_section_text_color'] ) : ''; ?>">
 										</label>
 									</td>
 
@@ -1317,9 +1354,12 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Slider for spacing. -->
-											<input type="range" min="20" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['discount_section_text_size'] ); ?>" max="50" value="" name='discount_section_text_size' class="wps_ubo_text_slider wps_ubo_discount_slider" />
+											<?php
+											$discount_section_text_size = isset( $design_css['discount_section_text_size'] ) ? $design_css['discount_section_text_size'] : '20';
+											?>
+											<input type="range" min="20" value="<?php echo esc_html( $discount_section_text_size ); ?>" max="50" value="" name='discount_section_text_size' class="wps_ubo_text_slider wps_ubo_discount_slider" />
 
-											<span class="wps_ubo_slider_size wps_ubo_discount_slider_size"><?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['discount_section_text_size'] . 'px' ); ?></span>
+											<span class="wps_ubo_slider_size wps_ubo_discount_slider_size"><?php echo esc_html( $discount_section_text_size . 'px' ); ?></span>
 										</label>
 									</td>
 								</tr>
@@ -1348,7 +1388,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Color picker for description text. -->
-											<input type="text" name="product_section_text_color" class="wps_ubo_colorpicker wps_ubo_select_product_tcolor" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_text_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_text_color'] ) : ''; ?>">
+											<input type="text" name="product_section_text_color" class="wps_ubo_colorpicker wps_ubo_select_product_tcolor" value="<?php echo ! empty( $design_css['product_section_text_color'] ) ? esc_html( $design_css['product_section_text_color'] ) : ''; ?>">
 										</label>
 									</td>
 								</tr>
@@ -1367,7 +1407,10 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Color picker for description text. -->
-											<input type="text" name="product_section_price_text_color" class="wps_ubo_colorpicker wps_ubo_select_product_price_tcolor" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_price_text_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_price_text_color'] ) : ''; ?>">
+											<?php
+											$product_section_price_text_color = isset( $design_css['product_section_price_text_color'] ) ? $design_css['product_section_price_text_color'] : '';
+											?>
+											<input type="text" name="product_section_price_text_color" class="wps_ubo_colorpicker wps_ubo_select_product_price_tcolor" value="<?php echo ! empty( $product_section_price_text_color ) ? esc_html( $product_section_price_text_color ) : ''; ?>">
 										</label>
 									</td>
 								</tr>
@@ -1389,9 +1432,12 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										<label>
 
 											<!-- Slider for spacing. -->
-											<input type="range" min="10" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_text_size'] ); ?>" max="30" value="" name='product_section_text_size' class="wps_ubo_text_slider wps_ubo_product_slider" />
+											<?php
+											$product_section_text_size = isset( $design_css['product_section_text_size'] ) ? $design_css['product_section_text_size'] : '16';
+											?>
+											<input type="range" min="10" value="<?php echo esc_html( $product_section_text_size ); ?>" max="30" value="" name='product_section_text_size' class="wps_ubo_text_slider wps_ubo_product_slider" />
 
-											<span class="wps_ubo_slider_size wps_ubo_product_slider_size"><?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_text_size'] . 'px' ); ?> </span>
+											<span class="wps_ubo_slider_size wps_ubo_product_slider_size"><?php echo esc_html( $product_section_text_size . 'px' ); ?> </span>
 										</label>
 									</td>
 
@@ -1411,9 +1457,12 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Slider for spacing. -->
-											<input type="range" min="10" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_price_text_size'] ); ?>" max="30" value="" name='product_section_price_text_size' class="wps_ubo_text_slider wps_ubo_product_price_slider" />
+											<?php
+											$product_section_price_text_size = isset( $design_css['product_section_price_text_size'] ) ? $design_css['product_section_price_text_size'] : '14';
+											?>
+											<input type="range" min="10" value="<?php echo esc_html( $product_section_price_text_size ); ?>" max="30" value="" name='product_section_price_text_size' class="wps_ubo_text_slider wps_ubo_product_price_slider" />
 
-											<span class="wps_ubo_slider_size wps_ubo_product_price_slider_size"><?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['product_section_price_text_size'] . 'px' ); ?></span>
+											<span class="wps_ubo_slider_size wps_ubo_product_price_slider_size"><?php echo esc_html( $product_section_price_text_size . 'px' ); ?></span>
 										</label>
 									</td>
 								</tr>
@@ -1488,7 +1537,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Color picker for description background. -->
-											<input type="text" name="primary_section_background_color" class="wps_ubo_colorpicker wps_ubo_select_accept_offer_bcolor" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['primary_section_background_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['primary_section_background_color'] ) : ''; ?>">
+											<input type="text" name="primary_section_background_color" class="wps_ubo_colorpicker wps_ubo_select_accept_offer_bcolor" value="<?php echo ! empty( $design_css['primary_section_background_color'] ) ? esc_html( $design_css['primary_section_background_color'] ) : ''; ?>">
 										</label>
 									</td>
 								</tr>
@@ -1507,7 +1556,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Color picker for description text. -->
-											<input type="text" name="primary_section_text_color" class="wps_ubo_colorpicker wps_ubo_select_accept_offer_tcolor" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['primary_section_text_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['primary_section_text_color'] ) : ''; ?>">
+											<input type="text" name="primary_section_text_color" class="wps_ubo_colorpicker wps_ubo_select_accept_offer_tcolor" value="<?php echo ! empty( $design_css['primary_section_text_color'] ) ? esc_html( $design_css['primary_section_text_color'] ) : ''; ?>">
 										</label>
 									</td>
 								</tr>
@@ -1547,8 +1596,11 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 										?>
 										<label>
 											<!-- Slider for spacing. -->
-											<input type="range" min="10" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['primary_section_text_size'] ); ?>" max="30" value="" name='primary_section_text_size' class="wps_ubo_text_slider wps_ubo_accept_offer_slider" />
-											<span class="wps_ubo_slider_size wps_ubo_accept_offer_slider_size"><?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['primary_section_text_size'] . 'px' ); ?></span>
+											<?php
+											$primary_section_text_size = isset( $design_css['primary_section_text_size'] ) ? $design_css['primary_section_text_size'] : '18';
+											?>
+											<input type="range" min="10" value="<?php echo esc_html( $primary_section_text_size ); ?>" max="30" value="" name='primary_section_text_size' class="wps_ubo_text_slider wps_ubo_accept_offer_slider" />
+											<span class="wps_ubo_slider_size wps_ubo_accept_offer_slider_size"><?php echo esc_html( $primary_section_text_size . 'px' ); ?></span>
 										</label>
 									</td>
 								</tr>
@@ -1595,7 +1647,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 											wps_ubo_lite_help_tip( $attribute_description );
 											?>
 											<!-- Color picker for description text. -->
-											<input type="text" name="secondary_section_text_color" class="wps_ubo_colorpicker wps_ubo_select_offer_description_tcolor" value="<?php echo ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['secondary_section_text_color'] ) ? esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['secondary_section_text_color'] ) : ''; ?>">
+											<input type="text" name="secondary_section_text_color" class="wps_ubo_colorpicker wps_ubo_select_offer_description_tcolor" value="<?php echo ! empty( $design_css['secondary_section_text_color'] ) ? esc_html( $design_css['secondary_section_text_color'] ) : ''; ?>">
 										</td>
 									</tr>
 									<!-- Text color end. -->
@@ -1611,9 +1663,12 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 											wps_ubo_lite_help_tip( $attribute_description );
 											?>
 											<!-- Slider for spacing. -->
-											<input type="range" min="10" value="<?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['secondary_section_text_size'] ); ?>" max="30" value="" name='secondary_section_text_size' class="wps_ubo_text_slider wps_ubo_offer_description_slider" />
+											<?php
+											$secondary_section_text_size = isset( $design_css['secondary_section_text_size'] ) ? $design_css['secondary_section_text_size'] : '16';
+											?>
+											<input type="range" min="10" value="<?php echo esc_html( $secondary_section_text_size ); ?>" max="30" value="" name='secondary_section_text_size' class="wps_ubo_text_slider wps_ubo_offer_description_slider" />
 
-											<span class="wps_ubo_slider_size wps_ubo_offer_description_slider_size"><?php echo esc_html( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['design_css']['secondary_section_text_size'] . 'px' ); ?></span>
+											<span class="wps_ubo_slider_size wps_ubo_offer_description_slider_size"><?php echo esc_html( $secondary_section_text_size . 'px' ); ?></span>
 										</td>
 									</tr>
 									<!-- Text size control ends. -->

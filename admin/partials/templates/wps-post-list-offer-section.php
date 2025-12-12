@@ -138,6 +138,36 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 	<?php endif; ?>
 
 	<?php if ( ! empty( $wps_wocuf_pro_funnels_list ) ) : ?>
+		<?php
+		$pro_slugs     = array(
+			'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php',
+			'upsell-order-bump-offer-for-woocommerce-pro.php',
+			'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php',
+		);
+		$is_pro_active = false;
+		foreach ( $pro_slugs as $pro_slug ) {
+			if ( wps_ubo_lite_is_plugin_active( $pro_slug ) || wps_upsell_lite_is_plugin_active_funnel_builder( $pro_slug ) ) {
+				$is_pro_active = true;
+				break;
+			}
+		}
+		if ( $is_pro_active ) :
+			?>
+			<div class="wps_ubo_export_import wps_ubo_export_import--top">
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<?php wp_nonce_field( 'wps_ubo_export_funnels' ); ?>
+					<input type="hidden" name="action" value="wps_ubo_export_funnels">
+					<button class="button button-primary"><?php esc_html_e( 'Export Funnels (CSV)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+				</form>
+
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
+					<?php wp_nonce_field( 'wps_ubo_import_funnels' ); ?>
+					<input type="hidden" name="action" value="wps_ubo_import_funnels">
+					<input type="file" name="wps_ubo_funnels_file" accept=".csv,text/csv" required>
+					<button class="button"><?php esc_html_e( 'Import Funnels (CSV)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+				</form>
+			</div>
+		<?php endif; ?>
 		<table>
 			<tr>
 				<th><?php esc_html_e( 'Funnel Name', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
@@ -330,8 +360,6 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 		</table>
 	<?php endif; ?>
 </div>
-
-<br>
 
 <!-- Create New Funnel -->
 <div class="wps_wocuf_pro_create_new_funnel">

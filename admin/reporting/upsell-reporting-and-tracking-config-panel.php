@@ -43,7 +43,7 @@ $nonce_overview = wp_create_nonce( 'view_upsell_tracking_over' ); // Create nonc
 
 	<div class="wps_wocuf_pro_header wps_upsell_bump_setting_title pre-bump-report_analytics">
 			<div class="wps_wocuf_pro_setting_title"><?php esc_html_e( 'Upsell Funnel Sales Report & Analytics', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
-			<a target="_blank" href="<?php echo esc_url(admin_url('admin.php?page=wc-reports&tab=wps_order_bump')); ?>"><?php esc_html_e('View Sale Report', 'upsell-order-bump-offer-for-woocommerce'); ?></a>
+			<a class="wps_ubo_header_link" target="_blank" href="<?php echo esc_url(admin_url('admin.php?page=wc-reports&tab=wps_order_bump')); ?>"><?php esc_html_e('View Sale Report', 'upsell-order-bump-offer-for-woocommerce'); ?></a>
 		</div>
 		<div class="wps-notice-wrapper">
 		<?php do_action( 'wps_wocuf_pro_setting_tab_active', '', '', '' ); ?>

@@ -168,6 +168,36 @@ if (is_array($wps_upsell_bumps_list) && ! empty($wps_upsell_bumps_list)) {
 			</div>
 
 		<?php endif; ?>
+		<?php
+		$pro_slugs     = array(
+			'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php',
+			'upsell-order-bump-offer-for-woocommerce-pro.php',
+			'woocommerce-one-click-upsell-funnel-pro/woocommerce-one-click-upsell-funnel-pro.php',
+		);
+		$is_pro_active = false;
+		foreach ( $pro_slugs as $pro_slug ) {
+			if ( wps_ubo_lite_is_plugin_active( $pro_slug ) || wps_upsell_lite_is_plugin_active_funnel_builder( $pro_slug ) ) {
+				$is_pro_active = true;
+				break;
+			}
+		}
+		if ( $is_pro_active ) :
+			?>
+			<div class="wps_ubo_export_import wps_ubo_export_import--top">
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<?php wp_nonce_field( 'wps_ubo_export_bumps' ); ?>
+					<input type="hidden" name="action" value="wps_ubo_export_bumps">
+					<button class="button button-primary"><?php esc_html_e( 'Export Bumps (CSV)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+				</form>
+
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
+					<?php wp_nonce_field( 'wps_ubo_import_bumps' ); ?>
+					<input type="hidden" name="action" value="wps_ubo_import_bumps">
+					<input type="file" name="wps_ubo_bumps_file" accept=".csv,text/csv" required>
+					<button class="button"><?php esc_html_e( 'Import Bumps (CSV)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+				</form>
+			</div>
+		<?php endif; ?>
 		<?php $wps_ubo_global_options = get_option('wps_ubo_global_options', wps_ubo_lite_default_global_options()); ?>
 		<?php $bump_offer_ab_method  = ! empty($wps_ubo_global_options['wps_ubo_offer_ab_method']) ? $wps_ubo_global_options['wps_ubo_offer_ab_method'] : 'no'; ?>
 		<table>
