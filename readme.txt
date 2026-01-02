@@ -1,13 +1,13 @@
-=== Upsell Funnel Builder for WooCommerce – New Marketing Funnel Builder and Sales Funnel Builder tailored for your store. === 
+=== Upsell Funnel Builder for WooCommerce – Create Upsells, Cross-Sells, Order Bumps, Frequently Bought, and Popups. === 
 
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags: Funnel Builder, one-click upsell, upsell woocommerce, popups, frequently bought together
+Tags: Funnel Builder, one-click upsell, woocommerce upsell, popups, frequently bought together
 Requires at least: 6.7.0
-Tested up to: 6.8.3
+Tested up to: 6.9
 WC requires at least: 6.5.0
-WC tested up to: 10.3.5
-Stable tag: 3.0.9
+WC tested up to: 10.4.2
+Stable tag: 3.1.0
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -491,7 +491,13 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Changelog ==
 
-= 3.0.9 - Released on 14 Nov 2025 = 
+= 3.1.0 – Released on 7th January 2026 = 
+* New: Multiple Popup Types & Templates – lightbox popups, slide-ins, full-screen welcome mats
+* New: Advanced trigered rules to triggering funnel / bump
+* New: Compatibility with the latest WP 6.9 and WC 10.4.2
+
+
+= 3.0.9 – Released on 14 Nov 2025 = 
 * New: multi-conditional-based funnel and bump visibility.
 * New: Compatibility with the latest WP 6.8.3 and WC 10.3.5
 * Fix: Deprecate issue fixes.
@@ -514,13 +520,12 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 * New: Compatibility with WordPress (6.8.2) and WooCommerce (10.0.4)
 * Fix: Product Edit Tab Switch Condition.
 
-
 = 3.0.4 – Released on 19 June 2025 =
 * Enhancement: Improved license handling code for the Pro version.
 * New: Added an Admin UI tab for the "Features" section.
 * New: Compatibility with WordPress (6.8.1) and WooCommerce (9.9.4).
 
-= 3.0.3 – Released on 05 May 2025 =
+= 3.0.3 – Released on 05 June 2025 =
 * New: Compatibility with WordPress (6.8.1) and WooCommerce (9.8.5).
 
 = 3.0.2 – Released on 09 May 2025 = 
@@ -745,7 +750,7 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 3.0.9 - Released on 14 Nov 2025 = 
-* New: multi-conditional-based funnel and bump visibility.
-* New: Compatibility with the latest WP 6.8.3 and WC 10.3.5
-* Fix: Deprecate issue fixes.
+= 3.1.0 – Released on 7th January 2026 = 
+* New: Multiple Popup Types & Templates – lightbox popups, slide-ins, full-screen welcome mats
+* New: Advanced trigered rules to triggering funnel / bump
+* New: Compatibility with the latest WP 6.9 and WC 10.4.2
