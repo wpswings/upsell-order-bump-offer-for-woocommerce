@@ -38,6 +38,218 @@
       }
     });
 
+  /**
+   * JSON Import (AJAX) for Order Bumps.
+   */
+  $("#wps_ubo_import_csv_form").on("submit", function (e) {
+    e.preventDefault();
+    var $form = $(this);
+    var $notice = $("#wps_ubo_import_notice");
+    var fileInput = document.getElementById("wps_ubo_import_file");
+
+    $notice.removeClass("error updated").text("");
+
+    if (!fileInput || !fileInput.files || !fileInput.files.length) {
+      $notice.addClass("error").text("Please select a JSON file to import.");
+      return;
+    }
+
+    var formData = new FormData();
+    formData.append("action", "wps_ubo_import_bumps_json");
+    formData.append(
+      "security",
+      $form.attr("data-nonce") || wps_ubo_lite_banner_offer_section_obj.auth_nonce
+    );
+    formData.append("wps_ubo_import_file", fileInput.files[0]);
+
+      $notice.text("Importing...").addClass("updated");
+
+      $.ajax({
+        url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+      })
+        .done(function (response) {
+          if (response && response.success) {
+            var message = response.data && response.data.message
+              ? response.data.message
+              : "Import completed.";
+            if (response.data && response.data.imported_count !== undefined) {
+              message +=
+                " Imported: " +
+                response.data.imported_count +
+                " | Total bumps: " +
+                response.data.total_after_import;
+            }
+            $notice.removeClass("error").addClass("updated").text(message);
+          } else {
+            var err =
+              (response && response.data && response.data.message) ||
+              "Import failed. Please verify the CSV and try again.";
+            $notice.removeClass("updated").addClass("error").text(err);
+          }
+        })
+        .fail(function () {
+          $notice
+            .removeClass("updated")
+            .addClass("error")
+            .text("Network error during import. Please retry.");
+        });
+    });
+
+    /**
+     * Toggle bump status from list.
+     */
+    $(document).on("change", ".wps-ubo-status-toggle", function () {
+      var $checkbox = $(this);
+      var bumpId = $checkbox.data("bump-id");
+      var newStatus = $checkbox.is(":checked") ? "yes" : "no";
+      var $statusText = $checkbox.closest("td").find(".wps-ubo-status-text");
+
+      $checkbox.prop("disabled", true);
+
+      $.ajax({
+        url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+          action: "wps_ubo_toggle_bump_status",
+          security: wps_ubo_lite_banner_offer_section_obj.auth_nonce,
+          bump_id: bumpId,
+          status: newStatus,
+        },
+      })
+        .done(function (response) {
+          if (response && response.success) {
+            var label =
+              (response.data && response.data.label) ||
+              (newStatus === "yes" ? "Live" : "Sandbox");
+            $statusText.text(label);
+          } else {
+            $checkbox.prop("checked", newStatus !== "yes");
+            alert(
+              (response && response.data && response.data.message) ||
+                "Unable to update status."
+            );
+          }
+        })
+        .fail(function () {
+          $checkbox.prop("checked", newStatus !== "yes");
+          alert("Network error. Please try again.");
+        })
+        .always(function () {
+          $checkbox.prop("disabled", false);
+        });
+    });
+
+    /**
+     * Toggle funnel status from list.
+     */
+    $(document).on("change", ".wps-ubo-funnel-toggle", function () {
+      var $checkbox = $(this);
+      var funnelId = $checkbox.data("funnel-id");
+      var newStatus = $checkbox.is(":checked") ? "yes" : "no";
+      var $statusText = $checkbox.closest("td").find(".wps-ubo-status-text");
+
+      $checkbox.prop("disabled", true);
+
+      $.ajax({
+        url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+          action: "wps_wocuf_toggle_funnel_status",
+          security: wps_ubo_lite_banner_offer_section_obj.auth_nonce,
+          funnel_id: funnelId,
+          status: newStatus,
+        },
+      })
+        .done(function (response) {
+          if (response && response.success) {
+            var label =
+              (response.data && response.data.label) ||
+              (newStatus === "yes" ? "Live" : "Sandbox");
+            $statusText.text(label);
+          } else {
+            $checkbox.prop("checked", newStatus !== "yes");
+            alert(
+              (response && response.data && response.data.message) ||
+                "Unable to update status."
+            );
+          }
+        })
+        .fail(function () {
+          $checkbox.prop("checked", newStatus !== "yes");
+          alert("Network error. Please try again.");
+        })
+        .always(function () {
+          $checkbox.prop("disabled", false);
+        });
+    });
+
+  /**
+   * JSON Import (AJAX) for Funnels.
+   */
+  $("#wps_ubo_import_funnel_csv_form").on("submit", function (e) {
+    e.preventDefault();
+    var $form = $(this);
+    var $notice = $("#wps_ubo_import_funnel_notice");
+    var fileInput = document.getElementById("wps_ubo_import_funnel_file");
+
+      $notice.removeClass("error updated").text("");
+
+      if (!fileInput || !fileInput.files || !fileInput.files.length) {
+        $notice.addClass("error").text("Please select a JSON file to import.");
+        return;
+      }
+
+      var formData = new FormData();
+      formData.append("action", "wps_wocuf_import_funnels_json");
+      formData.append(
+        "security",
+        $form.attr("data-nonce") || wps_ubo_lite_banner_offer_section_obj.auth_nonce
+      );
+      formData.append("wps_ubo_import_file", fileInput.files[0]);
+
+      $notice.text("Importing...").addClass("updated");
+
+      $.ajax({
+        url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+      })
+        .done(function (response) {
+          if (response && response.success) {
+            var message = response.data && response.data.message
+              ? response.data.message
+              : "Import completed.";
+            if (response.data && response.data.imported_count !== undefined) {
+              message +=
+                " Imported: " +
+                response.data.imported_count +
+                " | Total funnels: " +
+                response.data.total_after_import;
+            }
+            $notice.removeClass("error").addClass("updated").text(message);
+          } else {
+            var err =
+              (response && response.data && response.data.message) ||
+              "Import failed. Please verify the CSV and try again.";
+            $notice.removeClass("updated").addClass("error").text(err);
+          }
+        })
+        .fail(function () {
+          $notice
+            .removeClass("updated")
+            .addClass("error")
+            .text("Network error during import. Please retry.");
+        });
+    });
+
     var myDiv = document.getElementById("wps_ubo_lite_save_changes_bump");
     let isHidden = false;
 

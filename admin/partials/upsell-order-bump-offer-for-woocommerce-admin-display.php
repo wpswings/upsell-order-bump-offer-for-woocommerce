@@ -37,7 +37,27 @@ do_action( 'wps_ubo_lite_tab_active' );
 
 ?>
 <div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
-	<div class="wps_upsell_bump_setting_title"><?php echo esc_html( apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Funnel Builder for WooCommerce ', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
+	<div class="wps_ubo_header_row">
+		<div class="wps_upsell_bump_setting_title">
+			<?php echo esc_html( apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Funnel Builder for WooCommerce ', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
+			<?php
+			if ( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_VERSION' ) ) {
+				$wps_ubo_display_version = UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_PRO_VERSION;
+			} elseif ( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION' ) ) {
+				$wps_ubo_display_version = UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION;
+			} else {
+				$wps_ubo_display_version = '';
+			}
+			?>
+			<?php if ( ! empty( $wps_ubo_display_version ) ) { ?>
+				<span class="wps_ubo_version"><?php echo esc_html( $wps_ubo_display_version ); ?></span>
+			<?php } ?>
+		</div>
+		<div class="wps_ubo_meta_links wps_ubo_meta_links--top">
+			<a class="button" target="_blank" href="https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/"><?php esc_html_e( 'Docs', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+			<a class="button" target="_blank" href="https://wpswings.com/submit-query/"><?php esc_html_e( 'Support', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+			<a class="button" target="_blank" href="https://www.youtube.com/c/WPswings"><?php esc_html_e( 'Video', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		</div>
 	</div>
 
 	<nav class="nav-tab-wrapper woo-nav-tab-wrapper">

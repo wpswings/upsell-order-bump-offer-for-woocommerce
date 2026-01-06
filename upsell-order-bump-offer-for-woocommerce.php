@@ -19,10 +19,10 @@
  * Requires at least:       6.7.0
  * Tested up to:            6.9.0
  * WC requires at least:    6.5.0
- * WC tested up to:         10.4.2
+ * WC tested up to:         10.4.3
  *
  * Requires Plugins: woocommerce
- * Version:           3.1.0
+ * Version:           3.1.1
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
  * License:           GPL-3.0
@@ -42,6 +42,7 @@ add_filter( 'doing_it_wrong_trigger_error', '__return_false' );
 
 $wps_ubo_activated      = false;
 $wps_ubo_active_plugins = get_option( 'active_plugins', array() );
+
 if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 	$active_network_wide = get_site_option( 'active_sitewide_plugins', array() );
 	if ( ! empty( $active_network_wide ) ) {
@@ -49,16 +50,18 @@ if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 			$wps_ubo_active_plugins[] = $key;
 		}
 	}
+
 	$wps_ubo_active_plugins = array_merge( $wps_ubo_active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+
 	if ( file_exists( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' ) && in_array( 'woocommerce/woocommerce.php', $wps_ubo_active_plugins, true ) ) {
 		$wps_ubo_activated = true;
 	}
+
 } elseif ( file_exists( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' ) && in_array( 'woocommerce/woocommerce.php', $wps_ubo_active_plugins, true ) ) {
 	$wps_ubo_activated = true;
 }
 
 if ( $wps_ubo_activated ) {
-
 
 	// HPOS Compatibility and cart and checkout block.
 	add_action(
@@ -142,7 +145,7 @@ if ( $wps_ubo_activated ) {
 	/**
 	 * Currently plugin version.
 	 */
-	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '3.1.0' );
+	define( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION', '3.1.1' );
 	if ( ! defined( 'WPS_WOCUF_URL_FUNNEL_BUILDER' ) ) {
 		define( 'WPS_WOCUF_URL_FUNNEL_BUILDER', plugin_dir_url( __FILE__ ) );
 	}

@@ -81,7 +81,46 @@ wp_safe_redirect( esc_url_raw( admin_url( 'admin.php?page=upsell-order-bump-offe
 
 // Get all funnels.
 $wps_wocuf_pro_funnels_list = get_option( 'wps_wocuf_funnels_list', array() );
+$wps_wocuf_pro_funnels_list = is_array( $wps_wocuf_pro_funnels_list ) ? $wps_wocuf_pro_funnels_list : array();
 
+// Pagination setup.
+$wps_funnel_per_page   = absint( apply_filters( 'wps_ubo_funnel_list_per_page', 10 ) );
+$wps_funnel_per_page   = $wps_funnel_per_page > 0 ? $wps_funnel_per_page : 10;
+$wps_total_funnels     = count( $wps_wocuf_pro_funnels_list );
+$wps_total_pages       = max( 1, (int) ceil( $wps_total_funnels / $wps_funnel_per_page ) );
+$wps_current_page      = isset( $_GET['wps_funnel_page'] ) ? max( 1, absint( $_GET['wps_funnel_page'] ) ) : 1;
+$wps_current_page      = min( $wps_current_page, $wps_total_pages );
+$wps_offset            = ( $wps_current_page - 1 ) * $wps_funnel_per_page;
+$wps_paginated_funnels = array_slice( $wps_wocuf_pro_funnels_list, $wps_offset, $wps_funnel_per_page, true );
+$wps_funnel_base_url   = add_query_arg(
+	array(
+		'page'    => 'upsell-order-bump-offer-for-woocommerce-setting',
+		'tab'     => 'one-click-section',
+		'sub_tab' => 'post-list-offer-section',
+	),
+	admin_url( 'admin.php' )
+);
+?>
+<div class="wps_ubo_action_bar">
+		<div class="wps_ubo_bump_tools_wrapper">
+			<div class="wps_ubo_bump_tool">
+				<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+					<input type="hidden" name="action" value="wps_wocuf_export_funnels_json">
+					<?php wp_nonce_field( 'wps_ubo_export_bumps' ); ?>
+					<button type="submit" class="button button-primary"><?php esc_html_e( 'Export Funnels (JSON)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+				</form>
+			</div>
+			<div class="wps_ubo_bump_tool">
+				<form id="wps_ubo_import_funnel_csv_form" enctype="multipart/form-data" data-nonce="<?php echo esc_attr( wp_create_nonce( 'wps_admin_nonce' ) ); ?>">
+					<input type="file" id="wps_ubo_import_funnel_file" name="wps_ubo_import_file" accept=".json,application/json" required>
+					<button type="submit" class="button"><?php esc_html_e( 'Import Funnels (JSON)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+					<div id="wps_ubo_import_funnel_notice" class="wps_ubo_import_notice"></div>
+				</form>
+			</div>
+		</div>
+</div>
+
+<?php
 if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 
 	// Temp funnel variable.
@@ -126,7 +165,7 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 
 			<!-- Foreach Funnel start -->
 			<?php
-			foreach ( $wps_wocuf_pro_funnels_list as $key => $value ) :
+			foreach ( $wps_paginated_funnels as $key => $value ) :
 
 				$offers_count = ! empty( $value['wps_wocuf_products_in_offer'] ) ? $value['wps_wocuf_products_in_offer'] : array();
 
@@ -145,7 +184,10 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 				<?php if('on' === $wps_bump_enable_campaign_labels){ ?>
 						<span class="wps_label_color" style="background-color: <?php echo esc_attr( $color_hex ); ?>;"><?php echo esc_html( $label_name ); ?></span>
 						<?php } ?>
-						<a class="wps_upsell_funnel_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&sub_tab=post-list-offer-section&funnel_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $value['wps_wocuf_funnel_name'] ); ?></a></td>
+							<?php
+							$funnel_name = ! empty( $value['wps_wocuf_funnel_name'] ) ? $value['wps_wocuf_funnel_name'] : sprintf( /* translators: %d: funnel id */ __( 'Funnel #%d', 'upsell-order-bump-offer-for-woocommerce' ), $key );
+							?>
+							<a class="wps_upsell_funnel_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&sub_tab=post-list-offer-section&funnel_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $funnel_name ); ?></a></td>
 
 					<!-- Funnel Status -->
 					<td>
@@ -160,14 +202,14 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 						// Pre v3.0.0 Funnels will be live.
 						$funnel_status = ! empty( $value['wps_upsell_fsav3'] ) ? $funnel_status : 'yes';
 
-						if ( 'yes' === $funnel_status ) {
-
-							echo '<span class="wps_upsell_funnel_list_live"></span><span class="wps_upsell_funnel_list_live_name">' . esc_html__( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>';
-						} else {
-
-							echo '<span class="wps_upsell_funnel_list_sandbox"></span><span class="wps_upsell_funnel_list_sandbox_name">' . esc_html__( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>';
-						}
-
+						$status_label = 'yes' === $funnel_status ? esc_html__( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) : esc_html__( 'Sandbox', 'upsell-order-bump-offer-woocommerce' );
+						?>
+						<label class="wps_ubo_toggle_switch">
+							<input type="checkbox" class="wps-ubo-funnel-toggle" data-funnel-id="<?php echo esc_attr( $key ); ?>" <?php checked( 'yes', $funnel_status ); ?>>
+							<span class="wps_ubo_toggle_slider"></span>
+						</label>
+						<span class="wps_ubo_status_label wps-ubo-status-text"><?php echo esc_html( $status_label ); ?></span>
+						<?php
 						echo "<div class='wps-upsell-funnel-attributes " . esc_html( $funnel_status ) . "'>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 						if ( 'yes' === $global_funnel ) {
@@ -186,7 +228,6 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 						}
 
 						echo '</div>';
-
 						?>
 					</td>
 
@@ -305,6 +346,31 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 			<?php endforeach; ?>
 			<!-- Foreach Funnel end -->
 		</table>
+		<?php if ( $wps_total_pages > 1 ) : ?>
+			<div class="wps_ubo_pagination">
+				<div class="wps_ubo_page_info">
+					<?php
+					printf(
+						/* translators: 1: current page, 2: total pages */
+						esc_html__( 'Page %1$d of %2$d', 'upsell-order-bump-offer-for-woocommerce' ),
+						(int) $wps_current_page,
+						(int) $wps_total_pages
+					);
+					?>
+				</div>
+				<div class="wps_ubo_page_links">
+					<?php if ( $wps_current_page > 1 ) : ?>
+						<a class="button" href="<?php echo esc_url( add_query_arg( 'wps_funnel_page', $wps_current_page - 1, $wps_funnel_base_url ) ); ?>">&laquo; <?php esc_html_e( 'Previous', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+					<?php endif; ?>
+
+					<span class="wps_ubo_page_number"><?php echo esc_html( $wps_current_page ); ?></span>
+
+					<?php if ( $wps_current_page < $wps_total_pages ) : ?>
+						<a class="button" href="<?php echo esc_url( add_query_arg( 'wps_funnel_page', $wps_current_page + 1, $wps_funnel_base_url ) ); ?>"><?php esc_html_e( 'Next', 'upsell-order-bump-offer-for-woocommerce' ); ?> &raquo;</a>
+					<?php endif; ?>
+				</div>
+			</div>
+		<?php endif; ?>
 	<?php endif; ?>
 </div>
 

@@ -90,6 +90,36 @@ $wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list' );
 
 ?>
 
+<div class="wps_ubo_meta_bar">
+	<div class="wps_ubo_meta_links">
+		<?php if ( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION' ) ) : ?>
+			<span class="wps_ubo_version"><?php echo esc_html( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION ); ?></span>
+		<?php endif; ?>
+		<a class="button" target="_blank" href="https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/"><?php esc_html_e( 'Docs', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="button" target="_blank" href="https://wpswings.com/submit-query/"><?php esc_html_e( 'Support', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+		<a class="button" target="_blank" href="https://www.youtube.com/c/WPswings"><?php esc_html_e( 'Video', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+	</div>
+</div>
+
+<div class="wps_ubo_action_bar">
+	<div class="wps_ubo_bump_tools_wrapper">
+			<div class="wps_ubo_bump_tool">
+				<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+					<input type="hidden" name="action" value="wps_ubo_export_bumps_json">
+					<?php wp_nonce_field( 'wps_ubo_export_bumps' ); ?>
+					<button type="submit" class="button button-primary"><?php esc_html_e( 'Export Bumps (JSON)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+				</form>
+			</div>
+			<div class="wps_ubo_bump_tool">
+				<form id="wps_ubo_import_csv_form" enctype="multipart/form-data" data-nonce="<?php echo esc_attr( wp_create_nonce( 'wps_admin_nonce' ) ); ?>">
+					<input type="file" id="wps_ubo_import_file" name="wps_ubo_import_file" accept=".json,application/json" required>
+					<button type="submit" class="button"><?php esc_html_e( 'Import Bumps (JSON)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+					<div id="wps_ubo_import_notice" class="wps_ubo_import_notice"></div>
+				</form>
+			</div>
+	</div>
+</div>
+
 <div class="wps_upsell_bumps_list">
 
 	<?php if ( empty( $wps_upsell_bumps_list ) ) : ?>
@@ -133,15 +163,12 @@ $wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list' );
 
 						$bump_status = ! empty( $value['wps_upsell_bump_status'] ) ? $value['wps_upsell_bump_status'] : 'no';
 
-						if ( 'yes' === $bump_status ) {
-
-							echo '<span class="wps_upsell_bump_list_live"></span><span class="wps_upsell_bump_list_live_name">' . esc_html__( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>';
-						} else {
-
-							echo '<span class="wps_upsell_bump_list_sandbox"></span><span class="wps_upsell_bump_list_sandbox_name">' . esc_html__( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>';
-						}
-
 						?>
+						<label class="wps_ubo_toggle_switch">
+							<input type="checkbox" class="wps-ubo-status-toggle" data-bump-id="<?php echo esc_attr( $key ); ?>" <?php checked( 'yes', $bump_status ); ?>>
+							<span class="wps_ubo_toggle_slider"></span>
+						</label>
+						<span class="wps_ubo_status_label wps-ubo-status-text"><?php echo 'yes' === $bump_status ? esc_html__( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) : esc_html__( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 					</td>
 
 					<!-- Bump Target products. -->
