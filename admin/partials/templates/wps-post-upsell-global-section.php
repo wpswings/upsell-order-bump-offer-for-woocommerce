@@ -408,61 +408,6 @@ wps_upsee_lite_go_pro_funnel_builder( 'pro' );
 				</tr>
 				<!-- Upsell Actions Message end -->
 
-				<!-- Global Custom CSS start -->
-				<tr valign="top">
-
-					<th scope="row" class="titledesc">
-						<label><?php esc_html_e( 'Global Custom CSS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
-					</th>
-
-					<td>
-
-						<div class="wps_upsell_attribute_description">
-
-							<?php
-							$attribut_description = esc_html__( 'Enter your Custom CSS without style tags.', 'upsell-order-bump-offer-for-woocommerce' );
-							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							?>
-
-							<?php
-
-							$global_custom_css = ! empty( $wps_upsell_global_settings['global_custom_css'] ) ? $wps_upsell_global_settings['global_custom_css'] : '';
-
-							?>
-
-							<textarea name="global_custom_css" rows="4" cols="50"><?php echo esc_html( wp_unslash( $global_custom_css ) ); ?></textarea>
-						</div>
-					</td>
-				</tr>
-				<!-- Global Custom CSS end -->
-
-				<!-- Global Custom JS start -->
-				<tr valign="top">
-
-					<th scope="row" class="titledesc">
-						<label><?php esc_html_e( 'Global Custom JS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
-					</th>
-
-					<td>
-
-						<div class="wps_upsell_attribute_description">
-
-							<?php
-							$attribut_description = esc_html__( 'Enter your Custom JS without script tags.', 'upsell-order-bump-offer-for-woocommerce' );
-							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							?>
-							<?php
-
-							$global_custom_js = ! empty( $wps_upsell_global_settings['global_custom_js'] ) ? $wps_upsell_global_settings['global_custom_js'] : '';
-
-							?>
-
-							<textarea name="global_custom_js" rows="4" cols="50"><?php echo esc_html( wp_unslash( $global_custom_js ) ); ?></textarea>
-						</div>
-					</td>
-				</tr>
-				<!-- Global Custom JS end -->
-
 				<!-- Upsell Stripe Issues Notice start -->
 				<tr valign="top">
 					<th scope="row" class="titledesc">
@@ -500,6 +445,63 @@ wps_upsee_lite_go_pro_funnel_builder( 'pro' );
 					</td>
 				</tr>
 				<!-- Upsell Stripe Issues Notice end -->
+
+
+				<!-- Global Custom CSS start -->
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+						<label><?php esc_html_e( 'Global Custom CSS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td>
+
+						<div class="wps_upsell_attribute_description">
+
+							<?php
+							$attribut_description = esc_html__( 'Enter your Custom CSS without style tags.', 'upsell-order-bump-offer-for-woocommerce' );
+							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							?>
+
+							<?php
+
+							$global_custom_css = ! empty( $wps_upsell_global_settings['global_custom_css'] ) ? $wps_upsell_global_settings['global_custom_css'] : '';
+
+							?>
+
+							<textarea class="wps-ubo-code-field" data-code-type="css" name="global_custom_css" rows="6" cols="50"><?php echo esc_html( wp_unslash( $global_custom_css ) ); ?></textarea>
+						</div>
+					</td>
+				</tr>
+				<!-- Global Custom CSS end -->
+
+				<!-- Global Custom JS start -->
+				<tr valign="top">
+
+					<th scope="row" class="titledesc">
+						<label><?php esc_html_e( 'Global Custom JS', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+					</th>
+
+					<td>
+
+						<div class="wps_upsell_attribute_description">
+
+							<?php
+							$attribut_description = esc_html__( 'Enter your Custom JS without script tags.', 'upsell-order-bump-offer-for-woocommerce' );
+							wps_ubo_lite_help_tip( $attribut_description ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							?>
+							<?php
+
+							$global_custom_js = ! empty( $wps_upsell_global_settings['global_custom_js'] ) ? $wps_upsell_global_settings['global_custom_js'] : '';
+
+							?>
+
+							<textarea class="wps-ubo-code-field" data-code-type="js" name="global_custom_js" rows="6" cols="50"><?php echo esc_html( wp_unslash( $global_custom_js ) ); ?></textarea>
+						</div>
+					</td>
+				</tr>
+				<!-- Global Custom JS end -->
+
 				<?php do_action( 'wps_wocuf_pro_create_more_settings' ); ?>
 			</tbody>
 		</table>

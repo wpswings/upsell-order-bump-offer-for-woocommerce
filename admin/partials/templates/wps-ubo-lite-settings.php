@@ -897,7 +897,9 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 						?>
 
 						<input type="text" min="1" id="wps_bump_order_bump_limit" name="wps_custom_order_success_page" value="<?php echo esc_html( $wps_custom_order_success_page ); ?>">
-						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" style="text-decoration: none;"><i><?php esc_html_e( 'From here ,create custom order success page', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></a>
+						<a class="button button-secondary wps-ubo-success-page-btn" href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>">
+							<?php esc_html_e( 'Create custom order success page', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+						</a>
 					</td>
 				</tr>
 				<!-- Set Order Success Page End. -->
@@ -915,7 +917,7 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
 
-						<textarea id="wps_ubo_offer_global_css" name="wps_ubo_offer_global_css" rows="4" cols="50"><?php echo esc_html( $wps_ubo_offer_global_css ); ?></textarea>
+						<textarea id="wps_ubo_offer_global_css" class="wps-ubo-code-field" data-code-type="css" name="wps_ubo_offer_global_css" rows="6" cols="50"><?php echo esc_html( $wps_ubo_offer_global_css ); ?></textarea>
 
 					</td>
 				</tr>
@@ -934,7 +936,7 @@ $bump_offer_ab_method  = ! empty( $wps_ubo_global_options['wps_ubo_offer_ab_meth
 						wps_ubo_lite_help_tip( $attribute_description );
 						?>
 
-						<textarea id="wps_ubo_offer_global_js" name="wps_ubo_offer_global_js" rows="4" cols="50"><?php echo esc_html( $wps_ubo_offer_global_js ); ?></textarea>
+						<textarea id="wps_ubo_offer_global_js" class="wps-ubo-code-field" data-code-type="js" name="wps_ubo_offer_global_js" rows="6" cols="50"><?php echo esc_html( $wps_ubo_offer_global_js ); ?></textarea>
 
 					</td>
 				</tr>

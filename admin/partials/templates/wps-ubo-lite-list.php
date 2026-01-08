@@ -150,8 +150,8 @@ $wps_bump_display_list = array_filter(
 $count_abandoned_bumps = count( $wps_bump_display_list );
 
 // Pagination setup.
-$wps_bump_per_page   = absint( apply_filters( 'wps_ubo_bump_list_per_page', 10 ) );
-$wps_bump_per_page   = $wps_bump_per_page > 0 ? $wps_bump_per_page : 10;
+$wps_bump_per_page   = absint( apply_filters( 'wps_ubo_bump_list_per_page', 6 ) );
+$wps_bump_per_page   = $wps_bump_per_page > 0 ? $wps_bump_per_page : 6;
 $wps_total_bumps     = $count_abandoned_bumps;
 $wps_total_pages     = max( 1, (int) ceil( $wps_total_bumps / $wps_bump_per_page ) );
 $wps_current_page    = isset( $_GET['wps_bump_page'] ) ? max( 1, absint( $_GET['wps_bump_page'] ) ) : 1;
@@ -183,12 +183,14 @@ $wps_bump_imported      = isset($_GET['wps_bump_imported']) ? absint($_GET['wps_
 					<input type="hidden" name="action" value="wps_ubo_export_bumps_json">
 					<?php wp_nonce_field('wps_ubo_export_bumps'); ?>
 					<button type="submit" class="button button-primary"><?php esc_html_e('Export Bumps (JSON)', 'upsell-order-bump-offer-for-woocommerce'); ?></button>
+					<?php wps_upsell_lite_wc_help_tip( esc_html__('Download all bump offers as a JSON backup file.', 'upsell-order-bump-offer-for-woocommerce') ); ?>
 				</form>
 			</div>
 			<div class="wps_ubo_bump_tool">
 				<form id="wps_ubo_import_csv_form" enctype="multipart/form-data" data-nonce="<?php echo esc_attr(wp_create_nonce('wps_admin_nonce')); ?>">
 					<input type="file" id="wps_ubo_import_file" name="wps_ubo_import_file" accept=".json,application/json" required>
 					<button type="submit" class="button"><?php esc_html_e('Import Bumps (JSON)', 'upsell-order-bump-offer-for-woocommerce'); ?></button>
+					<?php wps_upsell_lite_wc_help_tip( esc_html__('Upload a JSON file exported from this plugin to restore your bumps.', 'upsell-order-bump-offer-for-woocommerce') ); ?>
 					<div id="wps_ubo_import_notice" class="wps_ubo_import_notice"></div>
 				</form>
 			</div>
@@ -245,243 +247,174 @@ $wps_bump_imported      = isset($_GET['wps_bump_imported']) ? absint($_GET['wps_
 		<?php endif; ?>
 		<?php $wps_ubo_global_options = get_option('wps_ubo_global_options', wps_ubo_lite_default_global_options()); ?>
 		<?php $bump_offer_ab_method  = ! empty($wps_ubo_global_options['wps_ubo_offer_ab_method']) ? $wps_ubo_global_options['wps_ubo_offer_ab_method'] : 'no'; ?>
-		<table>
-			<tr>
-				<th><?php esc_html_e('Name', 'upsell-order-bump-offer-for-woocommerce'); ?></th>
-				<th><?php esc_html_e('Status', 'upsell-order-bump-offer-for-woocommerce'); ?></th>
-				<th id="wps_upsell_bump_list_target_th"><?php esc_html_e('Target Product(s) and Categories', 'upsell-order-bump-offer-for-woocommerce'); ?></th>
-				<th><?php esc_html_e('Offers', 'upsell-order-bump-offer-for-woocommerce'); ?></th>
-				<?php if ('on' == $bump_offer_ab_method && wps_ubo_lite_is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')) { ?>
-					<th><?php esc_html_e('AB Status', 'upsell-order-bump-offer-for-woocommerce'); ?></th>
-				<?php } ?>
-				<th><?php esc_html_e('Action', 'upsell-order-bump-offer-for-woocommerce'); ?></th>
-			</tr>
-
+		<div class="wps-ubo-bump-cards">
 			<!-- Foreach Bump start. -->
-			<?php foreach ($wps_paginated_bumps as $key => $value) : ?>
+			<?php foreach ( $wps_paginated_bumps as $key => $value ) : ?>
 				<?php
-				// Skip if bump data is not an array.
-				if (! is_array($value)) {
+				if ( ! is_array( $value ) ) {
 					continue;
 				}
 
-				// Skip if key 'wps_is_abandoned_bump' exists in serialized cart data.
-				if (isset($value['wps_is_abandoned_bump']) && ! empty($value['wps_is_abandoned_bump']) && ('yes' === $value['wps_is_abandoned_bump'])) {
-					continue; // skip this row.
+				if ( isset( $value['wps_is_abandoned_bump'] ) && ! empty( $value['wps_is_abandoned_bump'] ) && ( 'yes' === $value['wps_is_abandoned_bump'] ) ) {
+					continue;
 				}
 
-				$label_campaign = isset($value['wps_bump_label_campaign']) ? $value['wps_bump_label_campaign'] : '';
-				$wps_bump_name = ! empty($value['wps_upsell_bump_name']) ? $value['wps_upsell_bump_name'] : '';
+				$label_campaign = isset( $value['wps_bump_label_campaign'] ) ? $value['wps_bump_label_campaign'] : '';
+				$wps_bump_name  = ! empty( $value['wps_upsell_bump_name'] ) ? $value['wps_upsell_bump_name'] : '';
 
-				list($color_hex, $label_name) = array_pad(explode('/',  $label_campaign, 2), 2, '');
+				list( $color_hex, $label_name ) = array_pad( explode( '/', $label_campaign, 2 ), 2, '' );
+				$wps_ubo_global_options             = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
+				$wps_bump_enable_campaign_labels    = ! empty( $wps_ubo_global_options['wps_bump_enable_campaign_labels'] ) ? $wps_ubo_global_options['wps_bump_enable_campaign_labels'] : '';
+				$bump_status                        = ! empty( $value['wps_upsell_bump_status'] ) ? $value['wps_upsell_bump_status'] : 'no';
 				?>
 
-				<tr>
-					<!-- Bump Name. -->
-					<td>
+				<div class="wps-ubo-bump-card">
+					<div class="wps-ubo-bump-card__header">
+						<div class="wps-ubo-bump-card__title">
+							<?php if ( 'on' === $wps_bump_enable_campaign_labels ) : ?>
+								<span class="wps_label_color" style="background-color: <?php echo esc_attr( $color_hex ); ?>;"><?php echo esc_html( $label_name ); ?></span>
+							<?php endif; ?>
+							<a class="wps_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php echo esc_html( $wps_bump_name ); ?></a>
+							<p class="wps-ubo-bump-priority"><i><?php esc_html_e( 'Priority : ', 'upsell-order-bump-offer-for-woocommerce' ); ?><span class="wps-bump-priority"><?php echo esc_html( ! empty( $value['wps_upsell_bump_priority'] ) ? $value['wps_upsell_bump_priority'] : 'No Priority' ); ?></span></i></p>
+						</div>
+						<div class="wps-ubo-bump-card__status">
+							<label class="wps_ubo_toggle_switch">
+								<input type="checkbox" class="wps-ubo-status-toggle" data-bump-id="<?php echo esc_attr( $key ); ?>" <?php checked( 'yes', $bump_status ); ?>>
+								<span class="wps_ubo_toggle_slider"></span>
+							</label>
+							<span class="wps_ubo_status_label wps-ubo-status-text"><?php echo 'yes' === $bump_status ? esc_html__( 'Live', 'upsell-order-bump-offer-for-woocommerce' ) : esc_html__( 'Sandbox', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+						</div>
+					</div>
 
-						<?php $wps_ubo_global_options = get_option('wps_ubo_global_options', wps_ubo_lite_default_global_options()); ?>
-						<?php $wps_bump_enable_campaign_labels = ! empty($wps_ubo_global_options['wps_bump_enable_campaign_labels']) ? $wps_ubo_global_options['wps_bump_enable_campaign_labels'] : ''; ?>
-						<?php if ('on' === $wps_bump_enable_campaign_labels) { ?>
-							<span class="wps_label_color" style="background-color: <?php echo esc_attr($color_hex); ?>;"><?php echo esc_html($label_name); ?></span>
-						<?php } ?>
-
-						<a class="wps_upsell_bump_list_name" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html($key); ?>"><?php echo esc_html($wps_bump_name); ?></a>
-						<p><i><?php esc_html_e('Priority : ', 'upsell-order-bump-offer-for-woocommerce'); ?><span class="wps-bump-priority"><?php echo esc_html(! empty($value['wps_upsell_bump_priority']) ? $value['wps_upsell_bump_priority'] : 'No Priority'); ?></span></i></p>
-					</td>
-					</td>
-
-					<!-- Bump Status. -->
-					<td>
-						<?php
-						$bump_status = ! empty($value['wps_upsell_bump_status']) ? $value['wps_upsell_bump_status'] : 'no';
-						?>
-						<label class="wps_ubo_toggle_switch">
-							<input type="checkbox" class="wps-ubo-status-toggle" data-bump-id="<?php echo esc_attr($key); ?>" <?php checked('yes', $bump_status); ?>>
-							<span class="wps_ubo_toggle_slider"></span>
-						</label>
-						<span class="wps_ubo_status_label wps-ubo-status-text"><?php echo 'yes' === $bump_status ? esc_html__('Live', 'upsell-order-bump-offer-for-woocommerce') : esc_html__('Sandbox', 'upsell-order-bump-offer-for-woocommerce'); ?></span>
-					</td>
-
-					<!-- Bump Target products. -->
-					<td>
-						<?php
-
-						// Target Product(s).
-						if (! empty($value['wps_upsell_bump_target_ids'])) {
-
-							echo '<div class="wps_upsell_bump_list_targets">';
-
-							foreach ($value['wps_upsell_bump_target_ids'] as $single_target_product) :
-
-						?>
-								<p><?php echo esc_html(wps_ubo_lite_get_title($single_target_product) . "( #$single_target_product )"); ?></p>
+					<div class="wps-ubo-bump-card__body">
+						<div class="wps-ubo-bump-block">
+							<div class="wps-ubo-block-title"><?php esc_html_e( 'Targets', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 							<?php
-
-							endforeach;
-
-							echo '</div>';
-						} else {
-
-							?>
-							<p><i><?php esc_html_e('No Product(s) added', 'upsell-order-bump-offer-for-woocommerce'); ?></i></p>
-							<?php
-						}
-
-						echo '<hr>';
-
-						// Target Categories.
-
-						if (! empty($value['wps_upsell_bump_target_categories'])) {
-
-							echo '<p><i>' . esc_html__('Target Categories -', 'upsell-order-bump-offer-for-woocommerce') . '</i></p>';
-
-							echo '<div class="wps_upsell_bump_list_targets">';
-
-							foreach ($value['wps_upsell_bump_target_categories'] as $single_target_category_id) :
-
-							?>
-								<p><?php echo esc_html(wps_ubo_lite_getcat_title($single_target_category_id) . "( #$single_target_category_id )"); ?></p>
-							<?php
-
-							endforeach;
-
-							echo '</div>';
-						} else {
-
-							?>
-							<p><i><?php esc_html_e('No Categories added', 'upsell-order-bump-offer-for-woocommerce'); ?></i></p>
-						<?php
-						}
-
-						?>
-					</td>
-
-					<!-- Bump Offer Product. -->
-					<td>
-						<p>
-							<?php
-							if (! empty($value['wps_upsell_bump_products_in_offer'])) {
-
-								$single_offer_product = $value['wps_upsell_bump_products_in_offer'];
-							?>
-						<p><?php echo esc_html(wps_ubo_lite_get_title($single_offer_product) . "( #$single_offer_product )"); ?></p>
-					<?php
+							if ( ! empty( $value['wps_upsell_bump_target_ids'] ) ) {
+								echo '<div class="wps_upsell_bump_list_targets">';
+								foreach ( $value['wps_upsell_bump_target_ids'] as $single_target_product ) :
+									?>
+									<p><?php echo esc_html( wps_ubo_lite_get_title( $single_target_product ) . "( #$single_target_product )" ); ?></p>
+									<?php
+								endforeach;
+								echo '</div>';
 							} else {
-
-								esc_html_e('No offers Added', 'upsell-order-bump-offer-for-woocommerce');
+								?>
+								<p><i><?php esc_html_e( 'No Product(s) added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
+								<?php
 							}
 
-					?>
-					</p>
-					</td>
-					<?php
-					$wps_display_method = ! empty($value['wps_display_method']) ? sanitize_text_field(wp_unslash($value['wps_display_method'])) : '';
-					if ('on' === $bump_offer_ab_method && wps_ubo_lite_is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')) :
-					?>
-						<td>
-
-							<?php
-							if ('ab_method' === $wps_display_method) :
-								$has_two_bumps = (isset($wps_count_for_ab) && (int) $wps_count_for_ab > 1);
-								if ($has_two_bumps) :
-
-									$accept_count = isset($value['bump_success_count']) ? (int) $value['bump_success_count'] : 0;
-									$orders_count = (isset($value['bump_orders_count']) && is_array($value['bump_orders_count'])) ? count($value['bump_orders_count']) : 0;
+							if ( ! empty( $value['wps_upsell_bump_target_categories'] ) ) {
+								echo '<p><i>' . esc_html__( 'Target Categories -', 'upsell-order-bump-offer-for-woocommerce' ) . '</i></p>';
+								echo '<div class="wps_upsell_bump_list_targets">';
+								foreach ( $value['wps_upsell_bump_target_categories'] as $single_target_category_id ) :
+									?>
+									<p><?php echo esc_html( wps_ubo_lite_getcat_title( $single_target_category_id ) . "( #$single_target_category_id )" ); ?></p>
+									<?php
+								endforeach;
+								echo '</div>';
+							} else {
+								?>
+								<p><i><?php esc_html_e( 'No Categories added', 'upsell-order-bump-offer-for-woocommerce' ); ?></i></p>
+								<?php
+							}
 							?>
-									<div class="wpsb-statcard">
-										<div class="wpsb-head">
-											<span class="wpsb-chip"><?php esc_html_e('A/B Mode', 'upsell-order-bump-offer-for-woocommerce'); ?></span>
-											<div class="wpsb-title"><?php esc_html_e('Offer Performance', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
-										</div>
-										<div class="wpsb-grid">
-											<div class="wpsb-item">
-												<div class="wpsb-label"><?php esc_html_e('Accept Offer', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
-												<div class="wpsb-value"><?php echo esc_html((string) $accept_count); ?></div>
-											</div>
-											<div class="wpsb-item">
-												<div class="wpsb-label"><?php esc_html_e('Bump Shown', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
-												<div class="wpsb-value"><?php echo esc_html((string) $orders_count); ?></div>
-											</div>
-										</div>
-										<?php if (0 === $accept_count && 0 === $orders_count) : ?>
-											<div class="wpsb-muted"><?php esc_html_e('No activity recorded yet.', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
-										<?php endif; ?>
-									</div>
-								<?php
+						</div>
 
-								else :
-								?>
-									<div class="wpsb-statcard">
-										<div class="wpsb-head">
-											<span class="wpsb-chip"><?php esc_html_e('A/B Mode', 'upsell-order-bump-offer-for-woocommerce'); ?></span>
-											<div class="wpsb-title"><?php esc_html_e('Statistics Unavailable', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
-										</div>
-										<div class="wpsb-muted"><?php esc_html_e('Ensure at least two bumps are configured to view A/B statistics.', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
-									</div>
-								<?php
-								endif;
-
-							else :
-								?>
-								<div class="wpsb-statcard">
-									<div class="wpsb-head">
-										<span class="wpsb-chip"><?php esc_html_e('Default', 'upsell-order-bump-offer-for-woocommerce'); ?></span>
-										<div class="wpsb-title"><?php esc_html_e('Default Bump Show', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
-									</div>
-									<div class="wpsb-muted"><?php esc_html_e('A/B method is not active for this bump.', 'upsell-order-bump-offer-for-woocommerce'); ?></div>
-								</div>
+						<div class="wps-ubo-bump-block">
+							<div class="wps-ubo-block-title"><?php esc_html_e( 'Offer', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
 							<?php
-							endif; ?>
-						</td>
-					<?php
-					endif;
-					?>
-					<!-- Bump Action. -->
-					<td>
-						<!-- Bump View/Edit link. -->
-						<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html($key); ?>"><?php esc_html_e('View / Edit', 'upsell-order-bump-offer-for-woocommerce'); ?></a>
+							if ( ! empty( $value['wps_upsell_bump_products_in_offer'] ) ) {
+								$single_offer_product = $value['wps_upsell_bump_products_in_offer'];
+								?>
+								<p><?php echo esc_html( wps_ubo_lite_get_title( $single_offer_product ) . "( #$single_offer_product )" ); ?></p>
+								<?php
+							} else {
+								esc_html_e( 'No offers Added', 'upsell-order-bump-offer-for-woocommerce' );
+							}
+							?>
+						</div>
 
-						<!-- Bump Delete link. -->
-						<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section&del_bump_id=<?php echo esc_html($key); ?>"><?php esc_html_e('Delete', 'upsell-order-bump-offer-for-woocommerce'); ?></a>
+						<?php
+						$wps_display_method = ! empty( $value['wps_display_method'] ) ? sanitize_text_field( wp_unslash( $value['wps_display_method'] ) ) : '';
+						if ( 'on' === $bump_offer_ab_method && wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) :
+							?>
+							<div class="wps-ubo-bump-block">
+								<div class="wps-ubo-block-title"><?php esc_html_e( 'A/B Status', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+								<?php
+								if ( 'ab_method' === $wps_display_method ) :
+									$has_two_bumps = ( isset( $wps_count_for_ab ) && (int) $wps_count_for_ab > 1 );
+									if ( $has_two_bumps ) :
+										$accept_count = isset( $value['bump_success_count'] ) ? (int) $value['bump_success_count'] : 0;
+										$orders_count = ( isset( $value['bump_orders_count'] ) && is_array( $value['bump_orders_count'] ) ) ? count( $value['bump_orders_count'] ) : 0;
+										?>
+										<div class="wpsb-statcard">
+											<div class="wpsb-head">
+												<span class="wpsb-chip"><?php esc_html_e( 'A/B Mode', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+												<div class="wpsb-title"><?php esc_html_e( 'Offer Performance', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+											</div>
+											<div class="wpsb-grid">
+												<div class="wpsb-item">
+													<div class="wpsb-label"><?php esc_html_e( 'Accept Offer', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+													<div class="wpsb-value"><?php echo esc_html( (string) $accept_count ); ?></div>
+												</div>
+												<div class="wpsb-item">
+													<div class="wpsb-label"><?php esc_html_e( 'Bump Shown', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+													<div class="wpsb-value"><?php echo esc_html( (string) $orders_count ); ?></div>
+												</div>
+											</div>
+											<?php if ( 0 === $accept_count && 0 === $orders_count ) : ?>
+												<div class="wpsb-muted"><?php esc_html_e( 'No activity recorded yet.', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+											<?php endif; ?>
+										</div>
+										<?php
+									else :
+										?>
+										<div class="wpsb-statcard">
+											<div class="wpsb-head">
+												<span class="wpsb-chip"><?php esc_html_e( 'A/B Mode', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+												<div class="wpsb-title"><?php esc_html_e( 'Statistics Unavailable', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+											</div>
+											<div class="wpsb-muted"><?php esc_html_e( 'Ensure at least two bumps are configured to view A/B statistics.', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+										</div>
+										<?php
+									endif;
+								else :
+									?>
+									<div class="wpsb-statcard">
+										<div class="wpsb-head">
+											<span class="wpsb-chip"><?php esc_html_e( 'Default', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+											<div class="wpsb-title"><?php esc_html_e( 'Default Bump Show', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+										</div>
+										<div class="wpsb-muted"><?php esc_html_e( 'A/B method is not active for this bump.', 'upsell-order-bump-offer-for-woocommerce' ); ?></div>
+									</div>
+									<?php
+								endif;
+								?>
+							</div>
+						<?php endif; ?>
 
-						<?php if (wps_ubo_lite_is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')) { ?>
-							<!--Below will work for pro only -->
-							<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section&clone_bump_id=<?php echo esc_html($key); ?>"><?php esc_html_e('Clone', 'upsell-order-bump-offer-for-woocommerce'); ?></a>
-						<?php } ?>
-					</td>
+						<div class="wps-ubo-bump-block wps-ubo-bump-actions">
+							<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'View / Edit', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+							<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section&del_bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+							<?php if ( wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) { ?>
+								<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section&clone_bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'Clone', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+							<?php } ?>
+							<a class="wps_upsell_bump_links" href="#"><?php esc_html_e( 'report', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+						</div>
+					</div>
 
-					<?php do_action('wps_ubo_add_more_col_data'); ?>
-				</tr>
+					<?php do_action( 'wps_ubo_add_more_col_data' ); ?>
+				</div>
 			<?php endforeach; ?>
 			<!-- Foreach Bump end. -->
-		</table>
+		</div>
 
-		<?php if ( $wps_total_pages > 1 ) : ?>
-			<div class="wps_ubo_pagination">
-				<div class="wps_ubo_page_info">
-					<?php
-					printf(
-						/* translators: 1: current page, 2: total pages */
-						esc_html__( 'Page %1$d of %2$d', 'upsell-order-bump-offer-for-woocommerce' ),
-						(int) $wps_current_page,
-						(int) $wps_total_pages
-					);
-					?>
-				</div>
-				<div class="wps_ubo_page_links">
-					<?php if ( $wps_current_page > 1 ) : ?>
-						<a class="button" href="<?php echo esc_url( add_query_arg( 'wps_bump_page', $wps_current_page - 1, $wps_bump_base_url ) ); ?>">&laquo; <?php esc_html_e( 'Previous', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-					<?php endif; ?>
-
-					<span class="wps_ubo_page_number"><?php echo esc_html( $wps_current_page ); ?></span>
-
-					<?php if ( $wps_current_page < $wps_total_pages ) : ?>
-						<a class="button" href="<?php echo esc_url( add_query_arg( 'wps_bump_page', $wps_current_page + 1, $wps_bump_base_url ) ); ?>"><?php esc_html_e( 'Next', 'upsell-order-bump-offer-for-woocommerce' ); ?> &raquo;</a>
-					<?php endif; ?>
-				</div>
-			</div>
-		<?php endif; ?>
+		<?php
+		if ( $wps_total_pages > 1 ) {
+			wps_ubo_render_admin_pagination( $wps_current_page, $wps_total_pages, $wps_bump_base_url, 'wps_bump_page' );
+		}
+		?>
 	<?php endif; ?>
 </div>
 
@@ -492,18 +425,181 @@ $wps_bump_imported      = isset($_GET['wps_bump_imported']) ? absint($_GET['wps_
 
 <?php endif; ?>
 
-<!-- Create New Bump. -->
+<!-- Create New Bump via template modal. -->
 <?php $installed_plugins = get_plugins(); ?>
-<?php if (! wps_ubo_lite_is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')) { ?>
-	<!-- Create New Bump. -->
-	<div class="wps_upsell_bump_create_new_bump">
-		<a class="wps_ubo_lite_bump_create_button" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=1"><?php esc_html_e('+Create New Order Bump', 'upsell-order-bump-offer-for-woocommerce'); ?></a>
-	</div>
+<?php
+$wps_ubo_is_pro_active     = wps_ubo_lite_if_pro_exists();
+$wps_ubo_creation_bump_id = wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ? $wps_upsell_bumps_last_index + 1 : 1;
+$wps_ubo_creation_link    = add_query_arg(
+	array(
+		'page'    => 'upsell-order-bump-offer-for-woocommerce-setting',
+		'tab'     => 'order-bump-section',
+		'sub_tab' => 'pre-save-offer-section',
+		'bump_id' => $wps_ubo_creation_bump_id,
+	),
+	admin_url( 'admin.php' )
+);
+$wps_ubo_template_cards = array(
+	array(
+		'slug'        => 'upsell-default',
+		'title'       => __( 'Upsell Default', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Default upsell layout for standard offers.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'icon'        => 'dashicons-visibility',
+	),
+	array(
+		'slug'        => 'conditional-display',
+		'title'       => __( 'Bump Conditional Display', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Show bumps only when advanced display rules match.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'icon'        => 'dashicons-visibility',
+	),
+	array(
+		'slug'        => 'smart-offer-upgrade',
+		'title'       => __( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Upsell-ready layout to boost average order value.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'is_pro'      => true,
+		'icon'        => 'dashicons-cart',
+	),
+	array(
+		'slug'        => 'exclusive-limits',
+		'title'       => __( 'Exclusive Limits', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Limited-quantity vibe to drive urgency.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'is_pro'      => true,
+		'icon'        => 'dashicons-lock',
+	),
+	array(
+		'slug'        => 'global-order-bump',
+		'title'       => __( 'Global Order Bump', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Sitewide-ready template for broad bumps.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'is_pro'      => true,
+		'icon'        => 'dashicons-admin-site',
+	),
+	array(
+		'slug'        => 'countdown-timer',
+		'title'       => __( 'Countdown Timer', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Time-boxed bump with a visible clock.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'is_pro'      => true,
+		'icon'        => 'dashicons-clock',
+	),
+	array(
+		'slug'        => 'evergreen-timer',
+		'title'       => __( 'Evergreen Timer', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Rolling countdown for consistent urgency.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'is_pro'      => true,
+		'icon'        => 'dashicons-backup',
+	),
+	array(
+		'slug'        => 'gallery-slider',
+		'title'       => __( 'Product Gallery Image Slider', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Carousel-style visuals to showcase offers.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'is_pro'      => true,
+		'icon'        => 'dashicons-format-gallery',
+	),
+	array(
+		'slug'        => 'meta-forms',
+		'title'       => __( 'Meta Forms', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Collect quick user inputs with the bump.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'is_pro'      => true,
+		'icon'        => 'dashicons-feedback',
+	),
+	array(
+		'slug'        => 'ab-testing',
+		'title'       => __( 'A/B Testing', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Preset for experimenting with variants.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'is_pro'      => true,
+		'icon'        => 'dashicons-chart-bar',
+	),
+	array(
+		'slug'        => 'smart-coupon',
+		'title'       => __( 'Smart Coupon Offer', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Coupon-forward layout to highlight savings.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'is_pro'      => true,
+		'icon'        => 'dashicons-tickets-alt',
+	),
+	array(
+		'slug'        => 'upsell-popup',
+		'title'       => __( 'Upsell Popup', 'upsell-order-bump-offer-for-woocommerce' ),
+		'description' => __( 'Popup-style upsell for high-impact offers.', 'upsell-order-bump-offer-for-woocommerce' ),
+		'is_pro'      => true,
+		'icon'        => 'dashicons-visibility',
+	),
+);
+?>
 
-<?php } else { ?>
-	<div class="wps_upsell_bump_create_new_bump">
-		<a href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html($wps_upsell_bumps_last_index + 1); ?>"><?php esc_html_e('+Create New Order Bump', 'upsell-order-bump-offer-for-woocommerce'); ?></a>
+<div class="wps_upsell_bump_create_new_bump">
+	<button type="button"  id="wps-ubo-open-template-modal"><?php esc_html_e('+Create New Order Bump', 'upsell-order-bump-offer-for-woocommerce'); ?></button>
+</div>
+
+<div class="wps-ubo-template-modal" id="wps-ubo-template-modal" aria-hidden="true">
+	<div class="wps-ubo-template-overlay" id="wps-ubo-template-overlay"></div>
+	<div class="wps-ubo-template-dialog" role="dialog" aria-modal="true">
+		<div class="wps-ubo-template-dialog__head">
+			<h3><?php esc_html_e( 'Choose a Campaign Layout', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+			<button type="button" class="wps-ubo-template-close" id="wps-ubo-template-close" aria-label="<?php esc_attr_e( 'Close', 'upsell-order-bump-offer-for-woocommerce' ); ?>">×</button>
+		</div>
+		<div class="wps-ubo-template-grid">
+			<?php foreach ( $wps_ubo_template_cards as $card ) : ?>
+				<?php
+					$card_is_pro   = ! empty( $card['is_pro'] );
+					$card_is_lock  = $card_is_pro && ! $wps_ubo_is_pro_active;
+					$card_icon     = ! empty( $card['icon'] ) ? $card['icon'] : 'dashicons-layout';
+					$button_label  = $card_is_lock ? __( 'Unlock with PRO', 'upsell-order-bump-offer-for-woocommerce' ) : __( 'Create Campaign', 'upsell-order-bump-offer-for-woocommerce' );
+				?>
+				<div class="wps-ubo-template-card <?php echo $card_is_lock ? 'is-locked' : 'is-open'; ?>" data-template="<?php echo esc_attr( $card['slug'] ); ?>">
+					<div class="wps-ubo-template-card__head">
+						<div class="wps-ubo-template-card__title">
+							<span class="dashicons <?php echo esc_attr( $card_icon ); ?> wps-ubo-template-icon" aria-hidden="true"></span>
+							<div class="wps-ubo-template-card__text">
+								<h4><?php echo esc_html( $card['title'] ); ?></h4>
+								<p><?php echo esc_html( $card['description'] ); ?></p>
+							</div>
+						</div>
+						<?php if ( $card_is_pro ) : ?>
+							<span class="wps-ubo-template-badge <?php echo $card_is_lock ? 'is-locked' : 'is-pro'; ?>">
+								<?php echo $card_is_lock ? esc_html__( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ) : esc_html__( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+							</span>
+						<?php endif; ?>
+					</div>
+					<a href="https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro" class="button button-primary wps-ubo-template-choose <?php echo $card_is_lock ? 'is-locked' : ''; ?>" data-template="<?php echo esc_attr( $card['slug'] ); ?>" data-locked="<?php echo $card_is_lock ? '1' : '0'; ?>" <?php echo $card_is_lock ? 'aria-disabled="true"' : ''; ?> target="_blank">
+				<?php echo esc_html( $button_label ); ?>
+				</a>
+				</div>
+			<?php endforeach; ?>
+		</div>
 	</div>
-<?php } ?>
+</div>
+<?php $next_bump_id = $wps_upsell_bumps_last_index + 1; ?>
+<script>
+	(function($){
+		const modal = $('#wps-ubo-template-modal');
+		const overlay = $('#wps-ubo-template-overlay');
+		const openBtn = $('#wps-ubo-open-template-modal');
+		const closeBtn = $('#wps-ubo-template-close');
+		let createUrl = '<?php echo "?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id={$wps_ubo_creation_bump_id}"; ?>';
+		function openModal() {
+			modal.attr('aria-hidden', 'false').addClass('is-open');
+			$('body').addClass('wps-ubo-modal-open');
+		}
+		function closeModal() {
+			modal.attr('aria-hidden', 'true').removeClass('is-open');
+			$('body').removeClass('wps-ubo-modal-open');
+		}
+
+		openBtn.on('click', openModal);
+		closeBtn.on('click', closeModal);
+		overlay.on('click', closeModal);
+
+		$(document).on('keyup', function(e){
+			if (27 === e.keyCode) {
+				closeModal();
+			}
+		});
+
+		modal.on('click', '.wps-ubo-template-choose', function(){
+			const template = $(this).data('template') || 'default';
+			window.location.href = createUrl + '&template=' + encodeURIComponent(template);
+			console.log( createUrl + '&template=' + encodeURIComponent(template) );
+		});
+	})(jQuery);
+</script>
 <!-- Add Go pro popup. -->
 <?php wps_ubo_go_pro('list'); ?>

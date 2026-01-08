@@ -163,9 +163,9 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 				<?php do_action( 'wps_wocuf_pro_funnel_add_more_col_head' ); ?>
 			</tr>
 
-			<!-- Foreach Funnel start -->
-			<?php
-			foreach ( $wps_paginated_funnels as $key => $value ) :
+		<!-- Foreach Funnel start -->
+		<?php
+		foreach ( $wps_paginated_funnels as $key => $value ) :
 
 				$offers_count = ! empty( $value['wps_wocuf_products_in_offer'] ) ? $value['wps_wocuf_products_in_offer'] : array();
 
@@ -346,31 +346,11 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 			<?php endforeach; ?>
 			<!-- Foreach Funnel end -->
 		</table>
-		<?php if ( $wps_total_pages > 1 ) : ?>
-			<div class="wps_ubo_pagination">
-				<div class="wps_ubo_page_info">
-					<?php
-					printf(
-						/* translators: 1: current page, 2: total pages */
-						esc_html__( 'Page %1$d of %2$d', 'upsell-order-bump-offer-for-woocommerce' ),
-						(int) $wps_current_page,
-						(int) $wps_total_pages
-					);
-					?>
-				</div>
-				<div class="wps_ubo_page_links">
-					<?php if ( $wps_current_page > 1 ) : ?>
-						<a class="button" href="<?php echo esc_url( add_query_arg( 'wps_funnel_page', $wps_current_page - 1, $wps_funnel_base_url ) ); ?>">&laquo; <?php esc_html_e( 'Previous', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-					<?php endif; ?>
-
-					<span class="wps_ubo_page_number"><?php echo esc_html( $wps_current_page ); ?></span>
-
-					<?php if ( $wps_current_page < $wps_total_pages ) : ?>
-						<a class="button" href="<?php echo esc_url( add_query_arg( 'wps_funnel_page', $wps_current_page + 1, $wps_funnel_base_url ) ); ?>"><?php esc_html_e( 'Next', 'upsell-order-bump-offer-for-woocommerce' ); ?> &raquo;</a>
-					<?php endif; ?>
-				</div>
-			</div>
-		<?php endif; ?>
+		<?php
+		if ( $wps_total_pages > 1 ) {
+			wps_ubo_render_admin_pagination( $wps_current_page, $wps_total_pages, $wps_funnel_base_url, 'wps_funnel_page' );
+		}
+		?>
 	<?php endif; ?>
 </div>
 

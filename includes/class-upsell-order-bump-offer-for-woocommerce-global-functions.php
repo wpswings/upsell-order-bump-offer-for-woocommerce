@@ -1671,8 +1671,58 @@ function wps_ubo_lite_retrieve_bump_location_details( $key = '_after_payment_gat
 				'hook'     => 'woocommerce_review_order_before_submit',
 				'priority' => 21,
 				'name'     => 'Before Place order button',
-			);
+	);
+}
+
+if ( ! function_exists( 'wps_ubo_render_admin_pagination' ) ) {
+	/**
+	 * Render a simple, styled pagination control for admin listings.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param int    $current_page Current page number.
+	 * @param int    $total_pages  Total number of pages.
+	 * @param string $base_url     Base URL to append page param to.
+	 * @param string $page_param   Query string key for the page (default: paged).
+	 */
+	function wps_ubo_render_admin_pagination( $current_page, $total_pages, $base_url, $page_param = 'paged' ) {
+		$current_page = max( 1, (int) $current_page );
+		$total_pages  = max( 1, (int) $total_pages );
+		$page_param   = sanitize_key( $page_param );
+
+		if ( $total_pages <= 1 ) {
+			return;
 		}
+
+		$prev_url = $current_page > 1 ? add_query_arg( $page_param, $current_page - 1, $base_url ) : '';
+		$next_url = $current_page < $total_pages ? add_query_arg( $page_param, $current_page + 1, $base_url ) : '';
+		?>
+		<div class="wps_ubo_pagination">
+			<div class="wps_ubo_page_info">
+				<?php
+				printf(
+					/* translators: 1: current page, 2: total pages */
+					esc_html__( 'Page %1$d of %2$d', 'upsell-order-bump-offer-for-woocommerce' ),
+					(int) $current_page,
+					(int) $total_pages
+				);
+				?>
+			</div>
+			<div class="wps_ubo_page_links">
+				<?php if ( ! empty( $prev_url ) ) : ?>
+					<a class="button" href="<?php echo esc_url( $prev_url ); ?>">&laquo; <?php esc_html_e( 'Previous', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+				<?php endif; ?>
+
+				<span class="wps_ubo_page_number"><?php echo esc_html( $current_page ); ?></span>
+
+				<?php if ( ! empty( $next_url ) ) : ?>
+					<a class="button" href="<?php echo esc_url( $next_url ); ?>"><?php esc_html_e( 'Next', 'upsell-order-bump-offer-for-woocommerce' ); ?> &raquo;</a>
+				<?php endif; ?>
+			</div>
+		</div>
+		<?php
+	}
+}
 	} else {   // Code For Comapatibility With CheckoutWC plugin.
 		$location_details = array(
 			'_before_order_summary'      => array(
@@ -2759,6 +2809,11 @@ function wps_ubo_session_destroy() {
  * @since   1.2.0
  */
 function wps_ubo_go_pro( $location = 'pro' ) {
+
+	// Do not render upsell popup if Pro is active.
+	if ( wps_ubo_lite_if_pro_exists() ) {
+		return;
+	}
 
 	if ( 'pro' === $location ) {
 

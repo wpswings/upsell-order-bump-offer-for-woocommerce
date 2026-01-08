@@ -117,10 +117,6 @@
   margin-left: 160px;
 }
 
-.wps_ubo_lite_go_pro_popup_body {
-  overflow: hidden;
-}
-
 .wps_ubo_lite_go_pro_popup_head {
   position: relative;
 }
@@ -511,10 +507,14 @@
 }
 
 .wps_upsell_bump_links {
-  background-color: #73c4c1;
-  padding: 5px;
-  border-radius: 20px;
-  color: white;
+  background-color: #2271b1;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: #fff;
+  display: inline-block;
+  line-height: 1.2;
+  font-weight: 600;
+  transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
 .wps_upsell_bumps_list {
@@ -7182,4 +7182,275 @@ button.button.btn-primary.wc-discount-save:focus {
   min-width: 38px;
   text-align: center;
   color: #1d2327;
+}
+
+.wps-ubo-code-field,
+.CodeMirror {
+  width: 100%;
+  font-family: Menlo, Consolas, "Courier New", monospace;
+  border-radius: 6px;
+}
+
+.wps-ubo-code-field {
+  line-height: 1.5;
+  padding: 12px;
+  resize: vertical;
+}
+
+/* CodeMirror tweaks (non-theme) */
+.CodeMirror {
+  resize: vertical;
+}
+
+.CodeMirror-scroll {
+  overflow: auto !important;
+  resize: vertical;
+}
+
+.wps-ubo-success-page-btn {
+  margin-left: 8px;
+}
+
+.wps-ubo-modal-open {
+  overflow: hidden;
+}
+
+/* Bump cards */
+.wps-ubo-bump-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.wps-ubo-template-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 100000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.wps-ubo-template-modal.is-open {
+  display: flex;
+}
+
+.wps-ubo-template-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.wps-ubo-template-dialog {
+  position: relative;
+  background: #fff;
+  width: 100%;
+  max-width: 920px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.wps-ubo-template-dialog__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.wps-ubo-template-close {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.wps-ubo-template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.wps-ubo-template-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.wps-ubo-template-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
+  border-color: #d7dde4;
+}
+
+.wps-ubo-template-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wps-ubo-template-card__title {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.wps-ubo-template-card__text h4 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.wps-ubo-template-card__text p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.wps-ubo-template-choose {
+  align-self: flex-start;
+  min-width: 140px;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.wps-ubo-template-choose.is-locked,
+.wps-ubo-template-card.is-locked .wps-ubo-template-choose {
+  background: #e8f0ff;
+  border-color: #c5d4ff;
+  color: #1d4ed8;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.wps-ubo-template-card.is-locked {
+  position: relative;
+  overflow: hidden;
+}
+
+.wps-ubo-template-card.is-locked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(59, 130, 246, 0.05));
+  pointer-events: none;
+}
+
+.wps-ubo-template-icon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-size: 18px;
+}
+
+.wps-ubo-template-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #cde8d6;
+  background: #edfff4;
+  color: #0f9d58;
+  text-transform: uppercase;
+}
+
+.wps-ubo-template-badge.is-locked {
+  background: #e8f0ff;
+  border-color: #c5d4ff;
+  color: #1d4ed8;
+}
+.wps-ubo-bump-card {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.wps-ubo-bump-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.wps-ubo-bump-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.wps-ubo-bump-card__title .wps_upsell_bump_list_name {
+  font-size: 15px;
+  color: #1d2327;
+}
+
+.wps-ubo-bump-priority {
+  margin: 4px 0 0;
+}
+
+.wps-ubo-bump-card__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wps-ubo-bump-card__body {
+  display: grid;
+  gap: 12px;
+}
+
+.wps-ubo-bump-block {
+  border: 1px solid #edf1f4;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+}
+
+.wps-ubo-block-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1d2327;
+}
+
+.wps-ubo-bump-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.wps_upsell_bump_links:hover,
+.wps_upsell_bump_links:focus {
+  background-color: #135e96;
+  color: #fff;
+  transform: translateY(-1px);
 }

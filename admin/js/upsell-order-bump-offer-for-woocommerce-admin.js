@@ -106,7 +106,10 @@
       var $checkbox = $(this);
       var bumpId = $checkbox.data("bump-id");
       var newStatus = $checkbox.is(":checked") ? "yes" : "no";
-      var $statusText = $checkbox.closest("td").find(".wps-ubo-status-text");
+      var $statusText = $checkbox
+        .closest(".wps-ubo-bump-card__status, td, .wps-ubo-bump-card")
+        .find(".wps-ubo-status-text")
+        .first();
 
       $checkbox.prop("disabled", true);
 
