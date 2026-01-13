@@ -103,20 +103,22 @@ $wps_funnel_base_url   = add_query_arg(
 ?>
 <div class="wps_ubo_action_bar">
 		<div class="wps_ubo_bump_tools_wrapper">
-			<div class="wps_ubo_bump_tool">
-				<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
-					<input type="hidden" name="action" value="wps_wocuf_export_funnels_json">
-					<?php wp_nonce_field( 'wps_ubo_export_bumps' ); ?>
-					<button type="submit" class="button button-primary" title="<?php echo esc_attr__( 'Download all funnels as a JSON backup file.', 'upsell-order-bump-offer-for-woocommerce' ); ?>"><?php esc_html_e( 'Export Funnels (JSON)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
-					<?php wps_upsell_lite_wc_help_tip( esc_html__( 'Download all funnels as a JSON backup file.', 'upsell-order-bump-offer-for-woocommerce' ) ); ?>
-				</form>
-			</div>
+
 			<div class="wps_ubo_bump_tool">
 				<form id="wps_ubo_import_funnel_csv_form" enctype="multipart/form-data" data-nonce="<?php echo esc_attr( wp_create_nonce( 'wps_admin_nonce' ) ); ?>">
 					<input type="file" id="wps_ubo_import_funnel_file" name="wps_ubo_import_file" accept=".json,application/json" required title="<?php echo esc_attr__( 'Upload a funnel export JSON file from this plugin to restore funnels.', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 					<button type="submit" class="button" title="<?php echo esc_attr__( 'Import funnels from a previously exported JSON file.', 'upsell-order-bump-offer-for-woocommerce' ); ?>"><?php esc_html_e( 'Import Funnels (JSON)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
 					<?php wps_upsell_lite_wc_help_tip( esc_html__( 'Import funnels from a previously exported JSON file.', 'upsell-order-bump-offer-for-woocommerce' ) ); ?>
 					<div id="wps_ubo_import_funnel_notice" class="wps_ubo_import_notice"></div>
+				</form>
+			</div>
+			
+			<div class="wps_ubo_bump_tool">
+				<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+					<input type="hidden" name="action" value="wps_wocuf_export_funnels_json">
+					<?php wp_nonce_field( 'wps_ubo_export_bumps' ); ?>
+					<button type="submit" class="button button-primary" title="<?php echo esc_attr__( 'Download all funnels as a JSON backup file.', 'upsell-order-bump-offer-for-woocommerce' ); ?>"><?php esc_html_e( 'Export Funnels (JSON)', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+					<?php wps_upsell_lite_wc_help_tip( esc_html__( 'Download all funnels as a JSON backup file.', 'upsell-order-bump-offer-for-woocommerce' ) ); ?>
 				</form>
 			</div>
 		</div>
