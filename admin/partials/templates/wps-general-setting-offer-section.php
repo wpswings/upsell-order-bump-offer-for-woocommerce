@@ -290,7 +290,7 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 
 						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
-						<label for="wps_ubo_offer_purchased_earlier"><?php esc_html_e( 'Product Offer Strip', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="wps_ubo_offer_product_strip"><?php esc_html_e( 'Product Offer Strip', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">

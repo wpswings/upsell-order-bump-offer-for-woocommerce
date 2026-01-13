@@ -154,7 +154,10 @@
       var $checkbox = $(this);
       var funnelId = $checkbox.data("funnel-id");
       var newStatus = $checkbox.is(":checked") ? "yes" : "no";
-      var $statusText = $checkbox.closest("td").find(".wps-ubo-status-text");
+      var $statusText = $checkbox
+        .closest(".wps-ubo-bump-card__status, td")
+        .find(".wps-ubo-status-text")
+        .first();
 
       $checkbox.prop("disabled", true);
 

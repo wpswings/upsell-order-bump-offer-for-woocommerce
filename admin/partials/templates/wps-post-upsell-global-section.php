@@ -94,7 +94,7 @@ $wps_upsell_global_settings = get_option( 'wps_upsell_lite_global_options', arra
 wps_upsee_lite_go_pro_funnel_builder( 'pro' );
 
 ?>
-<input type='hidden' id='wps_ubo_pro_status' value='inactive'>
+<input type='hidden' id='wps_ubo_pro_status' value='<?php echo esc_attr( wps_ubo_lite_if_pro_exists() ? 'active' : 'inactive' ); ?>'>
 <form action="" method="POST">
 	<div class="wps_upsell_table">
 		<table class="form-table wps_wocuf_pro_creation_setting">

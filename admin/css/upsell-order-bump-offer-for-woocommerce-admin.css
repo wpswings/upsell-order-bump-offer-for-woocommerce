@@ -1975,8 +1975,8 @@ select.wps_select_for_description_class {
   display: none;
 }
 
-#wps_upsell_bump_setting_wrapper .wps-notice {
-  display: block;
+#wps_upsell_bump_setting_wrapper .wps-wocuf-campaign-notice {
+  display: block !important;
 }
 
 .wps_premium_feature img {
@@ -7412,6 +7412,13 @@ button.button.btn-primary.wc-discount-save:focus {
 .wps-ubo-bump-card__title .wps_upsell_bump_list_name {
   font-size: 15px;
   color: #1d2327;
+}
+
+
+.wps-ubo-funnel-cards .wps-ubo-bump-card__title .wps_upsell_funnel_list_name {
+  font-size: 15px;
+  color: #1d2327;
+  font-weight: 600;
 }
 
 .wps-ubo-bump-priority {

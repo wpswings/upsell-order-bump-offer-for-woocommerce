@@ -534,6 +534,28 @@ $wps_ubo_template_cards = array(
 	<div class="wps-ubo-template-dialog" role="dialog" aria-modal="true">
 		<div class="wps-ubo-template-dialog__head">
 			<h3><?php esc_html_e( 'Choose a Campaign Layout', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+			<?php if ( ! $wps_ubo_is_pro_active ) : ?>
+				<p class="wps-ubo-template-note">
+					<?php
+					printf(
+						wp_kses(
+							/* translators: 1: Opening link tag, 2: closing link tag. */
+							__( 'Multiple order bumps are available in the Pro version. %1$sPurchase Pro%2$s to create additional bumps.', 'upsell-order-bump-offer-for-woocommerce' ),
+							array(
+								'a' => array(
+									'href'   => array(),
+									'class'  => array(),
+									'target' => array(),
+									'rel'    => array(),
+								),
+							)
+						),
+						'<a class="wps-ubo-template-upgrade-link" href="' . esc_url( 'https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro' ) . '" target="_blank" rel="noopener noreferrer">',
+						'</a>'
+					);
+					?>
+				</p>
+			<?php endif; ?>
 			<button type="button" class="wps-ubo-template-close" id="wps-ubo-template-close" aria-label="<?php esc_attr_e( 'Close', 'upsell-order-bump-offer-for-woocommerce' ); ?>">×</button>
 		</div>
 		<div class="wps-ubo-template-grid">
@@ -595,6 +617,10 @@ $wps_ubo_template_cards = array(
 		});
 
 		modal.on('click', '.wps-ubo-template-choose', function(){
+			if ( $(this).hasClass('is-locked') ) {
+				// Locked cards link out to the Pro upgrade page; allow normal navigation.
+				return;
+			}
 			const template = $(this).data('template') || 'default';
 			window.location.href = createUrl + '&template=' + encodeURIComponent(template);
 			console.log( createUrl + '&template=' + encodeURIComponent(template) );

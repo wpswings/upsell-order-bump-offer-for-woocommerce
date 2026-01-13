@@ -74,6 +74,111 @@ if (! isset($_GET['funnel_id'])) {
 	$wps_wocuf_pro_funnel_id = sanitize_text_field(wp_unslash($_GET['funnel_id']));
 }
 
+$wps_wocuf_campaign_selected = isset($_GET['template']) ? sanitize_text_field(wp_unslash($_GET['template'])) : '';
+
+if (empty($wps_wocuf_campaign_selected) && ! empty($_POST['wps_wocuf_campaign_selected'])) {
+	$wps_wocuf_campaign_selected = sanitize_text_field(wp_unslash($_POST['wps_wocuf_campaign_selected']));
+}
+
+$wps_wocuf_campaign_defaults = array(
+	'smart-offer'                => array(
+		'wps_wocuf_smart_offer_upgrade' => 'yes',
+	),
+	'exclusive-urgency'          => array(
+		'wps_wocuf_exclusive_offer' => 'yes',
+	),
+	'global-funnel'              => array(
+		'wps_wocuf_global_funnel' => 'yes',
+	),
+	'funnel-conditional-display' => array(
+		'wps_ubo_condition_show' => 'yes',
+	),
+);
+
+$wps_wocuf_get_campaign_default = function($field, $fallback = 'no') use ($wps_wocuf_campaign_selected, $wps_wocuf_campaign_defaults) {
+	if (empty($wps_wocuf_campaign_selected)) {
+		return $fallback;
+	}
+	if (isset($wps_wocuf_campaign_defaults[$wps_wocuf_campaign_selected][$field])) {
+		return $wps_wocuf_campaign_defaults[$wps_wocuf_campaign_selected][$field];
+	}
+	return $fallback;
+};
+
+$wps_wocuf_base_notice_steps = array(
+	__( 'Set targets/categories for this funnel.', 'upsell-order-bump-offer-for-woocommerce' ),
+	__( 'Enable the highlighted feature in settings.', 'upsell-order-bump-offer-for-woocommerce' ),
+	__( 'Configure offers and design.', 'upsell-order-bump-offer-for-woocommerce' ),
+	__( 'Save and preview the flow.', 'upsell-order-bump-offer-for-woocommerce' ),
+);
+
+$wps_wocuf_build_notice = function( $title, $overrides = array() ) use ( $wps_wocuf_base_notice_steps ) {
+	$steps = $wps_wocuf_base_notice_steps;
+
+	if ( ! empty( $overrides ) && is_array( $overrides ) ) {
+		foreach ( $overrides as $index => $value ) {
+			$steps[ $index ] = $value;
+		}
+	}
+
+	return array(
+		'title' => $title,
+		'steps' => $steps,
+	);
+};
+
+$wps_wocuf_campaign_notices = array(
+	'funnel-default'             => $wps_wocuf_build_notice(
+		__( 'Default Funnel walkthrough', 'upsell-order-bump-offer-for-woocommerce' )
+	),
+	'smart-offer'                => $wps_wocuf_build_notice(
+		__( 'Smart Offer Upgrade walkthrough', 'upsell-order-bump-offer-for-woocommerce' ),
+		array(
+			1 => __( 'Enable Smart Offer Upgrade to replace the target with the upsell.', 'upsell-order-bump-offer-for-woocommerce' ),
+		)
+	),
+	'exclusive-urgency'          => $wps_wocuf_build_notice(
+		__( 'Exclusive + Urgency walkthrough', 'upsell-order-bump-offer-for-woocommerce' ),
+		array(
+			1 => __( 'Enable Exclusive Offer to show once per customer.', 'upsell-order-bump-offer-for-woocommerce' ),
+			2 => __( 'Add urgency messaging in your offer copy.', 'upsell-order-bump-offer-for-woocommerce' ),
+		)
+	),
+	'global-funnel'              => $wps_wocuf_build_notice(
+		__( 'Global Funnel walkthrough', 'upsell-order-bump-offer-for-woocommerce' ),
+		array(
+			0 => __( 'Broaden or skip target rules to apply sitewide.', 'upsell-order-bump-offer-for-woocommerce' ),
+			1 => __( 'Enable Global Funnel to make it the catch-all.', 'upsell-order-bump-offer-for-woocommerce' ),
+		)
+	),
+	'show-form-fields'           => $wps_wocuf_build_notice(
+		__( 'Show Form Fields walkthrough', 'upsell-order-bump-offer-for-woocommerce' ),
+		array(
+			1 => __( 'Enable form fields and add the inputs you need.', 'upsell-order-bump-offer-for-woocommerce' ),
+			2 => __( 'Collect details on the first offer page.', 'upsell-order-bump-offer-for-woocommerce' ),
+		)
+	),
+	'frequently-bought-offers'   => $wps_wocuf_build_notice(
+		__( 'Frequently Bought Offers walkthrough', 'upsell-order-bump-offer-for-woocommerce' ),
+		array(
+			1 => __( 'Enable additional products and pick complements.', 'upsell-order-bump-offer-for-woocommerce' ),
+		)
+	),
+	'ab-testing'                 => $wps_wocuf_build_notice(
+		__( 'A/B Testing walkthrough', 'upsell-order-bump-offer-for-woocommerce' ),
+		array(
+			1 => __( 'Enable A/B Testing and add your variant URL.', 'upsell-order-bump-offer-for-woocommerce' ),
+			3 => __( 'Compare performance and refine.', 'upsell-order-bump-offer-for-woocommerce' ),
+		)
+	),
+	'funnel-conditional-display' => $wps_wocuf_build_notice(
+		__( 'Funnel Conditional Display walkthrough', 'upsell-order-bump-offer-for-woocommerce' ),
+		array(
+			1 => __( 'Enable conditions and set cart/user/coupon rules.', 'upsell-order-bump-offer-for-woocommerce' ),
+		)
+	),
+);
+
 // When save changes is clicked.
 if (isset($_POST['wps_wocuf_pro_creation_setting_save'])) {
 
@@ -203,11 +308,11 @@ if (isset($_POST['wps_wocuf_pro_creation_setting_save'])) {
 
 	$wps_wocuf_pro_funnel['wps_upsell_offer_image'] = ! empty($custom_image_ids_array) ? $custom_image_ids_array : array();
 
-	$wps_wocuf_pro_funnel['wps_wocuf_global_funnel'] = ! empty($_POST['wps_wocuf_global_funnel']) ? 'yes' : 'no';
+	$wps_wocuf_pro_funnel['wps_wocuf_global_funnel'] = ! empty($_POST['wps_wocuf_global_funnel']) ? 'yes' : $wps_wocuf_get_campaign_default('wps_wocuf_global_funnel', 'no');
 
-	$wps_wocuf_pro_funnel['wps_wocuf_exclusive_offer'] = ! empty($_POST['wps_wocuf_exclusive_offer']) ? 'yes' : 'no';
+	$wps_wocuf_pro_funnel['wps_wocuf_exclusive_offer'] = ! empty($_POST['wps_wocuf_exclusive_offer']) ? 'yes' : $wps_wocuf_get_campaign_default('wps_wocuf_exclusive_offer', 'no');
 
-	$wps_wocuf_pro_funnel['wps_wocuf_smart_offer_upgrade'] = ! empty($_POST['wps_wocuf_smart_offer_upgrade']) ? 'yes' : 'no';
+	$wps_wocuf_pro_funnel['wps_wocuf_smart_offer_upgrade'] = ! empty($_POST['wps_wocuf_smart_offer_upgrade']) ? 'yes' : $wps_wocuf_get_campaign_default('wps_wocuf_smart_offer_upgrade', 'no');
 
 	// Get all funnels.**.
 	$wps_wocuf_pro_created_funnels = get_option('wps_wocuf_funnels_list', array());
@@ -244,7 +349,7 @@ if (isset($_POST['wps_wocuf_pro_creation_setting_save'])) {
 		$wps_wocuf_pro_funnel['funnel_total_sales'] = ! empty($funnel_stats_funnel['funnel_total_sales']) ? $funnel_stats_funnel['funnel_total_sales'] : 0;
 	}
 
-	$wps_wocuf_pro_funnel['wps_ubo_condition_show']        = ! empty($_POST['wps_ubo_condition_show']) ? sanitize_text_field(wp_unslash($_POST['wps_ubo_condition_show'])) : '';
+	$wps_wocuf_pro_funnel['wps_ubo_condition_show']        = ! empty($_POST['wps_ubo_condition_show']) ? sanitize_text_field(wp_unslash($_POST['wps_ubo_condition_show'])) : $wps_wocuf_get_campaign_default('wps_ubo_condition_show', 'no');
 
 	$wps_wocuf_pro_funnel_series = array();
 
@@ -292,9 +397,45 @@ if (isset($_POST['wps_wocuf_pro_creation_setting_save'])) {
 <?php
 }
 
+// if ( ! empty( $wps_wocuf_campaign_selected ) && ! empty( $wps_wocuf_campaign_notices[ $wps_wocuf_campaign_selected ] ) ) {
+	$wps_wocuf_notice_data = $wps_wocuf_campaign_notices[ $wps_wocuf_campaign_selected ];
+	?>
+	<div class="notice notice-info wps-wocuf-campaign-notice is-dismissible">
+		<p><strong><?php echo esc_html( $wps_wocuf_notice_data['title'] ); ?></strong></p>
+		<?php if ( ! empty( $wps_wocuf_notice_data['steps'] ) && is_array( $wps_wocuf_notice_data['steps'] ) ) : ?>
+			<ol>
+				<?php foreach ( $wps_wocuf_notice_data['steps'] as $step ) : ?>
+					<li><?php echo esc_html( $step ); ?></li>
+				<?php endforeach; ?>
+			</ol>
+		<?php endif; ?>
+	</div>
+	<?php
+// }
+
+if (! empty($wps_wocuf_campaign_notice)) {
+	?>
+	<div class="notice notice-info is-dismissible">
+		<p><?php echo esc_html($wps_wocuf_campaign_notice); ?></p>
+	</div>
+	<?php
+}
+
 // Get all funnels.
 $wps_wocuf_pro_funnel_data = get_option('wps_wocuf_funnels_list', array());
 $wps_wocuf_funnel_data_pro = get_option('wps_wocuf_pro_funnels_list', array()); // pro.
+
+if (empty($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]) || ! is_array($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id])) {
+	$wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id] = array();
+}
+
+if (! empty($wps_wocuf_campaign_selected) && ! empty($wps_wocuf_campaign_defaults[$wps_wocuf_campaign_selected])) {
+	foreach ($wps_wocuf_campaign_defaults[$wps_wocuf_campaign_selected] as $default_field => $default_value) {
+		if (! isset($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id][$default_field])) {
+			$wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id][$default_field] = $default_value;
+		}
+	}
+}
 
 // Not used anywhere I guess.
 $wps_wocuf_pro_custom_th_page = ! empty($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_pro_custom_th_page']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_pro_custom_th_page'] : 'off';
@@ -331,6 +472,9 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 				<!-- Funnel saved after version 3. TO differentiate between new v3 users and old users. -->
 				<input type="hidden" name="wps_upsell_fsav3" value="true">
+				<?php if (! empty($wps_wocuf_campaign_selected)) : ?>
+					<input type="hidden" name="wps_wocuf_campaign_selected" value="<?php echo esc_attr($wps_wocuf_campaign_selected); ?>">
+				<?php endif; ?>
 
 				<?php
 
@@ -663,7 +807,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 						wps_upsell_lite_wc_help_tip($attribut_description);
 
-						$wps_wocuf_is_global = ! empty($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_global_funnel']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_global_funnel'] : 'no';
+						$wps_wocuf_is_global = isset($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_global_funnel']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_global_funnel'] : $wps_wocuf_get_campaign_default('wps_wocuf_global_funnel', 'no');
 						?>
 
 						<label class="wps_wocuf_pro_enable_plugin_label">
@@ -683,7 +827,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 						<?php
 						$attribute_description = esc_html__('Enable dynamic conditions to control when this offer is displayed based on cart total, user role, coupons, and other criteria.', 'upsell-order-bump-offer-for-woocommerce');
 						wps_ubo_lite_help_tip($attribute_description);
-						$wps_ubo_condition_show = ! empty($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_ubo_condition_show']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_ubo_condition_show'] : 'no';
+						$wps_ubo_condition_show = isset($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_ubo_condition_show']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_ubo_condition_show'] : $wps_wocuf_get_campaign_default('wps_ubo_condition_show', 'no');
 						?>
 
 						<label class="wps-upsell-smart-offer-upgrade" for="wps_ubo_condition_show">
@@ -715,7 +859,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 						wps_upsell_lite_wc_help_tip($attribut_description);
 
-						$wps_wocuf_is_exclusive = ! empty($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_exclusive_offer']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_exclusive_offer'] : 'no';
+						$wps_wocuf_is_exclusive = isset($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_exclusive_offer']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_exclusive_offer'] : $wps_wocuf_get_campaign_default('wps_wocuf_exclusive_offer', 'no');
 						?>
 
 						<label class="wps_wocuf_pro_enable_plugin_label">
@@ -740,7 +884,7 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 
 						wps_upsell_lite_wc_help_tip($attribute_description);
 
-						$wps_wocuf_smoff_upgrade = ! empty($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_smart_offer_upgrade']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_smart_offer_upgrade'] : 'no';
+						$wps_wocuf_smoff_upgrade = isset($wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_smart_offer_upgrade']) ? $wps_wocuf_pro_funnel_data[$wps_wocuf_pro_funnel_id]['wps_wocuf_smart_offer_upgrade'] : $wps_wocuf_get_campaign_default('wps_wocuf_smart_offer_upgrade', 'no');
 						?>
 
 						<label class="wps_wocuf_pro_enable_plugin_label">

@@ -104,6 +104,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				wp_enqueue_style( 'wp-color-picker' );
 
 				wp_register_style( 'wps_wocuf_pro_admin_style', plugin_dir_url( __FILE__ ) . 'css/woocommerce_one_click_upsell_funnel_pro-admin.css', array(), $this->version, 'all' );
+
+				wp_register_style( 'wps_ubo_lite_admin_new_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-new-admin.css', array(), time(), 'all' );
+
+				wp_enqueue_style( 'wps_ubo_lite_admin_new_style' );
 			}
 		}
 

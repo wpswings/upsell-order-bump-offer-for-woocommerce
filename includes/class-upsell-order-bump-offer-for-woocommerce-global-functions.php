@@ -2940,26 +2940,33 @@ function wps_ubo_lite_get_title( $product_id = '' ) {
  */
 function wps_ubo_lite_get_bump_title( $bump_id = '' ) {
 
-	if ( ! empty( $bump_id ) ) {
+	$result = esc_html__( 'Bump not found', 'upsell-order-bump-offer-for-woocommerce' );
 
-		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list' );
-		;
-
-		if ( ! empty( $wps_upsell_bumps_list ) ) {
-
-			if ( 'yes' != $wps_upsell_bumps_list[ $bump_id ]['wps_upsell_bump_status'] ) {
-
-				$result = esc_html__( 'Bump Unavailable / Bump Not Live', 'upsell-order-bump-offer-for-woocommerce' );
-			} else {
-				$result = $wps_upsell_bumps_list[ $bump_id ]['wps_upsell_bump_name'];
-			}
-		}
-
+	if ( empty( $bump_id ) ) {
 		return $result;
-	} else {
-
-		$result = esc_html__( 'Bump not found', 'upsell-order-bump-offer-for-woocommerce' );
 	}
+
+	$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list' );
+
+	if ( empty( $wps_upsell_bumps_list ) || ! is_array( $wps_upsell_bumps_list ) ) {
+		return $result;
+	}
+
+	if ( ! isset( $wps_upsell_bumps_list[ $bump_id ] ) || ! is_array( $wps_upsell_bumps_list[ $bump_id ] ) ) {
+		return $result;
+	}
+
+	$bump_data = $wps_upsell_bumps_list[ $bump_id ];
+
+	if ( isset( $bump_data['wps_upsell_bump_status'] ) && 'yes' !== $bump_data['wps_upsell_bump_status'] ) {
+		return esc_html__( 'Bump Unavailable / Bump Not Live', 'upsell-order-bump-offer-for-woocommerce' );
+	}
+
+	if ( isset( $bump_data['wps_upsell_bump_name'] ) && ! empty( $bump_data['wps_upsell_bump_name'] ) ) {
+		$result = $bump_data['wps_upsell_bump_name'];
+	}
+
+	return $result;
 }
 
 /**
