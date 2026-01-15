@@ -397,7 +397,7 @@ if (isset($_POST['wps_wocuf_pro_creation_setting_save'])) {
 <?php
 }
 
-// if ( ! empty( $wps_wocuf_campaign_selected ) && ! empty( $wps_wocuf_campaign_notices[ $wps_wocuf_campaign_selected ] ) ) {
+if ( ! empty( $wps_wocuf_campaign_selected ) && ! empty( $wps_wocuf_campaign_notices[ $wps_wocuf_campaign_selected ] ) ) {
 	$wps_wocuf_notice_data = $wps_wocuf_campaign_notices[ $wps_wocuf_campaign_selected ];
 	?>
 	<div class="notice notice-info wps-wocuf-campaign-notice is-dismissible">
@@ -411,7 +411,7 @@ if (isset($_POST['wps_wocuf_pro_creation_setting_save'])) {
 		<?php endif; ?>
 	</div>
 	<?php
-// }
+}
 
 if (! empty($wps_wocuf_campaign_notice)) {
 	?>

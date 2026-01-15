@@ -256,53 +256,53 @@
         });
     });
 
-    var myDiv = document.getElementById("wps_ubo_lite_save_changes_bump");
-    let isHidden = false;
+    // var myDiv = document.getElementById("wps_ubo_lite_save_changes_bump");
+    // let isHidden = false;
 
-    // Function to check if the user has reached the bottom of the page.
-    function isBottomOfPage() {
-      const windowHeight =
-        window.innerHeight || document.documentElement.clientHeight;
-      const documentHeight = Math.max(
-        document.body.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-        document.documentElement.offsetHeight
-      );
+    // // Function to check if the user has reached the bottom of the page.
+    // function isBottomOfPage() {
+    //   const windowHeight =
+    //     window.innerHeight || document.documentElement.clientHeight;
+    //   const documentHeight = Math.max(
+    //     document.body.scrollHeight,
+    //     document.body.offsetHeight,
+    //     document.documentElement.clientHeight,
+    //     document.documentElement.scrollHeight,
+    //     document.documentElement.offsetHeight
+    //   );
 
-      const scrollPosition =
-        window.scrollY ||
-        window.pageYOffset ||
-        document.documentElement.scrollTop;
+    //   const scrollPosition =
+    //     window.scrollY ||
+    //     window.pageYOffset ||
+    //     document.documentElement.scrollTop;
 
-      return documentHeight - (scrollPosition + windowHeight) < 50;
-    }
+    //   return documentHeight - (scrollPosition + windowHeight) < 50;
+    // }
 
-    // Function to hide the div.
-    function hideDiv() {
-      if (myDiv && myDiv.style) {
-        myDiv.style.display = "none";
-        isHidden = true;
-      }
-    }
+    // // Function to hide the div.
+    // function hideDiv() {
+    //   if (myDiv && myDiv.style) {
+    //     myDiv.style.display = "none";
+    //     isHidden = true;
+    //   }
+    // }
 
-    // Function to show the div.
-    function showDiv() {
-      if (myDiv && myDiv.style) {
-        myDiv.style.display = "inline-flex";
-        isHidden = false;
-      }
-    }
+    // // Function to show the div.
+    // function showDiv() {
+    //   if (myDiv && myDiv.style) {
+    //     myDiv.style.display = "inline-flex";
+    //     isHidden = false;
+    //   }
+    // }
 
-    // Listen for the scroll event.
-    window.addEventListener("scroll", function () {
-      if (isBottomOfPage() && !isHidden) {
-        hideDiv();
-      } else if (!isBottomOfPage() && isHidden) {
-        showDiv();
-      }
-    });
+    // // Listen for the scroll event.
+    // window.addEventListener("scroll", function () {
+    //   if (isBottomOfPage() && !isHidden) {
+    //     hideDiv();
+    //   } else if (!isBottomOfPage() && isHidden) {
+    //     showDiv();
+    //   }
+    // });
 
     var wps_is_pro_active = wps_ubo_lite_banner_offer_section_obj.is_pro_active;
     if (1 == wps_is_pro_active) {
@@ -1316,268 +1316,6 @@ jQuery(document).ready(function () {
     if (wps_ob_con.width() < 700) {
     }
   }, 1000);
-});
-
-jQuery(document).ready(function () {
-  const newdata = wps_ubo_lite_banner_offer_section_obj.wps_all_order_bump_data;
-  // Loop with forEach
-  Object.entries(newdata).forEach(([key, bump]) => {
-    const el = document.getElementById(`myPieChart${key}`);
-    if (!el) {
-      return; // skip this iteration
-    }
-    const ctx = el.getContext("2d");
-    const wps_conversion_rate = bump.offer_view_count
-      ? ((bump.bump_success_count / bump.offer_view_count) * 100).toFixed(2)
-      : 0;
-
-    const views = Number(bump.offer_view_count) || 0;
-    const success = Number(bump.bump_success_count) || 0;
-    const accepts = Number(bump.offer_accept_count) || 0;
-    const sales = Number(bump.bump_total_sales) || 0;
-    // skip if ALL metrics are zero/falsy.
-    if ([views, success, accepts, sales].every((v) => !v)) return;
-
-    // Data to display in the chart
-    const chartData = {
-      labels: [
-        "View Count",
-        "Success Count",
-        "Offer Accept Count",
-        "Offer Remove Count",
-        "Conversion Rate",
-        "Total Sales",
-      ],
-      datasets: [
-        {
-          label: bump.label,
-          data: [
-            bump.offer_view_count || 0,
-            bump.bump_success_count || 0,
-            bump.offer_accept_count || 0,
-            bump.offer_remove_count || 0,
-            wps_conversion_rate,
-            bump.bump_total_sales || 0,
-          ],
-          backgroundColor: [
-            "#FF638499",
-            "#36A2EB99",
-            "#FFCE5699",
-            "#4BC0C099",
-            "#9966FF99",
-            "#8AFF3399",
-          ],
-          borderColor: [
-            "#CC204D",
-            "#1E75BB",
-            "#E6B800",
-            "#008B8B",
-            "#5A2D9D",
-            "#4CAF00",
-          ],
-          borderWidth: 2,
-          hoverBorderWidth: 3,
-
-          // Pop-out effect: offset the hovered slice.
-          offset: (ctx) => (ctx.active ? 12 : 0),
-        },
-      ],
-    };
-
-    // Configuration for Pie chart
-    const config = {
-      type: "pie",
-      data: chartData,
-      options: {
-        responsive: true,
-        animation: {
-          duration: 1000,
-          easing: "easeOutBounce",
-        },
-        plugins: {
-          legend: {
-            position: "top",
-            labels: {
-              usePointStyle: true,
-            },
-          },
-        },
-        onClick: function (evt) {
-          const chart = this;
-          const activePoints = chart.getElementsAtEventForMode(
-            evt,
-            "nearest",
-            { intersect: true },
-            true
-          );
-          if (activePoints.length) {
-            const firstPoint = activePoints[0];
-            const label = chart.data.labels[firstPoint.key];
-            const value =
-              chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.key];
-          }
-        },
-      },
-    };
-
-    // Create the Pie chart
-    new Chart(ctx, config);
-
-    // Toggle functionality for Show/Hide.
-    const toggleButton = document.getElementById("toggleButton" + key);
-    const chartContainer = document.getElementById("chartContainer" + key);
-
-    toggleButton.addEventListener("click", function () {
-      chartContainer.classList.toggle("collapsed");
-      const isCollapsed = chartContainer.classList.contains("collapsed");
-      toggleButton.innerText = isCollapsed
-        ? "Hide Chart"
-        : "Show Chart For " + bump.wps_upsell_bump_name;
-    });
-  });
-});
-
-jQuery(document).ready(function () {
-  const newdata = wps_ubo_lite_banner_offer_section_obj.wps_post_funnels_list;
-
-  // Loop with forEach
-  Object.entries(newdata).forEach(([key, bump]) => {
-    const el = document.getElementById(`wps-post-myPieChart${key}`);
-    if (!el) {
-      return; // skip this iteration.
-    }
-    const ctx = el.getContext("2d");
-
-    const views = Number(bump.offers_view_count) || 0;
-    const success = Number(bump.funnel_success_count) || 0;
-    const accepts = Number(bump.offers_accept_count) || 0;
-    const sales = Number(bump.funnel_total_sales) || 0;
-    // skip if ALL metrics are zero/falsy.
-    if ([views, success, accepts, sales].every((v) => !v)) return;
-
-    const wps_conversion_rate = bump.funnel_triggered_count
-      ? (
-          (bump.funnel_success_count / bump.funnel_triggered_count) *
-          100
-        ).toFixed(2)
-      : 0;
-
-    const wps_offers_pending_count =
-      views - accepts - (bump.offers_reject_count || 0);
-
-    // Data to display in the chart
-    const chartData = {
-      labels: [
-        "Trigger Count",
-        "Success Count",
-        "Offers Viewed",
-        "Offers Accepted",
-        "Offers Rejected",
-        "Offers Pending",
-        "Conversion Rate",
-        "Total Sales",
-      ],
-      datasets: [
-        {
-          label: bump.label,
-          data: [
-            bump.funnel_triggered_count || 0,
-            bump.funnel_success_count || 0,
-            bump.offers_view_count || 0,
-            bump.offers_accept_count || 0,
-            bump.offers_reject_count || 0,
-            wps_offers_pending_count || 0,
-            wps_conversion_rate || 0,
-            bump.funnel_total_sales || 0,
-          ],
-          backgroundColor: [
-            "#FF638499",
-            "#36A2EB99",
-            "#FFCE5699",
-            "#4BC0C099",
-            "#9966FF99",
-            "#FF9F4099",
-            "#8AFF3399",
-            "#FF33F6",
-          ],
-          borderColor: [
-            "#CC204D",
-            "#1E75BB",
-            "#E6B800",
-            "#008B8B",
-            "#5A2D9D",
-            "#CC5500",
-            "#4CAF00",
-            "#CC0099",
-          ],
-          borderWidth: 2,
-          hoverBorderWidth: 3,
-
-          // Pop-out effect: offset the hovered slice.
-          offset: (ctx) => (ctx.active ? 12 : 0),
-        },
-      ],
-    };
-
-    // Configuration for Pie chart
-    const config = {
-      type: "pie",
-      data: chartData,
-      options: {
-        responsive: true,
-        animation: {
-          duration: 1000,
-          easing: "easeOutBounce",
-        },
-        plugins: {
-          legend: {
-            position: "top",
-            labels: {
-              usePointStyle: true,
-            },
-          },
-        },
-        onClick: function (evt) {
-          const chart = this;
-          const activePoints = chart.getElementsAtEventForMode(
-            evt,
-            "nearest",
-            { intersect: true },
-            true
-          );
-          if (activePoints.length) {
-            const firstPoint = activePoints[0];
-            const label = chart.data.labels[firstPoint.key];
-            const value =
-              chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.key];
-          }
-        },
-      },
-    };
-
-    // Create the Pie chart
-    new Chart(ctx, config);
-
-    // Toggle functionality for Show/Hide
-    const toggleButton = document.getElementById("wps-post-toggleButton" + key);
-    const chartContainer = document.getElementById(
-      "wps-post-chartContainer" + key
-    );
-    var wps_funnel_name = "";
-    if (wps_ubo_lite_banner_offer_section_obj.is_pro_active) {
-      wps_funnel_name = bump.wps_wocuf_pro_funnel_name;
-    } else {
-      wps_funnel_name = bump.wps_wocuf_funnel_name;
-    }
-
-    toggleButton.addEventListener("click", function () {
-      chartContainer.classList.toggle("collapsed");
-      const isCollapsed = chartContainer.classList.contains("collapsed");
-      toggleButton.innerText = isCollapsed
-        ? "Hide Chart"
-        : "Show Chart For " + wps_funnel_name;
-    });
-  });
 });
 
 // JavaScript to handle popup and AJAX request.

@@ -319,18 +319,29 @@ button#wps_ubo_popup_configure_btn:hover {
 
 .wps-ubo-bump-card a.wps_upsell_bump_links:last-of-type {
     margin-left: auto;
-    background: var(--primary-blue);
     color: #fff;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    justify-content: center;
+    border-color: transparent;
+
+}
+
+.wps-ubo-bump-card a.wps_upsell_bump_links:last-of-type path {
+    stroke: #dcdcdc;
+}
+
+.wps-ubo-bump-card a.wps_upsell_bump_links:last-of-type:hover path {
+    stroke: var(--primary-blue)
 }
 
 #wps_upsell_bump_setting_wrapper .wps_upsell_bumps_list {
     margin: 10px 0 0;
 }
 
-/* #wps_upsell_bump_setting_wrapper .wps_ubo_action_bar {
-    justify-content: flex-start;
-    margin: 12px 0 0;
-} */
 #wps_ubo_import_csv_form button {
     background: #fff;
     color: var(--primary-blue);
@@ -340,6 +351,25 @@ button#wps_ubo_popup_configure_btn:hover {
 #wps_upsell_bump_setting_wrapper .wps_ubo_bump_tool .button-primary {
     background: var(--primary-blue);
     border: none;
+}
+
+.wps-ubo-bump-card .wpsb-chip {
+    border-radius: 5px;
+    color: var(--primary-blue);
+}
+
+.wps-ubo-bump-card .wps-ubo-bump-actions {
+    justify-content: center;
+    align-items: center;
+}
+
+.wps_ubo_action_bar .wps_ubo_bump_tools_wrapper {
+    justify-content: space-between;
+    flex: 1;
+}
+
+.wps_wocuf_pro_funnels_list {
+    margin-top: 0;
 }
 
 @media screen and (max-width: 600px) {
@@ -424,6 +454,32 @@ button#wps_ubo_popup_configure_btn:hover {
     padding: 6px 14px;
 }
 
+#wps_upsell_bump_setting_wrapper .wps_upsell_table .wps_upsell_bump_offers h1 {
+    margin: 10px 0;
+    border-radius: 0;
+    background: none;
+}
+
+#wps_upsell_bump_setting_wrapper .wps_upsell_table .new_offers .wps_upsell_offer_title {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
+.new_created_offers.wps_upsell_single_offer table {
+    border: none;
+}
+
+
+.wps_upsell_bump_offers {
+    background: none !important;
+}
+
+#wps_upsell_bump_setting_wrapper .wps_upsell_table .new_offers .wps_upsell_offer_title {
+    background: #f1f1f1;
+    color: #000;
+}
+
 /* ORDER BUMP SETTING PAGE POPUP CARDS END */
 
 
@@ -465,12 +521,6 @@ button#wps_ubo_popup_configure_btn:hover {
     height: 40px;
 }
 
-#wps_upsell_bump_setting_wrapper .wps_upsell_bump_setting_title {
-    border-bottom: 1px solid #E0E0E0;
-    padding-bottom: 20px;
-}
-
-
 @media (max-width: 1024px) {
     .wps_upsell_bumps_list-report {
         grid-template-columns: repeat(2, 1fr);
@@ -492,6 +542,7 @@ button#wps_ubo_popup_configure_btn:hover {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
+
 .wps_upsell_bumps_list-piechart-con {
     background: #ffffff;
     border-radius: 12px;
@@ -532,4 +583,164 @@ button#wps_ubo_popup_configure_btn:hover {
         max-width: 300px !important;
         max-height: 300px !important;
     }
+}
+
+/* Upsell funnel setting page css*/
+.wps_wocuf_pro_create_new_funnel #wps-wocuf-pro-open-funnel-template-modal {
+    background: var(--primary-blue);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 12px 16px;
+    color: #fff;
+}
+
+#wps-wocuf-pro-funnel-template-modal .wps-ubo-template-badge {
+    position: absolute;
+    right: 0;
+    margin-top: -30px;
+    margin-right: 10px;
+    font-size: 10px !important;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+#wps-wocuf-pro-funnel-template-modal .wps-ubo-template-icon {
+    color: var(--primary-blue);
+}
+
+#wps_upsell_bump_setting_wrapper .wps_wocuf_pro_funnels_list p {
+    padding: 0;
+}
+
+.wps-ubo-bump-card .wps_upsell_funnel_list_targets {
+    background-color: #f1f1f1;
+    border-radius: 6px;
+}
+
+.wps-ubo-bump-card .wps_upsell_bump_links:last-of-type {
+    margin-left: auto;
+    color: #fff;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    justify-content: center;
+    border-color: transparent;
+
+}
+
+.wps-ubo-bump-card .wps_upsell_bump_links:last-of-type path {
+    stroke: #dcdcdc;
+}
+
+.wps-ubo-bump-card .wps_upsell_bump_links:last-of-type:hover path {
+    stroke: var(--primary-blue)
+}
+
+/* Upsell funnel setting - create section css*/
+#wps_upsell_bump_setting_wrapper .wps_upsell_table #wps_upsell_funnel_name_heading h2 {
+    font-size: 32px;
+    margin: 0;
+    font-weight: 400!important;
+}
+.wps_upsell_table #wps_upsell_funnel_status {
+    padding: 0 !important;
+}
+
+#wps_upsell_bump_setting_wrapper .wps_upsell_table #wps_upsell_funnel_name_heading div#wps_upsell_funnel_status .wps_upsell_funnel_span {
+    background-color: #cccccc;
+}
+
+#wps_upsell_bump_setting_wrapper .wps_upsell_table #wps_upsell_funnel_name_heading div#wps_upsell_funnel_status span.wps_upsell_funnel_status_off {
+    color: #999999;
+}
+
+table.form-table.wps_wocuf_pro_creation_setting {
+    box-shadow: none;
+    border: none;
+    margin-top: 0!important;
+}
+
+.wps_wocuf_pro_funnels_list table td,
+.wps_wocuf_pro_funnels_list table th,
+.wps_upsell_table table th,
+.wps_upsell_table table td {
+    border: none;
+}
+
+
+#wps_upsell_bump_setting_wrapper .wps_wocuf_pro_creation_setting tr:nth-of-type(even) {
+    background: none;
+}
+#wps_upsell_bump_name_heading {
+    padding: 0 20px;
+}
+.wps_wocuf_pro_create_new_offer:hover, .wps_wocuf_pro_create_new_funnel a:hover {
+    border: none;
+    color: #fff;
+    background-color: var(--primary-blue);
+    opacity: unset;
+    
+}
+.wps_upsell_table table th label h4 {
+    padding: 0!important;
+}
+
+/* short code page css */
+
+#wps_upsell_bump_setting_wrapper .wps_wocuf_pro_shortcodes {
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+}
+.wps_wocuf_pro_shortcodes .wps_upsell_shortcodes_hr {
+    display: none;
+}
+
+/* Store checkout setting page */
+#wps_upsell_bump_setting_wrapper table.form-table.wps_wocuf_pro_creation_setting tr th {
+    padding: 0 !important;
+}
+#wps-ufw_main.wps-ufw_store-checkout {
+    margin: 0;
+}
+
+
+
+/* Container for the buttons/checkbox */
+.wps-report-actions {
+   display: flex;
+   justify-content: flex-end; /* Moves content to the right */
+   align-items: center;
+   gap: 15px;
+   margin-bottom: 25px;
+}
+
+
+/* Auto refresh label styling */
+.wps-auto-refresh-label {
+   cursor: pointer;
+   font-size: 13px;
+   display: flex;
+   align-items: center;
+   gap: 5px;
+   color: #646970;
+}
+
+
+/* Timer text styling */
+.wps-timer-text {
+   color: #666;
+   font-size: 13px;
+}
+
+
+/* Title styling to match your structure */
+.wps_ubo_stats_heading_title {
+   margin: 30px 0 20px 0;
+   font-size: 20px;
+   font-weight: 600;
 }

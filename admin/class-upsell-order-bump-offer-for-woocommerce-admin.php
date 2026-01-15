@@ -180,7 +180,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				wp_enqueue_script( $this->plugin_name . '_masonry_effects', plugin_dir_url( __FILE__ ) . 'js/masonry_effects.js', array( 'jquery' ), $this->version, false );
 				wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/select2.min.js', array( 'jquery' ), $this->version, false );
 				wp_enqueue_script( $this->plugin_name . '_sweet_alert', plugin_dir_url( __FILE__ ) . 'js/swal.js', array( 'jquery' ), $this->version, false );
-				wp_enqueue_script( 'chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', array( 'jquery' ), time(), false );
+				wp_enqueue_script( 'chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', array( 'jquery'  , 'wp-element'), time(), false );
+
+				wp_enqueue_script(
+						'wps-combined-reports', 
+						plugin_dir_url( __FILE__ ) . 'js/wps-upsell-combined-reports.js', // Adjust path as needed
+						array( 'wp-element', 'jquery' ), // Dependencies
+						'1.0.0', 
+						true // Load in footer
+					);
+
+
 				wp_enqueue_script( 'wps_ubo_lite_admin_script', plugin_dir_url( __FILE__ ) . 'js/upsell-order-bump-offer-for-woocommerce-admin.js', array( 'jquery' ), time(), false );
 				wp_register_script( 'woocommerce_admin', WC()->plugin_url() . '/assets/js/admin/woocommerce_admin.js', array( 'jquery', 'jquery-blockui', 'jquery-ui-sortable', 'jquery-ui-widget', 'jquery-ui-core', 'jquery-tiptip', 'wc-enhanced-select', 'dompurify' ), WC_VERSION, false );
 				wp_register_script( 'jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip.js', array( 'jquery', 'dompurify' ), WC_VERSION, true );
