@@ -186,6 +186,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_wps_wocuf_import_funnels_csv', $plugin_admin, 'handle_funnel_import_ajax' );
 		$this->loader->add_action( 'wp_ajax_wps_wocuf_import_funnels_json', $plugin_admin, 'handle_funnel_import_ajax' );
 		$this->loader->add_action( 'wp_ajax_wps_wocuf_toggle_funnel_status', $plugin_admin, 'handle_funnel_status_toggle' );
+
+		$this->loader->add_action('wp_ajax_wps_refresh_upsell_funnel_stats', $plugin_admin, 'wps_ajax_get_upsell_funnel_data');
+		$this->loader->add_action('wp_ajax_wps_refresh_bump_stats', $plugin_admin, 'wps_ajax_get_bump_stats_data');
+
 		// Load scripts and styles.
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );

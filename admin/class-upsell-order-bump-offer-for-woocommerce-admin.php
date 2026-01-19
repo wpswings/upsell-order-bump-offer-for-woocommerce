@@ -3133,6 +3133,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		$new_status  = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : 'no';
 		$valid_state = in_array( $new_status, array( 'yes', 'no' ), true ) ? $new_status : 'no';
 
+		// var_dump( $funnel_id, $new_status );
+
 		// Determine which storage to use (pro funnels vs lite funnels).
 		$storage_key = 'wps_wocuf_funnels_list';
 		$existing    = get_option( $storage_key, array() );
@@ -3686,5 +3688,79 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 			return $row;
 		}
+
+
+	public function wps_ajax_get_upsell_funnel_data() {
+    if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
+        $funnels_list = get_option( 'wps_wocuf_pro_funnels_list' );
+    } else {
+        $funnels_list = get_option( 'wps_wocuf_funnels_list' );
+    }
+
+    $summary = ['sales' => 0, 'views' => 0, 'success' => 0, 'cr' => '0%'];
+    $items = [];
+
+    if ( ! empty( $funnels_list ) ) {
+        foreach ( $funnels_list as $id => $val ) {
+            $v = (int)( $val['offers_view_count'] ?? 0 );
+            $a = (int)( $val['offers_accept_count'] ?? 0 );
+            $s = (int)( $val['funnel_success_count'] ?? 0 );
+            $sl = (float)( $val['funnel_total_sales'] ?? 0 );
+
+            // New counts
+            $triggered = (int)( $val['offers_view_count'] ?? 0 ); 
+            $rejects = (int)( $val['offers_reject_count'] ?? 0 );
+            
+            $summary['sales'] += $sl;
+            $summary['views'] += $v;
+            $summary['success'] += $s;
+
+            if ( $v > 0 || $a > 0 || $s > 0 || $rejects > 0 ) {
+                $items[] = [
+                    'id'   => $id,
+                    'name' => ! empty( $val['funnel_name'] ) ? $val['funnel_name'] : "Funnel #$id",
+                    'data' => [ $v, $a, $s, $rejects, $triggered ],
+                    'sales_html'=> wc_price( $sl )
+                ];
+            }
+        }
+        $summary['cr'] = ($summary['views'] > 0) ? round(($summary['success'] / $summary['views']) * 100, 2) . '%' : '0%';
+        $summary['sales'] = wc_price($summary['sales']);
+    }
+
+    wp_send_json_success( [ 'summary' => $summary, 'items' => $items ] );
+}
+
+
+public function wps_ajax_get_bump_stats_data() {
+    $order_bumps = get_option('wps_ubo_bump_list');
+    $stats = [
+        'summary' => ['sales' => 0, 'views' => 0, 'success' => 0, 'cr' => '0%'],
+        'items' => []
+    ];
+
+    if (!empty($order_bumps)) {
+        foreach ($order_bumps as $id => $bump) {
+            $v = (int)($bump['offer_view_count'] ?? 0);
+            $a = (int)($bump['offer_accept_count'] ?? 0);
+            $s = (int)($bump['bump_success_count'] ?? 0);
+            
+            $stats['summary']['sales'] += (float)($bump['bump_total_sales'] ?? 0);
+            $stats['summary']['views'] += $v;
+            $stats['summary']['success'] += $s;
+
+            if ($v > 0 || $a > 0 || $s > 0) {
+                $stats['items'][] = [
+                    'id' => $id,
+                    'name' => $bump['wps_upsell_bump_name'] ?? "Bump #$id",
+                    'data' => [$v, $a, $s]
+                ];
+            }
+        }
+        $stats['summary']['cr'] = ($stats['summary']['views'] > 0) ? round(($stats['summary']['success'] / $stats['summary']['views']) * 100, 2) . '%' : '0%';
+        $stats['summary']['sales'] = wc_price($stats['summary']['sales']);
+    }
+    wp_send_json_success($stats);
+}
 
 }

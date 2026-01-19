@@ -378,11 +378,8 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 		$wps_wocuf_modal_locked = true;
 	}
 	?>
-
-	<?php if ( $wps_wocuf_modal_locked ) { ?>
 		<button type="button"
 			id="wps-wocuf-open-funnel-template-modal"><?php esc_html_e( '+Create New Funnel', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
-	<?php } ?>
 </div>
 
 <?php
@@ -454,22 +451,24 @@ $wps_wocuf_template_cards = array(
 			<?php if ( ! $wps_wocuf_is_builder_active ) : ?>
 				<p class="wps-ubo-template-note">
 					<?php
-					printf(
-						wp_kses(
-							/* translators: 1: Opening link tag, 2: closing link tag. */
-							__( 'Multiple funnels are available in the Pro version. %1$sPurchase Pro%2$s to create additional funnels.', 'upsell-order-bump-offer-for-woocommerce' ),
-							array(
-								'a' => array(
-									'href' => array(),
-									'class' => array(),
-									'target' => array(),
-									'rel' => array(),
-								),
-							)
-						),
-						'<a class="wps-ubo-template-upgrade-link" href="' . esc_url( 'https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro' ) . '" target="_blank" rel="noopener noreferrer">',
-						'</a>'
-					);
+printf(
+	wp_kses(
+		/* translators: 1: Opening link tag, 2: closing link tag. */
+		__( '<em>Multiple funnels are available in the Pro version. %1$sPurchase Pro%2$s to create additional funnels.</em>', 'upsell-order-bump-offer-for-woocommerce' ),
+		array(
+			'a'  => array(
+				'href'   => array(),
+				'class'  => array(),
+				'target' => array(),
+				'rel'    => array(),
+			),
+			'em' => array(), // ✅ allow italic tag
+		)
+	),
+	'<a class="wps-ubo-template-upgrade-link" href="' . esc_url( 'https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro' ) . '" target="_blank" rel="noopener noreferrer">',
+	'</a>'
+);
+
 					?>
 				</p>
 			<?php endif; ?>

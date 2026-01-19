@@ -3670,7 +3670,7 @@ input#wps_upsell_bump_cart_offer_quantity {
 .wps_wocuf_pro_funnels_list h1,
 .wps_upsell_table .new_created_offers h2,
 .wps_upsell_table h1 {
-  background-color: #ededed;
+  background-color: white;
   color: #4b4b4b;
   font-size: 20px;
   font-weight: 500;

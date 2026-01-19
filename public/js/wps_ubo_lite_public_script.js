@@ -1197,6 +1197,11 @@ jQuery(document).ready(function ($) {
     // Select the original wrap
     var wrap = $(".wrapup_order_bump").first();
 
+    if (!wrap.length) {
+        console.warn("wrapup_order_bump not found");
+        return;
+    }
+
     // Clone the wrap so we can extract clean HTML
     var cloned = wrap.clone();
 

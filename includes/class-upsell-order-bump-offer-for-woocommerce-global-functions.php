@@ -7945,11 +7945,12 @@ function wps_render_campaign_label_select( $args ) {
 	);
 	$args = wp_parse_args( $args, $defaults );
 
-	if ( empty( $args['id'] ) || empty( $args['name'] ) || empty( $args['options'] ) ) {
+	// ❗ DO NOT return when options are empty
+	if ( empty( $args['id'] ) || empty( $args['name'] ) ) {
 		return;
 	}
 
-	// Print minimal CSS + JS once per page load.
+	// Print CSS + JS once
 	if ( ! $assets_printed ) {
 		$assets_printed = true;
 		?>
@@ -7957,13 +7958,8 @@ function wps_render_campaign_label_select( $args ) {
 			.wps-select {
 				position: relative;
 				width: 320px;
-				font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+				font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
 			}
-
-			.wps-select.wps-has-width {
-				width: auto;
-			}
-
 			.wps-selected {
 				background: #fff;
 				border: 1px solid #dcdcdc;
@@ -7974,36 +7970,29 @@ function wps_render_campaign_label_select( $args ) {
 				justify-content: space-between;
 				align-items: center;
 			}
-
 			.wps-selected-left {
 				display: flex;
 				align-items: center;
 				gap: 10px;
 			}
-
 			.wps-selected-color {
 				width: 18px;
 				height: 18px;
 				border-radius: 50%;
 				border: 1px solid #cfcfcf;
-				background: transparent;
 			}
-
 			.wps-selected-label {
 				color: #32373c;
 			}
-
 			.wps-arrow {
-				width: 20px;
-				height: 20px;
+				width: 18px;
+				height: 18px;
+				opacity: .6;
 				transition: transform .2s ease;
-				opacity: .7;
 			}
-
 			.wps-arrow.wps-rot {
 				transform: rotate(180deg);
 			}
-
 			.wps-options {
 				position: absolute;
 				top: calc(100% + 6px);
@@ -8012,13 +8001,12 @@ function wps_render_campaign_label_select( $args ) {
 				background: #fff;
 				border: 1px solid #e2e2e2;
 				border-radius: 8px;
-				box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
-				max-height: 260px;
+				box-shadow: 0 8px 24px rgba(0,0,0,.08);
+				max-height: 240px;
 				overflow-y: auto;
 				z-index: 9999;
 				display: none;
 			}
-
 			.wps-option {
 				display: flex;
 				align-items: center;
@@ -8026,148 +8014,156 @@ function wps_render_campaign_label_select( $args ) {
 				padding: 10px 12px;
 				cursor: pointer;
 			}
-
 			.wps-option:hover {
 				background: #f6f6f6;
 			}
-
 			.wps-option-color {
 				width: 18px;
 				height: 18px;
 				border-radius: 50%;
 				border: 1px solid #cfcfcf;
 			}
-
-			.wps-hide {
-				display: none !important;
+			.wps-option-disabled {
+				color: #999;
+				cursor: not-allowed;
+				padding: 10px 12px;
 			}
 		</style>
-		<script>
-			(function() {
-				function init(container) {
-					if (!container) return;
 
-					const selected = container.querySelector('.wps-selected');
+		<script>
+			(function () {
+				function init(container) {
+					const selected  = container.querySelector('.wps-selected');
 					const labelSpan = container.querySelector('.wps-selected-label');
-					const colorDot = container.querySelector('.wps-selected-color');
+					const colorDot  = container.querySelector('.wps-selected-color');
 					const optionsEl = container.querySelector('.wps-options');
-					const hidden = container.querySelector('input[type="hidden"]');
-					const arrow = container.querySelector('.wps-arrow');
+					const hidden    = container.querySelector('input[type="hidden"]');
+					const arrow     = container.querySelector('.wps-arrow');
 
 					function setSelected(label, hex) {
-						labelSpan.textContent = label || container.dataset.placeholder || 'Select a campaign label';
+						labelSpan.textContent = label || container.dataset.placeholder;
 						colorDot.style.backgroundColor = hex || 'transparent';
-						// Store BOTH values together: "#hex/Label"
 						hidden.value = (hex ? hex : '') + (label ? '/' + label : '');
 					}
 
-					// Initialize from current hidden value or fallback to placeholder.
 					(function initValue() {
 						const current = hidden.value || '';
-						// Accept "#hex" OR "#hex/Label"
 						const parts = current.split('/');
 						const currentHex = parts[0] || '';
 						const currentLabel = parts[1] || '';
 
+						// Saved value
 						if (currentHex) {
 							const match = container.querySelector('.wps-option[data-color="' + currentHex + '"]');
 							if (match) {
-								// Prefer stored label; else fallback to option's label
-								const label = currentLabel || match.dataset.label || '';
-								setSelected(label, currentHex);
+								setSelected(currentLabel || match.dataset.label, currentHex);
 								return;
 							}
 						}
+
+						// Auto-select first option
+						const first = container.querySelector('.wps-option[data-color]');
+						if (first) {
+							setSelected(first.dataset.label, first.dataset.color);
+							return;
+						}
+
+						// Fallback placeholder
 						setSelected('', '');
 					})();
 
 					function closeAll() {
 						optionsEl.style.display = 'none';
-						arrow && arrow.classList.remove('wps-rot');
+						arrow.classList.remove('wps-rot');
 					}
 
-					function toggle() {
-						const isOpen = optionsEl.style.display === 'block';
-						if (isOpen) {
-							closeAll();
-						} else {
-							optionsEl.style.display = 'block';
-							arrow && arrow.classList.add('wps-rot');
+					selected.addEventListener('click', function () {
+						if (!optionsEl.querySelector('.wps-option[data-color]')) {
+							return; // no real options
 						}
-					}
+						const open = optionsEl.style.display === 'block';
+						optionsEl.style.display = open ? 'none' : 'block';
+						arrow.classList.toggle('wps-rot', !open);
+					});
 
-					selected.addEventListener('click', toggle);
-
-					container.addEventListener('click', function(e) {
-						const opt = e.target.closest('.wps-option');
-						if (!opt || !container.contains(opt)) return;
+					container.addEventListener('click', function (e) {
+						const opt = e.target.closest('.wps-option[data-color]');
+						if (!opt) return;
 						setSelected(opt.dataset.label, opt.dataset.color);
 						closeAll();
 					});
 
-					document.addEventListener('click', function(e) {
+					document.addEventListener('click', function (e) {
 						if (!container.contains(e.target)) closeAll();
 					});
 				}
 
-				document.addEventListener('DOMContentLoaded', function() {
-					document.querySelectorAll('[data-wps-campaign-select]').forEach(function(el) {
-						init(el);
-					});
+				document.addEventListener('DOMContentLoaded', function () {
+					document.querySelectorAll('[data-wps-campaign-select]').forEach(init);
 				});
 			})();
 		</script>
 		<?php
 	}
 
-	// Build options markup from PHP array.
-	$options_markup = '';
-	foreach ( $args['options'] as $opt ) {
-		$label = isset( $opt['name'] ) ? $opt['name'] : '';
-		$color = isset( $opt['color'] ) ? $opt['color'] : '';
-		if ( '' === $label || '' === $color ) {
+		$options_markup = '';
+
+		// 🔹 No label option (always on top)
+		$options_markup .= '
+			<div class="wps-option wps-option-none" data-label="" data-color="">
+				<div class="wps-option-color" style="background:transparent;"></div>
+				<span>No label</span>
+			</div>
+		';
+
+		foreach ( (array) $args['options'] as $opt ) {
+
+		if ( empty( $opt['name'] ) || empty( $opt['color'] ) ) {
 			continue;
 		}
-
 		$options_markup .= sprintf(
 			'<div class="wps-option" data-label="%1$s" data-color="%2$s">
-				<div class="wps-option-color" style="background:%2$s;"></div>
+				<div class="wps-option-color" style="background:%2$s"></div>
 				<span>%1$s</span>
 			</div>',
-			esc_html( $label ),
-			esc_attr( $color )
+			esc_html( $opt['name'] ),
+			esc_attr( $opt['color'] )
 		);
 	}
 
-	// Output control.
+	// No labels fallback
+	if ( empty( $options_markup ) ) {
+		$options_markup = '<div class="wps-option-disabled">No campaign labels found</div>';
+		$args['placeholder'] = 'No campaign labels available';
+	}
 	?>
+
 	<div
 		id="<?php echo esc_attr( $args['id'] ); ?>"
-		class="wps-select <?php echo $args['width'] ? 'wps-has-width' : ''; ?>"
+		class="wps-select"
 		data-wps-campaign-select
 		data-placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>"
-		style="<?php echo $args['width'] ? 'width:' . esc_attr( $args['width'] ) . ';' : ''; ?>">
+		style="width:<?php echo esc_attr( $args['width'] ); ?>">
+
 		<div class="wps-selected">
 			<div class="wps-selected-left">
 				<div class="wps-selected-color"></div>
 				<span class="wps-selected-label"><?php echo esc_html( $args['placeholder'] ); ?></span>
 			</div>
-			<svg class="wps-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" focusable="false">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+			<svg class="wps-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+				<path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
 			</svg>
 		</div>
 
 		<div class="wps-options">
-			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo wp_kses_post( $options_markup );
-			?>
+			<?php echo wp_kses_post( $options_markup ); ?>
 		</div>
 
 		<input type="hidden" name="<?php echo esc_attr( $args['name'] ); ?>" value="<?php echo esc_attr( $args['value'] ); ?>">
 	</div>
 	<?php
 }
+
 
 /**
  * (Optional) Helper to render as a WooCommerce settings row.

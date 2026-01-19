@@ -497,7 +497,7 @@ jQuery(document).ready(function ($) {
   $(".wps_upsell_slide_down_link").click(function (e) {
     e.preventDefault();
 
-    $(".wps_upsell_slide_down_content").slideToggle("fast");
+    $(".wps_upsell_slide_down_content").slideToggle();
   });
 
   (function ($) {

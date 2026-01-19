@@ -402,7 +402,7 @@ $wps_bump_imported      = isset($_GET['wps_bump_imported']) ? absint($_GET['wps_
 							<?php if ( wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) { ?>
 								<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section&clone_bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'Clone', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 							<?php } ?>
-						<a class="wps_upsell_bump_links" href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-pre-reporting"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M10 7H7V16H10V7Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M17 7H14V12H17V7Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -545,22 +545,24 @@ $wps_ubo_template_cards = array(
 			<?php if ( ! $wps_ubo_is_pro_active ) : ?>
 				<p class="wps-ubo-template-note">
 					<?php
-					printf(
-						wp_kses(
-							/* translators: 1: Opening link tag, 2: closing link tag. */
-							__( 'Multiple order bumps are available in the Pro version. %1$sPurchase Pro%2$s to create additional bumps.', 'upsell-order-bump-offer-for-woocommerce' ),
-							array(
-								'a' => array(
-									'href'   => array(),
-									'class'  => array(),
-									'target' => array(),
-									'rel'    => array(),
-								),
-							)
-						),
-						'<a class="wps-ubo-template-upgrade-link" href="' . esc_url( 'https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro' ) . '" target="_blank" rel="noopener noreferrer">',
-						'</a>'
-					);
+printf(
+	wp_kses(
+		/* translators: 1: Opening link tag, 2: closing link tag. */
+		__( '<em>Multiple order bumps are available in the Pro version. %1$sPurchase Pro%2$s to create additional bumps.</em>', 'upsell-order-bump-offer-for-woocommerce' ),
+		array(
+			'a'  => array(
+				'href'   => array(),
+				'class'  => array(),
+				'target' => array(),
+				'rel'    => array(),
+			),
+			'em' => array(), // ✅ allow italic tag
+		)
+	),
+	'<a class="wps-ubo-template-upgrade-link" href="' . esc_url( 'https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro' ) . '" target="_blank" rel="noopener noreferrer">',
+	'</a>'
+);
+
 					?>
 				</p>
 			<?php endif; ?>
