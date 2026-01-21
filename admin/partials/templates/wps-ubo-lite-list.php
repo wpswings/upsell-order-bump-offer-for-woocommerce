@@ -534,7 +534,7 @@ $wps_ubo_template_cards = array(
 ?>
 
 <div class="wps_upsell_bump_create_new_bump">
-	<button type="button"  id="wps-ubo-open-template-modal"><?php esc_html_e('+Create New Order Bump', 'upsell-order-bump-offer-for-woocommerce'); ?></button>
+	<button type="button"  class="wps-ubo-open-template-modal"><?php esc_html_e('+Create New Order Bump', 'upsell-order-bump-offer-for-woocommerce'); ?></button>
 </div>
 
 <div class="wps-ubo-template-modal" id="wps-ubo-template-modal" aria-hidden="true">
@@ -604,7 +604,7 @@ printf(
 	(function($){
 		const modal = $('#wps-ubo-template-modal');
 		const overlay = $('#wps-ubo-template-overlay');
-		const openBtn = $('#wps-ubo-open-template-modal');
+		const openBtn = $('.wps-ubo-open-template-modal');
 		const closeBtn = $('#wps-ubo-template-close');
 		let createUrl = '<?php echo "?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id={$wps_ubo_creation_bump_id}"; ?>';
 		function openModal() {

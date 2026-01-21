@@ -26,13 +26,40 @@
                 const ctx = canvasRef.current.getContext('2d');
                 if (chartRef.current) chartRef.current.destroy();
 
-                const config = isFunnel ? {
-                    labels: ['Views', 'Accepts', 'Success', 'Rejects', 'Triggered Count'],
-                    colors: ['#2196F3', '#FFC107', '#4CAF50', '#F44336', '#9C27B0']
-                } : {
-                    labels: ['Views', 'Accepts', 'Success'],
-                    colors: ['#2196F3', '#FFC107', '#4CAF50']
-                };
+         const config = isFunnel ? {
+    labels: [
+        'Views',
+        'Accepts',
+        'Success',
+        'Rejects',
+        'Triggered Count',
+        'Total Sales'
+    ],
+    colors: [
+        '#90CAF9', // Views (soft blue)
+        '#FFE082', // Accepts (soft amber)
+        '#A5D6A7', // Success (soft green)
+        '#EF9A9A', // Rejects (soft red)
+        '#CE93D8', // Triggered (soft purple)
+        '#FFCCBC'  // Sales (soft orange)
+    ]
+} : {
+    labels: [
+        'Views',
+        'Accepts',
+        'Success',
+        'Rejects',
+        'Total Sales'
+    ],
+    colors: [
+        '#90CAF9', // Views
+        '#FFE082', // Accepts
+        '#A5D6A7', // Success
+        '#B0BEC5', // Rejects (neutral grey)
+        '#CE93D8'  // Sales
+    ]
+};
+
 
                 chartRef.current = new Chart(ctx, {
                     type: 'pie',

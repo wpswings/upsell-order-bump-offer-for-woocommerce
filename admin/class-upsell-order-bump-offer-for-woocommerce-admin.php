@@ -3719,7 +3719,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
                 $items[] = [
                     'id'   => $id,
                     'name' => ! empty( $val['funnel_name'] ) ? $val['funnel_name'] : "Funnel #$id",
-                    'data' => [ $v, $a, $s, $rejects, $triggered ],
+                    'data' => [ $v, $a, $s, $rejects, $triggered ,$sl ],
                     'sales_html'=> wc_price( $sl )
                 ];
             }
@@ -3735,7 +3735,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 public function wps_ajax_get_bump_stats_data() {
     $order_bumps = get_option('wps_ubo_bump_list');
     $stats = [
-        'summary' => ['sales' => 0, 'views' => 0, 'success' => 0, 'cr' => '0%'],
+        'summary' => ['sales' => 0, 'views' => 0, 'success' => 0, 'rejects' => 0, 'cr' => '0%'],
         'items' => []
     ];
 
@@ -3744,16 +3744,20 @@ public function wps_ajax_get_bump_stats_data() {
             $v = (int)($bump['offer_view_count'] ?? 0);
             $a = (int)($bump['offer_accept_count'] ?? 0);
             $s = (int)($bump['bump_success_count'] ?? 0);
+            $r = (int)($bump['offer_remove_count'] ?? 0); // Changed from $t to $r for consistency
+			$c = (float)($bump['bump_total_sales'] ?? 0); // New metric for triggers
             
             $stats['summary']['sales'] += (float)($bump['bump_total_sales'] ?? 0);
             $stats['summary']['views'] += $v;
             $stats['summary']['success'] += $s;
+            $stats['summary']['rejects'] += $r; // Add this line to track total rejects
+			$stats['summary']['sales'] += $c; // Add this line to track total rejects
 
-            if ($v > 0 || $a > 0 || $s > 0) {
+            if ($v > 0 || $a > 0 || $s > 0 || $r > 0 || $c > 0) { // Include $r in the condition
                 $stats['items'][] = [
                     'id' => $id,
                     'name' => $bump['wps_upsell_bump_name'] ?? "Bump #$id",
-                    'data' => [$v, $a, $s]
+                    'data' => [$v, $a, $s, $r , $c], // Include $r in the data array
                 ];
             }
         }

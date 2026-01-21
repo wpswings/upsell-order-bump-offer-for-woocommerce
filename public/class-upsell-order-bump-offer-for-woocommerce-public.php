@@ -77,10 +77,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		} else {
 			$wps_is_shortcode = false;
 		}
+		$wps_tofw_shortcode = false;
+		if ( shortcode_exists( 'wps_bump_offer_shortcode' ) ) {
+		$wps_tofw_shortcode = true;
+		}
 
 		wp_enqueue_style( $this->plugin_name . 'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
 
-		if ( is_checkout() || is_cart() || $wps_is_shortcode ) {
+		if ( is_checkout() || is_cart() || $wps_is_shortcode || $wps_tofw_shortcode) {
 			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), time(), 'all' );
 		}
@@ -113,10 +117,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_is_shortcode = false;
 		}
 
+		$wps_tofw_shortcode = false;
+		if ( shortcode_exists( 'wps_bump_offer_shortcode' ) ) {
+				$wps_tofw_shortcode = true;
+		}
+
 		// Js For One CLick Upsell Start.
 		wp_enqueue_script( 'wps-upsell-sweet-alert-js', plugin_dir_url( __FILE__ ) . 'js/sweet-alert.js', array(), '2.1.2', false );
 		// Only enqueue on the Checkout page.
-		if ( is_checkout() || is_cart() || $wps_is_shortcode ) {
+		if ( is_checkout() || is_cart() || $wps_is_shortcode || $wps_tofw_shortcode ) {
 
 			$wps_is_checkout_page = false;
 			$wps_popup_body_class = 'No';

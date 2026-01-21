@@ -5705,7 +5705,7 @@ button.button-primary.wps_upsell_activate_offer_template:focus {
 .wps-wocuf-sticky-btn {
   position: sticky;
   bottom: 0;
-  background-color: #fff;
+  /* background-color: #fff; */
   padding: 20px 0 !important;
   z-index: 99;
 }

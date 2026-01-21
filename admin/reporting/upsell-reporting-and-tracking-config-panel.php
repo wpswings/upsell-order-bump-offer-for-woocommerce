@@ -60,7 +60,9 @@ $nonce_overview = wp_create_nonce( 'view_upsell_tracking_over' ); // Create nonc
 	<?php
 
 	if ( 'reporting' === $active_tab ) {
-		include_once 'templates/post-reporting.php';
+	?>
+	<div id="wps-upsell-funnel-root"></div>
+	<?php
 	} elseif ( 'ga-setting' === $active_tab ) {
 		include_once 'templates/ga-settings.php';
 	} elseif ( 'pixel-setting' === $active_tab ) {
