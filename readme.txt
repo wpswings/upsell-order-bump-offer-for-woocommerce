@@ -4,7 +4,7 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: Funnel Builder, one-click upsell, woocommerce upsell, popups, frequently bought together
 Requires at least: 6.7.0
-Tested up to: 6.9
+Tested up to: 6.9.0
 WC requires at least: 6.5.0
 WC tested up to: 10.4.2
 Stable tag: 3.1.0

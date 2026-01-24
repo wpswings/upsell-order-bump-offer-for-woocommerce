@@ -860,4 +860,3 @@ if ( $wps_ubo_activated ) {
 		}
 	}
 }
-

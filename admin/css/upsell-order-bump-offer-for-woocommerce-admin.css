@@ -6997,6 +6997,12 @@ button.button.btn-primary.wc-discount-save:focus {
   flex-wrap: wrap;
 }
 
+.wps_ubo_action_bar.wps-disabled {
+  opacity: 0.6;
+  pointer-events: none;
+
+}
+
 .wps_ubo_meta_bar {
   display: flex;
   justify-content: flex-end;

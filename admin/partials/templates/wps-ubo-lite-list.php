@@ -176,7 +176,7 @@ $wps_bump_import_status = isset($_GET['wps_bump_import_status']) ? sanitize_text
 $wps_bump_imported      = isset($_GET['wps_bump_imported']) ? absint($_GET['wps_bump_imported']) : 0;
 ?>
 
-<div class="wps_ubo_action_bar">
+<div class="wps_ubo_action_bar <?php if(! wps_ubo_lite_if_pro_exists()) echo 'wps-disabled'; ?>">
 	<div class="wps_ubo_bump_tools_wrapper">
 
 			<div class="wps_ubo_bump_tool">
@@ -585,7 +585,7 @@ printf(
 								<p><?php echo esc_html( $card['description'] ); ?></p>
 							</div>
 						</div>
-						<?php if ( $card_is_pro ) : ?>
+						<?php if ( $card_is_pro && ! wps_ubo_lite_if_pro_exists()) : ?>
 							<span class="wps-ubo-template-badge <?php echo $card_is_lock ? 'is-locked' : 'is-pro'; ?>">
 								<?php echo $card_is_lock ? esc_html__( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ) : esc_html__( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 							</span>
@@ -606,7 +606,7 @@ printf(
 		const overlay = $('#wps-ubo-template-overlay');
 		const openBtn = $('.wps-ubo-open-template-modal');
 		const closeBtn = $('#wps-ubo-template-close');
-		let createUrl = '<?php echo "?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id={$wps_ubo_creation_bump_id}"; ?>';
+		let createUrl = '<?php echo esc_url( '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=' . $wps_ubo_creation_bump_id ); ?>';
 		function openModal() {
 			modal.attr('aria-hidden', 'false').addClass('is-open');
 			$('body').addClass('wps-ubo-modal-open');

@@ -1,4 +1,8 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -105,7 +109,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 				wp_register_style( 'wps_wocuf_pro_admin_style', plugin_dir_url( __FILE__ ) . 'css/woocommerce_one_click_upsell_funnel_pro-admin.css', array(), $this->version, 'all' );
 
-				wp_register_style( 'wps_ubo_lite_admin_new_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-new-admin.css', array(), time(), 'all' );
+				wp_register_style( 'wps_ubo_lite_admin_new_style', plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-new-admin.min.css', array(), time(), 'all' );
 
 				wp_enqueue_style( 'wps_ubo_lite_admin_new_style' );
 			}
@@ -179,8 +183,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				}
 				wp_enqueue_script( $this->plugin_name . '_masonry_effects', plugin_dir_url( __FILE__ ) . 'js/masonry_effects.js', array( 'jquery' ), $this->version, false );
 				wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/select2.min.js', array( 'jquery' ), $this->version, false );
-				wp_enqueue_script( $this->plugin_name . '_sweet_alert', plugin_dir_url( __FILE__ ) . 'js/swal.js', array( 'jquery' ), $this->version, false );
-				wp_enqueue_script( 'chart-js', 'https://cdn.jsdelivr.net/npm/chart.js', array( 'jquery'  , 'wp-element'), time(), false );
+					wp_enqueue_script( $this->plugin_name . '_sweet_alert', plugin_dir_url( __FILE__ ) . 'js/swal.js', array( 'jquery' ), $this->version, false );
+					wp_enqueue_script( 'chart-js', plugin_dir_url( __FILE__ ) . 'js/chart.min.js', array( 'jquery', 'wp-element' ), $this->version, false );
 
 				wp_enqueue_script(
 						'wps-combined-reports', 
@@ -2638,6 +2642,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 
 		$json = wp_json_encode( $payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputting JSON file content with proper headers.
 		echo is_string( $json ) ? $json : wp_json_encode( $payload );
 		exit;
 	}
@@ -2769,13 +2774,30 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 		update_option( 'wps_ubo_bump_list', $existing_bumps );
 
-		wp_send_json_success(
-			array(
-				'message'         => __( 'Import completed.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'imported_count'  => $imported_count,
-				'total_after_import' => count( $existing_bumps ),
-			)
-		);
+			wp_send_json_success(
+				array(
+					'message'         => __( 'Import completed.', 'upsell-order-bump-offer-for-woocommerce' ),
+					'imported_count'  => $imported_count,
+					'total_after_import' => count( $existing_bumps ),
+				)
+			);
+		}
+
+	/**
+	 * Get initialized WP_Filesystem instance.
+	 *
+	 * @since 3.1.9
+	 * @return WP_Filesystem_Base|false
+	 */
+	private function get_wp_filesystem() {
+		global $wp_filesystem;
+
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+
+		return $wp_filesystem;
 	}
 
 	/**
@@ -2788,60 +2810,70 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	private function parse_csv_import( $file_path ) {
 		$rows = array();
 
-		if ( ! file_exists( $file_path ) ) {
+		$filesystem = $this->get_wp_filesystem();
+
+		if ( ! $filesystem || ! $filesystem->exists( $file_path ) ) {
 			return $rows;
 		}
 
-		$handle = fopen( $file_path, 'r' );
+		$file_contents = $filesystem->get_contents( $file_path );
 
-		if ( false === $handle ) {
+		if ( false === $file_contents ) {
 			return $rows;
 		}
 
-		$headers = fgetcsv( $handle );
+		$lines = preg_split( '/\r\n|\r|\n/', $file_contents );
+
+		if ( empty( $lines ) || ! is_array( $lines ) ) {
+			return $rows;
+		}
+
+		$headers = str_getcsv( array_shift( $lines ) );
 
 		if ( empty( $headers ) ) {
-			fclose( $handle );
 			return $rows;
 		}
 
-			$headers = array_map(
-				function( $header ) {
-					return $this->map_csv_header_to_key( $header );
-				},
-				$headers
-			);
+		$headers = array_map(
+			function( $header ) {
+				return $this->map_csv_header_to_key( $header );
+			},
+			$headers
+		);
 
-			while ( ( $data = fgetcsv( $handle ) ) !== false ) {
-				$row = array();
-				foreach ( $headers as $index => $column_name ) {
-					if ( ! isset( $data[ $index ] ) ) {
-						continue;
-					}
+		foreach ( $lines as $line ) {
+			if ( '' === trim( $line ) ) {
+				continue;
+			}
 
-					if ( empty( $column_name ) || $this->should_skip_bump_export_key( $column_name ) ) {
-						continue;
-					}
+			$data = str_getcsv( $line );
+			$row  = array();
 
-					$raw_value = $data[ $index ];
-					$column    = sanitize_text_field( $column_name );
+			foreach ( $headers as $index => $column_name ) {
+				if ( ! isset( $data[ $index ] ) ) {
+					continue;
+				}
 
+				if ( empty( $column_name ) || $this->should_skip_bump_export_key( $column_name ) ) {
+					continue;
+				}
+
+				$raw_value = $data[ $index ];
+				$column    = sanitize_text_field( $column_name );
 				$row[ $column ] = $this->maybe_convert_csv_value( $column, $raw_value );
 			}
 
 			// Remove bump_id if present; indexes are handled when inserting.
-				if ( isset( $row['bump_id'] ) ) {
-					unset( $row['bump_id'] );
-				}
-
-				$row = $this->normalize_bump_row( $row );
-
-				if ( ! empty( $row ) ) {
-					$rows[] = $row;
-				}
+			if ( isset( $row['bump_id'] ) ) {
+				unset( $row['bump_id'] );
 			}
 
-			fclose( $handle );
+			$row = $this->normalize_bump_row( $row );
+
+			if ( ! empty( $row ) ) {
+				$rows[] = $row;
+			}
+		}
 
 		return $rows;
 	}
@@ -3036,6 +3068,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 
 		$json = wp_json_encode( $payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputting JSON file content with proper headers.
 		echo is_string( $json ) ? $json : wp_json_encode( $payload );
 		exit;
 	}
@@ -3169,52 +3202,65 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param string $file_path File path.
 	 * @return array
 	 */
-		private function parse_csv_import_generic( $file_path ) {
-			$rows = array();
+	private function parse_csv_import_generic( $file_path ) {
+		$rows = array();
 
-			if ( ! file_exists( $file_path ) ) {
-				return $rows;
-			}
+		$filesystem = $this->get_wp_filesystem();
 
-		$handle = fopen( $file_path, 'r' );
-		if ( false === $handle ) {
+		if ( ! $filesystem || ! $filesystem->exists( $file_path ) ) {
 			return $rows;
 		}
 
-		$headers = fgetcsv( $handle );
+		$file_contents = $filesystem->get_contents( $file_path );
+
+		if ( false === $file_contents ) {
+			return $rows;
+		}
+
+		$lines = preg_split( '/\r\n|\r|\n/', $file_contents );
+
+		if ( empty( $lines ) || ! is_array( $lines ) ) {
+			return $rows;
+		}
+
+		$headers = str_getcsv( array_shift( $lines ) );
+
 		if ( empty( $headers ) ) {
-			fclose( $handle );
 			return $rows;
 		}
 
 		$headers = array_map( 'sanitize_text_field', $headers );
 
-			while ( ( $data = fgetcsv( $handle ) ) !== false ) {
-				$row = array();
-				foreach ( $headers as $index => $column_name ) {
-					if ( ! isset( $data[ $index ] ) ) {
-						continue;
-					}
+		foreach ( $lines as $line ) {
+			if ( '' === trim( $line ) ) {
+				continue;
+			}
 
-					$mapped_key = $this->map_csv_header_to_key( $column_name );
+			$data = str_getcsv( $line );
+			$row  = array();
 
-					if ( empty( $mapped_key ) ) {
-						continue;
-					}
-
-					$row[ $mapped_key ] = $this->maybe_convert_csv_value( $mapped_key, $data[ $index ] );
+			foreach ( $headers as $index => $column_name ) {
+				if ( ! isset( $data[ $index ] ) ) {
+					continue;
 				}
 
-				if ( isset( $row['funnel_id'] ) ) {
-					unset( $row['funnel_id'] );
+				$mapped_key = $this->map_csv_header_to_key( $column_name );
+
+				if ( empty( $mapped_key ) ) {
+					continue;
 				}
+
+				$row[ $mapped_key ] = $this->maybe_convert_csv_value( $mapped_key, $data[ $index ] );
+			}
+
+			if ( isset( $row['funnel_id'] ) ) {
+				unset( $row['funnel_id'] );
+			}
 
 			if ( ! empty( $row ) ) {
 				$rows[] = $row;
 			}
 		}
-
-		fclose( $handle );
 
 		return $rows;
 	}

@@ -11,6 +11,11 @@
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/public/partials
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
 
 // Check enability of the plugin at settings page. By default plugin will be enabled.

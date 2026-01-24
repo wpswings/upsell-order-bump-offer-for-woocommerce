@@ -52,10 +52,30 @@
     background: var(--dark-blue);
     
 }
-#wps_upsell_bump_setting_wrapper.woocommerce .wps_ubo_meta_links--top a.button:last-of-type:hover{
-    background: transparent;
-    
+.wps_ubo_action_bar.wps-disabled .wps_ubo_bump_tool{
+position: relative;
+
 }
+
+.wps_ubo_action_bar.wps-disabled .wps_ubo_bump_tool:after {
+    content: "Pro";
+    position: absolute;
+    padding: 2px 11px;
+    /* background: red; */
+    border: 1.5px solid;
+    border-radius: 50px;
+    right: -20px;
+    top: -17px;
+    background: #d9eeff;
+    border-color: var(--primary-blue);
+    color: var(--dark-blue);
+    font-size: 10px;
+    /* padding: 4px 12px; */
+    /* border-radius: 20px; */
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
 
 
 #wps_upsell_bump_setting_wrapper.woocommerce .wps_ubo_meta_links a.button .dashicons {
@@ -297,6 +317,65 @@ button#wps_ubo_popup_configure_btn:hover {
 }
 
 /* Settings saved notice end */
+
+/* Conditional template auto-enable notice */
+#wps_upsell_bump_setting_wrapper .wps-ubo-conditional-notice {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 22px 24px;
+    margin: 0 0 22px;
+    border-radius: 6px;
+    border: 1px solid #d7d7d7;
+    background: #fff;
+    color: #0f315c;
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    clear: both;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#wps_upsell_bump_setting_wrapper .wps-ubo-conditional-notice__content {
+    display: block;
+}
+
+#wps_upsell_bump_setting_wrapper .wps-ubo-conditional-notice__title {
+    margin: 0 0 12px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #1d2327;
+}
+
+#wps_upsell_bump_setting_wrapper .wps-ubo-conditional-notice.notice.is-dismissible {
+    padding-right: 52px;
+}
+
+#wps_upsell_bump_setting_wrapper .wps-ubo-conditional-notice .notice-dismiss {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+#wps_upsell_bump_setting_wrapper .wps-ubo-conditional-notice .notice-dismiss:before {
+    color: #7a7a7a;
+}
+
+#wps_upsell_bump_setting_wrapper .wps-ubo-conditional-notice__list {
+    margin: 0;
+    padding-left: 20px;
+    color: #2c2c2c;
+    line-height: 1.6;
+    list-style: decimal;
+}
+
+#wps_upsell_bump_setting_wrapper .wps-ubo-conditional-notice__list li + li {
+    margin-top: 2px;
+}
 
 /* ORDER BUMP SETTING PAGE  */
 
@@ -900,4 +979,6 @@ body.wps-ubo-pro-inactive .wps_ubo_action_bar * {
     padding: 0;
     line-height: 22px;
 }
-
+.wps_ubo_action_bar.wps-disabled {
+    margin-top: 23px;
+}

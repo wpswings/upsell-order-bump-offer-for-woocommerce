@@ -1,4 +1,8 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * The file defines the Woocommerce subscriptions compatibility and handling functions.
  *

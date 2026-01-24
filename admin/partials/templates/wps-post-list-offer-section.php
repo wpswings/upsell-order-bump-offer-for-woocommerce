@@ -101,7 +101,7 @@ $wps_funnel_base_url = add_query_arg(
 	admin_url( 'admin.php' )
 );
 ?>
-<div class="wps_ubo_action_bar">
+<div class="wps_ubo_action_bar <?php if(! wps_ubo_lite_if_pro_exists()) echo 'wps-disabled'; ?>">
 	<div class="wps_ubo_bump_tools_wrapper">
 
 		<div class="wps_ubo_bump_tool">
@@ -328,7 +328,7 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 							<a class="wps_wocuf_pro_funnel_links wps_upsell_bump_links"
 								href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=one-click-section&sub_tab=post-list-offer-section&del_funnel_id=<?php echo esc_html( $key ); ?>&del_nonce=<?php echo esc_html( wp_create_nonce( 'del_funnel' ) ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 
-							<a class="wps_wocuf_pro_funnel_links wps_upsell_bump_links" href="#"><svg width="24" height="24"
+							<a class="wps_wocuf_pro_funnel_links wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-post-reporting"><svg width="24" height="24"
 									viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path
 										d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
@@ -494,7 +494,7 @@ printf(
 								<p><?php echo esc_html( $card['description'] ); ?></p>
 							</div>
 						</div>
-						<?php if ( $card_is_pro ) : ?>
+						<?php if ( $card_is_pro && ! wps_ubo_lite_if_pro_exists()) : ?>
 							<span class="wps-ubo-template-badge <?php echo $card_is_lock ? 'is-locked' : 'is-pro'; ?>">
 								<?php echo esc_html__( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 							</span>

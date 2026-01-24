@@ -253,6 +253,14 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 $wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
 $wps_bump_offer_type   = ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_offer_price_type'] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_offer_price_type'] : '';
 
+$wps_ubo_template_param              = isset( $_GET['template'] ) ? sanitize_text_field( wp_unslash( $_GET['template'] ) ) : '';
+// Accept both correct and commonly mistyped slug from query string.
+$is_conditional_display_template     = in_array(
+	$wps_ubo_template_param,
+	array( 'conditional-display', 'conditonal-display' ),
+	true
+);
+
 $wps_upsell_bump_schedule_options = array(
 	'0' => __( 'Daily', 'upsell-order-bump-offer-for-woocommerce' ),
 	'1' => __( 'Monday', 'upsell-order-bump-offer-for-woocommerce' ),
@@ -279,6 +287,19 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 <!-- For Single Bump. -->
 <form action="" method="POST">
 	<div class="wps_upsell_table">
+		<?php if ( $is_conditional_display_template ) : ?>
+			<div class="notice notice-info is-dismissible wps-notice wps-ubo-conditional-notice">
+				<div class="wps-ubo-conditional-notice__content">
+					<h3 class="wps-ubo-conditional-notice__title"><?php esc_html_e( 'Funnel Conditional Display walkthrough', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+					<ol class="wps-ubo-conditional-notice__list">
+						<li><?php esc_html_e( 'Set targets/categories for this funnel.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
+						<li><?php esc_html_e( 'Enable conditions and set cart/user/coupon rules.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
+						<li><?php esc_html_e( 'Configure offers and design.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
+						<li><?php esc_html_e( 'Save and preview the flow.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
+					</ol>
+				</div>
+			</div>
+		<?php endif; ?>
 		<table class="form-table wps_upsell_bump_creation_setting">
 			<tbody>
 
@@ -613,6 +634,10 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 						$attribute_description = esc_html__( 'Enable dynamic conditions to control when this offer is displayed based on cart total, user role, coupons, and other criteria.', 'upsell-order-bump-offer-for-woocommerce' );
 						wps_ubo_lite_help_tip( $attribute_description );
 						$wps_ubo_condition_show = ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_ubo_condition_show'] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_ubo_condition_show'] : 'no';
+						if ( $is_conditional_display_template ) {
+							$wps_ubo_condition_show = 'yes';
+						}
+						$wps_ubo_show_rules_button = ( 'yes' === $wps_ubo_condition_show );
 
 						?>
 
@@ -623,7 +648,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 						<label>
 							<!-- Discount Condition Button, initially hidden -->
-							<button id="show-discount-conditions" class="button button-primary" style="display:none;">Add Conditional Rules</button>
+							<button id="show-discount-conditions" class="button button-primary" style="<?php echo $wps_ubo_show_rules_button ? '' : 'display:none;'; ?>">Add Conditional Rules</button>
 						</label>
 					</td>
 				</tr>
@@ -1822,5 +1847,10 @@ wc_render_discount_conditions_popup( $wps_funnel_type, $wps_upsell_bump_id )
 			e.preventDefault();
 			$('#wc-discount-popup').addClass('ubo_show');
 		});
+		// Ensure conditional display notice is visible even if hidden by default styles.
+		var $conditionalNotice = $('.wps-ubo-conditional-notice');
+		if ($conditionalNotice.length) {
+			$conditionalNotice.show().removeClass('hidden keep-hidden');
+		}
 	});
 </script>

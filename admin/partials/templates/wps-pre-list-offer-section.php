@@ -102,7 +102,7 @@ $wps_upsell_bumps_list = get_option('wps_ubo_bump_list');
 	</div>
 </div>
 
-<div class="wps_ubo_action_bar">
+<div class="wps_ubo_action_bar <?php if(! wps_ubo_lite_if_pro_exists()) echo 'wps-disabled'; ?>">
 	<div class="wps_ubo_bump_tools_wrapper">
 		<div class="wps_ubo_bump_tool">
 			<form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
