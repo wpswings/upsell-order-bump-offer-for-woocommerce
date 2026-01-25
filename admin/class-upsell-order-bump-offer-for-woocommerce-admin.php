@@ -1,8 +1,17 @@
 <?php
-// Exit if accessed directly.
+/**
+ * Exit if accessed directly.
+ *
+ * @since      1.0.0
+ * @package    Upsell_Order_Bump_Offer_For_Woocommerce
+ * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/includes
+ * @author     WP Swings <webmaster@wpswings.com>
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -187,13 +196,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					wp_enqueue_script( 'chart-js', plugin_dir_url( __FILE__ ) . 'js/chart.min.js', array( 'jquery', 'wp-element' ), $this->version, false );
 
 				wp_enqueue_script(
-						'wps-combined-reports', 
-						plugin_dir_url( __FILE__ ) . 'js/wps-upsell-combined-reports.js', // Adjust path as needed
-						array( 'wp-element', 'jquery' ), // Dependencies
-						'1.0.0', 
-						true // Load in footer
-					);
-
+					'wps-combined-reports',
+					plugin_dir_url( __FILE__ ) . 'js/wps-upsell-combined-reports.js',
+					array( 'wp-element', 'jquery' ), // Dependencies.
+					'1.0.0',
+					true
+				);
 
 				wp_enqueue_script( 'wps_ubo_lite_admin_script', plugin_dir_url( __FILE__ ) . 'js/upsell-order-bump-offer-for-woocommerce-admin.js', array( 'jquery' ), time(), false );
 				wp_register_script( 'woocommerce_admin', WC()->plugin_url() . '/assets/js/admin/woocommerce_admin.js', array( 'jquery', 'jquery-blockui', 'jquery-ui-sortable', 'jquery-ui-widget', 'jquery-ui-core', 'jquery-tiptip', 'wc-enhanced-select', 'dompurify' ), WC_VERSION, false );
@@ -2661,19 +2669,31 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 		$redirect_url = $this->get_bump_list_redirect_url();
 
-		if ( empty( $_FILES['wps_ubo_import_file'] ) || ! isset( $_FILES['wps_ubo_import_file']['tmp_name'] ) || UPLOAD_ERR_OK !== $_FILES['wps_ubo_import_file']['error'] ) {
+		$raw_file = isset( $_FILES['wps_ubo_import_file'] ) ? wp_unslash( $_FILES['wps_ubo_import_file'] ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+		if ( empty( $raw_file ) || ! isset( $raw_file['tmp_name'] ) || UPLOAD_ERR_OK !== ( $raw_file['error'] ?? UPLOAD_ERR_NO_FILE ) ) {
 			wp_safe_redirect( add_query_arg( 'wps_bump_import_status', 'file_error', $redirect_url ) );
 			exit;
 		}
 
-		$file        = $_FILES['wps_ubo_import_file']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$file = array(
+			'name'     => isset( $raw_file['name'] ) ? sanitize_file_name( $raw_file['name'] ) : '',
+			'tmp_name' => $raw_file['tmp_name'],
+			'error'    => isset( $raw_file['error'] ) ? absint( $raw_file['error'] ) : 0,
+		);
+
+		if ( empty( $file['tmp_name'] ) ) {
+			wp_safe_redirect( add_query_arg( 'wps_bump_import_status', 'file_error', $redirect_url ) );
+			exit;
+		}
+
 		$file_detail = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'] );
 
 			// Allow JSON uploads only.
-			if ( ! empty( $file_detail['ext'] ) && 'json' !== $file_detail['ext'] ) {
-				wp_safe_redirect( add_query_arg( 'wps_bump_import_status', 'invalid_type', $redirect_url ) );
-				exit;
-			}
+		if ( ! empty( $file_detail['ext'] ) && 'json' !== $file_detail['ext'] ) {
+			wp_safe_redirect( add_query_arg( 'wps_bump_import_status', 'invalid_type', $redirect_url ) );
+			exit;
+		}
 
 			$raw_contents = file_get_contents( $file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$decoded_data = json_decode( $raw_contents, true );
@@ -2682,10 +2702,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			$decoded_data = $decoded_data['wps_ubo_bump_list'];
 		}
 
-			if ( empty( $decoded_data ) || ! is_array( $decoded_data ) ) {
-				wp_safe_redirect( add_query_arg( 'wps_bump_import_status', 'invalid_data', $redirect_url ) );
-				exit;
-			}
+		if ( empty( $decoded_data ) || ! is_array( $decoded_data ) ) {
+			wp_safe_redirect( add_query_arg( 'wps_bump_import_status', 'invalid_data', $redirect_url ) );
+			exit;
+		}
 
 		$existing_bumps = get_option( 'wps_ubo_bump_list', array() );
 
@@ -2696,18 +2716,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		$last_index     = $this->get_last_bump_index( $existing_bumps );
 		$imported_count = 0;
 
-			foreach ( $decoded_data as $bump ) {
+		foreach ( $decoded_data as $bump ) {
 
-				if ( ! is_array( $bump ) ) {
-					continue;
-				}
-
-				$bump = $this->normalize_bump_row( $bump );
-
-				$last_index ++;
-				$existing_bumps[ $last_index ] = $bump;
-				$imported_count ++;
+			if ( ! is_array( $bump ) ) {
+				continue;
 			}
+
+			$bump = $this->normalize_bump_row( $bump );
+
+			$last_index ++;
+			$existing_bumps[ $last_index ] = $bump;
+			$imported_count ++;
+		}
 
 		update_option( 'wps_ubo_bump_list', $existing_bumps );
 
@@ -2732,11 +2752,22 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			wp_send_json_error( array( 'message' => __( 'You do not have permission to import order bumps.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
 
-		if ( empty( $_FILES['wps_ubo_import_file'] ) || UPLOAD_ERR_OK !== $_FILES['wps_ubo_import_file']['error'] ) {
+		$raw_file = isset( $_FILES['wps_ubo_import_file'] ) ? wp_unslash( $_FILES['wps_ubo_import_file'] ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+		if ( empty( $raw_file ) || UPLOAD_ERR_OK !== ( $raw_file['error'] ?? UPLOAD_ERR_NO_FILE ) ) {
 			wp_send_json_error( array( 'message' => __( 'Upload failed. Please try again.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
 
-		$file        = $_FILES['wps_ubo_import_file']; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$file = array(
+			'name'     => isset( $raw_file['name'] ) ? sanitize_file_name( $raw_file['name'] ) : '',
+			'tmp_name' => $raw_file['tmp_name'] ?? '',
+			'error'    => isset( $raw_file['error'] ) ? absint( $raw_file['error'] ) : 0,
+		);
+
+		if ( empty( $file['tmp_name'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Upload failed. Please try again.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
 		$file_detail = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'] );
 
 		if ( ! empty( $file_detail['ext'] ) && 'json' !== $file_detail['ext'] ) {
@@ -2781,7 +2812,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					'total_after_import' => count( $existing_bumps ),
 				)
 			);
-		}
+	}
 
 	/**
 	 * Get initialized WP_Filesystem instance.
@@ -3085,11 +3116,22 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			wp_send_json_error( array( 'message' => __( 'You do not have permission to import funnels.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
 
-		if ( empty( $_FILES['wps_ubo_import_file'] ) || UPLOAD_ERR_OK !== $_FILES['wps_ubo_import_file']['error'] ) {
+		$raw_file = isset( $_FILES['wps_ubo_import_file'] ) ? wp_unslash( $_FILES['wps_ubo_import_file'] ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+		if ( empty( $raw_file ) || UPLOAD_ERR_OK !== ( $raw_file['error'] ?? UPLOAD_ERR_NO_FILE ) ) {
 			wp_send_json_error( array( 'message' => __( 'Upload failed. Please try again.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
 
-		$file        = $_FILES['wps_ubo_import_file']; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$file = array(
+			'name'     => isset( $raw_file['name'] ) ? sanitize_file_name( $raw_file['name'] ) : '',
+			'tmp_name' => $raw_file['tmp_name'] ?? '',
+			'error'    => isset( $raw_file['error'] ) ? absint( $raw_file['error'] ) : 0,
+		);
+
+		if ( empty( $file['tmp_name'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Upload failed. Please try again.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
 		$file_detail = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'] );
 
 		if ( ! empty( $file_detail['ext'] ) && 'json' !== $file_detail['ext'] ) {
@@ -3117,10 +3159,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			$existing_pro   = get_option( 'wps_wocuf_pro_funnels_list', array() );
 			$is_pro_active  = wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '0.0.0' );
 
-			if ( ( is_array( $existing_pro ) && ! empty( $existing_pro ) ) || $is_pro_active ) {
-				$storage_key = 'wps_wocuf_pro_funnels_list';
-				$existing    = is_array( $existing_pro ) ? $existing_pro : array();
-			}
+		if ( ( is_array( $existing_pro ) && ! empty( $existing_pro ) ) || $is_pro_active ) {
+			$storage_key = 'wps_wocuf_pro_funnels_list';
+			$existing    = is_array( $existing_pro ) ? $existing_pro : array();
+		}
 
 		if ( ! is_array( $existing ) ) {
 			$existing = array();
@@ -3165,8 +3207,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		$funnel_id   = isset( $_POST['funnel_id'] ) ? sanitize_text_field( wp_unslash( $_POST['funnel_id'] ) ) : '';
 		$new_status  = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : 'no';
 		$valid_state = in_array( $new_status, array( 'yes', 'no' ), true ) ? $new_status : 'no';
-
-		// var_dump( $funnel_id, $new_status );
 
 		// Determine which storage to use (pro funnels vs lite funnels).
 		$storage_key = 'wps_wocuf_funnels_list';
@@ -3379,29 +3419,29 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param string $header Header label from CSV.
 	 * @return string
 	 */
-		private function map_csv_header_to_key( $header ) {
-			$label_map    = array_merge( $this->get_bump_field_labels(), $this->get_funnel_field_labels() );
-			$reverse_map  = array();
-			$clean_header = trim( $header );
-			$lower_header = strtolower( $clean_header );
+	private function map_csv_header_to_key( $header ) {
+		$label_map    = array_merge( $this->get_bump_field_labels(), $this->get_funnel_field_labels() );
+		$reverse_map  = array();
+		$clean_header = trim( $header );
+		$lower_header = strtolower( $clean_header );
 
-			foreach ( $label_map as $key => $label ) {
-				$reverse_map[ strtolower( $label ) ] = $key;
-				$reverse_map[ strtolower( $key ) ]   = $key;
-			}
-
-			if ( isset( $reverse_map[ $lower_header ] ) ) {
-				return $reverse_map[ $lower_header ];
-			}
-
-			$sanitized = sanitize_key( $clean_header );
-
-			if ( $this->should_skip_bump_export_key( $sanitized ) ) {
-				return '';
-			}
-
-			return $sanitized;
+		foreach ( $label_map as $key => $label ) {
+			$reverse_map[ strtolower( $label ) ] = $key;
+			$reverse_map[ strtolower( $key ) ]   = $key;
 		}
+
+		if ( isset( $reverse_map[ $lower_header ] ) ) {
+			return $reverse_map[ $lower_header ];
+		}
+
+		$sanitized = sanitize_key( $clean_header );
+
+		if ( $this->should_skip_bump_export_key( $sanitized ) ) {
+			return '';
+		}
+
+		return $sanitized;
+	}
 
 	/**
 	 * Field labels for CSV headers.
@@ -3409,11 +3449,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since 3.1.9
 	 * @return array
 	 */
-		private function get_bump_field_labels() {
-			return array(
-				'bump_id'                           => __( 'Bump ID', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_name'              => __( 'Bump Name', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_status'            => __( 'Status', 'upsell-order-bump-offer-for-woocommerce' ),
+	private function get_bump_field_labels() {
+		return array(
+			'bump_id'                           => __( 'Bump ID', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_name'              => __( 'Bump Name', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_status'            => __( 'Status', 'upsell-order-bump-offer-for-woocommerce' ),
 			'wps_upsell_bump_priority'          => __( 'Priority', 'upsell-order-bump-offer-for-woocommerce' ),
 			'wps_upsell_bump_target_ids'        => __( 'Target Product IDs', 'upsell-order-bump-offer-for-woocommerce' ),
 			'wps_upsell_bump_target_categories' => __( 'Target Category IDs', 'upsell-order-bump-offer-for-woocommerce' ),
@@ -3421,12 +3461,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			'wps_bump_label_campaign'           => __( 'Label Campaign', 'upsell-order-bump-offer-for-woocommerce' ),
 			'wps_display_method'                => __( 'Display Method', 'upsell-order-bump-offer-for-woocommerce' ),
 			'wps_upsell_bump_description'       => __( 'Description', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_discount'          => __( 'Discount Type', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_discount_value'    => __( 'Discount Value', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_coupon'            => __( 'Coupon', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_min_cart'          => __( 'Min Cart Amount', 'upsell-order-bump-offer-for-woocommerce' ),
-			);
-		}
+			'wps_upsell_bump_discount'          => __( 'Discount Type', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_discount_value'    => __( 'Discount Value', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_coupon'            => __( 'Coupon', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_min_cart'          => __( 'Min Cart Amount', 'upsell-order-bump-offer-for-woocommerce' ),
+		);
+	}
 
 		/**
 		 * Field descriptions for JSON exports to help users edit values safely.
@@ -3434,24 +3474,24 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		 * @since 3.2.0
 		 * @return array
 		 */
-		private function get_bump_json_field_comments() {
-			return array(
-				'bump_id'                           => __( 'Leave empty when importing; the plugin assigns the next numeric ID automatically.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_name'              => __( 'Name shown with the bump offer (plain text).', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_status'            => __( 'Use "yes" to make the bump live or "no" to keep it off.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_priority'          => __( 'Numeric priority used to sort bumps; lower numbers are shown first.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_target_ids'        => __( 'Product IDs where the bump should appear. Provide an array of product IDs.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_target_categories' => __( 'Category IDs where the bump should appear. Provide an array of category IDs.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_products_in_offer' => __( 'Product ID to be offered. Supply a single product ID.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_bump_label_campaign'           => __( 'Optional label key/name configured under bump labels.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_display_method'                => __( 'Display method slug (for example, "ab_method" for abandoned cart bumps).', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_description'       => __( 'Short description shown with the bump (plain text or basic HTML).', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_discount'          => __( 'Discount type slug, such as "percent", "fixed", or coupon-based option used in the admin.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_discount_value'    => __( 'Numeric discount amount that pairs with the selected discount type.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_coupon'            => __( 'Existing coupon code to apply. Leave blank if not using a coupon.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_bump_min_cart'          => __( 'Minimum cart subtotal required to show the bump (numeric).', 'upsell-order-bump-offer-for-woocommerce' ),
-			);
-		}
+	private function get_bump_json_field_comments() {
+		return array(
+			'bump_id'                           => __( 'Leave empty when importing; the plugin assigns the next numeric ID automatically.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_name'              => __( 'Name shown with the bump offer (plain text).', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_status'            => __( 'Use "yes" to make the bump live or "no" to keep it off.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_priority'          => __( 'Numeric priority used to sort bumps; lower numbers are shown first.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_target_ids'        => __( 'Product IDs where the bump should appear. Provide an array of product IDs.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_target_categories' => __( 'Category IDs where the bump should appear. Provide an array of category IDs.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_products_in_offer' => __( 'Product ID to be offered. Supply a single product ID.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_bump_label_campaign'           => __( 'Optional label key/name configured under bump labels.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_display_method'                => __( 'Display method slug (for example, "ab_method" for abandoned cart bumps).', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_description'       => __( 'Short description shown with the bump (plain text or basic HTML).', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_discount'          => __( 'Discount type slug, such as "percent", "fixed", or coupon-based option used in the admin.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_discount_value'    => __( 'Numeric discount amount that pairs with the selected discount type.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_coupon'            => __( 'Existing coupon code to apply. Leave blank if not using a coupon.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_bump_min_cart'          => __( 'Minimum cart subtotal required to show the bump (numeric).', 'upsell-order-bump-offer-for-woocommerce' ),
+		);
+	}
 
 		/**
 		 * Field labels for funnel CSV headers.
@@ -3459,21 +3499,21 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		 * @since 3.1.9
 		 * @return array
 		 */
-		private function get_funnel_field_labels() {
-			return array(
-				'funnel_id'                     => __( 'Funnel ID', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_funnel_name'         => __( 'Funnel Name', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_funnel_status'      => __( 'Status', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_target_pro_ids'      => __( 'Target Product IDs', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_target_cat_ids'      => __( 'Target Category IDs', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_products_in_offer'   => __( 'Offer Product IDs', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_pro_products_in_offer' => __( 'Offer Product IDs', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_pro_add_products_in_offer' => __( 'Frequently Bought Offer Product IDs', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_global_funnel'       => __( 'Global Funnel', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_exclusive_offer'     => __( 'Exclusive Offer', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_smart_offer_upgrade' => __( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ),
-			);
-		}
+	private function get_funnel_field_labels() {
+		return array(
+			'funnel_id'                     => __( 'Funnel ID', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_funnel_name'         => __( 'Funnel Name', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_funnel_status'      => __( 'Status', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_target_pro_ids'      => __( 'Target Product IDs', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_target_cat_ids'      => __( 'Target Category IDs', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_products_in_offer'   => __( 'Offer Product IDs', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_pro_products_in_offer' => __( 'Offer Product IDs', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_pro_add_products_in_offer' => __( 'Frequently Bought Offer Product IDs', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_global_funnel'       => __( 'Global Funnel', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_exclusive_offer'     => __( 'Exclusive Offer', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_smart_offer_upgrade' => __( 'Smart Offer Upgrade', 'upsell-order-bump-offer-for-woocommerce' ),
+		);
+	}
 
 		/**
 		 * Field descriptions for funnel JSON exports.
@@ -3481,21 +3521,21 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		 * @since 3.2.0
 		 * @return array
 		 */
-		private function get_funnel_json_field_comments() {
-			return array(
-				'funnel_id'                     => __( 'Leave empty when importing; the plugin will assign the next numeric ID.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_funnel_name'         => __( 'Name of the funnel (plain text).', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_upsell_funnel_status'      => __( 'Use "yes" for live funnels or "no" to keep them off.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_target_pro_ids'      => __( 'Product IDs that trigger the funnel. Provide an array of product IDs.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_target_cat_ids'      => __( 'Category IDs that trigger the funnel. Provide an array of category IDs.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_products_in_offer'   => __( 'Product IDs offered inside this funnel (array).', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_pro_products_in_offer' => __( 'Additional offer product IDs for the Pro layout (array).', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_pro_add_products_in_offer' => __( 'Frequently bought together product IDs (array).', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_global_funnel'       => __( 'Use "yes" to treat this as a global funnel fallback, otherwise "no".', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_exclusive_offer'     => __( 'Use "yes" to prevent this funnel from showing with other funnels.', 'upsell-order-bump-offer-for-woocommerce' ),
-				'wps_wocuf_smart_offer_upgrade' => __( 'Use "yes" to enable smart upgrade logic for matching products.', 'upsell-order-bump-offer-for-woocommerce' ),
-			);
-		}
+	private function get_funnel_json_field_comments() {
+		return array(
+			'funnel_id'                     => __( 'Leave empty when importing; the plugin will assign the next numeric ID.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_funnel_name'         => __( 'Name of the funnel (plain text).', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_upsell_funnel_status'      => __( 'Use "yes" for live funnels or "no" to keep them off.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_target_pro_ids'      => __( 'Product IDs that trigger the funnel. Provide an array of product IDs.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_target_cat_ids'      => __( 'Category IDs that trigger the funnel. Provide an array of category IDs.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_products_in_offer'   => __( 'Product IDs offered inside this funnel (array).', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_pro_products_in_offer' => __( 'Additional offer product IDs for the Pro layout (array).', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_pro_add_products_in_offer' => __( 'Frequently bought together product IDs (array).', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_global_funnel'       => __( 'Use "yes" to treat this as a global funnel fallback, otherwise "no".', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_exclusive_offer'     => __( 'Use "yes" to prevent this funnel from showing with other funnels.', 'upsell-order-bump-offer-for-woocommerce' ),
+			'wps_wocuf_smart_offer_upgrade' => __( 'Use "yes" to enable smart upgrade logic for matching products.', 'upsell-order-bump-offer-for-woocommerce' ),
+		);
+	}
 
 	/**
 	 * Normalize funnel data types after CSV import.
@@ -3521,15 +3561,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 				'wps_upsell_offer_image',
 			);
 
-		$try_decode_json = static function( $value ) {
-			if ( is_string( $value ) && ( 0 === strpos( $value, '{' ) || 0 === strpos( $value, '[' ) ) ) {
-				$decoded = json_decode( $value, true );
-				if ( null !== $decoded ) {
-					return $decoded;
+			$try_decode_json = static function( $value ) {
+				if ( is_string( $value ) && ( 0 === strpos( $value, '{' ) || 0 === strpos( $value, '[' ) ) ) {
+					$decoded = json_decode( $value, true );
+					if ( null !== $decoded ) {
+						return $decoded;
+					}
 				}
-			}
-			return null;
-		};
+				return null;
+			};
 
 		foreach ( $array_fields as $field ) {
 			if ( ! array_key_exists( $field, $row ) ) {
@@ -3674,19 +3714,19 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @param array $existing_bumps Existing bumps array.
 	 * @return int
 	 */
-		private function get_last_bump_index( $existing_bumps ) {
-			$last_index = 0;
+	private function get_last_bump_index( $existing_bumps ) {
+		$last_index = 0;
 
-			if ( is_array( $existing_bumps ) && ! empty( $existing_bumps ) ) {
-				foreach ( array_keys( $existing_bumps ) as $bump_key ) {
+		if ( is_array( $existing_bumps ) && ! empty( $existing_bumps ) ) {
+			foreach ( array_keys( $existing_bumps ) as $bump_key ) {
 				if ( is_numeric( $bump_key ) ) {
 					$last_index = max( $last_index, (int) $bump_key );
 				}
 			}
 		}
 
-			return $last_index;
-		}
+		return $last_index;
+	}
 
 		/**
 		 * Normalize bump data after CSV/JSON import.
@@ -3695,122 +3735,149 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		 * @param array $row Bump row.
 		 * @return array
 		 */
-		private function normalize_bump_row( $row ) {
-			if ( ! is_array( $row ) ) {
-				return array();
-			}
-
-			$array_fields = array(
-				'wps_upsell_bump_target_ids',
-				'wps_upsell_bump_target_categories',
-				'wps_upsell_bump_products_in_offer',
-			);
-
-			foreach ( $array_fields as $field ) {
-				if ( ! array_key_exists( $field, $row ) ) {
-					continue;
-				}
-
-				$value = $row[ $field ];
-
-				if ( is_string( $value ) ) {
-					if ( false !== strpos( $value, '|' ) ) {
-						$row[ $field ] = array_filter( array_map( 'trim', explode( '|', $value ) ) );
-					} else {
-						$row[ $field ] = '' === trim( $value ) ? array() : array( trim( $value ) );
-					}
-				}
-
-				if ( ! is_array( $row[ $field ] ) ) {
-					$row[ $field ] = array_filter( (array) $row[ $field ] );
-				}
-			}
-
-			// Downstream expects single ID for offer product.
-			if ( isset( $row['wps_upsell_bump_products_in_offer'] ) && is_array( $row['wps_upsell_bump_products_in_offer'] ) ) {
-				$first_product = reset( $row['wps_upsell_bump_products_in_offer'] );
-				$row['wps_upsell_bump_products_in_offer'] = ! empty( $first_product ) ? $first_product : '';
-			}
-
-			return $row;
+	private function normalize_bump_row( $row ) {
+		if ( ! is_array( $row ) ) {
+			return array();
 		}
 
+		$array_fields = array(
+			'wps_upsell_bump_target_ids',
+			'wps_upsell_bump_target_categories',
+			'wps_upsell_bump_products_in_offer',
+		);
 
+		foreach ( $array_fields as $field ) {
+			if ( ! array_key_exists( $field, $row ) ) {
+				continue;
+			}
+
+			$value = $row[ $field ];
+
+			if ( is_string( $value ) ) {
+				if ( false !== strpos( $value, '|' ) ) {
+					$row[ $field ] = array_filter( array_map( 'trim', explode( '|', $value ) ) );
+				} else {
+					$row[ $field ] = '' === trim( $value ) ? array() : array( trim( $value ) );
+				}
+			}
+
+			if ( ! is_array( $row[ $field ] ) ) {
+				$row[ $field ] = array_filter( (array) $row[ $field ] );
+			}
+		}
+
+		// Downstream expects single ID for offer product.
+		if ( isset( $row['wps_upsell_bump_products_in_offer'] ) && is_array( $row['wps_upsell_bump_products_in_offer'] ) ) {
+			$first_product = reset( $row['wps_upsell_bump_products_in_offer'] );
+			$row['wps_upsell_bump_products_in_offer'] = ! empty( $first_product ) ? $first_product : '';
+		}
+
+		return $row;
+	}
+
+	/**
+	 * Handle AJAX request to fetch upsell funnel stats for reports.
+	 *
+	 * @since    1.0.0
+	 * @return void
+	 */
 	public function wps_ajax_get_upsell_funnel_data() {
-    if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
-        $funnels_list = get_option( 'wps_wocuf_pro_funnels_list' );
-    } else {
-        $funnels_list = get_option( 'wps_wocuf_funnels_list' );
-    }
+		if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
+			$funnels_list = get_option( 'wps_wocuf_pro_funnels_list' );
+		} else {
+			$funnels_list = get_option( 'wps_wocuf_funnels_list' );
+		}
 
-    $summary = ['sales' => 0, 'views' => 0, 'success' => 0, 'cr' => '0%'];
-    $items = [];
+		$summary = array(
+			'sales' => 0,
+			'views' => 0,
+			'success' => 0,
+			'cr' => '0%',
+		);
+		$items = array();
 
-    if ( ! empty( $funnels_list ) ) {
-        foreach ( $funnels_list as $id => $val ) {
-            $v = (int)( $val['offers_view_count'] ?? 0 );
-            $a = (int)( $val['offers_accept_count'] ?? 0 );
-            $s = (int)( $val['funnel_success_count'] ?? 0 );
-            $sl = (float)( $val['funnel_total_sales'] ?? 0 );
+		if ( ! empty( $funnels_list ) ) {
+			foreach ( $funnels_list as $id => $val ) {
+				$v = (int) ( $val['offers_view_count'] ?? 0 );
+				$a = (int) ( $val['offers_accept_count'] ?? 0 );
+				$s = (int) ( $val['funnel_success_count'] ?? 0 );
+				$sl = (float) ( $val['funnel_total_sales'] ?? 0 );
 
-            // New counts
-            $triggered = (int)( $val['offers_view_count'] ?? 0 ); 
-            $rejects = (int)( $val['offers_reject_count'] ?? 0 );
-            
-            $summary['sales'] += $sl;
-            $summary['views'] += $v;
-            $summary['success'] += $s;
+				// New counts.
+				$triggered = (int) ( $val['offers_view_count'] ?? 0 );
+				$rejects = (int) ( $val['offers_reject_count'] ?? 0 );
 
-            if ( $v > 0 || $a > 0 || $s > 0 || $rejects > 0 ) {
-                $items[] = [
-                    'id'   => $id,
-                    'name' => ! empty( $val['funnel_name'] ) ? $val['funnel_name'] : "Funnel #$id",
-                    'data' => [ $v, $a, $s, $rejects, $triggered ,$sl ],
-                    'sales_html'=> wc_price( $sl )
-                ];
-            }
-        }
-        $summary['cr'] = ($summary['views'] > 0) ? round(($summary['success'] / $summary['views']) * 100, 2) . '%' : '0%';
-        $summary['sales'] = wc_price($summary['sales']);
-    }
+				$summary['sales'] += $sl;
+				$summary['views'] += $v;
+				$summary['success'] += $s;
 
-    wp_send_json_success( [ 'summary' => $summary, 'items' => $items ] );
-}
+				if ( $v > 0 || $a > 0 || $s > 0 || $rejects > 0 ) {
+					$items[] = array(
+						'id'   => $id,
+						'name' => ! empty( $val['funnel_name'] ) ? $val['funnel_name'] : "Funnel #$id",
+						'data' => array( $v, $a, $s, $rejects, $triggered, $sl ),
+						'sales_html' => wc_price( $sl ),
+					);
+				}
+			}
+			$summary['cr'] = ( $summary['views'] > 0 ) ? round( ( $summary['success'] / $summary['views'] ) * 100, 2 ) . '%' : '0%';
+			$summary['sales'] = wc_price( $summary['sales'] );
+		}
+
+		wp_send_json_success(
+			array(
+				'summary' => $summary,
+				'items' => $items,
+			)
+		);
+	}
 
 
-public function wps_ajax_get_bump_stats_data() {
-    $order_bumps = get_option('wps_ubo_bump_list');
-    $stats = [
-        'summary' => ['sales' => 0, 'views' => 0, 'success' => 0, 'rejects' => 0, 'cr' => '0%'],
-        'items' => []
-    ];
+	/**
+	 * Handle AJAX request to fetch order bump statistics for charts/table.
+	 *
+	 * @since    1.0.0
+	 * @return void
+	 */
+	public function wps_ajax_get_bump_stats_data() {
+		$order_bumps = get_option( 'wps_ubo_bump_list' );
+		$stats = array(
+			'summary' => array(
+				'sales' => 0,
+				'views' => 0,
+				'success' => 0,
+				'rejects' => 0,
+				'cr' => '0%',
+			),
+			'items' => array(),
+		);
 
-    if (!empty($order_bumps)) {
-        foreach ($order_bumps as $id => $bump) {
-            $v = (int)($bump['offer_view_count'] ?? 0);
-            $a = (int)($bump['offer_accept_count'] ?? 0);
-            $s = (int)($bump['bump_success_count'] ?? 0);
-            $r = (int)($bump['offer_remove_count'] ?? 0); // Changed from $t to $r for consistency
-			$c = (float)($bump['bump_total_sales'] ?? 0); // New metric for triggers
-            
-            $stats['summary']['sales'] += (float)($bump['bump_total_sales'] ?? 0);
-            $stats['summary']['views'] += $v;
-            $stats['summary']['success'] += $s;
-            $stats['summary']['rejects'] += $r; // Add this line to track total rejects
-			$stats['summary']['sales'] += $c; // Add this line to track total rejects
+		if ( ! empty( $order_bumps ) ) {
+			foreach ( $order_bumps as $id => $bump ) {
+				$v = (int) ( $bump['offer_view_count'] ?? 0 );
+				$a = (int) ( $bump['offer_accept_count'] ?? 0 );
+				$s = (int) ( $bump['bump_success_count'] ?? 0 );
+				$r = (int) ( $bump['offer_remove_count'] ?? 0 );
+				$c = (float) ( $bump['bump_total_sales'] ?? 0 );
 
-            if ($v > 0 || $a > 0 || $s > 0 || $r > 0 || $c > 0) { // Include $r in the condition
-                $stats['items'][] = [
-                    'id' => $id,
-                    'name' => $bump['wps_upsell_bump_name'] ?? "Bump #$id",
-                    'data' => [$v, $a, $s, $r , $c], // Include $r in the data array
-                ];
-            }
-        }
-        $stats['summary']['cr'] = ($stats['summary']['views'] > 0) ? round(($stats['summary']['success'] / $stats['summary']['views']) * 100, 2) . '%' : '0%';
-        $stats['summary']['sales'] = wc_price($stats['summary']['sales']);
-    }
-    wp_send_json_success($stats);
-}
+				$stats['summary']['sales'] += (float) ( $bump['bump_total_sales'] ?? 0 );
+				$stats['summary']['views'] += $v;
+				$stats['summary']['success'] += $s;
+				$stats['summary']['rejects'] += $r;
+				$stats['summary']['sales'] += $c;
+
+				if ( $v > 0 || $a > 0 || $s > 0 || $r > 0 || $c > 0 ) {
+					$stats['items'][] = array(
+						'id' => $id,
+						'name' => $bump['wps_upsell_bump_name'] ?? "Bump #$id",
+						'data' => array( $v, $a, $s, $r, $c ),
+					);
+				}
+			}
+			$stats['summary']['cr'] = ( $stats['summary']['views'] > 0 ) ? round( ( $stats['summary']['success'] / $stats['summary']['views'] ) * 100, 2 ) . '%' : '0%';
+			$stats['summary']['sales'] = wc_price( $stats['summary']['sales'] );
+		}
+		wp_send_json_success( $stats );
+	}
 
 }

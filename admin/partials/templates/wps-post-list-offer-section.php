@@ -101,7 +101,12 @@ $wps_funnel_base_url = add_query_arg(
 	admin_url( 'admin.php' )
 );
 ?>
-<div class="wps_ubo_action_bar <?php if(! wps_ubo_lite_if_pro_exists()) echo 'wps-disabled'; ?>">
+<div class="wps_ubo_action_bar 
+<?php
+if ( ! wps_ubo_lite_if_pro_exists() ) {
+	echo 'wps-disabled';}
+?>
+">
 	<div class="wps_ubo_bump_tools_wrapper">
 
 		<div class="wps_ubo_bump_tool">
@@ -316,9 +321,9 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 
 						if ( ! empty( trim( (string) $wps_funnel_extra ) ) ) :
 							?>
-							<div class="wps-ubo-bump-block wps-ubo-funnel-extra">
-								<?php echo $wps_funnel_extra; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-							</div>
+				<div class="wps-ubo-bump-block wps-ubo-funnel-extra">
+								<?php echo wp_kses_post( $wps_funnel_extra ); ?>
+				</div>
 						<?php endif; ?>
 
 						<div class="wps-ubo-bump-block wps-ubo-bump-actions">
@@ -451,23 +456,23 @@ $wps_wocuf_template_cards = array(
 			<?php if ( ! $wps_wocuf_is_builder_active ) : ?>
 				<p class="wps-ubo-template-note">
 					<?php
-printf(
-	wp_kses(
-		/* translators: 1: Opening link tag, 2: closing link tag. */
-		__( '<em>Multiple funnels are available in the Pro version. %1$sPurchase Pro%2$s to create additional funnels.</em>', 'upsell-order-bump-offer-for-woocommerce' ),
-		array(
-			'a'  => array(
-				'href'   => array(),
-				'class'  => array(),
-				'target' => array(),
-				'rel'    => array(),
-			),
-			'em' => array(), // ✅ allow italic tag
-		)
-	),
-	'<a class="wps-ubo-template-upgrade-link" href="' . esc_url( 'https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro' ) . '" target="_blank" rel="noopener noreferrer">',
-	'</a>'
-);
+					printf(
+						wp_kses(
+						/* translators: 1: Opening link tag, 2: closing link tag. */
+							__( '<em>Multiple funnels are available in the Pro version. %1$sPurchase Pro%2$s to create additional funnels.</em>', 'upsell-order-bump-offer-for-woocommerce' ),
+							array(
+								'a'  => array(
+									'href'   => array(),
+									'class'  => array(),
+									'target' => array(),
+									'rel'    => array(),
+								),
+								'em' => array(), // ✅ allow italic tag
+							)
+						),
+						'<a class="wps-ubo-template-upgrade-link" href="' . esc_url( 'https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro' ) . '" target="_blank" rel="noopener noreferrer">',
+						'</a>'
+					);
 
 					?>
 				</p>
@@ -494,7 +499,7 @@ printf(
 								<p><?php echo esc_html( $card['description'] ); ?></p>
 							</div>
 						</div>
-						<?php if ( $card_is_pro && ! wps_ubo_lite_if_pro_exists()) : ?>
+						<?php if ( $card_is_pro && ! wps_ubo_lite_if_pro_exists() ) : ?>
 							<span class="wps-ubo-template-badge <?php echo $card_is_lock ? 'is-locked' : 'is-pro'; ?>">
 								<?php echo esc_html__( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 							</span>

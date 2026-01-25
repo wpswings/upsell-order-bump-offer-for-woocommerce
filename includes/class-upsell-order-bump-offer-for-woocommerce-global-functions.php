@@ -1,8 +1,17 @@
 <?php
-// Exit if accessed directly.
+/**
+ * Exit if accessed directly.
+ *
+ * @since      1.0.0
+ * @package    Upsell_Order_Bump_Offer_For_Woocommerce
+ * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/includes
+ * @author     WP Swings <webmaster@wpswings.com>
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -8056,7 +8065,7 @@ function wps_render_campaign_label_select( $args ) {
 						const currentHex = parts[0] || '';
 						const currentLabel = parts[1] || '';
 
-						// Saved value
+						// Saved value.
 						if (currentHex) {
 							const match = container.querySelector('.wps-option[data-color="' + currentHex + '"]');
 							if (match) {
@@ -8064,15 +8073,11 @@ function wps_render_campaign_label_select( $args ) {
 								return;
 							}
 						}
-
-						// Auto-select first option
 						const first = container.querySelector('.wps-option[data-color]');
 						if (first) {
 							setSelected(first.dataset.label, first.dataset.color);
 							return;
 						}
-
-						// Fallback placeholder
 						setSelected('', '');
 					})();
 
@@ -8083,7 +8088,7 @@ function wps_render_campaign_label_select( $args ) {
 
 					selected.addEventListener('click', function () {
 						if (!optionsEl.querySelector('.wps-option[data-color]')) {
-							return; // no real options
+							return;
 						}
 						const open = optionsEl.style.display === 'block';
 						optionsEl.style.display = open ? 'none' : 'block';
@@ -8111,8 +8116,6 @@ function wps_render_campaign_label_select( $args ) {
 	}
 
 		$options_markup = '';
-
-		// 🔹 No label option (always on top)
 		$options_markup .= '
 			<div class="wps-option wps-option-none" data-label="" data-color="">
 				<div class="wps-option-color" style="background:transparent;"></div>
@@ -8135,7 +8138,6 @@ function wps_render_campaign_label_select( $args ) {
 		);
 	}
 
-	// No labels fallback
 	if ( empty( $options_markup ) ) {
 		$options_markup = '<div class="wps-option-disabled">No campaign labels found</div>';
 		$args['placeholder'] = 'No campaign labels available';
@@ -8224,7 +8226,7 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 			'posts_per_page' => -1,
 		)
 	);
-	// ========== NEW: Get list of countries for dropdown ==========
+	// ========== NEW: Get list of countries for dropdown. ==========
 	$countries_obj = new WC_Countries();
 	$countries = $countries_obj->get_countries();
 	// =============================================================
@@ -8267,9 +8269,9 @@ function wc_render_discount_conditions_popup( $wps_funnel_type = '', $bump_id = 
 												<option value="coupon_applied" <?php selected( $field, 'coupon_applied' ); ?>><?php esc_html_e( 'Coupon Applied', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 												<option value="user_status" <?php selected( $field, 'user_status' ); ?>><?php esc_html_e( 'User Login Status', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 												<option value="user_registered" <?php selected( $field, 'user_registered' ); ?>><?php esc_html_e( 'Specific Registered User', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
-											<!-- ========== NEW: Device Type Option ========== -->
+											<!-- ========== NEW: Device Type Option. ========== -->
 <option value="device_type" <?php selected( $field, 'device_type' ); ?>><?php esc_html_e( 'Device Type', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
-<!-- ========== NEW: Country/Region Option ========== -->
+<!-- ========== NEW: Country/Region Option. ========== -->
 <option value="country" <?php selected( $field, 'country' ); ?>><?php esc_html_e( 'Country / Region', 'upsell-order-bump-offer-for-woocommerce' ); ?></option>
 <!-- ============================================== -->
 											</select>

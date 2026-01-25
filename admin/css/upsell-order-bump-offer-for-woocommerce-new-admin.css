@@ -707,7 +707,7 @@ button#wps_ubo_popup_configure_btn:hover {
     padding: 12px 16px;
     color: #fff;
 }
-.wps_wocuf_pro_create_new_funnel #wps-wocuf-pro-open-funnel-template-modal {
+.wps_wocuf_pro_create_new_funnel .wps-wocuf-pro-open-funnel-template-modal {
     background: var(--primary-blue);
     border: none;
     border-radius: 4px;

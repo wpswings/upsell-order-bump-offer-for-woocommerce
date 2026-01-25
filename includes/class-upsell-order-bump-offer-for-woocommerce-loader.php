@@ -1,5 +1,13 @@
 <?php
-// Exit if accessed directly.
+/**
+ * Exit if accessed directly.
+ *
+ * @since      1.0.0
+ * @package    Upsell_Order_Bump_Offer_For_Woocommerce
+ * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/includes
+ * @author     WP Swings <webmaster@wpswings.com>
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
