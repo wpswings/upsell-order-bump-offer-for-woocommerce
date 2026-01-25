@@ -606,7 +606,7 @@ printf(
 		const overlay = $('#wps-ubo-template-overlay');
 		const openBtn = $('.wps-ubo-open-template-modal');
 		const closeBtn = $('#wps-ubo-template-close');
-		let createUrl = '<?php echo esc_url( '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=' . $wps_ubo_creation_bump_id ); ?>';
+		let createUrl = '<?php echo ( '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=' . $wps_ubo_creation_bump_id ); ?>';
 		function openModal() {
 			modal.attr('aria-hidden', 'false').addClass('is-open');
 			$('body').addClass('wps-ubo-modal-open');
