@@ -379,7 +379,7 @@ if ( ! empty( $wps_wocuf_pro_funnels_list ) ) {
 	}
 	?>
 		<button type="button"
-			id="wps-wocuf-open-funnel-template-modal"><?php esc_html_e( '+Create New Funnel', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
+			class="wps-wocuf-open-funnel-template-modal"><?php esc_html_e( '+Create New Funnel', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
 </div>
 
 <?php
@@ -522,7 +522,7 @@ printf(
 	(function ($) {
 		const modal = $('#wps-wocuf-funnel-template-modal');
 		const overlay = $('#wps-wocuf-funnel-template-overlay');
-		const openBtn = $('#wps-wocuf-open-funnel-template-modal');
+		const openBtn = $('.wps-wocuf-open-funnel-template-modal');
 		const closeBtn = $('#wps-wocuf-funnel-template-close');
 		const createUrl = '<?php echo '?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting-post&sub_tab=post-list-offer-section&funnel_id=1'; ?>';
 

@@ -290,7 +290,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 		<?php if ( $is_conditional_display_template ) : ?>
 			<div class="notice notice-info is-dismissible wps-notice wps-ubo-conditional-notice">
 				<div class="wps-ubo-conditional-notice__content">
-					<h3 class="wps-ubo-conditional-notice__title"><?php esc_html_e( 'Funnel Conditional Display walkthrough', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+					<h3 class="wps-ubo-conditional-notice__title"><?php esc_html_e( 'Bump Conditional Display walkthrough', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
 					<ol class="wps-ubo-conditional-notice__list">
 						<li><?php esc_html_e( 'Set targets/categories for this funnel.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
 						<li><?php esc_html_e( 'Enable conditions and set cart/user/coupon rules.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
