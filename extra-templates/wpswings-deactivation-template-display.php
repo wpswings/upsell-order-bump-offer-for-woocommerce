@@ -9,9 +9,7 @@
  *
  * @package    upsell-order-bump-for-woocommerce
  * @subpackage upsell-order-bump-for-woocommerce/extra-templates
- * 
  */
-
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

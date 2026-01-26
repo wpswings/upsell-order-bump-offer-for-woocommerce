@@ -2649,11 +2649,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		header( 'Content-Type: application/json; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 
-		$json = wp_json_encode( $payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputting JSON file content with proper headers.
-		echo is_string( $json ) ? $json : wp_json_encode( $payload );
-		exit;
-	}
+			$json = wp_json_encode( $payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
+			echo wp_kses( is_string( $json ) ? $json : wp_json_encode( $payload ), array() );
+			exit;
+		}
 
 	/**
 	 * Import order bumps from uploaded JSON.
@@ -2669,25 +2668,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 		$redirect_url = $this->get_bump_list_redirect_url();
 
-		$raw_file = isset( $_FILES['wps_ubo_import_file'] ) ? wp_unslash( $_FILES['wps_ubo_import_file'] ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-
-		if ( empty( $raw_file ) || ! isset( $raw_file['tmp_name'] ) || UPLOAD_ERR_OK !== ( $raw_file['error'] ?? UPLOAD_ERR_NO_FILE ) ) {
-			wp_safe_redirect( add_query_arg( 'wps_bump_import_status', 'file_error', $redirect_url ) );
-			exit;
-		}
-
-		$file = array(
-			'name'     => isset( $raw_file['name'] ) ? sanitize_file_name( $raw_file['name'] ) : '',
-			'tmp_name' => $raw_file['tmp_name'],
-			'error'    => isset( $raw_file['error'] ) ? absint( $raw_file['error'] ) : 0,
+		$raw_file = array(
+			'name'     => isset( $_FILES['wps_ubo_import_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wps_ubo_import_file']['name'] ) ) : '',
+			'tmp_name' => isset( $_FILES['wps_ubo_import_file']['tmp_name'] ) ? sanitize_text_field( wp_unslash( $_FILES['wps_ubo_import_file']['tmp_name'] ) ) : '',
+			'error'    => isset( $_FILES['wps_ubo_import_file']['error'] ) ? absint( wp_unslash( $_FILES['wps_ubo_import_file']['error'] ) ) : UPLOAD_ERR_NO_FILE,
 		);
 
-		if ( empty( $file['tmp_name'] ) ) {
+		if ( empty( $raw_file['tmp_name'] ) || UPLOAD_ERR_OK !== $raw_file['error'] ) {
 			wp_safe_redirect( add_query_arg( 'wps_bump_import_status', 'file_error', $redirect_url ) );
 			exit;
 		}
 
-		$file_detail = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'] );
+		$file_detail = wp_check_filetype_and_ext( $raw_file['tmp_name'], $raw_file['name'] );
 
 			// Allow JSON uploads only.
 		if ( ! empty( $file_detail['ext'] ) && 'json' !== $file_detail['ext'] ) {
@@ -2695,7 +2687,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			exit;
 		}
 
-			$raw_contents = file_get_contents( $file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+				$raw_contents = file_get_contents( $raw_file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$decoded_data = json_decode( $raw_contents, true );
 
 		if ( isset( $decoded_data['wps_ubo_bump_list'] ) && is_array( $decoded_data['wps_ubo_bump_list'] ) ) {
@@ -2752,29 +2744,23 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			wp_send_json_error( array( 'message' => __( 'You do not have permission to import order bumps.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
 
-		$raw_file = isset( $_FILES['wps_ubo_import_file'] ) ? wp_unslash( $_FILES['wps_ubo_import_file'] ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-
-		if ( empty( $raw_file ) || UPLOAD_ERR_OK !== ( $raw_file['error'] ?? UPLOAD_ERR_NO_FILE ) ) {
-			wp_send_json_error( array( 'message' => __( 'Upload failed. Please try again.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
-		}
-
-		$file = array(
-			'name'     => isset( $raw_file['name'] ) ? sanitize_file_name( $raw_file['name'] ) : '',
-			'tmp_name' => $raw_file['tmp_name'] ?? '',
-			'error'    => isset( $raw_file['error'] ) ? absint( $raw_file['error'] ) : 0,
+		$raw_file = array(
+			'name'     => isset( $_FILES['wps_ubo_import_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wps_ubo_import_file']['name'] ) ) : '',
+			'tmp_name' => isset( $_FILES['wps_ubo_import_file']['tmp_name'] ) ? sanitize_text_field( wp_unslash( $_FILES['wps_ubo_import_file']['tmp_name'] ) ) : '',
+			'error'    => isset( $_FILES['wps_ubo_import_file']['error'] ) ? absint( wp_unslash( $_FILES['wps_ubo_import_file']['error'] ) ) : UPLOAD_ERR_NO_FILE,
 		);
 
-		if ( empty( $file['tmp_name'] ) ) {
+		if ( empty( $raw_file['tmp_name'] ) || UPLOAD_ERR_OK !== $raw_file['error'] ) {
 			wp_send_json_error( array( 'message' => __( 'Upload failed. Please try again.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
 
-		$file_detail = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'] );
+		$file_detail = wp_check_filetype_and_ext( $raw_file['tmp_name'], $raw_file['name'] );
 
 		if ( ! empty( $file_detail['ext'] ) && 'json' !== $file_detail['ext'] ) {
 			wp_send_json_error( array( 'message' => __( 'Please upload a JSON file.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
 
-		$raw_contents = file_get_contents( $file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$raw_contents = file_get_contents( $raw_file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$parsed       = json_decode( $raw_contents, true );
 
 		if ( isset( $parsed['wps_ubo_bump_list'] ) && is_array( $parsed['wps_ubo_bump_list'] ) ) {
@@ -3098,9 +3084,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 		header( 'Content-Type: application/json; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 
-		$json = wp_json_encode( $payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputting JSON file content with proper headers.
-		echo is_string( $json ) ? $json : wp_json_encode( $payload );
+			$json = wp_json_encode( $payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
+			echo wp_kses( is_string( $json ) ? $json : wp_json_encode( $payload ), array() );
 		exit;
 	}
 
@@ -3116,29 +3101,23 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 			wp_send_json_error( array( 'message' => __( 'You do not have permission to import funnels.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
 
-		$raw_file = isset( $_FILES['wps_ubo_import_file'] ) ? wp_unslash( $_FILES['wps_ubo_import_file'] ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-
-		if ( empty( $raw_file ) || UPLOAD_ERR_OK !== ( $raw_file['error'] ?? UPLOAD_ERR_NO_FILE ) ) {
-			wp_send_json_error( array( 'message' => __( 'Upload failed. Please try again.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
-		}
-
-		$file = array(
-			'name'     => isset( $raw_file['name'] ) ? sanitize_file_name( $raw_file['name'] ) : '',
-			'tmp_name' => $raw_file['tmp_name'] ?? '',
-			'error'    => isset( $raw_file['error'] ) ? absint( $raw_file['error'] ) : 0,
+		$raw_file = array(
+			'name'     => isset( $_FILES['wps_ubo_import_file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['wps_ubo_import_file']['name'] ) ) : '',
+			'tmp_name' => isset( $_FILES['wps_ubo_import_file']['tmp_name'] ) ? sanitize_text_field( wp_unslash( $_FILES['wps_ubo_import_file']['tmp_name'] ) ) : '',
+			'error'    => isset( $_FILES['wps_ubo_import_file']['error'] ) ? absint( wp_unslash( $_FILES['wps_ubo_import_file']['error'] ) ) : UPLOAD_ERR_NO_FILE,
 		);
 
-		if ( empty( $file['tmp_name'] ) ) {
+		if ( empty( $raw_file['tmp_name'] ) || UPLOAD_ERR_OK !== $raw_file['error'] ) {
 			wp_send_json_error( array( 'message' => __( 'Upload failed. Please try again.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
 
-		$file_detail = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'] );
+		$file_detail = wp_check_filetype_and_ext( $raw_file['tmp_name'], $raw_file['name'] );
 
 		if ( ! empty( $file_detail['ext'] ) && 'json' !== $file_detail['ext'] ) {
 			wp_send_json_error( array( 'message' => __( 'Please upload a JSON file.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
 
-		$raw_contents = file_get_contents( $file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$raw_contents = file_get_contents( $raw_file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$parsed       = json_decode( $raw_contents, true );
 
 		if ( isset( $parsed['wps_wocuf_pro_funnels_list'] ) && is_array( $parsed['wps_wocuf_pro_funnels_list'] ) ) {

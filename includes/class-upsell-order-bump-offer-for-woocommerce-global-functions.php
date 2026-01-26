@@ -7958,12 +7958,12 @@ function wps_render_campaign_label_select( $args ) {
 	);
 	$args = wp_parse_args( $args, $defaults );
 
-	// ❗ DO NOT return when options are empty
+	// ❗ DO NOT return when options are empty.
 	if ( empty( $args['id'] ) || empty( $args['name'] ) ) {
 		return;
 	}
 
-	// Print CSS + JS once
+	// Print CSS + JS once.
 	if ( ! $assets_printed ) {
 		$assets_printed = true;
 		?>
