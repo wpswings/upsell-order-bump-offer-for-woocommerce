@@ -304,32 +304,33 @@ Manual installation of the plugin is another option to install the plugin in the
 
 == Screenshots ==
 
-1.  General settings
-2.  Global Settings – Pre Bump 
-3.  Global Settings – Post Bump
-4.  Order Bump Settings – Pre-Bump List
-5.  Order Bump Settings – Save Order Bump Settings 
-6.  Order Bump Settings – Save Order Bump Settings – Order Bump Offer Settings 
-7.  Order Bump Settings – Save Order Bump Settings – Appearance – Template 
-8.  Order Bump Settings – Save Order Bump Settings – Appearance – Design 
-9.  Order Bump Settings – Save Order Bump Settings – Appearance – Content 
-10. One- Click Settings – Post Bump List
-11. One Click Settings – Savel Funnel Settings – Upsell Funnel Settings
-12. One Click Settings – Savel Funnel Settings – Funnel Offers 
-13. Store Checkout Settings
-14. Store Checkout Settings – Checkout Page (Customize Billing Information)
-15. Store Checkout Settings – Checkout Page (Customize Shipping Information) 
-16. Store Checkout Settings – Checkout Page (Customize Other Settings)
-17. Store Checkout Settings – Checkout Page (Customize Payment Gateways)
-18. Store Checkout Settings – Thank You Page 
-19. Shortcodes
-20. Sales Reports & Analytics 
-21. Pre Sales Reports & Analytics – Order Bump WooCommerce Sales Report
-22. Pre-Sales Reports & Analytics – Order Bump Behavioral Analytics
-23. Post-Sales Reports & Analytics – Sales Report 
-24. Post-Sales Reports & Analytics – Upsell – Behavioral Analytics
-25. Post-Sales Reports & Analytics – Google Analytics 
-26. Post-Sales Reports & Analytics – FB Pixel 
+1. General settings
+2. Global Settings – Pre Bump 
+3. Global Settings – Post Bump
+4. Order Bump Settings – Pre-Bump List
+5. Order Bump Settings - Select Campaigns Layout
+6. Order Bump Settings – Save Order Bump Settings 
+7. Order Bump Settings – Save Order Bump Settings – Order Bump Offer Settings 
+8. Order Bump Settings – Save Order Bump Settings – Appearance – Template 
+9. Order Bump Settings – Save Order Bump Settings – Appearance – Design 
+10. Order Bump Settings – Save Order Bump Settings – Appearance – Content 
+11. One- Click Settings – Post Bump List
+12. One- Click Settings - Select Campaigns Layout
+13. One Click Settings – Save Funnel Settings – Upsell Funnel Settings
+14. One Click Settings – Save Funnel Settings – Funnel Offers 
+15. Store Checkout Settings
+16. Store Checkout Settings – Checkout Page (Customize Billing Information)
+17. Store Checkout Settings – Checkout Page (Customize Shipping Information) 
+18. Store Checkout Settings – Checkout Page (Customize Other Settings)
+19. Store Checkout Settings – Checkout Page (Customize Payment Gateways)
+20. Store Checkout Settings – Thank You Page 
+21. Shortcodes
+22. Sales Reports & Analytics 
+23. Order Bump Sales Reports & Analytics – Order Bump WooCommerce Sales Report
+24. Order Bump Sales Reports & Analytics – Order Bump Behavioral Analytics
+25. Upsell Funnel Sales Reports & Analytics – Upsell – Behavioral Analytics
+26. Upsell Funnel Sales Reports & Analytics – Google Analytics 
+27. Upsell Funnel Sales Reports & Analytics – FB Pixel 
 
 
 
