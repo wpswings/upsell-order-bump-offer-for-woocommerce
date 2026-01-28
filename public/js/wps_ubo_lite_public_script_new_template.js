@@ -87,7 +87,7 @@ jQuery( document ).ready(
 					let popup_obj = jQuery( '#wps-meta-form-index-' + order_bump_id );
 					// Meta form available.
 					if (popup_obj.length > 0 && ! popup_obj.hasClass( 'wps_bump_popup_variable_meta_form' )) {
-						// alert('btn click');
+						
 						open_custom_form( popup_obj, order_bump_trigger_obj );
 
 						let index = 0;
