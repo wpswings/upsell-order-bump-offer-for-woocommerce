@@ -565,7 +565,27 @@
     $(".wps_upsell_offer_input_type").on("change paste keyup", function () {
       var text_id = $(this).attr("text_id");
       var msg = ""; // Check which field in changed
-      var price = $(".offer_shown_discount").val().split("+");
+      var price = ["", ""];
+      var shownDiscount = $(".offer_shown_discount").val();
+
+      if (
+        "string" === typeof shownDiscount &&
+        shownDiscount.indexOf("+") !== -1
+      ) {
+        price = shownDiscount.split("+");
+      } else {
+        var discountInputVal =
+          $("input[name='wps_upsell_bump_offer_discount_price']")
+            .first()
+            .val() || "0";
+        var priceTypeVal = $("#wps_upsell_offer_price_type_id").val() || "";
+
+        if ("percentage" === priceTypeVal) {
+          priceTypeVal = "%";
+        }
+
+        price = [discountInputVal, priceTypeVal];
+      }
 
       if (text_id == "fixed") {
         if (price[1] == "fixed") {
@@ -606,7 +626,10 @@
         $(".wps-ubo__temp-head h3").html(msg);
         $(".wps_head_check_ubo span").html(msg);
         $(".wps_accetp_offer_title").html(msg);
-        $(".wps-ob_ta-o-title").html(msg);
+        $(".wps-ob_ta-o-title .wps-ob_ta-o-title-text").text(msg);
+        $(".wps-ob_ta-o-title")
+          .not(":has(input[type='checkbox'])")
+          .text(msg);
       }
     });
 
@@ -624,6 +647,16 @@
         $(".wps-ubo__temp-desc").html(msg);
         $(".wps-ob-st__m-c-p").html(msg);
         $(".wps-ob_ta-o-desc").html(msg);
+
+        // Template 13 keeps this section hidden when description is empty.
+        var $temp13OfferDesc = $(".wps-uob_template-salt .wps-ob_ta-o-desc");
+        if ($temp13OfferDesc.length) {
+          if ($.trim(msg).length) {
+            $temp13OfferDesc.show();
+          } else {
+            $temp13OfferDesc.hide();
+          }
+        }
       }
 
       if (text_id == "pro_desc") {
@@ -633,6 +666,10 @@
         $(".wps_upsell_offer_product_description").html(msg);
         $(".bump-offer-product-description").html(msg);
         $(".wps-ob_ta-p-desc").html(msg);
+        $(".wps-uob_template-salt .wps-ob_ta-p-price").css(
+          "margin-bottom",
+          $.trim(msg).length ? "10px" : "0px"
+        );
       }
     });
 
@@ -922,6 +959,10 @@
           "background-color",
           OfferDescription_bcolor
         );
+        $(".wps-uob_template-salt .wps-ob_ta-o-desc").css(
+          "background-color",
+          OfferDescription_bcolor
+        );
       },
     });
 
@@ -968,6 +1009,10 @@
         "border",
         border_type + " " + border_color + " " + border_size
       );
+      $(".wps-uob_template-salt .wps-ob_temp").css(
+        "border",
+        border_type + " " + border_color + " " + border_size
+      );
     }
 
     // Apply Background color stylings.
@@ -977,6 +1022,10 @@
       $(".wps_upsell_offer_wrapper").css("background-color", background_color);
       $(".wps-ob-st").css("background-color", background_color);
       $(".wps-ob_temp-alpha-wrap").css("background-color", background_color);
+      $(".wps-uob_template-salt .wps-ob_temp-wrap").css(
+        "background-color",
+        background_color
+      );
     }
 
     // Live Preview JS end.

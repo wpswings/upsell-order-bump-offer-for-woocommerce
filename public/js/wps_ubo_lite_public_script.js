@@ -5,15 +5,31 @@ jQuery(document).ready(function ($) {
   }
 
   $(document).on("click", ".wps-ob_ta-o-title", function (e) {
-    // Check if the target element exists.
-    var bumpButton = document.querySelector(".add_offer_in_cart");
-    if (bumpButton) {
-      // Trigger the click event on the target element
-      bumpButton.click();
+    if ($(e.target).closest(".add_offer_in_cart").length) {
+      return;
+    }
+
+    if (e.wps_ubo_title_click_handled) {
+      return;
+    }
+    e.wps_ubo_title_click_handled = true;
+
+    var bumpButton = $(this).find(".add_offer_in_cart").first();
+    if (!bumpButton.length) {
+      bumpButton = $(this)
+        .closest(".wps_upsell_offer_main_wrapper")
+        .find(".add_offer_in_cart")
+        .first();
+    }
+
+    if (bumpButton.length) {
+      bumpButton.trigger("click");
     } else {
       console.log("Element with class .add_offer_in_cart not found.");
     }
   });
+
+  
 
   setTimeout(function () {
     //Bump Shown on the checkout page code starts here.
@@ -261,6 +277,10 @@ jQuery(document).ready(function ($) {
     }
   }
 
+  function wps_is_cart_page_context() {
+    return $("body").hasClass("woocommerce-cart");
+  }
+
   const triggerRemoveOffer = (order_bump_index, order_bump_id) => {
     //Getting Current theme Name.
     var wps_current_theme = wps_ubo_lite_public.current_theme;
@@ -466,9 +486,11 @@ jQuery(document).ready(function ($) {
 
         // When Reload is required.
         if ("subs_reload" == msg) {
-          // Scroll Top and Reload.
-          $("html, body").scrollTop(300);
-          location.reload();
+          if (!wps_is_cart_page_context()) {
+            // Scroll Top and Reload.
+            $("html, body").scrollTop(300);
+            location.reload();
+          }
         }
 
         var body = document.body;
@@ -659,9 +681,11 @@ jQuery(document).ready(function ($) {
 
             // When Reload is required.
             if ("subs_reload" == msg) {
-              // Scroll Top and Reload.
-              $("html, body").scrollTop(300);
-              location.reload();
+              if (!wps_is_cart_page_context()) {
+                // Scroll Top and Reload.
+                $("html, body").scrollTop(300);
+                location.reload();
+              }
             }
 
             var body = document.body;
@@ -674,8 +698,10 @@ jQuery(document).ready(function ($) {
               (wps_ubo_lite_public.wps_silde_cart_plgin_active ||
                 "Betheme" == wps_current_theme)
             ) {
-              $("html, body").scrollTop(300);
-              location.reload(); //avada and side cart issue fixes.
+              if (!wps_is_cart_page_context()) {
+                $("html, body").scrollTop(300);
+                location.reload(); //avada and side cart issue fixes.
+              }
             }
           }
         },

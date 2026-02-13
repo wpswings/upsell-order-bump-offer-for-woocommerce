@@ -5,11 +5,22 @@ jQuery( document ).ready(
 			'click',
 			'.wps-ob_ta-o-title',
 			function(e) {
-				// Check if the target element exists.
-				var bumpButton = document.querySelector( '.add_offer_in_cart' );
-				if (bumpButton) {
-					// Trigger the click event on the target element
-					bumpButton.click();
+				if ($( e.target ).closest( '.add_offer_in_cart' ).length) {
+					return;
+				}
+
+				if (e.wps_ubo_title_click_handled) {
+					return;
+				}
+				e.wps_ubo_title_click_handled = true;
+
+				var bumpButton = $( this ).find( '.add_offer_in_cart' ).first();
+				if ( ! bumpButton.length ) {
+					bumpButton = $( this ).closest( '.wps_upsell_offer_main_wrapper' ).find( '.add_offer_in_cart' ).first();
+				}
+
+				if (bumpButton.length) {
+					bumpButton.trigger( 'click' );
 				} else {
 					console.log( 'Element with class .add_offer_in_cart not found.' );
 				}
