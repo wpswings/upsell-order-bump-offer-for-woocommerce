@@ -698,28 +698,29 @@
 #wps_upsell_bump_setting_wrapper
   .nav-tab-wrapper.wps-ubo-appearance-nav-tab
   .nav-tab {
-  border-width: 1px 1px 0 1px;
-  margin-left: 0.5em;
-  padding: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  background: #e5e5e5;
-  color: #555;
-  text-decoration: none;
-  white-space: nowrap;
-  position: relative;
-  border-style: solid;
-  border-color: #cccccc;
-  margin-bottom: -1px;
-  border-radius: 5px 5px 0 0;
+border-width: 1px 1px 0 1px;
+    margin-left: 0.5em;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    background: transparent;
+    color: #555;
+    text-decoration: none;
+    white-space: nowrap;
+    position: relative;
+    border-style: solid;
+    border-color: transparent;
+    margin-bottom: -1px;
+    border-radius: 5px 5px 0 0;
 }
 
 #wps_upsell_bump_setting_wrapper
   .nav-tab-wrapper.wps-ubo-appearance-nav-tab
   .nav-tab.nav-tab-active {
-  border-bottom: 2px solid #fff;
-  background: transparent;
-  color: #000;
+    border-color: #dcdcdc;
+    border-bottom: 2px solid #fff;
+    background: transparent;
+    color: #2095f2;
 }
 
 .wps_upsell_bumps_list table th {
@@ -1823,18 +1824,19 @@ select.wps_select_for_description_class {
 }
 
 .wps_upsell_template_select-wrapper .wps_upsell_template_select {
-  max-width: 45%;
-  flex: 0 0 45%;
-  padding: 10px;
-  background-color: #f5f5f5;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-  border-radius: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1.5px solid #dcdcdc;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    border-radius: 10px;
 }
 
 .wps_upsell_template_select img {
-  max-width: 100%;
-  width: auto;
+    width: 100%;
+    height: 300px;
+    object-fit: contain;
+    object-position: top center;
 }
 
 /*Appearance Section start*/
@@ -2894,7 +2896,7 @@ input#fixed_quantity {
   display: flex;
   flex-wrap: wrap;
   gap: 40px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .wps_product_gallery_wrapper {
@@ -6573,11 +6575,15 @@ main.wps-ufw_ms-main {
 }
 
 .wps-ubo-template-section #available_tab .wps_upsell_template_select {
-  max-width: 50%;
-  flex: 1 0 40%;
+  max-width: calc(50% - 10px);
+  flex: 1 0 calc(50% - 10px);
   position: relative !important;
   left: 0 !important;
   top: 0 !important;
+  text-align: center;
+}
+
+#wps_upsell_bump_setting_wrapper p.wps_ubo_template_name {
   text-align: center;
 }
 

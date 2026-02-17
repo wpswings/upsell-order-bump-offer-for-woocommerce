@@ -1,0 +1,58 @@
+name: Test Suite
+
+on:
+  push:
+    
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.10.0]
+        # Add more Node.js versions if needed
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Clean npm cache
+      run: npm cache clean --force
+    
+    - name: Remove node_modules and package-lock.json
+      run: |
+        rm -rf node_modules
+        rm -f package-lock.json
+    
+    - name: Install dependencies
+      run: |
+        npm install
+        npm install --save-dev jest-junit
+    
+    - name: Run Linter (Check)
+      run: npm run lint
+      continue-on-error: true
+    
+    - name: Run Linter (Fix)
+      run: npm run lint:fix
+      continue-on-error: true
+    - name: Run tests
+      run: |
+        npm test -- --ci --coverage
+      continue-on-error: true
+    
+    - name: Upload test coverage
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-coverage
+        path: coverage
+        retention-days: 5
