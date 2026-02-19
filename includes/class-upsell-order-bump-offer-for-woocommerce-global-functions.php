@@ -3221,8 +3221,6 @@ function wps_ubo_lite_bump_offer_html_13( $bump, $encountered_order_bump_id = ''
 	// Red arrow setting.
 	$wps_enable_red_arrow_feature = ! empty( $wps_ubo_global_options['wps_enable_red_arrow_feature'] ) ? $wps_ubo_global_options['wps_enable_red_arrow_feature'] : '';
 
-
-	// die(print_r($bump['design_css']));
 	// Setting for the offer Quantity.
 	$wps_upsell_enable_quantity              = ! empty( $bump['wps_upsell_enable_quantity'] ) ? $bump['wps_upsell_enable_quantity'] : '';
 	$wps_upsell_bump_products_fixed_quantity = ! empty( $bump['wps_upsell_bump_products_fixed_quantity'] ) ? $bump['wps_upsell_bump_products_fixed_quantity'] : '';
