@@ -1021,12 +1021,12 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 						<!-- Template 14. -->
 						<div class="wps_upsell_template_select <?php echo esc_html( 14 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
 
-							<p class="wps_ubo_template_name"><?php esc_html_e( 'Essence Template Copy', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+							<p class="wps_ubo_template_name"><?php esc_html_e( 'Flexie Blue Ribbon', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
 							<a href="javascript:void" class="wps_ubo_template_link" data_link='14'>
-								<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-13.png' ) ) : ?>
-									<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-13.png' ); ?>">
+								<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-14.png' ) ) : ?>
+									<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-14.png' ); ?>">
 								<?php else : ?>
-									<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/template-13.png' ); ?>">
+									<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/template-14.png' ); ?>">
 								<?php endif; ?>
 							</a>
 						</div>
