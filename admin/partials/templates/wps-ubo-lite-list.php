@@ -592,13 +592,19 @@ $wps_ubo_template_cards = array(
 						</div>
 						<?php if ( $card_is_pro && ! wps_ubo_lite_if_pro_exists() ) : ?>
 							<span class="wps-ubo-template-badge <?php echo $card_is_lock ? 'is-locked' : 'is-pro'; ?>">
-								<?php echo $card_is_lock ? esc_html__( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ) : esc_html__( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+								<?php echo esc_html__( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?>
 							</span>
 						<?php endif; ?>
 					</div>
-					<a href="https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro" class="button button-primary wps-ubo-template-choose <?php echo $card_is_lock ? 'is-locked' : ''; ?>" data-template="<?php echo esc_attr( $card['slug'] ); ?>" data-locked="<?php echo $card_is_lock ? '1' : '0'; ?>" <?php echo $card_is_lock ? 'aria-disabled="true"' : ''; ?> target="_blank">
-				<?php echo esc_html( $button_label ); ?>
-				</a>
+					<?php if ( $card_is_lock ) : ?>
+						<a href="https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro" class="button button-primary wps-ubo-template-choose is-locked" target="_blank" rel="noopener noreferrer" aria-disabled="true" data-template="<?php echo esc_attr( $card['slug'] ); ?>">
+							<?php echo esc_html( $button_label ); ?>
+						</a>
+					<?php else : ?>
+						<a href="#" class="button button-primary wps-ubo-template-choose" data-template="<?php echo esc_attr( $card['slug'] ); ?>">
+							<?php echo esc_html( $button_label ); ?>
+						</a>
+					<?php endif; ?>
 				</div>
 			<?php endforeach; ?>
 		</div>
@@ -631,11 +637,12 @@ $wps_ubo_template_cards = array(
 			}
 		});
 
-		modal.on('click', '.wps-ubo-template-choose', function(){
+		modal.on('click', '.wps-ubo-template-choose', function(e){
 			if ( $(this).hasClass('is-locked') ) {
 				// Locked cards link out to the Pro upgrade page; allow normal navigation.
 				return;
 			}
+			e.preventDefault();
 			const template = $(this).data('template') || 'default';
 			window.location.href = createUrl + '&template=' + encodeURIComponent(template);
 			console.log( createUrl + '&template=' + encodeURIComponent(template) );
