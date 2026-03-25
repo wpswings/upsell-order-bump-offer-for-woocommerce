@@ -4,10 +4,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: Funnel Builder, one-click upsell, woocommerce upsell, popups, frequently bought together
 Requires at least: 6.7.0
-Tested up to: 6.9.1
+Tested up to: 6.9.4
 WC requires at least: 6.5.0
-WC tested up to: 10.5.2
-Stable tag: 3.1.2
+WC tested up to: 10.6.1
+Stable tag: 3.1.3
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,11 +16,11 @@ Upsell Funnel Builder lets you create WooCommerce Upsells, Order Bumps, One Clic
 
 === Description ===
 
-Upsell Funnel Builder for WooCommerce is a sales and marketing funnel builder that lets woocommerce merchants create offer campaigns to show post-purchase upsell, order bumps, one-click upsell, cross-sells, frequently bought, popups, and product recommendations.
+This sales funnel builder lets woocommerce merchants create offer campaigns to show post-purchase upsell, order bumps, one-click upsell, cross-sells, frequently bought, popups, and product recommendations.
 
 
 #### 📢 Important Update: Plugin Merger Announcement: 
-We’ve officially merged **One-Click Upsell** and **Order Bump Plugin** into a single powerhouse plugin — **Upsell Funnel Builder Plugin**. 
+We’ve officially merged **One-Click Upsell** and **Order Bump Plugin** into a single powerhouse plugin - **Upsell Funnel Builder Plugin**. 
 
 
 Create exclusive offers on product, checkout, and thank-you pages, allowing you to increase conversions and Average Order Value. 
@@ -30,13 +30,12 @@ Our plugin is compatible with **Elementor**, **Divi**, **Themify**, **WP Bakery*
 Create unlimited upsells for woocommerce offers using the WooCommerce upsell plugin, and examine a track report for each sales funnel. 
 
 
-
  [**Upsell Order Bump for WooCommerce Demo**](https://demo.wpswings.com/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=frontend-demo) | [**Documentation**](https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=order-bump-doc) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=order-bump-org-page&utm_medium=referral&utm_campaign=contact-us)
 
 [youtube https://youtu.be/SwIkS3EmwJQ?si=CDC5UQxzTz1JJu7p?rel=0]
 
 
-== WITH THE WOOCOMMERCE FUNNEL BUILDER PLUGIN YOU CAN: ==
+== WITH THE WOOCOMMERCE UPSELL PLUGIN YOU CAN: ==
 
 * Use pre-defined shortcodes to create offer page elements.
 * Create unlimited WordPress funnels with an unlimited number of WooCommerce upselling and cross-selling offers.
@@ -58,7 +57,7 @@ Create unlimited upsells for woocommerce offers using the WooCommerce upsell plu
 [**Upsell Funnel Builder Pro**](https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=order-bump-org&utm_medium=referral&utm_campaign=order-bump-pro)
 
 
-== ⭐ Salient Features Of Upsell Funnel Builder for WooCommerce ==
+== ⭐ Salient Features Of WooCommerce Upsell ==
 
 #### 1) Import and Export of Order Bump and Upsell Funnels
 
@@ -501,6 +500,10 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Changelog ==
 
+= 3.1.3 – Released on 25 March 2026 = 
+New: New funnel builder template 
+New: Compatibility with the latest WP 6.9.4 and WC 10.6.1
+
 = 3.1.2 – Released on 19 February 2026 = 
 * New: New responsive order bump templates with standard theme compatibility.
 * Enhancement: 'Clone' feature for upsell funnel listing.
@@ -772,7 +775,6 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 3.1.2 – Released on 19 February 2026 = 
-* New: New responsive order bump templates with standard theme compatibility.
-* Enhancement: 'Clone' feature for upsell funnel listing.
-* New: compatibility with the latest WP(6.9.1)  and WC(10.5.2).
+= 3.1.3 – Released on 25 March 2026 = 
+New: New funnel builder template 
+New: Compatibility with the latest WP 6.9.4 and WC 10.6.1
