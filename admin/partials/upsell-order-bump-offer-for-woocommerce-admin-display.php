@@ -35,9 +35,29 @@ if ('overview' === get_transient('wps_ubo_lite_default_settings_tab')) {
 
 do_action('wps_ubo_lite_tab_active');
 
+$wps_ubo_pro_active = wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' );
+$wps_ubo_banner_status = $wps_ubo_pro_active ? esc_html__( 'PRO ACTIVE', 'upsell-order-bump-offer-for-woocommerce' ) : esc_html__( 'FREE ACTIVE', 'upsell-order-bump-offer-for-woocommerce' );
+$wps_ubo_banner_pill_class = $wps_ubo_pro_active ? 'wps_ubo_status_pill wps_ubo_status_pill--pro' : 'wps_ubo_status_pill';
+$wps_ubo_banner_title = apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Funnel Builder for WooCommerce', 'upsell-order-bump-offer-for-woocommerce' ) );
+
 ?>
+<?php ob_start(); ?>
 <div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
-	<div class="wps_ubo_header_row">
+
+	<!-- Slot for success/error notices (filled server-side at end of buffer) -->
+	<div class="wps_ubo_notice_slot" aria-live="polite"><!--WPS_UBO_NOTICE_SLOT--></div>
+
+	<!-- Top banner (status + plugin name) -->
+	<div class="wps_ubo_top_banner">
+		<span class="<?php echo esc_attr( $wps_ubo_banner_pill_class ); ?>"><?php echo esc_html( $wps_ubo_banner_status ); ?></span>
+		<span class="wps_ubo_banner_title"><?php echo esc_html( $wps_ubo_banner_title ); ?></span>
+		<span class="wps_ubo_banner_spacer"></span>
+		<?php do_action( 'wps_ubo_lite_banner_extras' ); ?>
+	</div>
+
+	<div class="wps_ubo_body_grid">
+		<div class="wps_ubo_main_column">
+			<div class="wps_ubo_header_row">
 		<div class="wps_upsell_bump_setting_title">
 			<?php echo esc_html(apply_filters('wps_ubo_lite_heading', esc_html__('Upsell Funnel Builder for WooCommerce ', 'upsell-order-bump-offer-for-woocommerce'))); ?>
 			<?php
@@ -51,27 +71,6 @@ do_action('wps_ubo_lite_tab_active');
 			?>
 			<?php if (! empty($wps_ubo_display_version)) { ?>
 				<span class="wps_ubo_version"><?php echo esc_html($wps_ubo_display_version); ?></span>
-			<?php } ?>
-		</div>
-		<div class="wps_ubo_meta_links wps_ubo_meta_links--top">
-
-			<a class="button" target="_blank" href="https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/">
-				<span class="dashicons dashicons-media-document"></span>
-				<?php esc_html_e('Docs', 'upsell-order-bump-offer-for-woocommerce'); ?>
-			</a>
-			<a class="button" target="_blank" href="https://wpswings.com/submit-query/">
-				<span class="dashicons dashicons-sos"></span>
-				<?php esc_html_e('Support', 'upsell-order-bump-offer-for-woocommerce'); ?>
-			</a>
-			<a class="button" target="_blank" href="https://www.youtube.com/watch?v=SwIkS3EmwJQ">
-				<span class="dashicons dashicons-video-alt3"></span>
-				<?php esc_html_e('Video', 'upsell-order-bump-offer-for-woocommerce'); ?>
-			</a>
-			<?php if (! wps_ubo_lite_is_plugin_active('upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php')) { ?>
-				<a class="button button-primary active-pro-btn" target="_blank" href="https://wpswings.com/product/upsell-order-bump-offer-for-woocommerce-pro/?utm_source=upsell-backend&utm_medium=referral&utm_campaign=upsell-pro-page">
-					<span class="dashicons dashicons-star-filled"></span>
-					<?php esc_html_e('GO PRO NOW', 'upsell-order-bump-offer-for-woocommerce'); ?>
-				</a>
 			<?php } ?>
 		</div>
 	</div>
@@ -460,7 +459,336 @@ do_action('wps_ubo_lite_tab_active');
 	do_action('wps_ubo_lite_setting_tab_html');
 
 	?>
+		</div><!-- /.wps_ubo_main_column -->
+
+		<aside class="wps_ubo_sidebar" aria-label="<?php esc_attr_e( 'Help and resources sidebar', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
+
+			<?php do_action( 'wps_ubo_lite_sidebar_before' ); ?>
+
+			<!-- Card 1: Need help with this plugin? -->
+			<div class="wps_ubo_side_card wps_ubo_side_card--help">
+				<h3 class="wps_ubo_side_card__title"><?php esc_html_e( 'Need help with this plugin?', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+				<ul class="wps_ubo_side_card__links">
+					<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=SwIkS3EmwJQ"><?php esc_html_e( 'Watch Video', 'upsell-order-bump-offer-for-woocommerce' ); ?></a></li>
+					<li><a target="_blank" rel="noopener" href="https://docs.wpswings.com/upsell-order-bump-offer-for-woocommerce/"><?php esc_html_e( 'Documentation', 'upsell-order-bump-offer-for-woocommerce' ); ?></a></li>
+					<li><a target="_blank" rel="noopener" href="https://wpswings.com/submit-query/"><?php esc_html_e( 'Support', 'upsell-order-bump-offer-for-woocommerce' ); ?></a></li>
+				</ul>
+			</div>
+
+			<!-- Card 2: Grow Your Store With WP Swings -->
+			<div class="wps_ubo_side_card wps_ubo_side_card--services">
+				<h3 class="wps_ubo_side_card__title">
+					<span class="wps_ubo_side_card__icon dashicons dashicons-star-filled"></span>
+					<?php esc_html_e( 'Grow Your Store With WP Swings', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+				</h3>
+				<p class="wps_ubo_side_card__lead"><?php esc_html_e( "Expert solutions to boost your store's performance.", 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+				<ul class="wps_ubo_side_services">
+					<li>
+						<a class="wps_ubo_side_service" target="_blank" rel="noopener" href="https://wpswings.com/woocommerce-services/?utm_source=wpswings-ubo-sidebar&amp;utm_medium=referral&amp;utm_campaign=seo">
+							<span class="wps_ubo_side_service__icon"><span class="dashicons dashicons-search"></span></span>
+							<span class="wps_ubo_side_service__body">
+								<span class="wps_ubo_side_service__title"><?php esc_html_e( 'SEO Services', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+								<span class="wps_ubo_side_service__sub"><?php esc_html_e( 'Improve rankings & organic traffic', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							</span>
+							<span class="wps_ubo_side_service__chevron">&rsaquo;</span>
+						</a>
+					</li>
+					<li>
+						<a class="wps_ubo_side_service" target="_blank" rel="noopener" href="https://wpswings.com/woocommerce-services/?utm_source=wpswings-ubo-sidebar&amp;utm_medium=referral&amp;utm_campaign=ads">
+							<span class="wps_ubo_side_service__icon"><span class="dashicons dashicons-megaphone"></span></span>
+							<span class="wps_ubo_side_service__body">
+								<span class="wps_ubo_side_service__title"><?php esc_html_e( 'Google Ads And GA4 Setup', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+								<span class="wps_ubo_side_service__sub"><?php esc_html_e( 'Run profitable ad campaigns', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							</span>
+							<span class="wps_ubo_side_service__chevron">&rsaquo;</span>
+						</a>
+					</li>
+					<li>
+						<a class="wps_ubo_side_service" target="_blank" rel="noopener" href="https://wpswings.com/woocommerce-services/?utm_source=wpswings-ubo-sidebar&amp;utm_medium=referral&amp;utm_campaign=speed">
+							<span class="wps_ubo_side_service__icon"><span class="dashicons dashicons-performance"></span></span>
+							<span class="wps_ubo_side_service__body">
+								<span class="wps_ubo_side_service__title"><?php esc_html_e( 'Speed Optimization', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+								<span class="wps_ubo_side_service__sub"><?php esc_html_e( 'Faster store, happier customers', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							</span>
+							<span class="wps_ubo_side_service__chevron">&rsaquo;</span>
+						</a>
+					</li>
+					<li>
+						<a class="wps_ubo_side_service" target="_blank" rel="noopener" href="https://wpswings.com/woocommerce-services/?utm_source=wpswings-ubo-sidebar&amp;utm_medium=referral&amp;utm_campaign=development">
+							<span class="wps_ubo_side_service__icon"><span class="dashicons dashicons-admin-tools"></span></span>
+							<span class="wps_ubo_side_service__body">
+								<span class="wps_ubo_side_service__title"><?php esc_html_e( 'WooCommerce Development', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+								<span class="wps_ubo_side_service__sub"><?php esc_html_e( 'Custom solutions for your store', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+							</span>
+							<span class="wps_ubo_side_service__chevron">&rsaquo;</span>
+						</a>
+					</li>
+				</ul>
+				<button type="button" class="wps_ubo_side_cta" data-wps-ubo-open-expert-modal>
+					<?php esc_html_e( 'Talk to an Expert', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+				</button>
+				<p class="wps_ubo_side_card__footnote"><?php esc_html_e( 'Services by WP Swings', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+			</div>
+
+			<!-- Card 3: Still facing problems? -->
+			<div class="wps_ubo_side_card wps_ubo_side_card--contact">
+				<h3 class="wps_ubo_side_card__title"><?php esc_html_e( 'Still facing problems?', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+				<p class="wps_ubo_side_card__lead"><?php esc_html_e( 'We are ready to resolve workflow, styling, and integration issues across your store setup.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+				<a class="wps_ubo_side_cta" target="_blank" rel="noopener" href="https://wpswings.com/contact-us/?utm_source=wpswings-ubo-sidebar&amp;utm_medium=referral&amp;utm_campaign=contact">
+					<?php esc_html_e( 'Contact Us', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+				</a>
+			</div>
+
+			<!-- Card 4: Explore more plugins -->
+			<div class="wps_ubo_side_card wps_ubo_side_card--explore">
+				<h3 class="wps_ubo_side_card__title"><?php esc_html_e( 'Explore more plugins', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+				<p class="wps_ubo_side_card__lead"><?php esc_html_e( 'Discover additional commerce and automation plugins from the same product family.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+				<a class="wps_ubo_side_cta" target="_blank" rel="noopener" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-ubo-sidebar&amp;utm_medium=referral&amp;utm_campaign=plugins">
+					<?php esc_html_e( 'View More Plugins', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+				</a>
+			</div>
+
+			<?php do_action( 'wps_ubo_lite_sidebar_after' ); ?>
+
+		</aside><!-- /.wps_ubo_sidebar -->
+	</div><!-- /.wps_ubo_body_grid -->
 </div>
+<?php
+// Pull any .wps-notice / .notice-success / .notice-error rendered inside the
+// wrapper up into the notice slot above the banner.
+$wps_ubo_buffer = ob_get_clean();
+
+// Strip any template-rendered .notice / .wps-notice from the buffer so nothing
+// else (WP core, third-party plugins) can find them, hide them, or move them.
+$wps_ubo_notice_pattern = '#<div\b[^>]*class="[^"]*\b(?:wps-notice|notice-success|notice-error|notice-warning)\b[^"]*"[^>]*>.*?</div>#is';
+$wps_ubo_had_template_notice = (bool) preg_match( $wps_ubo_notice_pattern, $wps_ubo_buffer );
+$wps_ubo_buffer = preg_replace( $wps_ubo_notice_pattern, '', $wps_ubo_buffer );
+
+// If a known save POST key fired, OR a template emitted its own notice, render
+// our own success notice in the slot using a unique class no one else looks for.
+$wps_ubo_save_keys = array(
+	'wps_upsell_bump_common_settings_save_general',
+	'wps_upsell_bump_common_settings_save',
+	'wps_upsell_bump_common_settings_save_pre_global',
+	'wps_wocuf_pro_common_settings_save',
+	'wps_upsell_bump_creation_setting_save',
+);
+$wps_ubo_save_fired = false;
+foreach ( $wps_ubo_save_keys as $wps_ubo_save_key ) {
+	if ( isset( $_POST[ $wps_ubo_save_key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce already checked in templates before this output.
+		$wps_ubo_save_fired = true;
+		break;
+	}
+}
+
+if ( $wps_ubo_save_fired || $wps_ubo_had_template_notice ) {
+	$wps_ubo_custom_notice = '<div class="wps_ubo_save_notice">'
+		. '<span class="wps_ubo_save_notice__msg">' . esc_html__( 'Settings saved.', 'upsell-order-bump-offer-for-woocommerce' ) . '</span>'
+		. '<button type="button" class="wps_ubo_save_notice__close" aria-label="' . esc_attr__( 'Dismiss', 'upsell-order-bump-offer-for-woocommerce' ) . '"><span class="dashicons dashicons-no-alt"></span></button>'
+		. '</div>';
+	$wps_ubo_buffer = str_replace( '<!--WPS_UBO_NOTICE_SLOT-->', $wps_ubo_custom_notice, $wps_ubo_buffer );
+}
+
+echo $wps_ubo_buffer; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- buffered admin HTML already escaped at source.
+?>
+<script>
+(function () {
+	function wps_ubo_init_notice_dismiss() {
+		var slot = document.querySelector('#wps_upsell_bump_setting_wrapper .wps_ubo_notice_slot');
+		if (!slot) { return; }
+		slot.addEventListener('click', function (e) {
+			var btn = e.target.closest && e.target.closest('.wps_ubo_save_notice__close');
+			if (!btn) { return; }
+			var notice = btn.closest('.wps_ubo_save_notice');
+			if (notice && notice.parentNode) {
+				notice.parentNode.removeChild(notice);
+			}
+		});
+	}
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', wps_ubo_init_notice_dismiss);
+	} else {
+		wps_ubo_init_notice_dismiss();
+	}
+})();
+</script>
+<?php
+// Render the Talk to an Expert modal once per admin page.
+if ( class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) {
+	Upsell_Order_Bump_Talk_To_Expert_Form::render_modal();
+}
+?>
+
+<script>
+(function () {
+	function wps_ubo_init_expert_modal() {
+		var modal = document.querySelector('[data-wps-ubo-expert-modal]');
+		if (!modal) { return; }
+		var bodyLockClass = 'wps-ubo-expert-modal-open';
+		var successCloseTimer = null;
+
+		function setStatus(message, statusType) {
+			var status = modal.querySelector('[data-wps-ubo-expert-modal-status]');
+			if (!status) { return; }
+			if (!message) {
+				status.setAttribute('hidden', '');
+				status.classList.remove('is-success', 'is-error');
+				status.textContent = '';
+				return;
+			}
+			status.removeAttribute('hidden');
+			status.classList.remove('is-success', 'is-error');
+			status.classList.add('is-' + statusType);
+			status.textContent = message;
+		}
+
+		function resetState() {
+			var form = modal.querySelector('[data-wps-ubo-expert-modal-form]');
+			var success = modal.querySelector('[data-wps-ubo-expert-modal-success]');
+			var successMessage = modal.querySelector('[data-wps-ubo-expert-modal-success-message]');
+			var submitButton = form ? form.querySelector('button[type="submit"]') : null;
+
+			if (form) {
+				if (typeof form.reset === 'function') { form.reset(); }
+				form.removeAttribute('hidden');
+			}
+			if (submitButton) {
+				submitButton.disabled = false;
+				submitButton.textContent = submitButton.getAttribute('data-submit-label') || 'Submit Request';
+			}
+			if (success) {
+				success.setAttribute('hidden', '');
+				success.classList.remove('is-visible');
+			}
+			if (successMessage) {
+				successMessage.textContent = 'Thank you for submitting your request.';
+			}
+			setStatus('', '');
+		}
+
+		function showSuccessState(message) {
+			var form = modal.querySelector('[data-wps-ubo-expert-modal-form]');
+			var success = modal.querySelector('[data-wps-ubo-expert-modal-success]');
+			var successMessage = modal.querySelector('[data-wps-ubo-expert-modal-success-message]');
+
+			if (form) { form.setAttribute('hidden', ''); }
+			setStatus('', '');
+			if (successMessage) { successMessage.textContent = message; }
+			if (success) {
+				success.removeAttribute('hidden');
+				window.setTimeout(function () { success.classList.add('is-visible'); }, 20);
+			}
+		}
+
+		function toggleModal(shouldOpen) {
+			if (successCloseTimer) {
+				window.clearTimeout(successCloseTimer);
+				successCloseTimer = null;
+			}
+			if (shouldOpen) {
+				modal.removeAttribute('hidden');
+				document.body.classList.add(bodyLockClass);
+				resetState();
+				return;
+			}
+			modal.setAttribute('hidden', '');
+			document.body.classList.remove(bodyLockClass);
+			resetState();
+		}
+
+		function normalizePayload(formElement) {
+			var payload = {};
+			var formData = new window.FormData(formElement);
+			formData.forEach(function (value, key) {
+				var normalizedKey = key.replace(/\[\]$/, '');
+				if (Object.prototype.hasOwnProperty.call(payload, normalizedKey)) {
+					if (!Array.isArray(payload[normalizedKey])) {
+						payload[normalizedKey] = [payload[normalizedKey]];
+					}
+					payload[normalizedKey].push(value);
+					return;
+				}
+				payload[normalizedKey] = value;
+			});
+			return payload;
+		}
+
+		document.addEventListener('click', function (e) {
+			var openTrigger = e.target.closest && e.target.closest('[data-wps-ubo-open-expert-modal]');
+			if (openTrigger) {
+				e.preventDefault();
+				toggleModal(true);
+				return;
+			}
+			var closeTrigger = e.target.closest && e.target.closest('[data-wps-ubo-expert-modal-close]');
+			if (closeTrigger) {
+				e.preventDefault();
+				toggleModal(false);
+			}
+		});
+
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' && !modal.hasAttribute('hidden')) {
+				toggleModal(false);
+			}
+		});
+
+		var form = modal.querySelector('[data-wps-ubo-expert-modal-form]');
+		if (form) {
+			form.addEventListener('submit', function (e) {
+				e.preventDefault();
+				if (typeof window.wps_ubo_expert === 'undefined') { return; }
+				var submitButton = form.querySelector('button[type="submit"]');
+				var submitLabel = submitButton ? (submitButton.getAttribute('data-submit-label') || submitButton.textContent) : '';
+				var loadingLabel = submitButton ? (submitButton.getAttribute('data-loading-label') || 'Sending...') : '';
+
+				setStatus('', '');
+				if (submitButton) {
+					submitButton.disabled = true;
+					submitButton.textContent = loadingLabel;
+				}
+
+				var body = new window.URLSearchParams();
+				body.append('action', window.wps_ubo_expert.action);
+				body.append('nonce', window.wps_ubo_expert.nonce);
+				body.append('form_data', JSON.stringify(normalizePayload(form)));
+
+				window.fetch(window.wps_ubo_expert.ajaxurl, {
+					method: 'POST',
+					credentials: 'same-origin',
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+					body: body.toString()
+				}).then(function (r) { return r.json().catch(function () { return null; }); })
+				.then(function (response) {
+					var isSuccess = !!(response && response.success);
+					var message = response && response.data && response.data.message ? response.data.message : '';
+					if (!message) {
+						message = isSuccess ? 'Thank you for submitting your request.' : 'We could not submit your request right now. Please try again.';
+					}
+					if (isSuccess) {
+						showSuccessState(message);
+						successCloseTimer = window.setTimeout(function () { toggleModal(false); }, 3000);
+						return;
+					}
+					setStatus(message, 'error');
+				}).catch(function () {
+					setStatus('We could not submit your request right now. Please try again.', 'error');
+				}).finally(function () {
+					if (submitButton) {
+						submitButton.disabled = false;
+						submitButton.textContent = submitLabel;
+					}
+				});
+			});
+		}
+	}
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', wps_ubo_init_expert_modal);
+	} else {
+		wps_ubo_init_expert_modal();
+	}
+})();
+</script>
 
 <!-- Connect us on skype. -->
 <div id="wps_ubo_lite_skype_connect_with_us">
@@ -499,3 +827,6 @@ do_action('wps_ubo_lite_tab_active');
 	</div> -->
 <?php
 }
+?>
+
+<?php
