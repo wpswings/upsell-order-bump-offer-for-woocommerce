@@ -6,8 +6,8 @@ Tags: Funnel Builder, one-click upsell, woocommerce upsell, popups, frequently b
 Requires at least: 6.7.0
 Tested up to: 6.9.4
 WC requires at least: 6.5.0
-WC tested up to: 10.6.1
-Stable tag: 3.1.3
+WC tested up to: 10.7.0
+Stable tag: 3.1.4
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
