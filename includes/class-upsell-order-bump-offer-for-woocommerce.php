@@ -153,6 +153,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'reporting/class-wps-upsell-order-bump-report-sales-by-bump.php';
 
+		/**
+		 * The class responsible for the admin Talk to an Expert workflow.
+		 */
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-talk-to-expert-form.php';
+
 		$this->loader = new Upsell_Order_Bump_Offer_For_Woocommerce_Loader();
 	}
 
@@ -199,6 +204,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_wps_wocuf_import_funnels_csv', $plugin_admin, 'handle_funnel_import_ajax' );
 		$this->loader->add_action( 'wp_ajax_wps_wocuf_import_funnels_json', $plugin_admin, 'handle_funnel_import_ajax' );
 		$this->loader->add_action( 'wp_ajax_wps_wocuf_toggle_funnel_status', $plugin_admin, 'handle_funnel_status_toggle' );
+
+		// Talk to an Expert form ajax handler.
+		$wps_ubo_expert_form = new Upsell_Order_Bump_Talk_To_Expert_Form();
+		$this->loader->add_action( 'wp_ajax_' . Upsell_Order_Bump_Talk_To_Expert_Form::AJAX_ACTION, $wps_ubo_expert_form, 'handle_ajax_submission' );
 
 		$this->loader->add_action( 'wp_ajax_wps_refresh_upsell_funnel_stats', $plugin_admin, 'wps_ajax_get_upsell_funnel_data' );
 		$this->loader->add_action( 'wp_ajax_wps_refresh_bump_stats', $plugin_admin, 'wps_ajax_get_bump_stats_data' );

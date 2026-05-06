@@ -275,6 +275,19 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					)
 				);
 
+				// Talk to an Expert modal.
+				if ( class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) {
+					wp_localize_script(
+						'wps_ubo_lite_admin_script',
+						'wps_ubo_expert',
+						array(
+							'ajaxurl' => admin_url( 'admin-ajax.php' ),
+							'action'  => Upsell_Order_Bump_Talk_To_Expert_Form::AJAX_ACTION,
+							'nonce'   => wp_create_nonce( Upsell_Order_Bump_Talk_To_Expert_Form::NONCE_ACTION ),
+						)
+					);
+				}
+
 				if ( ! empty( $_GET['wps-bump-template-section'] ) ) {
 
 					$bump_template_section['value'] = sanitize_text_field( wp_unslash( $_GET['wps-bump-template-section'] ) );
