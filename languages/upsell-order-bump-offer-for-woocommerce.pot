@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Upsell Order Bump Offer for WooCommerce 3.1.5\n"
-"POT-Creation-Date: 2026-05-06 17:07+0530\n"
+"POT-Creation-Date: 2026-05-29 12:04+0530\n"
 "PO-Revision-Date: 2022-07-07 19:17+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -11,12 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;"
-"esc_html;esc_html__;esc_html_e;esc_html_x;_n_noop;_nx_noop;"
-"translate_nooped_plural\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;esc_html;esc_html__;esc_html_e;esc_html_x;_n_noop;_nx_noop;translate_nooped_plural\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/class-upsell-order-bump-offer-for-woocommerce-admin.php:213
@@ -71,20 +70,19 @@ msgstr ""
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:8902
 #: includes/class-upsell-order-bump-offer-for-woocommerce-global-functions.php:8938
 #: includes/class-wpswings-onboarding-helper.php:840
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2328
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2693
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2854
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3145
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3261
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3346
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3458
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3777
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3932
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4437
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5137
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5417
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:6224
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:6407
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2357
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2948
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3239
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3355
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3440
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3552
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3871
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4026
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4531
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5231
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5511
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:6318
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:6501
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:68
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:149
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:319
@@ -2509,7 +2507,6 @@ msgstr ""
 
 #: admin/partials/templates/wps-pre-save-offer-section.php:1574
 #: admin/partials/templates/wps-ubo-lite-creation.php:1694
-#, php-format
 msgid "for % discount."
 msgstr ""
 
@@ -4742,7 +4739,7 @@ msgid "Sorry, Could not create Subscription"
 msgstr ""
 
 #: includes/class-woocommerce-one-click-upsell-funnel-org-subs-comp.php:182
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2882
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2976
 msgid "Return to Shop "
 msgstr ""
 
@@ -5203,7 +5200,7 @@ msgid "Enter upsell variation shortcode"
 msgstr ""
 
 #: public/class-upsell-order-bump-offer-for-woocommerce-public.php:377
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3874
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3968
 msgid "One Click Upsell"
 msgstr ""
 
@@ -5226,100 +5223,133 @@ msgstr ""
 msgid "Out of stock."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2487
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2489
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2516
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2518
 msgid "Price:"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2492
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2521
 msgid "Quantity: 01"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2493
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2522
 msgid "Offer!"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2494
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2523
 msgid "Add to Cart"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2780
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2563
+msgid "Invalid cart offer request."
+msgstr ""
+
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2577
+msgid "Invalid cart offer product."
+msgstr ""
+
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2589
+msgid "Cart offer is not available for this cart."
+msgstr ""
+
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2595
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2600
+msgid "Invalid cart offer variation."
+msgstr ""
+
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2740
+msgid "Cart is unavailable."
+msgstr ""
+
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2748
+msgid "Invalid frequently bought together request."
+msgstr ""
+
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2762
+msgid "No frequently bought together products are configured."
+msgstr ""
+
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2789
+msgid "No valid frequently bought together products were added."
+msgstr ""
+
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2874
 msgid "Once every 20 minutes"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2882
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:2976
 msgid "Sorry, Offer expired."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3135
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3229
 msgid "Add to my order"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3276
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3506
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3370
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3600
 msgid "No,thanks"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3361
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3508
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3455
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3602
 msgid "Special Offer Price"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3450
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3544
 msgid "Show Order Details"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3504
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3598
 msgid "Buy Now"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3520
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3614
 msgid "Special Offer For You Only"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3599
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3614
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3693
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3708
 msgid "You ran out of the special offers session."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3601
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3616
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3695
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3710
 msgid "Go to the \"Order details\" page."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3631
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3725
 msgid "Sorry, you have no offers"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3635
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3729
 msgid "Return to Shop"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3879
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3973
 msgid ""
 "Offer Product is not selected, please save a Offer Product in Funnel Offer "
 "settings."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3883
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3977
 msgid ""
 "Custom Offer page - detected! Please save a global Offer product in Global "
 "settings for testing purpose."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4417
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4511
 msgid "Time is not specified correctly."
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4504
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4598
 msgid "minutes"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4511
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4605
 msgid "seconds"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5119
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5213
 msgid ""
 "Error processing checkout. Please try again with another payment method."
 msgstr ""
