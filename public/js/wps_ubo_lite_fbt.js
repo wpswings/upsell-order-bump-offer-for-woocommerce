@@ -16,7 +16,7 @@ jQuery( document ).ready(
 					dataType: 'json',
 					url: wps_ubo_lite_public_fbt.ajaxurl,
 					data: {
-						// nonce: wps_ubo_lite_public_fbt.auth_nonce,
+						nonce: wps_ubo_lite_public_fbt.auth_nonce,
 						action: 'add_to_cart_fbt_product',
 						wps_product_id : wps_all_product_id,
 						wps_discount_price: wps_fbt_discount_price,

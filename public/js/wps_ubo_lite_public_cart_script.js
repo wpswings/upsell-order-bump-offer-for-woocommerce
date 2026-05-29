@@ -44,10 +44,6 @@ jQuery( document ).ready(
 				var wps_cart_offer_product_id = document.querySelector( '#wps_cart_offer_product_id_' + parent_product_id );
 				var wps_cart_offer_product_id_value = wps_cart_offer_product_id.value;
 
-				// Get the product price  for the cart offer.
-				var wps_cart_offer_product_price = document.querySelector( '#wps_cart_offer_product_price_' + parent_product_id );
-				var wps_cart_offer_product_price = wps_cart_offer_product_price.value;
-
 				// Get the select element by its ID
 				var child_variation_id_element = document.querySelector( "#wps-order-bump-child-id_" + parent_product_id );
 
@@ -69,8 +65,7 @@ jQuery( document ).ready(
 							parent_product_id: parent_product_id,
 							child_product_id: child_variation_id,
 							wps_cart_offer_quantity_value: wps_cart_offer_quantity_value,
-							wps_cart_offer_product_id_value: wps_cart_offer_product_id_value,
-							wps_cart_offer_product_price: wps_cart_offer_product_price
+							wps_cart_offer_product_id_value: wps_cart_offer_product_id_value
 						},
 						success: function (msg) {
 							$( document.body ).trigger( 'added_to_cart', {} );
