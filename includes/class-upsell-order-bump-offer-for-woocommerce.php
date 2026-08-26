@@ -78,7 +78,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		if ( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION' ) ) {
 			$this->version = UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION;
 		} else {
-			$this->version = '3.1.6';
+			$this->version = '3.1.5';
 		}
 		$this->plugin_name = 'upsell-order-bump-offer-for-woocommerce';
 
@@ -474,7 +474,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 				// Remove http and https from Upsell Action shortcodes added by Page Builders.
 				$this->loader->add_filter( 'the_content', $plugin_public, 'filter_upsell_shortcodes_content' );
 
-				$this->loader->add_filter( 'wp_kses_allowed_html', $plugin_public, 'wocuf_lite_allow_script_tags' );
+				// SECURITY FIX REMOVED: The wp_kses_allowed_html filter has been completely removed.
+				// The plugin already uses wp_add_inline_script() for custom JavaScript output (see post_global_custom_js),
+				// which is the secure WordPress-recommended method. The wp_kses_allowed_html filter was creating a
+				// site-wide XSS vulnerability by allowing script tags in all contexts, including user-submitted content
+				// from comments and posts by Contributors/Authors. This filter is not needed and has been removed entirely.
 
 				// Initiate Upsell Orders before processing payment.
 				$this->loader->add_action( 'woocommerce_checkout_order_processed', $plugin_public, 'wps_wocuf_initate_upsell_orders_shortcode_checkout_org' );
