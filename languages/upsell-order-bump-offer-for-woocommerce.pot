@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 3.1.5\n"
-"POT-Creation-Date: 2026-05-29 12:04+0530\n"
+"Project-Id-Version: Upsell Order Bump Offer for WooCommerce 3.1.6\n"
+"POT-Creation-Date: 2026-08-26 14:59+0530\n"
 "PO-Revision-Date: 2022-07-07 19:17+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -79,10 +79,10 @@ msgstr ""
 #: public/class-upsell-order-bump-offer-for-woocommerce-public.php:3871
 #: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4026
 #: public/class-upsell-order-bump-offer-for-woocommerce-public.php:4531
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5231
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5511
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:6318
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:6501
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5236
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5516
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:6323
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:6506
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:68
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:149
 #: reporting/class-wps-upsell-order-bump-report-sales-by-category.php:319
@@ -5349,7 +5349,7 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5213
+#: public/class-upsell-order-bump-offer-for-woocommerce-public.php:5218
 msgid ""
 "Error processing checkout. Please try again with another payment method."
 msgstr ""
