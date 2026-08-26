@@ -3,7 +3,7 @@ name: PHPCS & PHPCBF
 on:
   pull_request:
     branches:
-      - WPS-7709-Security-fixes
+      - release/v3.1.6
 
 jobs:
   phpcs:
