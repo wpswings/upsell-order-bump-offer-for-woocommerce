@@ -4,9 +4,9 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: Funnel Builder, one-click upsell, woocommerce upsell, popups, frequently bought together
 Requires at least: 6.7.0
-Tested up to: 7.0
+Tested up to: 7.1
 WC requires at least: 6.5.0
-WC tested up to: 10.8.1
+WC tested up to: 11.0.1
 Stable tag: 3.1.5
 Requires PHP: 7.4
 License: GPLv3 or later 
@@ -500,6 +500,10 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Changelog ==
 
+= 3.1.6 - Released on 26 Aug 2026 = 
+* New: Compatibility with the latest WP 7.1 and WC 11.0.1
+* Security Fix: wocuf_lite_allow_script_tags() function has been removed
+ 
 = 3.1.5 - Released on 29 May 2026 = 
 * New: Compatibility with the latest WP 7.0 and WC 10.8.1
 * Fix: Refactored base price retrieval to use WooCommerce parent product price API.
@@ -783,6 +787,6 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 3.1.5 - Released on 29 May 2026 = 
-* New: Compatibility with the latest WP 7.0 and WC 10.8.1
-* Fix: Refactored base price retrieval to use WooCommerce parent product price API.
+= 3.1.6 - Released on 26 Aug 2026 = 
+* New: Compatibility with the latest WP 7.1 and WC 11.0.1
+* Security Fix: wocuf_lite_allow_script_tags() function has been removed
