@@ -3591,7 +3591,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 					$wp_nonce = sanitize_text_field( wp_unslash( $_GET['ocuf_ns'] ) );
 
-					wp_verify_nonce( $wp_nonce, 'funnel_offers' );
+					if ( ! wp_verify_nonce( $wp_nonce, 'funnel_offers' ) ) {
+						wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+					}
 
 					$wps_wocuf_pro_all_funnels = get_option( 'wps_wocuf_funnels_list', array() );
 
@@ -3667,21 +3669,21 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 					$result .= '<div class="wps_wocuf_pro_offered_product_actions">
 				    			<form class="wps_wocuf_pro_offer_form" method="post">
-								<input type="hidden" name="ocuf_ns" value="' . $wp_nonce . '">
-								<input type="hidden" name="ocuf_fid" value="' . $funnel_id . '">
+								<input type="hidden" name="ocuf_ns" value="' . esc_attr( $wp_nonce ) . '">
+								<input type="hidden" name="ocuf_fid" value="' . esc_attr( $funnel_id ) . '">
 								<input type="hidden" class="wps_wocuf_pro_variation_id" name="product_id" value="' . absint( $product->get_id() ) . '">
 								<div id="wps_wocuf_pro_variation_attributes" ></div>
-								<input type="hidden" name="ocuf_ofd" value="' . $offer_id . '">
-								<input type="hidden" name="ocuf_ok" value="' . $order_key . '">
+								<input type="hidden" name="ocuf_ofd" value="' . esc_attr( $offer_id ) . '">
+								<input type="hidden" name="ocuf_ok" value="' . esc_attr( $order_key ) . '">
 								<input type="hidden" name="wps_wocuf_post_nonce" value="' . wp_create_nonce( 'wps_wocuf_field_post_nonce' ) . '">
 								<input type="hidden" name="wps_wocuf_after_post_nonce" value="' . wp_create_nonce( 'wps_wocuf_after_field_post_nonce' ) . '">
-								<button data-id="' . $funnel_id . '" style="background-color:' . $wps_wocuf_pro_buy_button_color . '" class="wps_wocuf_pro_buy wps_wocuf_pro_custom_buy" type="submit" name="wps_wocuf_pro_buy">' . $wps_wocuf_pro_buy_text . '</button></form>
+								<button data-id="' . esc_attr( $funnel_id ) . '" style="background-color:' . $wps_wocuf_pro_buy_button_color . '" class="wps_wocuf_pro_buy wps_wocuf_pro_custom_buy" type="submit" name="wps_wocuf_pro_buy">' . $wps_wocuf_pro_buy_text . '</button></form>
 								<a style="color:' . $ocuf_th_button_color . '" 
 								class="wps_wocuf_pro_skip wps_wocuf_pro_no" 
-								href="?ocuf_ns=' . $wp_nonce . '
-								&ocuf_th=1&ocuf_ok=' . $order_key . '
-								&ocuf_ofd=' . $offer_id . '
-								&ocuf_fid=' . $funnel_id . '">
+								href="?ocuf_ns=' . esc_attr( $wp_nonce ) . '
+								&ocuf_th=1&ocuf_ok=' . esc_attr( $order_key ) . '
+								&ocuf_ofd=' . esc_attr( $offer_id ) . '
+								&ocuf_fid=' . esc_attr( $funnel_id ) . '">
 								' . $wps_wocuf_pro_no_text . '</a>
 								</div>
 				    		</div></div>';
@@ -3877,11 +3879,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 						$funnel_id = isset( $_GET['ocuf_fid'] ) ? sanitize_text_field( wp_unslash( $_GET['ocuf_fid'] ) ) : '';
 
 						$buy_now_link = '?wps_wocuf_pro_buy
-						=true&ocuf_ns=' . $wp_nonce . '
-						&ocuf_ok=' . $order_key . '
-						&ocuf_ofd=' . $offer_id . '
-						&ocuf_fid=' . $funnel_id . '
-						&product_id=' . $product_id;
+						=true&ocuf_ns=' . esc_attr( $wp_nonce ) . '
+						&ocuf_ok=' . esc_attr( $order_key ) . '
+						&ocuf_ofd=' . esc_attr( $offer_id ) . '
+						&ocuf_fid=' . esc_attr( $funnel_id ) . '
+						&product_id=' . absint( $product_id );
 					}
 				} elseif ( 'admin_view' === $validate_shortcode ) {
 
@@ -4030,10 +4032,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					$offer_id  = isset( $_GET['ocuf_ofd'] ) ? sanitize_text_field( wp_unslash( $_GET['ocuf_ofd'] ) ) : '';
 					$funnel_id = isset( $_GET['ocuf_fid'] ) ? sanitize_text_field( wp_unslash( $_GET['ocuf_fid'] ) ) : '';
 
-					$no_thanks_link = '?ocuf_ns=' . $wp_nonce . '
-					&ocuf_th=1&ocuf_ok=' . $order_key . '
-					&ocuf_ofd=' . $offer_id . '
-					&ocuf_fid=' . $funnel_id;
+					$no_thanks_link = '?ocuf_ns=' . esc_attr( $wp_nonce ) . '
+					&ocuf_th=1&ocuf_ok=' . esc_attr( $order_key ) . '
+					&ocuf_ofd=' . esc_attr( $offer_id ) . '
+					&ocuf_fid=' . esc_attr( $funnel_id );
 				} elseif ( 'admin_view' === $validate_shortcode ) {
 
 					$no_thanks_link = '#preview';
