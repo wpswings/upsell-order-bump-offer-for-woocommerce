@@ -8870,7 +8870,7 @@ if ( ! function_exists( 'wps_upsell_lite_validate_upsell_nonce_funnel_builder' )
 			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
 		}
 
-		if ( isset( $_GET['ocuf_ns'] ) ) {
+		if ( isset( $_GET['ocuf_ns'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['ocuf_ns'] ) ), 'funnel_offers' ) ) {
 
 			return true;
 		} else {
