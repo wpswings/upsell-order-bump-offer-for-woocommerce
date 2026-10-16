@@ -2950,7 +2950,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		if ( isset( $_GET['ocuf_ns'] ) && isset( $_GET['ocuf_ok'] ) && isset( $_GET['ocuf_ofd'] ) && isset( $_GET['ocuf_fid'] ) ) {
 
-			if ( wps_upsell_lite_validate_upsell_nonce_funnel_builder() ) {
+			$order_key = sanitize_text_field( wp_unslash( $_GET['ocuf_ok'] ) );
+
+			if ( wps_upsell_lite_validate_upsell_nonce_funnel_builder() && ! empty( wc_get_order_id_by_order_key( $order_key ) ) ) {
 
 				return 'live_offer';
 			}
@@ -4533,7 +4535,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 							wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
 						}
 						?>
-						var offer_id = <?php echo ! empty( $_GET['ocuf_ofd'] ) ? esc_html( sanitize_text_field( wp_unslash( $_GET['ocuf_ofd'] ) ) ) : 'null'; ?>;
+						var offer_id = <?php echo ! empty( $_GET['ocuf_ofd'] ) ? wp_json_encode( sanitize_text_field( wp_unslash( $_GET['ocuf_ofd'] ) ) ) : 'null'; ?>;
 
 						var timer_limit = sessionStorage.getItem('timerlimit_' + offer_id);
 						var countDowntime = null != offer_id && null != timer_limit ? timer_limit : current.setSeconds(current.getSeconds() + expiration);
