@@ -253,6 +253,14 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 $wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
 $wps_bump_offer_type   = ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_offer_price_type'] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_upsell_offer_price_type'] : '';
 
+$wps_ubo_template_param              = isset( $_GET['template'] ) ? sanitize_text_field( wp_unslash( $_GET['template'] ) ) : '';
+// Accept both correct and commonly mistyped slug from query string.
+$is_conditional_display_template     = in_array(
+	$wps_ubo_template_param,
+	array( 'conditional-display', 'conditonal-display' ),
+	true
+);
+
 $wps_upsell_bump_schedule_options = array(
 	'0' => __( 'Daily', 'upsell-order-bump-offer-for-woocommerce' ),
 	'1' => __( 'Monday', 'upsell-order-bump-offer-for-woocommerce' ),
@@ -279,6 +287,19 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 <!-- For Single Bump. -->
 <form action="" method="POST">
 	<div class="wps_upsell_table">
+		<?php if ( $is_conditional_display_template ) : ?>
+			<div class="notice notice-info is-dismissible wps-notice wps-ubo-conditional-notice">
+				<div class="wps-ubo-conditional-notice__content">
+					<h3 class="wps-ubo-conditional-notice__title"><?php esc_html_e( 'Bump Conditional Display walkthrough', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>
+					<ol class="wps-ubo-conditional-notice__list">
+						<li><?php esc_html_e( 'Set targets/categories for this funnel.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
+						<li><?php esc_html_e( 'Enable conditions and set cart/user/coupon rules.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
+						<li><?php esc_html_e( 'Configure offers and design.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
+						<li><?php esc_html_e( 'Save and preview the flow.', 'upsell-order-bump-offer-for-woocommerce' ); ?></li>
+					</ol>
+				</div>
+			</div>
+		<?php endif; ?>
 		<table class="form-table wps_upsell_bump_creation_setting">
 			<tbody>
 
@@ -613,6 +634,10 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 						$attribute_description = esc_html__( 'Enable dynamic conditions to control when this offer is displayed based on cart total, user role, coupons, and other criteria.', 'upsell-order-bump-offer-for-woocommerce' );
 						wps_ubo_lite_help_tip( $attribute_description );
 						$wps_ubo_condition_show = ! empty( $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_ubo_condition_show'] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ]['wps_ubo_condition_show'] : 'no';
+						if ( $is_conditional_display_template ) {
+							$wps_ubo_condition_show = 'yes';
+						}
+						$wps_ubo_show_rules_button = ( 'yes' === $wps_ubo_condition_show );
 
 						?>
 
@@ -623,7 +648,7 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 
 						<label>
 							<!-- Discount Condition Button, initially hidden -->
-							<button id="show-discount-conditions" class="button button-primary" style="display:none;">Add Conditional Rules</button>
+							<button id="show-discount-conditions" class="button button-primary" style="<?php echo $wps_ubo_show_rules_button ? '' : 'display:none;'; ?>">Add Conditional Rules</button>
 						</label>
 					</td>
 				</tr>
@@ -978,6 +1003,34 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 								<?php endif; ?>
 							</a>
 						</div>
+
+						<!-- Template 13. -->
+						<div class="wps_upsell_template_select <?php echo esc_html( 13 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p class="wps_ubo_template_name"><?php esc_html_e( 'Essence Template', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+							<a href="javascript:void" class="wps_ubo_template_link" data_link='13'>
+								<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-13.png' ) ) : ?>
+									<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-13.png' ); ?>">
+								<?php else : ?>
+									<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/template-13.png' ); ?>">
+								<?php endif; ?>
+							</a>
+						</div>
+
+
+						<!-- Template 14. -->
+						<div class="wps_upsell_template_select <?php echo esc_html( 14 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
+
+							<p class="wps_ubo_template_name"><?php esc_html_e( 'Flexie Blue Ribbon', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
+							<a href="javascript:void" class="wps_ubo_template_link" data_link='14'>
+								<?php if ( file_exists( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH . 'admin/resources/offer-templates/template-14.png' ) ) : ?>
+									<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/offer-templates/template-14.png' ); ?>">
+								<?php else : ?>
+									<img src="<?php echo esc_url( UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_URL . 'admin/resources/Offer templates/template-14.png' ); ?>">
+								<?php endif; ?>
+							</a>
+						</div>
+
 
 						<!-- Template eleven. -->
 						<div class="wps_upsell_template_select <?php echo esc_html( 11 === (int) $wps_ubo_selected_template ? 'wps_ubo_selected_class' : '' ); ?> ">
@@ -1746,14 +1799,23 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					$encountered_bump_array = $wps_ubo_offer_array_collection[ $wps_upsell_bump_id ];
 					$wps_bump_upsell_selected_template = ! empty( $encountered_bump_array['wps_ubo_selected_template'] ) ? sanitize_text_field( $encountered_bump_array['wps_ubo_selected_template'] ) : '';
 
-					if ( '10' == $wps_bump_upsell_selected_template ) {
+						if ( '10' == $wps_bump_upsell_selected_template ) {
 
-						$bumphtml = wps_ubo_lite_bump_offer_html_10( $bump );
-					} elseif ( '11' == $wps_bump_upsell_selected_template ) {
+							$bumphtml = wps_ubo_lite_bump_offer_html_10( $bump );
+						} elseif ( '11' == $wps_bump_upsell_selected_template ) {
 
-						$bumphtml = wps_ubo_lite_bump_offer_html_11( $bump );
-					} else {
-						$bumphtml = wps_ubo_lite_bump_offer_html( $bump );
+							$bumphtml = wps_ubo_lite_bump_offer_html_11( $bump );
+						} elseif ( '12' == $wps_bump_upsell_selected_template ) {
+
+							$bumphtml = wps_ubo_lite_bump_offer_html_12( $bump );
+						} elseif ( '13' == $wps_bump_upsell_selected_template ) {
+
+							$bumphtml = wps_ubo_lite_bump_offer_html_13( $bump );
+						} elseif ( '14' == $wps_bump_upsell_selected_template ) {
+
+							$bumphtml = wps_ubo_lite_bump_offer_html_14( $bump );
+						} else {
+							$bumphtml = wps_ubo_lite_bump_offer_html( $bump );
 					}
 
 					?>
@@ -1822,5 +1884,10 @@ wc_render_discount_conditions_popup( $wps_funnel_type, $wps_upsell_bump_id )
 			e.preventDefault();
 			$('#wc-discount-popup').addClass('ubo_show');
 		});
+		// Ensure conditional display notice is visible even if hidden by default styles.
+		var $conditionalNotice = $('.wps-ubo-conditional-notice');
+		if ($conditionalNotice.length) {
+			$conditionalNotice.show().removeClass('hidden keep-hidden');
+		}
 	});
 </script>

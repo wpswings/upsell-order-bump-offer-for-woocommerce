@@ -1,5 +1,17 @@
 <?php
 /**
+ * Exit if accessed directly.
+ *
+ * @since      1.0.0
+ * @package    Upsell_Order_Bump_Offer_For_Woocommerce
+ * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/includes
+ * @author     WP Swings <webmaster@wpswings.com>
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+/**
  * The file that defines the core plugin class
  *
  * A class definition that includes attributes and functions used across both the
@@ -66,7 +78,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		if ( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION' ) ) {
 			$this->version = UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION;
 		} else {
-			$this->version = '3.0.9';
+			$this->version = '3.1.7';
 		}
 		$this->plugin_name = 'upsell-order-bump-offer-for-woocommerce';
 
@@ -133,12 +145,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		if ( ! class_exists( 'Wpswings_Onboarding_Helper' ) ) {
 
 			require_once plugin_dir_path( __DIR__ ) . 'includes/class-wpswings-onboarding-helper.php';
+			new Wpswings_Onboarding_Helper( $this->get_plugin_name(), $this->get_version() );
 		}
 
 		/**
 		 * The class responsible for Sales by Order Bump - Data handling and Stats.
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'reporting/class-wps-upsell-order-bump-report-sales-by-bump.php';
+
+		/**
+		 * The class responsible for the admin Talk to an Expert workflow.
+		 */
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-talk-to-expert-form.php';
 
 		$this->loader = new Upsell_Order_Bump_Offer_For_Woocommerce_Loader();
 	}
@@ -174,60 +192,70 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 
 		// Add admin arena.
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wps_ubo_lite_admin_menu' );
-		$wps_screen_info = get_option( 'wps_current_screen_data', array() );
-		if ( ! is_array( $wps_screen_info ) ) {
-			$wps_screen_info = array(); // Ensure it's an array.
-		}
+		$this->loader->add_action( 'admin_post_wps_ubo_export_bumps', $plugin_admin, 'handle_bump_export_csv' );
+		$this->loader->add_action( 'admin_post_wps_ubo_export_bumps_csv', $plugin_admin, 'handle_bump_export_csv' );
+		$this->loader->add_action( 'admin_post_wps_ubo_export_bumps_json', $plugin_admin, 'handle_bump_export_csv' );
+		$this->loader->add_action( 'admin_post_wps_ubo_import_bumps', $plugin_admin, 'handle_bump_import' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_import_bumps_csv', $plugin_admin, 'handle_bump_import_ajax' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_import_bumps_json', $plugin_admin, 'handle_bump_import_ajax' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_toggle_bump_status', $plugin_admin, 'handle_bump_status_toggle' );
+		$this->loader->add_action( 'admin_post_wps_wocuf_export_funnels_csv', $plugin_admin, 'handle_funnel_export_csv' );
+		$this->loader->add_action( 'admin_post_wps_wocuf_export_funnels_json', $plugin_admin, 'handle_funnel_export_csv' );
+		$this->loader->add_action( 'wp_ajax_wps_wocuf_import_funnels_csv', $plugin_admin, 'handle_funnel_import_ajax' );
+		$this->loader->add_action( 'wp_ajax_wps_wocuf_import_funnels_json', $plugin_admin, 'handle_funnel_import_ajax' );
+		$this->loader->add_action( 'wp_ajax_wps_wocuf_toggle_funnel_status', $plugin_admin, 'handle_funnel_status_toggle' );
 
-		$wps_screen_id = $wps_screen_info['screen_id'] ?? '';
+		// Talk to an Expert form ajax handler.
+		$wps_ubo_expert_form = new Upsell_Order_Bump_Talk_To_Expert_Form();
+		$this->loader->add_action( 'wp_ajax_' . Upsell_Order_Bump_Talk_To_Expert_Form::AJAX_ACTION, $wps_ubo_expert_form, 'handle_ajax_submission' );
+
+		$this->loader->add_action( 'wp_ajax_wps_refresh_upsell_funnel_stats', $plugin_admin, 'wps_ajax_get_upsell_funnel_data' );
+		$this->loader->add_action( 'wp_ajax_wps_refresh_bump_stats', $plugin_admin, 'wps_ajax_get_bump_stats_data' );
 
 		// Load scripts and styles.
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		if ( 'toplevel_page_wps-wocuf-pro-setting' != $wps_screen_id ) {
-			// Rest functionality for admin side ajax.
-			$this->loader->add_action( 'wp_ajax_search_products_for_bump', $plugin_admin, 'search_products_for_bump' );
-			$this->loader->add_action( 'wp_ajax_search_product_categories_for_bump', $plugin_admin, 'search_product_categories_for_bump' );
-			$this->loader->add_action( 'wp_ajax_search_products_for_offers', $plugin_admin, 'search_products_for_offers' );
-			$this->loader->add_action( 'wp_ajax_search_coupon_for_offers', $plugin_admin, 'search_coupon_for_offers' );
-			$this->loader->add_action( 'wp_ajax_search_products_for_bump_offer_id', $plugin_admin, 'search_products_for_bump_offer_id' );
+		// Rest functionality for admin side ajax.
+		$this->loader->add_action( 'wp_ajax_search_products_for_bump', $plugin_admin, 'search_products_for_bump' );
+		$this->loader->add_action( 'wp_ajax_search_product_categories_for_bump', $plugin_admin, 'search_product_categories_for_bump' );
+		$this->loader->add_action( 'wp_ajax_search_products_for_offers', $plugin_admin, 'search_products_for_offers' );
+		$this->loader->add_action( 'wp_ajax_search_coupon_for_offers', $plugin_admin, 'search_coupon_for_offers' );
+		$this->loader->add_action( 'wp_ajax_search_products_for_bump_offer_id', $plugin_admin, 'search_products_for_bump_offer_id' );
 
-			// Rest functionality for admin side ajax Of One Click Funnel.
-			$this->loader->add_action( 'wp_ajax_seach_products_for_offers', $plugin_admin, 'seach_products_for_offers' );
-			$this->loader->add_action( 'wp_ajax_seach_products_for_funnel', $plugin_admin, 'seach_products_for_funnel' );
-			$this->loader->add_action( 'wp_ajax_search_product_categories_for_funnel', $plugin_admin, 'search_product_categories_for_funnel' );
+		// Rest functionality for admin side ajax Of One Click Funnel.
+		$this->loader->add_action( 'wp_ajax_seach_products_for_offers', $plugin_admin, 'seach_products_for_offers' );
+		$this->loader->add_action( 'wp_ajax_seach_products_for_funnel', $plugin_admin, 'seach_products_for_funnel' );
+		$this->loader->add_action( 'wp_ajax_search_product_categories_for_funnel', $plugin_admin, 'search_product_categories_for_funnel' );
 
-			// Dismiss Elementor inactive notice.
-			$this->loader->add_action( 'wp_ajax_wps_upsell_dismiss_elementor_inactive_notice', $plugin_admin, 'dismiss_elementor_inactive_notice' );
+		// Dismiss Elementor inactive notice.
+		$this->loader->add_action( 'wp_ajax_wps_upsell_dismiss_elementor_inactive_notice', $plugin_admin, 'dismiss_elementor_inactive_notice' );
 
-			// Hide Upsell offer pages in admin panel 'Pages'.
-			$this->loader->add_action( 'pre_get_posts', $plugin_admin, 'hide_upsell_offer_pages_in_admin' );
-			$this->loader->add_filter( 'page_template', $plugin_admin, 'wps_wocuf_pro_page_template' );
+		// Hide Upsell offer pages in admin panel 'Pages'.
+		$this->loader->add_action( 'pre_get_posts', $plugin_admin, 'hide_upsell_offer_pages_in_admin' );
+		$this->loader->add_filter( 'page_template', $plugin_admin, 'wps_wocuf_pro_page_template' );
 
-			// Create new offer - ajax handle function.
-			if ( ! wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' )) {
+		// Create new offer - ajax handle function.
+		if ( ! wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
 			$this->loader->add_action( 'wp_ajax_wps_wocuf_pro_return_offer_content', $plugin_admin, 'return_funnel_offer_section_content' );
 
 			// Insert and Activate respective template ajax handle function.
 			$this->loader->add_action( 'wp_ajax_wps_upsell_activate_offer_template_ajax', $plugin_admin, 'activate_respective_offer_template' );
-			
 
 			// Add attribute to styles allowed properties.
 			$this->loader->add_filter( 'safe_style_css', $plugin_admin, 'wocuf_lite_add_style_attribute' );
-			}
+		}
 
-			if ( 'on' === $wps_upsell_bump_enable_plugin ) {
+		if ( 'on' === $wps_upsell_bump_enable_plugin ) {
 
-				if ( ! wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' )) {
-					// Adding Upsell Orders column in Orders table in backend.
-					$this->loader->add_filter( 'manage_edit-shop_order_columns', $plugin_admin, 'wps_wocuf_pro_add_columns_to_admin_orders', 11 );
+			if ( ! wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
+				// Adding Upsell Orders column in Orders table in backend.
+				$this->loader->add_filter( 'manage_edit-shop_order_columns', $plugin_admin, 'wps_wocuf_pro_add_columns_to_admin_orders', 11 );
 
-					// Populating Upsell Orders column with Single Order or Upsell order.
-					$this->loader->add_action( 'manage_shop_order_posts_custom_column', $plugin_admin, 'wps_wocuf_pro_populate_upsell_order_column', 10, 2 );
+				// Populating Upsell Orders column with Single Order or Upsell order.
+				$this->loader->add_action( 'manage_shop_order_posts_custom_column', $plugin_admin, 'wps_wocuf_pro_populate_upsell_order_column', 10, 2 );
 
-					$this->loader->add_action( 'woocommerce_shop_order_list_table_custom_column', $plugin_admin, 'wps_wocuf_pro_populate_upsell_order_column', 10, 2 );
-					$this->loader->add_filter( 'woocommerce_shop_order_list_table_columns', $plugin_admin, 'wps_wocuf_pro_add_columns_to_admin_orders', 99 );
-				
+				$this->loader->add_action( 'woocommerce_shop_order_list_table_custom_column', $plugin_admin, 'wps_wocuf_pro_populate_upsell_order_column', 10, 2 );
+				$this->loader->add_filter( 'woocommerce_shop_order_list_table_columns', $plugin_admin, 'wps_wocuf_pro_add_columns_to_admin_orders', 99 );
 
 				// Add Upsell Filtering dropdown for All Orders, No Upsell Orders, Only Upsell Orders.
 				$this->loader->add_filter( 'restrict_manage_posts', $plugin_admin, 'wps_wocuf_pro_restrict_manage_posts' );
@@ -245,40 +273,41 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 				$this->loader->add_action( 'woocommerce_process_product_meta', $plugin_admin, 'upsell_saving_simple_product_dynamic_shipping' );
 				$this->loader->add_action( 'woocommerce_product_after_variable_attributes', $plugin_admin, 'upsell_add_custom_price_to_variations', 10, 3 );
 				$this->loader->add_action( 'woocommerce_save_product_variation', $plugin_admin, 'upsell_save_custom_price_variations', 10, 2 );
-				}
-				$this->loader->add_action( 'wp_ajax_wps_ubo_create_label', $plugin_admin, 'wps_ubo_create_label_callback' );
 			}
-
-			$this->loader->add_filter( 'woocommerce_admin_reports', $plugin_admin, 'add_upsell_reporting' );
-
-			// Rest functionality for order table.
-			$this->loader->add_action( 'manage_shop_order_posts_custom_column', $plugin_admin, 'show_bump_total_content', 20, 2 );
-			// Order Bump Report.
-			$this->loader->add_filter( 'woocommerce_admin_reports', $plugin_admin, 'add_order_bump_reporting' );
-
-			// Include Order Bump screen for Onboarding pop-up.
-			$this->loader->add_filter( 'wps_helper_valid_frontend_screens', $plugin_admin, 'add_wps_frontend_screens' );
-
-			// Include Order Bump plugin for Deactivation pop-up.
-			$this->loader->add_filter( 'wps_deactivation_supported_slug', $plugin_admin, 'add_wps_deactivation_screens' );
-
-			// Validate Pro version compatibility.
-			$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'validate_version_compatibility' );
-
-			// Db migration hook.
-			$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_migrate_db_keys' );
-
-			// Set The Cron For Banner Image.
-			$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_uob_set_cron_for_plugin_notification' );
-
-			$this->loader->add_action( 'wps_wgm_check_for_notification_update', $plugin_admin, 'wps_uob_save_notice_message' );
-
-			$this->loader->add_action( 'wp_ajax_wps_sfw_dismiss_notice_banner', $plugin_admin, 'wps_uob_dismiss_notice_banner_callback' );
-
-			$this->loader->add_action( 'wp_ajax_wps_install_and_redirect_upsell_plugin', $plugin_admin, 'wps_install_and_redirect_upsell_plugin_callback' );
-
-			$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_redirect_upsell_page' );
+			$this->loader->add_action( 'wp_ajax_wps_ubo_create_label', $plugin_admin, 'wps_ubo_create_label_callback' );
 		}
+
+		$this->loader->add_action( 'wp_ajax_wps_ubo_save_popup_system_settings', $plugin_admin, 'wps_ubo_save_popup_system_settings_callback' );
+
+		$this->loader->add_filter( 'woocommerce_admin_reports', $plugin_admin, 'add_upsell_reporting' );
+
+		// Rest functionality for order table.
+		$this->loader->add_action( 'manage_shop_order_posts_custom_column', $plugin_admin, 'show_bump_total_content', 20, 2 );
+		// Order Bump Report.
+		$this->loader->add_filter( 'woocommerce_admin_reports', $plugin_admin, 'add_order_bump_reporting' );
+
+		// Include Order Bump screen for Onboarding pop-up.
+		$this->loader->add_filter( 'wps_helper_valid_frontend_screens', $plugin_admin, 'add_wps_frontend_screens' );
+
+		// Include Order Bump plugin for Deactivation pop-up.
+		$this->loader->add_filter( 'wps_deactivation_supported_slug', $plugin_admin, 'add_wps_deactivation_screens' );
+
+		// Validate Pro version compatibility.
+		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'validate_version_compatibility' );
+
+		// Db migration hook.
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_migrate_db_keys' );
+
+		// Set The Cron For Banner Image.
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_uob_set_cron_for_plugin_notification' );
+
+		$this->loader->add_action( 'wps_wgm_check_for_notification_update', $plugin_admin, 'wps_uob_save_notice_message' );
+
+		$this->loader->add_action( 'wp_ajax_wps_sfw_dismiss_notice_banner', $plugin_admin, 'wps_uob_dismiss_notice_banner_callback' );
+
+		$this->loader->add_action( 'wp_ajax_wps_install_and_redirect_upsell_plugin', $plugin_admin, 'wps_install_and_redirect_upsell_plugin_callback' );
+
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'wps_redirect_upsell_page' );
 	}
 
 	/**
@@ -316,11 +345,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 				$offer_location_details = wps_ubo_lite_retrieve_bump_location_details( $bump_offer_location );
 			}
 
-
 			// Fox currency.
 			$this->loader->add_filter( 'wps_ubo_convert_base_price_diffrent_currency', $plugin_public, 'wps_ubo_convert_diffrent_currency_base_price_callback' );
 
 			// Show bump offer.
+			$wps_bump_target_popup_bump = ! empty( $wps_ubo_global_options['wps_bump_popup_bump_offer'] ) ? $wps_ubo_global_options['wps_bump_popup_bump_offer'] : 'on';
+
+			// Bump offer html section with popup function.
+			if ( 'with_popup' == $wps_bump_target_popup_bump ) {
+				$this->loader->add_action( 'wp_footer', $plugin_public, 'show_offer_bump', 9999 );
+			}
 			$this->loader->add_action( $offer_location_details['hook'], $plugin_public, 'show_offer_bump', $offer_location_details['priority'] );
 
 			// bump shortcode for all page.
@@ -405,7 +439,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_add_to_cart_fbt_product', $plugin_public, 'wps_add_to_cart_fbt_product_callback' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_to_cart_fbt_product', $plugin_public, 'wps_add_to_cart_fbt_product_callback' );
 
-			if ( ! wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' )) {
+			if ( ! wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
 
 				// Hooks Related to one click upsell Start From Here.
 				$this->loader->add_action( 'woocommerce_init', $plugin_public, 'check_compatibltiy_instance_cs' );
@@ -440,7 +474,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 				// Remove http and https from Upsell Action shortcodes added by Page Builders.
 				$this->loader->add_filter( 'the_content', $plugin_public, 'filter_upsell_shortcodes_content' );
 
-				$this->loader->add_filter( 'wp_kses_allowed_html', $plugin_public, 'wocuf_lite_allow_script_tags' );
+				// SECURITY FIX REMOVED: The wp_kses_allowed_html filter has been completely removed.
+				// The plugin already uses wp_add_inline_script() for custom JavaScript output (see post_global_custom_js),
+				// which is the secure WordPress-recommended method. The wp_kses_allowed_html filter was creating a
+				// site-wide XSS vulnerability by allowing script tags in all contexts, including user-submitted content
+				// from comments and posts by Contributors/Authors. This filter is not needed and has been removed entirely.
 
 				// Initiate Upsell Orders before processing payment.
 				$this->loader->add_action( 'woocommerce_checkout_order_processed', $plugin_public, 'wps_wocuf_initate_upsell_orders_shortcode_checkout_org' );

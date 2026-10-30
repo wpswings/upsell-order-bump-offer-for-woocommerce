@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Order Bump Sales by Category Report.
  *

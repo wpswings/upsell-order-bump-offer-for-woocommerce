@@ -1,102 +1,129 @@
 jQuery(document).ready(function ($) {
-  $(document).ready(function () {
-    var wps_current_theme = wps_ubo_lite_public.current_theme;
-    if (
-      "Twenty Twenty-Five" == wps_current_theme ||
-      "Twenty Twenty-Three" == wps_current_theme ||
-      "Twenty Twenty-Four" == wps_current_theme ||
-      "Betheme" == wps_current_theme
-    ) {
-      $("body > div.wrapup_order_bump").first().hide();
-    }
-  });
-
   if (document.querySelector(".woocommerce-order-received")) {
     // You are on the cart page.
     $(".wrapup_order_bump").hide();
   }
 
   $(document).on("click", ".wps-ob_ta-o-title", function (e) {
-    // Check if the target element exists.
-    var bumpButton = document.querySelector(".add_offer_in_cart");
-    if (bumpButton) {
-      // Trigger the click event on the target element
-      bumpButton.click();
+    if ($(e.target).closest(".add_offer_in_cart").length) {
+      return;
+    }
+
+    if (e.wps_ubo_title_click_handled) {
+      return;
+    }
+    e.wps_ubo_title_click_handled = true;
+
+    var bumpButton = $(this).find(".add_offer_in_cart").first();
+    if (!bumpButton.length) {
+      bumpButton = $(this)
+        .closest(".wps_upsell_offer_main_wrapper")
+        .find(".add_offer_in_cart")
+        .first();
+    }
+
+    if (bumpButton.length) {
+      bumpButton.trigger("click");
     } else {
       console.log("Element with class .add_offer_in_cart not found.");
     }
   });
 
+  
+
   setTimeout(function () {
+    //Bump Shown on the checkout page code starts here.
     var wps_is_checkout_block_use =
       wps_ubo_lite_public.wps_is_checkout_block_use;
 
-    if (wps_is_checkout_block_use) {
-      if (jQuery(".wrapup_order_bump").length > 0) {
-        var data = jQuery(".wrapup_order_bump").html();
+    if (
+      wps_is_checkout_block_use &&
+      $("body").hasClass("woocommerce-checkout")
+    ) {
+      if ($(".wrapup_order_bump").length > 0) {
+        var data = $(".wrapup_order_bump").html();
 
+        // ===== LOCATION: Before Place Order =====
         if (
-          "_before_place_order_button" ==
-          wps_ubo_lite_public.wps_order_bump_location_on_checkout
+          wps_ubo_lite_public.wps_order_bump_location_on_checkout ==
+          "_before_place_order_button"
         ) {
-          jQuery(".wp-block-woocommerce-checkout-order-summary-block").append(
-            '<div class = "wrapup_order_bump">' + data + "</div>"
+          $(".wrapup_order_bump").first().remove();
+          $(".wp-block-woocommerce-checkout-order-summary-block").append(
+            '<div class="wrapup_order_bump">' + data + "</div>"
           );
-          $(".wp-block-woocommerce-checkout").siblings().remove();
-        } else if (
-          "_after_payment_gateways" ==
-          wps_ubo_lite_public.wps_order_bump_location_on_checkout
+        }
+
+        // ===== LOCATION: After Payment Gateways =====
+        else if (
+          wps_ubo_lite_public.wps_order_bump_location_on_checkout ==
+          "_after_payment_gateways"
         ) {
-          jQuery(".wc-block-checkout__payment-method").append(
-            '<div class = "wrapup_order_bump">' + data + "</div>"
+          $(".wrapup_order_bump").first().remove();
+          $(".wc-block-checkout__payment-method").append(
+            '<div class="wrapup_order_bump">' + data + "</div>"
           );
-          $(".wp-block-woocommerce-checkout").siblings().remove();
-        } else if (
-          "_before_order_summary" ==
-          wps_ubo_lite_public.wps_order_bump_location_on_checkout
+        }
+
+        // ===== LOCATION: Before Order Summary =====
+        else if (
+          wps_ubo_lite_public.wps_order_bump_location_on_checkout ==
+          "_before_order_summary"
         ) {
-          jQuery(
+          $(".wrapup_order_bump").first().remove();
+          $(
             ".wp-block-woocommerce-checkout-order-summary-coupon-form-block"
-          ).append('<div class = "wrapup_order_bump">' + data + "</div>");
-          $(".wp-block-woocommerce-checkout").siblings().remove();
+          ).append('<div class="wrapup_order_bump">' + data + "</div>");
+        }
+
+        // ===== LOCATION: Before Payment Gateways =====
+        else if (
+          wps_ubo_lite_public.wps_order_bump_location_on_checkout ==
+          "_before_payment_gateways"
+        ) {
+          $(".wrapup_order_bump").first().remove();
+          $(".wp-block-woocommerce-checkout").prepend(
+            '<div class="wrapup_order_bump">' + data + "</div>"
+          );
         }
       }
     }
+    //Bump Shown on the checkout page code ends here.
 
     var wps_is_cart_block_use = wps_ubo_lite_public.wps_is_cart_block_use;
-
     if (
       "on" == wps_ubo_lite_public.wps_enable_cart_upsell &&
       wps_is_cart_block_use &&
       document.querySelector(".woocommerce-cart")
     ) {
+      console.log("Cart Block is used");
+      console.log(wps_ubo_lite_public.wps_order_bump_location_on_cart);
       if (jQuery(".wrapup_order_bump").length > 0) {
         var data = jQuery(".wrapup_order_bump").html();
-
         if (
           "woocommerce_after_cart_totals" ==
           wps_ubo_lite_public.wps_order_bump_location_on_cart
         ) {
           jQuery(".wp-block-woocommerce-cart-totals-block").append(
             '<div class = "wrapup_order_bump">' + data + "</div>"
-          ); //after cart total.
-          $(".wp-block-woocommerce-cart").prev().remove();
+          );
+          $(".wrapup_order_bump").first().remove();
         } else if (
           "woocommerce_cart_collaterals" ==
           wps_ubo_lite_public.wps_order_bump_location_on_cart
         ) {
           jQuery(".wc-block-components-totals-footer-item").append(
             '<div class = "wrapup_order_bump">' + data + "</div>"
-          ); //before cart total.
-          $(".wp-block-woocommerce-cart").prev().remove();
+          );
+          $(".wrapup_order_bump").first().remove();
         } else if (
           "woocommerce_before_cart_totals" ==
           wps_ubo_lite_public.wps_order_bump_location_on_cart
         ) {
           jQuery(
             jQuery(".wp-block-woocommerce-cart-line-items-block").parent()
-          ).append('<div class = "wrapup_order_bump">' + data + "</div>"); //before cart total.
-          $(".wp-block-woocommerce-cart").prev().remove();
+          ).append('<div class = "wrapup_order_bump">' + data + "</div>");
+          $(".wrapup_order_bump").first().remove();
         }
       }
     }
@@ -248,6 +275,10 @@ jQuery(document).ready(function ($) {
         .find(".woocommerce-product-gallery__image")
         .zoom();
     }
+  }
+
+  function wps_is_cart_page_context() {
+    return $("body").hasClass("woocommerce-cart");
   }
 
   const triggerRemoveOffer = (order_bump_index, order_bump_id) => {
@@ -455,9 +486,11 @@ jQuery(document).ready(function ($) {
 
         // When Reload is required.
         if ("subs_reload" == msg) {
-          // Scroll Top and Reload.
-          $("html, body").scrollTop(300);
-          location.reload();
+          if (!wps_is_cart_page_context()) {
+            // Scroll Top and Reload.
+            $("html, body").scrollTop(300);
+            location.reload();
+          }
         }
 
         var body = document.body;
@@ -585,8 +618,6 @@ jQuery(document).ready(function ($) {
         .closest(".wps_upsell_offer_main_wrapper")
         .find(".order_bump_smo")
         .val();
-      // alert('i am click');
-      // console.log(formdata);
 
       // Add product to cart.
       jQuery.ajax({
@@ -650,9 +681,11 @@ jQuery(document).ready(function ($) {
 
             // When Reload is required.
             if ("subs_reload" == msg) {
-              // Scroll Top and Reload.
-              $("html, body").scrollTop(300);
-              location.reload();
+              if (!wps_is_cart_page_context()) {
+                // Scroll Top and Reload.
+                $("html, body").scrollTop(300);
+                location.reload();
+              }
             }
 
             var body = document.body;
@@ -665,8 +698,10 @@ jQuery(document).ready(function ($) {
               (wps_ubo_lite_public.wps_silde_cart_plgin_active ||
                 "Betheme" == wps_current_theme)
             ) {
-              $("html, body").scrollTop(300);
-              location.reload(); //avada and side cart issue fixes.
+              if (!wps_is_cart_page_context()) {
+                $("html, body").scrollTop(300);
+                location.reload(); //avada and side cart issue fixes.
+              }
             }
           }
         },
@@ -1100,29 +1135,67 @@ jQuery(document).ready(function ($) {
 
   if ("on" == wps_ubo_lite_public.wps_popup_exit_intent) {
     $("html").bind("mouseleave", function () {
-      $(".close-button").parent().show();
+      // $(".close-button").parent().show();
       wps_show_pop_up();
       $("html").unbind("mouseleave");
     });
   } else {
-    $(".close-button").parent().show();
+    // $(".close-button").parent().show();
     setTimeout(function () {
       wps_show_pop_up();
-    }, 1000);
+    }, wps_ubo_lite_public.wps_delay_time * 1000);
   }
 
   function wps_show_pop_up() {
-    $('[popup-name="' + "popup-1" + '"]').fadeIn(300);
+    // Cache popup selector (faster & cleaner)
+    const popup = $('[popup-name="popup-1"]');
+    const type = wps_ubo_lite_public.wps_popup_type;
+    switch (type) {
+      case "lightbox":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-lightbox");
+        break;
+
+      case "slidein":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-down");
+        break;
+
+      case "fullscreen":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-full");
+        const popCont = $(".wrapup_order_bump");
+        $(popCont).detach().insertBefore("header");
+        break;
+
+      case "slideleft":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-left");
+        break;
+
+      case "slideright":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-right");
+        break;
+
+      case "slideup":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-up");
+        break;
+
+      case "zoomout":
+        popup.addClass("wps-ubo-show-popup-show wps-ubo-show-popup-zoomout");
+        break;
+
+      default:
+        popup.fadeIn(300); // fallback effect
+        break;
+    }
+
     $(".fusion-header-wrapper").css("display", "none"); ///Avada header hidden on popup.
-    $(".wps-popup-content").slick({
+    $(".wps-popup-content-in").slick({
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: false,
       autoplaySpeed: 1500,
       lazyLoad: "ondemand",
-      fade: true, // 👈 Enables fade effect
-      speed: 800, // 👈 Controls fade transition duration (in ms)
-      cssEase: "ease-in-out", // 👈 Makes the fade smoother
+      fade: true,
+      speed: 800,
+      cssEase: "ease-in-out",
       prevArrow: '<span class="slide-arrow prev-arrow"></span>',
       nextArrow: '<span class="slide-arrow next-arrow"></span>',
       useTransform: true,
@@ -1147,25 +1220,35 @@ jQuery(document).ready(function ($) {
   }
 
   setTimeout(function () {
-    var closeItem = $(".wps_close_modal");
-    if ($(".wps-popup-content>.wps_close_modal").length === 0) {
-      var closeItemDetach = closeItem.detach();
-      console.log("in");
-      $(".wps-popup-content").prepend(closeItemDetach);
-    }
-  }, 1000);
+    // Select the original wrap
+    var wrap = $(".wrapup_order_bump").first();
 
-  // Open Popup
-  $(document).on("click", ".open-button", function (e) {
-    var popup_name = $(this).attr("popup-open");
-    $('[popup-name="' + popup_name + '"]').fadeIn(300);
-    var body = document.body;
-    body.classList.add("wps_body_class_popup");
-  });
+    if (!wrap.length) {
+        console.warn("wrapup_order_bump not found");
+        return;
+    }
+
+    // Clone the wrap so we can extract clean HTML
+    var cloned = wrap.clone();
+
+    // Remove unwanted section from clone
+    cloned.find(".wps_order_bump_without_popup_wrap").remove();
+
+    // Get only the HTML that will be moved
+    var data = cloned.html();
+
+    // Prepend the cleaned content to checkout/cart body
+    $("body.woocommerce-checkout, body.woocommerce-cart").prepend(
+      '<div class="wrapup_order_bump">' + data + "</div>"
+    );
+
+    // NOW REMOVE only the moved parts from original
+    wrap.find(".open-button").remove();
+    wrap.find(".wps_uobo_product_popup").remove();
+  }, 2000);
 
   // Close Popup.
   $(document).on("click", ".close-button ", function (e) {
-    $(".close-button").hide();
     $(".fusion-header-wrapper").css("display", "block"); ///Avada header hidden on popup.
     //Hide the header on popup open.
     if ("Divi" == wps_ubo_lite_public.current_theme) {
@@ -1178,17 +1261,14 @@ jQuery(document).ready(function ($) {
     body.classList.remove("wps_body_class_popup");
   });
 
-//   // Close Popup When Click Outside
-//   $(".popup").on("click", function () {
-//     $(".fusion-header-wrapper").css("display", "block");
-//   });
-    
-    $(document).on("click", function (e) {
-        // Check if the click is outside the .content element
-        if (!$(e.target).closest(".wps-popup-content").length) {
-            $(".wrapup_order_bump .popup").css("display", "none"); // Hide modal
-        }
-    });
+
+
+  $(document).on("click", function (e) {
+    // Check if the click is outside the .content element
+    if (!$(e.target).closest(".wps-popup-content").length) {
+      $(".wrapup_order_bump .popup").css("display", "none"); // Hide modal
+    }
+  });
 
   //Increase and descrease the quantity value on bump offer.
   $(document).on("click", ".wps-ubo__temp-prod-price-qty-add", function (e) {
@@ -1197,7 +1277,6 @@ jQuery(document).ready(function ($) {
   $(document).on("click", ".wps-ubo__temp-prod-price-qty-sub", function (e) {
     document.getElementById("inputtag").value--;
   });
-  // END OF SCRIPT.
 });
 
 // Evergreen timer Start here.
@@ -1252,60 +1331,64 @@ jQuery(document).ready(function ($) {
 // Evergreen timer end here.
 
 (function () {
-  if(wps_ubo_lite_public.is_checkout_page){
-  function waitForWooBlocksReady(callback, tries = 0) {
-    if (tries > 50) return;
-    const wcBlocks = window?.wc?.blocksCheckout;
-    if (wcBlocks?.ExperimentalOrderMeta && wp?.element && wp?.data) {
-      callback(wcBlocks);
-      return;
+  if (wps_ubo_lite_public.is_checkout_page) {
+    function waitForWooBlocksReady(callback, tries = 0) {
+      if (tries > 50) return;
+      const wcBlocks = window?.wc?.blocksCheckout;
+      if (wcBlocks?.ExperimentalOrderMeta && wp?.element && wp?.data) {
+        callback(wcBlocks);
+        return;
+      }
+      setTimeout(() => waitForWooBlocksReady(callback, tries + 1), 200);
     }
-    setTimeout(() => waitForWooBlocksReady(callback, tries + 1), 200);
-  }
 
-  waitForWooBlocksReady((wcBlocks) => {
-    const { registerPlugin } = wp.plugins;
-    const { createElement, useEffect, useState } = wp.element;
-    const { select, subscribe } = wp.data;
-    const { ExperimentalOrderMeta } = wcBlocks;
+    waitForWooBlocksReady((wcBlocks) => {
+      const { registerPlugin } = wp.plugins;
+      const { createElement, useEffect, useState } = wp.element;
+      const { select, subscribe } = wp.data;
+      const { ExperimentalOrderMeta } = wcBlocks;
 
-    const CouponNotice = () => {
-      const [coupons, setCoupons] = useState([]);
+      const CouponNotice = () => {
+        const [coupons, setCoupons] = useState([]);
 
-      useEffect(() => {
-        const cart = select('wc/store/cart').getCartData();
-        setCoupons(cart?.coupons || []);
+        useEffect(() => {
+          const cart = select("wc/store/cart").getCartData();
+          setCoupons(cart?.coupons || []);
 
-        let lastCouponCodes = (cart?.coupons || []).map(c => c.code).join(',');
+          let lastCouponCodes = (cart?.coupons || [])
+            .map((c) => c.code)
+            .join(",");
 
-        const unsubscribe = subscribe(() => {
-          const updated = select('wc/store/cart').getCartData();
-          const currentCodes = (updated?.coupons || []).map(c => c.code).join(',');
+          const unsubscribe = subscribe(() => {
+            const updated = select("wc/store/cart").getCartData();
+            const currentCodes = (updated?.coupons || [])
+              .map((c) => c.code)
+              .join(",");
 
-          setCoupons(updated?.coupons || []);
+            setCoupons(updated?.coupons || []);
 
-          if (currentCodes !== lastCouponCodes) {
-            lastCouponCodes = currentCodes;
-            location.reload();
-          }
-        });
+            if (currentCodes !== lastCouponCodes) {
+              lastCouponCodes = currentCodes;
+              location.reload();
+            }
+          });
 
-        return () => unsubscribe();
-      }, []);
-    };
+          return () => unsubscribe();
+        }, []);
+      };
 
-    const render = () =>
-      createElement(
-        ExperimentalOrderMeta,
-        null,
-        createElement(CouponNotice, null)
-      );
+      const render = () =>
+        createElement(
+          ExperimentalOrderMeta,
+          null,
+          createElement(CouponNotice, null)
+        );
 
-    registerPlugin('my-coupon-notice', {
-      render,
-      scope: 'woocommerce-checkout',
+      registerPlugin("my-coupon-notice", {
+        render,
+        scope: "woocommerce-checkout",
+      });
     });
-  });
-}
+  }
 })();
 //Script end here.

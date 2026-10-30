@@ -733,7 +733,7 @@
     padding: 10px 10px;
     font-size: 18px;
     text-align: center;
-    border-radius: 10px 0px;
+    border-radius: 10px;
     line-height: 29px;
   }
   
@@ -1708,9 +1708,6 @@
     text-align: center;
     position: relative;
     margin-left: 160px;
-  }
-  .wps_ubo_lite_go_pro_popup_body {
-    overflow: hidden;
   }
   .wps_ubo_lite_go_pro_popup_head {
     position: relative;

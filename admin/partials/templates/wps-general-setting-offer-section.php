@@ -234,12 +234,16 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 					</th>
 
 					<?php
-
 					$offer_locations_array = array(
-						'regular_to_offer' => sprintf( '%s&nbsp;&nbsp;%s', esc_html__( '̶R̶e̶g̶u̶l̶a̶r̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
-						'sale_to_offer'    => sprintf( '%s&nbsp;&nbsp;%s', esc_html__( ' ̶S̶a̶l̶e̶ ̶P̶r̶i̶c̶e̶', 'upsell-order-bump-offer-for-woocommerce' ), esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' ) ),
+						'regular_to_offer' => sprintf( '%s&nbsp;&nbsp;%s',
+							esc_html__( "R̵e̵g̵u̵l̵a̵r̵ P̵r̵i̵c̵e", 'upsell-order-bump-offer-for-woocommerce' ),
+							esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' )
+						),
+						'sale_to_offer' => sprintf( '%s&nbsp;&nbsp;%s',
+							esc_html__( "S̵a̵l̵e̵ P̵r̵i̵c̵e", 'upsell-order-bump-offer-for-woocommerce' ),
+							esc_html__( 'Offer Price', 'upsell-order-bump-offer-for-woocommerce' )
+						),
 					);
-
 					?>
 
 					<td class="forminp forminp-text">
@@ -290,7 +294,7 @@ $wps_abandoned_cart_enable = ! empty( $wps_ubo_global_options['wps_ubo_abandoned
 
 						<span class="wps_ubo_premium_strip"><?php esc_html_e( 'Pro', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
 
-						<label for="wps_ubo_offer_purchased_earlier"><?php esc_html_e( 'Product Offer Strip', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
+						<label for="wps_ubo_offer_product_strip"><?php esc_html_e( 'Product Offer Strip', 'upsell-order-bump-offer-for-woocommerce' ); ?></label>
 					</th>
 
 					<td class="forminp forminp-text">

@@ -11,6 +11,11 @@
  * @subpackage Upsell_Order_Bump_Offer_For_Woocommerce/public/partials
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $wps_ubo_global_options = get_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
 
 // Check enability of the plugin at settings page. By default plugin will be enabled.
@@ -94,10 +99,10 @@ if ( empty( $encountered_bump_ids_array ) || ! is_array( $encountered_bump_ids_a
 	WC()->session->set( 'encountered_bump_tarket_key_array', $encountered_bump_tarket_key_array );
 
 	// Add Order Bump Offer View Count for the respective Order Bump.
-foreach ( $encountered_bump_ids_array as $order_bump_id ) {
-
-	$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
-	$sales_by_bump->add_offer_view_count();
+	foreach ( $encountered_bump_ids_array as $order_bump_id ) {
+		
+		$sales_by_bump = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( $order_bump_id );
+		$sales_by_bump->add_offer_view_count();
 }
 
 
@@ -154,6 +159,7 @@ if ( 'without_popup' == $wps_bump_target_popup_bump || ( isset( $wps_upsell_bump
 	}
 	$wps_current_user = wp_get_current_user();
 	$current_user_email = $wps_current_user->user_email;
+	$wc_dynamic_rules = get_option( 'wc_dynamic_discount_rules', array() );
 	// Bump offer html section without popup function.
 	foreach ( $t as $key => $order_bump_id ) {
 
@@ -164,7 +170,19 @@ if ( 'without_popup' == $wps_bump_target_popup_bump || ( isset( $wps_upsell_bump
 		$wps_ubo_condition_show = ! empty( $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] ) ? $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] : 0;
 		if ( 'yes' === $wps_ubo_condition_show ) {
 			{
-			if ( ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
+			$device_country_ok = true;
+			if ( isset( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] ) ) {
+				foreach ( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] as $rule ) {
+					if ( in_array( $rule['field'], array( 'device_type', 'country' ), true ) ) {
+						$target = 'device_type' === $rule['field'] ? wc_detect_device_type() : wc_get_user_country();
+						if ( ! wc_compare_rule_value( $rule['field'], $rule['operator'], $target, $rule['value'] ) ) {
+							$device_country_ok = false;
+							break;
+						}
+					}
+				}
+			}
+			if ( ! $device_country_ok || ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
 				continue;
 			}
 
@@ -222,9 +240,15 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 			continue;
 		}
 
-		if ( ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
-			continue;
-		}
+
+		$wps_ubo_condition_show = ! empty( $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] ) ? $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] : 0;
+		if ( 'yes' === $wps_ubo_condition_show ) {
+			{
+			if ( ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
+				continue;
+			}
+
+			}}
 
 
 		$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
@@ -255,6 +279,26 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 			$wps_offer_id = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_products_in_offer'] : '';
 			$offer_product = wc_get_product( $wps_offer_id );
 
+			$wps_ubo_condition_show = ! empty( $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] ) ? $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] : 0;
+			if ( 'yes' === $wps_ubo_condition_show ) {
+				$device_country_ok = true;
+				if ( isset( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] ) ) {
+					foreach ( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] as $rule ) {
+						if ( in_array( $rule['field'], array( 'device_type', 'country' ), true ) ) {
+							$target = 'device_type' === $rule['field'] ? wc_detect_device_type() : wc_get_user_country();
+							if ( ! wc_compare_rule_value( $rule['field'], $rule['operator'], $target, $rule['value'] ) ) {
+								$device_country_ok = false;
+								break;
+							}
+						}
+					}
+				}
+				if ( ! $device_country_ok || ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
+					unset( $data_for_popup[ $key ] );
+					continue;
+				}
+			}
+
 			// Check if product exists and is a variable product.
 			if ( $offer_product && $offer_product->is_type( 'variable' ) ) {
 				// Remove this key from the array.
@@ -271,43 +315,65 @@ if ( 'with_popup' == $wps_bump_target_popup_bump ) {
 		<a class="open-button" id="wps_open_modal" popup-open="popup-1" href="javascript:void(0)">click</a>
 
 		<div class="popup wps_uobo_product_popup" id="wps_slider" popup-name="popup-1">
-			<div class="wps-popup-content">
-				<?php
-				// For Each Order Bump Ids array.
-				foreach ( $data_for_popup as $key => $order_bump_id ) {
+				<div class="wps-popup-content">
+				<div class="wps-popup-content-in">
+					<?php
+					// For Each Order Bump Ids array.
+					foreach ( $data_for_popup as $key => $order_bump_id ) {
 
-					if ( true === is_valid_user_role( $order_bump_id ) ) {
-						continue;
-					}
-
-					$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
-					if ( ! empty( $min_cart_value_wps ) ) {
-						$cart_total = WC()->cart->get_cart_contents_total();
-						if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+						if ( true === is_valid_user_role( $order_bump_id ) ) {
 							continue;
 						}
-					}
 
-					$encountered_order_bump_id = $order_bump_id;
+						$min_cart_value_wps = ! empty( $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] ) ? $order_bump_collections[ $order_bump_id ]['wps_upsell_bump_min_cart'] : 0;
+						if ( ! empty( $min_cart_value_wps ) ) {
+							$cart_total = WC()->cart->get_cart_contents_total();
+							if ( (int) $cart_total < (int) $min_cart_value_wps ) {
+								continue;
+							}
+						}
 
-					if ( ! empty( $encountered_bump_tarket_key_array ) ) {
-						$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
-					}
+						// Respect conditional visibility (device type, country, etc.).
+						$wps_ubo_condition_show = ! empty( $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] ) ? $order_bump_collections[ $order_bump_id ]['wps_ubo_condition_show'] : 0;
+						if ( 'yes' === $wps_ubo_condition_show ) {
+							$device_country_ok = true;
+							if ( isset( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] ) ) {
+								foreach ( $wc_dynamic_rules['wps_bump_one'][ $order_bump_id ] as $rule ) {
+									if ( in_array( $rule['field'], array( 'device_type', 'country' ), true ) ) {
+										$target = 'device_type' === $rule['field'] ? wc_detect_device_type() : wc_get_user_country();
+										if ( ! wc_compare_rule_value( $rule['field'], $rule['operator'], $target, $rule['value'] ) ) {
+											$device_country_ok = false;
+											break;
+										}
+									}
+								}
+							}
+							if ( ! $device_country_ok || ! wc_dynamic_discount_conditions_pass( 'wps_bump_one', $order_bump_id ) ) {
+								continue;
+							}
+						}
 
-					// No need to check product type again since we already filtered variable products.
-					?>
-					<div class="wps_bump_offer_modal_wrapper">
-						<?php
-						wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
+						$encountered_order_bump_id = $order_bump_id;
+
+						if ( ! empty( $encountered_bump_tarket_key_array ) ) {
+							$encountered_respective_target_key = ! empty( $encountered_bump_tarket_key_array[ $key ] ) ? $encountered_bump_tarket_key_array[ $key ] : '';
+						}
+
+						// No need to check product type again since we already filtered variable products.
 						?>
+						<div class="wps_bump_offer_modal_wrapper">
+							<?php
+							wps_ubo_analyse_and_display_order_bump( $encountered_order_bump_id, $encountered_respective_target_key, $encountered_order_bump_id );
+							?>
+						</div>
+						<?php
+					}
+					?>
 					</div>
-					<?php
-				}
-				?>
-			</div>
-			<div class="wps_close_modal">
-				<a class="close-button" popup-close="popup-1" href="javascript:void(0)"></a>
-			</div>
+					<div class="wps_close_modal">
+						<a class="close-button" popup-close="popup-1" href="javascript:void(0)"></a>
+					</div>
+				</div>
 		</div>
 			<?php
 		}

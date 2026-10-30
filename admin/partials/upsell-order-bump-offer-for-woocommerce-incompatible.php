@@ -37,9 +37,17 @@ if ( 'overview' === get_transient( 'wps_ubo_lite_default_settings_tab' ) ) {
 
 do_action( 'wps_ubo_lite_tab_active' );
 
+$wps_ubo_banner_title = apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) );
 ?>
 <div class="wrap woocommerce" id="wps_upsell_bump_setting_wrapper">
-	<div class="wps_upsell_bump_setting_title"><?php echo esc_html( apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upsell Order Bump Offers', 'upsell-order-bump-offer-for-woocommerce' ) ) ); ?>
+
+	<!-- Top banner (status + plugin name) -->
+	<div class="wps_ubo_top_banner">
+		<span class="wps_ubo_status_pill"><?php esc_html_e( 'UPDATE REQUIRED', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
+		<span class="wps_ubo_banner_title"><?php echo esc_html( $wps_ubo_banner_title ); ?></span>
+	</div>
+
+	<div class="wps_upsell_bump_setting_title"><?php echo esc_html( $wps_ubo_banner_title ); ?>
 	</div>
 
 	<nav class="nav-tab-wrapper woo-nav-tab-wrapper">

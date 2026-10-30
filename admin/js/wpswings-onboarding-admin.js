@@ -1,6 +1,23 @@
 jQuery(document).ready( function($) {
 
-	jQuery(".deactivating-textarea-field").prop('required',true) 
+	var deactivation_reason_textarea = jQuery( '#deactivation-reason-text' );
+
+	function toggle_deactivation_reason_textarea( show_field ) {
+		if ( ! deactivation_reason_textarea.length ) {
+			return;
+		}
+
+		deactivation_reason_textarea.toggleClass( 'wps-keep-hidden', ! show_field );
+		deactivation_reason_textarea.prop( 'required', !! show_field );
+		deactivation_reason_textarea.prop( 'disabled', ! show_field );
+
+		if ( ! show_field ) {
+			deactivation_reason_textarea.val( '' );
+		}
+	}
+
+	// Keep hidden field out of native browser validation until "Other" is selected.
+	toggle_deactivation_reason_textarea( false );
 
 	/*if device is mobile*/
 	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -25,11 +42,7 @@ jQuery(document).ready( function($) {
 		jQuery( document ).on( 'change','.on-boarding-radio-field' ,function(e){
 
 			e.preventDefault();
-			if ( 'other' == jQuery( this ).attr( 'id' ) ) {
-				jQuery( '#deactivation-reason-text' ).removeClass( 'wps-keep-hidden' );
-			} else {
-				jQuery( '#deactivation-reason-text' ).addClass( 'wps-keep-hidden' );
-			}
+			toggle_deactivation_reason_textarea( 'other' === jQuery( this ).attr( 'id' ) );
 		});
 	}
 
@@ -76,7 +89,7 @@ jQuery(document).ready( function($) {
 	jQuery( document ).on( 'submit','form.wps-on-boarding-form',function(e){
 
 		e.preventDefault();
-		var form_data = JSON.stringify( jQuery( 'form.wps-on-boarding-form' ).serializeArray() ); 
+		var form_data = JSON.stringify( jQuery( this ).serializeArray() ); 
 
 		jQuery.ajax({
             type: 'post',

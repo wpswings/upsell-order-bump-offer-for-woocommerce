@@ -1679,15 +1679,21 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					$encountered_bump_array = $wps_ubo_offer_array_collection[ $wps_upsell_bump_id ];
 					$wps_bump_upsell_selected_template = ! empty( $encountered_bump_array['wps_ubo_selected_template'] ) ? sanitize_text_field( $encountered_bump_array['wps_ubo_selected_template'] ) : '';
 
-					if ( '10' == $wps_bump_upsell_selected_template ) {
+						if ( '10' == $wps_bump_upsell_selected_template ) {
 
-						$bumphtml = wps_ubo_lite_bump_offer_html_10( $bump );
-					} elseif ( '11' == $wps_bump_upsell_selected_template ) {
+							$bumphtml = wps_ubo_lite_bump_offer_html_10( $bump );
+						} elseif ( '11' == $wps_bump_upsell_selected_template ) {
 
-						$bumphtml = wps_ubo_lite_bump_offer_html_11( $bump );
-					} else {
-						$bumphtml = wps_ubo_lite_bump_offer_html( $bump );
-					}
+							$bumphtml = wps_ubo_lite_bump_offer_html_11( $bump );
+						} elseif ( '12' == $wps_bump_upsell_selected_template ) {
+
+							$bumphtml = wps_ubo_lite_bump_offer_html_12( $bump );
+						} elseif ( '13' == $wps_bump_upsell_selected_template ) {
+
+							$bumphtml = wps_ubo_lite_bump_offer_html_13( $bump );
+						} else {
+							$bumphtml = wps_ubo_lite_bump_offer_html( $bump );
+						}
 
 					?>
 					<h3 class="wps_ubo_offer_preview_heading"><?php esc_html_e( 'Offer Preview', 'upsell-order-bump-offer-for-woocommerce' ); ?></h3>

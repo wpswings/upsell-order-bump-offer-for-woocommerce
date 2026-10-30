@@ -1,91 +1,308 @@
 (function ($) {
   "use strict";
   $(document).ready(function () {
+    const targetElement = document.querySelector(".wps-bump-offer-container");
 
-      const targetElement = document.querySelector(".wps-bump-offer-container");
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
 
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-    
-      function togglePopUpSetting() {
-        if ($("#wps_Offer_With_Pop_Up_id_pro_1").is(":checked")) {
-          $(".wps_target_bump_for_popup").show(800);
-        } else {
-          $(".wps_target_bump_for_popup").hide(800);
-        }
+    function togglePopUpSetting() {
+      if ($("#wps_Offer_With_Pop_Up_id_pro_1").is(":checked")) {
+        $(".wps_target_bump_for_popup").show(800);
+      } else {
+        $(".wps_target_bump_for_popup").hide(800);
       }
+    }
 
-      // Run the function initially based on the current radio button selection.
+    // Run the function initially based on the current radio button selection.
+    togglePopUpSetting();
+
+    // Listen for changes to the radio buttons.
+    $('input[name="wps_bump_popup_bump_offer"]').on("change", function () {
       togglePopUpSetting();
+    });
 
-      // Listen for changes to the radio buttons.
-      $('input[name="wps_bump_popup_bump_offer"]').on("change", function () {
-        togglePopUpSetting();
-      });
-
-      // Event delegation to handle dynamic elements.
-      $(document).on("click", ".wps-ob_temp-alpha", function () {
-        var $checkbox = $(this).find("#wps-ob_temp-alpha-check");
-        if ($checkbox.is(":checked")) {
-          $checkbox.prop("checked", false);
-          $(this).removeClass("wps-ob_checked");
-        } else {
-          $checkbox.prop("checked", true);
-          $(this).addClass("wps-ob_checked");
-        }
-      });
-
-    var myDiv = document.getElementById("wps_ubo_lite_save_changes_bump");
-    let isHidden = false;
-
-    // Function to check if the user has reached the bottom of the page.
-    function isBottomOfPage() {
-        const windowHeight =
-        window.innerHeight || document.documentElement.clientHeight;
-        const documentHeight = Math.max(
-        document.body.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-        document.documentElement.offsetHeight
-      );
-
-      const scrollPosition =
-        window.scrollY ||
-        window.pageYOffset ||
-        document.documentElement.scrollTop;
-
-      return documentHeight - (scrollPosition + windowHeight) < 50;
-    }
-
-    // Function to hide the div.
-    function hideDiv() {
-      if (myDiv && myDiv.style) {
-        myDiv.style.display = "none";
-        isHidden = true;
-      }
-    }
-
-    // Function to show the div.
-    function showDiv() {
-      if (myDiv && myDiv.style) {
-        myDiv.style.display = "inline-flex";
-        isHidden = false;
-      }
-    }
-
-    // Listen for the scroll event.
-    window.addEventListener("scroll", function () {
-      if (isBottomOfPage() && !isHidden) {
-        hideDiv();
-      } else if (!isBottomOfPage() && isHidden) {
-        showDiv();
+    // Event delegation to handle dynamic elements.
+    $(document).on("click", ".wps-ob_temp-alpha", function () {
+      var $checkbox = $(this).find("#wps-ob_temp-alpha-check");
+      if ($checkbox.is(":checked")) {
+        $checkbox.prop("checked", false);
+        $(this).removeClass("wps-ob_checked");
+      } else {
+        $checkbox.prop("checked", true);
+        $(this).addClass("wps-ob_checked");
       }
     });
+
+  /**
+   * JSON Import (AJAX) for Order Bumps.
+   */
+  $("#wps_ubo_import_csv_form").on("submit", function (e) {
+    e.preventDefault();
+    var $form = $(this);
+    var $notice = $("#wps_ubo_import_notice");
+    var fileInput = document.getElementById("wps_ubo_import_file");
+
+    $notice.removeClass("error updated").text("");
+
+    if (!fileInput || !fileInput.files || !fileInput.files.length) {
+      $notice.addClass("error").text("Please select a JSON file to import.");
+      return;
+    }
+
+    var formData = new FormData();
+    formData.append("action", "wps_ubo_import_bumps_json");
+    formData.append(
+      "security",
+      $form.attr("data-nonce") || wps_ubo_lite_banner_offer_section_obj.auth_nonce
+    );
+    formData.append("wps_ubo_import_file", fileInput.files[0]);
+
+      $notice.text("Importing...").addClass("updated");
+
+      $.ajax({
+        url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+      })
+        .done(function (response) {
+          if (response && response.success) {
+            var message = response.data && response.data.message
+              ? response.data.message
+              : "Import completed.";
+            if (response.data && response.data.imported_count !== undefined) {
+              message +=
+                " Imported: " +
+                response.data.imported_count +
+                " | Total bumps: " +
+                response.data.total_after_import;
+            }
+            $notice.removeClass("error").addClass("updated").text(message);
+          } else {
+            var err =
+              (response && response.data && response.data.message) ||
+              "Import failed. Please verify the CSV and try again.";
+            $notice.removeClass("updated").addClass("error").text(err);
+          }
+        })
+        .fail(function () {
+          $notice
+            .removeClass("updated")
+            .addClass("error")
+            .text("Network error during import. Please retry.");
+        });
+    });
+
+    /**
+     * Toggle bump status from list.
+     */
+    $(document).on("change", ".wps-ubo-status-toggle", function () {
+      var $checkbox = $(this);
+      var bumpId = $checkbox.data("bump-id");
+      var newStatus = $checkbox.is(":checked") ? "yes" : "no";
+      var $statusText = $checkbox
+        .closest(".wps-ubo-bump-card__status, td, .wps-ubo-bump-card")
+        .find(".wps-ubo-status-text")
+        .first();
+
+      $checkbox.prop("disabled", true);
+
+      $.ajax({
+        url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+          action: "wps_ubo_toggle_bump_status",
+          security: wps_ubo_lite_banner_offer_section_obj.auth_nonce,
+          bump_id: bumpId,
+          status: newStatus,
+        },
+      })
+        .done(function (response) {
+          if (response && response.success) {
+            var label =
+              (response.data && response.data.label) ||
+              (newStatus === "yes" ? "Live" : "Sandbox");
+            $statusText.text(label);
+          } else {
+            $checkbox.prop("checked", newStatus !== "yes");
+            alert(
+              (response && response.data && response.data.message) ||
+                "Unable to update status."
+            );
+          }
+        })
+        .fail(function () {
+          $checkbox.prop("checked", newStatus !== "yes");
+          alert("Network error. Please try again.");
+        })
+        .always(function () {
+          $checkbox.prop("disabled", false);
+        });
+    });
+
+    /**
+     * Toggle funnel status from list.
+     */
+    $(document).on("change", ".wps-ubo-funnel-toggle", function () {
+      var $checkbox = $(this);
+      var funnelId = $checkbox.data("funnel-id");
+      var newStatus = $checkbox.is(":checked") ? "yes" : "no";
+      var $statusText = $checkbox
+        .closest(".wps-ubo-bump-card__status, td")
+        .find(".wps-ubo-status-text")
+        .first();
+
+      $checkbox.prop("disabled", true);
+
+      $.ajax({
+        url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+          action: "wps_wocuf_toggle_funnel_status",
+          security: wps_ubo_lite_banner_offer_section_obj.auth_nonce,
+          funnel_id: funnelId,
+          status: newStatus,
+        },
+      })
+        .done(function (response) {
+          if (response && response.success) {
+            var label =
+              (response.data && response.data.label) ||
+              (newStatus === "yes" ? "Live" : "Sandbox");
+            $statusText.text(label);
+          } else {
+            $checkbox.prop("checked", newStatus !== "yes");
+            alert(
+              (response && response.data && response.data.message) ||
+                "Unable to update status."
+            );
+          }
+        })
+        .fail(function () {
+          $checkbox.prop("checked", newStatus !== "yes");
+          alert("Network error. Please try again.");
+        })
+        .always(function () {
+          $checkbox.prop("disabled", false);
+        });
+    });
+
+  /**
+   * JSON Import (AJAX) for Funnels.
+   */
+  $("#wps_ubo_import_funnel_csv_form").on("submit", function (e) {
+    e.preventDefault();
+    var $form = $(this);
+    var $notice = $("#wps_ubo_import_funnel_notice");
+    var fileInput = document.getElementById("wps_ubo_import_funnel_file");
+
+      $notice.removeClass("error updated").text("");
+
+      if (!fileInput || !fileInput.files || !fileInput.files.length) {
+        $notice.addClass("error").text("Please select a JSON file to import.");
+        return;
+      }
+
+      var formData = new FormData();
+      formData.append("action", "wps_wocuf_import_funnels_json");
+      formData.append(
+        "security",
+        $form.attr("data-nonce") || wps_ubo_lite_banner_offer_section_obj.auth_nonce
+      );
+      formData.append("wps_ubo_import_file", fileInput.files[0]);
+
+      $notice.text("Importing...").addClass("updated");
+
+      $.ajax({
+        url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+      })
+        .done(function (response) {
+          if (response && response.success) {
+            var message = response.data && response.data.message
+              ? response.data.message
+              : "Import completed.";
+            if (response.data && response.data.imported_count !== undefined) {
+              message +=
+                " Imported: " +
+                response.data.imported_count +
+                " | Total funnels: " +
+                response.data.total_after_import;
+            }
+            $notice.removeClass("error").addClass("updated").text(message);
+          } else {
+            var err =
+              (response && response.data && response.data.message) ||
+              "Import failed. Please verify the CSV and try again.";
+            $notice.removeClass("updated").addClass("error").text(err);
+          }
+        })
+        .fail(function () {
+          $notice
+            .removeClass("updated")
+            .addClass("error")
+            .text("Network error during import. Please retry.");
+        });
+    });
+
+    // var myDiv = document.getElementById("wps_ubo_lite_save_changes_bump");
+    // let isHidden = false;
+
+    // // Function to check if the user has reached the bottom of the page.
+    // function isBottomOfPage() {
+    //   const windowHeight =
+    //     window.innerHeight || document.documentElement.clientHeight;
+    //   const documentHeight = Math.max(
+    //     document.body.scrollHeight,
+    //     document.body.offsetHeight,
+    //     document.documentElement.clientHeight,
+    //     document.documentElement.scrollHeight,
+    //     document.documentElement.offsetHeight
+    //   );
+
+    //   const scrollPosition =
+    //     window.scrollY ||
+    //     window.pageYOffset ||
+    //     document.documentElement.scrollTop;
+
+    //   return documentHeight - (scrollPosition + windowHeight) < 50;
+    // }
+
+    // // Function to hide the div.
+    // function hideDiv() {
+    //   if (myDiv && myDiv.style) {
+    //     myDiv.style.display = "none";
+    //     isHidden = true;
+    //   }
+    // }
+
+    // // Function to show the div.
+    // function showDiv() {
+    //   if (myDiv && myDiv.style) {
+    //     myDiv.style.display = "inline-flex";
+    //     isHidden = false;
+    //   }
+    // }
+
+    // // Listen for the scroll event.
+    // window.addEventListener("scroll", function () {
+    //   if (isBottomOfPage() && !isHidden) {
+    //     hideDiv();
+    //   } else if (!isBottomOfPage() && isHidden) {
+    //     showDiv();
+    //   }
+    // });
 
     var wps_is_pro_active = wps_ubo_lite_banner_offer_section_obj.is_pro_active;
     if (1 == wps_is_pro_active) {
@@ -348,10 +565,29 @@
     $(".wps_upsell_offer_input_type").on("change paste keyup", function () {
       var text_id = $(this).attr("text_id");
       var msg = ""; // Check which field in changed
-      var price = $(".offer_shown_discount").val().split("+");
+      var price = ["", ""];
+      var shownDiscount = $(".offer_shown_discount").val();
+
+      if (
+        "string" === typeof shownDiscount &&
+        shownDiscount.indexOf("+") !== -1
+      ) {
+        price = shownDiscount.split("+");
+      } else {
+        var discountInputVal =
+          $("input[name='wps_upsell_bump_offer_discount_price']")
+            .first()
+            .val() || "0";
+        var priceTypeVal = $("#wps_upsell_offer_price_type_id").val() || "";
+
+        if ("percentage" === priceTypeVal) {
+          priceTypeVal = "%";
+        }
+
+        price = [discountInputVal, priceTypeVal];
+      }
 
       if (text_id == "fixed") {
-
         if (price[1] == "fixed") {
           var fixed = "$" + price[0];
           var string = $(this).val();
@@ -369,7 +605,6 @@
       }
 
       if (text_id == "percent") {
-
         if (price[1] == "%") {
           var percent = price[0] + "%";
           var string = $(this).val();
@@ -391,7 +626,10 @@
         $(".wps-ubo__temp-head h3").html(msg);
         $(".wps_head_check_ubo span").html(msg);
         $(".wps_accetp_offer_title").html(msg);
-        $(".wps-ob_ta-o-title").html(msg);
+        $(".wps-ob_ta-o-title .wps-ob_ta-o-title-text").text(msg);
+        $(".wps-ob_ta-o-title")
+          .not(":has(input[type='checkbox'])")
+          .text(msg);
       }
     });
 
@@ -409,6 +647,16 @@
         $(".wps-ubo__temp-desc").html(msg);
         $(".wps-ob-st__m-c-p").html(msg);
         $(".wps-ob_ta-o-desc").html(msg);
+
+        // Template 13 keeps this section hidden when description is empty.
+        var $temp13OfferDesc = $(".wps-uob_template-salt .wps-ob_ta-o-desc");
+        if ($temp13OfferDesc.length) {
+          if ($.trim(msg).length) {
+            $temp13OfferDesc.show();
+          } else {
+            $temp13OfferDesc.hide();
+          }
+        }
       }
 
       if (text_id == "pro_desc") {
@@ -418,6 +666,10 @@
         $(".wps_upsell_offer_product_description").html(msg);
         $(".bump-offer-product-description").html(msg);
         $(".wps-ob_ta-p-desc").html(msg);
+        $(".wps-uob_template-salt .wps-ob_ta-p-price").css(
+          "margin-bottom",
+          $.trim(msg).length ? "10px" : "0px"
+        );
       }
     });
 
@@ -707,6 +959,10 @@
           "background-color",
           OfferDescription_bcolor
         );
+        $(".wps-uob_template-salt .wps-ob_ta-o-desc").css(
+          "background-color",
+          OfferDescription_bcolor
+        );
       },
     });
 
@@ -753,6 +1009,10 @@
         "border",
         border_type + " " + border_color + " " + border_size
       );
+      $(".wps-uob_template-salt .wps-ob_temp").css(
+        "border",
+        border_type + " " + border_color + " " + border_size
+      );
     }
 
     // Apply Background color stylings.
@@ -762,6 +1022,10 @@
       $(".wps_upsell_offer_wrapper").css("background-color", background_color);
       $(".wps-ob-st").css("background-color", background_color);
       $(".wps-ob_temp-alpha-wrap").css("background-color", background_color);
+      $(".wps-uob_template-salt .wps-ob_temp-wrap").css(
+        "background-color",
+        background_color
+      );
     }
 
     // Live Preview JS end.
@@ -816,7 +1080,7 @@ jQuery(document).ready(function ($) {
    * Scripts after v1.0.2
    */
   $(
-    "#wps_ubo_enable_fluentcrm_switch,#wps_ubo_product_offer_strip,#wps_ubo_offer_purchased_earlier,#wps_ubo_enable_popup_exit_intent_switch,#wps_enable_fbt_upsell_feature,#wps_ubo_offer_fbt_location_set,#wps_enable_cart_upsell_location,#wps_ubo_offer_timer,#wps_ubo_offer_product_image_slider,#wps_enable_cart_upsell, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature,.wps_bump_offer_popup_case ,#wps_ubo_offer_restrict_coupons, #wps_ubo_offer_ab_method,#wps_upsell_bump_priority,#wps_upsell_bump_min_cart, #wps_upsell_bump_min_cart,#wps_ubo_img_width_slider_pop_up,#wps_ubo_img_height_slider_pop_up,#wps_ubo_select_accept_offer_acolor_pop_up"
+    "#wps_ubo_enable_popup_system_switch,#wps_ubo_enable_fluentcrm_switch,#wps_ubo_product_offer_strip,#wps_ubo_offer_purchased_earlier,#wps_ubo_enable_popup_exit_intent_switch,#wps_enable_fbt_upsell_feature,#wps_ubo_offer_fbt_location_set,#wps_enable_cart_upsell_location,#wps_ubo_offer_timer,#wps_ubo_offer_product_image_slider,#wps_enable_cart_upsell, #wps_ubo_offer_replace_target, #wps_ubo_offer_global_funnel, #wps_ubo_offer_exclusive_limit, #wps_ubo_offer_meta_forms, #wps_enable_red_arrow_feature,.wps_bump_offer_popup_case ,#wps_ubo_offer_restrict_coupons, #wps_ubo_offer_ab_method,#wps_upsell_bump_priority,#wps_upsell_bump_min_cart, #wps_upsell_bump_min_cart,#wps_ubo_img_width_slider_pop_up,#wps_ubo_img_height_slider_pop_up,#wps_ubo_select_accept_offer_acolor_pop_up"
   ).on("click", function (e) {
     // Add popup to unlock pro features.
     var pro_status = document.getElementById("wps_ubo_pro_status");
@@ -1103,385 +1367,193 @@ jQuery(document).ready(function () {
   }, 1000);
 });
 
-jQuery(document).ready(function () {
-  const newdata = wps_ubo_lite_banner_offer_section_obj.wps_all_order_bump_data;
-  // Loop with forEach
-  Object.entries(newdata).forEach(([key, bump]) => {
-    const el = document.getElementById(`myPieChart${key}`);
-    if (!el) {
-      return; // skip this iteration
-    }
-    const ctx = el.getContext("2d");
-    const wps_conversion_rate = bump.offer_view_count
-      ? ((bump.bump_success_count / bump.offer_view_count) * 100).toFixed(2)
-      : 0;
-
-    const views = Number(bump.offer_view_count) || 0;
-    const success = Number(bump.bump_success_count) || 0;
-    const accepts = Number(bump.offer_accept_count) || 0;
-    const sales = Number(bump.bump_total_sales) || 0;
-    // skip if ALL metrics are zero/falsy.
-    if ([views, success, accepts, sales].every((v) => !v)) return;
-
-    // Data to display in the chart
-    const chartData = {
-      labels: [
-        "View Count",
-        "Success Count",
-        "Offer Accept Count",
-        "Offer Remove Count",
-        "Conversion Rate",
-        "Total Sales",
-      ],
-      datasets: [
-        {
-          label: bump.label,
-          data: [
-            bump.offer_view_count || 0,
-            bump.bump_success_count || 0,
-            bump.offer_accept_count || 0,
-            bump.offer_remove_count || 0,
-            wps_conversion_rate,
-            bump.bump_total_sales || 0,
-          ],
-          backgroundColor: [
-            "#FF638499",
-            "#36A2EB99",
-            "#FFCE5699",
-            "#4BC0C099",
-            "#9966FF99",
-            "#8AFF3399",
-          ],
-          borderColor: [
-            "#CC204D",
-            "#1E75BB",
-            "#E6B800",
-            "#008B8B",
-            "#5A2D9D",
-            "#4CAF00",
-          ],
-          borderWidth: 2,
-          hoverBorderWidth: 3,
-
-          // Pop-out effect: offset the hovered slice.
-          offset: (ctx) => (ctx.active ? 12 : 0),
-        },
-      ],
-    };
-
-    // Configuration for Pie chart
-    const config = {
-      type: "pie",
-      data: chartData,
-      options: {
-        responsive: true,
-        animation: {
-          duration: 1000,
-          easing: "easeOutBounce",
-        },
-        plugins: {
-          legend: {
-            position: "top",
-            labels: {
-              usePointStyle: true,
-            },
-          },
-        },
-        onClick: function (evt) {
-          const chart = this;
-          const activePoints = chart.getElementsAtEventForMode(
-            evt,
-            "nearest",
-            { intersect: true },
-            true
-          );
-          if (activePoints.length) {
-            const firstPoint = activePoints[0];
-            const label = chart.data.labels[firstPoint.key];
-            const value =
-              chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.key];
-          }
-        },
-      },
-    };
-
-    // Create the Pie chart
-    new Chart(ctx, config);
-
-    // Toggle functionality for Show/Hide.
-    const toggleButton = document.getElementById("toggleButton" + key);
-    const chartContainer = document.getElementById("chartContainer" + key);
-
-    toggleButton.addEventListener("click", function () {
-      chartContainer.classList.toggle("collapsed");
-      const isCollapsed = chartContainer.classList.contains("collapsed");
-      toggleButton.innerText = isCollapsed
-        ? "Hide Chart"
-        : "Show Chart For " + bump.wps_upsell_bump_name;
-    });
-  });
-});
-
-jQuery(document).ready(function () {
-  const newdata = wps_ubo_lite_banner_offer_section_obj.wps_post_funnels_list;
-
-  // Loop with forEach
-  Object.entries(newdata).forEach(([key, bump]) => {
-    const el = document.getElementById(`wps-post-myPieChart${key}`);
-    if (!el) {
-      return; // skip this iteration.
-    }
-    const ctx = el.getContext("2d");
-
-    const views = Number(bump.offers_view_count) || 0;
-    const success = Number(bump.funnel_success_count) || 0;
-    const accepts = Number(bump.offers_accept_count) || 0;
-    const sales = Number(bump.funnel_total_sales) || 0;
-    // skip if ALL metrics are zero/falsy.
-    if ([views, success, accepts, sales].every((v) => !v)) return;
-
-    const wps_conversion_rate = bump.funnel_triggered_count
-      ? (
-          (bump.funnel_success_count / bump.funnel_triggered_count) *
-          100
-        ).toFixed(2)
-      : 0;
-
-    const wps_offers_pending_count =
-      views - accepts - (bump.offers_reject_count || 0);
-
-    // Data to display in the chart
-    const chartData = {
-      labels: [
-        "Trigger Count",
-        "Success Count",
-        "Offers Viewed",
-        "Offers Accepted",
-        "Offers Rejected",
-        "Offers Pending",
-        "Conversion Rate",
-        "Total Sales",
-      ],
-      datasets: [
-        {
-          label: bump.label,
-          data: [
-            bump.funnel_triggered_count || 0,
-            bump.funnel_success_count || 0,
-            bump.offers_view_count || 0,
-            bump.offers_accept_count || 0,
-            bump.offers_reject_count || 0,
-            wps_offers_pending_count || 0,
-            wps_conversion_rate || 0,
-            bump.funnel_total_sales || 0,
-          ],
-          backgroundColor: [
-            "#FF638499",
-            "#36A2EB99",
-            "#FFCE5699",
-            "#4BC0C099",
-            "#9966FF99",
-            "#FF9F4099",
-            "#8AFF3399",
-            "#FF33F6",
-          ],
-          borderColor: [
-            "#CC204D",
-            "#1E75BB",
-            "#E6B800",
-            "#008B8B",
-            "#5A2D9D",
-            "#CC5500",
-            "#4CAF00",
-            "#CC0099",
-          ],
-          borderWidth: 2,
-          hoverBorderWidth: 3,
-
-          // Pop-out effect: offset the hovered slice.
-          offset: (ctx) => (ctx.active ? 12 : 0),
-        },
-      ],
-    };
-
-    // Configuration for Pie chart
-    const config = {
-      type: "pie",
-      data: chartData,
-      options: {
-        responsive: true,
-        animation: {
-          duration: 1000,
-          easing: "easeOutBounce",
-        },
-        plugins: {
-          legend: {
-            position: "top",
-            labels: {
-              usePointStyle: true,
-            },
-          },
-        },
-        onClick: function (evt) {
-          const chart = this;
-          const activePoints = chart.getElementsAtEventForMode(
-            evt,
-            "nearest",
-            { intersect: true },
-            true
-          );
-          if (activePoints.length) {
-            const firstPoint = activePoints[0];
-            const label = chart.data.labels[firstPoint.key];
-            const value =
-              chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.key];
-          }
-        },
-      },
-    };
-
-    // Create the Pie chart
-    new Chart(ctx, config);
-
-    // Toggle functionality for Show/Hide
-    const toggleButton = document.getElementById("wps-post-toggleButton" + key);
-    const chartContainer = document.getElementById(
-      "wps-post-chartContainer" + key
-    );
-    var wps_funnel_name = "";
-    if (wps_ubo_lite_banner_offer_section_obj.is_pro_active) {
-      wps_funnel_name = bump.wps_wocuf_pro_funnel_name;
-    } else {
-      wps_funnel_name = bump.wps_wocuf_funnel_name;
-    }
-
-    toggleButton.addEventListener("click", function () {
-      chartContainer.classList.toggle("collapsed");
-      const isCollapsed = chartContainer.classList.contains("collapsed");
-      toggleButton.innerText = isCollapsed
-        ? "Hide Chart"
-        : "Show Chart For " + wps_funnel_name;
-    });
-  });
-});
-
 // JavaScript to handle popup and AJAX request.
-jQuery(document).ready(function($) {
-    $('#wps_ubo_open_popup').click(function(e) {
-        e.preventDefault();
-      $('#wps_ubo_label_popup').addClass('show');
-      $('.wps_ubo_popup_wrap').addClass('show');
-      $('.wps_ubo_popup_wrap').show();
-    });
+jQuery(document).ready(function ($) {
+  $("#wps_ubo_open_popup").click(function (e) {
+    e.preventDefault();
+    $("#wps_ubo_label_popup").addClass("show");
+    $(".wps_ubo_popup_wrap").addClass("show");
+    $(".wps_ubo_popup_wrap").show();
+  });
 
-    // Close the popup when the close button is clicked
-    $('#wps_ubo_close_popup').click(function() {
-      $('#wps_ubo_label_popup').removeClass('show');
-       $('.wps_ubo_popup_wrap').removeClass('show');
-    });
-  
-    $(document).click(function(event) {
-        if (!$(event.target).closest('.wps-ubo-popup-content').length && !$(event.target).is('#wps_ubo_open_popup')) {
-          $('#wps_ubo_label_popup').removeClass('show'); // Close the popup when clicking outside.
-            $('.wps_ubo_popup_wrap').removeClass('show');
-        }
-    });
+  // Close the popup when the close button is clicked
+  $("#wps_ubo_close_popup").click(function () {
+    $("#wps_ubo_label_popup").removeClass("show");
+    $(".wps_ubo_popup_wrap").removeClass("show");
+  });
 
-// Handle the form submission for creating the label.
-$('#wps_ubo_create_label').click(function() {
-    var labelName = $('#wps_ubo_label_name').val();
-    var labelColor = $('#wps_ubo_label_color').val();
+  $(document).click(function (event) {
+    if (
+      !$(event.target).closest(".wps-ubo-popup-content").length &&
+      !$(event.target).is("#wps_ubo_open_popup")
+    ) {
+      $("#wps_ubo_label_popup").removeClass("show"); // Close the popup when clicking outside.
+      $(".wps_ubo_popup_wrap").removeClass("show");
+    }
+  });
+
+  // Handle the form submission for creating the label.
+  $("#wps_ubo_create_label").click(function () {
+    var labelName = $("#wps_ubo_label_name").val();
+    var labelColor = $("#wps_ubo_label_color").val();
 
     if (labelName && labelColor) {
-        $.ajax({
-            url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                action: 'wps_ubo_create_label',
-                wps_ubo_label_name: labelName,
-                wps_ubo_label_color: labelColor,
-                nonce: wps_ubo_lite_banner_offer_section_obj.nonce
-            },
-            success: function (response) {
-                console.log(response);
-                if (response.success) {
-                    alert(response.data.message || 'Label created successfully!');
-                    $('#wps_ubo_label_popup').removeClass('show');
-                    $('.wps_ubo_popup_wrap').hide();
-                } else {
-                    alert(response.data.message || 'Error creating label. Please try again.');
-                }
-            },
-            error: function () {
-                console.log('AJAX error occurred.');
-            }
-        });
+      $.ajax({
+        url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+          action: "wps_ubo_create_label",
+          wps_ubo_label_name: labelName,
+          wps_ubo_label_color: labelColor,
+          nonce: wps_ubo_lite_banner_offer_section_obj.nonce,
+        },
+        success: function (response) {
+          console.log(response);
+          if (response.success) {
+            alert(response.data.message || "Label created successfully!");
+            $("#wps_ubo_label_popup").removeClass("show");
+            $(".wps_ubo_popup_wrap").hide();
+          } else {
+            alert(
+              response.data.message || "Error creating label. Please try again."
+            );
+          }
+        },
+        error: function () {
+          console.log("AJAX error occurred.");
+        },
+      });
     } else {
-        alert('Please provide both label name and color.');
+      alert("Please provide both label name and color.");
     }
-});
-  
-    const $checkbox = $('#wps_upsell_bump_enable_plugin_span1');
-    const $campaignCreate = $('.wps_upsell_bump_campaign_create');
+  });
 
-    // Initial check on page load
-    if ($checkbox.is(':checked')) {
-        $campaignCreate.show();
+  const $checkbox = $("#wps_upsell_bump_enable_plugin_span1");
+  const $campaignCreate = $(".wps_upsell_bump_campaign_create");
+
+  // Initial check on page load
+  if ($checkbox.is(":checked")) {
+    $campaignCreate.show();
+  } else {
+    $campaignCreate.hide();
+  }
+
+  // Toggle on change
+  $checkbox.on("change", function () {
+    if ($(this).is(":checked")) {
+      $campaignCreate.show();
     } else {
-        $campaignCreate.hide();
+      $campaignCreate.hide();
     }
-
-    // Toggle on change
-    $checkbox.on('change', function () {
-        if ($(this).is(':checked')) {
-            $campaignCreate.show();
-        } else {
-            $campaignCreate.hide();
-        }
-    });
-
+  });
 });
 
-    jQuery(document).ready(function ($) {
-        // Check initial state of the checkbox and toggle button visibility
-        toggleDiscountConditionsButton();
+jQuery(document).ready(function ($) {
+  // Check initial state of the checkbox and toggle button visibility
+  toggleDiscountConditionsButton();
 
-        // When checkbox state changes, toggle button visibility
-        $('#wps_ubo_condition_show').on('change', function() {
-            toggleDiscountConditionsButton();
-        });
+  // When checkbox state changes, toggle button visibility
+  $("#wps_ubo_condition_show").on("change", function () {
+    toggleDiscountConditionsButton();
+  });
 
-        // Function to show or hide the button based on checkbox state
-        function toggleDiscountConditionsButton() {
-            if ($('#wps_ubo_condition_show').prop('checked')) {
-                // If checkbox is checked, show the button
-                $('#show-discount-conditions').show();
-            } else {
-                // If checkbox is unchecked, hide the button
-                $('#show-discount-conditions').hide();
-            }
-        }
-    });
+  // Function to show or hide the button based on checkbox state
+  function toggleDiscountConditionsButton() {
+    if ($("#wps_ubo_condition_show").prop("checked")) {
+      // If checkbox is checked, show the button
+      $("#show-discount-conditions").show();
+    } else {
+      // If checkbox is unchecked, hide the button
+      $("#show-discount-conditions").hide();
+    }
+  }
+});
 
-    jQuery(document).ready(function($) {
-    $('.wps_number_validation').on('input', function() {
+jQuery(document).ready(function ($) {
+  $(".wps_number_validation").on("input", function () {
     let value = $(this).val();
 
-    // Remove alphabets and special chars — keep only digits and one dot
-    value = value.replace(/[^0-9.]/g, '');
+    // Remove alphabets and special chars — keep only digits and one dot.
+    value = value.replace(/[^0-9.]/g, "");
 
-    // Prevent more than one decimal point
-    const parts = value.split('.');
+    // Prevent more than one decimal point.
+    const parts = value.split(".");
     if (parts.length > 2) {
-      value = parts[0] + '.' + parts[1];
+      value = parts[0] + "." + parts[1];
     }
 
-    // Prevent negative values
-    if (value !== '' && parseFloat(value) < 0) {
-      value = '';
+    // Prevent negative values.
+    if (value !== "" && parseFloat(value) < 0) {
+      value = "";
     }
 
     $(this).val(value);
+  });
+
+  function wps_bump_toggle_popup_button() {
+    if ($("#wps_ubo_enable_popup_system_switch").is(":checked")) {
+      $("#wps_ubo_popup_configure_btn").show();
+    } else {
+      $("#wps_ubo_popup_configure_btn").hide();
+    }
+  }
+
+  // Run on load
+  wps_bump_toggle_popup_button();
+  $("#wps_ubo_enable_popup_system_switch").on("change", function () {
+    wps_bump_toggle_popup_button();
+  });
+
+  // OPEN modal.
+  $("#wps_ubo_popup_configure_btn").on("click", function () {
+    var wps_is_pro_active = wps_ubo_lite_banner_offer_section_obj.is_pro_active;
+    if (1 == wps_is_pro_active) {
+      $("#wps_ubo_popup_modal").addClass("active-pop");
+    }
+  });
+
+  // CLOSE modal (via X).
+  $(".wps-ubo-modal-close").on("click", function () {
+    $("#wps_ubo_popup_modal").removeClass("active-pop");
+  });
+
+  // CLOSE modal (click outside box).
+  $("#wps_ubo_popup_modal").on("click", function (e) {
+    if (e.target === this) {
+      $(this).removeClass("active-pop");
+    }
+  });
+
+  $("#wps_ubo_save_popup_settings").on("click", function () {
+    let type = $("#wps_ubo_popup_type").val();
+    let delay = $("#wps_ubo_popup_delay").val();
+    var wps_is_pro_active = wps_ubo_lite_banner_offer_section_obj.is_pro_active;
+    if (1 != wps_is_pro_active) {
+      return;
+    }
+
+    $.ajax({
+      url: wps_ubo_lite_banner_offer_section_obj.ajaxurl,
+      type: "POST",
+      dataType: "json",
+      data: {
+        action: "wps_ubo_save_popup_system_settings",
+        nonce: wps_ubo_lite_banner_offer_section_obj.nonce,
+        popup_type: type,
+        popup_delay: delay,
+      },
+      success: function (response) {
+        console.log(response);
+        if (response.success) {
+          alert(response.data.message || "Popup settings saved successfully!");
+          $("#wps_ubo_popup_modal").removeClass("active-pop");
+          jQuery('#wps_upsell_bump_creation_setting_save').trigger('click');
+        }
+      },
+      error: function () {
+        console.log("AJAX error occurred.");
+      },
+    });
   });
 });

@@ -4,11 +4,22 @@ jQuery( document ).ready(
 			'click',
 			'.wps-ob_ta-o-title',
 			function(e) {
-				// Check if the target element exists.
-				var bumpButton = document.querySelector( '.add_offer_in_cart' );
-				if (bumpButton) {
-					// Trigger the click event on the target element
-					bumpButton.click();
+				if ($( e.target ).closest( '.add_offer_in_cart' ).length) {
+					return;
+				}
+
+				if (e.wps_ubo_title_click_handled) {
+					return;
+				}
+				e.wps_ubo_title_click_handled = true;
+
+				var bumpButton = $( this ).find( '.add_offer_in_cart' ).first();
+				if ( ! bumpButton.length ) {
+					bumpButton = $( this ).closest( '.wps_upsell_offer_main_wrapper' ).find( '.add_offer_in_cart' ).first();
+				}
+
+				if (bumpButton.length) {
+					bumpButton.trigger( 'click' );
 				} else {
 					console.log( 'Element with class .add_offer_in_cart not found.' );
 				}
@@ -65,10 +76,14 @@ jQuery( document ).ready(
 		var default_price = '';
 		function wps_ubo_lite_intant_zoom_img(selected_order_bump_popup) {
 
-			if (wps_ubo_lite_public.mobile_view != 1) {
+				if (wps_ubo_lite_public.mobile_view != 1) {
 
-				selected_order_bump_popup.find( '.woocommerce-product-gallery__image' ).zoom();
+					selected_order_bump_popup.find( '.woocommerce-product-gallery__image' ).zoom();
+				}
 			}
+
+		function wps_is_cart_page_context() {
+			return $( 'body' ).hasClass( 'woocommerce-cart' );
 		}
 
 		jQuery( document ).on(
@@ -87,7 +102,7 @@ jQuery( document ).ready(
 					let popup_obj = jQuery( '#wps-meta-form-index-' + order_bump_id );
 					// Meta form available.
 					if (popup_obj.length > 0 && ! popup_obj.hasClass( 'wps_bump_popup_variable_meta_form' )) {
-						// alert('btn click');
+						
 						open_custom_form( popup_obj, order_bump_trigger_obj );
 
 						let index = 0;
@@ -235,9 +250,11 @@ jQuery( document ).ready(
 							// When Reload is required.
 							if ('subs_reload' == msg) {
 
-								// Scroll Top and Reload.
-								$( "html, body" ).scrollTop( 300 );
-								location.reload();
+								if ( ! wps_is_cart_page_context() ) {
+									// Scroll Top and Reload.
+									$( "html, body" ).scrollTop( 300 );
+									location.reload();
+								}
 							}
 
 						}
@@ -582,9 +599,11 @@ jQuery( document ).ready(
 						// When Reload is required.
 						if ('subs_reload' == msg) {
 
-							// Scroll Top and Reload.
-							$( "html, body" ).scrollTop( 300 );
-							location.reload();
+							if ( ! wps_is_cart_page_context() ) {
+								// Scroll Top and Reload.
+								$( "html, body" ).scrollTop( 300 );
+								location.reload();
+							}
 						}
 
 						var body = document.body;
