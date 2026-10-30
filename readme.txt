@@ -6,8 +6,8 @@ Tags: Funnel Builder, one-click upsell, woocommerce upsell, popups, frequently b
 Requires at least: 6.7.0
 Tested up to: 7.1
 WC requires at least: 6.5.0
-WC tested up to: 11.0.1
-Stable tag: 3.1.5
+WC tested up to: 11.2.1
+Stable tag: 3.1.7
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -500,6 +500,12 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Changelog ==
 
+= 3.1.7 - Released on 30 Oct 2026 = 
+* Fix: Added capability checks to the admin AJAX handlers that load funnel offer section content and activate offer templates, so users without the right role can no longer run them.
+* Fix: Offer template activation now only works on valid pages the current user is allowed to edit (the offer page ID is validated and permission-checked).
+* Fix: Removed the unused AJAX URL and nonce from the frontend exit-intent script data.
+* New: Compatibility with the latest WP 7.1 and WC 11.2.1
+
 = 3.1.6 - Released on 26 Aug 2026 = 
 * New: Compatibility with the latest WP 7.1 and WC 11.0.1
 * Security Fix: wocuf_lite_allow_script_tags() function has been removed
@@ -787,6 +793,8 @@ Please visit [**WooCommerce Order Bump Knowledge Base**](https://support.wpswing
 
 == Upgrade Notice ==
 
-= 3.1.6 - Released on 26 Aug 2026 = 
-* New: Compatibility with the latest WP 7.1 and WC 11.0.1
-* Security Fix: wocuf_lite_allow_script_tags() function has been removed
+= 3.1.7 - Released on 30 Oct 2026 = 
+* Fix: Added capability checks to the admin AJAX handlers that load funnel offer section content and activate offer templates, so users without the right role can no longer run them.
+* Fix: Offer template activation now only works on valid pages the current user is allowed to edit (the offer page ID is validated and permission-checked).
+* Fix: Removed the unused AJAX URL and nonce from the frontend exit-intent script data.
+* New: Compatibility with the latest WP 7.1 and WC 11.2.1
