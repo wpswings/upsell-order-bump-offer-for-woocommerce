@@ -382,14 +382,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			);
 		}
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( $id_nonce_verified ) {
-			$is_upsell_page = '';
-			if ( isset( $_GET['ocuf_ns'] ) ) {
-				$is_upsell_page = true;
-			}
+		// Treat as upsell page only when the request carries a valid funnel offer nonce.
+		$is_upsell_page = false;
+		if ( isset( $_GET['ocuf_ns'] ) ) {
+			$upsell_offer_nonce = sanitize_text_field( wp_unslash( $_GET['ocuf_ns'] ) );
+			$is_upsell_page     = (bool) wp_verify_nonce( $upsell_offer_nonce, 'funnel_offers' );
 		}
 
 		if ( ! empty( $is_upsell_page ) && ! wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
@@ -403,8 +400,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				'woocommerce-one-click-upsell-public-exit-intent-script-lite',
 				'wps_upsell_public_exit',
 				array(
-					'ajaxurl'                => admin_url( 'admin-ajax.php' ),
-					'nonce'                  => wp_create_nonce( 'wps_wocuf_nonce' ),
 					'skip_enabled'           => $upsell_skip_function,
 					'skip_message'           => $upsell_exit_intent_message,
 				)

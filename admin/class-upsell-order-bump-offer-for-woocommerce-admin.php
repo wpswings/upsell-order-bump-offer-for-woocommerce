@@ -1485,7 +1485,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since    1.0.0
 	 */
 	public function return_funnel_offer_section_content() {
-		 check_ajax_referer( 'wps_wocuf_nonce', 'nonce' );
+		check_ajax_referer( 'wps_wocuf_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'manage_woocommerce' ) || ! current_user_can( 'publish_pages' ) ) {
+			wp_die( -1, 403 );
+		}
 
 		if ( isset( $_POST['wps_wocuf_pro_flag'] ) && isset( $_POST['wps_wocuf_pro_funnel'] ) ) {
 
@@ -2072,10 +2076,19 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	public function activate_respective_offer_template() {
 		check_ajax_referer( 'wps_wocuf_nonce', 'nonce' );
 
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_die( -1, 403 );
+		}
+
 		$funnel_id     = isset( $_POST['funnel_id'] ) ? sanitize_text_field( wp_unslash( $_POST['funnel_id'] ) ) : '';
 		$offer_id      = isset( $_POST['offer_id'] ) ? sanitize_text_field( wp_unslash( $_POST['offer_id'] ) ) : '';
 		$template_id   = isset( $_POST['template_id'] ) ? sanitize_text_field( wp_unslash( $_POST['template_id'] ) ) : '';
-		$offer_post_id = isset( $_POST['offer_post_id'] ) ? sanitize_text_field( wp_unslash( $_POST['offer_post_id'] ) ) : '';
+		$offer_post_id = isset( $_POST['offer_post_id'] ) ? absint( wp_unslash( $_POST['offer_post_id'] ) ) : 0;
+
+		// Offer templates live on pages; only allow pages the current user may edit.
+		if ( empty( $offer_post_id ) || 'page' !== get_post_type( $offer_post_id ) || ! current_user_can( 'edit_post', $offer_post_id ) ) {
+			wp_die( -1, 403 );
+		}
 
 		// IF custom then don't update and just return.
 		if ( 'custom' === $template_id ) {
