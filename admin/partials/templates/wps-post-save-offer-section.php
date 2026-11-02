@@ -351,6 +351,15 @@ if (isset($_POST['wps_wocuf_pro_creation_setting_save'])) {
 
 	$wps_wocuf_pro_funnel['wps_ubo_condition_show']        = ! empty($_POST['wps_ubo_condition_show']) ? sanitize_text_field(wp_unslash($_POST['wps_ubo_condition_show'])) : $wps_wocuf_get_campaign_default('wps_ubo_condition_show', 'no');
 
+	/**
+	 * Filters a funnel before it is saved (nonce already verified above).
+	 *
+	 * @since 3.1.8
+	 * @param array      $wps_wocuf_pro_funnel    Funnel data.
+	 * @param int|string $wps_wocuf_pro_funnel_id Funnel id.
+	 */
+	$wps_wocuf_pro_funnel = apply_filters( 'wps_ubo_funnel_before_save', $wps_wocuf_pro_funnel, $wps_wocuf_pro_funnel_id );
+
 	$wps_wocuf_pro_funnel_series = array();
 
 	// POST funnel as array at funnel id key.
@@ -746,6 +755,17 @@ $wps_wocuf_pro_funnel_schedule_options = array(
 					</td>
 				</tr>
 				<!-- Select Target category end -->
+
+				<?php
+				/**
+				 * Extra targeting fields (Smart Offer Recommendations).
+				 *
+				 * @since 3.1.8
+				 * @param int|string $wps_wocuf_pro_funnel_id Funnel id.
+				 * @param array      $funnel                  Saved funnel data.
+				 */
+				do_action( 'wps_ubo_funnel_targeting_fields', $wps_wocuf_pro_funnel_id, isset( $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ] ) ? $wps_wocuf_pro_funnel_data[ $wps_wocuf_pro_funnel_id ] : array() );
+				?>
 
 				<!-- Schedule your Funnel start -->
 				<tr valign="top">
