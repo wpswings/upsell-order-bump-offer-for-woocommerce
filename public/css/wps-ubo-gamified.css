@@ -1,0 +1,220 @@
+/* Gamified order bump formats (spin wheel / scratch card). */
+.wps-ubo-game {
+	--wps-game-primary: #2271b1;
+	--wps-game-accent: #ffb900;
+	--wps-game-text: #1d2327;
+	box-sizing: border-box;
+	margin: 16px 0;
+	padding: 20px 16px;
+	border: 2px dashed var(--wps-game-primary);
+	border-radius: 12px;
+	background: #fff;
+	color: var(--wps-game-text);
+	text-align: center;
+}
+
+.wps-ubo-game *,
+.wps-ubo-game *::before,
+.wps-ubo-game *::after {
+	box-sizing: border-box;
+}
+
+.wps-ubo-game__headline {
+	margin: 0 0 4px;
+	font-size: 1.15em;
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.wps-ubo-game__teaser {
+	margin: 0 0 12px;
+	font-size: 0.95em;
+}
+
+.wps-ubo-game__stage {
+	display: flex;
+	justify-content: center;
+	margin: 8px 0 14px;
+}
+
+/* Wheel */
+.wps-ubo-game__wheel-wrap {
+	position: relative;
+	width: min(280px, 80vw);
+	aspect-ratio: 1;
+}
+
+.wps-ubo-game__wheel {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	box-shadow: 0 0 0 6px var(--wps-game-accent), 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.wps-ubo-game__svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.wps-ubo-game__rotor {
+	transform-origin: 150px 150px;
+	transform-box: view-box;
+}
+
+.wps-ubo-game__seg-label {
+	fill: #fff;
+	font: 700 14px system-ui, -apple-system, "Segoe UI", sans-serif;
+	paint-order: stroke;
+	stroke: rgba(0, 0, 0, 0.25);
+	stroke-width: 2px;
+}
+
+.wps-ubo-game__hub {
+	fill: #fff;
+	stroke: var(--wps-game-accent);
+	stroke-width: 5;
+}
+
+.wps-ubo-game__pointer {
+	position: absolute;
+	top: -10px;
+	left: 50%;
+	z-index: 2;
+	width: 0;
+	height: 0;
+	transform: translateX(-50%);
+	border-left: 14px solid transparent;
+	border-right: 14px solid transparent;
+	border-top: 26px solid var(--wps-game-text);
+	filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Scratch card */
+.wps-ubo-game__card {
+	position: relative;
+	width: min(320px, 86vw);
+	height: 140px;
+	border-radius: 12px;
+	overflow: hidden;
+	background: linear-gradient(135deg, var(--wps-game-accent), var(--wps-game-primary));
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+	touch-action: none;
+}
+
+.wps-ubo-game__prize {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-size: 2em;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.wps-ubo-game__scratch {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	cursor: grab;
+	transition: opacity 0.5s ease;
+}
+
+.wps-ubo-game__scratch.is-cleared {
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* Buttons & result */
+.wps-ubo-game .wps-ubo-game__play {
+	display: inline-block;
+	min-width: 160px;
+	padding: 12px 24px;
+	border: 0;
+	border-radius: 999px;
+	background: var(--wps-game-primary);
+	color: #fff;
+	font-size: 1em;
+	font-weight: 700;
+	cursor: pointer;
+	transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.wps-ubo-game .wps-ubo-game__play:hover:not(:disabled) {
+	transform: translateY(-1px);
+	filter: brightness(1.08);
+}
+
+.wps-ubo-game .wps-ubo-game__play:focus-visible,
+.wps-ubo-game .wps-ubo-game__skip:focus-visible {
+	outline: 3px solid var(--wps-game-accent);
+	outline-offset: 2px;
+}
+
+.wps-ubo-game button:disabled {
+	opacity: 0.6;
+	cursor: progress;
+}
+
+.wps-ubo-game.is-done .wps-ubo-game__play,
+.wps-ubo-game.is-done .wps-ubo-game__skip {
+	display: none;
+}
+
+.wps-ubo-game__result {
+	min-height: 1.4em;
+	margin: 10px 0 0;
+	font-weight: 700;
+}
+
+.wps-ubo-game .wps-ubo-game__skip {
+	display: block;
+	margin: 8px auto 0;
+	padding: 4px 8px;
+	border: 0;
+	background: none;
+	color: inherit;
+	font-size: 0.85em;
+	text-decoration: underline;
+	cursor: pointer;
+	opacity: 0.75;
+}
+
+/* Revealed bump ribbon */
+.wps-ubo-game-won {
+	--wps-game-primary: #2271b1;
+	--wps-game-accent: #ffb900;
+	--wps-game-text: #1d2327;
+}
+
+.wps-ubo-game-won__ribbon {
+	margin: 12px 0 0;
+	padding: 8px 12px;
+	border-radius: 8px 8px 0 0;
+	background: var(--wps-game-accent);
+	color: var(--wps-game-text);
+	font-weight: 700;
+	text-align: center;
+}
+
+.wps-ubo-game-won.is-new .wps-ubo-game-won__ribbon {
+	animation: wps-ubo-game-pop 0.6s ease;
+}
+
+@keyframes wps-ubo-game-pop {
+	0% { transform: scale(0.9); opacity: 0; }
+	60% { transform: scale(1.03); opacity: 1; }
+	100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wps-ubo-game *,
+	.wps-ubo-game-won * {
+		animation: none !important;
+		transition: none !important;
+	}
+}
