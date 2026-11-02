@@ -87,6 +87,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 		$this->define_heatmap_hooks();
+		$this->define_reco_hooks();
 	}
 
 	/**
@@ -120,6 +121,40 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_' . Upsell_Order_Bump_Heatmap_Public::AJAX_ACTION, $heatmap_public, 'ingest' );
 			$this->loader->add_action( 'wp_ajax_nopriv_' . Upsell_Order_Bump_Heatmap_Public::AJAX_ACTION, $heatmap_public, 'ingest' );
 		}
+	}
+
+	/**
+	 * Register Smart Offer Recommendations hooks (ML + WordPress AI connectors).
+	 *
+	 * @since 3.1.8
+	 * @return void
+	 */
+	private function define_reco_hooks() {
+		// Storage, schema upgrades and background training.
+		$this->loader->add_action( 'admin_init', 'Upsell_Order_Bump_Reco_Db', 'maybe_upgrade' );
+		$this->loader->add_action( Upsell_Order_Bump_Reco_Db::TRAIN_HOOK, 'Upsell_Order_Bump_Reco_Engine', 'run_scheduled' );
+		$this->loader->add_action( 'admin_init', 'Upsell_Order_Bump_Reco_Admin', 'add_privacy_policy_content' );
+
+		// Admin page, AJAX and per-offer fields on the bump / funnel forms.
+		$reco_admin = new Upsell_Order_Bump_Reco_Admin( $this->get_version() );
+		$this->loader->add_action( 'admin_menu', $reco_admin, 'add_menu', 21 );
+		$this->loader->add_action( 'admin_enqueue_scripts', $reco_admin, 'enqueue_assets', 20 );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_reco_save_settings', $reco_admin, 'ajax_save_settings' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_reco_train', $reco_admin, 'ajax_train' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_reco_status', $reco_admin, 'ajax_status' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_reco_delete_model', $reco_admin, 'ajax_delete_model' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_reco_test_ai', $reco_admin, 'ajax_test_ai' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_reco_preview', $reco_admin, 'ajax_preview' );
+		$this->loader->add_action( 'wps_ubo_bump_targeting_fields', $reco_admin, 'render_bump_fields', 10, 2 );
+		$this->loader->add_filter( 'wps_ubo_bump_before_save', $reco_admin, 'save_bump_fields', 10, 2 );
+		$this->loader->add_action( 'wps_ubo_funnel_targeting_fields', $reco_admin, 'render_funnel_fields', 10, 2 );
+		$this->loader->add_filter( 'wps_ubo_funnel_before_save', $reco_admin, 'save_funnel_fields', 10, 2 );
+
+		// Front end: product substitution on read, and guards so substitutions are never saved.
+		$this->loader->add_filter( 'option_wps_ubo_bump_list', 'Upsell_Order_Bump_Reco_Public', 'filter_bump_list' );
+		$this->loader->add_filter( 'option_wps_wocuf_funnels_list', 'Upsell_Order_Bump_Reco_Public', 'filter_funnels_list' );
+		$this->loader->add_filter( 'pre_update_option_wps_ubo_bump_list', 'Upsell_Order_Bump_Reco_Public', 'guard_bump_list' );
+		$this->loader->add_filter( 'pre_update_option_wps_wocuf_funnels_list', 'Upsell_Order_Bump_Reco_Public', 'guard_funnels_list' );
 	}
 
 	/**
@@ -198,6 +233,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-heatmap-db.php';
 		require_once plugin_dir_path( __DIR__ ) . 'public/class-upsell-order-bump-heatmap-public.php';
 		require_once plugin_dir_path( __DIR__ ) . 'admin/class-upsell-order-bump-heatmap-admin.php';
+
+		/**
+		 * Smart Offer Recommendations (ML + WordPress AI connectors).
+		 */
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-reco-db.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-reco-engine.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-reco-ai.php';
+		require_once plugin_dir_path( __DIR__ ) . 'public/class-upsell-order-bump-reco-public.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-upsell-order-bump-reco-admin.php';
 
 		$this->loader = new Upsell_Order_Bump_Offer_For_Woocommerce_Loader();
 	}

@@ -4415,6 +4415,12 @@ function wps_ubo_order_bump_session_validations(
 
 		return false;
 	}
+
+	// Smart Offer Recommendations: AI product / smart match must still hold for the current cart.
+	if ( class_exists( 'Upsell_Order_Bump_Reco_Public' ) && ! Upsell_Order_Bump_Reco_Public::session_still_valid( $encountered_order_bump_id, $selected_order_bump ) ) {
+
+		return false;
+	}
 }
 
 /**

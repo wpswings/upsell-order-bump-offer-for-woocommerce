@@ -231,6 +231,15 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 		$wps_upsell_new_bump['offer_accept_count_pro'] = ! empty( $sales_stats_bump['offer_accept_count_pro'] ) ? $sales_stats_bump['offer_accept_count_pro'] : 0;
 	}
 
+	/**
+	 * Filters a bump before it is saved (nonce already verified above).
+	 *
+	 * @since 3.1.8
+	 * @param array      $wps_upsell_new_bump Bump data.
+	 * @param int|string $wps_upsell_bump_id  Bump id.
+	 */
+	$wps_upsell_new_bump = apply_filters( 'wps_ubo_bump_before_save', $wps_upsell_new_bump, $wps_upsell_bump_id );
+
 	// When Bump is saved for the first time so load default text Settings.
 	$wps_upsell_bump_series = array();
 
@@ -480,6 +489,17 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					</td>
 				</tr>
 				<!-- Target category ends. -->
+
+				<?php
+				/**
+				 * Extra targeting fields (Smart Offer Recommendations).
+				 *
+				 * @since 3.1.8
+				 * @param int|string $wps_upsell_bump_id Bump id.
+				 * @param array      $bump               Saved bump data.
+				 */
+				do_action( 'wps_ubo_bump_targeting_fields', $wps_upsell_bump_id, isset( $wps_upsell_bumps_list[ $wps_upsell_bump_id ] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ] : array() );
+				?>
 
 				<!-- Exclude roles starts. -->
 				<tr valign="top">
