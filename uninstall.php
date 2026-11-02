@@ -13,4 +13,8 @@ $wps_global_options = get_option( 'wps_ubo_global_options', array() );
 if ( ! empty( $wps_global_options['wps_delete_all_on_uninstall'] ) && 'on' === $wps_global_options['wps_delete_all_on_uninstall'] ) {
 	delete_option( 'wps_ubo_global_options' );
 	delete_option( 'wps_ubo_bump_list' );
+
+	// Offer Heatmaps: drop events table, settings and cron.
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-heatmap-db.php';
+	Upsell_Order_Bump_Heatmap_Db::uninstall();
 }

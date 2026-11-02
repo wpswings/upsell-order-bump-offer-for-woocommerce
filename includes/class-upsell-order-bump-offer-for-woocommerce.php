@@ -78,7 +78,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		if ( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION' ) ) {
 			$this->version = UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION;
 		} else {
-			$this->version = '3.1.7';
+			$this->version = '3.1.8';
 		}
 		$this->plugin_name = 'upsell-order-bump-offer-for-woocommerce';
 
@@ -86,6 +86,40 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->define_heatmap_hooks();
+	}
+
+	/**
+	 * Register all hooks for the Offer Heatmaps feature.
+	 *
+	 * @since 3.1.8
+	 */
+	private function define_heatmap_hooks() {
+		// Storage: create/upgrade table for sites updated without re-activation, and retention cron.
+		$this->loader->add_action( 'admin_init', 'Upsell_Order_Bump_Heatmap_Db', 'maybe_upgrade' );
+		$this->loader->add_action( Upsell_Order_Bump_Heatmap_Db::PURGE_CRON, 'Upsell_Order_Bump_Heatmap_Db', 'purge_old' );
+		$this->loader->add_action( 'admin_init', 'Upsell_Order_Bump_Heatmap_Public', 'add_privacy_policy_content' );
+
+		// Admin: report page, data and settings endpoints.
+		$heatmap_admin = new Upsell_Order_Bump_Heatmap_Admin( $this->get_version() );
+		$this->loader->add_action( 'admin_menu', $heatmap_admin, 'add_menu', 20 );
+		$this->loader->add_action( 'admin_enqueue_scripts', $heatmap_admin, 'enqueue_assets' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_heatmap_data', $heatmap_admin, 'ajax_get_data' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_heatmap_preview', $heatmap_admin, 'ajax_get_preview' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_heatmap_save_settings', $heatmap_admin, 'ajax_save_settings' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_heatmap_delete_all', $heatmap_admin, 'ajax_delete_all' );
+
+		// Public: only when the plugin itself is enabled (no offers are shown otherwise).
+		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
+		$plugin_enabled         = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : 'on';
+
+		if ( 'on' === $plugin_enabled ) {
+			$heatmap_public = new Upsell_Order_Bump_Heatmap_Public( $this->get_version() );
+			$this->loader->add_action( 'wp_enqueue_scripts', $heatmap_public, 'enqueue_tracker', 20 );
+			$this->loader->add_filter( 'show_admin_bar', $heatmap_public, 'maybe_hide_admin_bar', 99 );
+			$this->loader->add_action( 'wp_ajax_' . Upsell_Order_Bump_Heatmap_Public::AJAX_ACTION, $heatmap_public, 'ingest' );
+			$this->loader->add_action( 'wp_ajax_nopriv_' . Upsell_Order_Bump_Heatmap_Public::AJAX_ACTION, $heatmap_public, 'ingest' );
+		}
 	}
 
 	/**
@@ -157,6 +191,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		 * The class responsible for the admin Talk to an Expert workflow.
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-talk-to-expert-form.php';
+
+		/**
+		 * The classes responsible for Offer Heatmaps (click / hover tracking on offer templates).
+		 */
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-heatmap-db.php';
+		require_once plugin_dir_path( __DIR__ ) . 'public/class-upsell-order-bump-heatmap-public.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-upsell-order-bump-heatmap-admin.php';
 
 		$this->loader = new Upsell_Order_Bump_Offer_For_Woocommerce_Loader();
 	}
