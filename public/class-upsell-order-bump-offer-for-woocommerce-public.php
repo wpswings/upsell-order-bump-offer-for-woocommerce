@@ -1308,14 +1308,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					continue;
 				}
 
+				// Smart Offer Recommendations: resolve the AI offer product (if enabled) and the targeting mode.
+				$single_bump_array      = Upsell_Order_Bump_Reco_Public::prepare_bump( $single_bump_id, $single_bump_array );
+				$wps_ubo_targeting_mode = Upsell_Order_Bump_Reco_Public::effective_mode( $single_bump_array );
+
 				// WIW-CC : Comment - Don't check target products and categories as we always have to show the offer.
 				// Check if target products or target categories are empty.
 				$single_bump_target_ids = ! empty( $single_bump_array['wps_upsell_bump_target_ids'] ) ? $single_bump_array['wps_upsell_bump_target_ids'] : array();
 				$single_bump_categories = ! empty( $single_bump_array['wps_upsell_bump_target_categories'] ) ? $single_bump_array['wps_upsell_bump_target_categories'] : array();
 				$is_global_funnel       = ! empty( $single_bump_array['wps_ubo_offer_global_funnel'] ) ? $single_bump_array['wps_ubo_offer_global_funnel'] : '';
 
-				// When both target products or target categories are empty, continue.
-				if ( ( empty( $single_bump_target_ids ) && empty( $single_bump_categories ) ) && ( 'yes' !== $is_global_funnel ) ) {
+				// When both target products or target categories are empty, continue (smart/hybrid bumps need no targets).
+				if ( ( empty( $single_bump_target_ids ) && empty( $single_bump_categories ) ) && ( 'yes' !== $is_global_funnel ) && 'static' === $wps_ubo_targeting_mode ) {
 					continue;
 				}
 
@@ -1361,8 +1365,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 						$encountered_bump_array = 0;
 					}
 
-					// If  target category is present.
-					if ( ! empty( $single_bump_array['wps_upsell_bump_target_ids'] ) && is_array( $single_bump_array['wps_upsell_bump_target_ids'] ) ) :
+					// If  target category is present (rule-based targeting is skipped in smart mode).
+					if ( 'smart' !== $wps_ubo_targeting_mode && ! empty( $single_bump_array['wps_upsell_bump_target_ids'] ) && is_array( $single_bump_array['wps_upsell_bump_target_ids'] ) ) :
 
 						// Check if these product are present in cart one by one.
 						foreach ( $single_bump_array['wps_upsell_bump_target_ids'] as $key => $single_target_id ) {
@@ -1410,7 +1414,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 					// 2nd foreach end for product id.
 
 					// If target key is still empty means no target category is found yet.
-					if ( empty( $encountered_bump_array ) && ! empty( $single_bump_array['wps_upsell_bump_target_categories'] ) && is_array( $single_bump_array['wps_upsell_bump_target_categories'] ) ) {
+					if ( 'smart' !== $wps_ubo_targeting_mode && empty( $encountered_bump_array ) && ! empty( $single_bump_array['wps_upsell_bump_target_categories'] ) && is_array( $single_bump_array['wps_upsell_bump_target_categories'] ) ) {
 
 						foreach ( $single_bump_array['wps_upsell_bump_target_categories'] as $key => $single_category_id ) {
 
@@ -1454,6 +1458,21 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 							}
 						} // Second foreach for category search end.
 					}
+
+					// Smart Offer Recommendations: smart / hybrid match from purchase patterns.
+					if ( empty( $encountered_bump_array ) && 'static' !== $wps_ubo_targeting_mode ) {
+
+						$wps_upsell_bump_target_key = Upsell_Order_Bump_Reco_Public::bump_smart_match( $single_bump_id, $single_bump_array );
+
+						if ( ! empty( $wps_upsell_bump_target_key ) && Upsell_Order_Bump_Reco_Public::offer_product_is_available( $single_bump_array['wps_upsell_bump_products_in_offer'], $global_skip_settings ) ) {
+
+							$encountered_bump_array = $single_bump_id;
+
+							array_push( $encountered_bump_key_array, $encountered_bump_array );
+							array_push( $encountered_target_key_array, $wps_upsell_bump_target_key );
+						}
+					}
+
 					$session = WC()->session;
 
 					if ( $session ) {
@@ -4770,6 +4789,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		if ( in_array( $payment_method, $supported_gateways, true ) ) {
 
+			// Smart Offer Recommendations: decide AI offer products for this order before funnels are read.
+			Upsell_Order_Bump_Reco_Public::prepare_upsell_order( $order );
+
 			$wps_wocuf_pro_all_funnels = get_option( 'wps_wocuf_funnels_list', array() );
 
 			$wps_wocuf_pro_flag = 0;
@@ -4825,6 +4847,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 						$wps_wocuf_pro_existing_offers = ! empty( $wps_wocuf_pro_funnel_data['wps_wocuf_applied_offer_number'] ) ? $wps_wocuf_pro_funnel_data['wps_wocuf_applied_offer_number'] : array();
 
+						// Smart Offer Recommendations: targeting mode for this funnel.
+						$wps_ubo_targeting_mode = Upsell_Order_Bump_Reco_Public::effective_mode( $wps_wocuf_pro_funnel_data );
+						$wps_ubo_use_rules      = 'smart' !== $wps_ubo_targeting_mode;
+						$wps_ubo_smart_match    = 'static' !== $wps_ubo_targeting_mode && Upsell_Order_Bump_Reco_Public::funnel_matches_order( $wps_wocuf_pro_single_funnel, $wps_wocuf_pro_funnel_data, $order );
+
 						// To get the first offer from current funnel.
 						if ( count( $wps_wocuf_pro_existing_offers ) ) {
 
@@ -4859,7 +4886,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 									}
 								}
 
-								if ( in_array( (string) $wps_wocuf_pro_product_id, $wps_wocuf_pro_funnel_target_products, true ) || ( ! empty( $wps_wocuf_pro_variation_id ) && in_array( (string) $wps_wocuf_pro_variation_id, $wps_wocuf_pro_funnel_target_products, true ) ) || ( $is_global_funnel ) || ( ! empty( $product_categories ) && ! empty( array_intersect( $product_categories, $funnel_target_product_categories ) ) ) ) {
+								if ( ( $wps_ubo_use_rules && ( in_array( (string) $wps_wocuf_pro_product_id, $wps_wocuf_pro_funnel_target_products, true ) || ( ! empty( $wps_wocuf_pro_variation_id ) && in_array( (string) $wps_wocuf_pro_variation_id, $wps_wocuf_pro_funnel_target_products, true ) ) || ( ! empty( $product_categories ) && ! empty( array_intersect( $product_categories, $funnel_target_product_categories ) ) ) ) ) || ( $is_global_funnel ) || $wps_ubo_smart_match ) {
 
 									// Check if funnel is saved after version 3.0.0.
 									$funnel_saved_after_version_3 = ! empty( $wps_wocuf_pro_all_funnels[ $wps_wocuf_pro_single_funnel ]['wps_upsell_fsav3'] ) ? $wps_wocuf_pro_all_funnels[ $wps_wocuf_pro_single_funnel ]['wps_upsell_fsav3'] : '';

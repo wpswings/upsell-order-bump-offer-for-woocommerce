@@ -17,4 +17,8 @@ if ( ! empty( $wps_global_options['wps_delete_all_on_uninstall'] ) && 'on' === $
 	// Offer Heatmaps: drop events table, settings and cron.
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-heatmap-db.php';
 	Upsell_Order_Bump_Heatmap_Db::uninstall();
+
+	// Smart Offer Recommendations: drop model tables, settings, schedules and order meta.
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-reco-db.php';
+	Upsell_Order_Bump_Reco_Db::uninstall();
 }

@@ -121,6 +121,15 @@ if ( isset( $_POST['wps_upsell_bump_creation_setting_save'] ) ) {
 	$wps_upsell_new_bump['wps_upsell_bump_exclude_roles'] = ! empty( $_POST['wps_upsell_bump_exclude_roles'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['wps_upsell_bump_exclude_roles'] ) ) : '';
 	$wps_upsell_new_bump['wps_bump_label_campaign']        = ! empty( $_POST['wps_bump_label_campaign'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_bump_label_campaign'] ) ) : '';
 	$wps_upsell_new_bump['wps_ubo_condition_show']        = ! empty( $_POST['wps_ubo_condition_show'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_ubo_condition_show'] ) ) : '';
+
+	/**
+	 * Filters a bump before it is saved (nonce already verified above).
+	 *
+	 * @since 3.1.8
+	 * @param array      $wps_upsell_new_bump Bump data.
+	 * @param int|string $wps_upsell_bump_id  Bump id.
+	 */
+	$wps_upsell_new_bump = apply_filters( 'wps_ubo_bump_before_save', $wps_upsell_new_bump, $wps_upsell_bump_id );
 	// When Bump is saved for the first time so load default Design Settings.
 	if ( empty( $_POST['parent_border_type'] ) ) {
 
@@ -499,6 +508,17 @@ $editable_roles = apply_filters( 'wps_upsell_order_bump_editable_roles', $all_ro
 					</td>
 				</tr>
 				<!-- Target category ends. -->
+
+				<?php
+				/**
+				 * Extra targeting fields (Smart Offer Recommendations).
+				 *
+				 * @since 3.1.8
+				 * @param int|string $wps_upsell_bump_id Bump id.
+				 * @param array      $bump               Saved bump data.
+				 */
+				do_action( 'wps_ubo_bump_targeting_fields', $wps_upsell_bump_id, isset( $wps_upsell_bumps_list[ $wps_upsell_bump_id ] ) ? $wps_upsell_bumps_list[ $wps_upsell_bump_id ] : array() );
+				?>
 
 				<!-- Exclude roles starts. -->
 				<tr valign="top">
