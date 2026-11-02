@@ -29,5 +29,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
+		// Offer Heatmaps: stop the retention cron (data is kept until uninstall).
+		require_once plugin_dir_path( __FILE__ ) . 'class-upsell-order-bump-heatmap-db.php';
+		Upsell_Order_Bump_Heatmap_Db::unschedule_purge();
 	}
 }

@@ -30,6 +30,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Activator {
 
 		set_transient( 'wps_ubo_lite_default_settings_tab', 'overview', 300 );
 
+		// Offer Heatmaps: create events table, default settings and retention cron.
+		require_once plugin_dir_path( __FILE__ ) . 'class-upsell-order-bump-heatmap-db.php';
+		Upsell_Order_Bump_Heatmap_Db::install();
+
 
 		// Check if the option already exists; if not, add it with an empty array.
 		if ( ! get_option( 'wps_ubo_global_options' ) ) {
