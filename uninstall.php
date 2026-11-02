@@ -25,4 +25,8 @@ if ( ! empty( $wps_global_options['wps_delete_all_on_uninstall'] ) && 'on' === $
 	// Gamified bump offers: settings and statistics.
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-gamified.php';
 	Upsell_Order_Bump_Gamified::uninstall();
+
+	// Native cart recovery: drop the saved-carts table, settings and schedule.
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-acr-db.php';
+	Upsell_Order_Bump_Acr_Db::uninstall();
 }

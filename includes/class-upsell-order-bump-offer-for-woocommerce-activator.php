@@ -38,6 +38,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Activator {
 		require_once plugin_dir_path( __FILE__ ) . 'class-upsell-order-bump-reco-db.php';
 		Upsell_Order_Bump_Reco_Db::install();
 
+		// Native cart recovery: create the saved-carts table and default settings.
+		require_once plugin_dir_path( __FILE__ ) . 'class-upsell-order-bump-acr-db.php';
+		Upsell_Order_Bump_Acr_Db::install();
+
 
 		// Check if the option already exists; if not, add it with an empty array.
 		if ( ! get_option( 'wps_ubo_global_options' ) ) {
