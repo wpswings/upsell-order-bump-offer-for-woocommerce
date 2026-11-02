@@ -3,7 +3,7 @@ name: Deploy
 on:
   pull_request:
     branches:
-      - release/v3.1.6
+      - release/v3.1.8
 
 jobs:
   deploy:
