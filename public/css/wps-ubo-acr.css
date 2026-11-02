@@ -1,0 +1,91 @@
+/* Cart recovery: consent notice and "Welcome back" offer. */
+.wps-ubo-acr-consent {
+	margin: 4px 0 12px;
+	font-size: 0.8em;
+	opacity: 0.8;
+}
+
+.wps-ubo-acr-consent a {
+	margin-left: 2px;
+}
+
+.wps-ubo-acr-offer {
+	box-sizing: border-box;
+	margin: 0 0 24px;
+	padding: 16px;
+	border: 2px dashed #00a32a;
+	border-radius: 10px;
+	background: #f6fbf7;
+}
+
+.wps-ubo-acr-offer.is-busy {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.wps-ubo-acr-offer__title {
+	margin: 0 0 12px;
+	font-weight: 700;
+	font-size: 1.05em;
+}
+
+.wps-ubo-acr-offer__body {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+}
+
+.wps-ubo-acr-offer .wps-ubo-acr-offer__img {
+	width: 72px;
+	height: 72px;
+	object-fit: cover;
+	border-radius: 6px;
+	flex: 0 0 auto;
+}
+
+.wps-ubo-acr-offer__info {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+}
+
+.wps-ubo-acr-offer__price del {
+	opacity: 0.6;
+	margin-right: 6px;
+}
+
+.wps-ubo-acr-offer__price ins {
+	text-decoration: none;
+	font-weight: 700;
+}
+
+.wps-ubo-acr-offer__badge {
+	display: inline-block;
+	margin-left: 8px;
+	padding: 1px 8px;
+	border-radius: 10px;
+	background: #d63638;
+	color: #fff;
+	font-size: 0.75em;
+	font-weight: 700;
+	vertical-align: middle;
+}
+
+.wps-ubo-acr-offer__toggle {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 12px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.wps-ubo-acr-offer__check {
+	width: 18px;
+	height: 18px;
+}
+
+.wps-ubo-acr-offer.is-added {
+	border-style: solid;
+}

@@ -36,5 +36,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Deactivator {
 		// Smart Offer Recommendations: stop background training (model is kept until uninstall).
 		require_once plugin_dir_path( __FILE__ ) . 'class-upsell-order-bump-reco-db.php';
 		Upsell_Order_Bump_Reco_Db::unschedule();
+
+		// Native cart recovery: stop processing (saved carts are kept until uninstall).
+		require_once plugin_dir_path( __FILE__ ) . 'class-upsell-order-bump-acr-db.php';
+		Upsell_Order_Bump_Acr_Db::unschedule();
 	}
 }

@@ -1,0 +1,241 @@
+/* Cart Recovery admin tab. */
+.wps-ubo-acr {
+	--wps-acr-border: #dcdcde;
+	--wps-acr-muted: #646970;
+	max-width: 1280px;
+	margin-top: 16px;
+}
+
+.wps-ubo-acr__header {
+	margin-bottom: 16px;
+}
+
+.wps-ubo-acr__title {
+	margin: 0 0 4px;
+	font-size: 1.4em;
+}
+
+.wps-ubo-acr__subtitle {
+	margin: 0;
+	max-width: 820px;
+	color: var(--wps-acr-muted);
+}
+
+.wps-ubo-acr__stats {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.wps-ubo-acr__stat,
+.wps-ubo-acr__card {
+	background: #fff;
+	border: 1px solid var(--wps-acr-border);
+	border-radius: 4px;
+	padding: 14px 16px;
+}
+
+.wps-ubo-acr__stat {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.wps-ubo-acr__stat span {
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--wps-acr-muted);
+}
+
+.wps-ubo-acr__stat strong {
+	font-size: 22px;
+	line-height: 1.3;
+}
+
+.wps-ubo-acr__stat small {
+	color: var(--wps-acr-muted);
+}
+
+.wps-ubo-acr__period {
+	margin: 6px 0 16px;
+}
+
+.wps-ubo-acr__card {
+	margin-bottom: 16px;
+}
+
+.wps-ubo-acr__card h3 {
+	margin: 0 0 10px;
+	font-size: 15px;
+}
+
+.wps-ubo-acr__check {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	margin: 10px 0;
+}
+
+.wps-ubo-acr__check input {
+	margin-top: 2px;
+}
+
+.wps-ubo-acr__check small {
+	display: block;
+	margin-top: 2px;
+	color: var(--wps-acr-muted);
+}
+
+.wps-ubo-acr__fields {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px 16px;
+	margin: 10px 0;
+}
+
+.wps-ubo-acr__field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.wps-ubo-acr__field--wide {
+	grid-column: 1 / -1;
+}
+
+.wps-ubo-acr__field > span,
+.wps-ubo-acr__field legend span {
+	font-size: 12px;
+	color: var(--wps-acr-muted);
+}
+
+.wps-ubo-acr__field input[type="text"],
+.wps-ubo-acr__field input[type="number"],
+.wps-ubo-acr__field select,
+.wps-ubo-acr__field textarea {
+	width: 100%;
+	max-width: none;
+}
+
+.wps-ubo-acr__hint {
+	color: #996800;
+}
+
+.wps-ubo-acr__roles {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 16px;
+}
+
+.wps-ubo-acr__steps {
+	display: grid;
+	gap: 12px;
+	margin: 12px 0;
+}
+
+.wps-ubo-acr__step {
+	border: 1px solid var(--wps-acr-border);
+	border-radius: 4px;
+	padding: 12px 14px;
+	background: #fbfbfc;
+}
+
+.wps-ubo-acr__step.is-disabled .wps-ubo-acr__fields,
+.wps-ubo-acr__step.is-disabled .wps-ubo-acr__step-foot,
+.wps-ubo-acr__step.is-disabled .wps-ubo-acr__delay {
+	opacity: 0.5;
+}
+
+.wps-ubo-acr__step-head,
+.wps-ubo-acr__step-foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 18px;
+}
+
+.wps-ubo-acr__step-head .wps-ubo-acr__check {
+	margin: 0;
+}
+
+.wps-ubo-acr__step-actions {
+	margin-left: auto;
+	display: flex;
+	gap: 6px;
+}
+
+.wps-ubo-acr__table-wrap {
+	overflow-x: auto;
+	clear: both;
+}
+
+.wps-ubo-acr__filter {
+	float: none;
+	margin: 0 0 10px;
+}
+
+.wps-ubo-acr .num {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+.wps-ubo-acr__actions form {
+	display: inline;
+	margin-right: 8px;
+}
+
+.wps-ubo-acr__actions a {
+	margin-right: 8px;
+}
+
+.wps-ubo-acr__danger {
+	color: #b32d2e !important;
+}
+
+.wps-ubo-acr__status {
+	display: inline-block;
+	padding: 1px 8px;
+	border-radius: 10px;
+	font-size: 12px;
+	background: #f0f0f1;
+}
+
+.wps-ubo-acr__status.is-active { background: #e5f0fa; color: #135e96; }
+.wps-ubo-acr__status.is-abandoned { background: #fcf9e8; color: #996800; }
+.wps-ubo-acr__status.is-recovered { background: #edfaef; color: #007017; }
+.wps-ubo-acr__status.is-lost { background: #fcf0f1; color: #8a2424; }
+.wps-ubo-acr__status.is-unsubscribed { background: #f0f0f1; color: #50575e; }
+
+@media (max-width: 960px) {
+	.wps-ubo-acr__stats {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.wps-ubo-acr__fields {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Own notice classes: the settings page replaces any .notice-success/-error/-warning inside a tab with a generic "Settings saved." */
+.wps-ubo-acr__notice {
+	margin: 0 0 16px;
+	padding: 8px 12px;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-left-width: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.wps-ubo-acr__notice p {
+	margin: 0.4em 0;
+}
+
+.wps-ubo-acr__notice.is-success { border-left-color: #00a32a; }
+.wps-ubo-acr__notice.is-warning { border-left-color: #dba617; }
+.wps-ubo-acr__notice.is-error { border-left-color: #d63638; }

@@ -89,6 +89,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->define_heatmap_hooks();
 		$this->define_reco_hooks();
 		$this->define_gamified_hooks();
+		$this->define_acr_hooks();
 	}
 
 	/**
@@ -200,6 +201,53 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 	}
 
 	/**
+	 * Register native cart abandonment upsell recovery hooks.
+	 * Independent of the existing "Abandoned Cart Bump" integration (external plugin), which is unchanged.
+	 *
+	 * @since 3.1.8
+	 * @return void
+	 */
+	private function define_acr_hooks() {
+		// Storage, scheduling, privacy text.
+		$this->loader->add_action( 'admin_init', 'Upsell_Order_Bump_Acr_Db', 'maybe_upgrade' );
+		$this->loader->add_filter( 'cron_schedules', 'Upsell_Order_Bump_Acr_Db', 'cron_schedules' );
+		$this->loader->add_action( Upsell_Order_Bump_Acr_Db::CRON_HOOK, 'Upsell_Order_Bump_Acr_Engine', 'process' );
+		$this->loader->add_action( 'admin_init', 'Upsell_Order_Bump_Acr_Public', 'add_privacy_policy_content' );
+		$this->loader->add_filter( 'wp_privacy_personal_data_exporters', 'Upsell_Order_Bump_Acr_Public', 'register_exporter' );
+		$this->loader->add_filter( 'wp_privacy_personal_data_erasers', 'Upsell_Order_Bump_Acr_Public', 'register_eraser' );
+
+		// Admin: "Cart Recovery" tab.
+		$acr_admin = new Upsell_Order_Bump_Acr_Admin( $this->get_version() );
+		$this->loader->add_action( 'wps_ubo_setting_tab', $acr_admin, 'render_tab_link' );
+		$this->loader->add_action( 'wps_ubo_lite_setting_tab_html', $acr_admin, 'render_tab_content' );
+		$this->loader->add_action( 'admin_init', $acr_admin, 'handle_post' );
+		$this->loader->add_action( 'admin_post_wps_ubo_acr_preview', $acr_admin, 'preview' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $acr_admin, 'enqueue_assets' );
+
+		// Front end. Capture, sending and the checkout script stop while the feature is disabled;
+		// links in emails already sent (restore, unsubscribe) keep working and honour the emailed price.
+		$acr_public = new Upsell_Order_Bump_Acr_Public( $this->get_version() );
+		foreach ( array( 'woocommerce_add_to_cart', 'woocommerce_cart_item_removed', 'woocommerce_after_cart_item_quantity_update', 'woocommerce_cart_emptied', 'woocommerce_cart_item_restored' ) as $cart_hook ) {
+			$this->loader->add_action( $cart_hook, $acr_public, 'mark_dirty' );
+		}
+		$this->loader->add_action( 'shutdown', $acr_public, 'maybe_sync', 5 );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_acr_capture', $acr_public, 'ajax_capture' );
+		$this->loader->add_action( 'wp_ajax_nopriv_wps_ubo_acr_capture', $acr_public, 'ajax_capture' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_acr_optout', $acr_public, 'ajax_optout' );
+		$this->loader->add_action( 'wp_ajax_nopriv_wps_ubo_acr_optout', $acr_public, 'ajax_optout' );
+		$this->loader->add_action( 'wp_ajax_wps_ubo_acr_toggle_offer', $acr_public, 'ajax_toggle_offer' );
+		$this->loader->add_action( 'wp_ajax_nopriv_wps_ubo_acr_toggle_offer', $acr_public, 'ajax_toggle_offer' );
+		$this->loader->add_action( 'template_redirect', $acr_public, 'handle_links', 5 );
+		$this->loader->add_action( 'woocommerce_before_calculate_totals', $acr_public, 'apply_offer_price', 30 );
+		$this->loader->add_action( 'woocommerce_before_checkout_form', $acr_public, 'print_offer_box', 5 );
+		$this->loader->add_filter( 'render_block_woocommerce/checkout', $acr_public, 'prepend_offer_box' );
+		$this->loader->add_action( 'woocommerce_checkout_create_order_line_item', $acr_public, 'add_item_meta', 10, 3 );
+		$this->loader->add_action( 'woocommerce_checkout_order_processed', $acr_public, 'on_order_classic', 20 );
+		$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $acr_public, 'on_order_block', 20 );
+		$this->loader->add_action( 'wp_enqueue_scripts', $acr_public, 'enqueue_assets', 20 );
+	}
+
+	/**
 	 * Load the required dependencies for this plugin.
 	 *
 	 * Include the following files that make up the plugin:
@@ -291,6 +339,15 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-gamified.php';
 		require_once plugin_dir_path( __DIR__ ) . 'public/class-upsell-order-bump-gamified-public.php';
 		require_once plugin_dir_path( __DIR__ ) . 'admin/class-upsell-order-bump-gamified-admin.php';
+
+		/**
+		 * Native cart abandonment upsell recovery.
+		 */
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-acr-db.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-acr-engine.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-acr-mailer.php';
+		require_once plugin_dir_path( __DIR__ ) . 'public/class-upsell-order-bump-acr-public.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-upsell-order-bump-acr-admin.php';
 
 		$this->loader = new Upsell_Order_Bump_Offer_For_Woocommerce_Loader();
 	}
