@@ -88,6 +88,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->define_public_hooks();
 		$this->define_heatmap_hooks();
 		$this->define_reco_hooks();
+		$this->define_gamified_hooks();
 	}
 
 	/**
@@ -155,6 +156,47 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_filter( 'option_wps_wocuf_funnels_list', 'Upsell_Order_Bump_Reco_Public', 'filter_funnels_list' );
 		$this->loader->add_filter( 'pre_update_option_wps_ubo_bump_list', 'Upsell_Order_Bump_Reco_Public', 'guard_bump_list' );
 		$this->loader->add_filter( 'pre_update_option_wps_wocuf_funnels_list', 'Upsell_Order_Bump_Reco_Public', 'guard_funnels_list' );
+	}
+
+	/**
+	 * Register Gamified bump offer hooks (spin wheel / scratch card).
+	 *
+	 * @since 3.1.8
+	 * @return void
+	 */
+	private function define_gamified_hooks() {
+		// Admin: "Gamified Offers" tab.
+		$gamified_admin = new Upsell_Order_Bump_Gamified_Admin( $this->get_version() );
+		$this->loader->add_action( 'wps_ubo_setting_tab', $gamified_admin, 'render_tab_link' );
+		$this->loader->add_action( 'wps_ubo_lite_setting_tab_html', $gamified_admin, 'render_tab_content' );
+		$this->loader->add_action( 'admin_init', $gamified_admin, 'handle_post' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $gamified_admin, 'enqueue_assets' );
+
+		/*
+		 * Prize price override. Read filter runs after Smart Recommendations (20 > 10) and the
+		 * write guard runs before it (5 < 10), so both features restore in reverse order.
+		 */
+		$this->loader->add_filter( 'option_wps_ubo_bump_list', 'Upsell_Order_Bump_Gamified', 'filter_bump_list', 20 );
+		$this->loader->add_filter( 'pre_update_option_wps_ubo_bump_list', 'Upsell_Order_Bump_Gamified', 'guard_bump_list', 5 );
+
+		$wps_ubo_global_options = get_option( 'wps_ubo_global_options', array() );
+		$plugin_enabled         = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : 'on';
+		if ( 'on' !== $plugin_enabled ) {
+			return;
+		}
+
+		// Front end: render games, server-side draw, accept tracking, order meta.
+		$gamified_public = new Upsell_Order_Bump_Gamified_Public( $this->get_version() );
+		$this->loader->add_action( 'wp_enqueue_scripts', $gamified_public, 'enqueue_assets', 20 );
+		$this->loader->add_filter( 'wps_ubo_bump_offer_output_handled', $gamified_public, 'render_game', 10, 4 );
+		$this->loader->add_action( 'wps_ubo_before_bump_offer_html', $gamified_public, 'before_bump_html' );
+		$this->loader->add_action( 'wps_ubo_after_bump_offer_html', $gamified_public, 'after_bump_html' );
+		$this->loader->add_action( 'wp_ajax_' . Upsell_Order_Bump_Gamified_Public::AJAX_ACTION, $gamified_public, 'ajax_play' );
+		$this->loader->add_action( 'wp_ajax_nopriv_' . Upsell_Order_Bump_Gamified_Public::AJAX_ACTION, $gamified_public, 'ajax_play' );
+		$this->loader->add_action( 'woocommerce_add_to_cart', $gamified_public, 'track_accept', 10, 6 );
+		$this->loader->add_action( 'woocommerce_checkout_create_order_line_item', $gamified_public, 'add_item_meta', 10, 3 );
+		$this->loader->add_action( 'woocommerce_checkout_order_processed', $gamified_public, 'clear_after_order', 99 );
+		$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $gamified_public, 'clear_after_order', 99 );
 	}
 
 	/**
@@ -242,6 +284,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-reco-ai.php';
 		require_once plugin_dir_path( __DIR__ ) . 'public/class-upsell-order-bump-reco-public.php';
 		require_once plugin_dir_path( __DIR__ ) . 'admin/class-upsell-order-bump-reco-admin.php';
+
+		/**
+		 * Gamified bump offers (spin wheel / scratch card).
+		 */
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-upsell-order-bump-gamified.php';
+		require_once plugin_dir_path( __DIR__ ) . 'public/class-upsell-order-bump-gamified-public.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-upsell-order-bump-gamified-admin.php';
 
 		$this->loader = new Upsell_Order_Bump_Offer_For_Woocommerce_Loader();
 	}

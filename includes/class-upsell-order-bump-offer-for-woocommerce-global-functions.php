@@ -3160,6 +3160,20 @@ function wps_ubo_analyse_and_display_order_bump(
 		WC()->session->set( 'encountered_bump_array_display', 'true' );
 	}
 
+	/**
+	 * Lets an alternative format (e.g. gamified spin wheel / scratch card) print
+	 * its own output instead of the standard bump. Return true when handled.
+	 *
+	 * @since 3.1.8
+	 * @param bool   $handled                           Whether output was handled.
+	 * @param int    $encountered_order_bump_id         Bump id.
+	 * @param string $encountered_respective_target_key Target cart key.
+	 * @param mixed  $key                               Bump key.
+	 */
+	if ( apply_filters( 'wps_ubo_bump_offer_output_handled', false, $encountered_order_bump_id, $encountered_respective_target_key, $key ) ) {
+		return;
+	}
+
 	// Fetch Order Bump HTML from Order Bump Details.
 	// Key for handling Mulitple Order Bumps.
 	$encountered_bump_array = $wps_ubo_offer_array_collection[ $encountered_order_bump_id ];
@@ -3210,6 +3224,15 @@ function wps_ubo_analyse_and_display_order_bump(
 
 	$allowed_html = wps_ubo_lite_allowed_html();
 
+	/**
+	 * Fires before the standard bump HTML is printed.
+	 *
+	 * @since 3.1.8
+	 * @param int   $encountered_order_bump_id Bump id.
+	 * @param array $bump                      Bump details.
+	 */
+	do_action( 'wps_ubo_before_bump_offer_html', $encountered_order_bump_id, $bump );
+
 	if ( '11' != $wps_bump_upsell_selected_template ) {
 		echo wp_kses( $bumphtml, $allowed_html );
 	} else {
@@ -3229,6 +3252,15 @@ function wps_ubo_analyse_and_display_order_bump(
 	if ( $offer_product->has_child() ) {
 		wps_ubo_lite_show_variation_popup( $offer_product, $key, $meta_form_attr );
 	}
+
+	/**
+	 * Fires after the standard bump HTML is printed.
+	 *
+	 * @since 3.1.8
+	 * @param int   $encountered_order_bump_id Bump id.
+	 * @param array $bump                      Bump details.
+	 */
+	do_action( 'wps_ubo_after_bump_offer_html', $encountered_order_bump_id, $bump );
 }
 
 /**

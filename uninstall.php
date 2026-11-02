@@ -21,4 +21,8 @@ if ( ! empty( $wps_global_options['wps_delete_all_on_uninstall'] ) && 'on' === $
 	// Smart Offer Recommendations: drop model tables, settings, schedules and order meta.
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-reco-db.php';
 	Upsell_Order_Bump_Reco_Db::uninstall();
+
+	// Gamified bump offers: settings and statistics.
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-gamified.php';
+	Upsell_Order_Bump_Gamified::uninstall();
 }
