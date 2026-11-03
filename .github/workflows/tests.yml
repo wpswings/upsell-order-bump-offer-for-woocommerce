@@ -157,8 +157,10 @@ jobs:
         with:
           name: e2e-report
           retention-days: 7
+          include-hidden-files: true
           path: |
             tests/e2e/.report/
             tests/e2e/.results/
             /tmp/php-server.log
             ${{ env.WP_DIR }}/wp-content/debug.log
+            ${{ env.WP_DIR }}/wp-content/ci-mail.log

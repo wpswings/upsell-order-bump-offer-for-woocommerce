@@ -90,5 +90,29 @@ if ! wp post get "$CHECKOUT_ID" --field=post_content | grep -q 'wp:woocommerce/c
 	exit 1
 fi
 wp rewrite flush --hard
+
+# CI runners have no mail transport, and spawning a missing sendmail from a
+# `php -S` worker kills it (empty response at order-received). Record outgoing
+# mail in a log instead of delivering it. CLI is left alone so the E2E fixture
+# keeps capturing mail itself.
+mkdir -p "$WP_DIR/wp-content/mu-plugins"
+cat > "$WP_DIR/wp-content/mu-plugins/wps-ci-mail.php" <<'PHP'
+<?php
+/**
+ * Plugin Name: WPS CI mail sink
+ */
+if ( 'cli' !== PHP_SAPI ) {
+	add_filter(
+		'pre_wp_mail',
+		static function ( $return, $atts ) {
+			$to = is_array( $atts['to'] ) ? implode( ', ', $atts['to'] ) : $atts['to'];
+			error_log( gmdate( 'c' ) . " to={$to} subject={$atts['subject']}\n", 3, WP_CONTENT_DIR . '/ci-mail.log' );
+			return true;
+		},
+		10,
+		2
+	);
+}
+PHP
 echo "::endgroup::"
 rm -rf "$TMP"
