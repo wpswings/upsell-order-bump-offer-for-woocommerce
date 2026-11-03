@@ -1,0 +1,14 @@
+{
+	"name": "upsell-order-bump-offer-for-woocommerce-tests",
+	"private": true,
+	"description": "End-to-end tests (Playwright) for Upsell Order Bump Offer for WooCommerce. Not shipped with the plugin.",
+	"scripts": {
+		"test:e2e": "playwright test",
+		"test:e2e:headed": "playwright test --headed",
+		"test:e2e:report": "playwright show-report tests/e2e/.report",
+		"test:php": "bin/run-php-tests.sh"
+	},
+	"devDependencies": {
+		"@playwright/test": "1.49.1"
+	}
+}
