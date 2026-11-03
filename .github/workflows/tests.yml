@@ -1,0 +1,171 @@
+name: Tests
+
+# Runs the PHPUnit (unit + integration) and Playwright (E2E) suites on every pull request.
+# See docs/WPS-7886-test-cases.md.
+on:
+  pull_request:
+    branches:
+      - master
+      - 'release/**'
+  workflow_dispatch:
+
+concurrency:
+  group: tests-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # Keep in step with the versions the plugin is tested against locally.
+  WP_VERSION: '7.1.3'
+  WC_VERSION: '11.2.1'
+  PHP_VERSION: '8.2'
+  WP_DIR: /tmp/wordpress
+
+jobs:
+  phpunit:
+    name: PHPUnit (unit + integration)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wps_ubo_tests
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mysqli, zip, gd, intl, mbstring
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+
+      - name: Install Composer dev dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Download WordPress and WooCommerce
+        run: bin/ci-install-wp.sh core
+
+      - name: Run PHPUnit
+        env:
+          PHP_BIN: php
+          WPS_TEST_ABSPATH: ${{ env.WP_DIR }}
+          WPS_TEST_WC_DIR: ${{ env.WP_DIR }}/wp-content/plugins/woocommerce
+          WPS_TEST_DB_NAME: wps_ubo_tests
+          WPS_TEST_DB_USER: root
+          WPS_TEST_DB_PASSWORD: root
+          WPS_TEST_DB_HOST: 127.0.0.1
+        run: bin/run-php-tests.sh --colors=always
+
+  e2e:
+    name: Playwright (E2E)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      WP_URL: http://localhost:8889
+      DB_NAME: wordpress
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_HOST: 127.0.0.1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mysqli, zip, gd, intl, mbstring
+          coverage: none
+          tools: wp-cli
+          # OPcache/JIT shared memory is not safe with forked `php -S` workers: one
+          # crashed worker takes the others down, leaving empty responses for the rest
+          # of the run. The test store is small, so run it without OPcache.
+          ini-values: opcache.enable=0, opcache.enable_cli=0, opcache.jit=disable, opcache.jit_buffer_size=0, memory_limit=512M
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install npm dev dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Install WordPress store
+        run: bin/ci-install-wp.sh site
+
+      - name: Start web server
+        run: |
+          php -i | grep -E "^(opcache.enable_cli|opcache.jit|memory_limit) " || true
+          PHP_CLI_SERVER_WORKERS=4 nohup php -d opcache.enable_cli=0 -S localhost:8889 -t "$WP_DIR" > /tmp/php-server.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -fs -o /dev/null "$WP_URL/wp-login.php" && exit 0
+            sleep 1
+          done
+          echo "Web server did not start" >&2
+          cat /tmp/php-server.log
+          exit 1
+
+      - name: Run Playwright
+        env:
+          CI: 'true'
+          PHP_BIN: php
+          WPS_E2E_WP_ROOT: ${{ env.WP_DIR }}
+          WPS_E2E_BASE_URL: ${{ env.WP_URL }}
+          WPS_E2E_CHANNEL: ''
+        run: npx playwright test
+
+      - name: Upload Playwright report and logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report
+          retention-days: 7
+          include-hidden-files: true
+          path: |
+            tests/e2e/.report/
+            tests/e2e/.results/
+            /tmp/php-server.log
+            ${{ env.WP_DIR }}/wp-content/debug.log
+            ${{ env.WP_DIR }}/wp-content/ci-mail.log

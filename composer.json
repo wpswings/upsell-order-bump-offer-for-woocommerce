@@ -1,0 +1,22 @@
+{
+	"name": "wpswings/upsell-order-bump-offer-for-woocommerce",
+	"description": "Development tooling (tests) for Upsell Order Bump Offer for WooCommerce. Not required at runtime.",
+	"type": "wordpress-plugin",
+	"license": "GPL-3.0-or-later",
+	"require-dev": {
+		"phpunit/phpunit": "^9.6",
+		"yoast/phpunit-polyfills": "^2.0",
+		"wp-phpunit/wp-phpunit": "^7.1"
+	},
+	"config": {
+		"platform": {
+			"php": "8.2.29"
+		},
+		"sort-packages": true
+	},
+	"scripts": {
+		"test": "phpunit",
+		"test:unit": "phpunit --testsuite unit",
+		"test:integration": "phpunit --testsuite integration"
+	}
+}

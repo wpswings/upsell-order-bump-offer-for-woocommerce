@@ -1,1 +1,8 @@
 .history
+# Test tooling (dev only)
+/vendor/
+/node_modules/
+/tests/e2e/.auth/
+/tests/e2e/.results/
+/tests/e2e/.report/
+/.phpunit.result.cache
