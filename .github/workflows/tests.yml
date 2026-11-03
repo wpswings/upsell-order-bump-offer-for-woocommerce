@@ -115,6 +115,10 @@ jobs:
           extensions: mysqli, zip, gd, intl, mbstring
           coverage: none
           tools: wp-cli
+          # OPcache/JIT shared memory is not safe with forked `php -S` workers: one
+          # crashed worker takes the others down, leaving empty responses for the rest
+          # of the run. The test store is small, so run it without OPcache.
+          ini-values: opcache.enable=0, opcache.enable_cli=0, opcache.jit=disable, opcache.jit_buffer_size=0, memory_limit=512M
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -133,7 +137,8 @@ jobs:
 
       - name: Start web server
         run: |
-          PHP_CLI_SERVER_WORKERS=4 nohup php -S localhost:8889 -t "$WP_DIR" > /tmp/php-server.log 2>&1 &
+          php -i | grep -E "^(opcache.enable_cli|opcache.jit|memory_limit) " || true
+          PHP_CLI_SERVER_WORKERS=4 nohup php -d opcache.enable_cli=0 -S localhost:8889 -t "$WP_DIR" > /tmp/php-server.log 2>&1 &
           for i in $(seq 1 30); do
             curl -fs -o /dev/null "$WP_URL/wp-login.php" && exit 0
             sleep 1
