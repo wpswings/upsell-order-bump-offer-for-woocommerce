@@ -55,7 +55,16 @@ $wps_ubo_banner_title = apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upse
 		<?php do_action( 'wps_ubo_lite_banner_extras' ); ?>
 	</div>
 
-	<div class="wps_ubo_body_grid">
+	<?php
+	/**
+	 * Whether the help / promotional sidebar is shown next to the active tab.
+	 *
+	 * @param bool   $show Show the sidebar.
+	 * @param string $tab  Active tab slug.
+	 */
+	$wps_ubo_show_sidebar = (bool) apply_filters( 'wps_ubo_lite_show_sidebar', true, $wps_ubo_lite_active_tab );
+	?>
+	<div class="wps_ubo_body_grid<?php echo $wps_ubo_show_sidebar ? '' : ' wps_ubo_body_grid--full'; ?>">
 		<div class="wps_ubo_main_column">
 			<div class="wps_ubo_header_row">
 		<div class="wps_upsell_bump_setting_title">
@@ -461,6 +470,7 @@ $wps_ubo_banner_title = apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upse
 	?>
 		</div><!-- /.wps_ubo_main_column -->
 
+		<?php if ( $wps_ubo_show_sidebar ) : ?>
 		<aside class="wps_ubo_sidebar" aria-label="<?php esc_attr_e( 'Help and resources sidebar', 'upsell-order-bump-offer-for-woocommerce' ); ?>">
 
 			<?php do_action( 'wps_ubo_lite_sidebar_before' ); ?>
@@ -551,6 +561,7 @@ $wps_ubo_banner_title = apply_filters( 'wps_ubo_lite_heading', esc_html__( 'Upse
 			<?php do_action( 'wps_ubo_lite_sidebar_after' ); ?>
 
 		</aside><!-- /.wps_ubo_sidebar -->
+		<?php endif; ?>
 	</div><!-- /.wps_ubo_body_grid -->
 </div>
 <?php

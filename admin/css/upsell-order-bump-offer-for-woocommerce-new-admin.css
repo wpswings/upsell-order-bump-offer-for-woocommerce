@@ -1059,6 +1059,10 @@ body.wps-ubo-pro-inactive .wps_ubo_action_bar * {
     align-items: flex-start;
 }
 
+#wps_upsell_bump_setting_wrapper .wps_ubo_body_grid.wps_ubo_body_grid--full {
+    grid-template-columns: minmax(0, 1fr);
+}
+
 #wps_upsell_bump_setting_wrapper .wps_ubo_main_column {
     min-width: 0;
 }
