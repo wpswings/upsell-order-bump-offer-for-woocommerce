@@ -79,10 +79,17 @@ test( 'bump list shows the seeded bump and the status toggle saves', async ( { p
 
 test( 'cart recovery settings save and keep values', async ( { page } ) => {
 	await page.goto( PAGE + '&tab=cart-recovery' );
+	// The tab opens on the Dashboard; settings live in the "Abandoned carts" section.
+	await page.locator( '#wps-ubo-acr-tab-settings' ).click();
+	await expect( page ).toHaveURL( /acr_section=settings/ );
 	const minutes = page.locator( '[name="acr[abandon_minutes]"]' );
 	await minutes.fill( '45' );
+	await expect( page.locator( '.wps-ubo-acr__dirty' ) ).toBeVisible();
 	await Promise.all( [ page.waitForLoadState( 'load' ), page.locator( '.wps-ubo-acr__form .button-primary' ).first().click() ] );
 	await expect( page ).toHaveURL( /acr_notice=saved/ );
+	// Saving returns to the same section.
+	await expect( page ).toHaveURL( /acr_section=settings/ );
+	await expect( page.locator( '[name="acr[abandon_minutes]"]' ) ).toBeVisible();
 	await expect( page.locator( '[name="acr[abandon_minutes]"]' ) ).toHaveValue( '45' );
 	await expect( page.locator( '.wps-ubo-acr__notice' ).first() ).toBeVisible();
 } );
