@@ -443,7 +443,7 @@ class Upsell_Desc_Bump extends Widget_Base {
 			<?php
 			// PHPCS - the main text of a widget should not be escaped.
 
-			echo wp_kses( $editor_content, wps_upsell_lite_allowed_html_funnel_builder() );
+			echo wp_kses_post( $editor_content );
 			?>
 			<?php if ( $should_render_inline_editing ) { ?>
 			</div>

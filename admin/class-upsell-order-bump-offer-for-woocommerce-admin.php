@@ -241,7 +241,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 				if ( ! empty( $_GET['wps-bump-offer-section'] ) ) {
 
-					$bump_offer_section['value'] = sanitize_text_field( wp_unslash( $_GET['wps-bump-offer-section'] ) );
+					$bump_offer_section['value'] = sanitize_key( wp_unslash( $_GET['wps-bump-offer-section'] ) );
 
 					wp_localize_script(
 						'wps_ubo_lite_admin_script',
@@ -290,7 +290,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 
 				if ( ! empty( $_GET['wps-bump-template-section'] ) ) {
 
-					$bump_template_section['value'] = sanitize_text_field( wp_unslash( $_GET['wps-bump-template-section'] ) );
+					$bump_template_section['value'] = sanitize_key( wp_unslash( $_GET['wps-bump-template-section'] ) );
 
 					wp_localize_script(
 						'wps_ubo_lite_admin_script',

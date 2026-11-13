@@ -141,6 +141,7 @@ class Upsell_Star_Review_Bump extends Widget_Base {
 	protected function render() {
 		$shortcode = $this->get_settings_for_display( 'shortcode' );
 
+		$shortcode = wp_kses_post( (string) $shortcode );
 		$shortcode = do_shortcode( shortcode_unautop( $shortcode ) );
 		?>
 		<div class="elementor-shortcode"><?php echo wp_kses( $shortcode, wps_upsell_lite_allowed_html_funnel_builder() ); ?></div>

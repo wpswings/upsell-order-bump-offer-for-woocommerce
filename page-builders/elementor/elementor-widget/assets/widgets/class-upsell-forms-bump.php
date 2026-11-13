@@ -140,6 +140,7 @@ class Upsell_Forms_Bump extends Widget_Base {
 	protected function render() {
 		$shortcode = $this->get_settings_for_display( 'shortcode' );
 
+		$shortcode = wp_kses_post( (string) $shortcode );
 		$shortcode = do_shortcode( shortcode_unautop( $shortcode ) );
 		?>
 		<div class="elementor-shortcode"><?php echo esc_html( $shortcode ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
