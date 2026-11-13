@@ -32,6 +32,13 @@ class Upsell_Order_Bump_Acr_Admin {
 	const CAPABILITY   = 'manage_woocommerce';
 
 	/**
+	 * Sections of the tab (slug => label is built in the template).
+	 *
+	 * @var string[]
+	 */
+	const SECTIONS = array( 'dashboard', 'settings', 'offers', 'emails', 'reports' );
+
+	/**
 	 * Plugin version.
 	 *
 	 * @var string
@@ -80,6 +87,28 @@ class Upsell_Order_Bump_Acr_Admin {
 	}
 
 	/**
+	 * Whitelist a section slug.
+	 *
+	 * @param string $section  Raw slug.
+	 * @param string $fallback Slug used when $section is unknown.
+	 * @return string
+	 */
+	public static function section( $section, $fallback = 'dashboard' ) {
+		$section = sanitize_key( (string) $section );
+		return in_array( $section, self::SECTIONS, true ) ? $section : $fallback;
+	}
+
+	/**
+	 * Filter: wps_ubo_lite_show_sidebar — no promotional sidebar on this tab.
+	 *
+	 * @param bool $show Show the sidebar.
+	 * @return bool
+	 */
+	public function hide_sidebar( $show ) {
+		return $this->is_tab() ? false : $show;
+	}
+
+	/**
 	 * Whether the CartFlows "WooCommerce Cart Abandonment Recovery" plugin is active.
 	 *
 	 * @return bool
@@ -123,13 +152,21 @@ class Upsell_Order_Bump_Acr_Admin {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
 			wp_die( esc_html__( 'You are not allowed to do this.', 'upsell-order-bump-offer-for-woocommerce' ), 403 );
 		}
-		$action = sanitize_key( wp_unslash( $_POST['wps_ubo_acr_action'] ) );
+		$action  = sanitize_key( wp_unslash( $_POST['wps_ubo_acr_action'] ) );
+		$section = isset( $_POST['acr_section'] ) ? self::section( wp_unslash( $_POST['acr_section'] ), 'settings' ) : 'settings'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Whitelisted in section().
 
 		if ( 'save' === $action ) {
 			$raw = isset( $_POST['acr'] ) && is_array( $_POST['acr'] ) ? wp_unslash( $_POST['acr'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized field by field in sanitize_settings().
 			update_option( Upsell_Order_Bump_Acr_Db::SETTINGS_OPTION, Upsell_Order_Bump_Acr_Db::sanitize_settings( $raw ), false );
 			Upsell_Order_Bump_Acr_Db::reschedule();
-			wp_safe_redirect( self::url( array( 'acr_notice' => 'saved' ) ) );
+			wp_safe_redirect(
+				self::url(
+					array(
+						'acr_notice'  => 'saved',
+						'acr_section' => $section,
+					)
+				)
+			);
 			exit;
 		}
 
@@ -137,25 +174,51 @@ class Upsell_Order_Bump_Acr_Admin {
 			$index = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 0;
 			$user  = wp_get_current_user();
 			$ok    = Upsell_Order_Bump_Acr_Mailer::send_step( Upsell_Order_Bump_Acr_Mailer::sample_row(), min( 2, $index ), $user->user_email );
-			wp_safe_redirect( self::url( array( 'acr_notice' => $ok ? 'test_sent' : 'test_failed' ) ) );
+			wp_safe_redirect(
+				self::url(
+					array(
+						'acr_notice'  => $ok ? 'test_sent' : 'test_failed',
+						'acr_section' => 'emails',
+					)
+				)
+			);
 			exit;
 		}
 
 		$id = isset( $_POST['cart_id'] ) ? absint( $_POST['cart_id'] ) : 0;
 		if ( 'delete' === $action && $id ) {
 			Upsell_Order_Bump_Acr_Db::delete( $id );
-			wp_safe_redirect( self::url( array( 'acr_notice' => 'deleted' ) ) );
+			wp_safe_redirect( self::url( array_merge( self::report_args(), array( 'acr_notice' => 'deleted' ) ) ) );
 			exit;
 		}
 		if ( 'send_now' === $action && $id ) {
 			$result = Upsell_Order_Bump_Acr_Engine::send_next( $id );
-			wp_safe_redirect( self::url( array( 'acr_notice' => 'send_' . $result ) ) );
+			wp_safe_redirect( self::url( array_merge( self::report_args(), array( 'acr_notice' => 'send_' . $result ) ) ) );
 			exit;
 		}
 	}
 
 	/**
-	 * Action: admin_post_wps_ubo_acr_preview — render an email step in the browser.
+	 * Redirect args that bring the user back to the carts report they acted on.
+	 *
+	 * @return array
+	 */
+	private static function report_args() {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce checked in handle_post().
+		$args = array( 'acr_section' => 'reports' );
+		if ( ! empty( $_POST['acr_status'] ) ) {
+			$args['acr_status'] = sanitize_key( wp_unslash( $_POST['acr_status'] ) );
+		}
+		if ( ! empty( $_POST['acr_page'] ) && absint( $_POST['acr_page'] ) > 1 ) {
+			$args['acr_page'] = absint( $_POST['acr_page'] );
+		}
+		// phpcs:enable
+		return $args;
+	}
+
+	/**
+	 * Action: admin_post_wps_ubo_acr_preview — render an email step in the browser,
+	 * or send it as an .html download when `download` is set.
 	 *
 	 * @return void
 	 */
@@ -167,6 +230,11 @@ class Upsell_Order_Bump_Acr_Admin {
 		$index = isset( $_GET['step'] ) ? min( 2, absint( $_GET['step'] ) ) : 0;
 		$email = Upsell_Order_Bump_Acr_Mailer::render( Upsell_Order_Bump_Acr_Mailer::sample_row(), $index );
 		$obj   = new WC_Email();
+		if ( ! empty( $_GET['download'] ) ) {
+			nocache_headers();
+			header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
+			header( 'Content-Disposition: attachment; filename="cart-recovery-email-' . ( $index + 1 ) . '.html"' );
+		}
 		echo $obj->style_inline( $email['html'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Email HTML built from escaped parts.
 		exit;
 	}
@@ -190,6 +258,13 @@ class Upsell_Order_Bump_Acr_Admin {
 			'wpsUboAcrAdmin',
 			array(
 				'confirmDelete' => __( 'Delete this saved cart?', 'upsell-order-bump-offer-for-woocommerce' ),
+				// Singular / plural "Sends N unit after abandonment" (%s = number); the JS picks one by the delay.
+				'stepWhen'      => array(
+					'minutes' => array( __( 'Sends %s minute after abandonment', 'upsell-order-bump-offer-for-woocommerce' ), __( 'Sends %s minutes after abandonment', 'upsell-order-bump-offer-for-woocommerce' ) ),
+					'hours'   => array( __( 'Sends %s hour after abandonment', 'upsell-order-bump-offer-for-woocommerce' ), __( 'Sends %s hours after abandonment', 'upsell-order-bump-offer-for-woocommerce' ) ),
+					'days'    => array( __( 'Sends %s day after abandonment', 'upsell-order-bump-offer-for-woocommerce' ), __( 'Sends %s days after abandonment', 'upsell-order-bump-offer-for-woocommerce' ) ),
+				),
+				'leaveWarning'  => __( 'You have unsaved changes. Leave anyway?', 'upsell-order-bump-offer-for-woocommerce' ),
 			)
 		);
 	}
@@ -209,6 +284,8 @@ class Upsell_Order_Bump_Acr_Admin {
 		$notice = isset( $_GET['acr_notice'] ) ? sanitize_key( wp_unslash( $_GET['acr_notice'] ) ) : '';
 		$status = isset( $_GET['acr_status'] ) ? sanitize_key( wp_unslash( $_GET['acr_status'] ) ) : '';
 		$paged  = isset( $_GET['acr_page'] ) ? max( 1, absint( $_GET['acr_page'] ) ) : 1;
+		// A status filter or page number without a section means the carts report.
+		$section = self::section( isset( $_GET['acr_section'] ) ? wp_unslash( $_GET['acr_section'] ) : '', ( $status || $paged > 1 ) ? 'reports' : 'dashboard' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Whitelisted in section().
 		// phpcs:enable
 
 		$settings = Upsell_Order_Bump_Acr_Db::get_settings();

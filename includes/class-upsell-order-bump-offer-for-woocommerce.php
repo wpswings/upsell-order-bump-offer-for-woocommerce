@@ -223,6 +223,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( 'admin_init', $acr_admin, 'handle_post' );
 		$this->loader->add_action( 'admin_post_wps_ubo_acr_preview', $acr_admin, 'preview' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $acr_admin, 'enqueue_assets' );
+		$this->loader->add_filter( 'wps_ubo_lite_show_sidebar', $acr_admin, 'hide_sidebar' );
 
 		// Front end. Capture, sending and the checkout script stop while the feature is disabled;
 		// links in emails already sent (restore, unsubscribe) keep working and honour the emailed price.
