@@ -447,7 +447,7 @@ class Upsell_Price_Bump extends Widget_Base {
 			<?php
 
 			// PHPCS - the main text of a widget should not be escaped.
-			echo wp_kses( $editor_content, wps_upsell_lite_allowed_html_funnel_builder() ); // phpcs:ignore WordPress.Security.EscapeOutput 
+			echo wp_kses_post( $editor_content ); // phpcs:ignore WordPress.Security.EscapeOutput 
 			?>
 			<?php if ( $should_render_inline_editing ) { ?>
 			</div>

@@ -414,17 +414,20 @@
 
     // Scroll to bump offer section after Saving product.
     if (typeof wps_ubo_lite_offer_section_obj !== "undefined") {
-      $("html, body").animate(
-        {
-          scrollTop:
-            $(
-              '[data-scroll-id="#' +
-                wps_ubo_lite_offer_section_obj.value.value +
-                '"]'
-            ).offset().top - 50,
-        },
-        "slow"
-      );
+      // Compare attribute values directly so the URL value is never parsed as a selector.
+      var wps_offer_scroll_id = "#" + String(wps_ubo_lite_offer_section_obj.value.value);
+      var $wps_offer_section = $("[data-scroll-id]").filter(function () {
+        return $(this).attr("data-scroll-id") === wps_offer_scroll_id;
+      });
+
+      if ($wps_offer_section.length) {
+        $("html, body").animate(
+          {
+            scrollTop: $wps_offer_section.first().offset().top - 50,
+          },
+          "slow"
+        );
+      }
 
       // After scrolling remove offer section parameter from url.
       var after_scroll_href = window.location.href;
@@ -441,17 +444,20 @@
 
     // Scroll to respective Template section after clicking Yes for Template change.
     if (typeof wps_ubo_lite_template_section_obj !== "undefined") {
-      $("html, body").animate(
-        {
-          scrollTop:
-            $(
-              '.wps_ubo_template_link[data_link="' +
-                wps_ubo_lite_template_section_obj.value.value +
-                '"]'
-            ).offset().top - 500,
-        },
-        "slow"
-      );
+      // Compare attribute values directly so the URL value is never parsed as a selector.
+      var wps_template_link_id = String(wps_ubo_lite_template_section_obj.value.value);
+      var $wps_template_link = $(".wps_ubo_template_link").filter(function () {
+        return $(this).attr("data_link") === wps_template_link_id;
+      });
+
+      if ($wps_template_link.length) {
+        $("html, body").animate(
+          {
+            scrollTop: $wps_template_link.first().offset().top - 500,
+          },
+          "slow"
+        );
+      }
 
       // After scrolling remove offer section parameter from url.
       var after_scroll_href = window.location.href;
