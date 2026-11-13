@@ -3555,9 +3555,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$order_received_url = wc_get_endpoint_url( 'order-received', $order_id, wc_get_page_permalink( 'checkout' ) );
 
-		$order_received_url = add_query_arg( 'key', $order_key, $order_received_url );
+		$order_received_url = add_query_arg( 'key', rawurlencode( $order_key ), $order_received_url );
 
-		$result = '<a href="' . esc_attr( $order_received_url ) . '" 
+		$result = '<a href="' . esc_url( $order_received_url ) . '"
 		class="button' . esc_attr( $atts['class'] ) . '" 
 		style="' . esc_attr( $atts['style'] ) . '">
 		' . esc_attr( $content ) . '</a>';
@@ -3699,9 +3699,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 					$order_received_url = wc_get_endpoint_url( 'order-received', $order_id, wc_get_page_permalink( 'checkout' ) );
 
-					$order_received_url = add_query_arg( 'key', $order_key, $order_received_url );
+					$order_received_url = add_query_arg( 'key', rawurlencode( $order_key ), $order_received_url );
 
-					$result .= $error_msg . '<a href="' . $order_received_url . '" class="button">' . $link_text . '</a>';
+					$result .= esc_html( $error_msg ) . '<a href="' . esc_url( $order_received_url ) . '" class="button">' . esc_html( $link_text ) . '</a>';
 				}
 			} else {
 				$error_msg = esc_html__( 'You ran out of the special offers session.', 'upsell-order-bump-offer-for-woocommerce' );
@@ -3714,9 +3714,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 				$order_received_url = wc_get_endpoint_url( 'order-received', $order_id, wc_get_page_permalink( 'checkout' ) );
 
-				$order_received_url = add_query_arg( 'key', $order_key, $order_received_url );
+				$order_received_url = add_query_arg( 'key', rawurlencode( $order_key ), $order_received_url );
 
-				$result .= $error_msg . '<a href="' . $order_received_url . '" class="button">' . $link_text . '</a>';
+				$result .= esc_html( $error_msg ) . '<a href="' . esc_url( $order_received_url ) . '" class="button">' . esc_html( $link_text ) . '</a>';
 			}
 		}
 
