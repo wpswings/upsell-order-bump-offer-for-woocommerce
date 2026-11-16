@@ -218,9 +218,10 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 
 	public function test_offer_price() {
 		$p = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '18', 'sale_price' => '16' ) );
-		$this->assertSame( 15.3, Upsell_Order_Bump_Acr_Engine::offer_price( $p, 15 ), 'Discount applies to the regular price.' );
-		$this->assertSame( 1.8, Upsell_Order_Bump_Acr_Engine::offer_price( $p, 100 ), 'Capped at 90%.' );
-		$this->assertSame( 18.0, Upsell_Order_Bump_Acr_Engine::offer_price( $p, -5 ) );
+		// QA C2: the discount is taken off the current ( sale ) price and never exceeds it.
+		$this->assertSame( 13.6, Upsell_Order_Bump_Acr_Engine::offer_price( $p, 15 ), 'Discount applies to the sale price.' );
+		$this->assertSame( 1.6, Upsell_Order_Bump_Acr_Engine::offer_price( $p, 100 ), 'Capped at 90%.' );
+		$this->assertSame( 16.0, Upsell_Order_Bump_Acr_Engine::offer_price( $p, -5 ), 'Never above the current price.' );
 	}
 
 	public function test_mailer_urls_and_signature() {

@@ -176,8 +176,9 @@ class Upsell_Order_Bump_Acr_Engine {
 			return 'failed';
 		}
 
-		// Bought anyway: recovered without the link.
-		$order_id = self::order_since( $row['email'], $row['abandoned_at'] ? $row['abandoned_at'] : $row['updated_at'] );
+		// Bought anyway: recovered without the link. Search from when the cart was first saved:
+		// abandoned_at is set 30+ minutes after the last activity, so orders in that gap were missed.
+		$order_id = self::order_since( $row['email'], ! empty( $row['created_at'] ) ? $row['created_at'] : ( $row['abandoned_at'] ? $row['abandoned_at'] : $row['updated_at'] ) );
 		if ( $order_id ) {
 			self::mark_recovered( $row, wc_get_order( $order_id ), 'direct' );
 			return 'recovered';
@@ -279,7 +280,47 @@ class Upsell_Order_Bump_Acr_Engine {
 		$cutoff   = Upsell_Order_Bump_Acr_Db::now( -(int) $settings['retention_days'] * DAY_IN_SECONDS );
 		// Unsubscribed rows are kept (they suppress future emails).
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		return (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE status <> 'unsubscribed' AND updated_at <= %s LIMIT 1000", $cutoff ) );
+		$deleted = (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE status <> 'unsubscribed' AND updated_at <= %s LIMIT 1000", $cutoff ) );
+		self::delete_coupons( true );
+		return $deleted;
+	}
+
+	/**
+	 * Delete generated recovery coupons ( `acr-*`, tagged with `_wps_ubo_acr_cart_id` ).
+	 *
+	 * @param bool $expired_only Only coupons that expired more than a day ago ( purge );
+	 *                           false deletes all of them ( uninstall ).
+	 * @return int Deleted.
+	 */
+	public static function delete_coupons( $expired_only = true ) {
+		$args = array(
+			'post_type'      => 'shop_coupon',
+			'post_status'    => 'any',
+			'posts_per_page' => 200,
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				array(
+					'key'     => '_wps_ubo_acr_cart_id',
+					'compare' => 'EXISTS',
+				),
+			),
+		);
+		if ( $expired_only ) {
+			$args['meta_query'][] = array(
+				'key'     => 'date_expires',
+				'value'   => time() - DAY_IN_SECONDS,
+				'compare' => '<',
+				'type'    => 'NUMERIC',
+			);
+		}
+		$n = 0;
+		foreach ( get_posts( $args ) as $coupon_id ) {
+			if ( wp_delete_post( $coupon_id, true ) ) {
+				++$n;
+			}
+		}
+		return $n;
 	}
 
 	/**
@@ -294,9 +335,33 @@ class Upsell_Order_Bump_Acr_Engine {
 		if ( ! $order ) {
 			return;
 		}
+
+		// One order is credited to one saved cart. Another open cart of the same customer that
+		// this order also satisfies is closed without counting the order ( and revenue ) twice.
+		$linked = (int) $order->get_meta( '_wps_ubo_acr_recovered' );
+		if ( $linked && $linked !== (int) $row['id'] ) {
+			Upsell_Order_Bump_Acr_Db::update(
+				$row['id'],
+				array(
+					'status'          => 'recovered',
+					'order_id'        => $order->get_id(),
+					'recovered_total' => 0,
+					'recovered_via'   => 'dup',
+					'recovered_at'    => Upsell_Order_Bump_Acr_Db::now(),
+					'next_email_at'   => null,
+				)
+			);
+			return;
+		}
+
 		$accepted = 0;
 		foreach ( $order->get_items() as $item ) {
-			if ( $item->get_meta( '_wps_ubo_acr_offer' ) ) {
+			if ( ! $item->get_meta( '_wps_ubo_acr_offer' ) ) {
+				continue;
+			}
+			$item_cart = (int) $item->get_meta( '_wps_ubo_acr_cart_id' );
+			// Lines saved before the cart id was stored count as this cart's offer.
+			if ( ! $item_cart || $item_cart === (int) $row['id'] ) {
 				$accepted = 1;
 			}
 		}
@@ -346,7 +411,31 @@ class Upsell_Order_Bump_Acr_Engine {
 		if ( ! $product->is_purchasable() || ! $product->is_in_stock() || $product->is_type( array( 'grouped', 'external' ) ) ) {
 			return false;
 		}
+		if ( ! self::is_single_line_product( $product ) ) {
+			return false;
+		}
 		return ! in_array( (int) $product_id, $in_cart, true ) && ! in_array( (int) $product->get_parent_id(), $in_cart, true );
+	}
+
+	/**
+	 * Whether a product can be added to the cart as one line without the customer choosing
+	 * options: not a variable parent, and not a variation with an "Any …" attribute.
+	 *
+	 * @param WC_Product $product Product.
+	 * @return bool
+	 */
+	public static function is_single_line_product( $product ) {
+		if ( ! $product || $product->is_type( array( 'variable', 'variable-subscription' ) ) ) {
+			return false;
+		}
+		if ( $product->is_type( 'variation' ) ) {
+			foreach ( (array) $product->get_variation_attributes() as $value ) {
+				if ( '' === (string) $value ) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -457,6 +546,10 @@ class Upsell_Order_Bump_Acr_Engine {
 			if ( ! is_array( $bump ) || 'yes' !== ( isset( $bump['wps_upsell_bump_status'] ) ? $bump['wps_upsell_bump_status'] : '' ) ) {
 				continue;
 			}
+			// Bumps made for one customer by the old abandoned-cart integration are not general offers.
+			if ( isset( $bump['wps_is_abandoned_bump'] ) && 'yes' === $bump['wps_is_abandoned_bump'] ) {
+				continue;
+			}
 			$product = isset( $bump['wps_upsell_bump_products_in_offer'] ) ? (int) $bump['wps_upsell_bump_products_in_offer'] : 0;
 			if ( ! self::offerable( $product, $in_cart ) ) {
 				continue;
@@ -488,11 +581,18 @@ class Upsell_Order_Bump_Acr_Engine {
 	 * @return float
 	 */
 	public static function offer_price( $product, $discount ) {
-		$base = (float) $product->get_regular_price();
+		// The current price ( a sale price when on sale ): taking the discount off the regular
+		// price could charge more than the customer would pay without the "offer". Read from a
+		// fresh product: a cart line's product already carries the offer price from the previous
+		// totals calculation, and discounting that again would compound on every recalculation.
+		$fresh = $product->get_id() ? wc_get_product( $product->get_id() ) : null;
+		$fresh = $fresh ? $fresh : $product;
+		$base  = (float) $fresh->get_price();
 		if ( $base <= 0 ) {
-			$base = (float) $product->get_price();
+			$base = (float) $fresh->get_regular_price();
 		}
-		return round( $base * ( 100 - max( 0, min( 90, (int) $discount ) ) ) / 100, wc_get_price_decimals() );
+		$price = round( $base * ( 100 - max( 0, min( 90, (int) $discount ) ) ) / 100, wc_get_price_decimals() );
+		return min( $base, $price );
 	}
 
 	/*

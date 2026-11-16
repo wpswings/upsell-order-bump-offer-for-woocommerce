@@ -244,8 +244,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( 'woocommerce_before_checkout_form', $acr_public, 'print_offer_box', 5 );
 		$this->loader->add_filter( 'render_block_woocommerce/checkout', $acr_public, 'prepend_offer_box' );
 		$this->loader->add_action( 'woocommerce_checkout_create_order_line_item', $acr_public, 'add_item_meta', 10, 3 );
+		// Order created ( before payment ): remember the saved cart. Paid: attribute it.
 		$this->loader->add_action( 'woocommerce_checkout_order_processed', $acr_public, 'on_order_classic', 20 );
 		$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $acr_public, 'on_order_block', 20 );
+		$this->loader->add_action( 'woocommerce_payment_complete', $acr_public, 'on_payment_complete', 20 );
+		$this->loader->add_action( 'woocommerce_order_status_changed', $acr_public, 'on_status_changed', 20, 4 );
+		$this->loader->add_action( 'woocommerce_cart_emptied', $acr_public, 'clear_recovery_session' );
+		// The recovery offer is one unit, read-only, and the recovery coupon doesn't stack on it.
+		$this->loader->add_action( 'woocommerce_after_cart_item_quantity_update', $acr_public, 'lock_offer_quantity', 10, 4 );
+		$this->loader->add_filter( 'woocommerce_store_api_product_quantity_editable', $acr_public, 'offer_quantity_editable', 10, 3 );
+		$this->loader->add_filter( 'woocommerce_cart_item_quantity', $acr_public, 'offer_quantity_html', 20, 3 );
+		$this->loader->add_filter( 'woocommerce_coupon_is_valid_for_product', $acr_public, 'coupon_not_on_offer', 10, 4 );
 		$this->loader->add_action( 'wp_enqueue_scripts', $acr_public, 'enqueue_assets', 20 );
 	}
 
