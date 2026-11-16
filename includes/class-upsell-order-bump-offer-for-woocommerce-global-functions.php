@@ -190,6 +190,10 @@ function wps_ubo_lite_allowed_html() {
 			'data-thumb'                         => array(),
 			'data-thumb-alt'                     => array(),
 			'woocommerce-product-gallery__image' => array(),
+			// Offer quantity data ( used by templates 13/14 on a div ).
+			'data-wps_qty'                       => array(),
+			'data-wps_is_fixed_qty'              => array(),
+			'data-qty_allowed'                   => array(),
 		),
 		'svg'     => array(
 			'xmlns'   => array(),
@@ -934,6 +938,71 @@ function wps_ubo_lite_default_design_text() {
 }
 
 /**
+ * Quantity of an already accepted bump offer in the cart, so the variable
+ * quantity input shows the real cart quantity instead of resetting to min.
+ *
+ * @param string|int $order_bump_key Bump index key ( digit ).
+ * @param string|int $default        Fallback quantity.
+ * @return string|int
+ */
+function wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key = '', $default = 1 ) {
+	if ( '' === (string) $order_bump_key || ( is_admin() && ! wp_doing_ajax() ) ) {
+		return $default;
+	}
+
+	if ( ! function_exists( 'WC' ) || ! WC()->session || ! WC()->cart ) {
+		return $default;
+	}
+
+	$cart_item_key = WC()->session->get( 'bump_offer_status_index_' . $order_bump_key );
+	$cart_item     = ! empty( $cart_item_key ) ? WC()->cart->get_cart_item( $cart_item_key ) : array();
+
+	return ! empty( $cart_item['wps_ubo_offer_product'] ) && ! empty( $cart_item['quantity'] ) ? absint( $cart_item['quantity'] ) : $default;
+}
+
+/**
+ * Find the cart item key of an accepted bump offer.
+ *
+ * The session key "bump_offer_status_index_{key}" can point to a different
+ * index than the one the bump is rendered with ( e.g. same bump encountered
+ * for multiple targets ), so fall back to the bump id saved on the cart item
+ * and re-link the session key to the rendered index.
+ *
+ * @param string|int $order_bump_key Bump index key ( digit ).
+ * @param string|int $order_bump_id  Order bump id.
+ * @return string Cart item key or empty string.
+ */
+function wps_ubo_lite_get_offer_cart_item_key( $order_bump_key = '', $order_bump_id = '' ) {
+	if ( is_admin() && ! wp_doing_ajax() ) {
+		return '';
+	}
+
+	if ( ! function_exists( 'WC' ) || ! WC()->session || ! WC()->cart ) {
+		return '';
+	}
+
+	$session_key   = 'bump_offer_status_index_' . $order_bump_key;
+	$cart_item_key = WC()->session->get( $session_key );
+
+	if ( ! empty( $cart_item_key ) && WC()->cart->get_cart_item( $cart_item_key ) ) {
+		return $cart_item_key;
+	}
+
+	if ( '' === (string) $order_bump_id ) {
+		return '';
+	}
+
+	foreach ( WC()->cart->get_cart() as $key => $cart_item ) {
+		if ( ! empty( $cart_item['wps_ubo_offer_product'] ) && isset( $cart_item['wps_ubo_bump_id'] ) && (string) $cart_item['wps_ubo_bump_id'] === (string) $order_bump_id ) {
+			WC()->session->set( $session_key, $key );
+			return $key;
+		}
+	}
+
+	return '';
+}
+
+/**
  * Bump Offer Html.
  *
  * @param   string $bump        Consists all data about order bump.
@@ -1355,7 +1424,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 	// Retain Checked if offer is added except for admin.
 	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
 
-		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		if ( '' !== wps_ubo_lite_get_offer_cart_item_key( $order_bump_key, $encountered_order_bump_id ) ) {
 			$check = 'checked';
 		}
 	}
@@ -1451,7 +1520,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		$bumphtml .= '<p class="wps_upsell_offer_product_price">' . $bump_offer_price . '</p>';
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
 		}
 		$bumphtml .= '<p class="wps_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
 		// Product section ends.
@@ -1465,7 +1534,7 @@ function wps_ubo_lite_bump_offer_html( $bump, $encountered_order_bump_id = '', $
 		$bumphtml .= '<p class="wps_upsell_offer_product_price">' . $bump_offer_price . '</p>';
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
 		}
 		$bumphtml .= '<p class="wps_upsell_offer_product_description">' . $product_description_text . '</p></div></div>';
 		// Product section ends.
@@ -3364,7 +3433,7 @@ function wps_ubo_lite_bump_offer_html_13( $bump, $encountered_order_bump_id = ''
 
 	// Retain Checked if offer is added except for admin.
 	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
-		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		if ( '' !== wps_ubo_lite_get_offer_cart_item_key( $order_bump_key, $encountered_order_bump_id ) ) {
 
 			$check = 'checked';
 		}
@@ -3533,7 +3602,7 @@ function wps_ubo_lite_bump_offer_html_13( $bump, $encountered_order_bump_id = ''
 			';
 	if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 		$bumphtml .= '<div class = "wps_variable_qty_temp_12"><label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
+		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
 	}
 		$bumphtml .= '</div></div>';
 		
@@ -3789,15 +3858,26 @@ function wps_ubo_lite_bump_offer_html_13( $bump, $encountered_order_bump_id = ''
 				transition: all 0.2s linear;
 		}
 
-			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title input[type=checkbox]:checked::before,<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title:hover>input[type=checkbox]:before{
+			/* Checked: show a tick ( was an inset square in the bar colour, which looked unchecked ). */
+			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title input[type=checkbox]:checked::before,
+			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title input[type=checkbox]:not(:checked):hover::before,
+			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title:hover>input[type=checkbox]:not(:checked)::before {
 				content: '';
 				position: absolute;
-				top: 3px;
-				left: 3px;
-				right: 3px;
-				bottom: 3px;
-				background: <?php echo esc_html( $primary_section_background_color ); ?>;
-				border-radius: 3px;
+				left: 5.5px;
+				top: 1.5px;
+				width: 5px;
+				height: 10px;
+				border: solid <?php echo esc_html( $primary_section_background_color ); ?>;
+				border-width: 0 2.5px 2.5px 0;
+				transform: rotate(45deg);
+				box-sizing: content-box;
+			}
+
+			/* Unchecked hover: faint tick preview. */
+			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title input[type=checkbox]:not(:checked):hover::before,
+			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title:hover>input[type=checkbox]:not(:checked)::before {
+				opacity: 0.35;
 			}
 
 		@container bump-box (max-width: 400px) {
@@ -3918,7 +3998,7 @@ function wps_ubo_lite_bump_offer_html_14( $bump, $encountered_order_bump_id = ''
 
 	// Retain Checked if offer is added except for admin.
 	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
-		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		if ( '' !== wps_ubo_lite_get_offer_cart_item_key( $order_bump_key, $encountered_order_bump_id ) ) {
 
 			$check = 'checked';
 		}
@@ -4087,7 +4167,7 @@ function wps_ubo_lite_bump_offer_html_14( $bump, $encountered_order_bump_id = ''
 			';
 	if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 		$bumphtml .= '<div class = "wps_variable_qty_temp_12"><label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
+		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
 	}
 		$bumphtml .= '</div></div>';
 		
@@ -4366,15 +4446,26 @@ function wps_ubo_lite_bump_offer_html_14( $bump, $encountered_order_bump_id = ''
 				transition: all 0.2s linear;
 		}
 
-			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title input[type=checkbox]:checked::before,<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title:hover>input[type=checkbox]:before{
+			/* Checked: show a tick ( was an inset square in the bar colour, which looked unchecked ). */
+			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title input[type=checkbox]:checked::before,
+			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title input[type=checkbox]:not(:checked):hover::before,
+			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title:hover>input[type=checkbox]:not(:checked)::before {
 				content: '';
 				position: absolute;
-				top: 3px;
-				left: 3px;
-				right: 3px;
-				bottom: 3px;
-				background: <?php echo esc_html( $primary_section_background_color ); ?>;
-				border-radius: 3px;
+				left: 5.5px;
+				top: 1.5px;
+				width: 5px;
+				height: 10px;
+				border: solid <?php echo esc_html( $primary_section_background_color ); ?>;
+				border-width: 0 2.5px 2.5px 0;
+				transform: rotate(45deg);
+				box-sizing: content-box;
+			}
+
+			/* Unchecked hover: faint tick preview. */
+			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title input[type=checkbox]:not(:checked):hover::before,
+			<?php echo esc_html( $order_bump_div_id ); ?> #wps-ob_temp .wps-ob_ta-o-title:hover>input[type=checkbox]:not(:checked)::before {
+				opacity: 0.35;
 			}
 
 		@container bump-box (max-width: 400px) {
@@ -4913,7 +5004,7 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 	// Retain Checked if offer is added except for admin.
 	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
 
-		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		if ( '' !== wps_ubo_lite_get_offer_cart_item_key( $order_bump_key, $encountered_order_bump_id ) ) {
 
 			$check = 'checked';
 		}
@@ -5018,7 +5109,7 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<div class="quantity">';
 			$bumphtml .= '<label for="wps_quantity_offer quantity">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input quantity-no" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
+			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input quantity-no" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
 		}
 		$bumphtml .= '<div class="upsell-product-desc">';
 		$bumphtml .= '<p class="wps_upsell_offer_product_description">' . $product_description_text . '</p></div>';
@@ -5034,7 +5125,7 @@ function wps_ubo_lite_bump_offer_html_3( $bump, $encountered_order_bump_id = '',
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<div class="quantity">';
 			$bumphtml .= '<label for="wps_quantity_offer quantity">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input quantity-no" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
+			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input quantity-no" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
 		}
 		$bumphtml .= '<div class="upsell-product-desc">';
 		$bumphtml .= '<p class="wps_upsell_offer_product_description">' . $product_description_text . '</p></div>';
@@ -5509,7 +5600,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 	// Retain Checked if offer is added except for admin.
 	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
 
-		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		if ( '' !== wps_ubo_lite_get_offer_cart_item_key( $order_bump_key, $encountered_order_bump_id ) ) {
 
 			$check = 'checked';
 		}
@@ -5626,7 +5717,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 		$bumphtml .= '<div class="quantity">';
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
 		} else {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label>';
 		}
@@ -5655,7 +5746,7 @@ function wps_ubo_lite_bump_offer_html_4( $bump, $encountered_order_bump_id = '',
 		$bumphtml .= '<div class="quantity">';
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
 		} else {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label>';
 		}
@@ -6134,7 +6225,7 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 	// Retain Checked if offer is added except for admin.
 	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
 
-		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		if ( '' !== wps_ubo_lite_get_offer_cart_item_key( $order_bump_key, $encountered_order_bump_id ) ) {
 
 			$check = 'checked';
 		}
@@ -6256,7 +6347,7 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
 		} else {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label>';
 		}
@@ -6288,7 +6379,7 @@ function wps_ubo_lite_bump_offer_html_5( $bump, $encountered_order_bump_id = '',
 
 		if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+			$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
 		} else {
 			$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label>';
 		}
@@ -6460,7 +6551,7 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 
 	// Retain Checked if offer is added except for admin.
 	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
-		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		if ( '' !== wps_ubo_lite_get_offer_cart_item_key( $order_bump_key, $encountered_order_bump_id ) ) {
 
 			$check = 'checked';
 		}
@@ -6960,7 +7051,7 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 
 	// Retain Checked if offer is added except for admin.
 	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
-		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		if ( '' !== wps_ubo_lite_get_offer_cart_item_key( $order_bump_key, $encountered_order_bump_id ) ) {
 
 			$check = 'checked';
 		}
@@ -7145,7 +7236,7 @@ function wps_ubo_lite_bump_offer_html_10( $bump, $encountered_order_bump_id = ''
 	$bumphtml .= ' <div class="wps-ob-st__m-c-price">';
 	if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 		$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
 	}
 
 	$bumphtml .= '</div>';
@@ -7278,7 +7369,7 @@ function wps_ubo_lite_bump_offer_html_11( $bump, $encountered_order_bump_id = ''
 
 	// Retain Checked if offer is added except for admin.
 	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
-		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		if ( '' !== wps_ubo_lite_get_offer_cart_item_key( $order_bump_key, $encountered_order_bump_id ) ) {
 
 			$check = 'checked';
 		}
@@ -7636,7 +7727,7 @@ function wps_ubo_lite_bump_offer_html_11( $bump, $encountered_order_bump_id = ''
 
 	if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 		$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
+		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '">';
 	}
 
 	$bumphtml .= $wps_ubo_red_arrow_html;
@@ -7763,7 +7854,7 @@ function wps_ubo_lite_bump_offer_html_12( $bump, $encountered_order_bump_id = ''
 
 	// Retain Checked if offer is added except for admin.
 	if ( ! is_admin() && function_exists( 'WC' ) && ! empty( WC()->session ) ) {
-		if ( null !== WC()->session->get( "bump_offer_status_index_$order_bump_key" ) ) {
+		if ( '' !== wps_ubo_lite_get_offer_cart_item_key( $order_bump_key, $encountered_order_bump_id ) ) {
 
 			$check = 'checked';
 		}
@@ -7929,7 +8020,7 @@ function wps_ubo_lite_bump_offer_html_12( $bump, $encountered_order_bump_id = ''
 			</div>';
 	if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
 		$bumphtml .= '<div class = "wps_variable_qty_temp_12"><label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':</label>';
-		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . $wps_upsell_bump_products_min_quantity . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
+		$bumphtml .= '<input class="wps_input_quantity wps_quantity_input" type="number" name="wps_quantity_offer" value="' . wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) . '" min="' . $wps_upsell_bump_products_min_quantity . '" max="' . $wps_upsell_bump_products_max_quantity . '"></div>';
 	}
 	$bumphtml .= '<div class="wps-ob_ta-o-title">' . $title . '</div>
 		</div>
