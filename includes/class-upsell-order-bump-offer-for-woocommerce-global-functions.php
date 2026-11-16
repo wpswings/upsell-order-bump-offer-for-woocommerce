@@ -961,6 +961,39 @@ function wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key = '', $default = 1 
 }
 
 /**
+ * Quantity to add for a bump offer, based on the bump's own settings.
+ *
+ * Fixed quantity -> the configured quantity. Variable quantity -> the
+ * requested quantity kept within min / max. Otherwise -> 1.
+ *
+ * @param array      $single_bump Saved bump settings ( wps_ubo_bump_list item ).
+ * @param string|int $requested   Quantity sent from the front end.
+ * @return int
+ */
+function wps_ubo_lite_get_allowed_offer_qty( $single_bump = array(), $requested = 1 ) {
+	$enabled = ! empty( $single_bump['wps_upsell_enable_quantity'] ) && 'yes' === $single_bump['wps_upsell_enable_quantity'];
+	$type    = ! empty( $single_bump['wps_upsell_offer_quantity_type'] ) ? $single_bump['wps_upsell_offer_quantity_type'] : '';
+
+	if ( ! $enabled ) {
+		return 1;
+	}
+
+	if ( 'fixed_q' === $type ) {
+		$fixed = ! empty( $single_bump['wps_upsell_bump_products_fixed_quantity'] ) ? absint( $single_bump['wps_upsell_bump_products_fixed_quantity'] ) : 1;
+		return max( 1, $fixed );
+	}
+
+	if ( 'variable_q' === $type ) {
+		$min = ! empty( $single_bump['wps_upsell_bump_products_min_quantity'] ) ? absint( $single_bump['wps_upsell_bump_products_min_quantity'] ) : 1;
+		$max = ! empty( $single_bump['wps_upsell_bump_products_max_quantity'] ) ? absint( $single_bump['wps_upsell_bump_products_max_quantity'] ) : 0;
+		$qty = max( 1, absint( $requested ), $min );
+		return $max ? min( $qty, $max ) : $qty;
+	}
+
+	return 1;
+}
+
+/**
  * Find the cart item key of an accepted bump offer.
  *
  * The session key "bump_offer_status_index_{key}" can point to a different
@@ -6721,13 +6754,18 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 	$bumphtml .= '<span class="wps-ubo__temp-prod-price-new">' . $bump_offer_price . '</span>';
 
 	if ( 'yes' === $wps_upsell_enable_quantity && 'variable_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! $bump_product->is_type( 'variable' ) ) {
+		// WPS-8423: real min/max, unique id per bump, and the in-cart quantity as value.
 		$bumphtml .= '<div class="wps-ubo__temp-prod-price-qty">';
 		$bumphtml .= '<div class="wps-ubo__temp-prod-price-qty-change">';
 		$bumphtml .= '<span class="wps-ubo__temp-prod-price-qty-sub wps-ubo__qty-btn">-</span>';
-		$bumphtml .= '<input type="number" id="inputtag" class="wps-ubo_quantity_value" value="' . $wps_upsell_bump_products_min_quantity . '" placeholder="Qty" />';
+		$bumphtml .= '<input type="number" id="wps_ubo_qty_' . esc_attr( $order_bump_key ) . '" class="wps-ubo_quantity_value" value="' . esc_attr( wps_ubo_lite_get_offer_qty_in_cart( $order_bump_key, $wps_upsell_bump_products_min_quantity ) ) . '" min="' . esc_attr( $wps_upsell_bump_products_min_quantity ) . '" max="' . esc_attr( $wps_upsell_bump_products_max_quantity ) . '" placeholder="Qty" />';
 		$bumphtml .= '<span class="wps-ubo__temp-prod-price-qty-add wps-ubo__qty-btn">+</span></div>';
 		$bumphtml .= '</div>';
 		$bumphtml .= '</div>';
+	} elseif ( 'yes' === $wps_upsell_enable_quantity && 'fixed_q' === $wps_upsell_offer_quantity_type && wps_ubo_lite_if_pro_exists() && ! empty( $wps_upsell_bump_products_fixed_quantity ) ) {
+		// WPS-8423: show and send the configured fixed quantity ( was always 1 ).
+		$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':' . esc_html( $wps_upsell_bump_products_fixed_quantity ) . '</label>';
+		$bumphtml .= '<input type="hidden" class="wps_ubo_fixed_qty" value="' . esc_attr( absint( $wps_upsell_bump_products_fixed_quantity ) ) . '">';
 	} else {
 		$bumphtml .= '<label for="wps_quantity_offer">' . __( 'Quantity', 'upsell-order-bump-offer-for-woocommerce' ) . ':1</label>';
 	}
@@ -6737,11 +6775,14 @@ function wps_ubo_lite_bump_offer_html_pro_6( $bump, $encountered_order_bump_id =
 	$bumphtml .= '</div>';
 	$bumphtml .= '<div class="wps-ubo__temp-foot">';
 	$bumphtml .= '<div class="wps-ubo__temp-btn-wrap wps-left" id="wps_button_id_' . esc_html( $order_bump_key ) . '">';
-	$bumphtml .= '<input name="add_offer_in_cart_checkbox"  type="checkbox" id ="wps_checkbox_offer' . esc_html( $order_bump_key ) . '" class="wps-ubo__temp-prod-check add_offer_in_cart">';
+	// WPS-8423: show "Remove" ( not "Add" ) when the offer is already in the cart.
+	$wps_add_btn_active = empty( $check ) ? ' wps-active' : '';
+	$wps_rmv_btn_active = ! empty( $check ) ? ' wps-active' : '';
+	$bumphtml .= '<input name="add_offer_in_cart_checkbox"  type="checkbox" ' . $check . ' id ="wps_checkbox_offer' . esc_html( $order_bump_key ) . '" class="wps-ubo__temp-prod-check add_offer_in_cart">';
 
-	$bumphtml .= '<button type ="button" class="wps-ubo__temp-add-btn wps-ubo__btn wps-active wps-ubo_add_prod' . esc_html( $order_bump_key ) . '"><i class="dashicons dashicons-cart"></i> Add item to cart</button>';
+	$bumphtml .= '<button type ="button" class="wps-ubo__temp-add-btn wps-ubo__btn' . $wps_add_btn_active . ' wps-ubo_add_prod' . esc_html( $order_bump_key ) . '"><i class="dashicons dashicons-cart"></i> Add item to cart</button>';
 
-	$bumphtml .= '<button type ="button" class="wps-ubo__temp-rmv-btn wps-ubo__btn wps-ubo_remove_prod' . esc_html( $order_bump_key ) . '"><i class="dashicons dashicons-trash"></i> Remove item from cart</button>';
+	$bumphtml .= '<button type ="button" class="wps-ubo__temp-rmv-btn wps-ubo__btn' . $wps_rmv_btn_active . ' wps-ubo_remove_prod' . esc_html( $order_bump_key ) . '"><i class="dashicons dashicons-trash"></i> Remove item from cart</button>';
 	$bumphtml .= '<div class="wps-ubo__temp-btn-notice"><span class="wps-notice"></span></div>';
 	$bumphtml .= '</div>';
 	$bumphtml .= '</div>';
