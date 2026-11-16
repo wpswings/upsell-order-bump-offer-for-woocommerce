@@ -103,11 +103,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			// Cart / Checkout blocks: the bump is moved into place by JS after the
 			// block hydrates. Keep it hidden until then so it doesn't jump on load.
+			// Check the page being viewed ( not the WooCommerce cart/checkout page setting ),
+			// so classic [woocommerce_cart] / [woocommerce_checkout] pages are never hidden.
 			$wps_is_block_page = false;
+			$wps_current_page  = get_queried_object_id();
 			if ( is_cart() ) {
-				$wps_is_block_page = has_block( 'woocommerce/cart', wc_get_page_id( 'cart' ) );
+				$wps_is_block_page = $wps_current_page && has_block( 'woocommerce/cart', $wps_current_page );
 			} elseif ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
-				$wps_is_block_page = has_block( 'woocommerce/checkout', wc_get_page_id( 'checkout' ) );
+				$wps_is_block_page = $wps_current_page && has_block( 'woocommerce/checkout', $wps_current_page );
 			}
 			if ( $wps_is_block_page ) {
 				wp_add_inline_style( $this->plugin_name, '.wrapup_order_bump:not(.wps-ubo-placed){display:none !important;}' );
@@ -983,9 +986,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 			if ( ! empty( $cart_item['wps_ubo_offer_product'] ) ) {
 
-				// For Bump product allowed quantity is one.
-				$product_quantity = 1;
-				return $product_quantity;
+				// Bump product quantity is not editable here ( it is changed from the
+				// bump's own quantity box ), but show the real quantity: with variable /
+				// fixed offer quantity it can be more than 1 ( was hard-coded to 1 ).
+				$product_quantity = ! empty( $cart_item['quantity'] ) ? absint( $cart_item['quantity'] ) : 1;
+				return '<span class="wps-ubo-offer-qty">' . esc_html( $product_quantity ) . '</span>';
 			}
 		}
 
@@ -1602,7 +1607,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		// Check woocommrece class exists.
 
 		// Cost calculations only when the offer is added.
-		add_action( 'woocommerce_before_calculate_totals', array( $this, 'woocommerce_custom_price_to_cart_item' ) );
+		// Run late so pricing plugins ( e.g. tiered / quantity-based pricing ) that also
+		// set cart item prices on this hook don't overwrite the bump offer price.
+		// Only cart items added by a bump ( wps_discounted_price ) are touched.
+		add_action( 'woocommerce_before_calculate_totals', array( $this, 'woocommerce_custom_price_to_cart_item' ), 999999 );
 
 		// Disable quantity field at cart page.
 		add_filter( 'woocommerce_cart_item_quantity', array( $this, 'disable_quantity_bump_product_in_cart' ), 10, 2 );
@@ -2052,6 +2060,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// If simple product or any single variations.
 			// Add to cart the same.
 
+			// WPS-8423: use the bump's quantity setting ( fixed / variable within min-max ),
+			// and update the existing offer line instead of adding a duplicate one.
+			$wps_qty_variable = wps_ubo_lite_get_allowed_offer_qty( $wps_single_bump_offer, $wps_qty_variable );
+			$wps_existing_key = wps_ubo_lite_get_offer_cart_item_key( str_replace( 'index_', '', $bump_index ), $order_bump_id );
+			if ( ! empty( $wps_existing_key ) ) {
+				WC()->cart->set_quantity( $wps_existing_key, $wps_qty_variable, true );
+				WC()->session->set( 'bump_offer_status', 'added' );
+				WC()->session->set( "bump_offer_status_$bump_index", $wps_existing_key );
+				echo wp_json_encode( $added );
+				wp_die();
+			}
+
 			$bump_offer_cart_item_key = WC()->cart->add_to_cart( $wps_bump_product_id, $quantity = $wps_qty_variable, $variation_id = 0, $variation = array(), $cart_item_data );
 
 			// Add Order Bump Offer Accept Count for the respective Order Bump.
@@ -2123,9 +2143,12 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		check_ajax_referer( 'wps_ubo_lite_nonce', 'nonce' );
 		$bump_index = ! empty( $_POST['bump_index'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
 
-		if ( null !== WC()->session->get( "bump_offer_status_$bump_index" ) ) {
+		// WPS-8423: find the offer line by bump id too ( session index can differ ).
+		$order_bump_id = ! empty( $_POST['order_bump_id'] ) ? absint( $_POST['order_bump_id'] ) : '';
+		$wps_offer_key = wps_ubo_lite_get_offer_cart_item_key( str_replace( 'index_', '', $bump_index ), $order_bump_id );
+		if ( ! empty( $wps_offer_key ) ) {
 
-			WC()->cart->remove_cart_item( WC()->session->get( "bump_offer_status_$bump_index" ) );
+			WC()->cart->remove_cart_item( $wps_offer_key );
 		}
 
 		WC()->session->__unset( "bump_offer_status_$bump_index" );

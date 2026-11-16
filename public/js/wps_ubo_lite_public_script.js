@@ -40,10 +40,16 @@ jQuery(document).ready(function ($) {
    * is placed, then revealed, so customers never see it jump.
    */
   function wps_ubo_block_bump_placement() {
+    // Only on pages that actually contain the Cart / Checkout block. The
+    // wps_is_*_block_use flags describe the WooCommerce cart/checkout page
+    // setting, but a classic [woocommerce_cart] / [woocommerce_checkout] page
+    // can exist too, and its bump is already printed in the right place.
+
     // Checkout block.
     if (
       wps_ubo_lite_public.wps_is_checkout_block_use &&
-      $("body").hasClass("woocommerce-checkout")
+      $("body").hasClass("woocommerce-checkout") &&
+      document.querySelector(".wp-block-woocommerce-checkout")
     ) {
       var checkout_locations = {
         _before_place_order_button: [".wp-block-woocommerce-checkout-order-summary-block", "append"],
@@ -60,7 +66,8 @@ jQuery(document).ready(function ($) {
     if (
       "on" == wps_ubo_lite_public.wps_enable_cart_upsell &&
       wps_ubo_lite_public.wps_is_cart_block_use &&
-      document.querySelector(".woocommerce-cart")
+      document.querySelector(".woocommerce-cart") &&
+      document.querySelector(".wp-block-woocommerce-cart")
     ) {
       var cart_locations = {
         woocommerce_after_cart_totals: [".wp-block-woocommerce-cart-totals-block", "append"],
@@ -1320,11 +1327,34 @@ jQuery(document).ready(function ($) {
   });
 
   //Increase and descrease the quantity value on bump offer.
-  $(document).on("click", ".wps-ubo__temp-prod-price-qty-add", function (e) {
-    document.getElementById("inputtag").value++;
+  // WPS-8423: change the box of THIS bump ( not the first #inputtag on the page ),
+  // stay within min / max, and fire "change" so an added offer is updated.
+  function wps_ubo_step_temp_qty(btn, step) {
+    var input = $(btn).closest(".wps-ubo__temp-prod-price-qty").find(".wps-ubo_quantity_value");
+    if (!input.length) {
+      return;
+    }
+    var min = parseInt(input.attr("min"), 10);
+    var max = parseInt(input.attr("max"), 10);
+    var qty = (parseInt(input.val(), 10) || 0) + step;
+    if (!isNaN(min) && qty < min) {
+      qty = min;
+    }
+    if (!isNaN(max) && qty > max) {
+      qty = max;
+    }
+    if (qty < 1) {
+      qty = 1;
+    }
+    if (String(qty) !== String(input.val())) {
+      input.val(qty).trigger("change");
+    }
+  }
+  $(document).on("click", ".wps-ubo__temp-prod-price-qty-add", function () {
+    wps_ubo_step_temp_qty(this, 1);
   });
-  $(document).on("click", ".wps-ubo__temp-prod-price-qty-sub", function (e) {
-    document.getElementById("inputtag").value--;
+  $(document).on("click", ".wps-ubo__temp-prod-price-qty-sub", function () {
+    wps_ubo_step_temp_qty(this, -1);
   });
 });
 
