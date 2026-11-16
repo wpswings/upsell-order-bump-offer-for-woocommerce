@@ -559,6 +559,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			$this->loader->add_action( 'wp_ajax_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
 
+			// Ajax to sync the quantity of an already added bump offer.
+			$this->loader->add_action( 'wp_ajax_wps_ubo_update_offer_quantity', $plugin_public, 'wps_ubo_update_offer_quantity' );
+			$this->loader->add_action( 'wp_ajax_nopriv_wps_ubo_update_offer_quantity', $plugin_public, 'wps_ubo_update_offer_quantity' );
+
 			// Ajax for the recommdation product.
 			$this->loader->add_action( 'wp_ajax_add_recommendated_offer_in_popup', $plugin_public, 'wps_add_recommendated_offer_in_popup' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_recommendated_offer_in_popup', $plugin_public, 'wps_add_recommendated_offer_in_popup' );

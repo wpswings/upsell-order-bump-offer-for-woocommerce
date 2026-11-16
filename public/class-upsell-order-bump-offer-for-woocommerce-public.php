@@ -100,6 +100,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		if ( is_checkout() || is_cart() || $wps_is_shortcode || $wps_tofw_shortcode ) {
 			wp_enqueue_style( $this->plugin_name . '_slick_css', plugin_dir_url( __FILE__ ) . 'css/slick.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/upsell-order-bump-offer-for-woocommerce-public.css', array(), time(), 'all' );
+
+			// Cart / Checkout blocks: the bump is moved into place by JS after the
+			// block hydrates. Keep it hidden until then so it doesn't jump on load.
+			$wps_is_block_page = false;
+			if ( is_cart() ) {
+				$wps_is_block_page = has_block( 'woocommerce/cart', wc_get_page_id( 'cart' ) );
+			} elseif ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) {
+				$wps_is_block_page = has_block( 'woocommerce/checkout', wc_get_page_id( 'checkout' ) );
+			}
+			if ( $wps_is_block_page ) {
+				wp_add_inline_style( $this->plugin_name, '.wrapup_order_bump:not(.wps-ubo-placed){display:none !important;}' );
+			}
 		}
 
 		wp_enqueue_style( $this->plugin_name . 'one-click-front', plugin_dir_url( __FILE__ ) . 'css/woocommerce_one_click_upsell_funnel_pro-public.css', array(), $this->version, 'all' );
@@ -482,6 +494,51 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 				require_once plugin_dir_path( __FILE__ ) . '/partials/upsell-order-bump-offer-for-woocommerce-public-display.php';
 			}
 		}
+	}
+
+	/**
+	 * Sync the quantity of a bump offer that is already in the cart
+	 * ( customer changed the variable quantity after ticking the offer ).
+	 *
+	 * @since    3.1.8
+	 */
+	public function wps_ubo_update_offer_quantity() {
+		check_ajax_referer( 'wps_ubo_lite_nonce', 'nonce' );
+
+		$bump_index    = ! empty( $_POST['bump_index'] ) ? sanitize_text_field( wp_unslash( $_POST['bump_index'] ) ) : '';
+		$order_bump_id = ! empty( $_POST['order_bump_id'] ) ? absint( $_POST['order_bump_id'] ) : 0;
+		$quantity      = ! empty( $_POST['wps_qty_variable'] ) ? absint( $_POST['wps_qty_variable'] ) : 0;
+
+		if ( empty( $bump_index ) || empty( $quantity ) || ! WC()->session || ! WC()->cart ) {
+			wp_send_json_error( 'invalid_request' );
+		}
+
+		$cart_item_key = wps_ubo_lite_get_offer_cart_item_key( str_replace( 'index_', '', $bump_index ), $order_bump_id );
+		$cart_item     = ! empty( $cart_item_key ) ? WC()->cart->get_cart_item( $cart_item_key ) : array();
+
+		// Only touch the cart line that this bump added.
+		if ( empty( $cart_item ) || empty( $cart_item['wps_ubo_offer_product'] ) || absint( $cart_item['wps_ubo_bump_id'] ) !== $order_bump_id ) {
+			wp_send_json_error( 'offer_not_in_cart' );
+		}
+
+		// Respect the bump's variable quantity settings.
+		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
+		$single_bump           = ! empty( $wps_upsell_bumps_list[ $order_bump_id ] ) ? $wps_upsell_bumps_list[ $order_bump_id ] : array();
+
+		if ( empty( $single_bump['wps_upsell_enable_quantity'] ) || 'yes' !== $single_bump['wps_upsell_enable_quantity'] || empty( $single_bump['wps_upsell_offer_quantity_type'] ) || 'variable_q' !== $single_bump['wps_upsell_offer_quantity_type'] ) {
+			wp_send_json_error( 'quantity_not_variable' );
+		}
+
+		$min_qty = ! empty( $single_bump['wps_upsell_bump_products_min_quantity'] ) ? absint( $single_bump['wps_upsell_bump_products_min_quantity'] ) : 1;
+		$max_qty = ! empty( $single_bump['wps_upsell_bump_products_max_quantity'] ) ? absint( $single_bump['wps_upsell_bump_products_max_quantity'] ) : 0;
+
+		if ( $quantity < $min_qty || ( $max_qty && $quantity > $max_qty ) ) {
+			wp_send_json_error( 'out_of_range' );
+		}
+
+		WC()->cart->set_quantity( $cart_item_key, $quantity, true );
+
+		wp_send_json_success( array( 'quantity' => $quantity ) );
 	}
 
 	/**
