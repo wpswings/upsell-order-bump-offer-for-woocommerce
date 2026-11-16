@@ -198,7 +198,11 @@ jQuery( document ).ready(
 			var smart_offer_upgrade = order_bump_trigger_obj.closest( '.wps-ubo__temp' ).find( '.order_bump_smo' ).val()
 
 			var order_bump_index = order_bump_trigger_obj.closest( '.wps-ubo__temp' ).find( '.order_bump_index' ).val()
-			var wps_qty_variable = 1;
+			// WPS-8423: send the chosen / fixed quantity ( was always 1 ).
+			var wps_qty_variable = wps_ubo_get_temp_offer_qty( order_bump_trigger_obj.closest( '.wps-ubo__temp' ) );
+			if ( false === wps_qty_variable ) {
+				return;
+			}
 
 			// Show loader for Variable offers.
 			if ('variable' == order_bump_trigger_obj.closest( '.wps-ubo__temp' ).find( '.offer_shown_id_type' ).val()) { // decide the product type.
@@ -244,6 +248,8 @@ jQuery( document ).ready(
 							wps_ubo_lite_intant_zoom_img( selected_order_bump_popup );
 
 						} else {
+							// WPS-8423: offer is in the cart now, show "Remove" instead of "Add".
+							wps_ubo_set_temp_added_state( order_bump_trigger_obj.closest( '.wps-ubo__temp' ), true );
 							$( 'body' ).trigger( 'update_checkout' );
 							$( document.body ).trigger( 'added_to_cart', {} );
 							$( document.body ).trigger( 'update_checkout' );
@@ -276,11 +282,83 @@ jQuery( document ).ready(
 				var order_bump_index = order_bump_trigger_obj.closest( '.wps-ubo__temp' ).find( '.order_bump_index' ).val();
 				var order_bump_id = order_bump_trigger_obj.closest( '.wps-ubo__temp' ).find( '.order_bump_id' ).val();
 
-				triggerRemoveOffer( order_bump_index, order_bump_id );
+				triggerRemoveOffer( order_bump_index, order_bump_id, order_bump_trigger_obj.closest( '.wps-ubo__temp' ) );
 			}
 		);
 
-		const triggerRemoveOffer = (order_bump_index, order_bump_id) => {
+		/**
+		 * WPS-8423: Quantity helpers for the "Add item to cart" templates
+		 * ( Hybrid, Left To Right, Right To Left, Vertical ).
+		 */
+
+		// Quantity to send: variable box ( validated ), fixed quantity, or 1. False when invalid.
+		function wps_ubo_get_temp_offer_qty( temp ) {
+			var qty_input = temp.find( '.wps-ubo_quantity_value' );
+			if ( qty_input.length ) {
+				var qty = parseInt( qty_input.val(), 10 );
+				var min = parseInt( qty_input.attr( 'min' ), 10 );
+				var max = parseInt( qty_input.attr( 'max' ), 10 );
+				if ( isNaN( qty ) || ( ! isNaN( min ) && qty < min ) || ( ! isNaN( max ) && qty > max ) ) {
+					alert( 'Max Limit ' + max + ' Min Limit ' + min );
+					return false;
+				}
+				return qty;
+			}
+			var fixed = parseInt( temp.find( '.wps_ubo_fixed_qty' ).val(), 10 );
+			return isNaN( fixed ) ? 1 : fixed;
+		}
+
+		// Toggle Add / Remove buttons ( and the hidden checkbox ) for one bump.
+		function wps_ubo_set_temp_added_state( temp, added ) {
+			temp.find( '.wps-ubo__temp-add-btn' ).toggleClass( 'wps-active', ! added );
+			temp.find( '.wps-ubo__temp-rmv-btn' ).toggleClass( 'wps-active', added );
+			temp.find( '.add_offer_in_cart' ).prop( 'checked', added );
+		}
+
+		// Changing the quantity after the offer was added updates the cart line.
+		var wps_ubo_temp_qty_timer = null;
+		jQuery( document ).on(
+			'change',
+			'.wps-ubo__temp .wps-ubo_quantity_value',
+			function () {
+				var temp = jQuery( this ).closest( '.wps-ubo__temp' );
+				if ( ! temp.find( '.wps-ubo__temp-rmv-btn' ).hasClass( 'wps-active' ) ) {
+					return; // Not added yet: the quantity is sent when "Add item to cart" is clicked.
+				}
+				var qty = wps_ubo_get_temp_offer_qty( temp );
+				if ( false === qty ) {
+					return;
+				}
+				clearTimeout( wps_ubo_temp_qty_timer );
+				wps_ubo_temp_qty_timer = setTimeout(
+					function () {
+						temp.css( { 'pointer-events': 'none', opacity: '0.4' } );
+						jQuery.ajax(
+							{
+								type: 'post',
+								dataType: 'json',
+								url: wps_ubo_lite_public_new.ajaxurl,
+								data: {
+									nonce: wps_ubo_lite_public_new.auth_nonce,
+									action: 'wps_ubo_update_offer_quantity',
+									order_bump_id: temp.find( '.order_bump_id' ).val(),
+									bump_index: temp.find( '.order_bump_index' ).val(),
+									wps_qty_variable: qty,
+								},
+								complete: function () {
+									temp.css( { 'pointer-events': 'all', opacity: '1' } );
+									$( document.body ).trigger( 'update_checkout' );
+									$( document.body ).trigger( 'added_to_cart', {} );
+								}
+							}
+						);
+					},
+					400
+				);
+			}
+		);
+
+		const triggerRemoveOffer = (order_bump_index, order_bump_id, temp) => {
 
 			// Getting Current theme Name.
 			var wps_current_theme = wps_ubo_lite_public.current_theme;
@@ -300,6 +378,10 @@ jQuery( document ).ready(
 					},
 
 					success: function (msg) {
+						// WPS-8423: offer removed, show "Add" again.
+						if ( temp && temp.length ) {
+							wps_ubo_set_temp_added_state( temp, false );
+						}
 						localStorage.removeItem( "checkbox1" );
 						wps_is_checkbox_checked();
 						$( 'body' ).trigger( 'update_checkout' );
