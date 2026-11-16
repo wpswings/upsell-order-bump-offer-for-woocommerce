@@ -134,13 +134,13 @@ test.describe( 'order bump at checkout', () => {
 	} );
 
 	/*
-	 * Known issue (block checkout): the bump is moved into place ~1s after load by copying its
-	 * HTML. A tick in that first second is lost (the box shows unticked although the offer was
-	 * added), and ticking again adds the offer a second time.
-	 * Marked test.fail() so the suite stays green and flags when the bug is fixed.
+	 * Regression (block checkout): the bump used to be moved into place ~1s after load by
+	 * copying its HTML, so a tick in that first second was lost (the box showed unticked
+	 * although the offer was added) and ticking again added the offer a second time.
+	 * Fixed in WPS-7889: the bump stays hidden until the block has rendered and the original
+	 * element is moved (not copied), so its checked state is kept.
 	 */
-	test( 'known issue: a tick during the first second after load is kept', async ( { page } ) => {
-		test.fail();
+	test( 'a tick during the first second after load is kept', async ( { page } ) => {
 		const { products } = state();
 		await fillCart( page, [ products.target ] );
 		await openCheckout( page );

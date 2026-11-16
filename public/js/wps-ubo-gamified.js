@@ -92,18 +92,76 @@
 		} );
 	}
 
+	function el( tag, cls, text ) {
+		var node = document.createElement( tag );
+		if ( cls ) {
+			node.className = cls;
+		}
+		if ( text ) {
+			node.textContent = text;
+		}
+		return node;
+	}
+
+	// "You won!" card shown over the stage before the offer is revealed.
+	function showWin( root, data ) {
+		var win = root.querySelector( '.wps-ubo-game__win' );
+		if ( ! win ) {
+			return;
+		}
+		var discount = parseInt( data.discount, 10 ) || 0;
+		var product  = root.getAttribute( 'data-product' ) || '';
+		win.innerHTML = '';
+		win.appendChild( confetti() );
+
+		if ( discount > 0 ) {
+			win.appendChild( el( 'div', 'wps-ubo-game__win-title', i18n.youWon || 'You won!' ) );
+			win.appendChild( el( 'div', 'wps-ubo-game__win-rule' ) );
+			var big = el( 'div', 'wps-ubo-game__win-amount', discount + '% ' );
+			big.appendChild( el( 'b', '', ( i18n.off || 'Off' ).toUpperCase() ) );
+			win.appendChild( big );
+			if ( product ) {
+				win.appendChild( el( 'div', 'wps-ubo-game__win-product', ( i18n.onProduct || 'on %s' ).replace( '%s', product ) ) );
+			}
+			win.appendChild( el( 'div', 'wps-ubo-game__win-note', i18n.applied || '' ) );
+		} else {
+			win.appendChild( el( 'div', 'wps-ubo-game__win-title', data.message || i18n.standard || '' ) );
+			win.appendChild( el( 'div', 'wps-ubo-game__win-note', i18n.standardSub || '' ) );
+		}
+		win.classList.toggle( 'is-standard', discount <= 0 );
+		win.hidden = false;
+		root.classList.add( 'has-win' );
+	}
+
+	function confetti() {
+		var svg = document.createElementNS( SVG_NS, 'svg' );
+		svg.setAttribute( 'viewBox', '0 0 64 48' );
+		svg.setAttribute( 'class', 'wps-ubo-game__win-confetti' );
+		svg.setAttribute( 'aria-hidden', 'true' );
+		svg.innerHTML =
+			'<path class="c1" d="M14 44 28 14l12 18Z"/>' +
+			'<path class="c2" d="M28 14l12 18-6 2Z"/>' +
+			'<path class="c3" d="M34 12c4-6 10-6 12-2M38 20c6-3 12 0 13 4M30 8c0-4 2-6 5-7"/>' +
+			'<circle class="c4" cx="52" cy="10" r="2"/><circle class="c1" cx="8" cy="20" r="2"/>' +
+			'<rect class="c2" x="50" y="30" width="4" height="4" transform="rotate(30 52 32)"/>' +
+			'<rect class="c4" x="16" y="6" width="4" height="4" transform="rotate(20 18 8)"/>';
+		return svg;
+	}
+
 	function finish( root, data ) {
 		root.classList.add( 'is-done' );
 		setResult( root, data.message || '' );
+		showWin( root, data );
 		if ( root.getAttribute( 'data-preview' ) ) {
 			setTimeout( function () {
 				reset( root );
-			}, 2500 );
+			}, reduced ? 2500 : 3500 );
 			return;
 		}
+		// Let the customer see the "You won!" card before the offer replaces the game.
 		setTimeout( function () {
 			swap( root, data.html );
-		}, reduced ? 300 : 1400 );
+		}, reduced ? 1200 : 2400 );
 	}
 
 	function swap( root, html ) {
@@ -158,53 +216,113 @@
 		return [ cx + r * Math.sin( rad ), cy - r * Math.cos( rad ) ];
 	}
 
+	// 24×24 line icons (stroke only), drawn on each slice.
+	var ICONS = {
+		tag: 'M3 12.5V4.8C3 3.8 3.8 3 4.8 3h7.7L21 11.5 11.5 21Z M7.8 7.8h.01',
+		gift: 'M3 8h18v4H3Z M5 12h14v9H5Z M12 8v13 M12 8c-1.6-3.6-5.6-4.1-5.6-1.6C6.4 8 12 8 12 8Z M12 8c1.6-3.6 5.6-4.1 5.6-1.6C17.6 8 12 8 12 8Z',
+		retry: 'M20 12a8 8 0 1 1-2.4-5.7 M20 4v5h-5'
+	};
+
+	function svgEl( tag, attrs ) {
+		var node = document.createElementNS( SVG_NS, tag );
+		Object.keys( attrs ).forEach( function ( k ) {
+			node.setAttribute( k, attrs[ k ] );
+		} );
+		return node;
+	}
+
+	/**
+	 * Split a prize label into a big and a small line: "15% OFF" → ["15%", "OFF"].
+	 * Labels without a percentage are split near the middle when long.
+	 */
+	function splitLabel( label ) {
+		label = String( label || '' ).trim();
+		var m = label.match( /^(\d+(?:[.,]\d+)?\s*%)\s*(.*)$/ );
+		if ( m ) {
+			return [ m[ 1 ].replace( /\s+/g, '' ), m[ 2 ] ];
+		}
+		if ( label.length <= 9 || label.indexOf( ' ' ) < 0 ) {
+			return [ label, '' ];
+		}
+		var mid = Math.floor( label.length / 2 );
+		var cut = label.lastIndexOf( ' ', mid );
+		if ( cut < 0 ) {
+			cut = label.indexOf( ' ', mid );
+		}
+		return [ label.slice( 0, cut ), label.slice( cut + 1 ) ];
+	}
+
 	function buildWheel( container, segments ) {
 		var size = 300;
 		var c    = size / 2;
-		var r    = c - 6;
+		var r    = c - 14; // Leave room for the rim.
 		var n    = segments.length;
 		var step = 360 / n;
-
-		var svg = document.createElementNS( SVG_NS, 'svg' );
-		svg.setAttribute( 'viewBox', '0 0 ' + size + ' ' + size );
-		svg.setAttribute( 'class', 'wps-ubo-game__svg' );
-
-		var group = document.createElementNS( SVG_NS, 'g' );
-		group.setAttribute( 'class', 'wps-ubo-game__rotor' );
-
-		segments.forEach( function ( seg, i ) {
-			var a0   = i * step;
-			var a1   = a0 + step;
-			var p0   = point( c, c, r, a0 );
-			var p1   = point( c, c, r, a1 );
-			var path = document.createElementNS( SVG_NS, 'path' );
-			path.setAttribute( 'd', 'M' + c + ',' + c + ' L' + p0[ 0 ] + ',' + p0[ 1 ] + ' A' + r + ',' + r + ' 0 ' + ( step > 180 ? 1 : 0 ) + ' 1 ' + p1[ 0 ] + ',' + p1[ 1 ] + ' Z' );
-			path.setAttribute( 'fill', seg.color || '#2271b1' );
-			path.setAttribute( 'stroke', '#fff' );
-			path.setAttribute( 'stroke-width', '2' );
-			group.appendChild( path );
-
-			var mid  = a0 + step / 2;
-			var tp   = point( c, c, r * 0.62, mid );
-			var text = document.createElementNS( SVG_NS, 'text' );
-			text.setAttribute( 'x', tp[ 0 ] );
-			text.setAttribute( 'y', tp[ 1 ] );
-			text.setAttribute( 'text-anchor', 'middle' );
-			text.setAttribute( 'dominant-baseline', 'middle' );
-			text.setAttribute( 'transform', 'rotate(' + ( mid > 90 && mid < 270 ? mid + 180 : mid ) + ' ' + tp[ 0 ] + ' ' + tp[ 1 ] + ')' );
-			text.setAttribute( 'class', 'wps-ubo-game__seg-label' );
-			text.textContent = seg.label;
-			group.appendChild( text );
+		var best = 0;
+		segments.forEach( function ( s ) {
+			best = Math.max( best, parseInt( s.discount, 10 ) || 0 );
 		} );
 
-		var hub = document.createElementNS( SVG_NS, 'circle' );
-		hub.setAttribute( 'cx', c );
-		hub.setAttribute( 'cy', c );
-		hub.setAttribute( 'r', 18 );
-		hub.setAttribute( 'class', 'wps-ubo-game__hub' );
+		var svg = svgEl( 'svg', { viewBox: '0 0 ' + size + ' ' + size, 'class': 'wps-ubo-game__svg' } );
+
+		// Soft highlight that gives each slice depth.
+		var defs  = svgEl( 'defs', {} );
+		var shine = svgEl( 'radialGradient', { id: 'wps-ubo-shine-' + Math.random().toString( 36 ).slice( 2 ), cx: '50%', cy: '50%', r: '50%' } );
+		shine.appendChild( svgEl( 'stop', { offset: '0.35', 'stop-color': '#fff', 'stop-opacity': '0.18' } ) );
+		shine.appendChild( svgEl( 'stop', { offset: '1', 'stop-color': '#000', 'stop-opacity': '0.12' } ) );
+		defs.appendChild( shine );
+		svg.appendChild( defs );
+
+		// Rim + rim lights (static).
+		svg.appendChild( svgEl( 'circle', { cx: c, cy: c, r: c - 3, 'class': 'wps-ubo-game__rim' } ) );
+		for ( var d = 0; d < 360; d += 360 / Math.max( 12, n * 2 ) ) {
+			var lp = point( c, c, c - 8, d );
+			svg.appendChild( svgEl( 'circle', { cx: lp[ 0 ], cy: lp[ 1 ], r: 2.2, 'class': 'wps-ubo-game__light' } ) );
+		}
+
+		var group = svgEl( 'g', { 'class': 'wps-ubo-game__rotor' } );
+
+		segments.forEach( function ( seg, i ) {
+			var a0 = i * step;
+			var a1 = a0 + step;
+			var p0 = point( c, c, r, a0 );
+			var p1 = point( c, c, r, a1 );
+			var d  = 'M' + c + ',' + c + ' L' + p0[ 0 ] + ',' + p0[ 1 ] + ' A' + r + ',' + r + ' 0 ' + ( step > 180 ? 1 : 0 ) + ' 1 ' + p1[ 0 ] + ',' + p1[ 1 ] + ' Z';
+
+			group.appendChild( svgEl( 'path', { d: d, fill: seg.color || '#6b21a8', 'class': 'wps-ubo-game__slice' } ) );
+			group.appendChild( svgEl( 'path', { d: d, fill: 'url(#' + shine.getAttribute( 'id' ) + ')', 'class': 'wps-ubo-game__slice-shine' } ) );
+
+			// Slice content, rotated so it reads from the rim towards the centre.
+			var mid      = a0 + step / 2;
+			var content  = svgEl( 'g', { transform: 'rotate(' + mid + ' ' + c + ' ' + c + ')', 'class': 'wps-ubo-game__slice-content' } );
+			var lines    = splitLabel( seg.label );
+			var discount = parseInt( seg.discount, 10 ) || 0;
+			var icon     = discount <= 0 ? ICONS.retry : ( discount === best && n > 2 ? ICONS.gift : ICONS.tag );
+
+			// Fit text to the slice width at its radius.
+			var chordAt = function ( radius ) {
+				return Math.min( 2 * radius * Math.sin( Math.min( step, 120 ) * Math.PI / 360 ) - 8, r * 0.9 );
+			};
+			var bigSize   = Math.max( 10, Math.min( n <= 6 ? 26 : 20, chordAt( r * 0.56 ) / ( Math.max( lines[ 0 ].length, 2 ) * 0.62 ) ) );
+			var smallSize = Math.max( 8, Math.min( 13, chordAt( r * 0.4 ) / ( Math.max( lines[ 1 ].length, 3 ) * 0.62 ) ) );
+			var iconSize  = Math.max( 14, Math.min( 24, chordAt( r * 0.8 ) * 0.5 ) );
+
+			var iconG = svgEl( 'g', { transform: 'translate(' + ( c - iconSize / 2 ) + ' ' + ( c - r * 0.82 - iconSize / 2 ) + ') scale(' + ( iconSize / 24 ) + ')', 'class': 'wps-ubo-game__slice-icon' } );
+			iconG.appendChild( svgEl( 'path', { d: icon } ) );
+			content.appendChild( iconG );
+
+			var big = svgEl( 'text', { x: c, y: c - r * 0.56, 'text-anchor': 'middle', 'dominant-baseline': 'middle', 'class': 'wps-ubo-game__seg-big', 'font-size': bigSize.toFixed( 1 ) } );
+			big.textContent = lines[ 0 ];
+			content.appendChild( big );
+			if ( lines[ 1 ] ) {
+				var small = svgEl( 'text', { x: c, y: c - r * 0.56 + bigSize * 0.5 + smallSize * 0.9, 'text-anchor': 'middle', 'dominant-baseline': 'middle', 'class': 'wps-ubo-game__seg-small', 'font-size': smallSize.toFixed( 1 ) } );
+				small.textContent = lines[ 1 ].toUpperCase();
+				content.appendChild( small );
+			}
+			group.appendChild( content );
+		} );
 
 		svg.appendChild( group );
-		svg.appendChild( hub );
 		container.innerHTML = '';
 		container.appendChild( svg );
 		return group;
@@ -226,7 +344,22 @@
 		var segments = parse( root.getAttribute( 'data-segments' ), [] );
 		var rotor    = buildWheel( root.querySelector( '.wps-ubo-game__wheel' ), segments );
 		var play     = root.querySelector( '.wps-ubo-game__play' );
+		var hub      = root.querySelector( '.wps-ubo-game__hub' );
 		var rotation = 0;
+
+		// Centre "SPIN" hub: a mouse/touch shortcut for the Spin button (the button stays the
+		// keyboard / screen-reader control, so the hub is aria-hidden).
+		if ( hub ) {
+			var hubLabel = hub.querySelector( 'b' );
+			if ( hubLabel ) {
+				hubLabel.textContent = ( i18n.spin || 'Spin' ).toUpperCase();
+			}
+			hub.addEventListener( 'click', function () {
+				if ( ! play.disabled && ! root.classList.contains( 'is-done' ) ) {
+					play.click();
+				}
+			} );
+		}
 
 		play.addEventListener( 'click', function () {
 			lock( root, true );
@@ -406,7 +539,12 @@
 			return;
 		}
 		root._wpsGame = true;
-		root.classList.remove( 'is-done', 'is-busy' );
+		root.classList.remove( 'is-done', 'is-busy', 'has-win' );
+		var win = root.querySelector( '.wps-ubo-game__win' );
+		if ( win ) {
+			win.hidden    = true;
+			win.innerHTML = '';
+		}
 		root.querySelectorAll( 'button' ).forEach( function ( b ) {
 			b.disabled = false;
 		} );

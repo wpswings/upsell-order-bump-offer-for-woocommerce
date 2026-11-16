@@ -172,6 +172,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( 'wps_ubo_lite_setting_tab_html', $gamified_admin, 'render_tab_content' );
 		$this->loader->add_action( 'admin_init', $gamified_admin, 'handle_post' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $gamified_admin, 'enqueue_assets' );
+		$this->loader->add_filter( 'wps_ubo_lite_show_sidebar', $gamified_admin, 'hide_sidebar', 10, 2 );
 
 		/*
 		 * Prize price override. Read filter runs after Smart Recommendations (20 > 10) and the
