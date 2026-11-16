@@ -277,6 +277,154 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertArrayNotHasKey( Upsell_Order_Bump_Gamified::MARKER, $stored[1] );
 	}
 
+	/*
+	 * QA WPS-7889 regressions.
+	 */
+
+	public function test_g2_fixed_price_bump_never_gets_more_expensive_after_a_win() {
+		$this->enable();
+		$product = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '18' ) );
+		$cheap   = array(
+			'wps_upsell_offer_price_type'          => 'fixed',
+			'wps_upsell_bump_offer_discount_price' => '5',
+			'wps_upsell_bump_products_in_offer'    => $product->get_id(),
+		);
+		// 18 at 30% off is 12.60, dearer than the normal fixed price of 5: keep the normal offer.
+		$this->assertSame( 0, Upsell_Order_Bump_Gamified::effective_discount( $cheap, array( 'discount' => 30 ) ) );
+
+		// Normal fixed price 15 > 12.60: the prize is the better deal.
+		$dear = array_merge( $cheap, array( 'wps_upsell_bump_offer_discount_price' => '15' ) );
+		$this->assertSame( 30, Upsell_Order_Bump_Gamified::effective_discount( $dear, array( 'discount' => 30 ) ) );
+
+		// Without the guarantee the prize always applies.
+		$this->enable( array( 'guarantee_offer_discount' => 'off' ) );
+		$this->assertSame( 30, Upsell_Order_Bump_Gamified::effective_discount( $cheap, array( 'discount' => 30 ) ) );
+	}
+
+	public function test_g2_percent_guarantee_keeps_fractional_discount() {
+		$this->enable();
+		$bump = array(
+			'wps_upsell_offer_price_type'          => '%',
+			'wps_upsell_bump_offer_discount_price' => '12.5',
+		);
+		$this->assertSame( 12.5, Upsell_Order_Bump_Gamified::effective_discount( $bump, array( 'discount' => 10 ) ), 'Was truncated to 12.' );
+	}
+
+	public function test_g8_lowering_max_discount_also_caps_prizes_already_drawn() {
+		$this->enable(
+			array(
+				'guarantee_offer_discount' => 'off',
+				'max_discount'             => 10,
+			)
+		);
+		$this->assertSame( 10, Upsell_Order_Bump_Gamified::effective_discount( array(), array( 'discount' => 30 ) ) );
+	}
+
+	public function test_g8_empty_prize_table_gives_the_standard_offer() {
+		$this->enable();
+		delete_option( Upsell_Order_Bump_Gamified::STATS_OPTION );
+		$empty = static function () {
+			return array();
+		};
+		add_filter( 'wps_ubo_game_prizes', $empty );
+		$result = Upsell_Order_Bump_Gamified::draw( 1 );
+		remove_filter( 'wps_ubo_game_prizes', $empty );
+
+		$this->assertSame( -1, $result['prize']['index'] );
+		$this->assertSame( 0, $result['prize']['discount'] );
+		$this->assertArrayNotHasKey( 1, Upsell_Order_Bump_Gamified::get_stats() );
+	}
+
+	public function test_g3_capped_prize_label_follows_the_discount() {
+		$raw      = array(
+			'max_discount' => 20,
+			'prizes'       => array(
+				array( 'label' => '50% OFF', 'discount' => 50, 'weight' => 1 ),
+				array( 'label' => 'Mystery', 'discount' => 40, 'weight' => 1 ),
+				array( 'label' => '5% OFF', 'discount' => 5, 'weight' => 1 ),
+			),
+		);
+		$settings = Upsell_Order_Bump_Gamified::sanitize_settings( $raw );
+
+		$this->assertSame( array( '20% OFF', 'Mystery', '5% OFF' ), wp_list_pluck( $settings['prizes'], 'label' ) );
+		$this->assertSame( array( 20, 20, 5 ), wp_list_pluck( $settings['prizes'], 'discount' ) );
+		$this->assertSame( 2, Upsell_Order_Bump_Gamified::count_capped_prizes( $raw ) );
+		$this->assertSame( 'Save 10 %', Upsell_Order_Bump_Gamified::label_for_discount( 'Save 12,5 %', 10 ) );
+	}
+
+	public function test_g4_draw_uses_the_prize_saved_by_a_parallel_request() {
+		global $wpdb;
+		$this->enable();
+		delete_option( Upsell_Order_Bump_Gamified::STATS_OPTION );
+
+		// Another request drew first and saved it; this request's in-memory session has no prize yet.
+		$saved = array(
+			1 => array(
+				'index'    => 2,
+				'label'    => '20% OFF',
+				'discount' => 20,
+				'skipped'  => false,
+				'format'   => 'spin_wheel',
+				'time'     => time(),
+				'accepted' => false,
+			),
+		);
+		$wpdb->replace(
+			"{$wpdb->prefix}woocommerce_sessions",
+			array(
+				'session_key'    => (string) WC()->session->get_customer_id(),
+				'session_value'  => maybe_serialize( array( Upsell_Order_Bump_Gamified::SESSION_KEY => maybe_serialize( $saved ) ) ),
+				'session_expiry' => time() + HOUR_IN_SECONDS,
+			)
+		);
+
+		$result = Upsell_Order_Bump_Gamified::draw( 1 );
+		$this->assertFalse( $result['new'], 'No second draw.' );
+		$this->assertSame( $saved[1], $result['prize'] );
+		$this->assertSame( $saved[1], Upsell_Order_Bump_Gamified::get_prize( 1 ) );
+		$this->assertArrayNotHasKey( 1, Upsell_Order_Bump_Gamified::get_stats(), 'Not counted twice.' );
+	}
+
+	public function test_g6_accept_counted_once_per_session_and_labels_stored() {
+		$this->enable();
+		delete_option( Upsell_Order_Bump_Gamified::STATS_OPTION );
+		$result = Upsell_Order_Bump_Gamified::draw( 1 );
+
+		$this->assertTrue( Upsell_Order_Bump_Gamified::mark_accepted( 1 ) );
+		$this->assertFalse( Upsell_Order_Bump_Gamified::mark_accepted( 1 ), 'Re-adding the offer is not a new accept.' );
+		$this->assertSame( 1, Upsell_Order_Bump_Gamified::get_stats()[1]['labels'][ $result['prize']['label'] ] );
+	}
+
+	public function test_g1_prize_kept_until_the_order_is_really_placed() {
+		$this->enable();
+		$pub = new Upsell_Order_Bump_Gamified_Public( '3.1.8' );
+
+		// Not cleared when the order is created (before payment).
+		foreach ( array( 'woocommerce_checkout_order_processed', 'woocommerce_store_api_checkout_order_processed' ) as $hook ) {
+			foreach ( (array) ( isset( $GLOBALS['wp_filter'][ $hook ] ) ? $GLOBALS['wp_filter'][ $hook ]->callbacks : array() ) as $callbacks ) {
+				foreach ( $callbacks as $cb ) {
+					$this->assertFalse( is_array( $cb['function'] ) && $cb['function'][0] instanceof Upsell_Order_Bump_Gamified_Public, $hook );
+				}
+			}
+		}
+
+		Upsell_Order_Bump_Gamified::draw( 1 );
+		$product = WPS_UBO_Test_Factory::simple_product();
+
+		// Failed payment: the prize stays (no re-roll; the retry keeps it).
+		$pub->clear_after_paid_order( WPS_UBO_Test_Factory::order( array( $product ), 'failed' )->get_id() );
+		$this->assertNotNull( Upsell_Order_Bump_Gamified::get_prize( 1 ) );
+
+		// Order went through: single use, cleared.
+		$pub->clear_after_paid_order( WPS_UBO_Test_Factory::order( array( $product ), 'processing' )->get_id() );
+		$this->assertNull( Upsell_Order_Bump_Gamified::get_prize( 1 ) );
+
+		// WooCommerce empties the cart after a successful payment.
+		Upsell_Order_Bump_Gamified::draw( 1 );
+		$pub->clear_after_order();
+		$this->assertNull( Upsell_Order_Bump_Gamified::get_prize( 1 ) );
+	}
+
 	public function test_guard_ignores_non_arrays() {
 		$this->assertSame( 'x', Upsell_Order_Bump_Gamified::guard_bump_list( 'x' ) );
 	}

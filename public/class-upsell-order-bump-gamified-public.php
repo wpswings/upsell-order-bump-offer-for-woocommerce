@@ -192,7 +192,7 @@ class Upsell_Order_Bump_Gamified_Public {
 		foreach ( $prizes as $row ) {
 			$discount   = min( (int) $settings['max_discount'], (int) $row['discount'] );
 			$segments[] = array(
-				'label'    => $row['label'],
+				'label'    => Upsell_Order_Bump_Gamified::label_for_discount( $row['label'], $discount ),
 				'color'    => $row['color'],
 				// Shown on the wheel anyway; used to pick the slice icon. Weights stay server-side.
 				'discount' => $discount,
@@ -410,9 +410,41 @@ class Upsell_Order_Bump_Gamified_Public {
 			return;
 		}
 		$bump_id = absint( $cart_item_data['wps_ubo_bump_id'] );
-		if ( 'standard' !== Upsell_Order_Bump_Gamified::format_for( $bump_id ) && Upsell_Order_Bump_Gamified::get_prize( $bump_id ) ) {
+		// Re-adding the offer (remove + add again) is one accept per session, not several.
+		if ( 'standard' !== Upsell_Order_Bump_Gamified::format_for( $bump_id ) && Upsell_Order_Bump_Gamified::mark_accepted( $bump_id ) ) {
 			Upsell_Order_Bump_Gamified::bump_stat( $bump_id, 'accepts' );
 		}
+	}
+
+	/**
+	 * Filter: woocommerce_add_cart_item_data — keep the won prize on the cart line, so the
+	 * order meta always matches the price charged for that line (not a later session state).
+	 *
+	 * @param array $cart_item_data Cart item data.
+	 * @return array
+	 */
+	public function add_prize_to_cart_item( $cart_item_data ) {
+		if ( empty( $cart_item_data['wps_ubo_offer_product'] ) || empty( $cart_item_data['wps_ubo_bump_id'] ) ) {
+			return $cart_item_data;
+		}
+		$bump_id = absint( $cart_item_data['wps_ubo_bump_id'] );
+		if ( 'standard' === Upsell_Order_Bump_Gamified::format_for( $bump_id ) ) {
+			return $cart_item_data;
+		}
+		$prize = Upsell_Order_Bump_Gamified::get_prize( $bump_id );
+		$raw   = Upsell_Order_Bump_Gamified::raw_bumps();
+		if ( ! $prize || empty( $raw[ $bump_id ] ) ) {
+			return $cart_item_data;
+		}
+		$discount = Upsell_Order_Bump_Gamified::effective_discount( $raw[ $bump_id ], $prize );
+		if ( $discount > 0 ) {
+			$cart_item_data[ Upsell_Order_Bump_Gamified::CART_KEY ] = array(
+				'format'   => (string) $prize['format'],
+				'label'    => (string) $prize['label'],
+				'discount' => $discount,
+			);
+		}
+		return $cart_item_data;
 	}
 
 	/**
@@ -428,23 +460,52 @@ class Upsell_Order_Bump_Gamified_Public {
 			return;
 		}
 		$bump_id = absint( $values['wps_ubo_bump_id'] );
-		$prize   = Upsell_Order_Bump_Gamified::get_prize( $bump_id );
-		$raw     = Upsell_Order_Bump_Gamified::raw_bumps();
-		if ( ! $prize || empty( $raw[ $bump_id ] ) ) {
-			return;
+
+		// Prize stored on the cart line when it was accepted (matches the charged price).
+		$won = isset( $values[ Upsell_Order_Bump_Gamified::CART_KEY ] ) && is_array( $values[ Upsell_Order_Bump_Gamified::CART_KEY ] ) ? $values[ Upsell_Order_Bump_Gamified::CART_KEY ] : null;
+		if ( ! $won ) {
+			// Lines added before this was stored: fall back to the session prize.
+			$prize = Upsell_Order_Bump_Gamified::get_prize( $bump_id );
+			$raw   = Upsell_Order_Bump_Gamified::raw_bumps();
+			if ( ! $prize || empty( $raw[ $bump_id ] ) ) {
+				return;
+			}
+			$won = array(
+				'format'   => (string) $prize['format'],
+				'label'    => (string) $prize['label'],
+				'discount' => Upsell_Order_Bump_Gamified::effective_discount( $raw[ $bump_id ], $prize ),
+			);
 		}
-		$discount = Upsell_Order_Bump_Gamified::effective_discount( $raw[ $bump_id ], $prize );
-		if ( $discount > 0 ) {
-			$item->add_meta_data( Upsell_Order_Bump_Gamified::ITEM_META, sprintf( '%s: %s (%d%%)', self::format_label( $prize['format'] ), $prize['label'], $discount ), true );
+		if ( $won['discount'] > 0 ) {
+			$item->add_meta_data( Upsell_Order_Bump_Gamified::ITEM_META, sprintf( '%s: %s (%s%%)', self::format_label( $won['format'] ), $won['label'], wc_format_localized_decimal( $won['discount'] ) ), true );
 		}
 	}
 
 	/**
-	 * Action: order placed — prizes are single use.
+	 * Action: woocommerce_cart_emptied — prizes are single use.
+	 *
+	 * WooCommerce empties the cart after a successful payment (or when an offline order
+	 * is placed), in the customer's session. The prize is NOT cleared when the order is
+	 * created, because that happens before payment: a failed or cancelled payment would
+	 * otherwise let the customer play again (re-roll) and lose the prize on the retry.
 	 *
 	 * @return void
 	 */
 	public function clear_after_order() {
 		Upsell_Order_Bump_Gamified::clear_session();
+	}
+
+	/**
+	 * Action: woocommerce_thankyou — also clear on the order-received page, but only when
+	 * the order really went through (not failed / pending / cancelled).
+	 *
+	 * @param int $order_id Order id.
+	 * @return void
+	 */
+	public function clear_after_paid_order( $order_id ) {
+		$order = $order_id ? wc_get_order( $order_id ) : null;
+		if ( $order && ! $order->has_status( array( 'failed', 'pending', 'cancelled' ) ) ) {
+			Upsell_Order_Bump_Gamified::clear_session();
+		}
 	}
 }

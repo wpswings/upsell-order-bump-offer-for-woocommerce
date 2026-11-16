@@ -161,11 +161,15 @@ class Upsell_Order_Bump_Gamified_Admin {
 		}
 
 		update_option( Upsell_Order_Bump_Gamified::SETTINGS_OPTION, Upsell_Order_Bump_Gamified::sanitize_settings( $raw ) );
+		$capped = Upsell_Order_Bump_Gamified::count_capped_prizes( $raw );
 		wp_safe_redirect(
 			self::url(
-				array(
-					'wps_notice' => 'saved',
-					'gm_tab'     => $gm_tab,
+				array_filter(
+					array(
+						'wps_notice' => 'saved',
+						'gm_tab'     => $gm_tab,
+						'gm_capped'  => $capped ? $capped : null,
+					)
 				)
 			)
 		);
@@ -253,6 +257,7 @@ class Upsell_Order_Bump_Gamified_Admin {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Display only.
 		$notice     = isset( $_GET['wps_notice'] ) ? sanitize_key( wp_unslash( $_GET['wps_notice'] ) ) : '';
 		$active_tab = self::sanitize_section( isset( $_GET['gm_tab'] ) ? sanitize_key( wp_unslash( $_GET['gm_tab'] ) ) : 'configuration' );
+		$capped     = isset( $_GET['gm_capped'] ) ? absint( $_GET['gm_capped'] ) : 0;
 		// phpcs:enable
 
 		// Preview data (admin only: weights are never printed on the front end).
@@ -273,7 +278,7 @@ class Upsell_Order_Bump_Gamified_Admin {
 		foreach ( $settings['prizes'] as $row ) {
 			$discount              = min( (int) $settings['max_discount'], (int) $row['discount'] );
 			$preview['segments'][] = array(
-				'label'    => $row['label'],
+				'label'    => Upsell_Order_Bump_Gamified::label_for_discount( $row['label'], $discount ),
 				'color'    => $row['color'],
 				'discount' => $discount,
 			);

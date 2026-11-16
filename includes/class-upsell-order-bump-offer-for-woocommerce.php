@@ -197,8 +197,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( 'wp_ajax_nopriv_' . Upsell_Order_Bump_Gamified_Public::AJAX_ACTION, $gamified_public, 'ajax_play' );
 		$this->loader->add_action( 'woocommerce_add_to_cart', $gamified_public, 'track_accept', 10, 6 );
 		$this->loader->add_action( 'woocommerce_checkout_create_order_line_item', $gamified_public, 'add_item_meta', 10, 3 );
-		$this->loader->add_action( 'woocommerce_checkout_order_processed', $gamified_public, 'clear_after_order', 99 );
-		$this->loader->add_action( 'woocommerce_store_api_checkout_order_processed', $gamified_public, 'clear_after_order', 99 );
+		$this->loader->add_filter( 'woocommerce_add_cart_item_data', $gamified_public, 'add_prize_to_cart_item', 20 );
+		// Prizes are cleared once the order is really placed (cart emptied after payment /
+		// order received), not when it is created before payment ( no re-roll on failed payment ).
+		$this->loader->add_action( 'woocommerce_cart_emptied', $gamified_public, 'clear_after_order', 99 );
+		$this->loader->add_action( 'woocommerce_thankyou', $gamified_public, 'clear_after_paid_order', 99 );
 	}
 
 	/**
@@ -559,6 +562,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			// Ajax to add bump offer.
 			$this->loader->add_action( 'wp_ajax_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
 			$this->loader->add_action( 'wp_ajax_nopriv_add_offer_in_cart', $plugin_public, 'add_offer_in_cart' );
+
+			// A bump line's quantity stays within the bump's allowed quantity ( any source ).
+			$this->loader->add_action( 'woocommerce_after_cart_item_quantity_update', $plugin_public, 'wps_ubo_clamp_bump_line_quantity', 10, 4 );
+			$this->loader->add_filter( 'woocommerce_store_api_product_quantity_editable', $plugin_public, 'wps_ubo_bump_line_quantity_editable', 10, 3 );
 
 			// Ajax to sync the quantity of an already added bump offer.
 			$this->loader->add_action( 'wp_ajax_wps_ubo_update_offer_quantity', $plugin_public, 'wps_ubo_update_offer_quantity' );

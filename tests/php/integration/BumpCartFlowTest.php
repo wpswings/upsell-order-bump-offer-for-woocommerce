@@ -83,6 +83,63 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertEqualsWithDelta( 240.0, (float) WC()->cart->get_subtotal(), 0.001 );
 	}
 
+	/**
+	 * Re-save bump 1 with quantity settings.
+	 *
+	 * @param array $qty Quantity settings.
+	 */
+	private function bump_with_quantity( $qty ) {
+		WPS_UBO_Test_Factory::bump(
+			$this->offer->get_id(),
+			array_merge( array( 'wps_upsell_bump_target_ids' => array( (string) $this->target->get_id() ) ), $qty )
+		);
+		$this->viewed();
+	}
+
+	public function test_qa_posted_quantity_is_ignored_when_quantity_is_off() {
+		WC()->cart->add_to_cart( $this->target->get_id() );
+		$this->add_offer( array( 'wps_qty_variable' => '10' ) );
+		list( , $item ) = $this->bump_item();
+		$this->assertSame( 1, (int) $item['quantity'], 'A discounted bump cannot be bought in any quantity.' );
+	}
+
+	public function test_qa_variable_quantity_is_kept_within_min_and_max() {
+		$this->bump_with_quantity(
+			array(
+				'wps_upsell_enable_quantity'            => 'yes',
+				'wps_upsell_offer_quantity_type'        => 'variable_q',
+				'wps_upsell_bump_products_min_quantity' => '1',
+				'wps_upsell_bump_products_max_quantity' => '3',
+			)
+		);
+		WC()->cart->add_to_cart( $this->target->get_id() );
+		$this->add_offer( array( 'wps_qty_variable' => '10' ) );
+		list( $key, $item ) = $this->bump_item();
+		$this->assertSame( 3, (int) $item['quantity'] );
+
+		// Any other way of changing the line ( cart form, Store API, plugins ) is capped too.
+		WC()->cart->cart_contents[ $key ]['quantity'] = 50;
+		$this->pub->wps_ubo_clamp_bump_line_quantity( $key, 50, 3, WC()->cart );
+		$this->assertSame( 3, (int) WC()->cart->cart_contents[ $key ]['quantity'] );
+
+		// The block cart shows the bump line quantity read-only.
+		$this->assertFalse( $this->pub->wps_ubo_bump_line_quantity_editable( true, $this->offer, WC()->cart->cart_contents[ $key ] ) );
+	}
+
+	public function test_qa_fixed_quantity_uses_the_configured_amount() {
+		$this->bump_with_quantity(
+			array(
+				'wps_upsell_enable_quantity'              => 'yes',
+				'wps_upsell_offer_quantity_type'          => 'fixed_q',
+				'wps_upsell_bump_products_fixed_quantity' => '2',
+			)
+		);
+		WC()->cart->add_to_cart( $this->target->get_id() );
+		$this->add_offer( array( 'wps_qty_variable' => '9' ) );
+		list( , $item ) = $this->bump_item();
+		$this->assertSame( 2, (int) $item['quantity'] );
+	}
+
 	public function test_add_offer_rejects_bad_nonce() {
 		$r = $this->add_offer( array( 'nonce' => 'nope' ) );
 		$this->assertSame( '-1', trim( $r['raw'] ) );
