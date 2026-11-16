@@ -107,6 +107,13 @@ class Upsell_Order_Bump_Gamified_Public {
 					'spinning'    => __( 'Spinning…', 'upsell-order-bump-offer-for-woocommerce' ),
 					'standard'    => __( 'Here is your offer!', 'upsell-order-bump-offer-for-woocommerce' ),
 					'error'       => __( 'Something went wrong. Please refresh the page.', 'upsell-order-bump-offer-for-woocommerce' ),
+					'spin'        => _x( 'Spin', 'Label on the centre of the wheel', 'upsell-order-bump-offer-for-woocommerce' ),
+					'youWon'      => __( 'You won!', 'upsell-order-bump-offer-for-woocommerce' ),
+					'off'         => _x( 'Off', 'As in "5% off"', 'upsell-order-bump-offer-for-woocommerce' ),
+					/* translators: %s: product name. */
+					'onProduct'   => __( 'on %s', 'upsell-order-bump-offer-for-woocommerce' ),
+					'applied'     => __( 'Applied to your offer automatically', 'upsell-order-bump-offer-for-woocommerce' ),
+					'standardSub' => __( 'You can still add the offer below.', 'upsell-order-bump-offer-for-woocommerce' ),
 				),
 			)
 		);
@@ -183,11 +190,14 @@ class Upsell_Order_Bump_Gamified_Public {
 		$segments = array();
 		$best     = 0;
 		foreach ( $prizes as $row ) {
+			$discount   = min( (int) $settings['max_discount'], (int) $row['discount'] );
 			$segments[] = array(
-				'label' => $row['label'],
-				'color' => $row['color'],
+				'label'    => $row['label'],
+				'color'    => $row['color'],
+				// Shown on the wheel anyway; used to pick the slice icon. Weights stay server-side.
+				'discount' => $discount,
 			);
-			$best       = max( $best, min( (int) $settings['max_discount'], (int) $row['discount'] ) );
+			$best       = max( $best, $discount );
 		}
 
 		$bumps   = get_option( 'wps_ubo_bump_list', array() );
@@ -221,6 +231,7 @@ class Upsell_Order_Bump_Gamified_Public {
 			'data-bump-id'  => (string) $args['bump_id'],
 			'data-format'   => $args['format'],
 			'data-segments' => wp_json_encode( $args['segments'] ),
+			'data-product'  => isset( $args['product'] ) ? (string) $args['product'] : '',
 			'style'         => self::style_vars(),
 		);
 		if ( ! empty( $args['preview'] ) ) {
@@ -236,9 +247,8 @@ class Upsell_Order_Bump_Gamified_Public {
 		}
 		?>
 		>
-			<p class="wps-ubo-game__headline"><?php echo esc_html( $args['headline'] ); ?></p>
 			<?php if ( ! empty( $args['product'] ) && $args['best'] > 0 ) : ?>
-				<p class="wps-ubo-game__teaser">
+				<div class="wps-ubo-game__teaser">
 					<?php
 					printf(
 						/* translators: 1: max discount, 2: product name. */
@@ -247,14 +257,17 @@ class Upsell_Order_Bump_Gamified_Public {
 						'<strong>' . esc_html( $args['product'] ) . '</strong>'
 					);
 					?>
-				</p>
+				</div>
 			<?php endif; ?>
 
 			<div class="wps-ubo-game__stage">
 				<?php if ( 'spin_wheel' === $args['format'] ) : ?>
 					<div class="wps-ubo-game__wheel-wrap">
-						<span class="wps-ubo-game__pointer" aria-hidden="true"></span>
+						<span class="wps-ubo-game__pointer" aria-hidden="true">
+							<svg viewBox="0 0 40 52" focusable="false"><path d="M20 51C20 51 4 30.5 4 19.5a16 16 0 0 1 32 0C36 30.5 20 51 20 51Z"/><circle cx="20" cy="19" r="6"/></svg>
+						</span>
 						<div class="wps-ubo-game__wheel" aria-hidden="true"></div>
+						<span class="wps-ubo-game__hub" aria-hidden="true"><b></b></span>
 					</div>
 				<?php else : ?>
 					<div class="wps-ubo-game__card">
@@ -262,10 +275,18 @@ class Upsell_Order_Bump_Gamified_Public {
 						<canvas class="wps-ubo-game__scratch" aria-hidden="true"></canvas>
 					</div>
 				<?php endif; ?>
+				<div class="wps-ubo-game__win" hidden></div>
 			</div>
 
-			<button type="button" class="wps-ubo-game__play"><?php echo esc_html( $args['button'] ); ?></button>
-			<p class="wps-ubo-game__result" role="status" aria-live="polite"></p>
+			<div class="wps-ubo-game__bar">
+				<span class="wps-ubo-game__bar-icon" aria-hidden="true">
+					<svg viewBox="0 0 24 24" focusable="false"><path d="M3 8h18v4H3zM5 12h14v9H5zM12 8v13M12 8c-1.6-3.6-5.6-4.1-5.6-1.6C6.4 8 12 8 12 8Zm0 0c1.6-3.6 5.6-4.1 5.6-1.6C17.6 8 12 8 12 8Z"/></svg>
+				</span>
+				<div class="wps-ubo-game__headline"><?php echo esc_html( $args['headline'] ); ?></div>
+				<button type="button" class="wps-ubo-game__play"><?php echo esc_html( $args['button'] ); ?><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></button>
+			</div>
+
+			<div class="wps-ubo-game__result" role="status" aria-live="polite"></div>
 			<?php if ( ! empty( $args['skip'] ) ) : ?>
 				<button type="button" class="wps-ubo-game__skip"><?php esc_html_e( 'No thanks, just show me the offer', 'upsell-order-bump-offer-for-woocommerce' ); ?></button>
 			<?php endif; ?>

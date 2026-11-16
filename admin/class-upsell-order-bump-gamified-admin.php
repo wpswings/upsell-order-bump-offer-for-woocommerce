@@ -132,9 +132,19 @@ class Upsell_Order_Bump_Gamified_Admin {
 
 		$action = sanitize_key( wp_unslash( $_POST['wps_ubo_gamified_action'] ) );
 
+		// Return to the in-page tab the admin was on.
+		$gm_tab = isset( $_POST['wps_ubo_gamified_tab'] ) ? self::sanitize_section( sanitize_key( wp_unslash( $_POST['wps_ubo_gamified_tab'] ) ) ) : 'configuration';
+
 		if ( 'reset_stats' === $action ) {
 			delete_option( Upsell_Order_Bump_Gamified::STATS_OPTION );
-			wp_safe_redirect( self::url( array( 'wps_notice' => 'reset' ) ) );
+			wp_safe_redirect(
+				self::url(
+					array(
+						'wps_notice' => 'reset',
+						'gm_tab'     => 'analytics',
+					)
+				)
+			);
 			exit;
 		}
 
@@ -151,8 +161,46 @@ class Upsell_Order_Bump_Gamified_Admin {
 		}
 
 		update_option( Upsell_Order_Bump_Gamified::SETTINGS_OPTION, Upsell_Order_Bump_Gamified::sanitize_settings( $raw ) );
-		wp_safe_redirect( self::url( array( 'wps_notice' => 'saved' ) ) );
+		wp_safe_redirect(
+			self::url(
+				array(
+					'wps_notice' => 'saved',
+					'gm_tab'     => $gm_tab,
+				)
+			)
+		);
 		exit;
+	}
+
+	/**
+	 * In-page sections of the tab.
+	 *
+	 * @return string[]
+	 */
+	public static function sections() {
+		return array( 'configuration', 'prizes', 'appearance', 'analytics' );
+	}
+
+	/**
+	 * Keep a section slug only if it exists.
+	 *
+	 * @param string $section Section slug.
+	 * @return string
+	 */
+	public static function sanitize_section( $section ) {
+		return in_array( $section, self::sections(), true ) ? $section : 'configuration';
+	}
+
+	/**
+	 * Filter: wps_ubo_lite_show_sidebar — hide the help / promotional sidebar on this tab
+	 * so the settings, preview and save bar get the full width.
+	 *
+	 * @param bool   $show Show the sidebar.
+	 * @param string $tab  Active settings tab.
+	 * @return bool
+	 */
+	public function hide_sidebar( $show, $tab = '' ) {
+		return self::TAB === $tab ? false : $show;
 	}
 
 	/**
@@ -183,6 +231,7 @@ class Upsell_Order_Bump_Gamified_Admin {
 				'minPrizes'     => __( 'Keep at least two prizes.', 'upsell-order-bump-offer-for-woocommerce' ),
 				'maxPrizes'     => __( 'The wheel supports up to 12 prizes.', 'upsell-order-bump-offer-for-woocommerce' ),
 				'noWeight'      => __( 'At least one prize needs a weight above 0.', 'upsell-order-bump-offer-for-woocommerce' ),
+				'unsaved'       => __( 'You have unsaved changes', 'upsell-order-bump-offer-for-woocommerce' ),
 			)
 		);
 	}
@@ -201,8 +250,10 @@ class Upsell_Order_Bump_Gamified_Admin {
 		$stats    = Upsell_Order_Bump_Gamified::get_stats();
 		$bumps    = Upsell_Order_Bump_Gamified::raw_bumps();
 		$lite     = ! wps_ubo_lite_if_pro_exists();
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display only.
-		$notice = isset( $_GET['wps_notice'] ) ? sanitize_key( wp_unslash( $_GET['wps_notice'] ) ) : '';
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Display only.
+		$notice     = isset( $_GET['wps_notice'] ) ? sanitize_key( wp_unslash( $_GET['wps_notice'] ) ) : '';
+		$active_tab = self::sanitize_section( isset( $_GET['gm_tab'] ) ? sanitize_key( wp_unslash( $_GET['gm_tab'] ) ) : 'configuration' );
+		// phpcs:enable
 
 		// Preview data (admin only: weights are never printed on the front end).
 		$sample = '';
@@ -222,8 +273,9 @@ class Upsell_Order_Bump_Gamified_Admin {
 		foreach ( $settings['prizes'] as $row ) {
 			$discount              = min( (int) $settings['max_discount'], (int) $row['discount'] );
 			$preview['segments'][] = array(
-				'label' => $row['label'],
-				'color' => $row['color'],
+				'label'    => $row['label'],
+				'color'    => $row['color'],
+				'discount' => $discount,
 			);
 			$preview['weights'][]  = (int) $row['weight'];
 			$preview['results'][]  = array(
