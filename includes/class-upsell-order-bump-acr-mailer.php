@@ -120,7 +120,7 @@ class Upsell_Order_Bump_Acr_Mailer {
 			return '';
 		}
 		$price  = Upsell_Order_Bump_Acr_Engine::offer_price( $product, (int) $row['offer_discount'] );
-		$normal = (float) ( $product->get_regular_price() ? $product->get_regular_price() : $product->get_price() );
+		$normal = (float) $product->get_price(); // What the customer would pay now ( sale-aware ).
 		$image  = wp_get_attachment_image_url( $product->get_image_id() ? $product->get_image_id() : ( $product->get_parent_id() ? get_post_thumbnail_id( $product->get_parent_id() ) : 0 ), 'woocommerce_thumbnail' );
 		$image  = $image ? $image : wc_placeholder_img_src( 'woocommerce_thumbnail' );
 
@@ -177,6 +177,33 @@ class Upsell_Order_Bump_Acr_Mailer {
 	}
 
 	/**
+	 * Remove paragraphs that talk about an offer or coupon this email doesn't have, e.g.
+	 * "add this at an exclusive {offer_discount} off:" with no offer, and the line that
+	 * introduces an empty {offer_block}.
+	 *
+	 * @param string $body HTML body ( after wpautop ).
+	 * @param array  $map  Placeholder values.
+	 * @return string
+	 */
+	public static function drop_empty_sentences( $body, $map ) {
+		$empty = array();
+		foreach ( array( '{offer_discount}', '{offer_product}', '{offer_price}', '{coupon_code}', '{coupon_percent}' ) as $key ) {
+			if ( isset( $map[ $key ] ) && '' === (string) $map[ $key ] ) {
+				$empty[] = preg_quote( $key, '/' );
+			}
+		}
+		if ( $empty ) {
+			$body = preg_replace( '/<p>(?:(?!<\/p>).)*(?:' . implode( '|', $empty ) . ')(?:(?!<\/p>).)*<\/p>\s*/s', '', $body );
+		}
+		if ( isset( $map['{offer_block}'] ) && '' === (string) $map['{offer_block}'] ) {
+			// An introduction ending in ":" right before the ( empty ) offer block goes too.
+			// ( Runs before the block placeholders are unwrapped, so allow "<p>{offer_block}". )
+			$body = preg_replace( '/<p>(?:(?!<\/p>).)*:\s*<\/p>\s*((?:<p>)?\{offer_block\})/s', '$1', $body );
+		}
+		return (string) $body;
+	}
+
+	/**
 	 * Render a step for a row.
 	 *
 	 * @param array $row   Cart row.
@@ -208,6 +235,7 @@ class Upsell_Order_Bump_Acr_Mailer {
 
 		$map  = self::placeholders( $row, $step );
 		$body = wpautop( wp_kses_post( $args['body'] ) );
+		$body = self::drop_empty_sentences( $body, $map );
 		// Block placeholders sit alone in a paragraph after wpautop; unwrap them.
 		foreach ( array( '{cart_items}', '{offer_block}', '{recovery_button}' ) as $block ) {
 			$body = str_replace( array( '<p>' . $block . '</p>', '<p>' . $block . "<br />\n", $block . '</p>' ), array( $block, $block, $block ), $body );

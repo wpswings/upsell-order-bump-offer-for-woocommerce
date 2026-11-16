@@ -274,7 +274,7 @@ $wps_panel_attrs = function ( $key, $active ) {
 				<div class="wps-ubo-acr__row">
 					<label class="wps-ubo-acr__row-label" for="wps-ubo-acr-product"><strong><?php esc_html_e( 'Fallback / fixed offer product', 'upsell-order-bump-offer-for-woocommerce' ); ?></strong><small><?php esc_html_e( 'Used when no other source finds a product, or always with "Always the fallback product".', 'upsell-order-bump-offer-for-woocommerce' ); ?></small></label>
 					<div class="wps-ubo-acr__row-control">
-						<select id="wps-ubo-acr-product" class="wc-product-search" name="acr[offer_product]" data-placeholder="<?php esc_attr_e( 'Search for a product…', 'upsell-order-bump-offer-for-woocommerce' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-allow_clear="true" style="width:100%">
+						<select id="wps-ubo-acr-product" class="wc-product-search" name="acr[offer_product]" data-placeholder="<?php esc_attr_e( 'Search for a product…', 'upsell-order-bump-offer-for-woocommerce' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-exclude_type="variable" data-allow_clear="true" style="width:100%">
 							<?php if ( $wps_offer_product ) : ?>
 								<option value="<?php echo esc_attr( $wps_offer_product->get_id() ); ?>" selected><?php echo esc_html( wp_strip_all_tags( $wps_offer_product->get_formatted_name() ) ); ?></option>
 							<?php endif; ?>

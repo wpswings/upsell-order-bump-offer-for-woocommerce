@@ -208,7 +208,7 @@ class Upsell_Order_Bump_Acr_Db {
 			'consent_notice'     => isset( $raw['consent_notice'] ) ? mb_substr( sanitize_text_field( $raw['consent_notice'] ), 0, 300 ) : '',
 			'exclude_roles'      => $roles,
 			'offer_source'       => $source,
-			'offer_product'      => isset( $raw['offer_product'] ) ? absint( $raw['offer_product'] ) : 0,
+			'offer_product'      => self::sanitize_offer_product( isset( $raw['offer_product'] ) ? absint( $raw['offer_product'] ) : 0 ),
 			'offer_discount'     => $int( 'offer_discount', 0, 90 ),
 			'checkout_offer'     => $on( isset( $raw['checkout_offer'] ) ? $raw['checkout_offer'] : 'off' ),
 			'coupon_expiry_days' => $int( 'coupon_expiry_days', 1, 90 ),
@@ -216,6 +216,21 @@ class Upsell_Order_Bump_Acr_Db {
 			'retention_days'     => $int( 'retention_days', 7, 730 ),
 			'steps'              => $steps,
 		);
+	}
+
+	/**
+	 * Fallback offer product: only products that can be added as one line ( not a variable
+	 * parent, not an "any" variation ). Others are cleared.
+	 *
+	 * @param int $product_id Product id.
+	 * @return int
+	 */
+	public static function sanitize_offer_product( $product_id ) {
+		if ( ! $product_id || ! function_exists( 'wc_get_product' ) || ! class_exists( 'Upsell_Order_Bump_Acr_Engine' ) ) {
+			return (int) $product_id;
+		}
+		$product = wc_get_product( $product_id );
+		return $product && Upsell_Order_Bump_Acr_Engine::is_single_line_product( $product ) ? (int) $product_id : 0;
 	}
 
 	/**
@@ -373,6 +388,9 @@ class Upsell_Order_Bump_Acr_Db {
 	public static function uninstall() {
 		global $wpdb;
 		self::unschedule();
+		if ( class_exists( 'Upsell_Order_Bump_Acr_Engine' ) && function_exists( 'get_posts' ) ) {
+			Upsell_Order_Bump_Acr_Engine::delete_coupons( false );
+		}
 		$table = self::table();
 		$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange
 		delete_option( self::DB_VERSION_OPTION );
@@ -490,6 +508,21 @@ class Upsell_Order_Bump_Acr_Db {
 	}
 
 	/**
+	 * Active / abandoned rows for an email ( other than one row ).
+	 *
+	 * @param string $email     Email.
+	 * @param int    $except_id Row id to leave out.
+	 * @return array[]
+	 */
+	public static function open_rows_for_email( $email, $except_id = 0 ) {
+		global $wpdb;
+		$table = self::table();
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE email = %s AND status IN ('active','abandoned') AND id <> %d", strtolower( (string) $email ), (int) $except_id ), ARRAY_A );
+		return array_map( array( __CLASS__, 'hydrate' ), (array) $rows );
+	}
+
+	/**
 	 * Latest abandoned / lost row for an email.
 	 *
 	 * @param string $email Email.
@@ -541,7 +574,7 @@ class Upsell_Order_Bump_Acr_Db {
 			$wpdb->prepare(
 				"SELECT
 					SUM(abandoned_at IS NOT NULL) AS abandoned,
-					SUM(status = 'recovered') AS recovered,
+					SUM(status = 'recovered' AND recovered_via <> 'dup') AS recovered,
 					SUM(status = 'recovered' AND recovered_via = 'link') AS via_link,
 					SUM(CASE WHEN status = 'recovered' THEN recovered_total ELSE 0 END) AS revenue,
 					SUM(emails_sent) AS emails,

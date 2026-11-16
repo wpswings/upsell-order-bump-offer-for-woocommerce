@@ -176,7 +176,9 @@ class Upsell_Order_Bump_Acr_Public {
 
 		$items = self::snapshot();
 		if ( empty( $items ) ) {
-			if ( $row && 'active' === $row['status'] ) {
+			// Only a fresh cart is forgotten. A cart reopened from a recovery link, or one that
+			// already got reminders, keeps its click / email history.
+			if ( $row && 'active' === $row['status'] && empty( $row['clicked_at'] ) && 0 === (int) $row['emails_sent'] ) {
 				Upsell_Order_Bump_Acr_Db::delete( $row['id'] );
 			}
 			return;
@@ -195,14 +197,34 @@ class Upsell_Order_Bump_Acr_Public {
 			'updated_at'    => Upsell_Order_Bump_Acr_Db::now(),
 		);
 
+		if ( $row && 'abandoned' === $row['status'] && ! empty( $row['clicked_at'] ) ) {
+			// Reopened from a recovery link: still being recovered until an order is placed, so
+			// keep its status and email schedule; only the cart contents are updated.
+			unset( $data['status'], $data['next_email_at'] );
+		}
+
 		if ( $row ) {
 			if ( '' === $data['first_name'] ) {
 				unset( $data['first_name'] ); // Never blank a name we already have.
 			}
 			Upsell_Order_Bump_Acr_Db::update( $row['id'], $data );
+			$row_id = (int) $row['id'];
 		} else {
 			$data['session_key'] = $key;
-			Upsell_Order_Bump_Acr_Db::insert( $data );
+			$row_id              = Upsell_Order_Bump_Acr_Db::insert( $data );
+		}
+
+		/*
+		 * One open cart per customer: e.g. a guest who logs in gets a new session key, which
+		 * left the guest row behind to be emailed even after ordering. The current cart wins:
+		 * fresh duplicates are removed, others stop getting reminders.
+		 */
+		foreach ( Upsell_Order_Bump_Acr_Db::open_rows_for_email( $data['email'], $row_id ) as $other ) {
+			if ( 'active' === $other['status'] && empty( $other['clicked_at'] ) && 0 === (int) $other['emails_sent'] ) {
+				Upsell_Order_Bump_Acr_Db::delete( $other['id'] );
+			} elseif ( null !== $other['next_email_at'] ) {
+				Upsell_Order_Bump_Acr_Db::update( $other['id'], array( 'next_email_at' => null ) );
+			}
 		}
 	}
 
@@ -220,12 +242,47 @@ class Upsell_Order_Bump_Acr_Public {
 		if ( ! is_email( $email ) || ! self::should_track() || ( ! is_user_logged_in() && 'on' !== $settings['capture_guests'] ) ) {
 			wp_send_json_success( array( 'tracked' => false ) );
 		}
+		// Only a real shopper ( a session with a cart ) can save an email, and not too often:
+		// otherwise a script could make the store send reminders to any address.
+		if ( ! WC()->session->has_session() || WC()->cart->is_empty() || ! self::capture_allowed() ) {
+			wp_send_json_success( array( 'tracked' => false ) );
+		}
 		WC()->session->set( self::S_EMAIL, $email );
 		if ( '' !== $name ) {
 			WC()->session->set( self::S_NAME, $name );
 		}
 		self::sync();
 		wp_send_json_success( array( 'tracked' => true ) );
+	}
+
+	/**
+	 * Rate limit for email capture: per session and per IP ( 10 minute window ).
+	 *
+	 * @return bool
+	 */
+	private static function capture_allowed() {
+		$ip     = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		$limits = array(
+			'wps_ubo_acr_rl_s_' . md5( (string) WC()->session->get_customer_id() ) => 20,
+			'wps_ubo_acr_rl_i_' . md5( $ip ) => 60,
+		);
+		/**
+		 * Filters the email capture limits ( requests per 10 minutes, per session and per IP ).
+		 *
+		 * @since 3.1.8
+		 * @param array $limits transient key => max.
+		 */
+		$limits = (array) apply_filters( 'wps_ubo_acr_capture_limits', $limits );
+		foreach ( $limits as $key => $max ) {
+			$count = (int) get_transient( $key );
+			if ( $count >= (int) $max ) {
+				return false;
+			}
+		}
+		foreach ( $limits as $key => $max ) {
+			set_transient( $key, (int) get_transient( $key ) + 1, 10 * MINUTE_IN_SECONDS );
+		}
+		return true;
 	}
 
 	/**
@@ -295,6 +352,11 @@ class Upsell_Order_Bump_Acr_Public {
 		// phpcs:enable
 
 		$row = Upsell_Order_Bump_Acr_Db::get_by( 'token', $token );
+		// Closed ( lost / unsubscribed ) and old links are refused: whoever opens one gets the
+		// customer's name and email prefilled.
+		if ( $row && ( in_array( $row['status'], array( 'lost', 'unsubscribed' ), true ) || self::link_expired( $row ) ) ) {
+			$row = null;
+		}
 		if ( ! $row || empty( $row['cart'] ) ) {
 			self::notice( __( 'This cart link has expired.', 'upsell-order-bump-offer-for-woocommerce' ) );
 			wp_safe_redirect( wc_get_cart_url() );
@@ -309,6 +371,34 @@ class Upsell_Order_Bump_Acr_Public {
 		$this->restore( $row, $add_offer );
 		wp_safe_redirect( wc_get_checkout_url() );
 		exit;
+	}
+
+	/**
+	 * Whether a recovery link is too old: more than max( 7, coupon expiry ) days after the
+	 * last reminder ( or abandonment ).
+	 *
+	 * @param array $row Cart row.
+	 * @return bool
+	 */
+	public static function link_expired( $row ) {
+		if ( 'recovered' === $row['status'] ) {
+			return false; // Handled with its own message.
+		}
+		$settings = Upsell_Order_Bump_Acr_Db::get_settings();
+		$from     = ! empty( $row['last_email_at'] ) ? $row['last_email_at'] : ( ! empty( $row['abandoned_at'] ) ? $row['abandoned_at'] : '' );
+		if ( '' === $from ) {
+			return false;
+		}
+		$days = max( 7, (int) $settings['coupon_expiry_days'] );
+		/**
+		 * Filters how many days a recovery link works after the last reminder.
+		 *
+		 * @since 3.1.8
+		 * @param int   $days Days.
+		 * @param array $row  Cart row.
+		 */
+		$days = (int) apply_filters( 'wps_ubo_acr_link_days', $days, $row );
+		return strtotime( $from . ' UTC' ) + $days * DAY_IN_SECONDS < time();
 	}
 
 	/**
@@ -447,10 +537,16 @@ class Upsell_Order_Bump_Acr_Public {
 		if ( ! $product || ! $product->is_purchasable() || ! $product->is_in_stock() || '' !== self::offer_cart_key() ) {
 			return false;
 		}
+		// A variable product ( or an "any" variation ) needs the customer to choose options.
+		if ( ! Upsell_Order_Bump_Acr_Engine::is_single_line_product( $product ) ) {
+			return false;
+		}
 		$product_id   = $product->get_parent_id() ? $product->get_parent_id() : $product->get_id();
 		$variation_id = $product->get_parent_id() ? $product->get_id() : 0;
 		$variation    = $variation_id ? $product->get_variation_attributes() : array();
-		return (bool) WC()->cart->add_to_cart(
+
+		$errors_before = function_exists( 'wc_get_notices' ) ? count( wc_get_notices( 'error' ) ) : 0;
+		$added         = (bool) WC()->cart->add_to_cart(
 			$product_id,
 			1,
 			$variation_id,
@@ -461,6 +557,14 @@ class Upsell_Order_Bump_Acr_Public {
 				),
 			)
 		);
+		if ( ! $added && function_exists( 'wc_get_notices' ) ) {
+			// Don't leave WooCommerce's add-to-cart error behind: it blocks the block checkout
+			// for the rest of the session.
+			$notices          = wc_get_notices();
+			$notices['error'] = array_slice( isset( $notices['error'] ) ? $notices['error'] : array(), 0, $errors_before );
+			wc_set_notices( $notices );
+		}
+		return $added;
 	}
 
 	/**
@@ -497,12 +601,12 @@ class Upsell_Order_Bump_Acr_Public {
 		$settings = Upsell_Order_Bump_Acr_Db::get_settings();
 		$row      = 'on' === $settings['checkout_offer'] ? self::recovery_row() : null;
 		$product  = $row && ! empty( $row['offer_product'] ) ? wc_get_product( $row['offer_product'] ) : null;
-		if ( ! $product || ! $product->is_purchasable() || ! $product->is_in_stock() ) {
+		if ( ! $product || ! $product->is_purchasable() || ! $product->is_in_stock() || ! Upsell_Order_Bump_Acr_Engine::is_single_line_product( $product ) ) {
 			return '';
 		}
 		$in_cart = '' !== self::offer_cart_key();
 		$price   = Upsell_Order_Bump_Acr_Engine::offer_price( $product, (int) $row['offer_discount'] );
-		$normal  = (float) ( $product->get_regular_price() ? $product->get_regular_price() : $product->get_price() );
+		$normal  = (float) $product->get_price(); // What the customer would pay now ( sale-aware ).
 		$name    = $row['first_name'] ? $row['first_name'] : '';
 
 		ob_start();
@@ -607,6 +711,66 @@ class Upsell_Order_Bump_Acr_Public {
 			sprintf( __( 'Cart recovery offer (%d%%)', 'upsell-order-bump-offer-for-woocommerce' ), $row ? (int) $row['offer_discount'] : 0 ),
 			true
 		);
+		// Which saved cart the offer belongs to ( so another cart is never credited with it ).
+		$item->add_meta_data( '_wps_ubo_acr_cart_id', (int) $values[ self::ITEM_KEY ]['cart_id'], true );
+	}
+
+	/**
+	 * Action: woocommerce_after_cart_item_quantity_update — the recovery offer is one unit
+	 * at the offer price, whatever tries to change it ( cart form, Store API, plugins ).
+	 *
+	 * @param string  $cart_item_key Cart key.
+	 * @param int     $quantity      New quantity.
+	 * @param int     $old_quantity  Old quantity.
+	 * @param WC_Cart $cart          Cart.
+	 * @return void
+	 */
+	public function lock_offer_quantity( $cart_item_key, $quantity, $old_quantity = 0, $cart = null ) {
+		$cart = $cart instanceof WC_Cart ? $cart : WC()->cart;
+		if ( $cart && ! empty( $cart->cart_contents[ $cart_item_key ][ self::ITEM_KEY ] ) && (int) $quantity > 1 ) {
+			$cart->cart_contents[ $cart_item_key ]['quantity'] = 1; // Not set_quantity(): it would run this hook again.
+		}
+	}
+
+	/**
+	 * Filter: woocommerce_store_api_product_quantity_editable — read-only in the block cart.
+	 *
+	 * @param bool       $editable  Editable.
+	 * @param WC_Product $product   Product.
+	 * @param array      $cart_item Cart item.
+	 * @return bool
+	 */
+	public function offer_quantity_editable( $editable, $product = null, $cart_item = array() ) {
+		return is_array( $cart_item ) && ! empty( $cart_item[ self::ITEM_KEY ] ) ? false : $editable;
+	}
+
+	/**
+	 * Filter: woocommerce_cart_item_quantity — read-only in the classic cart.
+	 *
+	 * @param string $html          Quantity HTML.
+	 * @param string $cart_item_key Cart key.
+	 * @param array  $cart_item     Cart item.
+	 * @return string
+	 */
+	public function offer_quantity_html( $html, $cart_item_key = '', $cart_item = array() ) {
+		return is_array( $cart_item ) && ! empty( $cart_item[ self::ITEM_KEY ] ) ? '1' : $html;
+	}
+
+	/**
+	 * Filter: woocommerce_coupon_is_valid_for_product — the generated recovery coupon does not
+	 * stack on the already-discounted offer line.
+	 *
+	 * @param bool       $valid   Valid.
+	 * @param WC_Product $product Product.
+	 * @param WC_Coupon  $coupon  Coupon.
+	 * @param array      $values  Cart item.
+	 * @return bool
+	 */
+	public function coupon_not_on_offer( $valid, $product = null, $coupon = null, $values = array() ) {
+		if ( $valid && is_array( $values ) && ! empty( $values[ self::ITEM_KEY ] ) && $coupon instanceof WC_Coupon && $coupon->get_meta( '_wps_ubo_acr_cart_id' ) ) {
+			return false;
+		}
+		return $valid;
 	}
 
 	/**
@@ -616,7 +780,7 @@ class Upsell_Order_Bump_Acr_Public {
 	 * @return void
 	 */
 	public function on_order_classic( $order_id ) {
-		$this->attribute( wc_get_order( $order_id ) );
+		$this->link_order( wc_get_order( $order_id ) );
 	}
 
 	/**
@@ -626,16 +790,18 @@ class Upsell_Order_Bump_Acr_Public {
 	 * @return void
 	 */
 	public function on_order_block( $order ) {
-		$this->attribute( $order );
+		$this->link_order( $order );
 	}
 
 	/**
-	 * Link the order to its cart row.
+	 * When the order is created ( before payment ): remember which saved cart it belongs to.
+	 * Nothing is marked recovered or deleted yet: a failed payment must keep the cart and its
+	 * reminders, and must not count as recovered revenue.
 	 *
 	 * @param WC_Order|false $order Order.
 	 * @return void
 	 */
-	private function attribute( $order ) {
+	private function link_order( $order ) {
 		if ( ! $order || ! self::has_wc() ) {
 			return;
 		}
@@ -644,19 +810,97 @@ class Upsell_Order_Bump_Acr_Public {
 		if ( ! $row ) {
 			$row = Upsell_Order_Bump_Acr_Db::get_by( 'session_key', (string) WC()->session->get_customer_id() );
 		}
-		if ( ! $row && $order->get_billing_email() ) {
-			$row = Upsell_Order_Bump_Acr_Db::open_row_for_email( $order->get_billing_email() );
+		if ( $row ) {
+			$order->update_meta_data( '_wps_ubo_acr_cart_id', (int) $row['id'] );
+			$order->update_meta_data( '_wps_ubo_acr_via', $recovery_id && (int) $row['id'] === $recovery_id ? 'link' : 'direct' );
+			$order->save_meta_data();
+		}
+		if ( $order->is_paid() ) {
+			self::attribute_paid_order( $order );
+		}
+	}
+
+	/**
+	 * Action: woocommerce_payment_complete.
+	 *
+	 * @param int $order_id Order id.
+	 * @return void
+	 */
+	public function on_payment_complete( $order_id ) {
+		self::attribute_paid_order( wc_get_order( $order_id ) );
+	}
+
+	/**
+	 * Action: woocommerce_order_status_changed — offline methods ( on-hold ), manual changes,
+	 * gateway callbacks.
+	 *
+	 * @param int           $order_id Order id.
+	 * @param string        $from     Old status.
+	 * @param string        $to       New status.
+	 * @param WC_Order|null $order    Order.
+	 * @return void
+	 */
+	public function on_status_changed( $order_id, $from, $to, $order = null ) {
+		if ( in_array( 'wc-' . $to, Upsell_Order_Bump_Acr_Engine::paid_statuses(), true ) ) {
+			self::attribute_paid_order( $order instanceof WC_Order ? $order : wc_get_order( $order_id ) );
+		}
+	}
+
+	/**
+	 * Once the order is paid: mark its saved cart recovered ( or forget a normal cart ), and
+	 * close the customer's other open carts so no reminder is sent after the purchase.
+	 * Runs once per order; works without the customer's session ( gateway callbacks ).
+	 *
+	 * @param WC_Order|false $order Order.
+	 * @return void
+	 */
+	public static function attribute_paid_order( $order ) {
+		if ( ! $order || $order->get_meta( '_wps_ubo_acr_done' ) ) {
+			return;
+		}
+		$order->update_meta_data( '_wps_ubo_acr_done', 1 );
+		$order->save_meta_data();
+
+		$row_id = (int) $order->get_meta( '_wps_ubo_acr_cart_id' );
+		$via    = 'link' === $order->get_meta( '_wps_ubo_acr_via' ) ? 'link' : 'direct';
+		$row    = $row_id ? Upsell_Order_Bump_Acr_Db::get_by( 'id', $row_id ) : null;
+		$email  = $order->get_billing_email();
+		if ( ! $row && $email ) {
+			$row = Upsell_Order_Bump_Acr_Db::open_row_for_email( $email );
+			$via = 'direct';
 		}
 
 		if ( $row ) {
-			if ( in_array( $row['status'], array( 'abandoned', 'lost' ), true ) || ( $recovery_id && (int) $row['id'] === $recovery_id ) ) {
-				Upsell_Order_Bump_Acr_Engine::mark_recovered( $row, $order, $recovery_id && (int) $row['id'] === $recovery_id ? 'link' : 'direct' );
+			if ( in_array( $row['status'], array( 'abandoned', 'lost' ), true ) || 'link' === $via ) {
+				Upsell_Order_Bump_Acr_Engine::mark_recovered( $row, $order, $via );
 			} elseif ( 'active' === $row['status'] ) {
 				// Normal purchase: nothing to recover.
 				Upsell_Order_Bump_Acr_Db::delete( $row['id'] );
 			}
 		}
-		WC()->session->set( self::S_RECOVERY, null );
+
+		if ( $email ) {
+			foreach ( Upsell_Order_Bump_Acr_Db::open_rows_for_email( $email, $row ? (int) $row['id'] : 0 ) as $other ) {
+				if ( 'active' === $other['status'] ) {
+					Upsell_Order_Bump_Acr_Db::delete( $other['id'] );
+				} else {
+					// Credited once: mark_recovered() closes it without counting the order again.
+					Upsell_Order_Bump_Acr_Engine::mark_recovered( $other, wc_get_order( $order->get_id() ), 'direct' );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Action: woocommerce_cart_emptied — the recovery in progress ends with the cart
+	 * ( after a successful order ), not when the order is created.
+	 *
+	 * @return void
+	 */
+	public function clear_recovery_session() {
+		if ( self::has_wc() ) {
+			WC()->session->set( self::S_RECOVERY, null );
+		}
 	}
 
 	/*
@@ -689,7 +933,8 @@ class Upsell_Order_Bump_Acr_Public {
 				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( self::NONCE_ACTION ),
 				'capture'  => self::should_track() && ! is_user_logged_in() && 'on' === $settings['capture_guests'],
-				'notice'   => self::should_track() && ! is_user_logged_in() ? $settings['consent_notice'] : '',
+				// Everyone whose cart is saved sees the notice and the opt-out ( logged-in customers too ).
+				'notice'   => self::should_track() ? $settings['consent_notice'] : '',
 				'optOut'   => __( 'Opt out', 'upsell-order-bump-offer-for-woocommerce' ),
 				'optedOut' => __( 'Done. Your cart will not be saved for reminders.', 'upsell-order-bump-offer-for-woocommerce' ),
 			)

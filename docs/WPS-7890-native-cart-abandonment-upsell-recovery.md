@@ -159,21 +159,29 @@ One coupon is created per cart (reused by later steps); a later step with a high
   - the saved email and first name are put in the new session, so the "Welcome back, {name}" greeting works on another device.
 - **`add=1` ("Add to my order" button in the email):** the offer product is also added as a cart item with `wps_ubo_acr_offer = { cart_id, discount }`.
 - The visitor is then redirected to checkout, with the token removed from the URL.
-- **Offer price:** applied on `woocommerce_before_calculate_totals` from the server-side row data, never from the request.
+- **Offer price:** applied on `woocommerce_before_calculate_totals` from the server-side row data, never from the request. The discount is taken off the product's **current price** (the sale price when on sale), read from a fresh product so recalculations don't compound, and the offer price never exceeds it.
+- **Offer line:** one unit (quantity locked from any source, read-only in the classic and block cart), and the generated recovery coupon does not apply to it.
+- **Offer products** are simple products or fully specified variations. Variable parents and "Any …" variations can't be added as one line and are never offered (rejected in the settings, by offer selection and when adding the line); a failed add leaves no error notice behind.
+- **Closed and old links:** links of `lost` / `unsubscribed` carts, and links older than `max( 7, coupon expiry )` days after the last reminder (filter `wps_ubo_acr_link_days`), show "This cart link has expired".
+- A cart reopened from a link stays `abandoned` (with its click and email history) until an order is placed; emptying it doesn't delete the row.
 
 ### 4.6 "Welcome back" checkout offer
 When the session has a recovery, the cart has an offer and the offer isn't in the cart yet, an offer box is printed:
 - **Classic checkout:** on `woocommerce_before_checkout_form`.
 - **Block checkout:** prepended through `render_block_woocommerce/checkout`.
 
-The box shows the product image, name, the regular price struck through, the offer price and an "Add to my order" checkbox. Toggling it calls the AJAX action `wps_ubo_acr_toggle_offer` (nonce checked; the product and discount come from the row) and refreshes the checkout.
+The box shows the product image, name, the current price struck through, the offer price and an "Add to my order" checkbox. Toggling it calls the AJAX action `wps_ubo_acr_toggle_offer` (nonce checked; the product and discount come from the row) and refreshes the checkout.
 
 ### 4.7 Attribution
-On `woocommerce_checkout_order_processed` and `woocommerce_store_api_checkout_order_processed`:
-- **Matching:** the cart row is found from the recovery session, or else the session key, or else the abandoned row for the billing email.
-- **Abandoned or lost row:** becomes `recovered`, with `order_id`, `recovered_total` and `recovered_via` set. `offer_accepted` = 1 if a line carries `wps_ubo_acr_offer`. The order gets meta `_wps_ubo_acr_recovered` = cart id.
-- **Active row:** deleted.
-- **Offer lines** get hidden item meta `_wps_ubo_acr_offer` ("Cart recovery offer (15%)").
+Attribution happens in two steps, so a failed or pending payment never counts as a recovery (and keeps the cart's reminders):
+- **Order created** (`woocommerce_checkout_order_processed`, `woocommerce_store_api_checkout_order_processed`, before payment): the cart row is found from the recovery session, or else the session key, and stored on the order (`_wps_ubo_acr_cart_id`, `_wps_ubo_acr_via` = link|direct). Nothing else changes yet.
+- **Order paid** (`woocommerce_payment_complete`, or a status change to a paid status: processing, completed, on-hold): runs once per order (`_wps_ubo_acr_done`) and needs no session, so gateway callbacks work.
+  - **Matching:** the stored row, or else the abandoned row for the billing email.
+  - **Abandoned or lost row:** becomes `recovered`, with `order_id`, `recovered_total` and `recovered_via` set. `offer_accepted` = 1 if an offer line belongs to this cart. The order gets meta `_wps_ubo_acr_recovered` = cart id.
+  - **Active row:** deleted.
+  - **Other open rows for the same email** are closed too, so no reminder goes out after the purchase. An order is credited to one cart only: a second matching cart is closed with `recovered_via = 'dup'` and is not counted in the dashboard.
+- **Offer lines** get hidden item meta `_wps_ubo_acr_offer` ("Cart recovery offer (15%)") and `_wps_ubo_acr_cart_id`.
+- The recovery session ends when the cart is emptied after the order.
 
 ### 4.8 Unsubscribe
 `?wps_ubo_acr_unsub=<token>&sig=<hmac>`, where the signature is `wp_hash( token . 'unsub' )`. It sets the status to `unsubscribed` and shows a confirmation notice.
@@ -202,9 +210,9 @@ Saving uses POST + redirect, with the nonce `wps_ubo_acr_admin` and the `manage_
 ---
 
 ## 6. Security & privacy
-- **Public AJAX** (`capture`, `optout`, `toggle_offer`) checks a nonce. Email is validated, cart data comes from `WC()->cart` and never from the request, and the offer product and discount come only from the row.
+- **Public AJAX** (`capture`, `optout`, `toggle_offer`) checks a nonce. Email is validated, cart data comes from `WC()->cart` and never from the request, and the offer product and discount come only from the row. `capture` also needs a real session with a cart and is rate-limited (20 per session and 60 per IP per 10 minutes, filter `wps_ubo_acr_capture_limits`).
 - **Links:** recovery tokens are 32 random characters (`wp_generate_password( 32, false )`), and unsubscribe links are signed with `wp_hash`.
-- **Privacy:** a personal data **exporter and eraser** is registered (keyed by email), privacy-policy text is added, an opt-out link sits under the email field, and data is deleted after the retention period.
+- **Privacy:** a personal data **exporter and eraser** is registered (keyed by email), privacy-policy text is added, the consent notice and opt-out link sit under the email field for every tracked visitor (guests and logged-in customers), and data is deleted after the retention period. Expired generated `acr-*` coupons are deleted by the retention purge, and all of them on uninstall.
 - **Prices** are always computed on the server from the row.
 - **Escaping:** all admin output is escaped, and email bodies pass through `wp_kses_post`.
 
