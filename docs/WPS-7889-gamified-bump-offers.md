@@ -59,7 +59,7 @@ Non-goals: prizes other than a percentage discount on the bump product (free shi
 | `win_message` | "🎉 You unlocked {discount} off {product}!" | Placeholders: `{discount}`, `{label}`, `{product}` |
 | `color_primary` / `color_accent` / `color_text` | `#2271b1` / `#ffb900` / `#1d2327` | Game colours (CSS variables) |
 
-Statistics are kept in a separate option, `wps_ubo_gamified_stats`: `{ bump_id: { plays, skips, accepts, prizes: { index: count } } }`.
+Statistics are kept in a separate option, `wps_ubo_gamified_stats`: `{ bump_id: { plays, skips, accepts, prizes: { index: count }, labels: { label: count } } }`. `labels` stores the prize label at draw time, so the admin keeps showing the right names after the prize table is edited. An accept is counted once per session and bump.
 
 ---
 
@@ -95,7 +95,8 @@ Reveal (any later render, e.g. after update_checkout)
   - the original values are kept under the marker `_wps_ubo_game_orig`.
 - `pre_update_option_wps_ubo_bump_list` restores the original values and removes the marker before any save (for example when sales statistics are written), so **prizes never reach the saved bump settings**.
 - Because `add_offer_in_cart` (the accept AJAX handler) reads the discount from the bump settings on the server, the cart line gets the won price. The price posted by the browser is never trusted.
-- The prize is stored on the order line item as hidden meta (`_wps_ubo_game_prize`, for example "Spin wheel: 20% OFF (20%)"), and the session prize is cleared when the order is created.
+- When the offer is accepted, the prize is stored on the cart line (`wps_ubo_game_prize`) and from there on the order line item as hidden meta (`_wps_ubo_game_prize`, for example "Spin wheel: 20% OFF (20%)"), so the meta always matches the charged price.
+- The session prize is cleared only once the order really goes through: when WooCommerce empties the cart after payment (`woocommerce_cart_emptied`) or on the order-received page for an order that is not failed / pending / cancelled. It is **not** cleared when the order is created (before payment), so a failed payment can't be used to play again, and the retried order keeps the prize.
 
 ### 4.2 Weighted draw
 ```

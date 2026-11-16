@@ -545,6 +545,57 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	}
 
 	/**
+	 * Allowed quantity for a bump cart line, or null when the line is not a bump.
+	 *
+	 * @param array $cart_item Cart item.
+	 * @param int   $requested Requested quantity.
+	 * @return int|null
+	 */
+	private function bump_line_allowed_qty( $cart_item, $requested ) {
+		if ( empty( $cart_item['wps_ubo_offer_product'] ) || empty( $cart_item['wps_ubo_bump_id'] ) ) {
+			return null;
+		}
+		$bumps = get_option( 'wps_ubo_bump_list', array() );
+		$bump  = isset( $bumps[ absint( $cart_item['wps_ubo_bump_id'] ) ] ) ? $bumps[ absint( $cart_item['wps_ubo_bump_id'] ) ] : array();
+		return wps_ubo_lite_get_allowed_offer_qty( $bump, $requested );
+	}
+
+	/**
+	 * Action: woocommerce_after_cart_item_quantity_update — keep a bump line within the
+	 * bump's allowed quantity, whatever changed it ( cart form, Store API, other plugins ).
+	 *
+	 * @param string  $cart_item_key Cart item key.
+	 * @param int     $quantity      New quantity.
+	 * @param int     $old_quantity  Old quantity.
+	 * @param WC_Cart $cart          Cart.
+	 * @return void
+	 */
+	public function wps_ubo_clamp_bump_line_quantity( $cart_item_key, $quantity, $old_quantity = 0, $cart = null ) {
+		$cart = $cart instanceof WC_Cart ? $cart : WC()->cart;
+		if ( ! $cart || empty( $cart->cart_contents[ $cart_item_key ] ) ) {
+			return;
+		}
+		$allowed = $this->bump_line_allowed_qty( $cart->cart_contents[ $cart_item_key ], $quantity );
+		if ( null !== $allowed && (int) $quantity > 0 && $allowed !== (int) $quantity ) {
+			// Set directly: calling set_quantity() here would run this hook again.
+			$cart->cart_contents[ $cart_item_key ]['quantity'] = $allowed;
+		}
+	}
+
+	/**
+	 * Filter: woocommerce_store_api_product_quantity_editable — the block cart shows a bump
+	 * line's quantity read-only ( it is changed from the bump's own quantity box ).
+	 *
+	 * @param bool       $editable  Editable.
+	 * @param WC_Product $product   Product.
+	 * @param array      $cart_item Cart item.
+	 * @return bool
+	 */
+	public function wps_ubo_bump_line_quantity_editable( $editable, $product = null, $cart_item = array() ) {
+		return is_array( $cart_item ) && ! empty( $cart_item['wps_ubo_offer_product'] ) ? false : $editable;
+	}
+
+	/**
 	 * Add bump offer product to cart ( checkbox ).
 	 *
 	 * @since    1.0.0
@@ -571,7 +622,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$wps_smart_offer_upgrade = $wps_single_bump_offer['wps_ubo_offer_replace_target'];
 
 		// Quantity of product.
-		$wps_qty_variable = ! empty( $_POST['wps_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_qty_variable'] ) ) : '1';
+		// Quantity from the bump's own settings ( fixed / variable within min-max ), never the raw
+		// posted value: a discounted ( or prize-priced ) bump must not be bought in any quantity.
+		$wps_qty_variable = wps_ubo_lite_get_allowed_offer_qty( $wps_single_bump_offer, ! empty( $_POST['wps_qty_variable'] ) ? absint( $_POST['wps_qty_variable'] ) : 1 );
 
 		$active_plugin = get_option( 'active_plugins', false );
 		if ( in_array( 'woo-gift-cards-lite/woocommerce_gift_cards_lite.php', $active_plugin, true ) && wps_ubo_lite_if_pro_exists() && ! empty( $form_data ) ) {
@@ -913,7 +966,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$wps_orderbump_any_variation = ! empty( $_POST['wps_orderbump_any_variation'] ) ? map_deep( wp_unslash( $_POST['wps_orderbump_any_variation'] ), 'sanitize_text_field' ) : array();
 
 		// Quantity of product.
-		$wps_qty_variable = ! empty( $_POST['wps_qty_variable'] ) ? sanitize_text_field( wp_unslash( $_POST['wps_qty_variable'] ) ) : '1';
+		// Quantity from the bump's own settings ( fixed / variable within min-max ), never the raw
+		// posted value: a discounted ( or prize-priced ) bump must not be bought in any quantity.
+		$wps_qty_variable = wps_ubo_lite_get_allowed_offer_qty( $wps_single_bump_offer, ! empty( $_POST['wps_qty_variable'] ) ? absint( $_POST['wps_qty_variable'] ) : 1 );
 
 		// Now safe to add to cart.
 		$cart_item_data = array(

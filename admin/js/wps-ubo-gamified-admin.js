@@ -69,6 +69,7 @@
 				var url = new URL( window.location.href );
 				url.searchParams.set( 'gm_tab', slug );
 				url.searchParams.delete( 'wps_notice' );
+				url.searchParams.delete( 'gm_capped' );
 				window.history.replaceState( null, '', url.toString() );
 			}
 

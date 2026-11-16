@@ -39,10 +39,14 @@
 		if ( skip ) {
 			body.append( 'skip', '1' );
 		}
+		var generic = function () {
+			// Network errors / non-JSON responses: show the translated message, not "Failed to fetch".
+			throw new Error( i18n.error );
+		};
 		return fetch( cfg.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: body } )
 			.then( function ( r ) {
-				return r.json();
-			} )
+				return r.json().catch( generic );
+			}, generic )
 			.then( function ( res ) {
 				if ( ! res || ! res.success ) {
 					throw new Error( res && res.data && res.data.message ? res.data.message : i18n.error );
@@ -168,6 +172,10 @@
 		if ( ! html ) {
 			return;
 		}
+		var bumpId       = root.getAttribute( 'data-bump-id' );
+		// The game's buttons were disabled while playing, so focus has dropped to <body>.
+		var active       = document.activeElement;
+		var hadFocus     = ! active || active === document.body || root.contains( active );
 		var holder       = document.createElement( 'div' );
 		holder.innerHTML = html;
 		var nodes        = Array.prototype.slice.call( holder.childNodes );
@@ -177,11 +185,50 @@
 		} );
 		parent.removeChild( root );
 
-		var won = parent.querySelector( '.wps-ubo-game-won' );
+		// Only the bump that was just revealed (there can be several bumps on the page).
+		var won = null;
+		nodes.forEach( function ( n ) {
+			if ( won || 1 !== n.nodeType ) {
+				return;
+			}
+			won = n.matches( '.wps-ubo-game-won' ) ? n : n.querySelector( '.wps-ubo-game-won[data-bump-id="' + bumpId + '"], .wps-ubo-game-won' );
+		} );
 		if ( won ) {
 			won.classList.add( 'is-new' );
 		}
-		document.dispatchEvent( new CustomEvent( 'wps_ubo_game_revealed', { detail: { bumpId: root.getAttribute( 'data-bump-id' ) } } ) );
+
+		// Keyboard / screen-reader users continue on the revealed offer.
+		if ( hadFocus ) {
+			// First *visible* control (some templates keep their checkbox hidden; focusing a
+			// hidden element silently fails and leaves focus on <body>).
+			// Tried in this order: the accept control first, then anything focusable.
+			var target    = null;
+			var selectors = [ '.wps-ubo__temp-add-btn.wps-active, .wps-ubo__temp-rmv-btn.wps-active', '.add_offer_in_cart', 'button, input:not([type="hidden"]), select', 'a[href]' ];
+			var visible   = function ( c ) {
+				return ! c.disabled && c.getClientRects().length && 'hidden' !== window.getComputedStyle( c ).visibility;
+			};
+			selectors.some( function ( selector ) {
+				nodes.some( function ( n ) {
+					if ( 1 === n.nodeType ) {
+						target = Array.prototype.filter.call( n.querySelectorAll( selector ), visible )[ 0 ] || null;
+					}
+					return !! target;
+				} );
+				return !! target;
+			} );
+			if ( ! target && won ) {
+				won.setAttribute( 'tabindex', '-1' );
+				target = won;
+			}
+			if ( target && target.focus ) {
+				try {
+					target.focus( { preventScroll: true } );
+				} catch ( e ) {
+					target.focus();
+				}
+			}
+		}
+		document.dispatchEvent( new CustomEvent( 'wps_ubo_game_revealed', { detail: { bumpId: bumpId } } ) );
 		if ( window.jQuery ) {
 			window.jQuery( document.body ).trigger( 'wps_ubo_game_revealed', [ root.getAttribute( 'data-bump-id' ) ] );
 		}
@@ -402,9 +449,10 @@
 		var dpr      = window.devicePixelRatio || 1;
 		var drawing  = false;
 		var moves    = 0;
-		var result   = null;
-		var pending  = null;
-		var revealed = false;
+		var result    = null;
+		var pending   = null;
+		var revealed  = false;
+		var revealing = false;
 
 		function paint() {
 			var w         = card.clientWidth;
@@ -433,7 +481,10 @@
 					prizeEl.textContent = data.label || '';
 					return data;
 				} );
+				// A failed draw can be retried (by scratching again or pressing Reveal).
 				pending.catch( function ( e ) {
+					pending   = null;
+					revealing = false;
 					fail( root, e );
 				} );
 			}
@@ -454,14 +505,19 @@
 		}
 
 		function reveal() {
-			if ( revealed ) {
+			if ( revealed || revealing ) {
 				return;
 			}
-			revealed = true;
+			revealing = true;
 			lock( root, true );
 			ensurePrize().then( function ( data ) {
+				// Only now is the card really revealed; on failure it stays playable.
+				revealed  = true;
+				revealing = false;
 				canvas.classList.add( 'is-cleared' );
 				finish( root, data );
+			} ).catch( function () {
+				// Error already shown by ensurePrize(); controls unlocked by fail().
 			} );
 		}
 
@@ -482,7 +538,7 @@
 			}
 			drawing = true;
 			canvas.setPointerCapture( e.pointerId );
-			ensurePrize();
+			ensurePrize().catch( function () {} );
 			scratchAt( e );
 		} );
 		canvas.addEventListener( 'pointermove', function ( e ) {

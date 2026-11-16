@@ -54,7 +54,7 @@ foreach ( (array) $stats as $wps_row ) {
 		$wps_totals[ $wps_key ] += isset( $wps_row[ $wps_key ] ) ? (int) $wps_row[ $wps_key ] : 0;
 	}
 }
-$wps_total_shown = $wps_totals['plays'] + $wps_totals['skips'];
+$wps_total_plays = $wps_totals['plays']; // Conversion = accepts ÷ plays ( spec ).
 
 $wps_enabled = 'on' === $settings['enabled'];
 ?>
@@ -72,6 +72,20 @@ $wps_enabled = 'on' === $settings['enabled'];
 
 	<?php if ( 'saved' === $notice ) : ?>
 		<div class="notice notice-success inline is-dismissible"><p><?php esc_html_e( 'Settings saved.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p></div>
+		<?php if ( ! empty( $capped ) ) : ?>
+			<div class="notice notice-warning inline is-dismissible"><p>
+				<?php
+				echo esc_html(
+					sprintf(
+						/* translators: 1: number of prizes, 2: maximum discount. */
+						_n( '%1$d prize was above the maximum discount and was lowered to %2$d%% (its label was updated to match).', '%1$d prizes were above the maximum discount and were lowered to %2$d%% (their labels were updated to match).', $capped, 'upsell-order-bump-offer-for-woocommerce' ),
+						$capped,
+						(int) $settings['max_discount']
+					)
+				);
+				?>
+			</p></div>
+		<?php endif; ?>
 	<?php elseif ( 'reset' === $notice ) : ?>
 		<div class="notice notice-success inline is-dismissible"><p><?php esc_html_e( 'Statistics reset.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p></div>
 	<?php endif; ?>
@@ -259,9 +273,9 @@ $wps_enabled = 'on' === $settings['enabled'];
 						</div>
 						<div class="wps-ubo-gm__fields">
 							<label class="wps-ubo-gm__field"><span><?php esc_html_e( 'Headline', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-								<input type="text" name="headline_wheel" value="<?php echo esc_attr( $settings['headline_wheel'] ); ?>"></label>
+								<input type="text" maxlength="160" name="headline_wheel" value="<?php echo esc_attr( $settings['headline_wheel'] ); ?>"></label>
 							<label class="wps-ubo-gm__field"><span><?php esc_html_e( 'Spin button', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-								<input type="text" name="button_wheel" value="<?php echo esc_attr( $settings['button_wheel'] ); ?>"></label>
+								<input type="text" maxlength="160" name="button_wheel" value="<?php echo esc_attr( $settings['button_wheel'] ); ?>"></label>
 						</div>
 					</div>
 
@@ -271,9 +285,9 @@ $wps_enabled = 'on' === $settings['enabled'];
 						</div>
 						<div class="wps-ubo-gm__fields">
 							<label class="wps-ubo-gm__field"><span><?php esc_html_e( 'Headline', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-								<input type="text" name="headline_scratch" value="<?php echo esc_attr( $settings['headline_scratch'] ); ?>"></label>
+								<input type="text" maxlength="160" name="headline_scratch" value="<?php echo esc_attr( $settings['headline_scratch'] ); ?>"></label>
 							<label class="wps-ubo-gm__field"><span><?php esc_html_e( 'Reveal button (keyboard / one click)', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-								<input type="text" name="button_scratch" value="<?php echo esc_attr( $settings['button_scratch'] ); ?>"></label>
+								<input type="text" maxlength="160" name="button_scratch" value="<?php echo esc_attr( $settings['button_scratch'] ); ?>"></label>
 						</div>
 					</div>
 
@@ -287,7 +301,7 @@ $wps_enabled = 'on' === $settings['enabled'];
 						</div>
 						<label class="wps-ubo-gm__field">
 							<span class="screen-reader-text"><?php esc_html_e( 'Win message', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-							<input type="text" name="win_message" value="<?php echo esc_attr( $settings['win_message'] ); ?>">
+							<input type="text" maxlength="160" name="win_message" value="<?php echo esc_attr( $settings['win_message'] ); ?>">
 						</label>
 					</div>
 
@@ -336,7 +350,7 @@ $wps_enabled = 'on' === $settings['enabled'];
 					</div>
 					<div class="wps-ubo-gm__kpi">
 						<span><?php esc_html_e( 'Conversion', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-						<strong><?php echo esc_html( $wps_total_shown ? round( 100 * $wps_totals['accepts'] / $wps_total_shown, 1 ) . '%' : '–' ); ?></strong>
+						<strong><?php echo esc_html( $wps_total_plays ? round( 100 * min( $wps_totals['accepts'], $wps_total_plays ) / $wps_total_plays, 1 ) . '%' : '–' ); ?></strong>
 					</div>
 				</div>
 
@@ -362,10 +376,18 @@ $wps_enabled = 'on' === $settings['enabled'];
 								<tbody>
 									<?php
 									foreach ( $stats as $wps_bump_id => $wps_row ) :
-										$wps_shown = (int) $wps_row['plays'] + (int) $wps_row['skips'];
+										$wps_plays = (int) $wps_row['plays'];
 										$wps_drawn = array();
-										foreach ( (array) $wps_row['prizes'] as $wps_index => $wps_count ) {
-											$wps_drawn[] = ( isset( $settings['prizes'][ $wps_index ] ) ? $settings['prizes'][ $wps_index ]['label'] : '#' . ( $wps_index + 1 ) ) . ' × ' . $wps_count;
+										if ( ! empty( $wps_row['labels'] ) && is_array( $wps_row['labels'] ) ) {
+											// Labels saved with each draw ( stay correct after the prize table is edited ).
+											foreach ( $wps_row['labels'] as $wps_label => $wps_count ) {
+												$wps_drawn[] = $wps_label . ' × ' . (int) $wps_count;
+											}
+										} else {
+											// Statistics recorded before labels were saved.
+											foreach ( (array) $wps_row['prizes'] as $wps_index => $wps_count ) {
+												$wps_drawn[] = ( isset( $settings['prizes'][ $wps_index ] ) ? $settings['prizes'][ $wps_index ]['label'] : '#' . ( $wps_index + 1 ) ) . ' × ' . $wps_count;
+											}
 										}
 										?>
 										<tr>
@@ -373,7 +395,7 @@ $wps_enabled = 'on' === $settings['enabled'];
 											<td class="num"><?php echo esc_html( number_format_i18n( (int) $wps_row['plays'] ) ); ?></td>
 											<td class="num"><?php echo esc_html( number_format_i18n( (int) $wps_row['skips'] ) ); ?></td>
 											<td class="num"><?php echo esc_html( number_format_i18n( (int) $wps_row['accepts'] ) ); ?></td>
-											<td class="num"><?php echo esc_html( $wps_shown ? round( 100 * (int) $wps_row['accepts'] / $wps_shown, 1 ) . '%' : '–' ); ?></td>
+											<td class="num"><?php echo esc_html( $wps_plays ? round( 100 * min( (int) $wps_row['accepts'], $wps_plays ) / $wps_plays, 1 ) . '%' : '–' ); ?></td>
 											<td><?php echo esc_html( implode( ', ', $wps_drawn ) ); ?></td>
 										</tr>
 									<?php endforeach; ?>
