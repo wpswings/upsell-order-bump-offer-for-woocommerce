@@ -109,7 +109,7 @@ class Upsell_Order_Bump_Reco_Admin {
 				'nonce'   => wp_create_nonce( self::NONCE_ACTION ),
 				'i18n'    => array(
 					'saved'         => __( 'Settings saved.', 'upsell-order-bump-offer-for-woocommerce' ),
-					'training'      => __( 'Training the model… this can take a minute on large stores.', 'upsell-order-bump-offer-for-woocommerce' ),
+					'training'      => __( 'Training runs in the background… you can leave this page; the status updates here when it finishes.', 'upsell-order-bump-offer-for-woocommerce' ),
 					'trained'       => __( 'Model trained and published.', 'upsell-order-bump-offer-for-woocommerce' ),
 					'deleted'       => __( 'Model deleted.', 'upsell-order-bump-offer-for-woocommerce' ),
 					'confirmDelete' => __( 'Delete the trained model? Smart offers fall back to rule-based targeting until you train again.', 'upsell-order-bump-offer-for-woocommerce' ),
@@ -169,17 +169,28 @@ class Upsell_Order_Bump_Reco_Admin {
 	}
 
 	/**
-	 * AJAX: train now (synchronous, with time limit lifted).
+	 * AJAX: train now. Queues a background run (Action Scheduler / WP-Cron); the page
+	 * polls wps_ubo_reco_status until it finishes, so long AI runs never hit request timeouts.
 	 *
 	 * @return void
 	 */
 	public function ajax_train() {
 		$this->verify_request();
 
-		$result = Upsell_Order_Bump_Reco_Engine::train();
-		if ( is_wp_error( $result ) ) {
-			wp_send_json_error( array_merge( $this->status_payload(), array( 'message' => $result->get_error_message() ) ) );
+		Upsell_Order_Bump_Reco_Engine::recover_stale_status();
+		if ( Upsell_Order_Bump_Reco_Engine::is_locked() ) {
+			wp_send_json_error( array_merge( $this->status_payload(), array( 'message' => __( 'A training run is already in progress.', 'upsell-order-bump-offer-for-woocommerce' ) ) ) );
 		}
+
+		Upsell_Order_Bump_Reco_Db::update_model(
+			array(
+				'status'    => 'queued',
+				'queued_at' => time(),
+				'error'     => '',
+			)
+		);
+		Upsell_Order_Bump_Reco_Db::queue_training_now();
+
 		wp_send_json_success( $this->status_payload() );
 	}
 
@@ -264,7 +275,7 @@ class Upsell_Order_Bump_Reco_Admin {
 	 */
 	private function status_payload() {
 		$settings = Upsell_Order_Bump_Reco_Db::get_settings();
-		$model    = Upsell_Order_Bump_Reco_Db::get_model();
+		$model    = Upsell_Order_Bump_Reco_Engine::recover_stale_status();
 		$ai       = Upsell_Order_Bump_Reco_Ai::status( $settings );
 
 		$pairs = array();

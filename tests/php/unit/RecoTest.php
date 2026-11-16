@@ -112,11 +112,11 @@ class RecoTest extends WPS_UBO_Test_Case {
 	}
 
 	public function test_train_refuses_when_locked() {
-		set_transient( Upsell_Order_Bump_Reco_Engine::LOCK, 1, 60 );
+		$this->assertTrue( Upsell_Order_Bump_Reco_Engine::acquire_lock() );
 		$result = Upsell_Order_Bump_Reco_Engine::train();
 		$this->assertWPError( $result );
 		$this->assertSame( 'wps_ubo_reco_locked', $result->get_error_code() );
-		delete_transient( Upsell_Order_Bump_Reco_Engine::LOCK );
+		Upsell_Order_Bump_Reco_Engine::release_lock();
 	}
 
 	/* ------------------------------------------------------------ scoring */
@@ -227,6 +227,7 @@ class RecoTest extends WPS_UBO_Test_Case {
 	}
 
 	public function test_bump_list_read_filter_swaps_ai_product_and_guard_restores() {
+		$this->enable_engine();
 		$orig = WPS_UBO_Test_Factory::simple_product();
 		$rec  = WPS_UBO_Test_Factory::simple_product();
 		update_option(
@@ -306,7 +307,7 @@ class RecoTest extends WPS_UBO_Test_Case {
 			$out
 		);
 		$this->assertWPError( Upsell_Order_Bump_Reco_Ai::parse( 'no json here' ) );
-		$this->assertWPError( Upsell_Order_Bump_Reco_Ai::parse( '{"recommendations":[]}' ) );
+		$this->assertSame( array(), Upsell_Order_Bump_Reco_Ai::parse( '{"recommendations":[]}' ), 'An empty list is a valid answer.' );
 	}
 
 	public function test_ai_connectors_empty_without_wp_ai_client() {
@@ -314,6 +315,205 @@ class RecoTest extends WPS_UBO_Test_Case {
 			$this->markTestSkipped( 'WP AI client present on this install.' );
 		}
 		$this->assertSame( array(), Upsell_Order_Bump_Reco_Ai::get_ai_connectors() );
+	}
+
+	/* ------------------------------------------------------- QA (WPS-7888) */
+
+	/**
+	 * Engine on with a published model.
+	 */
+	private function enable_engine( $extra = array() ) {
+		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, Upsell_Order_Bump_Reco_Db::sanitize_settings( array_merge( array( 'enabled' => 'on' ), $extra ) ) );
+		Upsell_Order_Bump_Reco_Db::update_model( array( 'trained_at' => time(), 'pairs' => 1 ) );
+	}
+
+	/**
+	 * AI-sourced bump #1 offering $offer by default.
+	 */
+	private function ai_bump( $offer, $extra = array() ) {
+		update_option(
+			'wps_ubo_bump_list',
+			array(
+				1 => array_merge(
+					array(
+						'wps_upsell_bump_status'            => 'yes',
+						'wps_upsell_bump_products_in_offer' => (string) $offer->get_id(),
+						'wps_ubo_offer_product_source'      => 'ai',
+					),
+					$extra
+				),
+			)
+		);
+	}
+
+	public function test_qa_r1_engine_off_restores_admin_product_and_clears_session() {
+		$this->enable_engine();
+		$orig = WPS_UBO_Test_Factory::simple_product();
+		$rec  = WPS_UBO_Test_Factory::simple_product();
+		$this->ai_bump( $orig );
+		WC()->session->set( Upsell_Order_Bump_Reco_Public::SESSION_KEY, array( 1 => array( 'pid' => $rec->get_id(), 'sig' => 'x' ) ) );
+		$this->assertSame( (string) $rec->get_id(), get_option( 'wps_ubo_bump_list' )[1]['wps_upsell_bump_products_in_offer'] );
+
+		// Switched off: the very next read shows the admin product and the decision is gone.
+		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, Upsell_Order_Bump_Reco_Db::sanitize_settings( array( 'enabled' => 'off' ) ) );
+		$this->assertSame( (string) $orig->get_id(), get_option( 'wps_ubo_bump_list' )[1]['wps_upsell_bump_products_in_offer'] );
+		$this->assertNull( WC()->session->get( Upsell_Order_Bump_Reco_Public::SESSION_KEY ) );
+
+		// Model deleted: same.
+		$this->enable_engine();
+		WC()->session->set( Upsell_Order_Bump_Reco_Public::SESSION_KEY, array( 1 => array( 'pid' => $rec->get_id(), 'sig' => 'x' ) ) );
+		Upsell_Order_Bump_Reco_Db::delete_model();
+		$this->assertSame( (string) $orig->get_id(), get_option( 'wps_ubo_bump_list' )[1]['wps_upsell_bump_products_in_offer'] );
+	}
+
+	public function test_qa_r2_train_now_queues_background_run() {
+		delete_option( Upsell_Order_Bump_Reco_Db::MODEL_OPTION );
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$admin = new Upsell_Order_Bump_Reco_Admin( '3.1.8' );
+		$r     = $this->ajax_call( array( $admin, 'ajax_train' ), array( 'nonce' => wp_create_nonce( Upsell_Order_Bump_Reco_Admin::NONCE_ACTION ) ) )['json'];
+
+		$this->assertTrue( $r['success'] );
+		$this->assertSame( 'queued', $r['data']['model']['status'] );
+		$this->assertSame( 0, (int) Upsell_Order_Bump_Reco_Db::get_model()['trained_at'], 'Nothing is trained inside the request.' );
+		$this->assertTrue( as_has_scheduled_action( Upsell_Order_Bump_Reco_Db::TRAIN_HOOK, array( 'manual' => 1 ), Upsell_Order_Bump_Reco_Db::AS_GROUP ) );
+
+		// Saving settings (which reschedules the group) keeps the queued run.
+		Upsell_Order_Bump_Reco_Db::reschedule();
+		$this->assertTrue( as_has_scheduled_action( Upsell_Order_Bump_Reco_Db::TRAIN_HOOK, array( 'manual' => 1 ), Upsell_Order_Bump_Reco_Db::AS_GROUP ) );
+
+		// A second click while a run holds the lock is refused.
+		Upsell_Order_Bump_Reco_Engine::acquire_lock();
+		$r = $this->ajax_call( array( $admin, 'ajax_train' ), array( 'nonce' => wp_create_nonce( Upsell_Order_Bump_Reco_Admin::NONCE_ACTION ) ) )['json'];
+		$this->assertFalse( $r['success'] );
+		Upsell_Order_Bump_Reco_Engine::release_lock();
+		as_unschedule_all_actions( Upsell_Order_Bump_Reco_Db::TRAIN_HOOK, array(), Upsell_Order_Bump_Reco_Db::AS_GROUP );
+	}
+
+	public function test_qa_r3_lock_is_exclusive_expires_and_stale_status_recovers() {
+		global $wpdb;
+		$this->assertTrue( Upsell_Order_Bump_Reco_Engine::acquire_lock() );
+		$this->assertFalse( Upsell_Order_Bump_Reco_Engine::acquire_lock(), 'Second run cannot take a live lock.' );
+		$this->assertTrue( Upsell_Order_Bump_Reco_Engine::is_locked() );
+
+		// Dead process: lock expired without heartbeat → can be taken over.
+		$wpdb->update( $wpdb->options, array( 'option_value' => (string) ( time() - 1 ) ), array( 'option_name' => Upsell_Order_Bump_Reco_Engine::LOCK ) );
+		$this->assertFalse( Upsell_Order_Bump_Reco_Engine::is_locked() );
+		$this->assertTrue( Upsell_Order_Bump_Reco_Engine::acquire_lock() );
+		Upsell_Order_Bump_Reco_Engine::release_lock();
+
+		// "training" left behind by a killed run is reported as an error.
+		Upsell_Order_Bump_Reco_Db::update_model( array( 'status' => 'training' ) );
+		$model = Upsell_Order_Bump_Reco_Engine::recover_stale_status();
+		$this->assertSame( 'error', $model['status'] );
+		$this->assertNotEmpty( $model['error'] );
+
+		// A live run is left alone.
+		Upsell_Order_Bump_Reco_Db::update_model( array( 'status' => 'training' ) );
+		Upsell_Order_Bump_Reco_Engine::acquire_lock();
+		$this->assertSame( 'training', Upsell_Order_Bump_Reco_Engine::recover_stale_status()['status'] );
+		Upsell_Order_Bump_Reco_Engine::release_lock();
+	}
+
+	public function test_qa_r4_parser_is_robust() {
+		$prose = 'Sure! Here you go: {"recommendations":[{"product_id":12,"score":0.8,"reason":"Fits {nicely}"}]} Let me know {see notes}.';
+		$this->assertSame( array( 12 ), array_keys( Upsell_Order_Bump_Reco_Ai::parse( $prose ) ) );
+		$this->assertSame( 'Fits {nicely}', Upsell_Order_Bump_Reco_Ai::parse( $prose )[12]['reason'] );
+
+		$out = Upsell_Order_Bump_Reco_Ai::parse( '{"recommendations":[{"product_id":-18,"score":0.5},{"product_id":7.5,"score":0.5},{"product_id":9,"score":0.5,"reason":["x"]}]}' );
+		$this->assertSame( array( 9 ), array_keys( $out ), 'Negative and non-integer ids are dropped.' );
+		$this->assertSame( '', $out[9]['reason'], 'A non-string reason is ignored, no notice.' );
+
+		$this->assertSame( array(), Upsell_Order_Bump_Reco_Ai::parse( "```json\n{\"recommendations\":[]}\n```" ) );
+		$this->assertWPError( Upsell_Order_Bump_Reco_Ai::parse( '{"other":1}' ) );
+	}
+
+	public function test_qa_r5_out_of_stock_pick_is_replaced() {
+		$this->enable_engine();
+		$anchor = WPS_UBO_Test_Factory::simple_product();
+		$first  = WPS_UBO_Test_Factory::simple_product();
+		$second = WPS_UBO_Test_Factory::simple_product();
+		$admin  = WPS_UBO_Test_Factory::simple_product();
+		$this->pair( $anchor->get_id(), $first->get_id(), 0.9 );
+		$this->pair( $anchor->get_id(), $second->get_id(), 0.5 );
+		$this->ai_bump( $admin );
+		WC()->cart->add_to_cart( $anchor->get_id() );
+
+		$bump = Upsell_Order_Bump_Reco_Public::prepare_bump( 1, get_option( 'wps_ubo_bump_list' )[1] );
+		$this->assertSame( (string) $first->get_id(), $bump['wps_upsell_bump_products_in_offer'] );
+		$this->assertTrue( Upsell_Order_Bump_Reco_Public::session_still_valid( 1, $bump ) );
+
+		$first->set_stock_status( 'outofstock' );
+		$first->save();
+		$this->assertFalse( Upsell_Order_Bump_Reco_Public::session_still_valid( 1, $bump ), 'Shown bump is dropped.' );
+		$bump = Upsell_Order_Bump_Reco_Public::prepare_bump( 1, get_option( 'wps_ubo_bump_list' )[1] );
+		$this->assertSame( (string) $second->get_id(), $bump['wps_upsell_bump_products_in_offer'], 'Next pick offered, not nothing.' );
+	}
+
+	public function test_qa_r6_guest_purchase_history_by_email() {
+		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, Upsell_Order_Bump_Reco_Db::sanitize_settings( array( 'enabled' => 'on', 'exclude_purchased' => 'on' ) ) );
+		$a = WPS_UBO_Test_Factory::simple_product();
+		$b = WPS_UBO_Test_Factory::simple_product();
+		$this->pair( $a->get_id(), $b->get_id(), 0.9 );
+		WPS_UBO_Test_Factory::order( array( $b ), 'completed', array( 'email' => 'guest-buyer@example.org' ) );
+
+		$this->assertCount( 1, Upsell_Order_Bump_Reco_Engine::recommend( array( $a->get_id() ), array( 'email' => 'other@example.org' ) ) );
+		$this->assertCount( 0, Upsell_Order_Bump_Reco_Engine::recommend( array( $a->get_id() ), array( 'email' => 'guest-buyer@example.org' ) ) );
+
+		// Checkout email of a guest shopper is used by the bump.
+		$this->enable_engine( array( 'exclude_purchased' => 'on' ) );
+		$admin = WPS_UBO_Test_Factory::simple_product();
+		$this->ai_bump( $admin );
+		WC()->cart->add_to_cart( $a->get_id() );
+		WC()->customer->set_billing_email( 'guest-buyer@example.org' );
+		$bump = Upsell_Order_Bump_Reco_Public::prepare_bump( 1, get_option( 'wps_ubo_bump_list' )[1] );
+		$this->assertSame( (string) $admin->get_id(), $bump['wps_upsell_bump_products_in_offer'], 'Already bought: falls back to the admin product.' );
+	}
+
+	public function test_qa_r7_options_autoload_and_no_upgrade_on_ajax() {
+		global $wpdb;
+		Upsell_Order_Bump_Reco_Db::install();
+		Upsell_Order_Bump_Reco_Db::update_model( array( 'status' => 'idle' ) );
+		$autoload = $wpdb->get_col( $wpdb->prepare( "SELECT autoload FROM {$wpdb->options} WHERE option_name IN (%s, %s)", Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, Upsell_Order_Bump_Reco_Db::MODEL_OPTION ) );
+		$this->assertCount( 2, $autoload );
+		foreach ( $autoload as $value ) {
+			$this->assertContains( $value, array( 'yes', 'on', 'auto-on' ) );
+		}
+
+		update_option( Upsell_Order_Bump_Reco_Db::DB_VERSION_OPTION, 'old' );
+		add_filter( 'wp_doing_ajax', '__return_true' );
+		Upsell_Order_Bump_Reco_Db::maybe_upgrade();
+		remove_filter( 'wp_doing_ajax', '__return_true' );
+		$this->assertSame( 'old', get_option( Upsell_Order_Bump_Reco_Db::DB_VERSION_OPTION ) );
+		Upsell_Order_Bump_Reco_Db::maybe_upgrade();
+		$this->assertSame( Upsell_Order_Bump_Reco_Db::DB_VERSION, get_option( Upsell_Order_Bump_Reco_Db::DB_VERSION_OPTION ) );
+	}
+
+	public function test_qa_r8_hybrid_rechecked_after_cart_change() {
+		$this->enable_engine( array( 'match_threshold' => 10 ) );
+		$anchor = WPS_UBO_Test_Factory::simple_product();
+		$target = WPS_UBO_Test_Factory::simple_product();
+		$offer  = WPS_UBO_Test_Factory::simple_product();
+		$other  = WPS_UBO_Test_Factory::simple_product();
+		$this->pair( $anchor->get_id(), $offer->get_id(), 0.9 );
+		$bump = array(
+			'wps_upsell_bump_status'            => 'yes',
+			'wps_upsell_bump_products_in_offer' => (string) $offer->get_id(),
+			'wps_ubo_targeting_mode'            => 'hybrid',
+			'wps_upsell_bump_target_ids'        => array( (string) $target->get_id() ),
+		);
+
+		// Shown by smart match.
+		$key = WC()->cart->add_to_cart( $anchor->get_id() );
+		WC()->cart->add_to_cart( $other->get_id() );
+		$this->assertTrue( Upsell_Order_Bump_Reco_Public::session_still_valid( 1, $bump ) );
+
+		// Anchor removed, no rule matches either: no longer valid.
+		WC()->cart->remove_cart_item( $key );
+		$this->assertFalse( Upsell_Order_Bump_Reco_Public::session_still_valid( 1, $bump ) );
+
+		// A rule target in the cart keeps it valid.
+		WC()->cart->add_to_cart( $target->get_id() );
+		$this->assertTrue( Upsell_Order_Bump_Reco_Public::session_still_valid( 1, $bump ) );
 	}
 
 	/* --------------------------------------------------------------- admin */

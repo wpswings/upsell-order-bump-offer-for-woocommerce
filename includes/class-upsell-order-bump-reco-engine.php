@@ -26,11 +26,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Upsell_Order_Bump_Reco_Engine {
 
 	/**
-	 * Training lock transient.
+	 * Training lock (an options row written atomically, never autoloaded).
 	 *
 	 * @var string
 	 */
 	const LOCK = 'wps_ubo_reco_training_lock';
+
+	/**
+	 * Seconds without a heartbeat after which a training lock is considered dead.
+	 *
+	 * @var int
+	 */
+	const LOCK_TTL = 900;
 
 	/**
 	 * Per-request cache of pair rows keyed by source id.
@@ -54,6 +61,101 @@ class Upsell_Order_Bump_Reco_Engine {
 		self::train();
 	}
 
+	/*
+	| Training lock: one row in wp_options inserted with INSERT IGNORE (atomic on the
+	| primary key), holding the expiry time. A run refreshes it between steps, so a
+	| process that was killed frees the lock once LOCK_TTL passes without a heartbeat.
+	*/
+
+	/**
+	 * Lock expiry stored in the database (0 when not locked).
+	 *
+	 * @return int
+	 */
+	private static function lock_expiry() {
+		global $wpdb;
+		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s", self::LOCK ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	}
+
+	/**
+	 * Whether a live (non-expired) training lock exists.
+	 *
+	 * @return bool
+	 */
+	public static function is_locked() {
+		return self::lock_expiry() > time();
+	}
+
+	/**
+	 * Take the training lock. Atomic: two runs can never both get it.
+	 *
+	 * @return bool
+	 */
+	public static function acquire_lock() {
+		global $wpdb;
+		$expiry = time() + self::LOCK_TTL;
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery
+		if ( $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO {$wpdb->options} (option_name, option_value, autoload) VALUES (%s, %s, 'no')", self::LOCK, (string) $expiry ) ) ) {
+			return true;
+		}
+		// Take over a dead lock, only if nobody else did in between (compare-and-swap).
+		$old = self::lock_expiry();
+		if ( $old > time() ) {
+			return false;
+		}
+		$taken = (bool) $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->options} SET option_value = %s WHERE option_name = %s AND option_value = %s", (string) $expiry, self::LOCK, (string) $old ) );
+		// phpcs:enable
+		return $taken;
+	}
+
+	/**
+	 * Heartbeat: push the lock expiry forward during a long run (AI enrichment).
+	 *
+	 * @return void
+	 */
+	public static function refresh_lock() {
+		global $wpdb;
+		$wpdb->update( $wpdb->options, array( 'option_value' => (string) ( time() + self::LOCK_TTL ) ), array( 'option_name' => self::LOCK ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	}
+
+	/**
+	 * Release the training lock.
+	 *
+	 * @return void
+	 */
+	public static function release_lock() {
+		global $wpdb;
+		$wpdb->delete( $wpdb->options, array( 'option_name' => self::LOCK ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	}
+
+	/**
+	 * A "training" status without a live lock means the run died: report it as an error.
+	 *
+	 * @return array Model metadata.
+	 */
+	public static function recover_stale_status() {
+		$model = Upsell_Order_Bump_Reco_Db::get_model();
+		// Queued but never picked up (WP-Cron / Action Scheduler not running).
+		if ( 'queued' === $model['status'] && ! empty( $model['queued_at'] ) && time() - (int) $model['queued_at'] > 2 * self::LOCK_TTL && ! self::is_locked() ) {
+			return Upsell_Order_Bump_Reco_Db::update_model(
+				array(
+					'status' => 'error',
+					'error'  => __( 'The training run was queued but never started. Check that WP-Cron or Action Scheduler is running, then train again.', 'upsell-order-bump-offer-for-woocommerce' ),
+				)
+			);
+		}
+		if ( 'training' === $model['status'] && ! self::is_locked() ) {
+			self::release_lock();
+			$model = Upsell_Order_Bump_Reco_Db::update_model(
+				array(
+					'status' => 'error',
+					'error'  => __( 'The last training run stopped before finishing (timeout or server restart). Please train again.', 'upsell-order-bump-offer-for-woocommerce' ),
+				)
+			);
+		}
+		return $model;
+	}
+
 	/**
 	 * Train a new model and publish it atomically.
 	 *
@@ -62,10 +164,9 @@ class Upsell_Order_Bump_Reco_Engine {
 	public static function train() {
 		global $wpdb;
 
-		if ( get_transient( self::LOCK ) ) {
+		if ( ! self::acquire_lock() ) {
 			return new WP_Error( 'wps_ubo_reco_locked', __( 'A training run is already in progress.', 'upsell-order-bump-offer-for-woocommerce' ) );
 		}
-		set_transient( self::LOCK, 1, 15 * MINUTE_IN_SECONDS );
 
 		if ( function_exists( 'wc_set_time_limit' ) ) {
 			wc_set_time_limit( 0 );
@@ -102,10 +203,12 @@ class Upsell_Order_Bump_Reco_Engine {
 				$orders = self::build_from_orders( $settings, $statuses, $cutoff_ts );
 			}
 
+			self::refresh_lock();
 			if ( $orders > 0 ) {
 				self::directional_sequences();
 				self::score_and_prune( $settings, $orders );
 			}
+			self::refresh_lock();
 
 			// Optional LLM enrichment; never blocks publishing.
 			$ai_meta = array(
@@ -147,7 +250,7 @@ class Upsell_Order_Bump_Reco_Engine {
 			 */
 			do_action( 'wps_ubo_reco_trained', $meta );
 
-			delete_transient( self::LOCK );
+			self::release_lock();
 			return $meta;
 
 		} catch ( Throwable $e ) {
@@ -157,7 +260,7 @@ class Upsell_Order_Bump_Reco_Engine {
 					'error'  => sanitize_text_field( $e->getMessage() ),
 				)
 			);
-			delete_transient( self::LOCK );
+			self::release_lock();
 			return new WP_Error( 'wps_ubo_reco_failed', $e->getMessage() );
 		}
 	}
@@ -282,6 +385,9 @@ class Upsell_Order_Bump_Reco_Engine {
 
 		$window = (int) $settings['seq_window_days'];
 		if ( $window > 0 && (int) $settings['seq_weight'] > 0 ) {
+			// Customers with very many orders (wholesale / staff accounts) make the self-join
+			// grow quadratically and mostly add noise, so they are left out of "bought next".
+			$cap = self::max_customer_orders();
 			$wpdb->query(
 				$wpdb->prepare(
 					"INSERT INTO {$pairs_tmp} (source_id, target_id, seq_count)
@@ -295,9 +401,16 @@ class Upsell_Order_Bump_Reco_Engine {
 						AND l2.date_created <= DATE_ADD(l1.date_created, INTERVAL %d DAY)
 					INNER JOIN {$stats} s2 ON s2.order_id = l2.order_id AND s2.parent_id = 0 AND s2.status IN ({$in})
 					WHERE {$where} AND l1.customer_id > 0 AND l1.product_id > 0 AND l2.product_id > 0
+						AND l1.customer_id NOT IN (
+							SELECT heavy.customer_id FROM (
+								SELECT s3.customer_id FROM {$stats} s3
+								WHERE s3.customer_id > 0 AND s3.parent_id = 0 AND s3.status IN ({$in}) AND s3.date_created_gmt >= %s
+								GROUP BY s3.customer_id HAVING COUNT(*) > %d
+							) heavy
+						)
 					GROUP BY l1.product_id, l2.product_id
 					ON DUPLICATE KEY UPDATE seq_count = VALUES(seq_count)",
-					array_merge( array( $window ), $statuses, $args )
+					array_merge( array( $window ), $statuses, $args, $statuses, array( $cutoff, $cap ) )
 				)
 			);
 		}
@@ -392,8 +505,9 @@ class Upsell_Order_Bump_Reco_Engine {
 		$seq    = array();
 		$window = (int) $settings['seq_window_days'] * DAY_IN_SECONDS;
 		if ( $window > 0 && (int) $settings['seq_weight'] > 0 ) {
+			$cap = self::max_customer_orders();
 			foreach ( $by_cust as $customer => $history ) {
-				if ( count( $history ) < 2 ) {
+				if ( count( $history ) < 2 || count( $history ) > $cap ) {
 					continue;
 				}
 				usort(
@@ -445,6 +559,21 @@ class Upsell_Order_Bump_Reco_Engine {
 	}
 
 	/**
+	 * Customers with more orders than this in the window are skipped for "bought next".
+	 *
+	 * @return int
+	 */
+	private static function max_customer_orders() {
+		/**
+		 * Filters the order count above which a customer is left out of "bought next" mining.
+		 *
+		 * @since 3.1.8
+		 * @param int $max Maximum orders per customer.
+		 */
+		return max( 2, (int) apply_filters( 'wps_ubo_reco_seq_max_customer_orders', 100 ) );
+	}
+
+	/**
 	 * Multi-row prepared INSERT in chunks.
 	 *
 	 * @param string $table       Table.
@@ -481,28 +610,23 @@ class Upsell_Order_Bump_Reco_Engine {
 		global $wpdb;
 
 		$pairs = Upsell_Order_Bump_Reco_Db::pairs_table( true );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$rows = (array) $wpdb->get_results( "SELECT source_id, target_id, seq_count FROM {$pairs} WHERE seq_count > 0", ARRAY_A );
 
-		$seq = array();
-		foreach ( $rows as $row ) {
-			$seq[ $row['source_id'] . ':' . $row['target_id'] ] = (int) $row['seq_count'];
-		}
+		// Done in SQL so no rows are loaded into PHP. ml_score is still 0 at this stage and
+		// is used as scratch space for the reverse count: a self-join UPDATE that wrote
+		// seq_count directly would read rows it has already changed.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( "UPDATE {$pairs} SET ml_score = 0" );
+		$wpdb->query(
+			"UPDATE {$pairs} p
+			INNER JOIN {$pairs} r ON r.source_id = p.target_id AND r.target_id = p.source_id
+			SET p.ml_score = r.seq_count
+			WHERE p.seq_count > 0 AND r.seq_count > 0"
+		);
+		$wpdb->query( "UPDATE {$pairs} SET seq_count = IF(seq_count > ml_score, seq_count - ml_score, 0), ml_score = 0 WHERE ml_score > 0" );
+		// phpcs:enable
 
-		$by_value = array();
-		foreach ( $rows as $row ) {
-			$reverse = isset( $seq[ $row['target_id'] . ':' . $row['source_id'] ] ) ? $seq[ $row['target_id'] . ':' . $row['source_id'] ] : 0;
-			$net     = max( 0, (int) $row['seq_count'] - $reverse );
-			if ( $net !== (int) $row['seq_count'] ) {
-				$by_value[ $net ][] = '(' . (int) $row['source_id'] . ',' . (int) $row['target_id'] . ')';
-			}
-		}
-
-		foreach ( $by_value as $net => $keys ) {
-			foreach ( array_chunk( $keys, 500 ) as $chunk ) {
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
-				$wpdb->query( $wpdb->prepare( "UPDATE {$pairs} SET seq_count = %d WHERE (source_id, target_id) IN (" . implode( ',', $chunk ) . ')', $net ) );
-			}
+		if ( $wpdb->last_error ) {
+			throw new RuntimeException( $wpdb->last_error ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 	}
 
@@ -546,8 +670,28 @@ class Upsell_Order_Bump_Reco_Engine {
 			)
 		);
 
-		// Keep top-K per anchor (portable: no window functions needed).
-		$k     = (int) $settings['max_candidates'];
+		// Keep top-K per anchor: one statement where window functions exist (MySQL 8 / MariaDB 10.2+).
+		$k = (int) $settings['max_candidates'];
+		$wpdb->suppress_errors( true );
+		$ok = $wpdb->query(
+			$wpdb->prepare(
+				"DELETE p FROM {$pairs} p
+				INNER JOIN (
+					SELECT source_id, target_id FROM (
+						SELECT source_id, target_id, ROW_NUMBER() OVER (PARTITION BY source_id ORDER BY score DESC, co_count DESC, target_id ASC) AS rn
+						FROM {$pairs}
+					) ranked WHERE ranked.rn > %d
+				) d ON d.source_id = p.source_id AND d.target_id = p.target_id",
+				$k
+			)
+		);
+		$wpdb->suppress_errors( false );
+		if ( false !== $ok ) {
+			return;
+		}
+		$wpdb->last_error = '';
+
+		// Older servers: per-anchor fallback.
 		$heavy = $wpdb->get_col( $wpdb->prepare( "SELECT source_id FROM {$pairs} GROUP BY source_id HAVING COUNT(*) > %d", $k ) );
 		foreach ( $heavy as $source_id ) {
 			$drop = $wpdb->get_col(
@@ -697,6 +841,7 @@ class Upsell_Order_Bump_Reco_Engine {
 	 *     @type int    $limit       Max results. Default 5.
 	 *     @type string $context     bump|upsell|preview.
 	 *     @type int    $customer_id Customer for purchase-history exclusion.
+	 *     @type string $email       Billing email for purchase-history exclusion (guests).
 	 *     @type bool   $validate    Check stock / status / purchasability. Default true.
 	 * }
 	 * @return array[] Each: id, score, anchor, ml, ai, reason, co, lift.
@@ -709,6 +854,7 @@ class Upsell_Order_Bump_Reco_Engine {
 				'limit'       => 5,
 				'context'     => 'bump',
 				'customer_id' => 0,
+				'email'       => '',
 				'validate'    => true,
 			)
 		);
@@ -738,8 +884,14 @@ class Upsell_Order_Bump_Reco_Engine {
 
 		$settings = Upsell_Order_Bump_Reco_Db::get_settings();
 		$exclude  = array_flip( array_merge( $context_ids, array_map( 'absint', (array) $args['exclude'] ) ) );
-		$check_history = $args['validate'] && 'on' === $settings['exclude_purchased'] && $args['customer_id'] > 0;
-		$customer      = $check_history ? get_userdata( (int) $args['customer_id'] ) : false;
+		// Registered customers by account, guests by billing email.
+		$customer_id   = (int) $args['customer_id'];
+		$email         = is_email( (string) $args['email'] ) ? strtolower( (string) $args['email'] ) : '';
+		$user          = $customer_id > 0 ? get_userdata( $customer_id ) : false;
+		if ( $user && '' === $email ) {
+			$email = (string) $user->user_email;
+		}
+		$check_history = $args['validate'] && 'on' === $settings['exclude_purchased'] && ( $user || '' !== $email );
 
 		$out = array();
 		foreach ( $combined as $target_id => $data ) {
@@ -751,7 +903,7 @@ class Upsell_Order_Bump_Reco_Engine {
 				if ( ! $product || 'publish' !== $product->get_status() || ! $product->is_purchasable() || ! $product->is_in_stock() || $product->is_type( array( 'grouped', 'external' ) ) ) {
 					continue;
 				}
-				if ( $customer && wc_customer_bought_product( $customer->user_email, $customer->ID, $target_id ) ) {
+				if ( $check_history && wc_customer_bought_product( $email, $user ? $user->ID : 0, $target_id ) ) {
 					continue;
 				}
 			}

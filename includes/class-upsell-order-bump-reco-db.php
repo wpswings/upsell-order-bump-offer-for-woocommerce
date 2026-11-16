@@ -26,7 +26,7 @@ class Upsell_Order_Bump_Reco_Db {
 	 *
 	 * @var string
 	 */
-	const DB_VERSION = '1.0.0';
+	const DB_VERSION = '1.0.1';
 
 	/**
 	 * Option holding the installed schema version.
@@ -234,7 +234,8 @@ class Upsell_Order_Bump_Reco_Db {
 	 */
 	public static function update_model( $changes ) {
 		$meta = array_merge( self::get_model(), $changes );
-		update_option( self::MODEL_OPTION, $meta, false );
+		// Autoloaded: read on every checkout request.
+		update_option( self::MODEL_OPTION, $meta, true );
 		return $meta;
 	}
 
@@ -296,7 +297,16 @@ class Upsell_Order_Bump_Reco_Db {
 		update_option( self::DB_VERSION_OPTION, self::DB_VERSION, false );
 
 		if ( false === get_option( self::SETTINGS_OPTION, false ) ) {
-			add_option( self::SETTINGS_OPTION, self::default_settings(), '', false );
+			add_option( self::SETTINGS_OPTION, self::default_settings(), '', true );
+		}
+		// Settings and model meta are read on every checkout request: keep them autoloaded.
+		if ( function_exists( 'wp_set_option_autoload_values' ) ) {
+			wp_set_option_autoload_values(
+				array(
+					self::SETTINGS_OPTION => true,
+					self::MODEL_OPTION    => true,
+				)
+			);
 		}
 
 		self::reschedule();
@@ -308,6 +318,10 @@ class Upsell_Order_Bump_Reco_Db {
 	 * @return void
 	 */
 	public static function maybe_upgrade() {
+		// admin_init also fires on every admin-ajax call; schema work belongs to page loads.
+		if ( wp_doing_ajax() ) {
+			return;
+		}
 		if ( get_option( self::DB_VERSION_OPTION ) !== self::DB_VERSION ) {
 			self::install();
 		}
@@ -320,6 +334,12 @@ class Upsell_Order_Bump_Reco_Db {
 	 */
 	public static function reschedule() {
 		self::unschedule();
+
+		// Unscheduling the group also cancels a queued "Train now" run: queue it again.
+		$model = self::get_model();
+		if ( 'queued' === $model['status'] ) {
+			self::queue_training_now();
+		}
 
 		$settings = self::get_settings();
 		if ( 'on' !== $settings['enabled'] || 'manual' === $settings['schedule'] ) {
@@ -342,6 +362,9 @@ class Upsell_Order_Bump_Reco_Db {
 	 * @return void
 	 */
 	public static function queue_training_now() {
+		if ( function_exists( 'as_has_scheduled_action' ) && as_has_scheduled_action( self::TRAIN_HOOK, array( 'manual' => 1 ), self::AS_GROUP ) ) {
+			return;
+		}
 		if ( function_exists( 'as_enqueue_async_action' ) ) {
 			as_enqueue_async_action( self::TRAIN_HOOK, array( 'manual' => 1 ), self::AS_GROUP );
 		} else {
@@ -400,6 +423,7 @@ class Upsell_Order_Bump_Reco_Db {
 		delete_option( self::SETTINGS_OPTION );
 		delete_option( self::MODEL_OPTION );
 		delete_transient( 'wps_ubo_reco_training_lock' );
+		delete_option( 'wps_ubo_reco_training_lock' );
 
 		if ( function_exists( 'delete_metadata' ) ) {
 			delete_metadata( 'post', 0, self::ORDER_META, '', true );

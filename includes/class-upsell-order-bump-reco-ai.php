@@ -285,6 +285,8 @@ class Upsell_Order_Bump_Reco_Ai {
 				continue;
 			}
 
+			// Each provider call can take up to 30 s: keep the training lock alive.
+			Upsell_Order_Bump_Reco_Engine::refresh_lock();
 			$result = self::ask( $anchor, array_values( $candidates ), $settings );
 			if ( is_wp_error( $result ) ) {
 				$error = $result->get_error_message();
@@ -408,30 +410,88 @@ class Upsell_Order_Bump_Reco_Ai {
 	/**
 	 * Parse and validate the model's JSON.
 	 *
+	 * Accepts a bare JSON reply, a ```json fenced reply, or JSON surrounded by prose
+	 * (the first balanced object holding "recommendations" is used). An empty list is
+	 * a valid answer ("nothing fits").
+	 *
 	 * @param string $text Raw reply.
 	 * @return array|WP_Error target_id => [ score, reason ]
 	 */
 	public static function parse( $text ) {
-		$text = trim( $text );
-		// Tolerate ```json fences.
-		if ( preg_match( '/\{.*\}/s', $text, $m ) ) {
-			$text = $m[0];
-		}
-		$data = json_decode( $text, true );
-		if ( ! is_array( $data ) || empty( $data['recommendations'] ) || ! is_array( $data['recommendations'] ) ) {
+		$data = self::decode_reply( trim( (string) $text ) );
+		if ( ! is_array( $data ) || ! isset( $data['recommendations'] ) || ! is_array( $data['recommendations'] ) ) {
 			return new WP_Error( 'wps_ubo_reco_ai_bad_json', __( 'The AI provider returned an unexpected response.', 'upsell-order-bump-offer-for-woocommerce' ) );
 		}
 
 		$out = array();
 		foreach ( $data['recommendations'] as $item ) {
-			if ( ! is_array( $item ) || ! isset( $item['product_id'], $item['score'] ) || ! is_numeric( $item['product_id'] ) || ! is_numeric( $item['score'] ) ) {
+			if ( ! is_array( $item ) || ! isset( $item['product_id'], $item['score'] ) || ! is_numeric( $item['score'] ) ) {
 				continue;
 			}
-			$out[ absint( $item['product_id'] ) ] = array(
+			$id = $item['product_id'];
+			// Whole positive numbers only: no -18 -> 18, no 12.5 -> 12.
+			if ( is_string( $id ) && ctype_digit( $id ) ) {
+				$id = (int) $id;
+			}
+			if ( ! is_int( $id ) || $id <= 0 ) {
+				continue;
+			}
+			$reason     = isset( $item['reason'] ) && is_string( $item['reason'] ) ? $item['reason'] : '';
+			$out[ $id ] = array(
 				'score'  => (float) max( 0, min( 1, (float) $item['score'] ) ),
-				'reason' => isset( $item['reason'] ) ? mb_substr( sanitize_text_field( (string) $item['reason'] ), 0, 191 ) : '',
+				'reason' => mb_substr( sanitize_text_field( $reason ), 0, 191 ),
 			);
 		}
 		return $out;
+	}
+
+	/**
+	 * Decode the reply: as-is first, then each balanced {...} block until one holds "recommendations".
+	 *
+	 * @param string $text Raw reply.
+	 * @return array|null
+	 */
+	private static function decode_reply( $text ) {
+		$data = json_decode( $text, true );
+		if ( is_array( $data ) ) {
+			return $data;
+		}
+
+		$len   = strlen( $text );
+		$first = null;
+		for ( $start = strpos( $text, '{' ); false !== $start; $start = strpos( $text, '{', $start + 1 ) ) {
+			$depth  = 0;
+			$in_str = false;
+			$escape = false;
+			for ( $i = $start; $i < $len; $i++ ) {
+				$c = $text[ $i ];
+				if ( $in_str ) {
+					if ( $escape ) {
+						$escape = false;
+					} elseif ( '\\' === $c ) {
+						$escape = true;
+					} elseif ( '"' === $c ) {
+						$in_str = false;
+					}
+					continue;
+				}
+				if ( '"' === $c ) {
+					$in_str = true;
+				} elseif ( '{' === $c ) {
+					++$depth;
+				} elseif ( '}' === $c && 0 === --$depth ) {
+					$data = json_decode( substr( $text, $start, $i - $start + 1 ), true );
+					if ( is_array( $data ) ) {
+						if ( isset( $data['recommendations'] ) ) {
+							return $data;
+						}
+						$first = null === $first ? $data : $first;
+						$start = $i;
+					}
+					break;
+				}
+			}
+		}
+		return $first;
 	}
 }

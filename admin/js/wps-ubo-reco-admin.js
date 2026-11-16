@@ -59,7 +59,7 @@
 		$root.find( '[data-status="engine"]' ).toggleClass( 'is-on', !! data.enabled ).toggleClass( 'is-off', ! data.enabled );
 		setStatus( 'schedule', model.next_human ? 'Next training ' + model.next_human : '' );
 
-		setStatus( 'trained', 'training' === model.status ? '…' : ( model.trained_human || i18n.never ) );
+		setStatus( 'trained', isRunning( model ) ? '…' : ( model.trained_human || i18n.never ) );
 		setStatus( 'model', model.trained_at ? ( model.orders + ' orders · ' + ( 'analytics' === model.source ? 'WooCommerce Analytics' : 'order store' ) + ' · ' + model.duration + 's' ) : '' );
 		setStatus( 'pairs', String( model.pairs || 0 ) );
 		setStatus( 'products', model.products ? model.products + ' products' : '' );
@@ -121,10 +121,48 @@
 		}
 	}
 
+	var pollTimer = null;
+
+	function isRunning( model ) {
+		return model && ( 'queued' === model.status || 'training' === model.status );
+	}
+
+	// Training runs in the background: poll the status until the run ends.
+	function poll() {
+		window.clearTimeout( pollTimer );
+		pollTimer = window.setTimeout( function () {
+			post( 'wps_ubo_reco_status' )
+				.done( function ( res ) {
+					if ( ! res || ! res.success ) {
+						return;
+					}
+					render( res.data );
+					if ( isRunning( res.data.model ) ) {
+						poll();
+						return;
+					}
+					busy( $( '#wps-ubo-reco-train' ), false );
+					if ( 'error' === res.data.model.status ) {
+						notice( res.data.model.error || i18n.error, 'error' );
+					} else {
+						notice( i18n.trained, 'success' );
+					}
+				} )
+				.fail( function () {
+					poll();
+				} );
+		}, 4000 );
+	}
+
 	function refresh() {
 		post( 'wps_ubo_reco_status' ).done( function ( res ) {
 			if ( res && res.success ) {
 				render( res.data );
+				if ( isRunning( res.data.model ) ) {
+					busy( $( '#wps-ubo-reco-train' ), true );
+					notice( i18n.training, 'info' );
+					poll();
+				}
 			}
 		} );
 	}
@@ -169,21 +207,20 @@
 			setStatus( 'trained', '…' );
 			post( 'wps_ubo_reco_train' )
 				.done( function ( res ) {
-					if ( res && res.success ) {
-						notice( i18n.trained, 'success' );
-					} else {
-						notice( failMessage( res ), 'error' );
-					}
 					if ( res && res.data && res.data.model ) {
 						render( res.data );
 					}
+					if ( res && res.success ) {
+						poll();
+						return;
+					}
+					notice( failMessage( res ), 'error' );
+					busy( $btn, false );
 				} )
 				.fail( function () {
 					notice( i18n.error, 'error' );
-					refresh();
-				} )
-				.always( function () {
 					busy( $btn, false );
+					refresh();
 				} );
 		} );
 
