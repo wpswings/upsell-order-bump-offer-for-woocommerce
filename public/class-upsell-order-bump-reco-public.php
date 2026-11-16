@@ -68,11 +68,7 @@ class Upsell_Order_Bump_Reco_Public {
 	 * @return bool
 	 */
 	public static function active() {
-		static $active = null;
-		if ( null === $active ) {
-			$active = Upsell_Order_Bump_Reco_Db::is_enabled() && Upsell_Order_Bump_Reco_Db::has_model();
-		}
-		return $active;
+		return Upsell_Order_Bump_Reco_Db::is_enabled() && Upsell_Order_Bump_Reco_Db::has_model();
 	}
 
 	/**
@@ -220,6 +216,42 @@ class Upsell_Order_Bump_Reco_Public {
 	}
 
 	/**
+	 * Whether a stored AI pick can still be offered (published, in stock, purchasable).
+	 *
+	 * @param int $product_id Product id.
+	 * @return bool
+	 */
+	private static function pick_usable( $product_id ) {
+		$product = $product_id ? wc_get_product( $product_id ) : false;
+		return $product && 'publish' === $product->get_status() && $product->is_in_stock() && $product->is_purchasable();
+	}
+
+	/**
+	 * Email used to skip products the shopper already bought (account or checkout email).
+	 *
+	 * @return string
+	 */
+	private static function shopper_email() {
+		$user = wp_get_current_user();
+		if ( $user && $user->exists() && $user->user_email ) {
+			return (string) $user->user_email;
+		}
+		$email = function_exists( 'WC' ) && WC()->customer ? (string) WC()->customer->get_billing_email() : '';
+		return is_email( $email ) ? $email : '';
+	}
+
+	/**
+	 * Drop stored AI decisions (engine switched off or model deleted).
+	 *
+	 * @return void
+	 */
+	private static function clear_decisions() {
+		if ( self::has_cart() && null !== WC()->session->get( self::SESSION_KEY, null ) ) {
+			WC()->session->set( self::SESSION_KEY, null );
+		}
+	}
+
+	/**
 	 * Resolve the AI product for a bump (called during bump matching).
 	 *
 	 * @param int|string $bump_id Bump id.
@@ -236,14 +268,22 @@ class Upsell_Order_Bump_Reco_Public {
 		$sig       = self::signature( $ids );
 		$current   = isset( $decisions[ $bump_id ] ) ? $decisions[ $bump_id ] : null;
 
-		// Frozen once accepted, or still valid for this exact cart.
-		if ( $current && ( self::bump_in_cart( $bump_id ) || $current['sig'] === $sig ) ) {
+		// Frozen once accepted.
+		if ( $current && self::bump_in_cart( $bump_id ) ) {
 			return self::apply_bump_product( $bump, (int) $current['pid'] );
+		}
+		// Still valid for this exact cart, as long as the pick can still be sold.
+		$stale = 0;
+		if ( $current && $current['sig'] === $sig ) {
+			if ( self::pick_usable( (int) $current['pid'] ) ) {
+				return self::apply_bump_product( $bump, (int) $current['pid'] );
+			}
+			$stale = (int) $current['pid'];
 		}
 
 		// Don't offer what another bump already offers: other AI decisions for this cart,
 		// and the fixed products of other live bumps.
-		$taken = array();
+		$taken = $stale ? array( $stale ) : array();
 		foreach ( $decisions as $other_id => $decision ) {
 			if ( (string) $other_id !== (string) $bump_id && isset( $decision['sig'] ) && $decision['sig'] === $sig ) {
 				$taken[] = (int) $decision['pid'];
@@ -266,6 +306,7 @@ class Upsell_Order_Bump_Reco_Public {
 				'limit'       => 1,
 				'context'     => 'bump',
 				'customer_id' => get_current_user_id(),
+				'email'       => self::shopper_email(),
 			)
 		) : array();
 		$pid   = $recs ? (int) $recs[0]['id'] : (int) ( isset( $bump['wps_upsell_bump_products_in_offer'] ) ? $bump['wps_upsell_bump_products_in_offer'] : 0 );
@@ -341,14 +382,46 @@ class Upsell_Order_Bump_Reco_Public {
 		}
 		if ( 'ai' === self::product_source( $bump ) ) {
 			$decisions = (array) WC()->session->get( self::SESSION_KEY, array() );
-			if ( empty( $decisions[ $bump_id ] ) || $decisions[ $bump_id ]['sig'] !== self::signature( self::cart_context_ids() ) ) {
+			if ( empty( $decisions[ $bump_id ] ) || $decisions[ $bump_id ]['sig'] !== self::signature( self::cart_context_ids() ) || ! self::pick_usable( (int) $decisions[ $bump_id ]['pid'] ) ) {
 				return false;
 			}
 		}
-		if ( 'smart' === self::effective_mode( $bump ) && '' === self::bump_smart_match( $bump_id, $bump ) ) {
+		$mode = self::effective_mode( $bump );
+		if ( 'smart' === $mode && '' === self::bump_smart_match( $bump_id, $bump ) ) {
+			return false;
+		}
+		// Hybrid: shown by the rules or by a smart match; at least one must still hold.
+		if ( 'hybrid' === $mode && ! self::static_rules_match( $bump ) && '' === self::bump_smart_match( $bump_id, $bump ) ) {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Whether the bump's rule-based targeting (products / categories / global) matches the cart.
+	 *
+	 * @param array $bump Bump array.
+	 * @return bool
+	 */
+	private static function static_rules_match( $bump ) {
+		if ( ! empty( $bump['wps_ubo_offer_global_funnel'] ) && 'yes' === $bump['wps_ubo_offer_global_funnel'] ) {
+			return true;
+		}
+		if ( ! empty( $bump['wps_upsell_bump_target_ids'] ) && is_array( $bump['wps_upsell_bump_target_ids'] ) && function_exists( 'wps_ubo_lite_check_if_in_cart' ) ) {
+			foreach ( $bump['wps_upsell_bump_target_ids'] as $target_id ) {
+				if ( wps_ubo_lite_check_if_in_cart( $target_id ) ) {
+					return true;
+				}
+			}
+		}
+		if ( ! empty( $bump['wps_upsell_bump_target_categories'] ) && is_array( $bump['wps_upsell_bump_target_categories'] ) && function_exists( 'wps_ubo_lite_check_category_in_cart' ) ) {
+			foreach ( $bump['wps_upsell_bump_target_categories'] as $category_id ) {
+				if ( wps_ubo_lite_check_category_in_cart( $category_id ) ) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -368,6 +441,11 @@ class Upsell_Order_Bump_Reco_Public {
 	 */
 	public static function filter_bump_list( $value ) {
 		if ( self::$bypass || ! is_array( $value ) || ! self::front_request() || ! self::has_cart() ) {
+			return $value;
+		}
+		// Engine off or model deleted: offer the admin products again, right away.
+		if ( ! self::active() ) {
+			self::clear_decisions();
 			return $value;
 		}
 		$decisions = (array) WC()->session->get( self::SESSION_KEY, array() );
@@ -458,6 +536,7 @@ class Upsell_Order_Bump_Reco_Public {
 					'limit'       => count( $offers ),
 					'context'     => 'upsell',
 					'customer_id' => (int) $order->get_customer_id(),
+					'email'       => (string) $order->get_billing_email(),
 				)
 			);
 			$k      = 0;
@@ -546,7 +625,7 @@ class Upsell_Order_Bump_Reco_Public {
 	 * @return mixed
 	 */
 	public static function filter_funnels_list( $value ) {
-		if ( self::$bypass || ! is_array( $value ) || ! self::front_request() ) {
+		if ( self::$bypass || ! is_array( $value ) || ! self::front_request() || ! self::active() ) {
 			return $value;
 		}
 		$order_id = self::current_order_id();

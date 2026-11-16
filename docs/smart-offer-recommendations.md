@@ -55,7 +55,7 @@ Stored in option `wps_ubo_reco_settings`:
 | `seq_window_days` | `60` | "Bought A, then B within N days" signal. `0` disables it. |
 | `seq_weight` | `50` (%) | How much a sequential purchase counts compared with a same-order purchase. |
 | `match_threshold` | `10` (%) | Minimum score for Smart targeting to fire. |
-| `exclude_purchased` | `on` | When AI picks the product, skip products the logged-in customer already bought. |
+| `exclude_purchased` | `on` | When AI picks the product, skip products the shopper already bought (logged-in customers by account, guests by checkout billing email). |
 | `max_candidates` | `20` | Recommendations kept per product. |
 | `schedule` | `daily` | `daily`, `weekly` or `manual` retraining. |
 | `ai_enabled` | `off` | Use the WordPress AI connector to enrich the model. |
@@ -155,7 +155,10 @@ More supporting items raise the score, but it never exceeds 1.
 ### 5.5 Scheduling
 - Hook `wps_ubo_reco_train`, run through **Action Scheduler** when available (bundled with WooCommerce), otherwise WP-Cron. Recurs `daily` or `weekly`, or `manual`.
 - **Train now** in admin queues an async run, and the page polls the status.
-- A transient lock (`wps_ubo_reco_training_lock`, 15 min) prevents concurrent runs.
+- An atomic lock prevents concurrent runs: one `wp_options` row (`wps_ubo_reco_training_lock`, never autoloaded) inserted with `INSERT IGNORE`, holding an expiry. The run refreshes it between steps and before every AI call; a lock with no heartbeat for 15 min is treated as dead and can be taken over.
+- A `training` status with no live lock (killed process) is reported as `error`. A `queued` run that never starts within 30 min (WP-Cron / Action Scheduler not running) is also reported as `error`.
+- "Bought next" is made directional in SQL (no rows loaded into PHP), and top-K pruning is a single window-function `DELETE` on MySQL 8 / MariaDB 10.2+, with a per-anchor fallback on older servers. Customers with more than 100 orders in the window (filter `wps_ubo_reco_seq_max_customer_orders`) are left out of "bought next".
+- Settings and model meta are autoloaded (read on every checkout). The schema check (`maybe_upgrade`) skips admin-ajax requests.
 
 ---
 
@@ -201,14 +204,16 @@ In `Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collec
 
 1. `prepare_bump()` runs first. When `wps_ubo_offer_product_source = ai`, it resolves the product for the current cart:
    - **Inputs:** cart parent product ids, excluding items added by bumps.
-   - **Candidate filters:** the candidate must not be in the cart, must be published, purchasable and in stock, and must not be grouped or external. If `exclude_purchased` is on, it must not have been bought before by this logged-in customer.
+   - **Candidate filters:** the candidate must not be in the cart, must be published, purchasable and in stock, and must not be grouped or external. If `exclude_purchased` is on, it must not have been bought before by this shopper (account, or billing email for guests).
    - **Choice:** the best candidate wins. If none qualifies, the admin product is used.
    - **Caching:** the decision is stored in the WC session as `wps_ubo_reco_bump[bump_id] = { pid, sig, v, score }`, where `sig` is the cart signature.
    - **Freezing:** once the bump product is in the cart, the decision is **frozen**, so accepting the offer, removing it and pricing stay consistent.
 2. Targeting:
    - `static`: unchanged code path.
    - `smart`: the target-id and category loops are skipped. The bump fires when `score(offer product | cart) ≥ match_threshold`. The strongest anchor's cart key becomes the target key, which keeps "Smart Offer Upgrade" working.
-   - `hybrid`: rules are tried first; if they don't match, the smart match is tried.
+   - `hybrid`: rules are tried first; if they don't match, the smart match is tried. After a cart change, a shown hybrid bump stays only if the rules or the smart match still hold.
+   - A stored AI pick is reused only while it is still published, in stock and purchasable; otherwise the next recommendation is picked.
+   - When the engine is switched off or the model is deleted, stored picks are dropped on the next request and the admin products are shown again.
    - The "both target lists empty → skip" guard no longer applies to `smart`/`hybrid`.
 3. Every later read of `wps_ubo_bump_list` in the same session goes through the `option_wps_ubo_bump_list` filter. The resolved product is substituted there, so the template, the add-to-cart AJAX, the variation popup and validations all see the same product without touching the 35 call sites.
 
