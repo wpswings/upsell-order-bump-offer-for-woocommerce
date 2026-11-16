@@ -139,8 +139,8 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 			)
 		);
 		$zones = Upsell_Order_Bump_Heatmap_Db::get_zones( $this->filters() );
-		$this->assertSame( array( 'click' => 2, 'hover' => 0 ), $zones['accept_checkbox'] );
-		$this->assertSame( array( 'click' => 0, 'hover' => 1 ), $zones['image'] );
+		$this->assertSame( array( 'click' => 2, 'hover' => 0, 'clickers' => 1 ), $zones['accept_checkbox'], 'Two clicks by one visitor.' );
+		$this->assertSame( array( 'click' => 0, 'hover' => 1, 'clickers' => 0 ), $zones['image'] );
 		$this->assertArrayNotHasKey( 'other', $zones, 'Views are not zone interactions.' );
 
 		$this->assertSame(
@@ -149,6 +149,8 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 				'clicks'   => 2,
 				'hovers'   => 1,
 				'visitors' => 2,
+				'viewers'  => 1,
+				'clickers' => 1,
 			),
 			Upsell_Order_Bump_Heatmap_Db::get_totals( $this->filters() )
 		);
@@ -261,9 +263,25 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 0, $this->count_rows() );
 	}
 
-	public function test_ingest_rate_limited_per_ip() {
-		set_transient( 'wps_ubo_hm_rl_' . md5( $_SERVER['REMOTE_ADDR'] ), Upsell_Order_Bump_Heatmap_Public::MAX_REQUESTS_PER_MINUTE, 60 );
-		$this->assertSame( 0, $this->ingest( array( array( 't' => 'bump', 'e' => 'click', 'c' => 'checkout', 'o' => 7 ) ) )['data']['stored'] );
+	public function test_ingest_rate_limited_per_visitor_and_per_ip() {
+		$event = array( array( 't' => 'bump', 'e' => 'click', 'c' => 'checkout', 'o' => 7 ) );
+		$ip    = $_SERVER['REMOTE_ADDR'];
+
+		// One visitor at the limit is throttled...
+		set_transient( 'wps_ubo_hm_rl_v_' . md5( $ip . '|visitor1' ), Upsell_Order_Bump_Heatmap_Public::MAX_REQUESTS_PER_MINUTE, 60 );
+		$this->assertSame( 0, $this->ingest( $event )['data']['stored'] );
+		// ...but another shopper behind the same IP ( proxy / Cloudflare ) is not ( QA H3 ).
+		$this->assertSame( 1, $this->ingest( $event, array( 'vid' => 'visitor2' ) )['data']['stored'] );
+
+		// The overall per-IP cap still applies.
+		set_transient( 'wps_ubo_hm_rl_i_' . md5( $ip ), Upsell_Order_Bump_Heatmap_Public::MAX_REQUESTS_PER_IP_PER_MINUTE, 60 );
+		$this->assertSame( 0, $this->ingest( $event, array( 'vid' => 'visitor3' ) )['data']['stored'] );
+	}
+
+	public function test_qa_h10_negative_retention_is_not_saved_as_positive() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$this->admin_call( 'ajax_save_settings', array( 'enabled' => 'on', 'retention_days' => '-3' ) );
+		$this->assertSame( 1, Upsell_Order_Bump_Heatmap_Db::get_settings()['retention_days'], 'Was saved as 3.' );
 	}
 
 	public function test_before_insert_filter_can_drop_rows() {

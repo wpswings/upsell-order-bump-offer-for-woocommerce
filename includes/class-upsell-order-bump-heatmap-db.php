@@ -146,6 +146,10 @@ class Upsell_Order_Bump_Heatmap_Db {
 	 * @return void
 	 */
 	public static function maybe_upgrade() {
+		// admin_init also runs for every admin-ajax.php request; upgrades only need page loads.
+		if ( wp_doing_ajax() ) {
+			return;
+		}
 		if ( self::DB_VERSION !== get_option( self::DB_VERSION_OPTION ) ) {
 			self::install();
 		}
@@ -300,7 +304,7 @@ class Upsell_Order_Bump_Heatmap_Db {
 		list( $where, $args ) = self::build_where( $filters );
 		$table                = self::table();
 
-		$sql = "SELECT zone, event_type, COUNT(*) AS c
+		$sql = "SELECT zone, event_type, COUNT(*) AS c, COUNT(DISTINCT session_hash) AS v
 			FROM {$table}
 			WHERE {$where} AND event_type IN ('click','hover')
 			GROUP BY zone, event_type";
@@ -313,11 +317,15 @@ class Upsell_Order_Bump_Heatmap_Db {
 			$zone = $row['zone'];
 			if ( ! isset( $zones[ $zone ] ) ) {
 				$zones[ $zone ] = array(
-					'click' => 0,
-					'hover' => 0,
+					'click'    => 0,
+					'hover'    => 0,
+					'clickers' => 0,
 				);
 			}
 			$zones[ $zone ][ $row['event_type'] ] = (int) $row['c'];
+			if ( 'click' === $row['event_type'] ) {
+				$zones[ $zone ]['clickers'] = (int) $row['v']; // Distinct visitors who clicked this zone.
+			}
 		}
 		return $zones;
 	}
@@ -338,7 +346,9 @@ class Upsell_Order_Bump_Heatmap_Db {
 				SUM(event_type = 'view')  AS views,
 				SUM(event_type = 'click') AS clicks,
 				SUM(event_type = 'hover') AS hovers,
-				COUNT(DISTINCT session_hash) AS visitors
+				COUNT(DISTINCT session_hash) AS visitors,
+				COUNT(DISTINCT CASE WHEN event_type = 'view' THEN session_hash END)  AS viewers,
+				COUNT(DISTINCT CASE WHEN event_type = 'click' THEN session_hash END) AS clickers
 			FROM {$table}
 			WHERE {$where}";
 
@@ -350,6 +360,8 @@ class Upsell_Order_Bump_Heatmap_Db {
 			'clicks'   => (int) ( $row['clicks'] ?? 0 ),
 			'hovers'   => (int) ( $row['hovers'] ?? 0 ),
 			'visitors' => (int) ( $row['visitors'] ?? 0 ),
+			'viewers'  => (int) ( $row['viewers'] ?? 0 ),
+			'clickers' => (int) ( $row['clickers'] ?? 0 ),
 		);
 	}
 

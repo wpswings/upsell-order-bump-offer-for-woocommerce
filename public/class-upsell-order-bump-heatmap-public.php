@@ -53,6 +53,13 @@ class Upsell_Order_Bump_Heatmap_Public {
 	const MAX_REQUESTS_PER_MINUTE = 60;
 
 	/**
+	 * Max ingest requests per minute from one IP ( all visitors behind it, e.g. a proxy ).
+	 *
+	 * @var int
+	 */
+	const MAX_REQUESTS_PER_IP_PER_MINUTE = 600;
+
+	/**
 	 * Plugin version.
 	 *
 	 * @var string
@@ -76,21 +83,22 @@ class Upsell_Order_Bump_Heatmap_Public {
 	public static function zone_selectors() {
 		$zones = array(
 			'bump'   => array(
-				'quantity'        => '.wps_quantity_input, .wps_input_quantity, .wps-ubo__qty-btn, .quantity',
+				'game'            => '.wps-ubo-game__play, .wps-ubo-game__hub, .wps-ubo-game__scratch, .wps-ubo-game__card, .wps-ubo-game__wheel-wrap, .wps-ubo-game__skip',
+				'quantity'        => '.wps_quantity_input, .wps_input_quantity, .wps-ubo__qty-btn, .wps-ubo_quantity_value, .wps-ubo__temp-prod-price-qty, .quantity',
 				'variation'       => 'select, .wps-option, .wps_variable_qty_temp_12',
 				'accept_checkbox' => '.add_offer_in_cart, .wps_upsell_bump_checkbox_container, .wps-ubo__temp-prod-check, .upsell-order-check, .checkmark',
 				'accept_button'   => '.wps-ubo__btn, .custom-btn, button',
 				'accept_text'     => '.add_offer_in_cart_text, .wps_upsell_offer_primary_section',
-				'image'           => '.wps_upsell_offer_img, .wps_upsell_offer_image, .upsell-product-img, .wps-ob_ta-p-img, img',
-				'title'           => '.wps_bump_name, .bump-offer-product-name, .wps-ob_ta-p-name, .wps-ob_ta-o-title, .wps_upsell_product_permalink',
-				'price'           => '.wps_upsell_offer_product_price, .product-price, .wps-ob_ta-p-price, .wps-ubo__temp-prod-price-new',
+				'image'           => '.wps_upsell_offer_img, .wps_upsell_offer_image, .upsell-product-img, .wps-ob_ta-p-img, .wps-ubo__temp-prod-img, img',
+				'title'           => '.wps_bump_name, .bump-offer-product-name, .wps-ob_ta-p-name, .wps-ob_ta-o-title, .wps_upsell_product_permalink, .wps-ubo__temp-prod-title, .wps-ubo__temp-title',
+				'price'           => '.wps_upsell_offer_product_price, .product-price, .wps-ob_ta-p-price, .wps-ubo__temp-prod-price-new, .wps-ubo__temp-prod-price',
 				'timer'           => '.wps-timer-wrap, .upsell-offer-timer-section',
-				'discount'        => '.wps_upsell_offer_discount_section, .uspell-offer-discount',
-				'offer_text'      => '.wps_upsell_offer_secondary_section, .wps-ob_ta-o-desc',
-				'description'     => '.wps_upsell_offer_product_description, .upsell-product-desc, .wps-ob_ta-p-desc',
+				'discount'        => '.wps_upsell_offer_discount_section, .uspell-offer-discount, .wps-ubo__temp-prod-offer',
+				'offer_text'      => '.wps_upsell_offer_secondary_section, .wps-ob_ta-o-desc, .wps-ubo__temp-desc',
+				'description'     => '.wps_upsell_offer_product_description, .upsell-product-desc, .wps-ob_ta-p-desc, .wps-ubo__temp-prod-desc',
 			),
 			'upsell' => array(
-				'accept_button'  => 'a[href*="wps_wocuf_pro_buy"], [name="wps_wocuf_pro_buy"], .wps_wocuf_pro_custom_buy, .wps_wocuf_pro_buy',
+				'accept_button'  => 'a[href*="wps_wocuf_pro_buy"], [name="wps_wocuf_pro_buy"], .wps_wocuf_pro_custom_buy, .wps_wocuf_pro_buy, a[href="#wps_upsell"], .elementor-button',
 				'decline_button' => 'a[href*="ocuf_th=1"], .wps_wocuf_pro_no, .wps_wocuf_pro_skip, .wps_wocuf_pro_custom_skip',
 				'quantity'       => '.wps_upsell_quantity, .wps_upsell_quantity_input',
 				'variation'      => 'select, .wps_upsell_offer_variation_select',
@@ -132,6 +140,10 @@ class Upsell_Order_Bump_Heatmap_Public {
 		if ( ! isset( $_GET['ocuf_fid'], $_GET['ocuf_ofd'], $_GET['ocuf_ns'] ) ) {
 			return false;
 		}
+		// Only a real offer page ( the same nonce check the offer page uses ), not any URL with ocuf_* params.
+		if ( function_exists( 'wps_upsell_lite_validate_upsell_nonce_funnel_builder' ) && ! wps_upsell_lite_validate_upsell_nonce_funnel_builder() ) {
+			return false;
+		}
 		$funnel_id = absint( wp_unslash( $_GET['ocuf_fid'] ) );
 		$offer_id  = absint( wp_unslash( $_GET['ocuf_ofd'] ) );
 		// phpcs:enable
@@ -163,6 +175,11 @@ class Upsell_Order_Bump_Heatmap_Public {
 		}
 
 		if ( function_exists( 'is_cart' ) && is_cart() ) {
+			// No bump can render on the cart when the cart upsell feature is off.
+			$global = get_option( 'wps_ubo_global_options', array() );
+			if ( isset( $global['wps_enable_cart_upsell_feature'] ) && 'on' !== $global['wps_enable_cart_upsell_feature'] ) {
+				return false;
+			}
 			$page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'cart' ) : 0;
 			return ( $page_id > 0 && has_block( 'woocommerce/cart', $page_id ) ) ? 'cart_block' : 'cart';
 		}
@@ -393,15 +410,43 @@ class Upsell_Order_Bump_Heatmap_Public {
 	 * @return bool
 	 */
 	private function is_rate_limited() {
-		$ip  = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-		$key = 'wps_ubo_hm_rl_' . md5( $ip );
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		/**
+		 * Client IP used for rate limiting. Behind Cloudflare / a proxy every shopper has the
+		 * proxy's REMOTE_ADDR; return the real client IP from a header you trust here
+		 * ( e.g. HTTP_CF_CONNECTING_IP ).
+		 *
+		 * @since 3.1.8
+		 * @param string $ip REMOTE_ADDR.
+		 */
+		$ip      = (string) apply_filters( 'wps_ubo_heatmap_client_ip', $ip );
+		$visitor = isset( $_POST['vid'] ) ? sanitize_key( wp_unslash( $_POST['vid'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce checked in ingest().
 
-		$count = (int) get_transient( $key );
-		if ( $count >= self::MAX_REQUESTS_PER_MINUTE ) {
-			return true;
+		/**
+		 * Requests per minute: per visitor ( visitor id + IP ) and per IP overall.
+		 *
+		 * @since 3.1.8
+		 * @param array $limits { visitor, ip }.
+		 */
+		$limits = (array) apply_filters(
+			'wps_ubo_heatmap_rate_limits',
+			array(
+				'visitor' => self::MAX_REQUESTS_PER_MINUTE,
+				'ip'      => self::MAX_REQUESTS_PER_IP_PER_MINUTE,
+			)
+		);
+		$keys   = array(
+			'visitor' => 'wps_ubo_hm_rl_v_' . md5( $ip . '|' . $visitor ),
+			'ip'      => 'wps_ubo_hm_rl_i_' . md5( $ip ),
+		);
+		foreach ( $keys as $type => $key ) {
+			if ( (int) get_transient( $key ) >= (int) $limits[ $type ] ) {
+				return true;
+			}
 		}
-
-		set_transient( $key, $count + 1, MINUTE_IN_SECONDS );
+		foreach ( $keys as $key ) {
+			set_transient( $key, (int) get_transient( $key ) + 1, MINUTE_IN_SECONDS );
+		}
 		return false;
 	}
 

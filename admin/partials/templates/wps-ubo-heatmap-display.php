@@ -109,7 +109,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="wps-ubo-hm__stats" id="wps-ubo-hm-stats">
 		<div class="wps-ubo-hm__stat"><span class="wps-ubo-hm__stat-label"><?php esc_html_e( 'Impressions', 'upsell-order-bump-offer-for-woocommerce' ); ?></span><span class="wps-ubo-hm__stat-value" data-stat="views">–</span></div>
 		<div class="wps-ubo-hm__stat"><span class="wps-ubo-hm__stat-label"><?php esc_html_e( 'Clicks', 'upsell-order-bump-offer-for-woocommerce' ); ?></span><span class="wps-ubo-hm__stat-value" data-stat="clicks">–</span></div>
-		<div class="wps-ubo-hm__stat"><span class="wps-ubo-hm__stat-label"><?php esc_html_e( 'Clicks per impression', 'upsell-order-bump-offer-for-woocommerce' ); ?></span><span class="wps-ubo-hm__stat-value" data-stat="ctr">–</span></div>
+		<div class="wps-ubo-hm__stat"><span class="wps-ubo-hm__stat-label"><?php esc_html_e( 'Click rate (visitors who clicked)', 'upsell-order-bump-offer-for-woocommerce' ); ?></span><span class="wps-ubo-hm__stat-value" data-stat="ctr">–</span></div>
 		<div class="wps-ubo-hm__stat"><span class="wps-ubo-hm__stat-label"><?php esc_html_e( 'Unique visitors (counted per day)', 'upsell-order-bump-offer-for-woocommerce' ); ?></span><span class="wps-ubo-hm__stat-value" data-stat="visitors">–</span></div>
 	</div>
 
@@ -155,6 +155,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<th scope="col"><?php esc_html_e( 'Zone', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
 						<th scope="col" class="num"><?php esc_html_e( 'Clicks', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
 						<th scope="col" class="num"><?php esc_html_e( 'Share', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+						<th scope="col" class="num"><?php esc_html_e( 'Click rate', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
 						<th scope="col" class="num"><?php esc_html_e( 'Hovers', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
 					</tr>
 				</thead>

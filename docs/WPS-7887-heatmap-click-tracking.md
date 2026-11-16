@@ -42,7 +42,7 @@ Wiring changes in existing files:
 * `includes/class-upsell-order-bump-offer-for-woocommerce.php` — requires the three new classes and registers their hooks through the existing `Loader` (`define_heatmap_hooks()`). Public hooks are only registered when the plugin is enabled (`wps_bump_enable_plugin`).
 * `includes/class-upsell-order-bump-offer-for-woocommerce-activator.php` — creates the table on activation.
 * `includes/class-upsell-order-bump-offer-for-woocommerce-deactivator.php` — clears the purge cron.
-* `uninstall.php` — drops the table and options when *Delete all data on uninstall* is on.
+* `uninstall.php` — drops the table and options when *Delete all data on uninstall* is on. Guarded by `WP_UNINSTALL_PLUGIN`; on multisite every site is cleaned (each with its own setting).
 
 The existing admin class is **not** modified: the heatmap page enqueues its own assets using the hook suffix returned by `add_submenu_page()` (robust against translated menu titles, which change the screen id).
 
@@ -74,7 +74,7 @@ The existing admin class is **not** modified: the heatmap page enqueues its own 
 
 | Offer type | Container element | Identified by |
 | --- | --- | --- |
-| Order Bump | `.wps_upsell_offer_main_wrapper` (every one of the 14 templates renders it, classic **and** block checkout, popup and shortcode) | `id="wps_upsell_offer_main_id_{bump_id}"` → `bump_id`. Template comes from a `bump_id → template` map localized from `wps_ubo_bump_list`. |
+| Order Bump | `.wps_upsell_offer_main_wrapper, [id^="wps_upsell_offer_main_id_"], .wps-ubo-game[data-bump-id]` (templates 6–9 render the container as a `<section>` with the id but without the wrapper class; a gamified bump is tracked as the game until the prize is revealed, zone `game`). Classic **and** block checkout, popup and shortcode. Context is `popup` only inside a real popup container (`.wps_uobo_product_popup, .wps-popup-content, .wps_bump_popup_wrapper`). | `id="wps_upsell_offer_main_id_{bump_id}"` → `bump_id`. Template comes from a `bump_id → template` map localized from `wps_ubo_bump_list`. |
 | Upsell offer page | the whole document (`document.documentElement`) — the page *is* the template | `funnel_id` = `ocuf_fid`, `offer_id` = `ocuf_ofd`, template from `wps_wocuf_funnels_list[funnel]['wps_wocuf_pro_offer_template'][offer]`. Localized server-side. |
 
 A `MutationObserver` re-scans for bump containers because bumps are injected/refreshed by AJAX (`update_checkout`, block checkout, popup).
@@ -146,7 +146,7 @@ Validation pipeline (anything failing is silently dropped, response is always `2
 
 1. Tracking enabled.
 2. `check_ajax_referer( 'wps_ubo_heatmap_track', 'nonce', false )`.
-3. Rate limit: per hashed IP (never stored), max **60 requests / minute** (60 s transient). Normal browsing sends ~6–10 / minute.
+3. Rate limit (60 s transients, IP never stored): max **60 requests / minute per visitor** (visitor id + IP) and **600 per IP** overall, so shoppers behind one proxy / Cloudflare IP don't share one small limit. Filters: `wps_ubo_heatmap_rate_limits`, and `wps_ubo_heatmap_client_ip` to use a trusted forwarded-IP header. Normal browsing sends ~6–10 / minute.
 4. `events` decoded, capped at **100** per request.
 5. Every field whitelisted / clamped:
    * `offer_type` ∈ {`bump`, `upsell`}
