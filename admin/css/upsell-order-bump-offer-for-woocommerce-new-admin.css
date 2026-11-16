@@ -1619,40 +1619,26 @@ table.form-table input[type="checkbox"]:checked + span[class$="-span"] {
     background: none !important;
 }
 
-/* --- Tab nav: keep all main tabs on one row regardless of which one has sub-tabs ---
-       Sub-tabs are pulled out of the flex flow with absolute positioning so the
-       parent wrapper width stays equal to the main tab itself. The nav reserves
-       bottom padding to make room for the sub-tab row. --- */
+/* --- Tab nav: sub-tabs on their own row below all main tabs ---
+       The main tabs wrap onto more than one row (Gamified Offers, Cart Recovery, ...),
+       so sub-tabs positioned under their tab overlapped the next row of tabs.
+       `display: contents` makes each tab wrapper's children direct flex items of the
+       nav, so the active tab's sub-tabs can be sent to a full-width last row. --- */
 #wps_upsell_bump_setting_wrapper nav.nav-tab-wrapper.woo-nav-tab-wrapper {
-    position: relative;
     align-items: flex-start;
-    padding-bottom: 48px;
 }
 
 #wps_upsell_bump_setting_wrapper .wps_main_global_wrapper {
-    position: relative;
+    display: contents;
 }
 
 #wps_upsell_bump_setting_wrapper .wps_main_global_wrapper .nav-sub-tabs {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin: 8px 0 0;
+    order: 99;
+    flex: 0 0 100%;
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
-    white-space: nowrap;
-    z-index: 2;
-}
-
-@media screen and (max-width: 1100px) {
-    #wps_upsell_bump_setting_wrapper nav.nav-tab-wrapper.woo-nav-tab-wrapper {
-        padding-bottom: 0;
-    }
-
-    #wps_upsell_bump_setting_wrapper .wps_main_global_wrapper .nav-sub-tabs {
-        position: static;
-        margin: 6px 0 4px;
-    }
+    margin: 10px 0 0;
 }
 
 /* --- Go Pro upgrade popup (Want More? Go Pro!!) --- */
