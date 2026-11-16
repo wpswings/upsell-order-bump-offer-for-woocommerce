@@ -3107,8 +3107,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 				return 'live_offer';
 			}
-		} elseif ( current_user_can( 'manage_options' ) ) {
-
+		} elseif ( current_user_can( 'manage_woocommerce' ) ) {
+			// Same capability as the plugin's admin pages ( e.g. the heatmap preview ),
+			// so shop managers don't get an empty upsell preview.
 			return 'admin_view';
 		}
 

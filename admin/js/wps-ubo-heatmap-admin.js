@@ -190,8 +190,11 @@
 		state.target = null;
 	}
 
-	function loadBumpPreview( f ) {
+	function loadBumpPreview( f, id ) {
 		return post( 'wps_ubo_heatmap_preview', f ).then( ( res ) => {
+			if ( id !== state.requestId ) {
+				return; // A newer selection is loading: don't show this offer's preview under it.
+			}
 			clearPreview();
 			const width = WIDTHS.bump[ f.device ] || 600;
 			el.preview.style.width = width + 'px';
@@ -207,7 +210,7 @@
 			holder.innerHTML = res.html || ''; // Already sanitized server-side with wp_kses().
 			el.preview.appendChild( holder );
 
-			state.target = holder.querySelector( '.wps_upsell_offer_main_wrapper' );
+			state.target = holder.querySelector( '.wps_upsell_offer_main_wrapper, [id^="wps_upsell_offer_main_id_"], .wps-ubo-game[data-bump-id]' );
 			if ( ! state.target ) {
 				holder.classList.add( 'is-blank' );
 				state.target = holder;
@@ -218,8 +221,11 @@
 		} );
 	}
 
-	function loadUpsellPreview( f ) {
+	function loadUpsellPreview( f, id ) {
 		return post( 'wps_ubo_heatmap_preview', f ).then( ( res ) => {
+			if ( id !== state.requestId ) {
+				return; // Superseded.
+			}
 			clearPreview();
 			const width = WIDTHS.upsell[ f.device ] || 1280;
 
@@ -413,7 +419,7 @@
 		};
 		set( 'views', fmt( t.views ) );
 		set( 'clicks', fmt( t.clicks ) );
-		set( 'ctr', t.views ? ( ( t.clicks / t.views ) * 100 ).toFixed( 1 ) + '%' : '–' );
+		set( 'ctr', t.viewers ? ( Math.min( 1, ( t.clickers || 0 ) / t.viewers ) * 100 ).toFixed( 1 ) + '%' : '–' );
 		set( 'visitors', fmt( t.visitors ) );
 	}
 
@@ -433,7 +439,8 @@
 
 	function renderZones() {
 		const zones = ( state.data && state.data.zones ) || {};
-		const rows = Object.keys( zones ).map( ( key ) => ( { key, click: zones[ key ].click || 0, hover: zones[ key ].hover || 0 } ) );
+		const viewers = ( state.data && state.data.totals && state.data.totals.viewers ) || 0;
+		const rows = Object.keys( zones ).map( ( key ) => ( { key, click: zones[ key ].click || 0, hover: zones[ key ].hover || 0, clickers: zones[ key ].clickers || 0 } ) );
 		const totalClicks = rows.reduce( ( s, r ) => s + r.click, 0 );
 		rows.sort( ( a, b ) => b.click - a.click || b.hover - a.hover );
 
@@ -441,7 +448,7 @@
 		if ( ! rows.length ) {
 			const tr = document.createElement( 'tr' );
 			const td = document.createElement( 'td' );
-			td.colSpan = 4;
+			td.colSpan = 5;
 			td.textContent = cfg.i18n.noData;
 			tr.appendChild( td );
 			el.zones.appendChild( tr );
@@ -468,11 +475,16 @@
 			pct.className = 'num';
 			pct.textContent = share.toFixed( 1 ) + '%';
 
+			// Click rate: share of visitors who saw the offer and clicked this zone.
+			const rate = document.createElement( 'td' );
+			rate.className = 'num';
+			rate.textContent = viewers ? ( Math.min( 1, r.clickers / viewers ) * 100 ).toFixed( 1 ) + '%' : '–';
+
 			const hovers = document.createElement( 'td' );
 			hovers.className = 'num';
 			hovers.textContent = fmt( r.hover );
 
-			tr.append( name, clicks, pct, hovers );
+			tr.append( name, clicks, pct, rate, hovers );
 			tr.addEventListener( 'mouseenter', () => highlightZone( r.key ) );
 			tr.addEventListener( 'mouseleave', () => highlightZone( null ) );
 			el.zones.appendChild( tr );
@@ -500,7 +512,7 @@
 		el.loading.hidden = false;
 
 		const previewPromise = withPreview
-			? ( f.offer_type === 'upsell' ? loadUpsellPreview( f ) : loadBumpPreview( f ) )
+			? ( f.offer_type === 'upsell' ? loadUpsellPreview( f, id ) : loadBumpPreview( f, id ) )
 			: Promise.resolve();
 
 		Promise.all( [ post( 'wps_ubo_heatmap_data', f ), previewPromise ] )

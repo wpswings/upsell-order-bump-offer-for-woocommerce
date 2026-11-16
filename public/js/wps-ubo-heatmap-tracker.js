@@ -21,12 +21,17 @@
 		return;
 	}
 
-	var BUMP_SELECTOR = '.wps_upsell_offer_main_wrapper';
-	var BUMP_ID_RE    = /^wps_upsell_offer_main_id_(\d+)$/;
+	// Templates 6-9 render the container as <section id="wps_upsell_offer_main_id_N"> without the
+	// wrapper class, and a gamified bump is a .wps-ubo-game until the prize is revealed.
+	var BUMP_SELECTOR  = '.wps_upsell_offer_main_wrapper, [id^="wps_upsell_offer_main_id_"], .wps-ubo-game[data-bump-id]';
+	var BUMP_ID_RE     = /^wps_upsell_offer_main_id_(\d+)$/;
+	// Real popup containers ( not e.g. the "wps_order_bump_without_popup_wrap" wrapper ).
+	var POPUP_SELECTOR = '.wps_uobo_product_popup, .wps-popup-content, .wps_bump_popup_wrapper, .wrapup_order_bump .popup';
 
 	var queue    = [];
 	var tracked  = new WeakMap(); // container -> state.
 	var viewed   = {};            // offer key -> true (one view per offer per page view).
+	var caps     = {};            // offer key -> { clicks, hovers }: limits survive re-renders.
 	var observer = null;
 
 	/* ------------------------------------------------------------------ */
@@ -189,14 +194,17 @@
 		}
 		tracked.set( el, state );
 		state.el = el;
-		state.clicks = 0;
-		state.hovers = 0;
+		// Per-offer counters ( not per element ): a re-rendered bump is a new element and
+		// must not get a fresh allowance of clicks / hovers.
+		var capKey = state.type + ':' + state.offerId + ':' + state.subOfferId;
+		caps[ capKey ] = caps[ capKey ] || { clicks: 0, hovers: 0 };
+		state.cap = caps[ capKey ];
 		state.lastHoverAt = 0;
 		state.lastHover = null;
 
 		// Clicks. "click" also fires for keyboard activation (clientX = 0) – skip those, they carry no position.
 		el.addEventListener( 'click', function ( ev ) {
-			if ( state.clicks >= cfg.maxClicks || ( ev.clientX === 0 && ev.clientY === 0 && ev.detail === 0 ) ) {
+			if ( state.cap.clicks >= cfg.maxClicks || ( ev.clientX === 0 && ev.clientY === 0 && ev.detail === 0 ) ) {
 				return;
 			}
 			// A <label> click re-dispatches a click on its input: count the gesture once.
@@ -205,7 +213,7 @@
 				return;
 			}
 			state.lastClickAt = now;
-			state.clicks++;
+			state.cap.clicks++;
 			onPointer( state, ev, 'click' );
 			// Accepting an offer usually triggers a fragment refresh or navigation.
 			flush();
@@ -217,7 +225,7 @@
 				if ( ev.pointerType && ev.pointerType !== 'mouse' ) {
 					return;
 				}
-				if ( state.hovers >= cfg.maxHovers ) {
+				if ( state.cap.hovers >= cfg.maxHovers ) {
 					return;
 				}
 				var now = Date.now();
@@ -233,7 +241,7 @@
 				}
 				state.lastHoverAt = now;
 				state.lastHover = p;
-				state.hovers++;
+				state.cap.hovers++;
 				var evt = base( state, 'hover' );
 				evt.x = p.x;
 				evt.y = p.y;
@@ -268,15 +276,21 @@
 	function scanBumps( root ) {
 		var list = ( root || document ).querySelectorAll ? ( root || document ).querySelectorAll( BUMP_SELECTOR ) : [];
 		Array.prototype.forEach.call( list, function ( el ) {
-			var m = BUMP_ID_RE.exec( el.id || '' );
-			if ( ! m ) {
+			var m  = BUMP_ID_RE.exec( el.id || '' );
+			var id = m ? parseInt( m[ 1 ], 10 ) : parseInt( el.getAttribute( 'data-bump-id' ) || '', 10 );
+			if ( ! id ) {
+				return;
+			}
+			// A container nested in another tracked container of the same bump is the same offer.
+			var parent = el.parentElement && el.parentElement.closest ? el.parentElement.closest( BUMP_SELECTOR ) : null;
+			if ( parent && tracked.has( parent ) && tracked.get( parent ).offerId === id ) {
 				return;
 			}
 			var ctx = cfg.context;
-			if ( el.closest && el.closest( '[class*="popup"]' ) ) {
+			if ( el.closest && el.closest( POPUP_SELECTOR ) ) {
 				ctx = 'popup';
 			}
-			bind( el, { type: 'bump', offerId: parseInt( m[ 1 ], 10 ), subOfferId: 0, context: ctx } );
+			bind( el, { type: 'bump', offerId: id, subOfferId: 0, context: ctx } );
 		} );
 	}
 

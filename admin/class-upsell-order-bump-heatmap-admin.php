@@ -104,6 +104,7 @@ class Upsell_Order_Bump_Heatmap_Admin {
 		wp_enqueue_script( 'wps-ubo-heatmap-admin', $base . 'admin/js/wps-ubo-heatmap-admin.js', array(), $this->version, true );
 
 		$zone_labels = array(
+			'game'            => __( 'Spin wheel / scratch card', 'upsell-order-bump-offer-for-woocommerce' ),
 			'accept_checkbox' => __( 'Accept checkbox', 'upsell-order-bump-offer-for-woocommerce' ),
 			'accept_button'   => __( 'Accept button', 'upsell-order-bump-offer-for-woocommerce' ),
 			'accept_text'     => __( 'Accept bar / text', 'upsell-order-bump-offer-for-woocommerce' ),
@@ -396,7 +397,8 @@ class Upsell_Order_Bump_Heatmap_Admin {
 			'enabled'        => ( isset( $_POST['enabled'] ) && 'on' === sanitize_key( wp_unslash( $_POST['enabled'] ) ) ) ? 'on' : 'off',
 			'track_hover'    => ( isset( $_POST['track_hover'] ) && 'on' === sanitize_key( wp_unslash( $_POST['track_hover'] ) ) ) ? 'on' : 'off',
 			'sample_rate'    => isset( $_POST['sample_rate'] ) ? min( 100, max( 1, absint( $_POST['sample_rate'] ) ) ) : 100,
-			'retention_days' => isset( $_POST['retention_days'] ) ? min( 730, max( 1, absint( $_POST['retention_days'] ) ) ) : 90,
+			// Clamp before absint(): absint( -3 ) would save 3.
+			'retention_days' => isset( $_POST['retention_days'] ) ? min( 730, max( 1, (int) sanitize_text_field( wp_unslash( $_POST['retention_days'] ) ) ) ) : 90,
 		);
 		// phpcs:enable
 
