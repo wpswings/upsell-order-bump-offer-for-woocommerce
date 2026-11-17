@@ -14,6 +14,10 @@
  *   order <id>            Order status + line items with their plugin meta.
  *   heatmap-count         Heatmap events stored for the seeded bump.
  *   bump                  The seeded bump as stored.
+ *   env                   Whether the Pro plugin is active ( it replaces the free upsell funnels ).
+ *   funnel-on             Free upsell funnel: E2E Beanie -> E2E Lens Cap at 50% on an offer page.
+ *   funnel-off            Remove the funnel again.
+ *   funnel                The seeded funnel as stored ( stats ).
  *
  * WARNING: setup changes the site's plugin settings until teardown runs.
  *
@@ -252,6 +256,9 @@ switch ( $wps_cmd ) {
 		foreach ( wc_get_products( array( 'limit' => -1, 'status' => 'any', 'meta_key' => '_wps_ubo_e2e', 'return' => 'ids' ) ) as $pid ) { // phpcs:ignore WordPress.DB.SlowDBQuery.slow_query_meta_key
 			wp_delete_post( $pid, true );
 		}
+		if ( ! empty( $state['offer_page'] ) ) {
+			wp_delete_post( (int) $state['offer_page'], true );
+		}
 		if ( ! empty( $state['user_id'] ) ) {
 			require_once ABSPATH . 'wp-admin/includes/user.php';
 			wp_delete_user( (int) $state['user_id'] );
@@ -332,12 +339,14 @@ switch ( $wps_cmd ) {
 				'bump'       => $item->get_meta( 'is_order_bump_purchase' ),
 				'acr_offer'  => $item->get_meta( '_wps_ubo_acr_offer' ),
 				'game_prize' => $item->get_meta( '_wps_ubo_game_prize' ),
+				'upsell'     => $item->get_meta( 'is_upsell_purchase' ),
 			);
 		}
 		wps_e2e_out(
 			array(
 				'status'        => $order->get_status(),
 				'email'         => $order->get_billing_email(),
+				'total'         => (float) $order->get_total(),
 				'bump_order'    => $order->get_meta( 'wps_bump_order' ),
 				'acr_recovered' => $order->get_meta( '_wps_ubo_acr_recovered' ),
 				'items'         => $items,
@@ -356,6 +365,61 @@ switch ( $wps_cmd ) {
 
 	case 'bump':
 		$list = get_option( 'wps_ubo_bump_list', array() );
+		wps_e2e_out( isset( $list[1] ) ? $list[1] : null );
+		break;
+
+	case 'env':
+		wps_e2e_out( array( 'pro' => wps_ubo_lite_if_pro_exists() ) );
+		break;
+
+	case 'funnel-on':
+		$state = wps_e2e_state();
+		if ( empty( $state['offer_page'] ) || 'publish' !== get_post_status( $state['offer_page'] ) ) {
+			$state['offer_page'] = wp_insert_post(
+				array(
+					'post_title'   => 'E2E Offer',
+					'post_name'    => 'e2e-offer',
+					'post_status'  => 'publish',
+					'post_type'    => 'page',
+					'post_content' => '<!-- wp:html --><div class="e2e-offer"><h2 class="e2e-offer-title">[wps_upsell_title]</h2><div class="e2e-offer-price">[wps_upsell_price]</div><a class="e2e-offer-buy" href="[wps_upsell_yes]">Add this to my Order</a> <a class="e2e-offer-no" href="[wps_upsell_no]">No thanks</a></div><!-- /wp:html -->',
+					'meta_input'   => array( '_wps_ubo_e2e' => 1 ),
+				)
+			);
+			update_option( WPS_E2E_STATE, $state, false );
+		}
+		update_option(
+			'wps_wocuf_funnels_list',
+			array(
+				1 => array(
+					'wps_wocuf_funnel_id'             => '1',
+					'wps_wocuf_funnel_name'           => 'E2E funnel',
+					'wps_upsell_funnel_status'        => 'yes',
+					'wps_upsell_fsav3'                => 'true',
+					'wps_wocuf_global_funnel'         => 'no',
+					'wps_wocuf_pro_funnel_schedule'   => array( '7' ),
+					'wps_wocuf_target_pro_ids'        => array( (string) $state['products']['recovery'] ),
+					'target_categories_ids'           => array(),
+					'wps_wocuf_products_in_offer'     => array( 1 => (string) $state['products']['offer'] ),
+					'wps_wocuf_offer_discount_price'  => array( 1 => '50%' ),
+					'wps_wocuf_applied_offer_number'  => array( 1 => '1' ),
+					'wps_wocuf_attached_offers_on_buy' => array( 1 => 'thanks' ),
+					'wps_wocuf_attached_offers_on_no' => array( 1 => 'thanks' ),
+					'wps_wocuf_pro_offer_template'    => array( 1 => 'custom' ),
+					'wps_wocuf_offer_custom_page_url' => array( 1 => get_permalink( $state['offer_page'] ) ),
+					'wps_upsell_post_id_assigned'     => array(),
+				),
+			)
+		);
+		wps_e2e_out( array( 'offerPage' => get_permalink( $state['offer_page'] ) ) );
+		break;
+
+	case 'funnel-off':
+		update_option( 'wps_wocuf_funnels_list', array() );
+		wps_e2e_out( array( 'ok' => true ) );
+		break;
+
+	case 'funnel':
+		$list = get_option( 'wps_wocuf_funnels_list', array() );
 		wps_e2e_out( isset( $list[1] ) ? $list[1] : null );
 		break;
 

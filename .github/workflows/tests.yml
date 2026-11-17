@@ -1,16 +1,14 @@
 name: Tests
 
-# Runs the PHPUnit (unit + integration) and Playwright (E2E) suites on every pull request.
-# See docs/WPS-7886-test-cases.md.
+# Runs the PHPUnit (unit + integration) and Playwright (E2E) suites on every push (commit)
+# and every pull request. See docs/WPS-7886-test-cases.md.
 on:
+  push:
   pull_request:
-    branches:
-      - master
-      - 'release/**'
   workflow_dispatch:
 
 concurrency:
-  group: tests-${{ github.event.pull_request.number || github.ref }}
+  group: tests-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
 permissions:

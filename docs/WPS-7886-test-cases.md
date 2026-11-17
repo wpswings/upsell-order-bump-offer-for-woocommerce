@@ -1,14 +1,18 @@
 # WPS-7886 — Automated test cases (unit, integration, E2E)
 
-This suite covers the plugin's main features: the core order bump, the admin settings and list, and the four 3.1.8 features (Offer Heatmaps, Smart Recommendations, Spin & Scratch bumps and Cart Recovery).
+This suite covers the plugin's main features: the core order bump, the free one-click upsell funnel, the admin settings and list, and the four 3.1.8 features (Offer Heatmaps, Smart Recommendations, Spin & Scratch bumps and Cart Recovery).
+
+The Pro plugin has its own suite (unit, integration and E2E) in its repository, under `tests/` (see `tests/README.md` there).
 
 | Layer | Tool | Where | Count |
 |---|---|---|---|
-| Unit | PHPUnit 9 + WordPress test suite + WooCommerce | `tests/php/unit/` | 116 tests |
-| Integration | same | `tests/php/integration/` | 72 tests |
-| End-to-end | Playwright (system Chrome) | `tests/e2e/specs/` | 33 tests + 1 known-bug test |
+| Unit | PHPUnit 9 + WordPress test suite + WooCommerce | `tests/php/unit/` | 147 tests |
+| Integration | same | `tests/php/integration/` | 101 tests |
+| End-to-end | Playwright (system Chrome) | `tests/e2e/specs/` | 38 tests, including 1 known-bug test |
 
-The PHPUnit run reports **202** tests. Data providers expand the 188 test methods.
+The PHPUnit run reports **248** tests. Data providers expand the 234 test methods.
+
+The 5 free-funnel E2E tests (`06-upsell-funnel`) are skipped on a site where the Pro plugin is active, because Pro replaces the free funnels with its own. They run in CI, where only the free plugin is installed.
 
 Nothing here ships with the plugin. All tooling is dev-only: `composer.json` (require-dev), `package.json` (devDependencies), `phpunit.xml.dist`, `playwright.config.js`, `bin/` and `tests/`.
 
@@ -66,9 +70,9 @@ npm run test:e2e:report      # HTML report of the last run
 
 Specs run one at a time (`workers: 1`) because they share the store's settings.
 
-### On GitHub (every pull request)
+### On GitHub (every commit and pull request)
 
-`.github/workflows/tests.yml` runs on every pull request to `master` or `release/**`. It can also be started by hand from the Actions tab (workflow_dispatch). It has two jobs that run in parallel:
+`.github/workflows/tests.yml` runs on every push (commit) to any branch and on every pull request. It can also be started by hand from the Actions tab (workflow_dispatch). It has two jobs that run in parallel:
 
 | Job | What it does |
 |---|---|
@@ -77,7 +81,7 @@ Specs run one at a time (`workers: 1`) because they share the store's settings.
 
 - **Versions** are set by the `WP_VERSION`, `WC_VERSION` and `PHP_VERSION` env values at the top of the workflow. WooCommerce is pinned because `woocommerce.zip` ("latest") was serving a beta.
 - **Merge rule:** to block merging on failing tests, mark both jobs as required checks in the branch protection rules for `release/*`.
-- **Checked locally:** both jobs were dry-run on a fresh WordPress downloaded by `bin/ci-install-wp.sh`. PHPUnit gave 202 tests passing; Playwright gave 33 passing.
+- **Checked locally:** both jobs were dry-run on a fresh WordPress downloaded by `bin/ci-install-wp.sh`. On the Local site with Pro deactivated, PHPUnit gave 248 tests passing and Playwright gave 38 passing.
 
 ---
 
@@ -107,6 +111,16 @@ Specs run one at a time (`workers: 1`) because they share the store's settings.
 | | **Block checkout, add/remove:** ticking adds the offer at 20 % off (₹50 → ₹40 in the cart), and unticking removes it. |
 | | **Placing an order:** the order is placed through the real checkout UI, with bump meta and the discounted line total. |
 | | **Cart:** removing the target also removes the bump. |
+
+### Free one-click upsell funnel
+
+| Test | What it proves |
+|---|---|
+| `integration/UpsellFunnelLiteTest` | **Starting a funnel:** an order with the target product (block checkout, Cash on delivery) stores the offer link with the funnel, offer, order key and nonce; the thank-you URL is replaced by the offer link; trigger and view stats are counted. |
+| | **When no funnel starts:** no funnels, no target product, an unsupported payment method (free funnels support Cash on delivery), a sandbox funnel for customers (admins still get it), offer already in the order (unless the skip is turned off), offer out of stock, another weekday in the schedule. |
+| | **Targeting:** target category and global funnels; exclusive offers once per email; smart skip for offers bought before; smart offer upgrade remembers the target item. |
+| | **Offer price:** percentage and fixed funnel prices. |
+| `e2e/06-upsell-funnel` | **Real browser:** an order without the target goes straight to the thank-you page; with the target the customer lands on the offer page showing the offer at 50 % off; "No thanks" keeps the order as placed; "Add this to my Order" adds the offer to the same order at the funnel price; the funnel stats count the views and the accepted offer. |
 
 ### Admin
 
