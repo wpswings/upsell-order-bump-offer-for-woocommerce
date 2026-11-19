@@ -448,6 +448,64 @@ class Upsell_Order_Bump_Heatmap_Db {
 	}
 
 	/**
+	 * Delete the data of bumps removed from the bump list.
+	 *
+	 * The Pro plugin numbers a new bump "last id + 1", so after the last bump is deleted
+	 * the next one gets its id; without this the new bump would show the old bump's data.
+	 *
+	 * @param mixed $old_value Previous bump list.
+	 * @param mixed $value     New bump list.
+	 * @return void
+	 */
+	public static function purge_removed_bumps( $old_value, $value ) {
+		$removed = array_diff( array_keys( (array) $old_value ), array_keys( (array) $value ) );
+		self::delete_offers( 'bump', $removed );
+	}
+
+	/**
+	 * Delete the data of funnels removed from the funnel list.
+	 *
+	 * The free and the Pro plugin keep separate funnel lists ( Pro copies the free funnels ),
+	 * so a funnel is only purged once it is in neither of them.
+	 *
+	 * @param mixed $old_value Previous funnel list.
+	 * @param mixed $value     New funnel list.
+	 * @return void
+	 */
+	public static function purge_removed_funnels( $old_value, $value ) {
+		$removed = array_diff( array_keys( (array) $old_value ), array_keys( (array) $value ) );
+		if ( empty( $removed ) ) {
+			return;
+		}
+		$live    = array_merge(
+			array_keys( (array) get_option( 'wps_wocuf_funnels_list', array() ) ),
+			array_keys( (array) get_option( 'wps_wocuf_pro_funnels_list', array() ) )
+		);
+		self::delete_offers( 'upsell', array_diff( $removed, $live ) );
+	}
+
+	/**
+	 * Delete all events of some offers.
+	 *
+	 * @param string $offer_type bump|upsell.
+	 * @param array  $offer_ids  Offer ( bump / funnel ) ids.
+	 * @return void
+	 */
+	public static function delete_offers( $offer_type, $offer_ids ) {
+		global $wpdb;
+
+		$offer_ids = array_filter( array_map( 'absint', (array) $offer_ids ) );
+		if ( empty( $offer_ids ) || ! in_array( $offer_type, self::OFFER_TYPES, true ) ) {
+			return;
+		}
+
+		$table        = self::table();
+		$placeholders = implode( ',', array_fill( 0, count( $offer_ids ), '%d' ) );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE offer_type = %s AND offer_id IN ({$placeholders})", array_merge( array( $offer_type ), $offer_ids ) ) );
+	}
+
+	/**
 	 * Delete everything.
 	 *
 	 * @return void

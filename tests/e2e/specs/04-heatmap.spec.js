@@ -48,3 +48,63 @@ test( 'tracker is not loaded for shop managers', async ( { browser } ) => {
 	expect( await ap.evaluate( () => typeof ( /** @type {any} */ ( window ).wpsUboHeatmap ) ) ).toBe( 'undefined' );
 	await admin.close();
 } );
+
+test.describe( 'two bumps on the checkout (WPS-8456)', () => {
+	// The free plugin shows one bump at a time; several bumps on the checkout need Pro.
+	test.skip( () => ! wp( 'env' ).pro, 'Several bumps on the checkout need the Pro plugin.' );
+
+	test.beforeAll( () => {
+		wp( 'bump2-on' );
+	} );
+
+	test.afterAll( () => {
+		wp( 'gamified', 'off' );
+		wp( 'bump2-off' );
+	} );
+
+	/**
+	 * Click the middle of bump 2 and wait until the tracker has sent it.
+	 *
+	 * @param {import('@playwright/test').Page} page Page.
+	 */
+	async function clickBump2( page ) {
+		const bump = page.locator( '#wps_upsell_offer_main_id_2' );
+		await expect( bump ).toBeVisible();
+		await bump.scrollIntoViewIfNeeded();
+		const box = /** @type {{x:number,y:number,width:number,height:number}} */ ( await bump.boundingBox() );
+		const tracked = page.waitForRequest( ( r ) => isAjax( r, 'wps_ubo_heatmap_track' ) && /"o":2/.test( r.postData() || '' ), { timeout: 30_000 } );
+		await page.mouse.click( box.x + box.width / 2, box.y + 10 );
+		await page.evaluate( () => document.dispatchEvent( new Event( 'visibilitychange' ) ) );
+		await tracked;
+	}
+
+	test( 'clicks on bump 2 are stored under bump 2, not bump 1', async ( { page } ) => {
+		const before = { b1: wp( 'heatmap-count', '1' ).count, b2: wp( 'heatmap-count', '2' ).count };
+		const { products } = state();
+		await fillCart( page, [ products.target ] );
+		await openCheckout( page );
+		await expect( page.locator( '#wps_upsell_offer_main_id_1' ) ).toBeVisible();
+		await page.waitForFunction( () => !! ( /** @type {any} */ ( window ).wpsUboHeatmap ) );
+		await clickBump2( page );
+		await expect.poll( () => wp( 'heatmap-count', '2' ).count, { timeout: 20_000 } ).toBeGreaterThan( before.b2 );
+		// Bump 1 may record its own impression, never bump 2's click.
+		expect( wp( 'heatmap-count', '1' ).count - before.b1 ).toBeLessThanOrEqual( 1 );
+	} );
+
+	test( 'a spin-wheel bump 2 is tracked as bump 2 before and after the reveal', async ( { page } ) => {
+		wp( 'gamified', 'spin_wheel:2' );
+		const before = { b1: wp( 'heatmap-count', '1' ).count, b2: wp( 'heatmap-count', '2' ).count };
+		const { products } = state();
+		await fillCart( page, [ products.target ] );
+		await openCheckout( page );
+		await page.waitForFunction( () => !! ( /** @type {any} */ ( window ).wpsUboHeatmap ) );
+		const game = page.locator( '.wps-ubo-game[data-bump-id="2"]' );
+		await expect( game ).toBeVisible();
+		const played = ajaxResponse( page, 'wps_ubo_game_play' );
+		await game.locator( '.wps-ubo-game__play' ).click();
+		await played;
+		await clickBump2( page );
+		await expect.poll( () => wp( 'heatmap-count', '2' ).count, { timeout: 20_000 } ).toBeGreaterThanOrEqual( before.b2 + 2 );
+		expect( wp( 'heatmap-count', '1' ).count - before.b1 ).toBeLessThanOrEqual( 1 );
+	} );
+} );

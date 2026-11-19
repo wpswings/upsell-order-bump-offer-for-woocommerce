@@ -358,6 +358,57 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( $r['data'], get_option( Upsell_Order_Bump_Heatmap_Db::SETTINGS_OPTION ) );
 	}
 
+	/* ---------------------------------- deleted offers ( WPS-8456 ) */
+
+	private function offer_ids( $offer_type ) {
+		global $wpdb;
+		return array_map( 'intval', $wpdb->get_col( $wpdb->prepare( 'SELECT DISTINCT offer_id FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' WHERE offer_type = %s ORDER BY offer_id', $offer_type ) ) ); // phpcs:ignore
+	}
+
+	public function test_deleting_a_bump_deletes_only_its_heatmap_data() {
+		update_option( 'wps_ubo_bump_list', array( 1 => array( 'wps_upsell_bump_status' => 'yes' ), 2 => array( 'wps_upsell_bump_status' => 'yes' ) ) );
+		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row( array( 'offer_id' => 1 ) ), $this->row( array( 'offer_id' => 2 ) ), $this->row( array( 'offer_id' => 2, 'event_type' => 'view' ) ) ) );
+
+		// Same delete as the bump list screen: the bump is unset and the list saved.
+		$list = get_option( 'wps_ubo_bump_list' );
+		unset( $list[2] );
+		update_option( 'wps_ubo_bump_list', $list );
+		$this->assertSame( array( 1 ), $this->offer_ids( 'bump' ) );
+
+		// A new bump that reuses id 2 starts without the deleted bump's clicks.
+		$list[2] = array( 'wps_upsell_bump_status' => 'yes' );
+		update_option( 'wps_ubo_bump_list', $list );
+		$r = Upsell_Order_Bump_Heatmap_Db::get_totals( $this->filters( array( 'offer_id' => 2 ) ) );
+		$this->assertSame( 0, $r['clicks'] + $r['views'] );
+	}
+
+	public function test_editing_a_bump_keeps_its_heatmap_data() {
+		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row() ) );
+		$list = get_option( 'wps_ubo_bump_list' );
+		$list[7]['wps_ubo_selected_template'] = '5';
+		update_option( 'wps_ubo_bump_list', $list );
+		$this->assertSame( array( 7 ), $this->offer_ids( 'bump' ) );
+	}
+
+	public function test_deleted_funnel_data_is_kept_while_the_other_plugin_still_has_it() {
+		update_option( 'wps_wocuf_pro_funnels_list', array( 4 => array( 'wps_wocuf_pro_funnel_name' => 'Copy' ) ) );
+		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row( array( 'offer_type' => 'upsell', 'offer_id' => 4, 'sub_offer_id' => 1 ) ) ) );
+
+		update_option( 'wps_wocuf_funnels_list', array() );
+		$this->assertSame( array( 4 ), $this->offer_ids( 'upsell' ), 'Still a Pro funnel.' );
+
+		update_option( 'wps_wocuf_pro_funnels_list', array( 5 => array() ) );
+		$this->assertSame( array(), $this->offer_ids( 'upsell' ), 'Gone from both lists.' );
+		delete_option( 'wps_wocuf_pro_funnels_list' );
+	}
+
+	public function test_delete_offers_ignores_bad_input() {
+		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row() ) );
+		Upsell_Order_Bump_Heatmap_Db::delete_offers( 'nope', array( 7 ) );
+		Upsell_Order_Bump_Heatmap_Db::delete_offers( 'bump', array( 0, 'x' ) );
+		$this->assertSame( array( 7 ), $this->offer_ids( 'bump' ) );
+	}
+
 	/* ------------------------------------------------- funnels ( WPS-8455 ) */
 
 	/**
