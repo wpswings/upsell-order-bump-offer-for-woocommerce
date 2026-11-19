@@ -103,6 +103,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		$this->loader->add_action( Upsell_Order_Bump_Heatmap_Db::PURGE_CRON, 'Upsell_Order_Bump_Heatmap_Db', 'purge_old' );
 		$this->loader->add_action( 'admin_init', 'Upsell_Order_Bump_Heatmap_Public', 'add_privacy_policy_content' );
 
+		// A deleted bump or funnel takes its heatmap data with it: new bumps can reuse the id.
+		$this->loader->add_action( 'update_option_wps_ubo_bump_list', 'Upsell_Order_Bump_Heatmap_Db', 'purge_removed_bumps', 10, 2 );
+		$this->loader->add_action( 'update_option_wps_wocuf_funnels_list', 'Upsell_Order_Bump_Heatmap_Db', 'purge_removed_funnels', 10, 2 );
+		$this->loader->add_action( 'update_option_wps_wocuf_pro_funnels_list', 'Upsell_Order_Bump_Heatmap_Db', 'purge_removed_funnels', 10, 2 );
+
 		// Admin: report page, data and settings endpoints.
 		$heatmap_admin = new Upsell_Order_Bump_Heatmap_Admin( $this->get_version() );
 		$this->loader->add_action( 'admin_menu', $heatmap_admin, 'add_menu', 20 );
