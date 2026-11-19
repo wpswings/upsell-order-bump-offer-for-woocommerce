@@ -408,4 +408,90 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		Upsell_Order_Bump_Heatmap_Db::delete_offers( 'bump', array( 0, 'x' ) );
 		$this->assertSame( array( 7 ), $this->offer_ids( 'bump' ) );
 	}
+
+	/* ------------------------------------------------- funnels ( WPS-8455 ) */
+
+	/**
+	 * Pretend the Pro plugin is active.
+	 */
+	public static function with_pro( $plugins ) {
+		$plugins   = (array) $plugins;
+		$plugins[] = 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php';
+		return $plugins;
+	}
+
+	private function pro_funnels() {
+		add_filter( 'pre_option_active_plugins', array( __CLASS__, 'with_pro' ), 20 );
+		update_option(
+			'wps_wocuf_pro_funnels_list',
+			array(
+				9 => array(
+					'wps_wocuf_pro_funnel_name'           => 'Pro funnel',
+					'wps_wocuf_pro_products_in_offer'     => array( 1 => '20', 2 => '21' ),
+					'wps_wocuf_pro_offer_template'        => array( 1 => 'one' ),
+					'wps_wocuf_pro_offer_custom_page_url' => array( 2 => home_url( '/pro-offer/' ) ),
+					'wps_upsell_post_id_assigned'         => array( 1 => '' ),
+				),
+			)
+		);
+	}
+
+	public function tear_down() {
+		remove_filter( 'pre_option_active_plugins', array( __CLASS__, 'with_pro' ), 20 );
+		delete_option( 'wps_wocuf_pro_funnels_list' );
+		parent::tear_down();
+	}
+
+	public function test_funnels_come_from_the_free_list_without_pro() {
+		$funnels = Upsell_Order_Bump_Heatmap_Db::get_funnels();
+		$this->assertSame( array( 4 ), array_keys( $funnels ) );
+		$this->assertSame( array( 2 => 'https://example.org/x' ), $funnels[4]['custom_url'] );
+		$this->assertSame( array( 1 => 'two' ), $funnels[4]['template'] );
+	}
+
+	public function test_funnels_come_from_the_pro_list_when_pro_is_active() {
+		$this->pro_funnels();
+		$funnels = Upsell_Order_Bump_Heatmap_Db::get_funnels();
+		$this->assertSame( array( 9 ), array_keys( $funnels ) );
+		$this->assertSame( 'Pro funnel', $funnels[9]['name'] );
+		$this->assertSame( array( 1 => '20', 2 => '21' ), $funnels[9]['offers'] );
+		$this->assertSame( array( 2 => home_url( '/pro-offer/' ) ), $funnels[9]['custom_url'] );
+	}
+
+	public function test_pro_funnel_events_are_stored_with_the_pro_template() {
+		$this->pro_funnels();
+		$this->ingest(
+			array(
+				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'o' => 9, 's' => 1 ),
+				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'o' => 9, 's' => 2 ),
+				// Free-only funnel id: not a live funnel while Pro runs the funnels.
+				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'o' => 4, 's' => 1 ),
+			)
+		);
+		global $wpdb;
+		$this->assertSame( array( 'one', 'custom' ), $wpdb->get_col( 'SELECT template FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' ORDER BY id' ) ); // phpcs:ignore
+	}
+
+	public function test_upsell_preview_url_carries_the_funnel_and_offer() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$this->pro_funnels();
+		$r = $this->admin_call( 'ajax_get_preview', array( 'offer_type' => 'upsell', 'offer_id' => 9, 'sub_offer_id' => 2 ) );
+		$this->assertTrue( $r['success'] );
+		parse_str( (string) wp_parse_url( $r['data']['url'], PHP_URL_QUERY ), $query );
+		$this->assertStringStartsWith( home_url( '/pro-offer/' ), $r['data']['url'] );
+		$this->assertSame( array( 'wps_ubo_heatmap_preview' => '1', 'ocuf_fid' => '9', 'ocuf_ofd' => '2' ), $query );
+		$this->assertArrayNotHasKey( 'ocuf_ns', $query, 'No nonce: the preview can never act on a real order.' );
+	}
+
+	public function test_upsell_offer_catalog_lists_pro_funnels() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$this->pro_funnels();
+		$admin = new Upsell_Order_Bump_Heatmap_Admin( '3.1.8' );
+		$method = new ReflectionMethod( $admin, 'get_offer_catalog' );
+		$method->setAccessible( true );
+		$catalog = $method->invoke( $admin );
+		$this->assertSame( 9, $catalog['upsell'][0]['id'] );
+		$this->assertSame( 'Pro funnel', $catalog['upsell'][0]['name'] );
+		$this->assertSame( array( 1, 2 ), wp_list_pluck( $catalog['upsell'][0]['offers'], 'id' ) );
+	}
 }

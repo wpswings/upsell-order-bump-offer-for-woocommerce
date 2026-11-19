@@ -97,6 +97,52 @@ class Upsell_Order_Bump_Heatmap_Db {
 	}
 
 	/**
+	 * Upsell funnels in one shape for the heatmap, whichever plugin runs them.
+	 *
+	 * With the Pro plugin active the live funnels are saved in wps_wocuf_pro_funnels_list
+	 * with wps_wocuf_pro_* keys; the free plugin uses wps_wocuf_funnels_list.
+	 *
+	 * @return array funnel id => { name, offers: offer id => product id, template, custom_url, page }.
+	 */
+	public static function get_funnels() {
+		$pro    = function_exists( 'wps_ubo_lite_if_pro_exists' ) && wps_ubo_lite_if_pro_exists();
+		$list   = $pro ? get_option( 'wps_wocuf_pro_funnels_list', array() ) : array();
+		$prefix = 'wps_wocuf_pro_';
+		if ( empty( $list ) || ! is_array( $list ) ) {
+			$list   = get_option( 'wps_wocuf_funnels_list', array() );
+			$prefix = 'wps_wocuf_';
+		}
+
+		$funnels = array();
+		foreach ( is_array( $list ) ? $list : array() as $funnel_id => $funnel ) {
+			if ( ! is_array( $funnel ) ) {
+				continue;
+			}
+			$field = static function ( $key ) use ( $funnel, $prefix ) {
+				foreach ( array( $prefix . $key, 'wps_wocuf_' . $key, 'wps_wocuf_pro_' . $key ) as $name ) {
+					if ( isset( $funnel[ $name ] ) ) {
+						return $funnel[ $name ];
+					}
+				}
+				return array();
+			};
+
+			$name = $field( 'funnel_name' );
+
+			$funnels[ absint( $funnel_id ) ] = array(
+				'name'       => is_string( $name ) ? $name : '',
+				'offers'     => (array) $field( 'products_in_offer' ),
+				// Pro saves the template under the wps_wocuf_pro_ key in both plugins.
+				'template'   => (array) ( isset( $funnel['wps_wocuf_pro_offer_template'] ) ? $funnel['wps_wocuf_pro_offer_template'] : array() ),
+				'custom_url' => (array) $field( 'offer_custom_page_url' ),
+				'page'       => (array) ( isset( $funnel['wps_upsell_post_id_assigned'] ) ? $funnel['wps_upsell_post_id_assigned'] : array() ),
+			);
+		}
+
+		return $funnels;
+	}
+
+	/**
 	 * Create / upgrade the events table.
 	 *
 	 * @return void

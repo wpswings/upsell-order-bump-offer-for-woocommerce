@@ -148,7 +148,7 @@ class Upsell_Order_Bump_Heatmap_Public {
 		$offer_id  = absint( wp_unslash( $_GET['ocuf_ofd'] ) );
 		// phpcs:enable
 
-		$funnels = get_option( 'wps_wocuf_funnels_list', array() );
+		$funnels = Upsell_Order_Bump_Heatmap_Db::get_funnels();
 		if ( empty( $funnels[ $funnel_id ] ) ) {
 			return false;
 		}
@@ -308,7 +308,7 @@ class Upsell_Order_Bump_Heatmap_Public {
 
 		$lookups = array(
 			'bumps'   => get_option( 'wps_ubo_bump_list', array() ),
-			'funnels' => get_option( 'wps_wocuf_funnels_list', array() ),
+			'funnels' => Upsell_Order_Bump_Heatmap_Db::get_funnels(),
 			'zones'   => self::allowed_zones(),
 		);
 
@@ -378,8 +378,8 @@ class Upsell_Order_Bump_Heatmap_Public {
 				return false;
 			}
 			$funnel   = $lookups['funnels'][ $offer_id ];
-			$template = ! empty( $funnel['wps_wocuf_pro_offer_template'][ $sub_offer ] ) ? (string) $funnel['wps_wocuf_pro_offer_template'][ $sub_offer ] : 'default';
-			if ( ! empty( $funnel['wps_wocuf_offer_custom_page_url'][ $sub_offer ] ) ) {
+			$template = ! empty( $funnel['template'][ $sub_offer ] ) ? (string) $funnel['template'][ $sub_offer ] : 'default';
+			if ( ! empty( $funnel['custom_url'][ $sub_offer ] ) ) {
 				$template = 'custom';
 			}
 		}

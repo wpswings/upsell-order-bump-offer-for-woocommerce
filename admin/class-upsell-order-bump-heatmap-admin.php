@@ -175,27 +175,20 @@ class Upsell_Order_Bump_Heatmap_Admin {
 			}
 		}
 
-		$funnels = get_option( 'wps_wocuf_funnels_list', array() );
-		if ( is_array( $funnels ) ) {
-			foreach ( $funnels as $funnel_id => $funnel ) {
-				if ( ! is_array( $funnel ) ) {
-					continue;
-				}
-				$offers = array();
-				$items  = ! empty( $funnel['wps_wocuf_products_in_offer'] ) && is_array( $funnel['wps_wocuf_products_in_offer'] ) ? $funnel['wps_wocuf_products_in_offer'] : array();
-				foreach ( array_keys( $items ) as $offer_id ) {
-					$offers[] = array(
-						'id'   => absint( $offer_id ),
-						/* translators: %d: offer number inside the funnel */
-						'name' => sprintf( __( 'Offer #%d', 'upsell-order-bump-offer-for-woocommerce' ), $offer_id ),
-					);
-				}
-				$catalog['upsell'][] = array(
-					'id'     => absint( $funnel_id ),
-					'name'   => ! empty( $funnel['wps_wocuf_funnel_name'] ) ? sanitize_text_field( $funnel['wps_wocuf_funnel_name'] ) : sprintf( /* translators: %d: funnel id */ __( 'Funnel #%d', 'upsell-order-bump-offer-for-woocommerce' ), $funnel_id ),
-					'offers' => $offers,
+		foreach ( Upsell_Order_Bump_Heatmap_Db::get_funnels() as $funnel_id => $funnel ) {
+			$offers = array();
+			foreach ( array_keys( $funnel['offers'] ) as $offer_id ) {
+				$offers[] = array(
+					'id'   => absint( $offer_id ),
+					/* translators: %d: offer number inside the funnel */
+					'name' => sprintf( __( 'Offer #%d', 'upsell-order-bump-offer-for-woocommerce' ), $offer_id ),
 				);
 			}
+			$catalog['upsell'][] = array(
+				'id'     => absint( $funnel_id ),
+				'name'   => '' !== $funnel['name'] ? sanitize_text_field( $funnel['name'] ) : sprintf( /* translators: %d: funnel id */ __( 'Funnel #%d', 'upsell-order-bump-offer-for-woocommerce' ), $funnel_id ),
+				'offers' => $offers,
+			);
 		}
 
 		return $catalog;
@@ -303,14 +296,14 @@ class Upsell_Order_Bump_Heatmap_Admin {
 	 * @return string
 	 */
 	private function get_upsell_preview_url( $funnel_id, $offer_id ) {
-		$funnels = get_option( 'wps_wocuf_funnels_list', array() );
-		$funnel  = isset( $funnels[ $funnel_id ] ) && is_array( $funnels[ $funnel_id ] ) ? $funnels[ $funnel_id ] : array();
+		$funnels = Upsell_Order_Bump_Heatmap_Db::get_funnels();
+		$funnel  = isset( $funnels[ $funnel_id ] ) ? $funnels[ $funnel_id ] : array();
 
 		$url = '';
-		if ( ! empty( $funnel['wps_wocuf_offer_custom_page_url'][ $offer_id ] ) ) {
-			$url = $funnel['wps_wocuf_offer_custom_page_url'][ $offer_id ];
-		} elseif ( ! empty( $funnel['wps_upsell_post_id_assigned'][ $offer_id ] ) ) {
-			$url = get_permalink( absint( $funnel['wps_upsell_post_id_assigned'][ $offer_id ] ) );
+		if ( ! empty( $funnel['custom_url'][ $offer_id ] ) ) {
+			$url = $funnel['custom_url'][ $offer_id ];
+		} elseif ( ! empty( $funnel['page'][ $offer_id ] ) ) {
+			$url = get_permalink( absint( $funnel['page'][ $offer_id ] ) );
 		}
 
 		if ( empty( $url ) ) {
@@ -322,7 +315,19 @@ class Upsell_Order_Bump_Heatmap_Admin {
 			return '';
 		}
 
-		return esc_url_raw( add_query_arg( 'wps_ubo_heatmap_preview', '1', $url ) );
+		// The funnel and offer ids tell the offer shortcodes which offer to render ( the shop
+		// manager preview mode ); without them the page shows no product, price or image.
+		// No order key or nonce is added, so nothing on the page can act on a real order.
+		return esc_url_raw(
+			add_query_arg(
+				array(
+					'wps_ubo_heatmap_preview' => '1',
+					'ocuf_fid'                => absint( $funnel_id ),
+					'ocuf_ofd'                => absint( $offer_id ),
+				),
+				$url
+			)
+		);
 	}
 
 	/**
