@@ -50,6 +50,9 @@ test( 'tracker is not loaded for shop managers', async ( { browser } ) => {
 } );
 
 test.describe( 'two bumps on the checkout (WPS-8456)', () => {
+	// The free plugin shows one bump at a time; several bumps on the checkout need Pro.
+	test.skip( () => ! wp( 'env' ).pro, 'Several bumps on the checkout need the Pro plugin.' );
+
 	test.beforeAll( () => {
 		wp( 'bump2-on' );
 	} );
