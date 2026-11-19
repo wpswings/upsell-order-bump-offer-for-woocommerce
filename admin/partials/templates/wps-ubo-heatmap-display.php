@@ -82,7 +82,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</label>
 		<label class="wps-ubo-hm__field">
 			<span><?php esc_html_e( 'Template', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>
-			<select id="wps-ubo-hm-template"></select>
+			<select id="wps-ubo-hm-template" aria-describedby="wps-ubo-hm-template-help"></select>
+			<span class="wps-ubo-hm__help" id="wps-ubo-hm-template-help">
+				<?php esc_html_e( 'Shows the clicks recorded with this template, drawn on it.', 'upsell-order-bump-offer-for-woocommerce' ); ?>
+				<a href="#" id="wps-ubo-hm-edit" hidden><?php esc_html_e( 'Change the template or its design', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+			</span>
 		</label>
 		<label class="wps-ubo-hm__field">
 			<span><?php esc_html_e( 'Device', 'upsell-order-bump-offer-for-woocommerce' ); ?></span>

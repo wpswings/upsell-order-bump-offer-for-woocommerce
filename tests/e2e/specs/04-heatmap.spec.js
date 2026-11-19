@@ -48,3 +48,37 @@ test( 'tracker is not loaded for shop managers', async ( { browser } ) => {
 	expect( await ap.evaluate( () => typeof ( /** @type {any} */ ( window ).wpsUboHeatmap ) ) ).toBe( 'undefined' );
 	await admin.close();
 } );
+
+test( 'template filter redraws the preview and the view is kept after a refresh (WPS-8457)', async ( { browser } ) => {
+	wp( 'heatmap-seed', '5' );
+	const admin = await browser.newContext( { storageState: path.join( path.dirname( STATE_FILE ), 'admin.json' ) } );
+	const ap = await admin.newPage();
+	const firstData = ajaxResponse( ap, 'wps_ubo_heatmap_data', 30_000 );
+	await ap.goto( '/wp-admin/admin.php?page=upsell-order-bump-offer-for-woocommerce-heatmaps' );
+	await firstData;
+
+	const template = ap.locator( '#wps-ubo-hm-template' );
+	// The bump's current template is listed even without data, the older one because it has data.
+	await expect( template.locator( 'option[value="1"]' ) ).toHaveText( /Template 1 \(current\)/ );
+	await expect( template.locator( 'option[value="5"]' ) ).toHaveCount( 1 );
+	await expect( ap.locator( '#wps-ubo-hm-edit' ) ).toHaveAttribute( 'href', /tab=creation-setting&bump_id=1/ );
+
+	// Choosing template 5 asks for a template 5 preview and shows its 3 clicks.
+	const preview = ap.waitForResponse( ( r ) => isAjax( r.request(), 'wps_ubo_heatmap_preview' ) && /template=5|name="template"\r?\n\r?\n5\r?\n/.test( r.request().postData() || '' ) );
+	const data = ajaxResponse( ap, 'wps_ubo_heatmap_data', 30_000 );
+	await template.selectOption( '5' );
+	expect( ( await ( await preview ).json() ).data.template ).toBe( '5' );
+	expect( ( await ( await data ).json() ).data.totals.clicks ).toBe( 3 );
+
+	await ap.locator( 'input[name="wps-ubo-hm-mode"][value="hover"]' ).check( { force: true } );
+	await ap.locator( '#wps-ubo-hm-days' ).selectOption( '7' );
+
+	// After a refresh the same selections come back.
+	const reloaded = ajaxResponse( ap, 'wps_ubo_heatmap_data', 30_000 );
+	await ap.reload();
+	await reloaded;
+	await expect( template ).toHaveValue( '5' );
+	await expect( ap.locator( '#wps-ubo-hm-days' ) ).toHaveValue( '7' );
+	await expect( ap.locator( 'input[name="wps-ubo-hm-mode"][value="hover"]' ) ).toBeChecked();
+	await admin.close();
+} );

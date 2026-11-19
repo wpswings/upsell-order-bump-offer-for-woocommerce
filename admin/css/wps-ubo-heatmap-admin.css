@@ -130,6 +130,17 @@
 	display: none;
 }
 
+.wps-ubo-hm__help {
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--hm-muted);
+}
+
+.wps-ubo-hm__help a[hidden] {
+	display: none;
+}
+
 /* Stats */
 .wps-ubo-hm__stats {
 	display: grid;

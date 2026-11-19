@@ -141,6 +141,7 @@ class Upsell_Order_Bump_Heatmap_Admin {
 					'error'         => __( 'Something went wrong. Please reload and try again.', 'upsell-order-bump-offer-for-woocommerce' ),
 					'allTemplates'  => __( 'All templates', 'upsell-order-bump-offer-for-woocommerce' ),
 					'template'      => __( 'Template', 'upsell-order-bump-offer-for-woocommerce' ),
+					'current'       => __( 'current', 'upsell-order-bump-offer-for-woocommerce' ),
 					'bumpLabel'     => __( 'Order bump', 'upsell-order-bump-offer-for-woocommerce' ),
 					'funnelLabel'   => __( 'Upsell funnel', 'upsell-order-bump-offer-for-woocommerce' ),
 					'active'        => __( 'Tracking active', 'upsell-order-bump-offer-for-woocommerce' ),
@@ -171,6 +172,15 @@ class Upsell_Order_Bump_Heatmap_Admin {
 					'id'       => absint( $bump_id ),
 					'name'     => ! empty( $bump['wps_upsell_bump_name'] ) ? sanitize_text_field( $bump['wps_upsell_bump_name'] ) : sprintf( /* translators: %d: bump id */ __( 'Order Bump #%d', 'upsell-order-bump-offer-for-woocommerce' ), $bump_id ),
 					'template' => ! empty( $bump['wps_ubo_selected_template'] ) ? sanitize_text_field( $bump['wps_ubo_selected_template'] ) : '1',
+					// Where the bump's template and its design are changed.
+					'editUrl'  => add_query_arg(
+						array(
+							'page'    => 'upsell-order-bump-offer-for-woocommerce-setting',
+							'tab'     => 'creation-setting',
+							'bump_id' => absint( $bump_id ),
+						),
+						admin_url( 'admin.php' )
+					),
 				);
 			}
 		}
@@ -292,7 +302,7 @@ class Upsell_Order_Bump_Heatmap_Admin {
 			wp_send_json_success( array( 'url' => $this->get_upsell_preview_url( $filters['offer_id'], $filters['sub_offer_id'] ) ) );
 		}
 
-		wp_send_json_success( $this->render_bump_preview( $filters['offer_id'] ) );
+		wp_send_json_success( $this->render_bump_preview( $filters['offer_id'], $filters['template'] ) );
 	}
 
 	/**
@@ -328,10 +338,12 @@ class Upsell_Order_Bump_Heatmap_Admin {
 	/**
 	 * Render a bump exactly as checkout does.
 	 *
-	 * @param int $bump_id Bump id.
+	 * @param int    $bump_id  Bump id.
+	 * @param string $template Template to draw instead of the bump's current one ( the
+	 *                         heatmap filtered to data recorded with an older template ).
 	 * @return array { html, css }
 	 */
-	private function render_bump_preview( $bump_id ) {
+	private function render_bump_preview( $bump_id, $template = '' ) {
 		$bumps = get_option( 'wps_ubo_bump_list', array() );
 		if ( empty( $bumps[ $bump_id ] ) || ! function_exists( 'wps_ubo_lite_fetch_bump_offer_details' ) ) {
 			return array(
@@ -340,7 +352,11 @@ class Upsell_Order_Bump_Heatmap_Admin {
 			);
 		}
 
-		$template = ! empty( $bumps[ $bump_id ]['wps_ubo_selected_template'] ) ? (string) $bumps[ $bump_id ]['wps_ubo_selected_template'] : '';
+		$current  = ! empty( $bumps[ $bump_id ]['wps_ubo_selected_template'] ) ? (string) $bumps[ $bump_id ]['wps_ubo_selected_template'] : '1';
+		$template = (string) $template;
+		// Another template than the saved one: draw it with that template's default design.
+		$design   = '' !== $template && $template !== $current && function_exists( 'wps_ubo_lite_offer_template_' . $template ) ? call_user_func( 'wps_ubo_lite_offer_template_' . $template ) : null;
+		$template = $design ? $template : $current;
 		$map      = array(
 			'3'  => 'wps_ubo_lite_bump_offer_html_3',
 			'4'  => 'wps_ubo_lite_bump_offer_html_4',
@@ -362,6 +378,9 @@ class Upsell_Order_Bump_Heatmap_Admin {
 		ob_start();
 		try {
 			$bump = wps_ubo_lite_fetch_bump_offer_details( $bump_id, '' );
+			if ( ! empty( $bump ) && $design ) {
+				$bump['design_css'] = array_merge( isset( $bump['design_css'] ) ? (array) $bump['design_css'] : array(), $design );
+			}
 			if ( ! empty( $bump ) ) {
 				$html = (string) call_user_func( $renderer, $bump, $bump_id, '' );
 			}
@@ -378,9 +397,10 @@ class Upsell_Order_Bump_Heatmap_Admin {
 		$html = preg_replace( '#<style[^>]*>.*?</style>#is', '', $html );
 
 		return array(
-			'html' => wp_kses( $html, wps_ubo_lite_allowed_html() ),
+			'html'     => wp_kses( $html, wps_ubo_lite_allowed_html() ),
 			// CSS is inserted with textContent on a <style> element (cannot execute script).
-			'css'  => wp_strip_all_tags( $css ),
+			'css'      => wp_strip_all_tags( $css ),
+			'template' => $template,
 		);
 	}
 

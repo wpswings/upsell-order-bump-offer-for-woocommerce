@@ -41,6 +41,7 @@
 		settings: $( 'wps-ubo-hm-settings' ),
 		settingsToggle: $( 'wps-ubo-hm-settings-toggle' ),
 		del: $( 'wps-ubo-hm-delete' ),
+		edit: $( 'wps-ubo-hm-edit' ),
 	};
 
 	// Template preview widths per device (bumps are column components, upsell pages are full pages).
@@ -122,8 +123,62 @@
 	}
 
 	/* ------------------------------------------------------------------ */
+	/* Saved view (survives a page refresh)                               */
+	/* ------------------------------------------------------------------ */
+
+	// Per browser: the last offer, its template, filters and drawing options.
+	const VIEW_KEY = 'wps_ubo_hm_view';
+	const view = ( () => {
+		try {
+			const saved = JSON.parse( window.localStorage.getItem( VIEW_KEY ) || '{}' );
+			return saved && typeof saved === 'object' ? saved : {};
+		} catch ( e ) {
+			return {};
+		}
+	} )();
+	view.offer = view.offer || {}; // offer type -> offer id.
+	view.sub = view.sub || {}; // funnel id -> offer in funnel.
+	view.templates = view.templates || {}; // offer key -> template filter.
+
+	function offerKey() {
+		return el.type.value + ':' + el.offer.value + ':' + ( el.type.value === 'upsell' ? el.sub.value : 0 );
+	}
+
+	function saveView() {
+		view.type = el.type.value;
+		view.offer[ el.type.value ] = el.offer.value;
+		if ( el.type.value === 'upsell' ) {
+			view.sub[ el.offer.value ] = el.sub.value;
+		}
+		if ( el.template.value ) {
+			view.templates[ offerKey() ] = el.template.value;
+		} else {
+			delete view.templates[ offerKey() ];
+		}
+		view.device = el.device.value;
+		view.days = el.days.value;
+		view.mode = mode();
+		view.radius = el.radius.value;
+		view.opacity = el.opacity.value;
+		try {
+			window.localStorage.setItem( VIEW_KEY, JSON.stringify( view ) );
+		} catch ( e ) {}
+	}
+
+	// Set a <select> only to a value it offers.
+	function choose( select, value ) {
+		if ( value !== undefined && Array.from( select.options ).some( ( o ) => o.value === String( value ) ) ) {
+			select.value = String( value );
+		}
+	}
+
+	/* ------------------------------------------------------------------ */
 	/* Selectors                                                          */
 	/* ------------------------------------------------------------------ */
+
+	function currentOffer() {
+		return ( ( cfg.offers && cfg.offers[ el.type.value ] ) || [] ).find( ( item ) => String( item.id ) === el.offer.value ) || null;
+	}
 
 	function populateOffers() {
 		const type = el.type.value;
@@ -135,6 +190,7 @@
 			const label = type === 'bump' ? `${ item.name } (${ cfg.i18n.template } ${ item.template })` : item.name;
 			el.offer.appendChild( option( item.id, label ) );
 		} );
+		choose( el.offer, view.offer[ type ] );
 
 		el.subWrap.hidden = type !== 'upsell';
 		populateSubOffers();
@@ -148,21 +204,48 @@
 		}
 		const funnel = ( cfg.offers.upsell || [] ).find( ( f ) => String( f.id ) === el.offer.value );
 		( funnel ? funnel.offers : [] ).forEach( ( o ) => el.sub.appendChild( option( o.id, o.name ) ) );
+		choose( el.sub, view.sub[ el.offer.value ] );
+	}
+
+	/**
+	 * Template filter: "All templates", the offer's current template and every template
+	 * with recorded data. The offer's saved choice is selected again.
+	 *
+	 * @param {string[]} [templates] Templates with data.
+	 */
+	function updateTemplates( templates ) {
+		const offer = currentOffer();
+		const current = el.type.value === 'bump' && offer ? String( offer.template ) : '';
+		const wanted = el.template.value || view.templates[ offerKey() ] || '';
+		const list = ( templates || [] ).map( String ).filter( ( t ) => t !== '' );
+		[ current, wanted ].forEach( ( t ) => {
+			if ( t && ! list.includes( t ) ) {
+				list.push( t );
+			}
+		} );
+		list.sort( ( a, b ) => ( parseInt( a, 10 ) || 0 ) - ( parseInt( b, 10 ) || 0 ) || a.localeCompare( b ) );
+
+		el.template.innerHTML = '';
+		el.template.appendChild( option( '', cfg.i18n.allTemplates ) );
+		list.forEach( ( t ) => {
+			const label = `${ cfg.i18n.template } ${ t }` + ( t === current ? ` (${ cfg.i18n.current })` : '' );
+			el.template.appendChild( option( t, label ) );
+		} );
+		choose( el.template, wanted );
 	}
 
 	function resetTemplates() {
 		el.template.innerHTML = '';
-		el.template.appendChild( option( '', cfg.i18n.allTemplates, true ) );
+		updateTemplates( [] );
+		updateEditLink();
 	}
 
-	function updateTemplates( templates ) {
-		const current = el.template.value;
-		resetTemplates();
-		( templates || [] ).forEach( ( t ) => {
-			if ( t !== '' ) {
-				el.template.appendChild( option( t, `${ cfg.i18n.template } ${ t }`, t === current ) );
-			}
-		} );
+	function updateEditLink() {
+		const offer = currentOffer();
+		el.edit.hidden = ! ( el.type.value === 'bump' && offer && offer.editUrl );
+		if ( ! el.edit.hidden ) {
+			el.edit.href = offer.editUrl;
+		}
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -540,24 +623,44 @@
 
 	el.type.addEventListener( 'change', () => {
 		populateOffers();
+		saveView();
 		load( true );
 	} );
 	el.offer.addEventListener( 'change', () => {
+		el.template.value = '';
 		populateSubOffers();
 		resetTemplates();
+		saveView();
 		load( true );
 	} );
 	el.sub.addEventListener( 'change', () => {
+		el.template.value = '';
 		resetTemplates();
+		saveView();
 		load( true );
 	} );
-	el.device.addEventListener( 'change', () => load( true ) );
-	el.template.addEventListener( 'change', () => load( false ) );
-	el.days.addEventListener( 'change', () => load( false ) );
+	el.device.addEventListener( 'change', () => {
+		saveView();
+		load( true );
+	} );
+	// The preview is redrawn with the chosen template, so the clicks line up with the design they were recorded on.
+	el.template.addEventListener( 'change', () => {
+		saveView();
+		load( true );
+	} );
+	el.days.addEventListener( 'change', () => {
+		saveView();
+		load( false );
+	} );
 
-	root.querySelectorAll( 'input[name="wps-ubo-hm-mode"]' ).forEach( ( r ) => r.addEventListener( 'change', drawHeatmap ) );
+	root.querySelectorAll( 'input[name="wps-ubo-hm-mode"]' ).forEach( ( r ) => r.addEventListener( 'change', () => {
+		saveView();
+		drawHeatmap();
+	} ) );
 	el.radius.addEventListener( 'input', debounce( drawHeatmap, 60 ) );
+	el.radius.addEventListener( 'change', saveView );
 	el.opacity.addEventListener( 'input', () => ( el.canvas.style.opacity = parseInt( el.opacity.value, 10 ) / 100 ) );
+	el.opacity.addEventListener( 'change', saveView );
 	window.addEventListener( 'resize', debounce( drawHeatmap, 150 ) );
 
 	el.settingsToggle.addEventListener( 'click', () => {
@@ -599,9 +702,25 @@
 			.catch( ( e ) => notify( e.message, 'error' ) );
 	} );
 
-	// Boot: default to upsell if there are no bumps but there are funnels.
-	if ( ! ( cfg.offers.bump || [] ).length && ( cfg.offers.upsell || [] ).length ) {
+	// Boot: restore the saved view, else default to upsell if there are no bumps but there are funnels.
+	if ( view.type && ( cfg.offers[ view.type ] || [] ).length ) {
+		choose( el.type, view.type );
+	} else if ( ! ( cfg.offers.bump || [] ).length && ( cfg.offers.upsell || [] ).length ) {
 		el.type.value = 'upsell';
+	}
+	choose( el.device, view.device );
+	choose( el.days, view.days );
+	if ( view.mode ) {
+		const radio = root.querySelector( `input[name="wps-ubo-hm-mode"][value="${ view.mode === 'hover' ? 'hover' : 'click' }"]` );
+		if ( radio ) {
+			radio.checked = true;
+		}
+	}
+	if ( view.radius ) {
+		el.radius.value = view.radius;
+	}
+	if ( view.opacity ) {
+		el.opacity.value = view.opacity;
 	}
 	populateOffers();
 	load( true );
