@@ -275,13 +275,15 @@ switch ( $wps_cmd ) {
 
 	case 'gamified':
 		wps_e2e_state();
-		$on = in_array( $wps_arg, array( 'spin_wheel', 'scratch_card' ), true );
+		// "format" or "format:bump_id" ( default bump 1 ).
+		list( $wps_arg, $wps_game_bump ) = array_pad( explode( ':', $wps_arg ), 2, '1' );
+		$on                              = in_array( $wps_arg, array( 'spin_wheel', 'scratch_card' ), true );
 		update_option(
 			Upsell_Order_Bump_Gamified::SETTINGS_OPTION,
 			Upsell_Order_Bump_Gamified::sanitize_settings(
 				array(
 					'enabled'                  => $on ? 'on' : 'off',
-					'formats'                  => $on ? array( 1 => $wps_arg ) : array(),
+					'formats'                  => $on ? array( absint( $wps_game_bump ) => $wps_arg ) : array(),
 					'guarantee_offer_discount' => 'on',
 					'allow_skip'               => 'on',
 					'max_discount'             => 50,
@@ -358,7 +360,7 @@ switch ( $wps_cmd ) {
 		global $wpdb;
 		wps_e2e_out(
 			array(
-				'count' => (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' WHERE offer_type = %s AND offer_id = %d AND created_at > %s', 'bump', 1, gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS ) ) ), // phpcs:ignore
+				'count' => (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' WHERE offer_type = %s AND offer_id = %d AND created_at > %s', 'bump', $wps_arg ? absint( $wps_arg ) : 1, gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS ) ) ), // phpcs:ignore
 			)
 		);
 		break;
@@ -382,6 +384,35 @@ switch ( $wps_cmd ) {
 			);
 		}
 		wps_e2e_out( array( 'stored' => Upsell_Order_Bump_Heatmap_Db::insert_events( $rows ) ) );
+		break;
+
+	case 'bump2-on':
+		// A second bump on the same target, shown next to bump 1.
+		$list    = get_option( 'wps_ubo_bump_list', array() );
+		$list[2] = array_merge(
+			$list[1],
+			array(
+				'wps_upsell_bump_name'              => 'E2E bump 2',
+				'wps_upsell_bump_products_in_offer' => (string) wps_e2e_state()['products']['recovery'],
+				'wps_ubo_selected_template'         => '11',
+				'wps_bump_upsell_selected_template' => '11',
+			)
+		);
+		update_option( 'wps_ubo_bump_list', $list );
+		$global                              = get_option( 'wps_ubo_global_options', array() );
+		$global['wps_bump_order_bump_limit'] = '2';
+		update_option( 'wps_ubo_global_options', $global );
+		wps_e2e_out( array( 'ok' => true ) );
+		break;
+
+	case 'bump2-off':
+		$list = get_option( 'wps_ubo_bump_list', array() );
+		unset( $list[2] );
+		update_option( 'wps_ubo_bump_list', $list );
+		$global                              = get_option( 'wps_ubo_global_options', array() );
+		$global['wps_bump_order_bump_limit'] = '1';
+		update_option( 'wps_ubo_global_options', $global );
+		wps_e2e_out( array( 'ok' => true ) );
 		break;
 
 	case 'bump':

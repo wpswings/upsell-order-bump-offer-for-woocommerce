@@ -153,18 +153,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="wps-ubo-hm__card wps-ubo-hm__zones">
 			<h2><?php esc_html_e( 'Zone breakdown', 'upsell-order-bump-offer-for-woocommerce' ); ?></h2>
 			<p class="description"><?php esc_html_e( 'Which part of the template got the interaction. Hover a row to highlight it on the preview.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p>
-			<table class="widefat striped">
-				<thead>
-					<tr>
-						<th scope="col"><?php esc_html_e( 'Zone', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
-						<th scope="col" class="num"><?php esc_html_e( 'Clicks', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
-						<th scope="col" class="num"><?php esc_html_e( 'Share', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
-						<th scope="col" class="num"><?php esc_html_e( 'Click rate', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
-						<th scope="col" class="num"><?php esc_html_e( 'Hovers', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
-					</tr>
-				</thead>
-				<tbody id="wps-ubo-hm-zones"></tbody>
-			</table>
+			<div class="wps-ubo-hm__table-wrap">
+				<table class="widefat striped">
+					<thead>
+						<tr>
+							<th scope="col"><?php esc_html_e( 'Zone', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+							<th scope="col" class="num"><?php esc_html_e( 'Clicks', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+							<th scope="col" class="num"><?php esc_html_e( 'Share', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+							<th scope="col" class="num"><?php esc_html_e( 'Click rate', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+							<th scope="col" class="num"><?php esc_html_e( 'Hovers', 'upsell-order-bump-offer-for-woocommerce' ); ?></th>
+						</tr>
+					</thead>
+					<tbody id="wps-ubo-hm-zones"></tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>

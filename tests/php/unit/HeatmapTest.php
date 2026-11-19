@@ -402,4 +402,141 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 7, $bump['id'] );
 		$this->assertSame( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=7' ), $bump['editUrl'] );
 	}
+
+	/* ---------------------------------- deleted offers ( WPS-8456 ) */
+
+	private function offer_ids( $offer_type ) {
+		global $wpdb;
+		return array_map( 'intval', $wpdb->get_col( $wpdb->prepare( 'SELECT DISTINCT offer_id FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' WHERE offer_type = %s ORDER BY offer_id', $offer_type ) ) ); // phpcs:ignore
+	}
+
+	public function test_deleting_a_bump_deletes_only_its_heatmap_data() {
+		update_option( 'wps_ubo_bump_list', array( 1 => array( 'wps_upsell_bump_status' => 'yes' ), 2 => array( 'wps_upsell_bump_status' => 'yes' ) ) );
+		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row( array( 'offer_id' => 1 ) ), $this->row( array( 'offer_id' => 2 ) ), $this->row( array( 'offer_id' => 2, 'event_type' => 'view' ) ) ) );
+
+		// Same delete as the bump list screen: the bump is unset and the list saved.
+		$list = get_option( 'wps_ubo_bump_list' );
+		unset( $list[2] );
+		update_option( 'wps_ubo_bump_list', $list );
+		$this->assertSame( array( 1 ), $this->offer_ids( 'bump' ) );
+
+		// A new bump that reuses id 2 starts without the deleted bump's clicks.
+		$list[2] = array( 'wps_upsell_bump_status' => 'yes' );
+		update_option( 'wps_ubo_bump_list', $list );
+		$r = Upsell_Order_Bump_Heatmap_Db::get_totals( $this->filters( array( 'offer_id' => 2 ) ) );
+		$this->assertSame( 0, $r['clicks'] + $r['views'] );
+	}
+
+	public function test_editing_a_bump_keeps_its_heatmap_data() {
+		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row() ) );
+		$list = get_option( 'wps_ubo_bump_list' );
+		$list[7]['wps_ubo_selected_template'] = '5';
+		update_option( 'wps_ubo_bump_list', $list );
+		$this->assertSame( array( 7 ), $this->offer_ids( 'bump' ) );
+	}
+
+	public function test_deleted_funnel_data_is_kept_while_the_other_plugin_still_has_it() {
+		update_option( 'wps_wocuf_pro_funnels_list', array( 4 => array( 'wps_wocuf_pro_funnel_name' => 'Copy' ) ) );
+		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row( array( 'offer_type' => 'upsell', 'offer_id' => 4, 'sub_offer_id' => 1 ) ) ) );
+
+		update_option( 'wps_wocuf_funnels_list', array() );
+		$this->assertSame( array( 4 ), $this->offer_ids( 'upsell' ), 'Still a Pro funnel.' );
+
+		update_option( 'wps_wocuf_pro_funnels_list', array( 5 => array() ) );
+		$this->assertSame( array(), $this->offer_ids( 'upsell' ), 'Gone from both lists.' );
+		delete_option( 'wps_wocuf_pro_funnels_list' );
+	}
+
+	public function test_delete_offers_ignores_bad_input() {
+		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row() ) );
+		Upsell_Order_Bump_Heatmap_Db::delete_offers( 'nope', array( 7 ) );
+		Upsell_Order_Bump_Heatmap_Db::delete_offers( 'bump', array( 0, 'x' ) );
+		$this->assertSame( array( 7 ), $this->offer_ids( 'bump' ) );
+	}
+
+	/* ------------------------------------------------- funnels ( WPS-8455 ) */
+
+	/**
+	 * Pretend the Pro plugin is active.
+	 */
+	public static function with_pro( $plugins ) {
+		$plugins   = (array) $plugins;
+		$plugins[] = 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php';
+		return $plugins;
+	}
+
+	private function pro_funnels() {
+		add_filter( 'pre_option_active_plugins', array( __CLASS__, 'with_pro' ), 20 );
+		update_option(
+			'wps_wocuf_pro_funnels_list',
+			array(
+				9 => array(
+					'wps_wocuf_pro_funnel_name'           => 'Pro funnel',
+					'wps_wocuf_pro_products_in_offer'     => array( 1 => '20', 2 => '21' ),
+					'wps_wocuf_pro_offer_template'        => array( 1 => 'one' ),
+					'wps_wocuf_pro_offer_custom_page_url' => array( 2 => home_url( '/pro-offer/' ) ),
+					'wps_upsell_post_id_assigned'         => array( 1 => '' ),
+				),
+			)
+		);
+	}
+
+	public function tear_down() {
+		remove_filter( 'pre_option_active_plugins', array( __CLASS__, 'with_pro' ), 20 );
+		delete_option( 'wps_wocuf_pro_funnels_list' );
+		parent::tear_down();
+	}
+
+	public function test_funnels_come_from_the_free_list_without_pro() {
+		$funnels = Upsell_Order_Bump_Heatmap_Db::get_funnels();
+		$this->assertSame( array( 4 ), array_keys( $funnels ) );
+		$this->assertSame( array( 2 => 'https://example.org/x' ), $funnels[4]['custom_url'] );
+		$this->assertSame( array( 1 => 'two' ), $funnels[4]['template'] );
+	}
+
+	public function test_funnels_come_from_the_pro_list_when_pro_is_active() {
+		$this->pro_funnels();
+		$funnels = Upsell_Order_Bump_Heatmap_Db::get_funnels();
+		$this->assertSame( array( 9 ), array_keys( $funnels ) );
+		$this->assertSame( 'Pro funnel', $funnels[9]['name'] );
+		$this->assertSame( array( 1 => '20', 2 => '21' ), $funnels[9]['offers'] );
+		$this->assertSame( array( 2 => home_url( '/pro-offer/' ) ), $funnels[9]['custom_url'] );
+	}
+
+	public function test_pro_funnel_events_are_stored_with_the_pro_template() {
+		$this->pro_funnels();
+		$this->ingest(
+			array(
+				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'o' => 9, 's' => 1 ),
+				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'o' => 9, 's' => 2 ),
+				// Free-only funnel id: not a live funnel while Pro runs the funnels.
+				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'o' => 4, 's' => 1 ),
+			)
+		);
+		global $wpdb;
+		$this->assertSame( array( 'one', 'custom' ), $wpdb->get_col( 'SELECT template FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' ORDER BY id' ) ); // phpcs:ignore
+	}
+
+	public function test_upsell_preview_url_carries_the_funnel_and_offer() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$this->pro_funnels();
+		$r = $this->admin_call( 'ajax_get_preview', array( 'offer_type' => 'upsell', 'offer_id' => 9, 'sub_offer_id' => 2 ) );
+		$this->assertTrue( $r['success'] );
+		parse_str( (string) wp_parse_url( $r['data']['url'], PHP_URL_QUERY ), $query );
+		$this->assertStringStartsWith( home_url( '/pro-offer/' ), $r['data']['url'] );
+		$this->assertSame( array( 'wps_ubo_heatmap_preview' => '1', 'ocuf_fid' => '9', 'ocuf_ofd' => '2' ), $query );
+		$this->assertArrayNotHasKey( 'ocuf_ns', $query, 'No nonce: the preview can never act on a real order.' );
+	}
+
+	public function test_upsell_offer_catalog_lists_pro_funnels() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$this->pro_funnels();
+		$admin = new Upsell_Order_Bump_Heatmap_Admin( '3.1.8' );
+		$method = new ReflectionMethod( $admin, 'get_offer_catalog' );
+		$method->setAccessible( true );
+		$catalog = $method->invoke( $admin );
+		$this->assertSame( 9, $catalog['upsell'][0]['id'] );
+		$this->assertSame( 'Pro funnel', $catalog['upsell'][0]['name'] );
+		$this->assertSame( array( 1, 2 ), wp_list_pluck( $catalog['upsell'][0]['offers'], 'id' ) );
+	}
 }

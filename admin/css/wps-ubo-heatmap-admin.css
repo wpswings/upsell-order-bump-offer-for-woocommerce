@@ -175,12 +175,13 @@
 /* Body */
 .wps-ubo-hm__body {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) 340px;
+	grid-template-columns: minmax(0, 1fr) minmax(360px, 420px);
 	gap: 16px;
 	align-items: start;
 }
 
-@media (max-width: 1100px) {
+/* Below this width the zone table no longer fits next to the preview: stack it underneath. */
+@media (max-width: 1280px) {
 	.wps-ubo-hm__body {
 		grid-template-columns: minmax(0, 1fr);
 	}
@@ -336,14 +337,46 @@
 	font-size: 15px;
 }
 
-.wps-ubo-hm__zones table {
+.wps-ubo-hm__zones {
+	min-width: 0;
+}
+
+/* The table scrolls inside its card instead of being cut off on narrow screens. */
+.wps-ubo-hm__table-wrap {
 	margin-top: 12px;
+	max-width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.wps-ubo-hm__zones table {
+	width: 100%;
+	min-width: 340px;
+}
+
+.wps-ubo-hm__zones th,
+.wps-ubo-hm__zones td {
+	padding: 8px 6px;
+}
+
+.wps-ubo-hm__zones th:first-child,
+.wps-ubo-hm__zones td:first-child {
+	padding-left: 10px;
+}
+
+.wps-ubo-hm__zones th:last-child,
+.wps-ubo-hm__zones td:last-child {
+	padding-right: 10px;
 }
 
 .wps-ubo-hm__zones .num {
 	text-align: right;
 	font-variant-numeric: tabular-nums;
 	white-space: nowrap;
+}
+
+.wps-ubo-hm__zones thead .num {
+	white-space: normal;
 }
 
 .wps-ubo-hm__zones tbody tr {
