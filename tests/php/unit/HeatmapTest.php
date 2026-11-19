@@ -358,6 +358,51 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( $r['data'], get_option( Upsell_Order_Bump_Heatmap_Db::SETTINGS_OPTION ) );
 	}
 
+	/* ------------------------------ template preview ( WPS-8457 ) */
+
+	/**
+	 * Which template the preview draws ( the markup itself is covered by the E2E heatmap spec ).
+	 */
+	public function test_bump_preview_draws_the_requested_template() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$offer = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '30' ) );
+		update_option(
+			'wps_ubo_bump_list',
+			array(
+				7 => array(
+					'wps_upsell_bump_status'            => 'yes',
+					'wps_upsell_bump_products_in_offer' => (string) $offer->get_id(),
+					'wps_upsell_offer_price_type'       => '%',
+					'wps_upsell_bump_offer_discount_price' => '10',
+					'wps_ubo_selected_template'         => '3',
+					'design_css'                        => wps_ubo_lite_offer_template_3(),
+					'design_text'                       => wps_ubo_lite_offer_default_text(),
+				),
+			)
+		);
+
+		$current = $this->admin_call( 'ajax_get_preview', array( 'offer_type' => 'bump', 'offer_id' => 7 ) );
+		$this->assertSame( '3', $current['data']['template'] );
+
+		$older = $this->admin_call( 'ajax_get_preview', array( 'offer_type' => 'bump', 'offer_id' => 7, 'template' => '10' ) );
+		$this->assertSame( '10', $older['data']['template'] );
+
+		$bogus = $this->admin_call( 'ajax_get_preview', array( 'offer_type' => 'bump', 'offer_id' => 7, 'template' => 'nope' ) );
+		$this->assertSame( '3', $bogus['data']['template'], 'Unknown templates fall back to the current one.' );
+
+		$this->assertSame( '3', get_option( 'wps_ubo_bump_list' )[7]['wps_ubo_selected_template'], 'The preview never changes the bump.' );
+	}
+
+	public function test_bump_catalog_links_to_the_bump_editor() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$admin  = new Upsell_Order_Bump_Heatmap_Admin( '3.1.8' );
+		$method = new ReflectionMethod( $admin, 'get_offer_catalog' );
+		$method->setAccessible( true );
+		$bump = $method->invoke( $admin )['bump'][0];
+		$this->assertSame( 7, $bump['id'] );
+		$this->assertSame( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=7' ), $bump['editUrl'] );
+	}
+
 	/* ---------------------------------- deleted offers ( WPS-8456 ) */
 
 	private function offer_ids( $offer_type ) {

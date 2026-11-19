@@ -365,6 +365,27 @@ switch ( $wps_cmd ) {
 		);
 		break;
 
+	case 'heatmap-seed':
+		// Clicks on bump 1 recorded while it used another template ( default 5 ).
+		$rows = array();
+		foreach ( array( array( 1000, 2000 ), array( 5000, 5000 ), array( 8000, 7000 ) ) as $i => $xy ) {
+			$rows[] = array(
+				'offer_type'   => 'bump',
+				'offer_id'     => 1,
+				'sub_offer_id' => 0,
+				'template'     => $wps_arg ? sanitize_key( $wps_arg ) : '5',
+				'event_type'   => 'click',
+				'x'            => $xy[0],
+				'y'            => $xy[1],
+				'zone'         => 'other',
+				'device'       => 'desktop',
+				'context'      => 'checkout',
+				'session_hash' => md5( 'e2e-seed-' . $i ),
+			);
+		}
+		wps_e2e_out( array( 'stored' => Upsell_Order_Bump_Heatmap_Db::insert_events( $rows ) ) );
+		break;
+
 	case 'bump2-on':
 		// A second bump on the same target, shown next to bump 1.
 		$list    = get_option( 'wps_ubo_bump_list', array() );
