@@ -1405,7 +1405,14 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since       2.0.0
 	 */
 	public function dismiss_elementor_inactive_notice() {
-		$this->verify_admin_ajax( 'wps_ubo_dismiss_notice', 'nonce' );
+		// The Pro plugin registers this action too and its admin script sends its own admin nonce.
+		$nonce = isset( $_REQUEST['nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'wps_ubo_dismiss_notice' ) && ! wp_verify_nonce( $nonce, 'wps_wocuf_pro_admin_nonce' ) ) {
+			wp_die( '-1', 403 );
+		}
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error( null, 403 );
+		}
 		set_transient( 'wps_upsell_elementor_inactive_notice', 'notice_dismissed' );
 
 		wp_die();
