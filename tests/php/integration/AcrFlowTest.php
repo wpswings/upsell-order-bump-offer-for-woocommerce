@@ -55,6 +55,19 @@ class AcrFlowTest extends WPS_UBO_Test_Case {
 		return wp_create_nonce( Upsell_Order_Bump_Acr_Public::NONCE_ACTION );
 	}
 
+	/**
+	 * Capture nonce, bound to the current WC session ( QA C10 ).
+	 *
+	 * @return string
+	 */
+	private function capture_nonce() {
+		$action = Upsell_Order_Bump_Acr_Public::CAPTURE_NONCE_ACTION;
+		if ( WC()->session->has_session() ) {
+			$action .= '|' . WC()->session->get_customer_id();
+		}
+		return wp_create_nonce( $action );
+	}
+
 	private function capture( $email, $name = '' ) {
 		// A real shopper's browser has the WooCommerce session cookie once the cart has items;
 		// capture refuses sessionless requests ( QA C10 ).
@@ -64,7 +77,7 @@ class AcrFlowTest extends WPS_UBO_Test_Case {
 		return $this->ajax_call(
 			array( $this->pub, 'ajax_capture' ),
 			array(
-				'nonce'      => $this->nonce(),
+				'nonce'      => $this->capture_nonce(),
 				'email'      => $email,
 				'first_name' => $name,
 			)
@@ -130,6 +143,15 @@ class AcrFlowTest extends WPS_UBO_Test_Case {
 	public function test_capture_rejects_bad_nonce() {
 		$r = $this->ajax_call( array( $this->pub, 'ajax_capture' ), array( 'nonce' => 'bad', 'email' => 'x@example.org' ) );
 		$this->assertSame( '-1', trim( $r['raw'] ) );
+	}
+
+	public function test_qa_c10_capture_rejects_nonce_from_another_session() {
+		WC()->cart->add_to_cart( $this->p['a']->get_id() );
+		WC()->session->set_customer_session_cookie( true );
+		$other = wp_create_nonce( Upsell_Order_Bump_Acr_Public::CAPTURE_NONCE_ACTION . '|another-session' );
+		$r     = $this->ajax_call( array( $this->pub, 'ajax_capture' ), array( 'nonce' => $other, 'email' => 'x@example.org' ) );
+		$this->assertSame( '-1', trim( $r['raw'] ) );
+		$this->assertNull( $this->session_row() );
 	}
 
 	public function test_guests_not_captured_when_disabled_for_guests() {
@@ -718,7 +740,7 @@ class AcrFlowTest extends WPS_UBO_Test_Case {
 	public function test_qa_c10_capture_needs_a_session_and_is_rate_limited() {
 		WC()->cart->add_to_cart( $this->p['a']->get_id() );
 		// No session cookie ( e.g. a script ): refused.
-		$this->assertFalse( $this->ajax_call( array( $this->pub, 'ajax_capture' ), array( 'nonce' => $this->nonce(), 'email' => 'bot@example.org' ) )['json']['data']['tracked'] );
+		$this->assertFalse( $this->ajax_call( array( $this->pub, 'ajax_capture' ), array( 'nonce' => $this->capture_nonce(), 'email' => 'bot@example.org' ) )['json']['data']['tracked'] );
 
 		$limit = static function ( $limits ) {
 			return array_map(
