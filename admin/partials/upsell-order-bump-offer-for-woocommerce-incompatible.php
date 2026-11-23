@@ -21,13 +21,6 @@ if ( class_exists( 'Wpswings_Onboarding_Helper' ) ) {
 	$this->onboard = new Wpswings_Onboarding_Helper();
 }
 
-$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-if ( ! $id_nonce_verified ) {
-	wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-}
-
 $wps_ubo_lite_active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'bump-list';
 
 if ( 'overview' === get_transient( 'wps_ubo_lite_default_settings_tab' ) ) {

@@ -17,13 +17,6 @@ if (! defined('ABSPATH')) {
 
 define('ONBOARD_PLUGIN_NAME', 'Upsell Order Bump Offer for WooCommerce');
 
-$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
-$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
-
-if (! $id_nonce_verified) {
-	wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
-}
-
 $wps_ubo_lite_active_tab = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])) : '';
 $wps_ubo_lite_active_page = isset($_GET['page']) ? sanitize_text_field(wp_unslash($_GET['page'])) : '';
 $sub_tab = isset($_GET['sub_tab']) ? sanitize_text_field(wp_unslash($_GET['sub_tab'])) : ''; // Unsplash before sanitizing.

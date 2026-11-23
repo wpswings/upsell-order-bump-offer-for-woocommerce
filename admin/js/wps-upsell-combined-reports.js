@@ -99,7 +99,7 @@
                 setLoading(true);
                 jQuery.ajax({
                     url: ajaxurl,
-                    data: { action: ajaxAction },
+                    data: { action: ajaxAction, nonce: ( window.wpsUboReports || {} ).nonce },
                     success: (res) => {
                         if (res.success) setData(res.data);
                         setLoading(false);
