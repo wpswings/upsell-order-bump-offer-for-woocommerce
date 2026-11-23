@@ -15,11 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$secure_nonce      = wp_create_nonce( 'wps-upsell-tracking-nonce' );
-$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-tracking-nonce' );
-if ( ! $id_nonce_verified ) {
-	wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-}
 $active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'reporting';
 
 if ( 'overview' === get_transient( 'wps_upsell_default_settings_tab' ) ) {

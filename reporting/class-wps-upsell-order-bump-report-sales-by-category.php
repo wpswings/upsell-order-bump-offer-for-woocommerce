@@ -61,13 +61,6 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report
 	public function __construct()
 	{
 
-		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
-		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
-
-		if (! $id_nonce_verified) {
-			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
-		}
-
 		if (isset($_GET['show_categories'])) {
 			$this->show_categories = is_array($_GET['show_categories']) ? array_map('absint', $_GET['show_categories']) : array(absint($_GET['show_categories']));
 		}
@@ -141,13 +134,6 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report
 			'month'      => __('This month', 'upsell-order-bump-offer-for-woocommerce'),
 			'7day'       => __('Last 7 days', 'upsell-order-bump-offer-for-woocommerce'),
 		);
-
-		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
-		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
-
-		if (! $id_nonce_verified) {
-			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
-		}
 
 		$this->chart_colours = array('#8eba36', '#3498db', '#1abc9c', '#34495e', '#2ecc71', '#f1c40f', '#e67e22', '#e74c3c', '#2980b9', '#8e44ad', '#2c3e50', '#16a085', '#27ae60', '#f39c12', '#d35400', '#c0392b');
 
@@ -311,13 +297,6 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Category extends WC_Admin_Report
 	 */
 	public function get_export_button()
 	{
-
-		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
-		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
-
-		if (! $id_nonce_verified) {
-			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
-		}
 
 		$current_range = ! empty($_GET['range']) ? sanitize_text_field(wp_unslash($_GET['range'])) : '7day';
 	?>

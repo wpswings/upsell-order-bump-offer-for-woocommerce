@@ -343,4 +343,15 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertFalse( $game->render_game( false, 2 ), 'Standard bump not replaced.' );
 		ob_end_clean();
 	}
+
+	/* ------------------------------------------- security review F7 ( WPS-7886 ) */
+
+	public function test_f7_cart_offer_line_is_kept_to_one_discounted_unit() {
+		$product = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '40' ) );
+		$key     = WC()->cart->add_to_cart( $product->get_id(), 5, 0, array(), array( '_price' => '10' ) );
+		$this->pub->wps_order_cart_custom_price_refresh( WC()->cart );
+		$this->assertSame( 1, (int) WC()->cart->get_cart_item( $key )['quantity'] );
+		$this->assertEqualsWithDelta( 10.0, (float) WC()->cart->get_cart_item( $key )['data']->get_price(), 0.001 );
+		$this->assertFalse( $this->pub->wps_ubo_bump_line_quantity_editable( true, $product, WC()->cart->get_cart_item( $key ) ) );
+	}
 }

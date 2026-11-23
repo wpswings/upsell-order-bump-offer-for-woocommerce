@@ -338,4 +338,129 @@ class AdminTest extends WPS_UBO_Test_Case {
 		$this->assertSame( Upsell_Order_Bump_Reco_Db::DB_VERSION, get_option( Upsell_Order_Bump_Reco_Db::DB_VERSION_OPTION ) );
 		$this->assertNotFalse( get_option( 'wps_ubo_global_options' ) );
 	}
+
+	/* ------------------------------------------------ security review ( WPS-7886 ) */
+
+	/**
+	 * Run an admin search handler with an optional nonce.
+	 *
+	 * @param string      $method Handler.
+	 * @param string|null $nonce  Search nonce, null for none.
+	 * @return array ajax_call() result.
+	 */
+	private function search( $method, $nonce ) {
+		$_GET = array( 'q' => 'SAVE' );
+		$post = null === $nonce ? array() : array( 'wps_ubo_search_nonce' => $nonce );
+		$r    = $this->ajax_call( array( $this->admin, $method ), $post );
+		$_GET = array();
+		return $r;
+	}
+
+	public function test_f3_coupon_search_needs_shop_manager_and_nonce() {
+		$coupon = new WC_Coupon();
+		$coupon->set_code( 'SAVE10' );
+		$coupon->save();
+
+		$this->as_customer();
+		$r = $this->search( 'search_coupon_for_offers', wp_create_nonce( 'wps_ubo_admin_search' ) );
+		$this->assertFalse( $r['json']['success'], 'Customers cannot list coupons.' );
+		$this->assertStringNotContainsString( 'SAVE10', $r['raw'] );
+
+		$this->as_admin();
+		$this->assertSame( '-1', trim( $this->search( 'search_coupon_for_offers', null )['raw'] ), 'No nonce: refused.' );
+		$this->assertSame( '-1', trim( $this->search( 'search_coupon_for_offers', 'bad' )['raw'] ) );
+
+		$r = $this->search( 'search_coupon_for_offers', wp_create_nonce( 'wps_ubo_admin_search' ) );
+		$this->assertSame( $coupon->get_id(), (int) $r['json'][0][0] );
+	}
+
+	public function test_f3_product_searches_refuse_customers() {
+		WPS_UBO_Test_Factory::simple_product( array( 'name' => 'SAVE kayak' ) );
+		$this->as_customer();
+		$nonce = wp_create_nonce( 'wps_ubo_admin_search' );
+		foreach ( array( 'search_products_for_bump', 'search_products_for_offers', 'search_products_for_bump_offer_id', 'search_product_categories_for_bump', 'seach_products_for_funnel', 'search_product_categories_for_funnel', 'seach_products_for_offers' ) as $method ) {
+			$r = $this->search( $method, $nonce );
+			$this->assertFalse( $r['json']['success'], $method );
+		}
+	}
+
+	public function test_f3_search_nonce_is_attached_to_free_and_pro_search_scripts() {
+		$this->as_admin();
+		wp_register_script( 'wps-wocuf-pro-add_new-offer-script', 'https://example.org/pro.js', array(), '1', true );
+		wp_enqueue_script( 'wps-wocuf-pro-add_new-offer-script' );
+		$this->admin->attach_admin_search_nonce();
+		$before = implode( '', (array) wp_scripts()->get_data( 'wps-wocuf-pro-add_new-offer-script', 'before' ) );
+		$this->assertStringContainsString( 'wps_ubo_search_nonce', $before );
+		$this->assertStringContainsString( 'seach_products_for_funnel', $before );
+		wp_dequeue_script( 'wps-wocuf-pro-add_new-offer-script' );
+		wp_deregister_script( 'wps-wocuf-pro-add_new-offer-script' );
+	}
+
+	public function test_f4_stats_ajax_needs_shop_manager_and_nonce() {
+		$this->as_customer();
+		$r = $this->ajax_call( array( $this->admin, 'wps_ajax_get_bump_stats_data' ), array( 'nonce' => wp_create_nonce( 'wps_ubo_reports' ) ) );
+		$this->assertFalse( $r['json']['success'] );
+
+		$this->as_admin();
+		$this->assertSame( '-1', trim( $this->ajax_call( array( $this->admin, 'wps_ajax_get_upsell_funnel_data' ), array() )['raw'] ) );
+	}
+
+	public function test_f5_skip_onboarding_needs_nonce_and_capability() {
+		$helper = Wpswings_Onboarding_Helper::get_instance();
+		delete_option( 'onboarding-data-skipped' );
+
+		$this->as_customer();
+		$this->ajax_call( array( $helper, 'skip_onboarding_popup' ), array( 'nonce' => wp_create_nonce( 'wps_onboarding_nonce' ) ) );
+		$this->assertFalse( get_option( 'onboarding-data-skipped' ) );
+
+		wp_set_current_user( 0 );
+		$this->assertSame( '-1', trim( $this->ajax_call( array( $helper, 'skip_onboarding_popup' ), array() )['raw'] ) );
+		$this->assertFalse( has_action( 'wp_ajax_nopriv_skip_onboarding_popup' ), 'No guest hook.' );
+
+		$this->as_admin();
+		$this->ajax_call( array( $helper, 'skip_onboarding_popup' ), array( 'nonce' => wp_create_nonce( 'wps_onboarding_nonce' ) ) );
+		$this->assertNotFalse( get_option( 'onboarding-data-skipped' ) );
+	}
+
+	public function test_f1_no_placeholder_plugin_is_created_and_old_one_is_removed() {
+		$this->assertFalse( function_exists( 'wps_create_plugin_folder' ) );
+		$this->assertFalse( has_filter( 'plugin_action_links', 'wps_remove_deactivate_option' ) );
+
+		$dir  = WP_PLUGIN_DIR . '/woo-one-click-upsell-funnel';
+		$file = $dir . '/woocommerce-one-click-upsell-funnel.php';
+		if ( ! is_dir( $dir ) ) {
+			mkdir( $dir, 0755, true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
+		}
+		$stub = "<?php\n\t\t\t\t/*\n\t\t\t\tPlugin Name: Woo One Click Upsell Funnel\n\t\t\t\tPlugin URI: https://example.com\n\t\t\t\tDescription: Upsell Funnel Builder.\n\t\t\t\tVersion: 4.2.11\n\t\t\t\tAuthor: WPSwings\n\t\t\t\tAuthor URI: https://wpswings.com/\n\t\t\t\t*/\n\t\t\t\t";
+		file_put_contents( $file, $stub ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+		update_option( 'active_plugins', array_merge( (array) get_option( 'active_plugins', array() ), array( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) ) );
+		update_option( 'wps_manual_create_upsell', 'done' );
+
+		$this->as_customer();
+		wps_ubo_remove_legacy_funnel_stub();
+		$this->assertFileExists( $file, 'Only admins who can manage plugins trigger the cleanup.' );
+
+		$this->as_admin();
+		wps_ubo_remove_legacy_funnel_stub();
+		$this->assertFileDoesNotExist( $file );
+		$this->assertNotContains( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php', (array) get_option( 'active_plugins' ) );
+		$this->assertFalse( get_option( 'wps_manual_create_upsell' ) );
+	}
+
+	public function test_f1_a_real_plugin_in_that_folder_is_never_touched() {
+		$dir  = WP_PLUGIN_DIR . '/woo-one-click-upsell-funnel';
+		$file = $dir . '/woocommerce-one-click-upsell-funnel.php';
+		if ( ! is_dir( $dir ) ) {
+			mkdir( $dir, 0755, true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
+		}
+		file_put_contents( $file, "<?php\n/*\nPlugin Name: Woo One Click Upsell Funnel\n*/\nrequire __DIR__ . '/includes/real.php';\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+		update_option( 'wps_manual_create_upsell', 'done' );
+
+		$this->as_admin();
+		wps_ubo_remove_legacy_funnel_stub();
+		$this->assertFileExists( $file );
+
+		unlink( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
+		rmdir( $dir ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir
+	}
 }

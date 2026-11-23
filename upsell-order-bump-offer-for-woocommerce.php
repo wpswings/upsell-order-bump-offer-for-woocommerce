@@ -388,135 +388,50 @@ if ( $wps_ubo_activated ) {
 		}
 		add_action( 'admin_init', 'wps_redirect_to_bump_list' );
 
-		// Run this function only when the plugin is activated.
-		register_activation_hook( __FILE__, 'wps_activate_plugin' );
-
 		/**
-		 * Handles plugin activation.
+		 * Remove the "Woo One Click Upsell Funnel" placeholder plugin that older versions
+		 * created in wp-content/plugins/woo-one-click-upsell-funnel/, activated and hid the
+		 * Deactivate link of ( WordPress.org guideline issue; it also blocked the real
+		 * plugin with that slug ). The funnel builder ships inside this plugin.
 		 *
-		 * This function checks if the "Woo One Click Upsell Funnel" plugin exists.
-		 * If not, it creates the required plugin folder and file, then activates it.
+		 * Only touches the placeholder this plugin wrote ( option wps_manual_create_upsell
+		 * = done and the file is exactly that header-only stub ), never a real install.
 		 *
-		 * @since 1.0.0
+		 * @since 3.1.8
 		 * @return void
 		 */
-		function wps_activate_plugin() {
-			ob_start();
-			if ( ! wps_plugin_exists( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) ) {
-				update_option( 'wps_manual_create_upsell', 'done' );
-				wps_create_plugin_folder(); // Create the plugin folder and file.
-				wps_activate_created_plugin();
+		function wps_ubo_remove_legacy_funnel_stub() {
+			if ( 'done' !== get_option( 'wps_manual_create_upsell' ) || ! current_user_can( 'activate_plugins' ) ) {
+				return;
 			}
-			ob_end_clean(); // Discard buffer content.
-		}
 
+			$plugin = 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php';
+			$dir    = WP_PLUGIN_DIR . '/woo-one-click-upsell-funnel';
+			$file   = WP_PLUGIN_DIR . '/' . $plugin;
+			$stub   = "<?php\n/*\nPlugin Name: Woo One Click Upsell Funnel\nPlugin URI: https://example.com\nDescription: Upsell Funnel Builder.\nVersion: 4.2.11\nAuthor: WPSwings\nAuthor URI: https://wpswings.com/\n*/";
 
-		/**
-		 * Checks if a plugin exists in the plugins directory.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $plugin_path Relative path to the plugin file.
-		 * @return bool True if the plugin exists, false otherwise.
-		 */
-		function wps_plugin_exists( $plugin_path ) {
-			return file_exists( WP_PLUGIN_DIR . '/' . $plugin_path );
-		}
+			if ( file_exists( $file ) ) {
+				$contents = (string) file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local file.
+				$files    = glob( $dir . '/*' );
+				$is_stub  = preg_replace( '/\s+/', '', $contents ) === preg_replace( '/\s+/', '', $stub ) && is_array( $files ) && 1 === count( $files );
 
+				if ( $is_stub ) {
+					if ( ! function_exists( 'deactivate_plugins' ) ) {
+						require_once ABSPATH . 'wp-admin/includes/plugin.php';
+					}
+					deactivate_plugins( $plugin, true );
 
-		/**
-		 * Creates the plugin folder and main plugin file if they do not exist.
-		 *
-		 * This function checks if the "woo-one-click-upsell-funnel" folder exists in
-		 * the WordPress plugins directory. If not, it creates the folder and a main
-		 * plugin file with basic metadata.
-		 *
-		 * @since 1.0.0
-		 * @return void
-		 */
-		function wps_create_plugin_folder() {
-			$plugin_dir  = WP_PLUGIN_DIR . '/woo-one-click-upsell-funnel/';
-			$plugin_file = $plugin_dir . 'woocommerce-one-click-upsell-funnel.php';
-
-			// Initialize WP_Filesystem.
-			if ( function_exists( 'WP_Filesystem' ) ) {
-				WP_Filesystem();
-
-				global $wp_filesystem;
-				// Create the directory if it doesn't exist.
-				if ( ! $wp_filesystem->is_dir( $plugin_dir ) ) {
-					$wp_filesystem->mkdir( $plugin_dir, 0755, true );
-				}
-
-				// Create the plugin file if it doesn't exist.
-				if ( ! file_exists( $plugin_file ) ) {
-					$plugin_content = '<?php
-				/*
-				Plugin Name: Woo One Click Upsell Funnel
-				Plugin URI: https://example.com
-				Description: Upsell Funnel Builder.
-				Version: 4.2.11
-				Author: WPSwings
-				Author URI: https://wpswings.com/
-				*/
-				';
-					file_put_contents( $plugin_file, $plugin_content );
-				}
-			}
-		}
-
-
-		add_filter( 'plugin_action_links', 'wps_remove_deactivate_option', 10, 4 );
-
-		/**
-		 * Removes the "Deactivate" option for a specific plugin.
-		 *
-		 * This function prevents users from deactivating the "Woo One Click Upsell Funnel" plugin.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param array  $actions      An array of plugin action links.
-		 * @param string $plugin_file  Path to the plugin file relative to the plugins directory.
-		 * @param array  $plugin_data  An array of plugin data.
-		 * @param string $context      The plugin context.
-		 *
-		 * @return array Modified plugin action links.
-		 */
-		function wps_remove_deactivate_option( $actions, $plugin_file, $plugin_data, $context ) {
-			$protected_plugin = 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php';
-
-			$already_existed = get_option( 'wps_manual_create_upsell' );
-			if ( wps_ubo_lite_is_plugin_active( 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php' ) ) {
-
-				if ( 'done' != $already_existed ) {
-					return $actions;
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					if ( WP_Filesystem() ) {
+						global $wp_filesystem;
+						$wp_filesystem->delete( $dir, true );
+					}
 				}
 			}
 
-			if ( $plugin_file === $protected_plugin ) {
-				unset( $actions['deactivate'] ); // Remove the "Deactivate" button.
-			}
-
-			return $actions;
+			delete_option( 'wps_manual_create_upsell' );
 		}
-
-
-		/**
-		 * Activates the created plugin if it exists.
-		 *
-		 * @since 1.0.0
-		 */
-		function wps_activate_created_plugin() {
-			$plugin_path = 'woo-one-click-upsell-funnel/woocommerce-one-click-upsell-funnel.php';
-
-			if ( wps_plugin_exists( $plugin_path ) ) {
-				$wps_ubo_active_plugins = get_option( 'active_plugins', array() );
-				if ( ! in_array( $plugin_path, $wps_ubo_active_plugins, true ) ) {
-					$wps_ubo_active_plugins[] = $plugin_path;
-					update_option( 'active_plugins', $wps_ubo_active_plugins );
-				}
-			}
-		}
+		add_action( 'admin_init', 'wps_ubo_remove_legacy_funnel_stub' );
 
 		/**
 		 * This function is used to check PAR pro plugin is active or not.
@@ -565,13 +480,6 @@ if ( $wps_ubo_activated ) {
 		 * @since    1.0.0
 		 */
 		function wps_ubo_lite_plugin_activation_failure() {
-			$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-			$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-			if ( ! $id_nonce_verified ) {
-				wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-			}
-
 			// To hide Plugin activated notice.
 			$is_activate = isset( $_GET['activate'] ) ? sanitize_text_field( wp_unslash( $_GET['activate'] ) ) : '';
 			if ( ! empty( $is_activate ) ) {
@@ -825,13 +733,6 @@ if ( $wps_ubo_activated ) {
 	 * @return void
 	 */
 	function wps_ubo_banner_notification_html() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
-
 		$screen = get_current_screen();
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 

@@ -26,17 +26,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  * view/edit and delete option.
  */
 
-$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-if ( ! $id_nonce_verified ) {
-	wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-}
 
 // Delete bumps.
 if ( isset( $_GET['del_bump_id'] ) ) {
 
 	$bump_id = sanitize_text_field( wp_unslash( $_GET['del_bump_id'] ) );
+
+	// Real CSRF + capability check ( the link carries a per-bump nonce ).
+	check_admin_referer( 'wps_ubo_del_bump_' . $bump_id, 'wps_ubo_nonce' );
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		wp_die( esc_html__( 'You are not allowed to do this.', 'upsell-order-bump-offer-for-woocommerce' ) );
+	}
 
 	// Get all bumps.
 	$wps_upsell_bumps = get_option( 'wps_ubo_bump_list' );
@@ -90,6 +90,12 @@ if ( isset( $_GET['del_bump_id'] ) ) {
 if ( isset( $_GET['clone_bump_id'] ) ) {
 
 	$bump_id = sanitize_text_field( wp_unslash( $_GET['clone_bump_id'] ) );
+
+	// Real CSRF + capability check ( the link carries a per-bump nonce ).
+	check_admin_referer( 'wps_ubo_clone_bump_' . $bump_id, 'wps_ubo_nonce' );
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		wp_die( esc_html__( 'You are not allowed to do this.', 'upsell-order-bump-offer-for-woocommerce' ) );
+	}
 
 	// Get all bumps.
 	$wps_upsell_bumps = get_option( 'wps_ubo_bump_list' );
@@ -403,9 +409,9 @@ if ( ! wps_ubo_lite_if_pro_exists() ) {
 
 						<div class="wps-ubo-bump-block wps-ubo-bump-actions">
 							<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=creation-setting&bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'View / Edit', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
-							<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section&del_bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+							<a class="wps_upsell_bump_links" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section&del_bump_id=' . rawurlencode( $key ) ), 'wps_ubo_del_bump_' . $key, 'wps_ubo_nonce' ) ); ?>"><?php esc_html_e( 'Delete', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 							<?php if ( wps_ubo_lite_is_plugin_active( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php' ) ) { ?>
-								<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section&clone_bump_id=<?php echo esc_html( $key ); ?>"><?php esc_html_e( 'Clone', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
+								<a class="wps_upsell_bump_links" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=upsell-order-bump-offer-for-woocommerce-setting&tab=order-bump-section&sub_tab=pre-list-offer-section&clone_bump_id=' . rawurlencode( $key ) ), 'wps_ubo_clone_bump_' . $key, 'wps_ubo_nonce' ) ); ?>"><?php esc_html_e( 'Clone', 'upsell-order-bump-offer-for-woocommerce' ); ?></a>
 							<?php } ?>
 						<a class="wps_upsell_bump_links" href="?page=upsell-order-bump-offer-for-woocommerce-pre-reporting"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

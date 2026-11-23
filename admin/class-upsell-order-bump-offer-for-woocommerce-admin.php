@@ -202,6 +202,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					'1.0.0',
 					true
 				);
+				wp_localize_script( 'wps-combined-reports', 'wpsUboReports', array( 'nonce' => wp_create_nonce( 'wps_ubo_reports' ) ) );
 
 				wp_enqueue_script( 'wps_ubo_lite_admin_script', plugin_dir_url( __FILE__ ) . 'js/upsell-order-bump-offer-for-woocommerce-admin.js', array( 'jquery' ), time(), false );
 				wp_register_script( 'woocommerce_admin', WC()->plugin_url() . '/assets/js/admin/woocommerce_admin.js', array( 'jquery', 'jquery-blockui', 'jquery-ui-sortable', 'jquery-ui-widget', 'jquery-ui-core', 'jquery-tiptip', 'wc-enhanced-select', 'dompurify' ), WC_VERSION, false );
@@ -227,13 +228,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 					),
 					'is_pro_active' => $wps_is_pro_active,
 				);
-
-				$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-				$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-				if ( ! $id_nonce_verified ) {
-					wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-				}
 
 				wp_enqueue_script( 'wp-color-picker' );
 
@@ -313,6 +307,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 						'ajaxurl'    => admin_url( 'admin-ajax.php' ),
 						'auth_nonce' => wp_create_nonce( 'wps_onboarding_nonce' ),
 						'one_click_funnel_nonce' => wp_create_nonce( 'wps_wocuf_nonce' ),
+						'dismiss_notice_nonce' => wp_create_nonce( 'wps_ubo_dismiss_notice' ),
 						'screen_id' => $screen->id,
 						'funnel_builder_pro_is_enable' => wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ),
 					)
@@ -522,17 +517,66 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	}
 
 	/**
+	 * Attach the admin search nonce to the product / coupon / category search requests.
+	 *
+	 * Runs late on admin_enqueue_scripts and adds a small inline script before whichever
+	 * search script is enqueued ( this plugin's, or the Pro plugin's funnel editor script,
+	 * which calls the same AJAX actions ), so every caller sends the nonce.
+	 *
+	 * @return void
+	 */
+	public function attach_admin_search_nonce() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			return;
+		}
+		$actions = array(
+			'search_products_for_bump',
+			'search_products_for_offers',
+			'search_products_for_bump_offer_id',
+			'search_coupon_for_offers',
+			'search_product_categories_for_bump',
+			'seach_products_for_funnel',
+			'search_product_categories_for_funnel',
+			'seach_products_for_offers',
+		);
+		$js = '( function ( $, nonce, actions ) {'
+			. 'if ( ! $ || ! nonce ) { return; }'
+			. '$.ajaxPrefilter( function ( o ) {'
+			. 'if ( typeof o.data !== "string" || /(^|&)wps_ubo_search_nonce=/.test( o.data ) ) { return; }'
+			. 'var m = o.data.match( /(?:^|&)action=([^&]+)/ );'
+			. 'if ( m && actions.indexOf( decodeURIComponent( m[1] ) ) !== -1 ) { o.data += "&wps_ubo_search_nonce=" + encodeURIComponent( nonce ); }'
+			. '} );'
+			. '} )( window.jQuery, ' . wp_json_encode( wp_create_nonce( 'wps_ubo_admin_search' ) ) . ', ' . wp_json_encode( $actions ) . ' );';
+
+		foreach ( array( 'wps_ubo_lite_add_new_offer_script', 'wps-wocuf-pro-add_new-offer-script' ) as $handle ) {
+			if ( wp_script_is( $handle, 'enqueued' ) ) {
+				wp_add_inline_script( $handle, $js, 'before' );
+			}
+		}
+	}
+
+	/**
+	 * Admin AJAX guard: a real nonce ( CSRF ) and the shop-manager capability ( authorization ).
+	 * Dies with -1 on a bad nonce and a 403 JSON error without the capability.
+	 *
+	 * @param string $action Nonce action.
+	 * @param string $arg    Request key holding the nonce.
+	 * @return void
+	 */
+	private function verify_admin_ajax( $action, $arg ) {
+		check_ajax_referer( $action, $arg );
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You are not allowed to do this.', 'upsell-order-bump-offer-for-woocommerce' ) ), 403 );
+		}
+	}
+
+	/**
 	 * Select2 search for adding bump target products.
 	 *
 	 * @since    1.0.0
 	 */
 	public function search_products_for_bump() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
+		$this->verify_admin_ajax( 'wps_ubo_admin_search', 'wps_ubo_search_nonce' );
 
 		$return         = array();
 		$search_results = new WP_Query(
@@ -597,12 +641,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since    1.0.0
 	 */
 	public function search_products_for_offers() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
+		$this->verify_admin_ajax( 'wps_ubo_admin_search', 'wps_ubo_search_nonce' );
 
 		$return         = array();
 		$search_results = new WP_Query(
@@ -668,12 +707,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since    1.0.0
 	 */
 	public function search_products_for_bump_offer_id() {
-		$secure_nonce = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
+		$this->verify_admin_ajax( 'wps_ubo_admin_search', 'wps_ubo_search_nonce' );
 
 		$return = array();
 
@@ -707,12 +741,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since    1.0.0
 	 */
 	public function search_coupon_for_offers() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
+		$this->verify_admin_ajax( 'wps_ubo_admin_search', 'wps_ubo_search_nonce' );
 
 		$return         = array();
 		$search_results = new WP_Query(
@@ -761,12 +790,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since    1.0.0
 	 */
 	public function search_product_categories_for_bump() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
+		$this->verify_admin_ajax( 'wps_ubo_admin_search', 'wps_ubo_search_nonce' );
 
 		$return = array();
 		$args   = array(
@@ -982,13 +1006,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since    1.4.0
 	 */
 	public function deactivate_pro_plugin() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
-
 		// To hide Plugin activated notice.
 		if ( ! empty( $_GET['activate'] ) ) {
 
@@ -1213,12 +1230,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since 2.2.8
 	 */
 	public function wps_install_and_redirect_upsell_plugin_callback() {
-		 $secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
 		wp_send_json_success( array( 'redirect_url' => admin_url( 'plugin-install.php?s=Upsell%2520Order%2520Bump%2520Offer%2520for%2520WooCommerce%2520%25E2%2580%2593%2520Increase%2520Sales%2520and%2520AOV%252C%2520Upsell%2520%2526%2520Cross-sell%2520Offers%2520on%2520Checkout%2520Page%2520%2520wp%2520swings&tab=search&type=term' ) ) );
 		wp_die();
 	}
@@ -1232,12 +1243,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	public function seach_products_for_funnel() {
 		$return = array();
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
+		$this->verify_admin_ajax( 'wps_ubo_admin_search', 'wps_ubo_search_nonce' );
 
 		$search_results = new WP_Query(
 			array(
@@ -1303,12 +1309,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	public function search_product_categories_for_funnel() {
 		$return = array();
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
+		$this->verify_admin_ajax( 'wps_ubo_admin_search', 'wps_ubo_search_nonce' );
 
 		$args = array(
 			'search'   => ! empty( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '',
@@ -1341,12 +1342,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	public function seach_products_for_offers() {
 		$return = array();
 
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
+		$this->verify_admin_ajax( 'wps_ubo_admin_search', 'wps_ubo_search_nonce' );
 
 		$search_results = new WP_Query(
 			array(
@@ -1409,6 +1405,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since       2.0.0
 	 */
 	public function dismiss_elementor_inactive_notice() {
+		$this->verify_admin_ajax( 'wps_ubo_dismiss_notice', 'nonce' );
 		set_transient( 'wps_upsell_elementor_inactive_notice', 'notice_dismissed' );
 
 		wp_die();
@@ -2210,13 +2207,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @since    1.0.0
 	 */
 	public function wps_wocuf_pro_restrict_manage_posts() {
-		 $secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
-
 		if ( isset( $_GET['post_type'] ) && 'shop_order' === sanitize_key( wp_unslash( $_GET['post_type'] ) ) ) {
 
 			if ( isset( $_GET['wps_wocuf_pro_upsell_filter'] ) ) :
@@ -2250,13 +2240,6 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @return   array    $vars    array of queries alongwith select dropdown query for upsell
 	 */
 	public function wps_wocuf_pro_request_query( $vars ) {
-
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
 
 		if ( isset( $_GET['wps_wocuf_pro_upsell_filter'] ) && 'all_upsells' === $_GET['wps_wocuf_pro_upsell_filter'] ) {
 
@@ -3787,6 +3770,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function wps_ajax_get_upsell_funnel_data() {
+		$this->verify_admin_ajax( 'wps_ubo_reports', 'nonce' );
+
 		if ( wps_is_plugin_active_with_version( 'upsell-order-bump-offer-for-woocommerce-pro/upsell-order-bump-offer-for-woocommerce-pro.php', '3.0.0' ) ) {
 			$funnels_list = get_option( 'wps_wocuf_pro_funnels_list' );
 		} else {
@@ -3845,6 +3830,8 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Admin {
 	 * @return void
 	 */
 	public function wps_ajax_get_bump_stats_data() {
+		$this->verify_admin_ajax( 'wps_ubo_reports', 'nonce' );
+
 		$order_bumps = get_option( 'wps_ubo_bump_list' );
 		$stats = array(
 			'summary' => array(

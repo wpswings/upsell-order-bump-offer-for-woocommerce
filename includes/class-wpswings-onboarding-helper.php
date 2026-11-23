@@ -128,7 +128,6 @@ class Wpswings_Onboarding_Helper {
 
 		// Ajax to Skip popup.
 		add_action( 'wp_ajax_skip_onboarding_popup', array( $this, 'skip_onboarding_popup' ) );
-		add_action( 'wp_ajax_nopriv_skip_onboarding_popup', array( $this, 'skip_onboarding_popup' ) );
 	}
 
 	/**
@@ -819,6 +818,11 @@ class Wpswings_Onboarding_Helper {
 	 * @since    1.4.0
 	 */
 	public function skip_onboarding_popup() {
+		// Admin-only: real nonce ( sent by the onboarding script ) and capability.
+		check_ajax_referer( 'wps_onboarding_nonce', 'nonce' );
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error( null, 403 );
+		}
 
 		$get_skipped_timstamp = update_option( 'onboarding-data-skipped', time() );
 		echo wp_json_encode( 'true' );
@@ -832,13 +836,6 @@ class Wpswings_Onboarding_Helper {
 	 * @since    1.4.0
 	 */
 	public function add_wps_additional_validation( $result = true ) {
-
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
 
 		if ( ! empty( $_GET['tab'] ) && 'settings' !== $_GET['tab'] ) {
 

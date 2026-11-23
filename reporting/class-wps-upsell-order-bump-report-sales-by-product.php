@@ -179,13 +179,6 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report
 			'item_count'   => '#dbe1e3',
 		);
 
-		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
-		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
-
-		if (! $id_nonce_verified) {
-			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
-		}
-
 		$current_range = ! empty($_GET['range']) ? sanitize_text_field(wp_unslash($_GET['range'])) : '7day'; //phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
 
 		if (! in_array($current_range, array('custom', 'year', 'last_month', 'month', '7day'), true)) {
@@ -466,13 +459,6 @@ class Wps_Upsell_Order_Bump_Report_Sales_By_Product extends WC_Admin_Report
 	 */
 	public function get_export_button()
 	{
-
-		$secure_nonce      = wp_create_nonce('wps-upsell-auth-nonce');
-		$id_nonce_verified = wp_verify_nonce($secure_nonce, 'wps-upsell-auth-nonce');
-
-		if (! $id_nonce_verified) {
-			wp_die(esc_html__('Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce'));
-		}
 
 		$current_range = ! empty($_GET['range']) ? sanitize_text_field(wp_unslash($_GET['range'])) : '7day'; //phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
 	?>

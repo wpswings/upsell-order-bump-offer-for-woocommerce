@@ -285,6 +285,7 @@ jQuery(document).ready(function ($) {
         url: wps_ubo_lite_ajaxurl.ajaxurl,
         data: {
           action: "wps_upsell_dismiss_elementor_inactive_notice",
+          nonce: wps_ubo_lite_ajaxurl.dismiss_notice_nonce,
         },
 
         success: function () {

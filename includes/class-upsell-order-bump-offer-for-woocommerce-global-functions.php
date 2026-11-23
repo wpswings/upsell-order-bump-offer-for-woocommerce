@@ -9033,13 +9033,6 @@ if ( ! function_exists( 'wps_upsell_lite_validate_upsell_nonce_funnel_builder' )
 	 * @return array
 	 */
 	function wps_upsell_lite_validate_upsell_nonce_funnel_builder() {
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
-
 		if ( isset( $_GET['ocuf_ns'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['ocuf_ns'] ) ), 'funnel_offers' ) ) {
 
 			return true;
@@ -9065,13 +9058,6 @@ if ( ! function_exists( 'wps_upsell_lite_get_pid_from_url_params_funnel_builder'
 	 */
 	function wps_upsell_lite_get_pid_from_url_params_funnel_builder() {
 		 $params['status']  = 'false';
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
-
 		if ( isset( $_GET['ocuf_ofd'] ) && isset( $_GET['ocuf_fid'] ) ) {
 
 			$params['status'] = 'true';
@@ -9100,13 +9086,6 @@ if ( ! function_exists( 'wps_upsell_lite_get_product_discount_funnel_builder' ) 
 	 */
 	function wps_upsell_lite_get_product_discount_funnel_builder() {
 		$wps_wocuf_pro_offered_discount = '';
-
-		$secure_nonce      = wp_create_nonce( 'wps-upsell-auth-nonce' );
-		$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-upsell-auth-nonce' );
-
-		if ( ! $id_nonce_verified ) {
-			wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
-		}
 
 		$funnel_id = isset( $_GET['ocuf_fid'] ) ? sanitize_text_field( wp_unslash( $_GET['ocuf_fid'] ) ) : 'not_set';
 		$offer_id  = isset( $_GET['ocuf_ofd'] ) ? sanitize_text_field( wp_unslash( $_GET['ocuf_ofd'] ) ) : 'not_set';
