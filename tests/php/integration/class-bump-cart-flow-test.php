@@ -7,24 +7,51 @@
  */
 
 /**
+ * Bump Cart Flow tests.
+ *
  * @covers Upsell_Order_Bump_Offer_For_Woocommerce_Public
  */
-class BumpCartFlowTest extends WPS_UBO_Test_Case {
+class Bump_Cart_Flow_Test extends WPS_UBO_Test_Case {
 
-	/** @var Upsell_Order_Bump_Offer_For_Woocommerce_Public */
+	/**
+	 * Pub.
+	 *
+	 * @var Upsell_Order_Bump_Offer_For_Woocommerce_Public
+	 */
 	private $pub;
 
-	/** @var WC_Product */
+	/**
+	 * Target.
+	 *
+	 * @var WC_Product
+	 */
 	private $target;
 
-	/** @var WC_Product */
+	/**
+	 * Offer.
+	 *
+	 * @var WC_Product
+	 */
 	private $offer;
 
+	/**
+	 * Set up the test fixture.
+	 */
 	public function set_up() {
 		parent::set_up();
 		$this->pub    = new Upsell_Order_Bump_Offer_For_Woocommerce_Public( 'upsell-order-bump-offer-for-woocommerce', '3.1.8' );
-		$this->target = WPS_UBO_Test_Factory::simple_product( array( 'name' => 'Camera', 'regular_price' => '200' ) );
-		$this->offer  = WPS_UBO_Test_Factory::simple_product( array( 'name' => 'Lens cap', 'regular_price' => '50' ) );
+		$this->target = WPS_UBO_Test_Factory::simple_product(
+			array(
+				'name' => 'Camera',
+				'regular_price' => '200',
+			)
+		);
+		$this->offer  = WPS_UBO_Test_Factory::simple_product(
+			array(
+				'name' => 'Lens cap',
+				'regular_price' => '50',
+			)
+		);
 		update_option( 'wps_ubo_global_options', wps_ubo_lite_default_global_options() );
 		WPS_UBO_Test_Factory::bump( $this->offer->get_id(), array( 'wps_upsell_bump_target_ids' => array( (string) $this->target->get_id() ) ) );
 		$this->viewed();
@@ -37,6 +64,11 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		( new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( 1 ) )->add_offer_view_count();
 	}
 
+	/**
+	 * Add offer.
+	 *
+	 * @param array $overrides Overrides.
+	 */
 	private function add_offer( $overrides = array() ) {
 		$target_key = WC()->cart->find_product_in_cart( WC()->cart->generate_cart_id( $this->target->get_id() ) );
 		return $this->ajax_call(
@@ -55,6 +87,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Bump item.
+	 */
 	private function bump_item() {
 		foreach ( WC()->cart->get_cart() as $key => $item ) {
 			if ( ! empty( $item['wps_ubo_offer_product'] ) ) {
@@ -64,6 +99,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		return array( null, null );
 	}
 
+	/**
+	 * Test: Add offer adds item with server side discount.
+	 */
 	public function test_add_offer_adds_item_with_server_side_discount() {
 		WC()->cart->add_to_cart( $this->target->get_id() );
 		$r = $this->add_offer();
@@ -96,6 +134,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->viewed();
 	}
 
+	/**
+	 * Test: QA posted quantity is ignored when quantity is off.
+	 */
 	public function test_qa_posted_quantity_is_ignored_when_quantity_is_off() {
 		WC()->cart->add_to_cart( $this->target->get_id() );
 		$this->add_offer( array( 'wps_qty_variable' => '10' ) );
@@ -103,6 +144,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 1, (int) $item['quantity'], 'A discounted bump cannot be bought in any quantity.' );
 	}
 
+	/**
+	 * Test: QA variable quantity is kept within min and max.
+	 */
 	public function test_qa_variable_quantity_is_kept_within_min_and_max() {
 		$this->bump_with_quantity(
 			array(
@@ -126,6 +170,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertFalse( $this->pub->wps_ubo_bump_line_quantity_editable( true, $this->offer, WC()->cart->cart_contents[ $key ] ) );
 	}
 
+	/**
+	 * Test: QA fixed quantity uses the configured amount.
+	 */
 	public function test_qa_fixed_quantity_uses_the_configured_amount() {
 		$this->bump_with_quantity(
 			array(
@@ -140,12 +187,18 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 2, (int) $item['quantity'] );
 	}
 
+	/**
+	 * Test: Add offer rejects bad nonce.
+	 */
 	public function test_add_offer_rejects_bad_nonce() {
 		$r = $this->add_offer( array( 'nonce' => 'nope' ) );
 		$this->assertSame( '-1', trim( $r['raw'] ) );
 		$this->assertNull( $this->bump_item()[0] );
 	}
 
+	/**
+	 * Test: Fixed price offer.
+	 */
 	public function test_fixed_price_offer() {
 		WPS_UBO_Test_Factory::bump(
 			$this->offer->get_id(),
@@ -161,6 +214,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertEqualsWithDelta( 12.0, (float) $this->bump_item()[1]['data']->get_price(), 0.001 );
 	}
 
+	/**
+	 * Test: Variable offer returns price HTML and adds nothing.
+	 */
 	public function test_variable_offer_returns_price_html_and_adds_nothing() {
 		$var = WPS_UBO_Test_Factory::variable_product();
 		WPS_UBO_Test_Factory::bump( $var->get_id() );
@@ -170,6 +226,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertNull( $this->bump_item()[0] );
 	}
 
+	/**
+	 * Test: Remove offer.
+	 */
 	public function test_remove_offer() {
 		WC()->cart->add_to_cart( $this->target->get_id() );
 		$this->add_offer();
@@ -187,6 +246,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertCount( 1, WC()->cart->get_cart() );
 	}
 
+	/**
+	 * Test: Removing target removes dependent offer.
+	 */
 	public function test_removing_target_removes_dependent_offer() {
 		$target_key = WC()->cart->add_to_cart( $this->target->get_id() );
 		$this->add_offer();
@@ -195,6 +257,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertNull( $this->bump_item()[0], 'Offer removed with its target (wps_ubo_offer_removal = yes).' );
 	}
 
+	/**
+	 * Test: Accept stats recorded in bump list.
+	 */
 	public function test_accept_stats_recorded_in_bump_list() {
 		WC()->cart->add_to_cart( $this->target->get_id() );
 		$this->add_offer();
@@ -203,6 +268,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 0, (int) $list[1]['offer_view_count'], 'Accepting removes the duplicate view from the re-render.' );
 	}
 
+	/**
+	 * Test: Reporting counters.
+	 */
 	public function test_reporting_counters() {
 		$report = new Wps_Upsell_Order_Bump_Report_Sales_By_Bump( 1 );
 		$report->add_offer_view_count();
@@ -221,6 +289,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertArrayNotHasKey( 99, get_option( 'wps_ubo_bump_list' ) );
 	}
 
+	/**
+	 * Test: Order line item gets bump meta and meta is hidden.
+	 */
 	public function test_order_line_item_gets_bump_meta_and_meta_is_hidden() {
 		WC()->cart->add_to_cart( $this->target->get_id() );
 		$this->add_offer();
@@ -248,15 +319,26 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		}
 	}
 
+	/**
+	 * Test: Order marked as bump order.
+	 */
 	public function test_order_marked_as_bump_order() {
 		WC()->cart->add_to_cart( $this->target->get_id() );
 		$this->add_offer();
 		WC()->cart->calculate_totals();
-		$order_id = WC()->checkout()->create_order( array( 'payment_method' => 'cod', 'billing_email' => 'b@example.org' ) );
+		$order_id = WC()->checkout()->create_order(
+			array(
+				'payment_method' => 'cod',
+				'billing_email' => 'b@example.org',
+			)
+		);
 		$this->pub->wps_mark_bump_order_if_needed( $order_id );
 		$this->assertSame( 'true', wc_get_order( $order_id )->get_meta( 'wps_bump_order' ) );
 	}
 
+	/**
+	 * Test: Cart emptied clears bump session.
+	 */
 	public function test_cart_emptied_clears_bump_session() {
 		WC()->cart->add_to_cart( $this->target->get_id() );
 		$this->add_offer();
@@ -264,6 +346,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertNull( WC()->session->get( 'bump_offer_status' ) );
 	}
 
+	/**
+	 * Test: Bump HTML rendered with checkbox and price.
+	 */
 	public function test_bump_html_rendered_with_checkbox_and_price() {
 		$key = WC()->cart->add_to_cart( $this->target->get_id() );
 		ob_start();
@@ -275,6 +360,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertStringContainsString( 'index_1', $html );
 	}
 
+	/**
+	 * Test: Bump output can be replaced by filter.
+	 */
 	public function test_bump_output_can_be_replaced_by_filter() {
 		$handled = static function () {
 			echo '<div class="custom-bump"></div>';
@@ -291,6 +379,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 
 	/* ------------------------------------------- gamified bump on the cart */
 
+	/**
+	 * Test: Gamified play draws prize and returns bump HTML.
+	 */
 	public function test_gamified_play_draws_prize_and_returns_bump_html() {
 		update_option(
 			Upsell_Order_Bump_Gamified::SETTINGS_OPTION,
@@ -304,7 +395,10 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 			)
 		);
 		$game = new Upsell_Order_Bump_Gamified_Public( '3.1.8' );
-		$post = array( 'nonce' => wp_create_nonce( Upsell_Order_Bump_Gamified_Public::NONCE_ACTION ), 'bump_id' => 1 );
+		$post = array(
+			'nonce' => wp_create_nonce( Upsell_Order_Bump_Gamified_Public::NONCE_ACTION ),
+			'bump_id' => 1,
+		);
 
 		// Not shown to this customer yet → refused.
 		$r = $this->ajax_call( array( $game, 'ajax_play' ), $post );
@@ -328,8 +422,19 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 		$this->assertEqualsWithDelta( $expected, (float) $this->bump_item()[1]['data']->get_price(), 0.01 );
 	}
 
+	/**
+	 * Test: Gamified render game markup.
+	 */
 	public function test_gamified_render_game_markup() {
-		update_option( Upsell_Order_Bump_Gamified::SETTINGS_OPTION, Upsell_Order_Bump_Gamified::sanitize_settings( array( 'enabled' => 'on', 'formats' => array( 1 => 'spin_wheel' ) ) ) );
+		update_option(
+			Upsell_Order_Bump_Gamified::SETTINGS_OPTION,
+			Upsell_Order_Bump_Gamified::sanitize_settings(
+				array(
+					'enabled' => 'on',
+					'formats' => array( 1 => 'spin_wheel' ),
+				)
+			)
+		);
 		$game = new Upsell_Order_Bump_Gamified_Public( '3.1.8' );
 		ob_start();
 		$handled = $game->render_game( false, 1 );
@@ -346,6 +451,9 @@ class BumpCartFlowTest extends WPS_UBO_Test_Case {
 
 	/* ------------------------------------------- security review F7 ( WPS-7886 ) */
 
+	/**
+	 * Test: F7 cart offer line is kept to one discounted unit.
+	 */
 	public function test_f7_cart_offer_line_is_kept_to_one_discounted_unit() {
 		$product = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '40' ) );
 		$key     = WC()->cart->add_to_cart( $product->get_id(), 5, 0, array(), array( '_price' => '10' ) );

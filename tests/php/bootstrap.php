@@ -57,8 +57,7 @@ tests_add_filter(
 			}
 		}
 		// Reload WC roles/capabilities after install.
-		$GLOBALS['wp_roles'] = null; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-		wp_roles();
+		wp_roles()->for_site();
 	}
 );
 

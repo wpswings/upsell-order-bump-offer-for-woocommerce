@@ -6,14 +6,19 @@
  */
 
 /**
+ * Reco tests.
+ *
  * @covers Upsell_Order_Bump_Reco_Db
  * @covers Upsell_Order_Bump_Reco_Engine
  * @covers Upsell_Order_Bump_Reco_Public
  * @covers Upsell_Order_Bump_Reco_Ai::parse
  * @covers Upsell_Order_Bump_Reco_Admin
  */
-class RecoTest extends WPS_UBO_Test_Case {
+class Reco_Test extends WPS_UBO_Test_Case {
 
+	/**
+	 * Set up the test fixture.
+	 */
 	public function set_up() {
 		parent::set_up();
 		Upsell_Order_Bump_Reco_Engine::flush_cache();
@@ -21,6 +26,11 @@ class RecoTest extends WPS_UBO_Test_Case {
 
 	/**
 	 * Insert a scored pair into the live model table.
+	 *
+	 * @param mixed $source Source.
+	 * @param mixed $target Target.
+	 * @param mixed $score Score.
+	 * @param array $extra Extra.
 	 */
 	private function pair( $source, $target, $score, $extra = array() ) {
 		global $wpdb;
@@ -44,6 +54,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 
 	/* ----------------------------------------------------------- settings */
 
+	/**
+	 * Test: Defaults.
+	 */
 	public function test_defaults() {
 		delete_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION );
 		$s = Upsell_Order_Bump_Reco_Db::get_settings();
@@ -53,6 +66,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertFalse( Upsell_Order_Bump_Reco_Db::is_enabled() );
 	}
 
+	/**
+	 * Test: Sanitize clamps and whitelists.
+	 */
 	public function test_sanitize_clamps_and_whitelists() {
 		$s = Upsell_Order_Bump_Reco_Db::sanitize_settings(
 			array(
@@ -83,27 +99,57 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 1.25, Upsell_Order_Bump_Reco_Db::sanitize_settings( array( 'min_lift' => '1.249' ) )['min_lift'] );
 	}
 
+	/**
+	 * Test: Model meta and has model.
+	 */
 	public function test_model_meta_and_has_model() {
 		delete_option( Upsell_Order_Bump_Reco_Db::MODEL_OPTION );
 		$this->assertSame( 'idle', Upsell_Order_Bump_Reco_Db::get_model()['status'] );
 		$this->assertFalse( Upsell_Order_Bump_Reco_Db::has_model() );
-		Upsell_Order_Bump_Reco_Db::update_model( array( 'trained_at' => time(), 'pairs' => 0 ) );
+		Upsell_Order_Bump_Reco_Db::update_model(
+			array(
+				'trained_at' => time(),
+				'pairs' => 0,
+			)
+		);
 		$this->assertFalse( Upsell_Order_Bump_Reco_Db::has_model(), 'A model with zero pairs is not usable.' );
 		$meta = Upsell_Order_Bump_Reco_Db::update_model( array( 'pairs' => 4 ) );
 		$this->assertTrue( Upsell_Order_Bump_Reco_Db::has_model() );
 		$this->assertSame( 4, $meta['pairs'] );
 	}
 
+	/**
+	 * Test: Reschedule by setting.
+	 */
 	public function test_reschedule_by_setting() {
-		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, Upsell_Order_Bump_Reco_Db::sanitize_settings( array( 'enabled' => 'on', 'schedule' => 'weekly' ) ) );
+		update_option(
+			Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION,
+			Upsell_Order_Bump_Reco_Db::sanitize_settings(
+				array(
+					'enabled' => 'on',
+					'schedule' => 'weekly',
+				)
+			)
+		);
 		Upsell_Order_Bump_Reco_Db::reschedule();
 		$this->assertNotFalse( as_next_scheduled_action( Upsell_Order_Bump_Reco_Db::TRAIN_HOOK, array(), Upsell_Order_Bump_Reco_Db::AS_GROUP ) );
 
-		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, Upsell_Order_Bump_Reco_Db::sanitize_settings( array( 'enabled' => 'on', 'schedule' => 'manual' ) ) );
+		update_option(
+			Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION,
+			Upsell_Order_Bump_Reco_Db::sanitize_settings(
+				array(
+					'enabled' => 'on',
+					'schedule' => 'manual',
+				)
+			)
+		);
 		Upsell_Order_Bump_Reco_Db::reschedule();
 		$this->assertFalse( as_next_scheduled_action( Upsell_Order_Bump_Reco_Db::TRAIN_HOOK, array(), Upsell_Order_Bump_Reco_Db::AS_GROUP ) );
 	}
 
+	/**
+	 * Test: Order statuses filter falls back.
+	 */
 	public function test_order_statuses_filter_falls_back() {
 		$this->assertSame( array( 'wc-completed', 'wc-processing' ), Upsell_Order_Bump_Reco_Engine::order_statuses() );
 		add_filter( 'wps_ubo_reco_order_statuses', '__return_empty_array' );
@@ -111,6 +157,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		remove_filter( 'wps_ubo_reco_order_statuses', '__return_empty_array' );
 	}
 
+	/**
+	 * Test: Train refuses when locked.
+	 */
 	public function test_train_refuses_when_locked() {
 		$this->assertTrue( Upsell_Order_Bump_Reco_Engine::acquire_lock() );
 		$result = Upsell_Order_Bump_Reco_Engine::train();
@@ -121,6 +170,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 
 	/* ------------------------------------------------------------ scoring */
 
+	/**
+	 * Test: Score combines anchors with noisy or.
+	 */
 	public function test_score_combines_anchors_with_noisy_or() {
 		$a = WPS_UBO_Test_Factory::simple_product();
 		$b = WPS_UBO_Test_Factory::simple_product();
@@ -141,6 +193,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 0.0, $none['score'] );
 	}
 
+	/**
+	 * Test: Score for variation uses parent.
+	 */
 	public function test_score_for_variation_uses_parent() {
 		$a   = WPS_UBO_Test_Factory::simple_product();
 		$var = WPS_UBO_Test_Factory::variable_product();
@@ -150,16 +205,32 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertEqualsWithDelta( 0.4, Upsell_Order_Bump_Reco_Engine::score_for( $child, array( $a->get_id() ) )['score'], 0.0001 );
 	}
 
+	/**
+	 * Test: Recommend orders excludes and validates.
+	 */
 	public function test_recommend_orders_excludes_and_validates() {
 		$a     = WPS_UBO_Test_Factory::simple_product();
 		$best  = WPS_UBO_Test_Factory::simple_product();
 		$mid   = WPS_UBO_Test_Factory::simple_product();
 		$oos   = WPS_UBO_Test_Factory::simple_product( array( 'stock_status' => 'outofstock' ) );
 		$draft = WPS_UBO_Test_Factory::simple_product();
-		wp_update_post( array( 'ID' => $draft->get_id(), 'post_status' => 'draft' ) );
+		wp_update_post(
+			array(
+				'ID' => $draft->get_id(),
+				'post_status' => 'draft',
+			)
+		);
 
 		$this->pair( $a->get_id(), $mid->get_id(), 0.3 );
-		$this->pair( $a->get_id(), $best->get_id(), 0.9, array( 'ai_score' => 0.8, 'ai_reason' => 'Pairs well' ) );
+		$this->pair(
+			$a->get_id(),
+			$best->get_id(),
+			0.9,
+			array(
+				'ai_score' => 0.8,
+				'ai_reason' => 'Pairs well',
+			)
+		);
 		$this->pair( $a->get_id(), $oos->get_id(), 0.95 );
 		$this->pair( $a->get_id(), $draft->get_id(), 0.97 );
 
@@ -175,6 +246,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( array(), Upsell_Order_Bump_Reco_Engine::recommend( array() ) );
 	}
 
+	/**
+	 * Test: Recommend never returns context products.
+	 */
 	public function test_recommend_never_returns_context_products() {
 		$a = WPS_UBO_Test_Factory::simple_product();
 		$b = WPS_UBO_Test_Factory::simple_product();
@@ -182,9 +256,25 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( array(), Upsell_Order_Bump_Reco_Engine::recommend( array( $a->get_id(), $b->get_id() ) ) );
 	}
 
+	/**
+	 * Test: Recommend skips already purchased for customer.
+	 */
 	public function test_recommend_skips_already_purchased_for_customer() {
-		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, Upsell_Order_Bump_Reco_Db::sanitize_settings( array( 'enabled' => 'on', 'exclude_purchased' => 'on' ) ) );
-		$user = self::factory()->user->create( array( 'role' => 'customer', 'user_email' => 'bought@example.org' ) );
+		update_option(
+			Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION,
+			Upsell_Order_Bump_Reco_Db::sanitize_settings(
+				array(
+					'enabled' => 'on',
+					'exclude_purchased' => 'on',
+				)
+			)
+		);
+		$user = self::factory()->user->create(
+			array(
+				'role' => 'customer',
+				'user_email' => 'bought@example.org',
+			)
+		);
 		$a    = WPS_UBO_Test_Factory::simple_product();
 		$b    = WPS_UBO_Test_Factory::simple_product();
 		$this->pair( $a->get_id(), $b->get_id(), 0.9 );
@@ -196,6 +286,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertCount( 0, Upsell_Order_Bump_Reco_Engine::recommend( array( $a->get_id() ), array( 'customer_id' => $user ) ) );
 	}
 
+	/**
+	 * Test: Top pairs.
+	 */
 	public function test_top_pairs() {
 		$this->pair( 1, 2, 0.2 );
 		$this->pair( 1, 3, 0.7 );
@@ -206,6 +299,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 
 	/* ------------------------------------------------- public / offer swap */
 
+	/**
+	 * Test: Targeting mode and product source.
+	 */
 	public function test_targeting_mode_and_product_source() {
 		$this->assertSame( 'static', Upsell_Order_Bump_Reco_Public::targeting_mode( array() ) );
 		$this->assertSame( 'hybrid', Upsell_Order_Bump_Reco_Public::targeting_mode( array( 'wps_ubo_targeting_mode' => 'hybrid' ) ) );
@@ -215,6 +311,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 'static', Upsell_Order_Bump_Reco_Public::product_source( array( 'wps_ubo_offer_product_source' => 'x' ) ) );
 	}
 
+	/**
+	 * Test: Cart context IDs ignore bump items.
+	 */
 	public function test_cart_context_ids_ignore_bump_items() {
 		$a = WPS_UBO_Test_Factory::simple_product();
 		$b = WPS_UBO_Test_Factory::simple_product();
@@ -226,6 +325,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( $expected, Upsell_Order_Bump_Reco_Public::cart_context_ids() );
 	}
 
+	/**
+	 * Test: Bump list read filter swaps AI product and guard restores.
+	 */
 	public function test_bump_list_read_filter_swaps_ai_product_and_guard_restores() {
 		$this->enable_engine();
 		$orig = WPS_UBO_Test_Factory::simple_product();
@@ -248,8 +350,14 @@ class RecoTest extends WPS_UBO_Test_Case {
 		WC()->session->set(
 			Upsell_Order_Bump_Reco_Public::SESSION_KEY,
 			array(
-				1 => array( 'pid' => $rec->get_id(), 'sig' => 'x' ),
-				2 => array( 'pid' => $rec->get_id(), 'sig' => 'x' ),
+				1 => array(
+					'pid' => $rec->get_id(),
+					'sig' => 'x',
+				),
+				2 => array(
+					'pid' => $rec->get_id(),
+					'sig' => 'x',
+				),
 			)
 		);
 		$read = get_option( 'wps_ubo_bump_list' );
@@ -264,6 +372,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertArrayNotHasKey( Upsell_Order_Bump_Reco_Public::MARKER, $raw[1] );
 	}
 
+	/**
+	 * Test: Funnels guard restores marker.
+	 */
 	public function test_funnels_guard_restores_marker() {
 		$value = array(
 			3 => array(
@@ -282,6 +393,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 'x', Upsell_Order_Bump_Reco_Public::guard_funnels_list( 'x' ) );
 	}
 
+	/**
+	 * Test: Offer product is available.
+	 */
 	public function test_offer_product_is_available() {
 		$p = WPS_UBO_Test_Factory::simple_product();
 		$this->assertTrue( Upsell_Order_Bump_Reco_Public::offer_product_is_available( $p->get_id() ) );
@@ -295,6 +409,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 
 	/* ------------------------------------------------------------- AI parse */
 
+	/**
+	 * Test: AI parse handles fences and clamps.
+	 */
 	public function test_ai_parse_handles_fences_and_clamps() {
 		$out = Upsell_Order_Bump_Reco_Ai::parse( "```json\n{\"recommendations\":[{\"product_id\":\"12\",\"score\":1.7,\"reason\":\"<b>Great</b> match\"},{\"product_id\":\"x\",\"score\":0.5},{\"score\":0.4}]}\n```" );
 		$this->assertSame(
@@ -310,6 +427,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( array(), Upsell_Order_Bump_Reco_Ai::parse( '{"recommendations":[]}' ), 'An empty list is a valid answer.' );
 	}
 
+	/**
+	 * Test: AI connectors empty without wp AI client.
+	 */
 	public function test_ai_connectors_empty_without_wp_ai_client() {
 		if ( Upsell_Order_Bump_Reco_Ai::client_exists() ) {
 			$this->markTestSkipped( 'WP AI client present on this install.' );
@@ -321,14 +441,24 @@ class RecoTest extends WPS_UBO_Test_Case {
 
 	/**
 	 * Engine on with a published model.
+	 *
+	 * @param array $extra Extra.
 	 */
 	private function enable_engine( $extra = array() ) {
 		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, Upsell_Order_Bump_Reco_Db::sanitize_settings( array_merge( array( 'enabled' => 'on' ), $extra ) ) );
-		Upsell_Order_Bump_Reco_Db::update_model( array( 'trained_at' => time(), 'pairs' => 1 ) );
+		Upsell_Order_Bump_Reco_Db::update_model(
+			array(
+				'trained_at' => time(),
+				'pairs' => 1,
+			)
+		);
 	}
 
 	/**
 	 * AI-sourced bump #1 offering $offer by default.
+	 *
+	 * @param mixed $offer Offer.
+	 * @param array $extra Extra.
 	 */
 	private function ai_bump( $offer, $extra = array() ) {
 		update_option(
@@ -346,12 +476,23 @@ class RecoTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Test: QA R1 engine off restores admin product and clears session.
+	 */
 	public function test_qa_r1_engine_off_restores_admin_product_and_clears_session() {
 		$this->enable_engine();
 		$orig = WPS_UBO_Test_Factory::simple_product();
 		$rec  = WPS_UBO_Test_Factory::simple_product();
 		$this->ai_bump( $orig );
-		WC()->session->set( Upsell_Order_Bump_Reco_Public::SESSION_KEY, array( 1 => array( 'pid' => $rec->get_id(), 'sig' => 'x' ) ) );
+		WC()->session->set(
+			Upsell_Order_Bump_Reco_Public::SESSION_KEY,
+			array(
+				1 => array(
+					'pid' => $rec->get_id(),
+					'sig' => 'x',
+				),
+			)
+		);
 		$this->assertSame( (string) $rec->get_id(), get_option( 'wps_ubo_bump_list' )[1]['wps_upsell_bump_products_in_offer'] );
 
 		// Switched off: the very next read shows the admin product and the decision is gone.
@@ -361,11 +502,22 @@ class RecoTest extends WPS_UBO_Test_Case {
 
 		// Model deleted: same.
 		$this->enable_engine();
-		WC()->session->set( Upsell_Order_Bump_Reco_Public::SESSION_KEY, array( 1 => array( 'pid' => $rec->get_id(), 'sig' => 'x' ) ) );
+		WC()->session->set(
+			Upsell_Order_Bump_Reco_Public::SESSION_KEY,
+			array(
+				1 => array(
+					'pid' => $rec->get_id(),
+					'sig' => 'x',
+				),
+			)
+		);
 		Upsell_Order_Bump_Reco_Db::delete_model();
 		$this->assertSame( (string) $orig->get_id(), get_option( 'wps_ubo_bump_list' )[1]['wps_upsell_bump_products_in_offer'] );
 	}
 
+	/**
+	 * Test: QA R2 train now queues background run.
+	 */
 	public function test_qa_r2_train_now_queues_background_run() {
 		delete_option( Upsell_Order_Bump_Reco_Db::MODEL_OPTION );
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
@@ -389,6 +541,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		as_unschedule_all_actions( Upsell_Order_Bump_Reco_Db::TRAIN_HOOK, array(), Upsell_Order_Bump_Reco_Db::AS_GROUP );
 	}
 
+	/**
+	 * Test: QA R3 lock is exclusive expires and stale status recovers.
+	 */
 	public function test_qa_r3_lock_is_exclusive_expires_and_stale_status_recovers() {
 		global $wpdb;
 		$this->assertTrue( Upsell_Order_Bump_Reco_Engine::acquire_lock() );
@@ -414,6 +569,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		Upsell_Order_Bump_Reco_Engine::release_lock();
 	}
 
+	/**
+	 * Test: QA R4 parser is robust.
+	 */
 	public function test_qa_r4_parser_is_robust() {
 		$prose = 'Sure! Here you go: {"recommendations":[{"product_id":12,"score":0.8,"reason":"Fits {nicely}"}]} Let me know {see notes}.';
 		$this->assertSame( array( 12 ), array_keys( Upsell_Order_Bump_Reco_Ai::parse( $prose ) ) );
@@ -427,6 +585,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertWPError( Upsell_Order_Bump_Reco_Ai::parse( '{"other":1}' ) );
 	}
 
+	/**
+	 * Test: QA R5 out of stock pick is replaced.
+	 */
 	public function test_qa_r5_out_of_stock_pick_is_replaced() {
 		$this->enable_engine();
 		$anchor = WPS_UBO_Test_Factory::simple_product();
@@ -449,8 +610,19 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( (string) $second->get_id(), $bump['wps_upsell_bump_products_in_offer'], 'Next pick offered, not nothing.' );
 	}
 
+	/**
+	 * Test: QA R6 guest purchase history by email.
+	 */
 	public function test_qa_r6_guest_purchase_history_by_email() {
-		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, Upsell_Order_Bump_Reco_Db::sanitize_settings( array( 'enabled' => 'on', 'exclude_purchased' => 'on' ) ) );
+		update_option(
+			Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION,
+			Upsell_Order_Bump_Reco_Db::sanitize_settings(
+				array(
+					'enabled' => 'on',
+					'exclude_purchased' => 'on',
+				)
+			)
+		);
 		$a = WPS_UBO_Test_Factory::simple_product();
 		$b = WPS_UBO_Test_Factory::simple_product();
 		$this->pair( $a->get_id(), $b->get_id(), 0.9 );
@@ -469,6 +641,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( (string) $admin->get_id(), $bump['wps_upsell_bump_products_in_offer'], 'Already bought: falls back to the admin product.' );
 	}
 
+	/**
+	 * Test: QA R7 options autoload and no upgrade on AJAX.
+	 */
 	public function test_qa_r7_options_autoload_and_no_upgrade_on_ajax() {
 		global $wpdb;
 		Upsell_Order_Bump_Reco_Db::install();
@@ -488,6 +663,9 @@ class RecoTest extends WPS_UBO_Test_Case {
 		$this->assertSame( Upsell_Order_Bump_Reco_Db::DB_VERSION, get_option( Upsell_Order_Bump_Reco_Db::DB_VERSION_OPTION ) );
 	}
 
+	/**
+	 * Test: QA R8 hybrid rechecked after cart change.
+	 */
 	public function test_qa_r8_hybrid_rechecked_after_cart_change() {
 		$this->enable_engine( array( 'match_threshold' => 10 ) );
 		$anchor = WPS_UBO_Test_Factory::simple_product();
@@ -518,18 +696,34 @@ class RecoTest extends WPS_UBO_Test_Case {
 
 	/* --------------------------------------------------------------- admin */
 
+	/**
+	 * Test: Admin save bump fields whitelists values.
+	 */
 	public function test_admin_save_bump_fields_whitelists_values() {
-		$admin                                  = new Upsell_Order_Bump_Reco_Admin( '3.1.8' );
-		$_POST['wps_ubo_targeting_mode']        = 'smart';
-		$_POST['wps_ubo_offer_product_source']  = 'evil';
-		$out                                    = $admin->save_bump_fields( array( 'keep' => 1 ), 1 );
+		$admin = new Upsell_Order_Bump_Reco_Admin( '3.1.8' );
+		$post  = array(
+			'wps_upsell_bump_nonce'        => wp_create_nonce( 'wps_upsell_bump_creation_nonce' ),
+			'wps_ubo_targeting_mode'       => 'smart',
+			'wps_ubo_offer_product_source' => 'evil',
+		);
+		$_POST = $post;
+		$out   = $admin->save_bump_fields( array( 'keep' => 1 ), 1 );
 		$this->assertSame( 'smart', $out['wps_ubo_targeting_mode'] );
 		$this->assertSame( 'static', $out['wps_ubo_offer_product_source'] );
 		$this->assertSame( 1, $out['keep'] );
+
+		// Without the bump form's nonce the posted values are not used.
+		$post['wps_upsell_bump_nonce'] = 'bad';
+		$_POST                         = $post;
+		$this->assertSame( 'static', $admin->save_bump_fields( array(), 1 )['wps_ubo_targeting_mode'] );
+
 		$_POST = array();
 		$this->assertSame( 'static', $admin->save_funnel_fields( array(), 1 )['wps_ubo_targeting_mode'] );
 	}
 
+	/**
+	 * Test: Admin save settings requires capability and sanitizes.
+	 */
 	public function test_admin_save_settings_requires_capability_and_sanitizes() {
 		$admin = new Upsell_Order_Bump_Reco_Admin( '3.1.8' );
 		$post  = array(

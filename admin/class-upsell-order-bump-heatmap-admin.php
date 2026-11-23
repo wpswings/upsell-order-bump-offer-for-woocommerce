@@ -235,7 +235,9 @@ class Upsell_Order_Bump_Heatmap_Admin {
 	 * @return array
 	 */
 	private function read_filters() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing -- verified in verify_request().
+		if ( ! check_ajax_referer( self::NONCE_ACTION, 'nonce', false ) || ! current_user_can( self::CAPABILITY ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'upsell-order-bump-offer-for-woocommerce' ) ), 403 );
+		}
 		$offer_type = isset( $_POST['offer_type'] ) ? sanitize_key( wp_unslash( $_POST['offer_type'] ) ) : 'bump';
 		$offer_type = in_array( $offer_type, Upsell_Order_Bump_Heatmap_Db::OFFER_TYPES, true ) ? $offer_type : 'bump';
 
@@ -415,9 +417,10 @@ class Upsell_Order_Bump_Heatmap_Admin {
 	 * @return void
 	 */
 	public function ajax_save_settings() {
-		$this->verify_request();
+		if ( ! check_ajax_referer( self::NONCE_ACTION, 'nonce', false ) || ! current_user_can( self::CAPABILITY ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'upsell-order-bump-offer-for-woocommerce' ) ), 403 );
+		}
 
-		// phpcs:disable WordPress.Security.NonceVerification.Missing -- verified in verify_request().
 		$settings = array(
 			'enabled'        => ( isset( $_POST['enabled'] ) && 'on' === sanitize_key( wp_unslash( $_POST['enabled'] ) ) ) ? 'on' : 'off',
 			'track_hover'    => ( isset( $_POST['track_hover'] ) && 'on' === sanitize_key( wp_unslash( $_POST['track_hover'] ) ) ) ? 'on' : 'off',

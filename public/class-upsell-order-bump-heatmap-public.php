@@ -287,12 +287,13 @@ class Upsell_Order_Bump_Heatmap_Public {
 			wp_send_json_success( array( 'stored' => 0 ) );
 		}
 
-		if ( $this->is_rate_limited() ) {
+		$visitor = isset( $_POST['vid'] ) ? sanitize_key( wp_unslash( $_POST['vid'] ) ) : '';
+		if ( $this->is_rate_limited( $visitor ) ) {
 			wp_send_json_success( array( 'stored' => 0 ) );
 		}
 
 		// Raw JSON is decoded first, then every field is whitelisted/sanitized in sanitize_event().
-		$raw = isset( $_POST['events'] ) ? wp_unslash( $_POST['events'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- nonce verified above; fields sanitized individually.
+		$raw = isset( $_POST['events'] ) ? sanitize_text_field( wp_unslash( $_POST['events'] ) ) : '';
 		$raw = is_string( $raw ) && strlen( $raw ) <= 20000 ? json_decode( $raw, true ) : null;
 
 		if ( ! is_array( $raw ) || empty( $raw ) ) {
@@ -408,9 +409,10 @@ class Upsell_Order_Bump_Heatmap_Public {
 	/**
 	 * Simple per-IP throttle. The IP is hashed and only kept in a 60 second transient.
 	 *
+	 * @param string $visitor Visitor id from the request ( sanitized ).
 	 * @return bool
 	 */
-	private function is_rate_limited() {
+	private function is_rate_limited( $visitor = '' ) {
 		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 		/**
 		 * Client IP used for rate limiting. Behind Cloudflare / a proxy every shopper has the
@@ -420,8 +422,7 @@ class Upsell_Order_Bump_Heatmap_Public {
 		 * @since 3.1.8
 		 * @param string $ip REMOTE_ADDR.
 		 */
-		$ip      = (string) apply_filters( 'wps_ubo_heatmap_client_ip', $ip );
-		$visitor = isset( $_POST['vid'] ) ? sanitize_key( wp_unslash( $_POST['vid'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce checked in ingest().
+		$ip = (string) apply_filters( 'wps_ubo_heatmap_client_ip', $ip );
 
 		/**
 		 * Requests per minute: per visitor ( visitor id + IP ) and per IP overall.

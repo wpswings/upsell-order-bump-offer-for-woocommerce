@@ -692,7 +692,22 @@ class Upsell_Order_Bump_Acr_Public {
 	 * @return void
 	 */
 	public function print_offer_box() {
-		echo self::offer_box_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped while building.
+		echo wp_kses( self::offer_box_html(), self::offer_box_allowed_html() );
+	}
+
+	/**
+	 * Tags allowed in the offer box: post content plus its "add to my order" checkbox.
+	 *
+	 * @return array
+	 */
+	private static function offer_box_allowed_html() {
+		$allowed          = wp_kses_allowed_html( 'post' );
+		$allowed['input'] = array(
+			'type'    => true,
+			'class'   => true,
+			'checked' => true,
+		);
+		return $allowed;
 	}
 
 	/**
@@ -1025,8 +1040,8 @@ class Upsell_Order_Bump_Acr_Public {
 	private static function rows_for_email( $email ) {
 		global $wpdb;
 		$table = Upsell_Order_Bump_Acr_Db::table();
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		return (array) $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE email = %s", strtolower( $email ) ), ARRAY_A );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		return (array) $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE email = %s', $table, strtolower( $email ) ), ARRAY_A );
 	}
 
 	/**

@@ -6,15 +6,24 @@
  */
 
 /**
+ * Heatmap tests.
+ *
  * @covers Upsell_Order_Bump_Heatmap_Db
  * @covers Upsell_Order_Bump_Heatmap_Public
  * @covers Upsell_Order_Bump_Heatmap_Admin
  */
-class HeatmapTest extends WPS_UBO_Test_Case {
+class Heatmap_Test extends WPS_UBO_Test_Case {
 
-	/** @var Upsell_Order_Bump_Heatmap_Public */
+	/**
+	 * Pub.
+	 *
+	 * @var Upsell_Order_Bump_Heatmap_Public
+	 */
 	private $pub;
 
+	/**
+	 * Set up the test fixture.
+	 */
 	public function set_up() {
 		parent::set_up();
 		$this->pub = new Upsell_Order_Bump_Heatmap_Public( '3.1.8' );
@@ -40,6 +49,11 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Row.
+	 *
+	 * @param array $overrides Overrides.
+	 */
 	private function row( $overrides = array() ) {
 		return array_merge(
 			array(
@@ -59,6 +73,11 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Filters.
+	 *
+	 * @param array $overrides Overrides.
+	 */
 	private function filters( $overrides = array() ) {
 		return array_merge(
 			array(
@@ -74,6 +93,12 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Ingest.
+	 *
+	 * @param mixed $events Events.
+	 * @param array $extra Extra.
+	 */
 	private function ingest( $events, $extra = array() ) {
 		return $this->ajax_call(
 			array( $this->pub, 'ingest' ),
@@ -89,13 +114,19 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		)['json'];
 	}
 
+	/**
+	 * Count rows.
+	 */
 	private function count_rows() {
 		global $wpdb;
-		return (int) $wpdb->get_var( 'SELECT COUNT(*) FROM ' . Upsell_Order_Bump_Heatmap_Db::table() ); // phpcs:ignore
+		return (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i', Upsell_Order_Bump_Heatmap_Db::table() ) );
 	}
 
 	/* ---------------------------------------------------------------- db */
 
+	/**
+	 * Test: Default settings.
+	 */
 	public function test_default_settings() {
 		delete_option( Upsell_Order_Bump_Heatmap_Db::SETTINGS_OPTION );
 		$this->assertSame(
@@ -109,17 +140,38 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Test: Insert events and empty insert.
+	 */
 	public function test_insert_events_and_empty_insert() {
 		$this->assertSame( 0, Upsell_Order_Bump_Heatmap_Db::insert_events( array() ) );
 		$this->assertSame( 2, Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row(), $this->row( array( 'event_type' => 'view' ) ) ) ) );
 	}
 
+	/**
+	 * Test: Grid buckets by hundred and caps at 99.
+	 */
 	public function test_grid_buckets_by_hundred_and_caps_at_99() {
 		Upsell_Order_Bump_Heatmap_Db::insert_events(
 			array(
-				$this->row( array( 'x' => 150, 'y' => 250 ) ),
-				$this->row( array( 'x' => 199, 'y' => 299 ) ),
-				$this->row( array( 'x' => 10000, 'y' => 10000 ) ),
+				$this->row(
+					array(
+						'x' => 150,
+						'y' => 250,
+					)
+				),
+				$this->row(
+					array(
+						'x' => 199,
+						'y' => 299,
+					)
+				),
+				$this->row(
+					array(
+						'x' => 10000,
+						'y' => 10000,
+					)
+				),
 				$this->row( array( 'event_type' => 'hover' ) ),
 			)
 		);
@@ -129,18 +181,47 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertCount( 1, Upsell_Order_Bump_Heatmap_Db::get_grid( $this->filters(), 'hover' ) );
 	}
 
+	/**
+	 * Test: Zones and totals.
+	 */
 	public function test_zones_and_totals() {
 		Upsell_Order_Bump_Heatmap_Db::insert_events(
 			array(
 				$this->row(),
 				$this->row(),
-				$this->row( array( 'event_type' => 'hover', 'zone' => 'image' ) ),
-				$this->row( array( 'event_type' => 'view', 'zone' => 'other', 'session_hash' => md5( 'v2' ) ) ),
+				$this->row(
+					array(
+						'event_type' => 'hover',
+						'zone' => 'image',
+					)
+				),
+				$this->row(
+					array(
+						'event_type' => 'view',
+						'zone' => 'other',
+						'session_hash' => md5( 'v2' ),
+					)
+				),
 			)
 		);
 		$zones = Upsell_Order_Bump_Heatmap_Db::get_zones( $this->filters() );
-		$this->assertSame( array( 'click' => 2, 'hover' => 0, 'clickers' => 1 ), $zones['accept_checkbox'], 'Two clicks by one visitor.' );
-		$this->assertSame( array( 'click' => 0, 'hover' => 1, 'clickers' => 0 ), $zones['image'] );
+		$this->assertSame(
+			array(
+				'click' => 2,
+				'hover' => 0,
+				'clickers' => 1,
+			),
+			$zones['accept_checkbox'],
+			'Two clicks by one visitor.'
+		);
+		$this->assertSame(
+			array(
+				'click' => 0,
+				'hover' => 1,
+				'clickers' => 0,
+			),
+			$zones['image']
+		);
 		$this->assertArrayNotHasKey( 'other', $zones, 'Views are not zone interactions.' );
 
 		$this->assertSame(
@@ -156,6 +237,9 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Test: Filters by device template offer and date.
+	 */
 	public function test_filters_by_device_template_offer_and_date() {
 		Upsell_Order_Bump_Heatmap_Db::insert_events(
 			array(
@@ -173,14 +257,20 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( array( '3', '5' ), $templates );
 	}
 
+	/**
+	 * Test: Purge old respects retention.
+	 */
 	public function test_purge_old_respects_retention() {
 		global $wpdb;
 		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row(), $this->row() ) );
-		$wpdb->query( $wpdb->prepare( 'UPDATE ' . Upsell_Order_Bump_Heatmap_Db::table() . ' SET created_at = %s ORDER BY id ASC LIMIT 1', gmdate( 'Y-m-d H:i:s', time() - 100 * DAY_IN_SECONDS ) ) ); // phpcs:ignore
+		$wpdb->query( $wpdb->prepare( 'UPDATE %i SET created_at = %s ORDER BY id ASC LIMIT 1', Upsell_Order_Bump_Heatmap_Db::table(), gmdate( 'Y-m-d H:i:s', time() - 100 * DAY_IN_SECONDS ) ) );
 		Upsell_Order_Bump_Heatmap_Db::purge_old();
 		$this->assertSame( 1, $this->count_rows() );
 	}
 
+	/**
+	 * Test: Purge cron scheduled.
+	 */
 	public function test_purge_cron_scheduled() {
 		Upsell_Order_Bump_Heatmap_Db::unschedule_purge();
 		$this->assertFalse( wp_next_scheduled( Upsell_Order_Bump_Heatmap_Db::PURGE_CRON ) );
@@ -191,18 +281,37 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 
 	/* ------------------------------------------------------------ ingest */
 
+	/**
+	 * Test: Ingest stores valid events with server side template.
+	 */
 	public function test_ingest_stores_valid_events_with_server_side_template() {
 		$r = $this->ingest(
 			array(
-				array( 't' => 'bump', 'e' => 'click', 'c' => 'checkout', 'z' => 'accept_checkbox', 'o' => 7, 'x' => 120, 'y' => 40 ),
-				array( 't' => 'bump', 'e' => 'view', 'c' => 'checkout', 'z' => 'image', 'o' => 7, 'x' => 120, 'y' => 40 ),
+				array(
+					't' => 'bump',
+					'e' => 'click',
+					'c' => 'checkout',
+					'z' => 'accept_checkbox',
+					'o' => 7,
+					'x' => 120,
+					'y' => 40,
+				),
+				array(
+					't' => 'bump',
+					'e' => 'view',
+					'c' => 'checkout',
+					'z' => 'image',
+					'o' => 7,
+					'x' => 120,
+					'y' => 40,
+				),
 			)
 		);
 		$this->assertTrue( $r['success'] );
 		$this->assertSame( 2, $r['data']['stored'] );
 
 		global $wpdb;
-		$rows = $wpdb->get_results( 'SELECT * FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' ORDER BY id', ARRAY_A ); // phpcs:ignore
+		$rows = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i ORDER BY id', Upsell_Order_Bump_Heatmap_Db::table() ), ARRAY_A );
 		$this->assertSame( '3', $rows[0]['template'] );
 		$this->assertSame( 'mobile', $rows[0]['device'] );
 		$this->assertSame( 32, strlen( $rows[0]['session_hash'] ) );
@@ -210,51 +319,133 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 'other', $rows[1]['zone'] );
 	}
 
+	/**
+	 * Test: Ingest rejects invalid events.
+	 */
 	public function test_ingest_rejects_invalid_events() {
 		$r = $this->ingest(
 			array(
-				array( 't' => 'bump', 'e' => 'click', 'c' => 'checkout', 'o' => 999 ),
-				array( 't' => 'popup', 'e' => 'click', 'c' => 'checkout', 'o' => 7 ),
-				array( 't' => 'bump', 'e' => 'scroll', 'c' => 'checkout', 'o' => 7 ),
-				array( 't' => 'bump', 'e' => 'click', 'c' => 'evil', 'o' => 7 ),
+				array(
+					't' => 'bump',
+					'e' => 'click',
+					'c' => 'checkout',
+					'o' => 999,
+				),
+				array(
+					't' => 'popup',
+					'e' => 'click',
+					'c' => 'checkout',
+					'o' => 7,
+				),
+				array(
+					't' => 'bump',
+					'e' => 'scroll',
+					'c' => 'checkout',
+					'o' => 7,
+				),
+				array(
+					't' => 'bump',
+					'e' => 'click',
+					'c' => 'evil',
+					'o' => 7,
+				),
 				'not-an-array',
 			)
 		);
 		$this->assertSame( 0, $r['data']['stored'] );
 	}
 
+	/**
+	 * Test: Ingest clamps coordinates and unknown zone and device.
+	 */
 	public function test_ingest_clamps_coordinates_and_unknown_zone_and_device() {
 		$this->ingest(
-			array( array( 't' => 'bump', 'e' => 'click', 'c' => 'cart', 'z' => '<script>', 'o' => 7, 'x' => -50, 'y' => 999999 ) ),
+			array(
+				array(
+					't' => 'bump',
+					'e' => 'click',
+					'c' => 'cart',
+					'z' => '<script>',
+					'o' => 7,
+					'x' => -50,
+					'y' => 999999,
+				),
+			),
 			array( 'device' => 'fridge' )
 		);
 		global $wpdb;
-		$row = $wpdb->get_row( 'SELECT * FROM ' . Upsell_Order_Bump_Heatmap_Db::table(), ARRAY_A ); // phpcs:ignore
+		$row = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i', Upsell_Order_Bump_Heatmap_Db::table() ), ARRAY_A );
 		$this->assertSame( '0', $row['x'] );
 		$this->assertSame( '10000', $row['y'] );
 		$this->assertSame( 'other', $row['zone'] );
 		$this->assertSame( 'desktop', $row['device'] );
 	}
 
+	/**
+	 * Test: Ingest upsell template resolution.
+	 */
 	public function test_ingest_upsell_template_resolution() {
 		$this->ingest(
 			array(
-				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'z' => 'accept_button', 'o' => 4, 's' => 1 ),
-				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'z' => 'accept_button', 'o' => 4, 's' => 2 ),
-				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'z' => 'accept_button', 'o' => 4, 's' => 3 ),
+				array(
+					't' => 'upsell',
+					'e' => 'click',
+					'c' => 'upsell_page',
+					'z' => 'accept_button',
+					'o' => 4,
+					's' => 1,
+				),
+				array(
+					't' => 'upsell',
+					'e' => 'click',
+					'c' => 'upsell_page',
+					'z' => 'accept_button',
+					'o' => 4,
+					's' => 2,
+				),
+				array(
+					't' => 'upsell',
+					'e' => 'click',
+					'c' => 'upsell_page',
+					'z' => 'accept_button',
+					'o' => 4,
+					's' => 3,
+				),
 			)
 		);
 		global $wpdb;
-		$this->assertSame( array( 'two', 'custom', 'default' ), $wpdb->get_col( 'SELECT template FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' ORDER BY id' ) ); // phpcs:ignore
+		$this->assertSame( array( 'two', 'custom', 'default' ), $wpdb->get_col( $wpdb->prepare( 'SELECT template FROM %i ORDER BY id', Upsell_Order_Bump_Heatmap_Db::table() ) ) );
 	}
 
+	/**
+	 * Test: Ingest caps events per request.
+	 */
 	public function test_ingest_caps_events_per_request() {
-		$events = array_fill( 0, 150, array( 't' => 'bump', 'e' => 'click', 'c' => 'checkout', 'o' => 7 ) );
+		$events = array_fill(
+			0,
+			150,
+			array(
+				't' => 'bump',
+				'e' => 'click',
+				'c' => 'checkout',
+				'o' => 7,
+			)
+		);
 		$this->assertSame( Upsell_Order_Bump_Heatmap_Public::MAX_EVENTS_PER_REQUEST, $this->ingest( $events )['data']['stored'] );
 	}
 
+	/**
+	 * Test: Ingest ignored with bad nonce or disabled or garbage.
+	 */
 	public function test_ingest_ignored_with_bad_nonce_or_disabled_or_garbage() {
-		$event = array( array( 't' => 'bump', 'e' => 'click', 'c' => 'checkout', 'o' => 7 ) );
+		$event = array(
+			array(
+				't' => 'bump',
+				'e' => 'click',
+				'c' => 'checkout',
+				'o' => 7,
+			),
+		);
 		$this->assertSame( 0, $this->ingest( $event, array( 'nonce' => 'bad' ) )['data']['stored'] );
 		$this->assertSame( 0, $this->ingest( 'not json' )['data']['stored'] );
 
@@ -263,9 +454,20 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 0, $this->count_rows() );
 	}
 
+	/**
+	 * Test: Ingest rate limited per visitor and per IP.
+	 */
 	public function test_ingest_rate_limited_per_visitor_and_per_ip() {
-		$event = array( array( 't' => 'bump', 'e' => 'click', 'c' => 'checkout', 'o' => 7 ) );
-		$ip    = $_SERVER['REMOTE_ADDR'];
+		$event = array(
+			array(
+				't' => 'bump',
+				'e' => 'click',
+				'c' => 'checkout',
+				'o' => 7,
+			),
+		);
+		// Same client IP the ingest handler reads.
+		$ip    = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 
 		// One visitor at the limit is throttled...
 		set_transient( 'wps_ubo_hm_rl_v_' . md5( $ip . '|visitor1' ), Upsell_Order_Bump_Heatmap_Public::MAX_REQUESTS_PER_MINUTE, 60 );
@@ -278,19 +480,43 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 0, $this->ingest( $event, array( 'vid' => 'visitor3' ) )['data']['stored'] );
 	}
 
+	/**
+	 * Test: QA H10 negative retention is not saved as positive.
+	 */
 	public function test_qa_h10_negative_retention_is_not_saved_as_positive() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
-		$this->admin_call( 'ajax_save_settings', array( 'enabled' => 'on', 'retention_days' => '-3' ) );
+		$this->admin_call(
+			'ajax_save_settings',
+			array(
+				'enabled' => 'on',
+				'retention_days' => '-3',
+			)
+		);
 		$this->assertSame( 1, Upsell_Order_Bump_Heatmap_Db::get_settings()['retention_days'], 'Was saved as 3.' );
 	}
 
+	/**
+	 * Test: Before insert filter can drop rows.
+	 */
 	public function test_before_insert_filter_can_drop_rows() {
 		add_filter( 'wps_ubo_heatmap_before_insert', '__return_empty_array' );
-		$stored = $this->ingest( array( array( 't' => 'bump', 'e' => 'click', 'c' => 'checkout', 'o' => 7 ) ) )['data']['stored'];
+		$stored = $this->ingest(
+			array(
+				array(
+					't' => 'bump',
+					'e' => 'click',
+					'c' => 'checkout',
+					'o' => 7,
+				),
+			)
+		)['data']['stored'];
 		remove_filter( 'wps_ubo_heatmap_before_insert', '__return_empty_array' );
 		$this->assertSame( 0, $stored );
 	}
 
+	/**
+	 * Test: Allowed zones include all selector keys.
+	 */
 	public function test_allowed_zones_include_all_selector_keys() {
 		$zones = Upsell_Order_Bump_Heatmap_Public::allowed_zones();
 		foreach ( array( 'other', 'accept_checkbox', 'price', 'decline_button', 'timer' ) as $zone ) {
@@ -298,6 +524,9 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		}
 	}
 
+	/**
+	 * Test: Admin bar hidden only for preview by managers.
+	 */
 	public function test_admin_bar_hidden_only_for_preview_by_managers() {
 		$this->assertTrue( $this->pub->maybe_hide_admin_bar( true ) );
 		$_GET['wps_ubo_heatmap_preview'] = 1;
@@ -307,14 +536,25 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		unset( $_GET['wps_ubo_heatmap_preview'] );
 	}
 
+	/**
+	 * Test: Tracker not enqueued outside offer pages or for admins.
+	 */
 	public function test_tracker_not_enqueued_outside_offer_pages_or_for_admins() {
 		$this->go_to( home_url( '/' ) );
 		$this->pub->enqueue_tracker();
 		$this->assertFalse( wp_script_is( 'wps-ubo-heatmap-tracker', 'enqueued' ) );
 	}
 
+	/**
+	 * Test: Tracker enqueued on shortcode page with config.
+	 */
 	public function test_tracker_enqueued_on_shortcode_page_with_config() {
-		$page = self::factory()->post->create( array( 'post_type' => 'page', 'post_content' => '[wps_bump_offer_shortcode]' ) );
+		$page = self::factory()->post->create(
+			array(
+				'post_type' => 'page',
+				'post_content' => '[wps_bump_offer_shortcode]',
+			)
+		);
 		$this->go_to( get_permalink( $page ) );
 		$this->pub->enqueue_tracker();
 		$this->assertTrue( wp_script_is( 'wps-ubo-heatmap-tracker', 'enqueued' ) );
@@ -325,27 +565,53 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 
 	/* ------------------------------------------------------------- admin */
 
+	/**
+	 * Admin call.
+	 *
+	 * @param mixed $method Method.
+	 * @param array $post Post.
+	 */
 	private function admin_call( $method, $post = array() ) {
 		$admin = new Upsell_Order_Bump_Heatmap_Admin( '3.1.8' );
 		return $this->ajax_call( array( $admin, $method ), array_merge( array( 'nonce' => wp_create_nonce( Upsell_Order_Bump_Heatmap_Admin::NONCE_ACTION ) ), $post ) )['json'];
 	}
 
+	/**
+	 * Test: Admin endpoints require capability.
+	 */
 	public function test_admin_endpoints_require_capability() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'customer' ) ) );
 		$r = $this->admin_call( 'ajax_get_data' );
 		$this->assertFalse( $r['success'] );
 	}
 
+	/**
+	 * Test: Admin get data and save settings.
+	 */
 	public function test_admin_get_data_and_save_settings() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row(), $this->row( array( 'event_type' => 'view' ) ) ) );
 
-		$r = $this->admin_call( 'ajax_get_data', array( 'offer_type' => 'bump', 'offer_id' => 7, 'days' => 7 ) );
+		$r = $this->admin_call(
+			'ajax_get_data',
+			array(
+				'offer_type' => 'bump',
+				'offer_id' => 7,
+				'days' => 7,
+			)
+		);
 		$this->assertTrue( $r['success'] );
 		$this->assertSame( 1, $r['data']['totals']['clicks'] );
 		$this->assertSame( 1, $r['data']['totals']['views'] );
 
-		$r = $this->admin_call( 'ajax_save_settings', array( 'enabled' => 'on', 'sample_rate' => 500, 'retention_days' => 0 ) );
+		$r = $this->admin_call(
+			'ajax_save_settings',
+			array(
+				'enabled' => 'on',
+				'sample_rate' => 500,
+				'retention_days' => 0,
+			)
+		);
 		$this->assertSame(
 			array(
 				'enabled'        => 'on',
@@ -381,18 +647,41 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 			)
 		);
 
-		$current = $this->admin_call( 'ajax_get_preview', array( 'offer_type' => 'bump', 'offer_id' => 7 ) );
+		$current = $this->admin_call(
+			'ajax_get_preview',
+			array(
+				'offer_type' => 'bump',
+				'offer_id' => 7,
+			)
+		);
 		$this->assertSame( '3', $current['data']['template'] );
 
-		$older = $this->admin_call( 'ajax_get_preview', array( 'offer_type' => 'bump', 'offer_id' => 7, 'template' => '10' ) );
+		$older = $this->admin_call(
+			'ajax_get_preview',
+			array(
+				'offer_type' => 'bump',
+				'offer_id' => 7,
+				'template' => '10',
+			)
+		);
 		$this->assertSame( '10', $older['data']['template'] );
 
-		$bogus = $this->admin_call( 'ajax_get_preview', array( 'offer_type' => 'bump', 'offer_id' => 7, 'template' => 'nope' ) );
+		$bogus = $this->admin_call(
+			'ajax_get_preview',
+			array(
+				'offer_type' => 'bump',
+				'offer_id' => 7,
+				'template' => 'nope',
+			)
+		);
 		$this->assertSame( '3', $bogus['data']['template'], 'Unknown templates fall back to the current one.' );
 
 		$this->assertSame( '3', get_option( 'wps_ubo_bump_list' )[7]['wps_ubo_selected_template'], 'The preview never changes the bump.' );
 	}
 
+	/**
+	 * Test: Bump catalog links to the bump editor.
+	 */
 	public function test_bump_catalog_links_to_the_bump_editor() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		$admin  = new Upsell_Order_Bump_Heatmap_Admin( '3.1.8' );
@@ -405,14 +694,39 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 
 	/* ---------------------------------- deleted offers ( WPS-8456 ) */
 
+	/**
+	 * Offer IDs.
+	 *
+	 * @param mixed $offer_type Offer type.
+	 */
 	private function offer_ids( $offer_type ) {
 		global $wpdb;
-		return array_map( 'intval', $wpdb->get_col( $wpdb->prepare( 'SELECT DISTINCT offer_id FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' WHERE offer_type = %s ORDER BY offer_id', $offer_type ) ) ); // phpcs:ignore
+		return array_map( 'intval', $wpdb->get_col( $wpdb->prepare( 'SELECT DISTINCT offer_id FROM %i WHERE offer_type = %s ORDER BY offer_id', Upsell_Order_Bump_Heatmap_Db::table(), $offer_type ) ) );
 	}
 
+	/**
+	 * Test: Deleting a bump deletes only its heatmap data.
+	 */
 	public function test_deleting_a_bump_deletes_only_its_heatmap_data() {
-		update_option( 'wps_ubo_bump_list', array( 1 => array( 'wps_upsell_bump_status' => 'yes' ), 2 => array( 'wps_upsell_bump_status' => 'yes' ) ) );
-		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row( array( 'offer_id' => 1 ) ), $this->row( array( 'offer_id' => 2 ) ), $this->row( array( 'offer_id' => 2, 'event_type' => 'view' ) ) ) );
+		update_option(
+			'wps_ubo_bump_list',
+			array(
+				1 => array( 'wps_upsell_bump_status' => 'yes' ),
+				2 => array( 'wps_upsell_bump_status' => 'yes' ),
+			)
+		);
+		Upsell_Order_Bump_Heatmap_Db::insert_events(
+			array(
+				$this->row( array( 'offer_id' => 1 ) ),
+				$this->row( array( 'offer_id' => 2 ) ),
+				$this->row(
+					array(
+						'offer_id' => 2,
+						'event_type' => 'view',
+					)
+				),
+			)
+		);
 
 		// Same delete as the bump list screen: the bump is unset and the list saved.
 		$list = get_option( 'wps_ubo_bump_list' );
@@ -427,6 +741,9 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 0, $r['clicks'] + $r['views'] );
 	}
 
+	/**
+	 * Test: Editing a bump keeps its heatmap data.
+	 */
 	public function test_editing_a_bump_keeps_its_heatmap_data() {
 		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row() ) );
 		$list = get_option( 'wps_ubo_bump_list' );
@@ -435,9 +752,22 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( array( 7 ), $this->offer_ids( 'bump' ) );
 	}
 
+	/**
+	 * Test: Deleted funnel data is kept while the other plugin still has it.
+	 */
 	public function test_deleted_funnel_data_is_kept_while_the_other_plugin_still_has_it() {
 		update_option( 'wps_wocuf_pro_funnels_list', array( 4 => array( 'wps_wocuf_pro_funnel_name' => 'Copy' ) ) );
-		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row( array( 'offer_type' => 'upsell', 'offer_id' => 4, 'sub_offer_id' => 1 ) ) ) );
+		Upsell_Order_Bump_Heatmap_Db::insert_events(
+			array(
+				$this->row(
+					array(
+						'offer_type' => 'upsell',
+						'offer_id' => 4,
+						'sub_offer_id' => 1,
+					)
+				),
+			)
+		);
 
 		update_option( 'wps_wocuf_funnels_list', array() );
 		$this->assertSame( array( 4 ), $this->offer_ids( 'upsell' ), 'Still a Pro funnel.' );
@@ -447,6 +777,9 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		delete_option( 'wps_wocuf_pro_funnels_list' );
 	}
 
+	/**
+	 * Test: Delete offers ignores bad input.
+	 */
 	public function test_delete_offers_ignores_bad_input() {
 		Upsell_Order_Bump_Heatmap_Db::insert_events( array( $this->row() ) );
 		Upsell_Order_Bump_Heatmap_Db::delete_offers( 'nope', array( 7 ) );
@@ -458,6 +791,8 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 
 	/**
 	 * Pretend the Pro plugin is active.
+	 *
+	 * @param mixed $plugins Plugins.
 	 */
 	public static function with_pro( $plugins ) {
 		$plugins   = (array) $plugins;
@@ -465,6 +800,9 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		return $plugins;
 	}
 
+	/**
+	 * Pro funnels.
+	 */
 	private function pro_funnels() {
 		add_filter( 'pre_option_active_plugins', array( __CLASS__, 'with_pro' ), 20 );
 		update_option(
@@ -472,7 +810,10 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 			array(
 				9 => array(
 					'wps_wocuf_pro_funnel_name'           => 'Pro funnel',
-					'wps_wocuf_pro_products_in_offer'     => array( 1 => '20', 2 => '21' ),
+					'wps_wocuf_pro_products_in_offer'     => array(
+						1 => '20',
+						2 => '21',
+					),
 					'wps_wocuf_pro_offer_template'        => array( 1 => 'one' ),
 					'wps_wocuf_pro_offer_custom_page_url' => array( 2 => home_url( '/pro-offer/' ) ),
 					'wps_upsell_post_id_assigned'         => array( 1 => '' ),
@@ -481,12 +822,18 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Tear down the test fixture.
+	 */
 	public function tear_down() {
 		remove_filter( 'pre_option_active_plugins', array( __CLASS__, 'with_pro' ), 20 );
 		delete_option( 'wps_wocuf_pro_funnels_list' );
 		parent::tear_down();
 	}
 
+	/**
+	 * Test: Funnels come from the free list without pro.
+	 */
 	public function test_funnels_come_from_the_free_list_without_pro() {
 		$funnels = Upsell_Order_Bump_Heatmap_Db::get_funnels();
 		$this->assertSame( array( 4 ), array_keys( $funnels ) );
@@ -494,40 +841,90 @@ class HeatmapTest extends WPS_UBO_Test_Case {
 		$this->assertSame( array( 1 => 'two' ), $funnels[4]['template'] );
 	}
 
+	/**
+	 * Test: Funnels come from the pro list when pro is active.
+	 */
 	public function test_funnels_come_from_the_pro_list_when_pro_is_active() {
 		$this->pro_funnels();
 		$funnels = Upsell_Order_Bump_Heatmap_Db::get_funnels();
 		$this->assertSame( array( 9 ), array_keys( $funnels ) );
 		$this->assertSame( 'Pro funnel', $funnels[9]['name'] );
-		$this->assertSame( array( 1 => '20', 2 => '21' ), $funnels[9]['offers'] );
+		$this->assertSame(
+			array(
+				1 => '20',
+				2 => '21',
+			),
+			$funnels[9]['offers']
+		);
 		$this->assertSame( array( 2 => home_url( '/pro-offer/' ) ), $funnels[9]['custom_url'] );
 	}
 
+	/**
+	 * Test: Pro funnel events are stored with the pro template.
+	 */
 	public function test_pro_funnel_events_are_stored_with_the_pro_template() {
 		$this->pro_funnels();
 		$this->ingest(
 			array(
-				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'o' => 9, 's' => 1 ),
-				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'o' => 9, 's' => 2 ),
+				array(
+					't' => 'upsell',
+					'e' => 'click',
+					'c' => 'upsell_page',
+					'o' => 9,
+					's' => 1,
+				),
+				array(
+					't' => 'upsell',
+					'e' => 'click',
+					'c' => 'upsell_page',
+					'o' => 9,
+					's' => 2,
+				),
 				// Free-only funnel id: not a live funnel while Pro runs the funnels.
-				array( 't' => 'upsell', 'e' => 'click', 'c' => 'upsell_page', 'o' => 4, 's' => 1 ),
+				array(
+					't' => 'upsell',
+					'e' => 'click',
+					'c' => 'upsell_page',
+					'o' => 4,
+					's' => 1,
+				),
 			)
 		);
 		global $wpdb;
-		$this->assertSame( array( 'one', 'custom' ), $wpdb->get_col( 'SELECT template FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' ORDER BY id' ) ); // phpcs:ignore
+		$this->assertSame( array( 'one', 'custom' ), $wpdb->get_col( $wpdb->prepare( 'SELECT template FROM %i ORDER BY id', Upsell_Order_Bump_Heatmap_Db::table() ) ) );
 	}
 
+	/**
+	 * Test: Upsell preview URL carries the funnel and offer.
+	 */
 	public function test_upsell_preview_url_carries_the_funnel_and_offer() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		$this->pro_funnels();
-		$r = $this->admin_call( 'ajax_get_preview', array( 'offer_type' => 'upsell', 'offer_id' => 9, 'sub_offer_id' => 2 ) );
+		$r = $this->admin_call(
+			'ajax_get_preview',
+			array(
+				'offer_type' => 'upsell',
+				'offer_id' => 9,
+				'sub_offer_id' => 2,
+			)
+		);
 		$this->assertTrue( $r['success'] );
 		parse_str( (string) wp_parse_url( $r['data']['url'], PHP_URL_QUERY ), $query );
 		$this->assertStringStartsWith( home_url( '/pro-offer/' ), $r['data']['url'] );
-		$this->assertSame( array( 'wps_ubo_heatmap_preview' => '1', 'ocuf_fid' => '9', 'ocuf_ofd' => '2' ), $query );
+		$this->assertSame(
+			array(
+				'wps_ubo_heatmap_preview' => '1',
+				'ocuf_fid' => '9',
+				'ocuf_ofd' => '2',
+			),
+			$query
+		);
 		$this->assertArrayNotHasKey( 'ocuf_ns', $query, 'No nonce: the preview can never act on a real order.' );
 	}
 
+	/**
+	 * Test: Upsell offer catalog lists pro funnels.
+	 */
 	public function test_upsell_offer_catalog_lists_pro_funnels() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		$this->pro_funnels();

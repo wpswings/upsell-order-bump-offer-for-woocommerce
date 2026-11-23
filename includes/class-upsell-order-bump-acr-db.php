@@ -395,7 +395,7 @@ class Upsell_Order_Bump_Acr_Db {
 			}
 		}
 		$table = self::table();
-		$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange
+		$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange
 		delete_option( self::DB_VERSION_OPTION );
 		delete_option( self::SETTINGS_OPTION );
 	}
@@ -429,8 +429,8 @@ class Upsell_Order_Bump_Acr_Db {
 			return null;
 		}
 		$table = self::table();
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} = %s LIMIT 1", (string) $value ), ARRAY_A );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$row = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE %i = %s LIMIT 1', $table, $column, (string) $value ), ARRAY_A );
 		return $row ? self::hydrate( $row ) : null;
 	}
 
@@ -506,8 +506,8 @@ class Upsell_Order_Bump_Acr_Db {
 	public static function is_unsubscribed( $email ) {
 		global $wpdb;
 		$table = self::table();
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		return (bool) $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table} WHERE email = %s AND status = 'unsubscribed' LIMIT 1", strtolower( $email ) ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		return (bool) $wpdb->get_var( $wpdb->prepare( "SELECT id FROM %i WHERE email = %s AND status = 'unsubscribed' LIMIT 1", $table, strtolower( $email ) ) );
 	}
 
 	/**
@@ -520,8 +520,8 @@ class Upsell_Order_Bump_Acr_Db {
 	public static function open_rows_for_email( $email, $except_id = 0 ) {
 		global $wpdb;
 		$table = self::table();
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE email = %s AND status IN ('active','abandoned') AND id <> %d", strtolower( (string) $email ), (int) $except_id ), ARRAY_A );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %i WHERE email = %s AND status IN ('active','abandoned') AND id <> %d", $table, strtolower( (string) $email ), (int) $except_id ), ARRAY_A );
 		return array_map( array( __CLASS__, 'hydrate' ), (array) $rows );
 	}
 
@@ -534,8 +534,8 @@ class Upsell_Order_Bump_Acr_Db {
 	public static function open_row_for_email( $email ) {
 		global $wpdb;
 		$table = self::table();
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE email = %s AND status IN ('abandoned','lost') ORDER BY abandoned_at DESC LIMIT 1", strtolower( $email ) ), ARRAY_A );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM %i WHERE email = %s AND status IN ('abandoned','lost') ORDER BY abandoned_at DESC LIMIT 1", $table, strtolower( $email ) ), ARRAY_A );
 		return $row ? self::hydrate( $row ) : null;
 	}
 
@@ -550,11 +550,15 @@ class Upsell_Order_Bump_Acr_Db {
 	public static function list_rows( $status, $page, $per = 20 ) {
 		global $wpdb;
 		$table  = self::table();
-		$where  = in_array( $status, self::STATUSES, true ) ? $wpdb->prepare( 'WHERE status = %s', $status ) : "WHERE email <> ''";
 		$offset = max( 0, ( $page - 1 ) * $per );
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$rows  = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} {$where} ORDER BY updated_at DESC LIMIT %d, %d", $offset, $per ), ARRAY_A );
-		$total = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table} {$where}" );
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery
+		if ( in_array( $status, self::STATUSES, true ) ) {
+			$rows  = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i WHERE status = %s ORDER BY updated_at DESC LIMIT %d, %d', $table, $status, $offset, $per ), ARRAY_A );
+			$total = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE status = %s', $table, $status ) );
+		} else {
+			$rows  = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %i WHERE email <> '' ORDER BY updated_at DESC LIMIT %d, %d", $table, $offset, $per ), ARRAY_A );
+			$total = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM %i WHERE email <> ''", $table ) );
+		}
 		// phpcs:enable
 		return array(
 			'rows'  => array_map( array( __CLASS__, 'hydrate' ), (array) $rows ),
@@ -572,7 +576,7 @@ class Upsell_Order_Bump_Acr_Db {
 		global $wpdb;
 		$table = self::table();
 		$since = self::now( -$days * DAY_IN_SECONDS );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT
@@ -584,7 +588,8 @@ class Upsell_Order_Bump_Acr_Db {
 					SUM(offer_product > 0) AS offers_shown,
 					SUM(offer_accepted) AS offers_accepted,
 					SUM(status = 'lost') AS lost
-				FROM {$table} WHERE abandoned_at >= %s",
+				FROM %i WHERE abandoned_at >= %s",
+				$table,
 				$since
 			),
 			ARRAY_A

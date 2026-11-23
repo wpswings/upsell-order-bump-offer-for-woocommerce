@@ -84,10 +84,10 @@ class Upsell_Order_Bump_Acr_Engine {
 		global $wpdb;
 		$settings = Upsell_Order_Bump_Acr_Db::get_settings();
 		$table    = Upsell_Order_Bump_Acr_Db::table();
-		$cutoff   = Upsell_Order_Bump_Acr_Db::now( -(int) $settings['abandon_minutes'] * MINUTE_IN_SECONDS );
+		$cutoff   = Upsell_Order_Bump_Acr_Db::now( - (int) $settings['abandon_minutes'] * MINUTE_IN_SECONDS );
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$table} WHERE status = 'active' AND email <> '' AND updated_at <= %s ORDER BY updated_at ASC LIMIT %d", $cutoff, self::BATCH ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM %i WHERE status = 'active' AND email <> '' AND updated_at <= %s ORDER BY updated_at ASC LIMIT %d", $table, $cutoff, self::BATCH ) );
 
 		$first = Upsell_Order_Bump_Acr_Db::next_step_index( 0 );
 		foreach ( $ids as $id ) {
@@ -146,8 +146,8 @@ class Upsell_Order_Bump_Acr_Engine {
 	public static function send_due() {
 		global $wpdb;
 		$table = Upsell_Order_Bump_Acr_Db::table();
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$table} WHERE status = 'abandoned' AND next_email_at IS NOT NULL AND next_email_at <= %s ORDER BY next_email_at ASC LIMIT %d", Upsell_Order_Bump_Acr_Db::now(), self::BATCH ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM %i WHERE status = 'abandoned' AND next_email_at IS NOT NULL AND next_email_at <= %s ORDER BY next_email_at ASC LIMIT %d", $table, Upsell_Order_Bump_Acr_Db::now(), self::BATCH ) );
 
 		$out = array(
 			'emails'    => 0,
@@ -301,9 +301,9 @@ class Upsell_Order_Bump_Acr_Engine {
 		global $wpdb;
 		$settings = Upsell_Order_Bump_Acr_Db::get_settings();
 		$table    = Upsell_Order_Bump_Acr_Db::table();
-		$cutoff   = Upsell_Order_Bump_Acr_Db::now( -(int) $settings['lost_after_days'] * DAY_IN_SECONDS );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		return (int) $wpdb->query( $wpdb->prepare( "UPDATE {$table} SET status = 'lost' WHERE status = 'abandoned' AND next_email_at IS NULL AND COALESCE(last_email_at, abandoned_at) <= %s", $cutoff ) );
+		$cutoff   = Upsell_Order_Bump_Acr_Db::now( - (int) $settings['lost_after_days'] * DAY_IN_SECONDS );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		return (int) $wpdb->query( $wpdb->prepare( "UPDATE %i SET status = 'lost' WHERE status = 'abandoned' AND next_email_at IS NULL AND COALESCE(last_email_at, abandoned_at) <= %s", $table, $cutoff ) );
 	}
 
 	/**
@@ -315,10 +315,10 @@ class Upsell_Order_Bump_Acr_Engine {
 		global $wpdb;
 		$settings = Upsell_Order_Bump_Acr_Db::get_settings();
 		$table    = Upsell_Order_Bump_Acr_Db::table();
-		$cutoff   = Upsell_Order_Bump_Acr_Db::now( -(int) $settings['retention_days'] * DAY_IN_SECONDS );
+		$cutoff   = Upsell_Order_Bump_Acr_Db::now( - (int) $settings['retention_days'] * DAY_IN_SECONDS );
 		// Unsubscribed rows are kept (they suppress future emails).
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$deleted = (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE status <> 'unsubscribed' AND updated_at <= %s LIMIT 1000", $cutoff ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$deleted = (int) $wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE status <> 'unsubscribed' AND updated_at <= %s LIMIT 1000", $table, $cutoff ) );
 		self::delete_coupons( true );
 		return $deleted;
 	}
