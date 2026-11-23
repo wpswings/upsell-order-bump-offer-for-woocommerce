@@ -18,6 +18,7 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-hea
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-reco-db.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-gamified.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-acr-db.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-upsell-order-bump-acr-engine.php'; // Needed by Acr_Db::uninstall() to delete acr-* coupons.
 
 /**
  * Remove the plugin's data from the current site, when the site asked for it.

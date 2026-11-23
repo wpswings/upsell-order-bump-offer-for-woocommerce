@@ -16,10 +16,10 @@
 	var timer          = null;
 	var optedOut       = false;
 
-	function post( action, data ) {
+	function post( action, data, nonce ) {
 		var body = new FormData();
 		body.append( 'action', action );
-		body.append( 'nonce', cfg.nonce );
+		body.append( 'nonce', nonce || cfg.nonce );
 		Object.keys( data || {} ).forEach( function ( k ) {
 			body.append( k, data[ k ] );
 		} );
@@ -48,7 +48,7 @@
 		}
 		lastSent = email;
 		lastName = name;
-		post( 'wps_ubo_acr_capture', { email: email, first_name: name } ).catch( function () {
+		post( 'wps_ubo_acr_capture', { email: email, first_name: name }, cfg.capNonce ).catch( function () {
 			lastSent = '';
 		} );
 	}

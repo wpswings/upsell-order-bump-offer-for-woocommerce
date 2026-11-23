@@ -705,6 +705,17 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 			// If simple product or any single variations.
 			// Add to cart the same.
 
+			// The bump is already in the cart ( repeated / double-clicked request ): keep one
+			// line at the allowed quantity instead of stacking more lines at the offer price.
+			$wps_existing_key = wps_ubo_lite_get_offer_cart_item_key( str_replace( 'index_', '', $bump_index ), $order_bump_id );
+			if ( ! empty( $wps_existing_key ) ) {
+				WC()->cart->set_quantity( $wps_existing_key, $wps_qty_variable, true );
+				WC()->session->set( 'bump_offer_status', 'added' );
+				WC()->session->set( "bump_offer_status_$bump_index", $wps_existing_key );
+				echo wp_json_encode( $added );
+				wp_die();
+			}
+
 			$bump_offer_cart_item_key = WC()->cart->add_to_cart( $wps_bump_product_id, $quantity = $wps_qty_variable, $variation_id = 0, $variation = array(), $cart_item_data );
 
 			// Add Order Bump Offer Accept Count for the respective Order Bump.
@@ -988,6 +999,18 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		if ( wps_ubo_lite_reload_required_after_adding_offer( $_product ) ) {
 
 			$added = 'subs_reload';
+		}
+
+		// The bump is already in the cart ( repeated / double-clicked request ): keep one line
+		// instead of stacking more at the offer price. A different variation is picked by
+		// unchecking the bump first, which removes the existing line.
+		$wps_existing_key = wps_ubo_lite_get_offer_cart_item_key( str_replace( 'index_', '', $bump_index ), $order_bump_id );
+		if ( ! empty( $wps_existing_key ) ) {
+			WC()->cart->set_quantity( $wps_existing_key, $wps_qty_variable, true );
+			WC()->session->set( "bump_offer_status_index_$bump_index", $wps_existing_key );
+			WC()->session->set( 'bump_offer_status', 'added' );
+			echo wp_json_encode( $added );
+			wp_die();
 		}
 
 		$bump_offer_cart_item_key = WC()->cart->add_to_cart( $variation_parent_id, $quantity = $wps_qty_variable, $variation_id, $variation = $wps_orderbump_any_variation, $cart_item_data );

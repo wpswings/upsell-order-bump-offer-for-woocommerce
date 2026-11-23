@@ -304,6 +304,42 @@
 		} );
 	}
 
+	/**
+	 * Fetch a same-origin page and return its HTML without scripts or inline handlers,
+	 * with a <base> so relative assets still resolve. Null when it cannot be fetched.
+	 *
+	 * @param {string} url Page URL.
+	 * @return {Promise<string|null>} HTML.
+	 */
+	function scriptFreeHtml( url ) {
+		if ( ! window.fetch || ! window.DOMParser ) {
+			return Promise.resolve( null );
+		}
+		return fetch( url, { credentials: 'same-origin' } )
+			.then( ( r ) => ( r.ok ? r.text() : null ) )
+			.then( ( text ) => {
+				if ( ! text ) {
+					return null;
+				}
+				const doc = new DOMParser().parseFromString( text, 'text/html' );
+				doc.querySelectorAll( 'script, link[rel="modulepreload"], link[rel="preload"][as="script"], iframe' ).forEach( ( n ) => n.remove() );
+				doc.querySelectorAll( '*' ).forEach( ( n ) => {
+					Array.from( n.attributes ).forEach( ( a ) => {
+						if ( /^on/i.test( a.name ) || /^\s*javascript:/i.test( a.value ) ) {
+							n.removeAttribute( a.name );
+						}
+					} );
+				} );
+				if ( ! doc.querySelector( 'base' ) ) {
+					const base = doc.createElement( 'base' );
+					base.href = url;
+					doc.head.insertBefore( base, doc.head.firstChild );
+				}
+				return '<!DOCTYPE html>' + doc.documentElement.outerHTML;
+			} )
+			.catch( () => null );
+	}
+
 	function loadUpsellPreview( f, id ) {
 		return post( 'wps_ubo_heatmap_preview', f ).then( ( res ) => {
 			if ( id !== state.requestId ) {
@@ -356,7 +392,14 @@
 						resolve();
 					} );
 				} );
-				iframe.src = res.url;
+				// Load a script-free copy so the sandbox has nothing to block (no console errors).
+				scriptFreeHtml( res.url ).then( ( html ) => {
+					if ( null === html ) {
+						iframe.src = res.url;
+					} else {
+						iframe.srcdoc = html;
+					}
+				} );
 
 				el.preview.style.width = width + 'px';
 				el.preview.appendChild( iframe );

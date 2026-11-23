@@ -153,6 +153,16 @@ class Upsell_Order_Bump_Acr_Engine {
 			'emails'    => 0,
 			'recovered' => 0,
 		);
+
+		// The external abandoned-cart plugin emails these customers too: pause our sequence
+		// ( stop the due steps, so no backlog goes out later ) instead of sending a second reminder.
+		if ( self::external_emails_active() ) {
+			foreach ( $ids as $id ) {
+				Upsell_Order_Bump_Acr_Db::update( (int) $id, array( 'next_email_at' => null ) );
+			}
+			return $out;
+		}
+
 		foreach ( $ids as $id ) {
 			$result = self::send_next( (int) $id );
 			if ( 'sent' === $result ) {
@@ -162,6 +172,34 @@ class Upsell_Order_Bump_Acr_Engine {
 			}
 		}
 		return $out;
+	}
+
+	/**
+	 * Whether the CartFlows "WooCommerce Cart Abandonment Recovery" plugin is active.
+	 *
+	 * @return bool
+	 */
+	public static function external_plugin_active() {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		return is_plugin_active( 'woo-cart-abandonment-recovery/woo-cart-abandonment-recovery.php' );
+	}
+
+	/**
+	 * Whether automatic recovery emails are left to the external plugin.
+	 *
+	 * @return bool
+	 */
+	public static function external_emails_active() {
+		/**
+		 * Filters whether native recovery emails pause while the external abandoned-cart
+		 * plugin is active. Return false to send from both.
+		 *
+		 * @since 3.1.8
+		 * @param bool $pause True when the external plugin is active.
+		 */
+		return (bool) apply_filters( 'wps_ubo_acr_pause_for_external_plugin', self::external_plugin_active() );
 	}
 
 	/**

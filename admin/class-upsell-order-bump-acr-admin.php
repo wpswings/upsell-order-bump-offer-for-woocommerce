@@ -114,10 +114,7 @@ class Upsell_Order_Bump_Acr_Admin {
 	 * @return bool
 	 */
 	public static function external_plugin_active() {
-		if ( ! function_exists( 'is_plugin_active' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-		return is_plugin_active( 'woo-cart-abandonment-recovery/woo-cart-abandonment-recovery.php' );
+		return Upsell_Order_Bump_Acr_Engine::external_plugin_active();
 	}
 
 	/**
@@ -292,6 +289,7 @@ class Upsell_Order_Bump_Acr_Admin {
 		$stats    = Upsell_Order_Bump_Acr_Db::stats( 30 );
 		$list     = Upsell_Order_Bump_Acr_Db::list_rows( $status, $paged, 20 );
 		$external = self::external_plugin_active();
+		$paused   = $external && Upsell_Order_Bump_Acr_Engine::external_emails_active();
 		$reco_on  = class_exists( 'Upsell_Order_Bump_Reco_Db' ) && Upsell_Order_Bump_Reco_Db::is_enabled() && Upsell_Order_Bump_Reco_Db::has_model();
 		$roles    = wp_roles()->get_names();
 

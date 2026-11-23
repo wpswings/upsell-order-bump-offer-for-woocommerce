@@ -162,7 +162,7 @@ class Upsell_Order_Bump_Reco_Admin {
 		$raw      = isset( $_POST['settings'] ) && is_array( $_POST['settings'] ) ? map_deep( wp_unslash( $_POST['settings'] ), 'sanitize_text_field' ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified in verify_request().
 		$settings = Upsell_Order_Bump_Reco_Db::sanitize_settings( $raw );
 
-		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, $settings, false );
+		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, $settings, true ); // Read on every front request: keep autoloaded.
 		Upsell_Order_Bump_Reco_Db::reschedule();
 
 		wp_send_json_success( $this->status_payload() );

@@ -29,6 +29,13 @@ class Upsell_Order_Bump_Acr_Public {
 	const NONCE_ACTION = 'wps_ubo_acr';
 
 	/**
+	 * Nonce action for guest email capture ( bound to the WC session, see capture_nonce_action() ).
+	 *
+	 * @var string
+	 */
+	const CAPTURE_NONCE_ACTION = 'wps_ubo_acr_capture';
+
+	/**
 	 * Session keys.
 	 *
 	 * @var string
@@ -234,7 +241,7 @@ class Upsell_Order_Bump_Acr_Public {
 	 * @return void
 	 */
 	public function ajax_capture() {
-		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
+		check_ajax_referer( self::capture_nonce_action(), 'nonce' );
 		$settings = Upsell_Order_Bump_Acr_Db::get_settings();
 		$email    = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
 		$name     = isset( $_POST['first_name'] ) ? sanitize_text_field( wp_unslash( $_POST['first_name'] ) ) : '';
@@ -256,12 +263,45 @@ class Upsell_Order_Bump_Acr_Public {
 	}
 
 	/**
+	 * Capture nonce action, bound to the shopper's WC session. Guest nonces are otherwise
+	 * the same for every logged-out visitor, so one nonce scraped from the checkout page
+	 * could be replayed from any number of fresh sessions.
+	 *
+	 * @return string
+	 */
+	private static function capture_nonce_action() {
+		if ( self::has_wc() && WC()->session->has_session() ) {
+			return self::CAPTURE_NONCE_ACTION . '|' . WC()->session->get_customer_id();
+		}
+		return self::CAPTURE_NONCE_ACTION;
+	}
+
+	/**
+	 * Client IP for rate limiting. Uses the same trusted forwarded-IP filter as the heatmap
+	 * ( wps_ubo_heatmap_client_ip ), so one snippet covers both behind Cloudflare / a proxy.
+	 *
+	 * @return string
+	 */
+	private static function client_ip() {
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		/** This filter is documented in public/class-upsell-order-bump-heatmap-public.php */
+		$ip = (string) apply_filters( 'wps_ubo_heatmap_client_ip', $ip );
+		/**
+		 * Client IP used for the email capture rate limit.
+		 *
+		 * @since 3.1.8
+		 * @param string $ip REMOTE_ADDR, or the value from wps_ubo_heatmap_client_ip.
+		 */
+		return (string) apply_filters( 'wps_ubo_acr_client_ip', $ip );
+	}
+
+	/**
 	 * Rate limit for email capture: per session and per IP ( 10 minute window ).
 	 *
 	 * @return bool
 	 */
 	private static function capture_allowed() {
-		$ip     = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		$ip     = self::client_ip();
 		$limits = array(
 			'wps_ubo_acr_rl_s_' . md5( (string) WC()->session->get_customer_id() ) => 20,
 			'wps_ubo_acr_rl_i_' . md5( $ip ) => 60,
@@ -932,6 +972,7 @@ class Upsell_Order_Bump_Acr_Public {
 			array(
 				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( self::NONCE_ACTION ),
+				'capNonce' => wp_create_nonce( self::capture_nonce_action() ),
 				'capture'  => self::should_track() && ! is_user_logged_in() && 'on' === $settings['capture_guests'],
 				// Everyone whose cart is saved sees the notice and the opt-out ( logged-in customers too ).
 				'notice'   => self::should_track() ? $settings['consent_notice'] : '',

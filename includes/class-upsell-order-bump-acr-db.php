@@ -389,7 +389,10 @@ class Upsell_Order_Bump_Acr_Db {
 		global $wpdb;
 		self::unschedule();
 		if ( class_exists( 'Upsell_Order_Bump_Acr_Engine' ) && function_exists( 'get_posts' ) ) {
-			Upsell_Order_Bump_Acr_Engine::delete_coupons( false );
+			// delete_coupons() removes 200 per call; repeat until none are left.
+			while ( Upsell_Order_Bump_Acr_Engine::delete_coupons( false ) > 0 ) {
+				continue;
+			}
 		}
 		$table = self::table();
 		$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange

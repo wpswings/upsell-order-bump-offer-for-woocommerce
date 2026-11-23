@@ -98,8 +98,9 @@ class Upsell_Order_Bump_Heatmap_Public {
 				'description'     => '.wps_upsell_offer_product_description, .upsell-product-desc, .wps-ob_ta-p-desc, .wps-ubo__temp-prod-desc',
 			),
 			'upsell' => array(
-				'accept_button'  => 'a[href*="wps_wocuf_pro_buy"], [name="wps_wocuf_pro_buy"], .wps_wocuf_pro_custom_buy, .wps_wocuf_pro_buy, a[href="#wps_upsell"], .elementor-button',
+				// Decline first: zones match in order, and Elementor decline links also carry .elementor-button.
 				'decline_button' => 'a[href*="ocuf_th=1"], .wps_wocuf_pro_no, .wps_wocuf_pro_skip, .wps_wocuf_pro_custom_skip',
+				'accept_button'  => 'a[href*="wps_wocuf_pro_buy"], [name="wps_wocuf_pro_buy"], .wps_wocuf_pro_custom_buy, .wps_wocuf_pro_buy, a[href="#wps_upsell"], .elementor-button',
 				'quantity'       => '.wps_upsell_quantity, .wps_upsell_quantity_input',
 				'variation'      => 'select, .wps_upsell_offer_variation_select',
 				'image'          => '.wps_upsell_offer_product_image, img',

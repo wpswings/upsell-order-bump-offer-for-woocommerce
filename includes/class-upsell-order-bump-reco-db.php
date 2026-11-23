@@ -401,7 +401,7 @@ class Upsell_Order_Bump_Reco_Db {
 				'status'  => 'idle',
 				'version' => (int) $meta['version'] + 1,
 			),
-			false
+			true // Same autoload as update_model(): read on every front request.
 		);
 	}
 
