@@ -20,6 +20,7 @@
  * @var string $section  Active section.
  * @var string $notice   Notice key.
  * @var bool   $external External recovery plugin active.
+ * @var bool   $paused   Native automatic emails paused for the external plugin.
  * @var bool   $reco_on  Smart Recommendations ready.
  * @var array  $roles    Role names.
  */
@@ -133,7 +134,9 @@ $wps_panel_attrs = function ( $key, $active ) {
 	<?php if ( isset( $wps_notices[ $notice ] ) ) : ?>
 		<div class="wps-ubo-acr__notice is-<?php echo esc_attr( $wps_notices[ $notice ][0] ); ?>" role="status"><p><?php echo esc_html( $wps_notices[ $notice ][1] ); ?></p></div>
 	<?php endif; ?>
-	<?php if ( $external ) : ?>
+	<?php if ( $external && $paused ) : ?>
+		<div class="wps-ubo-acr__notice is-warning" role="status"><p><?php esc_html_e( 'The "WooCommerce Cart Abandonment Recovery" plugin is active, so automatic recovery emails from Cart Recovery are paused to avoid sending customers two reminders. Carts are still tracked, and "Send now" still works. Deactivate that plugin to resume them. The existing "Abandoned Cart Bump" integration keeps working either way.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p></div>
+	<?php elseif ( $external ) : ?>
 		<div class="wps-ubo-acr__notice is-warning" role="status"><p><?php esc_html_e( 'The "WooCommerce Cart Abandonment Recovery" plugin is also active. If you enable Cart Recovery here as well, customers may get reminder emails from both. The existing "Abandoned Cart Bump" integration keeps working either way.', 'upsell-order-bump-offer-for-woocommerce' ); ?></p></div>
 	<?php endif; ?>
 

@@ -589,8 +589,13 @@ class Upsell_Order_Bump_Gamified {
 
 	/**
 	 * Price a % discount is taken from: the offer product's current price.
-	 * 0 when unknown or variable (variation prices differ), in which case no
-	 * fixed-price comparison is made.
+	 *
+	 * Variable products use their highest variation price. The bump list is filtered
+	 * before the shopper picks a variation (and one % applies to every variation), so
+	 * the prize is kept only when it beats the fixed offer even on the most expensive
+	 * variation; then it is cheaper on all of them. Otherwise the standard fixed offer
+	 * applies, which can never be worse than the normal offer.
+	 * 0 when unknown, in which case no fixed-price comparison is made.
 	 *
 	 * @param array $bump Bump array.
 	 * @return float
@@ -598,8 +603,11 @@ class Upsell_Order_Bump_Gamified {
 	public static function offer_base_price( $bump ) {
 		$product_id = isset( $bump['wps_upsell_bump_products_in_offer'] ) ? absint( $bump['wps_upsell_bump_products_in_offer'] ) : 0;
 		$product    = $product_id && function_exists( 'wc_get_product' ) ? wc_get_product( $product_id ) : null;
-		if ( ! $product || $product->is_type( 'variable' ) ) {
+		if ( ! $product ) {
 			return 0.0;
+		}
+		if ( $product->is_type( 'variable' ) ) {
+			return (float) $product->get_variation_price( 'max' );
 		}
 		return (float) $product->get_price();
 	}
