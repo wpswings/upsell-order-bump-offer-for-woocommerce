@@ -3125,8 +3125,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		if ( isset( $_GET['ocuf_ns'] ) && isset( $_GET['ocuf_ok'] ) && isset( $_GET['ocuf_ofd'] ) && isset( $_GET['ocuf_fid'] ) ) {
 
 			$order_key = sanitize_text_field( wp_unslash( $_GET['ocuf_ok'] ) );
+			$funnel_id = sanitize_text_field( wp_unslash( $_GET['ocuf_fid'] ) );
+			$offer_id  = sanitize_text_field( wp_unslash( $_GET['ocuf_ofd'] ) );
+			$wp_nonce  = sanitize_text_field( wp_unslash( $_GET['ocuf_ns'] ) );
 
-			if ( wps_upsell_lite_validate_upsell_nonce_funnel_builder() && ! empty( wc_get_order_id_by_order_key( $order_key ) ) ) {
+			// A live offer needs a valid funnel_offers nonce AND a real order whose started
+			// upsell funnel matches ocuf_fid, with ocuf_ofd an offer of that funnel.
+			if ( $this->is_valid_live_offer_request( wc_get_order_id_by_order_key( $order_key ), $funnel_id, $offer_id, $wp_nonce ) ) {
 
 				return 'live_offer';
 			}
@@ -3836,6 +3841,11 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 					if ( ! wp_verify_nonce( $wp_nonce, 'funnel_offers' ) ) {
 						wp_die( esc_html__( 'Nonce Not verified', 'upsell-order-bump-offer-for-woocommerce' ) );
+					}
+
+					// Only render for the order's own started funnel and one of its offers.
+					if ( ! $this->is_valid_live_offer_request( $order_id, $funnel_id, $offer_id, $wp_nonce ) ) {
+						return $result;
 					}
 
 					$wps_wocuf_pro_all_funnels = get_option( 'wps_wocuf_funnels_list', array() );
