@@ -36,6 +36,7 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 	}
 
 	public function tear_down() {
+		$_GET = array();
 		delete_option( 'wps_wocuf_funnels_list' );
 		delete_option( 'wps_upsell_lite_global_options' );
 		parent::tear_down();
@@ -222,5 +223,51 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertEqualsWithDelta( 30.0, (float) $this->pub->wps_wocuf_pro_change_offered_product_price( $product, '50%' )->get_price(), 0.001 );
 		$product = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '60' ) );
 		$this->assertEqualsWithDelta( 45.0, (float) $this->pub->wps_wocuf_pro_change_offered_product_price( $product, '45' )->get_price(), 0.001 );
+	}
+
+	/* ------------------------------------------------- live offer request gate */
+
+	/**
+	 * Start a funnel and put its offer link params in $_GET.
+	 *
+	 * @return array Query params of the real offer link.
+	 */
+	private function open_offer_link() {
+		$this->funnel();
+		$this->funnel( array(), 2 );
+		parse_str( (string) wp_parse_url( $this->checkout( array( $this->target ) ), PHP_URL_QUERY ), $query );
+		$_GET = $query;
+		return $query;
+	}
+
+	public function test_real_offer_link_is_a_live_offer() {
+		$this->open_offer_link();
+		$this->assertSame( 'live_offer', $this->pub->validate_shortcode() );
+	}
+
+	public function test_offer_link_for_another_funnel_is_not_live() {
+		$this->open_offer_link();
+		$_GET['ocuf_fid'] = '2'; // Exists, but not the funnel started for this order.
+		$this->assertFalse( $this->pub->validate_shortcode() );
+	}
+
+	public function test_offer_link_with_unknown_offer_is_not_live() {
+		$this->open_offer_link();
+		$_GET['ocuf_ofd'] = '1;alert(document.domain)//';
+		$this->assertFalse( $this->pub->validate_shortcode() );
+	}
+
+	public function test_offer_link_with_injected_nonce_is_not_live() {
+		$this->open_offer_link();
+		$_GET['ocuf_ns'] = '" autofocus onfocus=alert(document.domain) x="';
+		$this->assertFalse( $this->pub->validate_shortcode() );
+		$this->assertStringNotContainsString( 'onfocus', (string) $this->pub->no_thanks_shortcode_content() );
+		$this->assertStringNotContainsString( 'onfocus', (string) $this->pub->buy_now_shortcode_content() );
+	}
+
+	public function test_offer_link_for_unknown_order_is_not_live() {
+		$this->open_offer_link();
+		$_GET['ocuf_ok'] = 'wc_order_not_a_real_key';
+		$this->assertFalse( $this->pub->validate_shortcode() );
 	}
 }
