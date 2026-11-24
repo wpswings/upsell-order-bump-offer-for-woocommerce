@@ -27,7 +27,7 @@ composer install
 bin/run-php-tests.sh                        # everything
 bin/run-php-tests.sh --testsuite unit
 bin/run-php-tests.sh --testsuite integration
-bin/run-php-tests.sh --filter AcrFlowTest   # one class
+bin/run-php-tests.sh --filter Acr_Flow_Test   # one class
 ```
 
 - **Separate database.** The tests run against their own database, `wps_ubo_tests`. It is **dropped and re-created on every run**, so never point it at real data.
@@ -91,7 +91,7 @@ Specs run one at a time (`workers: 1`) because they share the store's settings.
 
 | Test | What it proves |
 |---|---|
-| `unit/LegacyFunctionsTest` | **Defaults and allowed HTML:** default global options, default text and template CSS, and the allowed-HTML list (keeps bump markup, strips `<script>`). |
+| `unit/Legacy_Functions_Test` | **Defaults and allowed HTML:** default global options, default text and template CSS, and the allowed-HTML list (keeps bump markup, strips `<script>`). |
 | | **Location hooks:** the hook and priority for each of the 4 bump locations, plus WooCommerce Germanized. |
 | | **Bump price:** `%`, fixed, no-discount, more than 100 %, negative values, invalid product, and the currency-conversion filter. |
 | | **Bump details:** `wps_ubo_lite_fetch_bump_offer_details` for percent and fixed bumps, and for a missing bump. |
@@ -101,7 +101,7 @@ Specs run one at a time (`workers: 1`) because they share the store's settings.
 | | **Dynamic discount rules:** comparison operators, device detection, rule sanitising, subtotal and user-status rules, and the all-rules-must-pass check. |
 | | **Choosing which bump to show:** by target product, target category, status and weekday schedule. |
 | | **Free-tier limit:** only the first bump is used, and Smart Offer Upgrade is forced off. |
-| `integration/BumpCartFlowTest` | **AJAX add:** `add_offer_in_cart` uses the discount stored on the server and ignores the one the browser sends; it rejects a bad nonce; it handles fixed price; a variable offer opens the variation popup. |
+| `integration/Bump_Cart_Flow_Test` | **AJAX add:** `add_offer_in_cart` uses the discount stored on the server and ignores the one the browser sends; it rejects a bad nonce; it handles fixed price; a variable offer opens the variation popup. |
 | | **AJAX remove:** `remove_offer_in_cart`. |
 | | **Cart:** removing the target product also removes the offer. |
 | | **Stats:** view and accept counters, and the report counters. |
@@ -116,7 +116,7 @@ Specs run one at a time (`workers: 1`) because they share the store's settings.
 
 | Test | What it proves |
 |---|---|
-| `integration/UpsellFunnelLiteTest` | **Starting a funnel:** an order with the target product (block checkout, Cash on delivery) stores the offer link with the funnel, offer, order key and nonce; the thank-you URL is replaced by the offer link; trigger and view stats are counted. |
+| `integration/Upsell_Funnel_Lite_Test` | **Starting a funnel:** an order with the target product (block checkout, Cash on delivery) stores the offer link with the funnel, offer, order key and nonce; the thank-you URL is replaced by the offer link; trigger and view stats are counted. |
 | | **When no funnel starts:** no funnels, no target product, an unsupported payment method (free funnels support Cash on delivery), a sandbox funnel for customers (admins still get it), offer already in the order (unless the skip is turned off), offer out of stock, another weekday in the schedule. |
 | | **Targeting:** target category and global funnels; exclusive offers once per email; smart skip for offers bought before; smart offer upgrade remembers the target item. |
 | | **Offer price:** percentage and fixed funnel prices. |
@@ -126,7 +126,7 @@ Specs run one at a time (`workers: 1`) because they share the store's settings.
 
 | Test | What it proves |
 |---|---|
-| `integration/AdminTest` | **Bump list status toggle:** Live/Sandbox, values limited to yes/no, unknown bump, non-admins, and bad nonce. |
+| `integration/Admin_Test` | **Bump list status toggle:** Live/Sandbox, values limited to yes/no, unknown bump, non-admins, and bad nonce. |
 | | **Campaign labels:** created; duplicates rejected even with different case or extra spaces; name and colour required; admins only. |
 | | **Popup settings:** saving them. |
 | | **Import/export helpers:** CSV value conversion, row normalising, export skip-keys, header mapping and the last-index helpers. |
@@ -142,7 +142,7 @@ Specs run one at a time (`workers: 1`) because they share the store's settings.
 
 | Test | What it proves |
 |---|---|
-| `unit/HeatmapTest` | **Storage and reports:** default settings; inserting events; the grid buckets clicks into 100-px cells (capped at 99); zone and total counts; filters by device, template, offer and date; purging old rows by retention; the daily purge cron. |
+| `unit/Heatmap_Test` | **Storage and reports:** default settings; inserting events; the grid buckets clicks into 100-px cells (capped at 99); zone and total counts; filters by device, template, offer and date; purging old rows by retention; the daily purge cron. |
 | | **Collecting events (`ingest`):** the template is looked up on the server, never taken from the browser; invalid offer type, event, context or offer is rejected; coordinates are clamped; unknown zone and device are ignored; upsell, custom-page and default templates are recognised. |
 | | **Limits and safeguards:** at most 100 events per request; bad nonce, feature off or broken JSON store nothing; a per-IP rate limit; a filter can drop events. |
 | | **Tracker loading:** hidden admin bar in preview mode; the tracker is not loaded on other pages, and on a shortcode page it loads with its settings. |
@@ -153,39 +153,39 @@ Specs run one at a time (`workers: 1`) because they share the store's settings.
 
 | Test | What it proves |
 |---|---|
-| `unit/RecoTest` | **Settings and model:** settings limited to allowed ranges and values; model status and `has_model`; scheduling (weekly / manual); order-status filter; training lock. |
+| `unit/Reco_Test` | **Settings and model:** settings limited to allowed ranges and values; model status and `has_model`; scheduling (weekly / manual); order-status filter; training lock. |
 | | **Scoring:** scores from several cart products are combined; variations count as their parent product. |
 | | **Choosing products:** sorted by score; excluded products, out-of-stock and draft products are skipped; products already in the cart are never offered; products the customer already bought are skipped. |
 | | **Live model and AI:** the top product pairs; AI results are read correctly (code fences, values limited to 0–1, reasons cleaned of HTML). |
 | | **Offer swap:** the targeting mode and product source; cart products; AI product swap on read, restored before save (a fixed price is not carried over to the swapped product); the same for funnels. |
 | | **Product availability and admin:** offer-product availability; admin field values limited to allowed options; save settings (capability check, values clamped). |
-| `integration/RecoTrainingTest` | **Training on real orders:** products often bought together are found; pairs under the minimum support are removed; the model version goes up on each run; with no orders the model is empty; deleting the model works. |
+| `integration/Reco_Training_Test` | **Training on real orders:** products often bought together are found; pairs under the minimum support are removed; the model version goes up on each run; with no orders the model is empty; deleting the model works. |
 | `e2e/01-admin` | The Smart Recommendations page loads. |
 
 ### Spin & Scratch bumps (WPS-7889)
 
 | Test | What it proves |
 |---|---|
-| `unit/GamifiedTest` | **Settings:** defaults; on/off switches; maximum discount clamped; formats; prize sanitising, defaults when invalid, at most 12 prizes; text and colour fall back to defaults. |
+| `unit/Gamified_Test` | **Settings:** defaults; on/off switches; maximum discount clamped; formats; prize sanitising, defaults when invalid, at most 12 prizes; text and colour fall back to defaults. |
 | | **The draw:** prize weights are respected (statistically checked); one draw per session; skip and its stats; a filter cannot exceed the maximum discount; clearing the session. |
 | | **Discount:** the bump's own discount is guaranteed. |
 | | **Bump price swap:** the won price is applied on read and the stored price is restored before save. |
 | | **Uninstall:** options removed. |
-| `integration/BumpCartFlowTest` | **AJAX play:** refused unless the bump is being shown; one play per session; the won discount is the price in the cart. Game HTML renders and standard bumps are not replaced. |
+| `integration/Bump_Cart_Flow_Test` | **AJAX play:** refused unless the bump is being shown; one play per session; the won discount is the price in the cart. Game HTML renders and standard bumps are not replaced. |
 | `e2e/03-gamified` | **Real browser:** the spin wheel and the scratch card each replace the checkbox; playing reveals a prize (at least the bump's 20 %, at most 50 %); the real bump appears at the won price; a reload keeps the prize. Skip gives the plain offer; with the feature off, the normal checkbox shows. |
 
 ### Cart Recovery (WPS-7890)
 
 | Test | What it proves |
 |---|---|
-| `unit/AcrDbTest` | **Settings:** defaults; numbers clamped; on/off switches and offer source; only existing roles kept; email steps cleaned (subject, body HTML, units, discount, coupon). |
+| `unit/Acr_Db_Test` | **Settings:** defaults; numbers clamped; on/off switches and offer source; only existing roles kept; email steps cleaned (subject, body HTML, units, discount, coupon). |
 | | **Timing:** step delay in seconds; next enabled step; the 5-minute cron. |
 | | **Saved-cart records:** add, read, update and delete; unsubscribed lookup; most recent open cart for an email. |
 | | **Admin list and stats:** list filtering and pages; dashboard stats and rates. |
 | | **Scheduling and price:** scheduled while on, cleared when off; offer price. |
 | | **Email links:** recovery, offer and unsubscribe links and the unsubscribe signature. |
 | | **Email content:** preview with sample coupon and offer; HTML entities decoded in the subject; sending goes through `wp_mail`. |
-| `integration/AcrFlowTest` | **Capturing carts:** guests (email saved lowercase); invalid email; bad nonce; guests off; feature off; editing the cart updates the same saved cart; the name is not wiped; excluded roles; logged-in customers; the tracking filter; opt-out. |
+| `integration/Acr_Flow_Test` | **Capturing carts:** guests (email saved lowercase); invalid email; bad nonce; guests off; feature off; editing the cart updates the same saved cart; the name is not wiped; excluded roles; logged-in customers; the tracking filter; opt-out. |
 | | **Processing:** disabled; locked; recent cart left alone. |
 | | **Email sequence:** three emails (cart → offer → single-use coupon locked to the customer's email); disabled steps skipped; the coupon is reused and its amount only goes up. |
 | | **End states:** ordering without the link counts as recovered (direct); a finished sequence becomes lost. |

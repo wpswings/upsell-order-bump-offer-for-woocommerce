@@ -243,9 +243,9 @@ class Upsell_Order_Bump_Reco_Ai {
 		$prods  = Upsell_Order_Bump_Reco_Db::products_table( true );
 		$weight = (int) $settings['ai_weight'] / 100;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$anchors      = $wpdb->get_col( $wpdb->prepare( "SELECT product_id FROM {$prods} ORDER BY order_count DESC LIMIT %d", (int) $settings['ai_anchor_limit'] ) );
-		$best_sellers = $wpdb->get_col( "SELECT product_id FROM {$prods} ORDER BY order_count DESC LIMIT 60" );
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery
+		$anchors      = $wpdb->get_col( $wpdb->prepare( 'SELECT product_id FROM %i ORDER BY order_count DESC LIMIT %d', $prods, (int) $settings['ai_anchor_limit'] ) );
+		$best_sellers = $wpdb->get_col( $wpdb->prepare( 'SELECT product_id FROM %i ORDER BY order_count DESC LIMIT %d', $prods, 60 ) );
 
 		$done     = 0;
 		$failures = 0;
@@ -258,7 +258,7 @@ class Upsell_Order_Bump_Reco_Ai {
 				continue;
 			}
 
-			$ml_ids = array_map( 'intval', $wpdb->get_col( $wpdb->prepare( "SELECT target_id FROM {$pairs} WHERE source_id = %d ORDER BY score DESC LIMIT %d", $anchor_id, self::MAX_CANDIDATES ) ) );
+			$ml_ids = array_map( 'intval', $wpdb->get_col( $wpdb->prepare( 'SELECT target_id FROM %i WHERE source_id = %d ORDER BY score DESC LIMIT %d', $pairs, $anchor_id, self::MAX_CANDIDATES ) ) );
 
 			$candidate_ids = $ml_ids;
 			if ( 'on' === $settings['ai_cold_start'] && count( $ml_ids ) < 5 ) {
@@ -305,7 +305,8 @@ class Upsell_Order_Bump_Reco_Ai {
 				if ( in_array( $target_id, $ml_ids, true ) ) {
 					$wpdb->query(
 						$wpdb->prepare(
-							"UPDATE {$pairs} SET ai_score = %f, ai_reason = %s, score = LEAST(1, (1 - %f) * ml_score + %f * %f) WHERE source_id = %d AND target_id = %d",
+							'UPDATE %i SET ai_score = %f, ai_reason = %s, score = LEAST(1, (1 - %f) * ml_score + %f * %f) WHERE source_id = %d AND target_id = %d',
+							$pairs,
 							$item['score'],
 							$item['reason'],
 							$weight,
@@ -318,9 +319,10 @@ class Upsell_Order_Bump_Reco_Ai {
 				} elseif ( $item['score'] >= self::COLD_START_MIN ) {
 					$wpdb->query(
 						$wpdb->prepare(
-							"INSERT INTO {$pairs} (source_id, target_id, co_count, seq_count, ml_score, lift, ai_score, ai_reason, score)
+							'INSERT INTO %i (source_id, target_id, co_count, seq_count, ml_score, lift, ai_score, ai_reason, score)
 							VALUES (%d, %d, 0, 0, 0, 0, %f, %s, %f)
-							ON DUPLICATE KEY UPDATE ai_score = VALUES(ai_score), ai_reason = VALUES(ai_reason), score = VALUES(score)",
+							ON DUPLICATE KEY UPDATE ai_score = VALUES(ai_score), ai_reason = VALUES(ai_reason), score = VALUES(score)',
+							$pairs,
 							$anchor_id,
 							$target_id,
 							$item['score'],

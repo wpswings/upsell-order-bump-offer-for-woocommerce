@@ -46,7 +46,10 @@ class WPS_UBO_Test_Factory {
 	 * @param array $prices size => price.
 	 * @return WC_Product_Variable
 	 */
-	public static function variable_product( $prices = array( 'small' => '10', 'large' => '15' ) ) {
+	public static function variable_product( $prices = array(
+		'small' => '10',
+		'large' => '15',
+	) ) {
 		$product   = new WC_Product_Variable();
 		$attribute = new WC_Product_Attribute();
 		$attribute->set_name( 'size' );

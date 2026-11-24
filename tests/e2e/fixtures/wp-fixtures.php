@@ -36,7 +36,9 @@ if ( ! file_exists( $wps_root . '/wp-load.php' ) ) {
 	exit( 1 );
 }
 define( 'WP_USE_THEMES', false );
-$_SERVER['HTTP_HOST'] = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'localhost';
+if ( ! isset( $_SERVER['HTTP_HOST'] ) ) {
+	$_SERVER['HTTP_HOST'] = 'localhost';
+}
 require $wps_root . '/wp-load.php';
 
 const WPS_E2E_STATE   = 'wps_ubo_e2e_state';
@@ -87,7 +89,7 @@ function wps_e2e_state() {
  */
 function wps_e2e_acr_row( $email ) {
 	global $wpdb;
-	$id = $wpdb->get_var( $wpdb->prepare( 'SELECT id FROM ' . Upsell_Order_Bump_Acr_Db::table() . ' WHERE email = %s ORDER BY id DESC LIMIT 1', strtolower( $email ) ) ); // phpcs:ignore
+	$id = $wpdb->get_var( $wpdb->prepare( 'SELECT id FROM %i WHERE email = %s ORDER BY id DESC LIMIT 1', Upsell_Order_Bump_Acr_Db::table(), strtolower( $email ) ) );
 	return $id ? Upsell_Order_Bump_Acr_Db::get_by( 'id', $id ) : null;
 }
 
@@ -181,7 +183,16 @@ switch ( $wps_cmd ) {
 		);
 		update_option( Upsell_Order_Bump_Gamified::SETTINGS_OPTION, Upsell_Order_Bump_Gamified::sanitize_settings( array( 'enabled' => 'off' ) ) );
 		delete_option( Upsell_Order_Bump_Gamified::STATS_OPTION );
-		update_option( Upsell_Order_Bump_Heatmap_Db::SETTINGS_OPTION, array_merge( Upsell_Order_Bump_Heatmap_Db::default_settings(), array( 'enabled' => 'on', 'sample_rate' => 100 ) ) );
+		update_option(
+			Upsell_Order_Bump_Heatmap_Db::SETTINGS_OPTION,
+			array_merge(
+				Upsell_Order_Bump_Heatmap_Db::default_settings(),
+				array(
+					'enabled' => 'on',
+					'sample_rate' => 100,
+				)
+			)
+		);
 		update_option(
 			Upsell_Order_Bump_Acr_Db::SETTINGS_OPTION,
 			Upsell_Order_Bump_Acr_Db::sanitize_settings(
@@ -238,22 +249,29 @@ switch ( $wps_cmd ) {
 			)
 		);
 		$deleted_orders = 0;
-		foreach ( $orders as $id ) {
-			$order = wc_get_order( $id );
-			if ( $order && false !== strpos( (string) $order->get_billing_email(), WPS_E2E_DOMAIN ) ) {
-				$order->delete( true );
+		foreach ( $orders as $wps_order_id ) {
+			$wps_order = wc_get_order( $wps_order_id );
+			if ( $wps_order && false !== strpos( (string) $wps_order->get_billing_email(), WPS_E2E_DOMAIN ) ) {
+				$wps_order->delete( true );
 				++$deleted_orders;
 			}
 		}
-		foreach ( $wpdb->get_col( 'SELECT coupon_code FROM ' . Upsell_Order_Bump_Acr_Db::table() . " WHERE email LIKE '%" . esc_sql( WPS_E2E_DOMAIN ) . "' AND coupon_code <> ''" ) as $code ) { // phpcs:ignore
+		foreach ( $wpdb->get_col( $wpdb->prepare( "SELECT coupon_code FROM %i WHERE email LIKE %s AND coupon_code <> ''", Upsell_Order_Bump_Acr_Db::table(), '%' . $wpdb->esc_like( WPS_E2E_DOMAIN ) ) ) as $code ) {
 			$coupon = new WC_Coupon( $code );
 			if ( $coupon->get_id() ) {
 				$coupon->delete( true );
 			}
 		}
-		$wpdb->query( 'DELETE FROM ' . Upsell_Order_Bump_Acr_Db::table() . " WHERE email LIKE '%" . esc_sql( WPS_E2E_DOMAIN ) . "'" ); // phpcs:ignore
-		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' WHERE offer_type = %s AND offer_id = %d AND created_at > %s', 'bump', 1, gmdate( 'Y-m-d H:i:s', time() - DAY_IN_SECONDS ) ) ); // phpcs:ignore
-		foreach ( wc_get_products( array( 'limit' => -1, 'status' => 'any', 'meta_key' => '_wps_ubo_e2e', 'return' => 'ids' ) ) as $pid ) { // phpcs:ignore WordPress.DB.SlowDBQuery.slow_query_meta_key
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE email LIKE %s', Upsell_Order_Bump_Acr_Db::table(), '%' . $wpdb->esc_like( WPS_E2E_DOMAIN ) ) );
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE offer_type = %s AND offer_id = %d AND created_at > %s', Upsell_Order_Bump_Heatmap_Db::table(), 'bump', 1, gmdate( 'Y-m-d H:i:s', time() - DAY_IN_SECONDS ) ) );
+		foreach ( wc_get_products(
+			array(
+				'limit' => -1,
+				'status' => 'any',
+				'meta_key' => '_wps_ubo_e2e',
+				'return' => 'ids',
+			)
+		) as $pid ) { // phpcs:ignore WordPress.DB.SlowDBQuery.slow_query_meta_key
 			wp_delete_post( $pid, true );
 		}
 		if ( ! empty( $state['offer_page'] ) ) {
@@ -329,12 +347,12 @@ switch ( $wps_cmd ) {
 		break;
 
 	case 'order':
-		$order = wc_get_order( absint( $wps_arg ) );
-		if ( ! $order ) {
+		$wps_order = wc_get_order( absint( $wps_arg ) );
+		if ( ! $wps_order ) {
 			wps_e2e_out( null );
 		}
 		$items = array();
-		foreach ( $order->get_items() as $item ) {
+		foreach ( $wps_order->get_items() as $item ) {
 			$items[] = array(
 				'name'       => $item->get_name(),
 				'total'      => (float) $item->get_total(),
@@ -346,11 +364,11 @@ switch ( $wps_cmd ) {
 		}
 		wps_e2e_out(
 			array(
-				'status'        => $order->get_status(),
-				'email'         => $order->get_billing_email(),
-				'total'         => (float) $order->get_total(),
-				'bump_order'    => $order->get_meta( 'wps_bump_order' ),
-				'acr_recovered' => $order->get_meta( '_wps_ubo_acr_recovered' ),
+				'status'        => $wps_order->get_status(),
+				'email'         => $wps_order->get_billing_email(),
+				'total'         => (float) $wps_order->get_total(),
+				'bump_order'    => $wps_order->get_meta( 'wps_bump_order' ),
+				'acr_recovered' => $wps_order->get_meta( '_wps_ubo_acr_recovered' ),
 				'items'         => $items,
 			)
 		);
@@ -360,7 +378,7 @@ switch ( $wps_cmd ) {
 		global $wpdb;
 		wps_e2e_out(
 			array(
-				'count' => (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . Upsell_Order_Bump_Heatmap_Db::table() . ' WHERE offer_type = %s AND offer_id = %d AND created_at > %s', 'bump', $wps_arg ? absint( $wps_arg ) : 1, gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS ) ) ), // phpcs:ignore
+				'count' => (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE offer_type = %s AND offer_id = %d AND created_at > %s', Upsell_Order_Bump_Heatmap_Db::table(), 'bump', $wps_arg ? absint( $wps_arg ) : 1, gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS ) ) ),
 			)
 		);
 		break;

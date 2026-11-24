@@ -229,7 +229,7 @@ class Upsell_Order_Bump_Heatmap_Db {
 	public static function uninstall() {
 		global $wpdb;
 		$table = self::table();
-		$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		delete_option( self::DB_VERSION_OPTION );
 		delete_option( self::SETTINGS_OPTION );
 		self::unschedule_purge();
@@ -248,13 +248,10 @@ class Upsell_Order_Bump_Heatmap_Db {
 			return 0;
 		}
 
-		$table        = self::table();
-		$placeholders = array();
-		$values       = array();
-		$now          = current_time( 'mysql', true );
+		$values = array( self::table() );
+		$now    = current_time( 'mysql', true );
 
 		foreach ( $rows as $row ) {
-			$placeholders[] = '(%s,%d,%d,%s,%s,%d,%d,%s,%s,%s,%s,%s)';
 			array_push(
 				$values,
 				$row['offer_type'],
@@ -272,41 +269,27 @@ class Upsell_Order_Bump_Heatmap_Db {
 			);
 		}
 
-		$sql = "INSERT INTO {$table} (offer_type,offer_id,sub_offer_id,template,event_type,x,y,zone,device,context,session_hash,created_at) VALUES " . implode( ',', $placeholders );
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
-		$result = $wpdb->query( $wpdb->prepare( $sql, $values ) );
+		// One ( ... ) group per row; the table name is the first value ( %i ).
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$result = $wpdb->query( $wpdb->prepare( 'INSERT INTO %i (offer_type,offer_id,sub_offer_id,template,event_type,x,y,zone,device,context,session_hash,created_at) VALUES ' . implode( ',', array_fill( 0, count( $rows ), '(%s,%d,%d,%s,%s,%d,%d,%s,%s,%s,%s,%s)' ) ), $values ) );
 
 		return false === $result ? 0 : (int) $result;
 	}
 
 	/**
-	 * Build the shared WHERE clause for admin queries.
+	 * Values for the shared WHERE clause of the admin queries ( after the table name ):
+	 * offer_type = %s AND offer_id = %d AND sub_offer_id = %d AND created_at >= %s AND
+	 * created_at <= %s AND ( %s = '' OR device = %s ) AND ( %s = '' OR template = %s ).
+	 * An empty device / template means "any".
 	 *
-	 * @param array $filters Sanitized filters.
-	 * @return array [ string $where_sql, array $args ]
+	 * @param string $table   Table name.
+	 * @param array  $filters Sanitized filters.
+	 * @return array
 	 */
-	private static function build_where( $filters ) {
-		$where = array( 'offer_type = %s', 'offer_id = %d', 'sub_offer_id = %d', 'created_at >= %s', 'created_at <= %s' );
-		$args  = array(
-			$filters['offer_type'],
-			$filters['offer_id'],
-			$filters['sub_offer_id'],
-			$filters['date_from'],
-			$filters['date_to'],
-		);
-
-		if ( ! empty( $filters['device'] ) ) {
-			$where[] = 'device = %s';
-			$args[]  = $filters['device'];
-		}
-
-		if ( '' !== (string) $filters['template'] ) {
-			$where[] = 'template = %s';
-			$args[]  = $filters['template'];
-		}
-
-		return array( implode( ' AND ', $where ), $args );
+	private static function filter_args( $table, $filters ) {
+		$device   = ! empty( $filters['device'] ) ? (string) $filters['device'] : '';
+		$template = (string) $filters['template'];
+		return array( $table, $filters['offer_type'], $filters['offer_id'], $filters['sub_offer_id'], $filters['date_from'], $filters['date_to'], $device, $device, $template, $template );
 	}
 
 	/**
@@ -319,17 +302,11 @@ class Upsell_Order_Bump_Heatmap_Db {
 	public static function get_grid( $filters, $event_type ) {
 		global $wpdb;
 
-		list( $where, $args ) = self::build_where( $filters );
-		$args[]               = $event_type;
-		$table                = self::table();
+		$args   = self::filter_args( self::table(), $filters );
+		$args[] = $event_type;
 
-		$sql = "SELECT FLOOR(x/100) AS gx, FLOOR(y/100) AS gy, COUNT(*) AS c
-			FROM {$table}
-			WHERE {$where} AND event_type = %s
-			GROUP BY gx, gy";
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
-		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $args ), ARRAY_N );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT FLOOR(x/100) AS gx, FLOOR(y/100) AS gy, COUNT(*) AS c FROM %i WHERE offer_type = %s AND offer_id = %d AND sub_offer_id = %d AND created_at >= %s AND created_at <= %s AND ( %s = '' OR device = %s ) AND ( %s = '' OR template = %s ) AND event_type = %s GROUP BY gx, gy", $args ), ARRAY_N );
 
 		$points = array();
 		foreach ( (array) $rows as $row ) {
@@ -347,16 +324,8 @@ class Upsell_Order_Bump_Heatmap_Db {
 	public static function get_zones( $filters ) {
 		global $wpdb;
 
-		list( $where, $args ) = self::build_where( $filters );
-		$table                = self::table();
-
-		$sql = "SELECT zone, event_type, COUNT(*) AS c, COUNT(DISTINCT session_hash) AS v
-			FROM {$table}
-			WHERE {$where} AND event_type IN ('click','hover')
-			GROUP BY zone, event_type";
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
-		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $args ), ARRAY_A );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT zone, event_type, COUNT(*) AS c, COUNT(DISTINCT session_hash) AS v FROM %i WHERE offer_type = %s AND offer_id = %d AND sub_offer_id = %d AND created_at >= %s AND created_at <= %s AND ( %s = '' OR device = %s ) AND ( %s = '' OR template = %s ) AND event_type IN ('click','hover') GROUP BY zone, event_type", self::filter_args( self::table(), $filters ) ), ARRAY_A );
 
 		$zones = array();
 		foreach ( (array) $rows as $row ) {
@@ -385,21 +354,14 @@ class Upsell_Order_Bump_Heatmap_Db {
 	public static function get_totals( $filters ) {
 		global $wpdb;
 
-		list( $where, $args ) = self::build_where( $filters );
-		$table                = self::table();
-
-		$sql = "SELECT
-				SUM(event_type = 'view')  AS views,
-				SUM(event_type = 'click') AS clicks,
-				SUM(event_type = 'hover') AS hovers,
-				COUNT(DISTINCT session_hash) AS visitors,
-				COUNT(DISTINCT CASE WHEN event_type = 'view' THEN session_hash END)  AS viewers,
-				COUNT(DISTINCT CASE WHEN event_type = 'click' THEN session_hash END) AS clickers
-			FROM {$table}
-			WHERE {$where}";
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
-		$row = $wpdb->get_row( $wpdb->prepare( $sql, $args ), ARRAY_A );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$row = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT SUM(event_type = 'view') AS views, SUM(event_type = 'click') AS clicks, SUM(event_type = 'hover') AS hovers, COUNT(DISTINCT session_hash) AS visitors, COUNT(DISTINCT CASE WHEN event_type = 'view' THEN session_hash END) AS viewers, COUNT(DISTINCT CASE WHEN event_type = 'click' THEN session_hash END) AS clickers FROM %i WHERE offer_type = %s AND offer_id = %d AND sub_offer_id = %d AND created_at >= %s AND created_at <= %s AND ( %s = '' OR device = %s ) AND ( %s = '' OR template = %s )",
+				self::filter_args( self::table(), $filters )
+			),
+			ARRAY_A
+		);
 
 		return array(
 			'views'    => (int) ( $row['views'] ?? 0 ),
@@ -421,10 +383,9 @@ class Upsell_Order_Bump_Heatmap_Db {
 	 */
 	public static function get_templates_with_data( $offer_type, $offer_id, $sub_offer_id ) {
 		global $wpdb;
-		$table = self::table();
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT template FROM {$table} WHERE offer_type = %s AND offer_id = %d AND sub_offer_id = %d", $offer_type, $offer_id, $sub_offer_id ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		return $wpdb->get_col( $wpdb->prepare( 'SELECT DISTINCT template FROM %i WHERE offer_type = %s AND offer_id = %d AND sub_offer_id = %d', self::table(), $offer_type, $offer_id, $sub_offer_id ) );
 	}
 
 	/**
@@ -442,8 +403,8 @@ class Upsell_Order_Bump_Heatmap_Db {
 
 		// Delete in chunks to avoid long table locks on big stores.
 		do {
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-			$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE created_at < %s LIMIT 5000", $cutoff ) );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$deleted = $wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE created_at < %s LIMIT 5000', $table, $cutoff ) );
 		} while ( $deleted >= 5000 );
 	}
 
@@ -499,10 +460,8 @@ class Upsell_Order_Bump_Heatmap_Db {
 			return;
 		}
 
-		$table        = self::table();
-		$placeholders = implode( ',', array_fill( 0, count( $offer_ids ), '%d' ) );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE offer_type = %s AND offer_id IN ({$placeholders})", array_merge( array( $offer_type ), $offer_ids ) ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE offer_type = %s AND offer_id IN (' . implode( ',', array_fill( 0, count( $offer_ids ), '%d' ) ) . ')', array_merge( array( self::table(), $offer_type ), $offer_ids ) ) );
 	}
 
 	/**
@@ -513,6 +472,6 @@ class Upsell_Order_Bump_Heatmap_Db {
 	public static function truncate() {
 		global $wpdb;
 		$table = self::table();
-		$wpdb->query( "TRUNCATE TABLE {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( $wpdb->prepare( 'TRUNCATE TABLE %i', $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 	}
 }

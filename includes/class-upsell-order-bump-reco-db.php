@@ -392,8 +392,8 @@ class Upsell_Order_Bump_Reco_Db {
 	 */
 	public static function delete_model() {
 		global $wpdb;
-		$wpdb->query( 'TRUNCATE TABLE ' . self::pairs_table() ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
-		$wpdb->query( 'TRUNCATE TABLE ' . self::products_table() ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( $wpdb->prepare( 'TRUNCATE TABLE %i', self::pairs_table() ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( $wpdb->prepare( 'TRUNCATE TABLE %i', self::products_table() ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$meta = self::get_model();
 		update_option(
 			self::MODEL_OPTION,
@@ -416,7 +416,7 @@ class Upsell_Order_Bump_Reco_Db {
 		self::unschedule();
 
 		foreach ( array( self::pairs_table(), self::pairs_table( true ), self::products_table(), self::products_table( true ) ) as $table ) {
-			$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange
+			$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange
 		}
 
 		delete_option( self::DB_VERSION_OPTION );

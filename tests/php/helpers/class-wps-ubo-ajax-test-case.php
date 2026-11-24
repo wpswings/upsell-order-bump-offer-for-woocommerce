@@ -36,14 +36,19 @@ abstract class WPS_UBO_Ajax_Test_Case extends WP_Ajax_UnitTestCase {
 	 * Run an AJAX action and return decoded JSON (or raw output).
 	 *
 	 * @param string $action Action.
+	 * @param array  $post   Request body ( $_POST ).
+	 * @param array  $get    Query args ( $_GET ).
 	 * @return mixed
 	 */
-	protected function ajax( $action ) {
-		$_REQUEST = array_merge( $_GET, $_POST );
+	protected function ajax( $action, $post = array(), $get = array() ) {
+		$_GET     = $get;
+		$_POST    = $post;
+		$_REQUEST = array_merge( $get, $post );
 		try {
 			$this->_handleAjax( $action );
-		} catch ( WPAjaxDieContinueException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-		} catch ( WPAjaxDieStopException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+		} catch ( WPAjaxDieContinueException | WPAjaxDieStopException $e ) {
+			// The handler ended in wp_die(), the normal way out of an AJAX callback.
+			unset( $e );
 		}
 		$decoded = json_decode( $this->_last_response, true );
 		return null === $decoded ? $this->_last_response : $decoded;

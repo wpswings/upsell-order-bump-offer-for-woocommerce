@@ -157,9 +157,12 @@ class Upsell_Order_Bump_Reco_Admin {
 	 * @return void
 	 */
 	public function ajax_save_settings() {
-		$this->verify_request();
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
+		if ( ! current_user_can( self::CAPABILITY ) ) {
+			wp_send_json_error( array( 'message' => __( 'You are not allowed to do this.', 'upsell-order-bump-offer-for-woocommerce' ) ), 403 );
+		}
 
-		$raw      = isset( $_POST['settings'] ) && is_array( $_POST['settings'] ) ? map_deep( wp_unslash( $_POST['settings'] ), 'sanitize_text_field' ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified in verify_request().
+		$raw      = isset( $_POST['settings'] ) && is_array( $_POST['settings'] ) ? map_deep( wp_unslash( $_POST['settings'] ), 'sanitize_text_field' ) : array();
 		$settings = Upsell_Order_Bump_Reco_Db::sanitize_settings( $raw );
 
 		update_option( Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION, $settings, true ); // Read on every front request: keep autoloaded.
@@ -221,9 +224,12 @@ class Upsell_Order_Bump_Reco_Admin {
 	 * @return void
 	 */
 	public function ajax_test_ai() {
-		$this->verify_request();
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
+		if ( ! current_user_can( self::CAPABILITY ) ) {
+			wp_send_json_error( array( 'message' => __( 'You are not allowed to do this.', 'upsell-order-bump-offer-for-woocommerce' ) ), 403 );
+		}
 
-		$raw      = isset( $_POST['settings'] ) && is_array( $_POST['settings'] ) ? map_deep( wp_unslash( $_POST['settings'] ), 'sanitize_text_field' ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified in verify_request().
+		$raw      = isset( $_POST['settings'] ) && is_array( $_POST['settings'] ) ? map_deep( wp_unslash( $_POST['settings'] ), 'sanitize_text_field' ) : array();
 		$settings = $raw ? Upsell_Order_Bump_Reco_Db::sanitize_settings( $raw ) : Upsell_Order_Bump_Reco_Db::get_settings();
 		$reply    = Upsell_Order_Bump_Reco_Ai::test_connection( $settings );
 
@@ -239,9 +245,12 @@ class Upsell_Order_Bump_Reco_Admin {
 	 * @return void
 	 */
 	public function ajax_preview() {
-		$this->verify_request();
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
+		if ( ! current_user_can( self::CAPABILITY ) ) {
+			wp_send_json_error( array( 'message' => __( 'You are not allowed to do this.', 'upsell-order-bump-offer-for-woocommerce' ) ), 403 );
+		}
 
-		$ids = isset( $_POST['products'] ) ? array_map( 'absint', (array) wp_unslash( $_POST['products'] ) ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified in verify_request().
+		$ids = isset( $_POST['products'] ) ? array_map( 'absint', (array) wp_unslash( $_POST['products'] ) ) : array();
 		$ids = array_slice( array_values( array_unique( array_filter( array_map( array( 'Upsell_Order_Bump_Reco_Engine', 'parent_id' ), array_filter( $ids ) ) ) ) ), 0, 20 );
 
 		$recs = Upsell_Order_Bump_Reco_Engine::recommend(
@@ -480,16 +489,18 @@ class Upsell_Order_Bump_Reco_Admin {
 	}
 
 	/**
-	 * Read the two fields from the (already nonce-verified) form POST.
+	 * Read the two fields from the bump / funnel save form POST.
 	 *
-	 * @param array $offer Offer being saved.
+	 * @param array  $offer        Offer being saved.
+	 * @param string $nonce_field  Nonce field of the save form.
+	 * @param string $nonce_action Nonce action of the save form.
 	 * @return array
 	 */
-	private function read_fields( $offer ) {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Called from the bump/funnel save handlers after check_admin_referer().
-		$mode   = isset( $_POST['wps_ubo_targeting_mode'] ) ? sanitize_key( wp_unslash( $_POST['wps_ubo_targeting_mode'] ) ) : 'static';
-		$source = isset( $_POST['wps_ubo_offer_product_source'] ) ? sanitize_key( wp_unslash( $_POST['wps_ubo_offer_product_source'] ) ) : 'static';
-		// phpcs:enable
+	private function read_fields( $offer, $nonce_field, $nonce_action ) {
+		// Without the save form's nonce the request is treated like a form without these fields.
+		$verified = isset( $_POST[ $nonce_field ] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ $nonce_field ] ) ), $nonce_action );
+		$mode     = $verified && isset( $_POST['wps_ubo_targeting_mode'] ) ? sanitize_key( wp_unslash( $_POST['wps_ubo_targeting_mode'] ) ) : 'static';
+		$source   = $verified && isset( $_POST['wps_ubo_offer_product_source'] ) ? sanitize_key( wp_unslash( $_POST['wps_ubo_offer_product_source'] ) ) : 'static';
 
 		$offer['wps_ubo_targeting_mode']       = in_array( $mode, Upsell_Order_Bump_Reco_Db::TARGETING_MODES, true ) ? $mode : 'static';
 		$offer['wps_ubo_offer_product_source'] = in_array( $source, Upsell_Order_Bump_Reco_Db::PRODUCT_SOURCES, true ) ? $source : 'static';
@@ -504,7 +515,7 @@ class Upsell_Order_Bump_Reco_Admin {
 	 * @return array
 	 */
 	public function save_bump_fields( $bump, $bump_id ) {
-		return $this->read_fields( (array) $bump );
+		return $this->read_fields( (array) $bump, 'wps_upsell_bump_nonce', 'wps_upsell_bump_creation_nonce' );
 	}
 
 	/**
@@ -515,7 +526,7 @@ class Upsell_Order_Bump_Reco_Admin {
 	 * @return array
 	 */
 	public function save_funnel_fields( $funnel, $funnel_id ) {
-		return $this->read_fields( (array) $funnel );
+		return $this->read_fields( (array) $funnel, 'wps_wocuf_pro_nonce', 'wps_wocuf_pro_creation_nonce' );
 	}
 
 	/**

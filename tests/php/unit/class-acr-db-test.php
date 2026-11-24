@@ -6,12 +6,17 @@
  */
 
 /**
+ * ACR DB tests.
+ *
  * @covers Upsell_Order_Bump_Acr_Db
  * @covers Upsell_Order_Bump_Acr_Mailer
  * @covers Upsell_Order_Bump_Acr_Engine::offer_price
  */
-class AcrDbTest extends WPS_UBO_Test_Case {
+class Acr_Db_Test extends WPS_UBO_Test_Case {
 
+	/**
+	 * Test: Defaults off with three steps.
+	 */
 	public function test_defaults_off_with_three_steps() {
 		delete_option( Upsell_Order_Bump_Acr_Db::SETTINGS_OPTION );
 		$s = Upsell_Order_Bump_Acr_Db::get_settings();
@@ -22,6 +27,9 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 10, $s['steps'][2]['coupon'] );
 	}
 
+	/**
+	 * Test: Sanitize clamps numbers.
+	 */
 	public function test_sanitize_clamps_numbers() {
 		$s = Upsell_Order_Bump_Acr_Db::sanitize_settings(
 			array(
@@ -39,6 +47,9 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 90, $s['retention_days'] );
 	}
 
+	/**
+	 * Test: Sanitize toggles and source.
+	 */
 	public function test_sanitize_toggles_and_source() {
 		$s = Upsell_Order_Bump_Acr_Db::sanitize_settings(
 			array(
@@ -52,11 +63,17 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 'fixed', Upsell_Order_Bump_Acr_Db::sanitize_settings( array( 'offer_source' => 'fixed' ) )['offer_source'] );
 	}
 
+	/**
+	 * Test: Sanitize roles keep only existing.
+	 */
 	public function test_sanitize_roles_keep_only_existing() {
 		$s = Upsell_Order_Bump_Acr_Db::sanitize_settings( array( 'exclude_roles' => array( 'administrator', 'not_a_role', 'Customer' ) ) );
 		$this->assertSame( array( 'administrator', 'customer' ), $s['exclude_roles'] );
 	}
 
+	/**
+	 * Test: Sanitize steps.
+	 */
 	public function test_sanitize_steps() {
 		$s = Upsell_Order_Bump_Acr_Db::sanitize_settings(
 			array(
@@ -98,13 +115,51 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertSame( $d[2]['body'], $s['steps'][2]['body'] );
 	}
 
+	/**
+	 * Test: Step seconds.
+	 */
 	public function test_step_seconds() {
-		$this->assertSame( 300, Upsell_Order_Bump_Acr_Db::step_seconds( array( 'delay' => 5, 'unit' => 'minutes' ) ) );
-		$this->assertSame( 7200, Upsell_Order_Bump_Acr_Db::step_seconds( array( 'delay' => 2, 'unit' => 'hours' ) ) );
-		$this->assertSame( 3 * DAY_IN_SECONDS, Upsell_Order_Bump_Acr_Db::step_seconds( array( 'delay' => 3, 'unit' => 'days' ) ) );
-		$this->assertSame( HOUR_IN_SECONDS, Upsell_Order_Bump_Acr_Db::step_seconds( array( 'delay' => 1, 'unit' => 'bogus' ) ) );
+		$this->assertSame(
+			300,
+			Upsell_Order_Bump_Acr_Db::step_seconds(
+				array(
+					'delay' => 5,
+					'unit' => 'minutes',
+				)
+			)
+		);
+		$this->assertSame(
+			7200,
+			Upsell_Order_Bump_Acr_Db::step_seconds(
+				array(
+					'delay' => 2,
+					'unit' => 'hours',
+				)
+			)
+		);
+		$this->assertSame(
+			3 * DAY_IN_SECONDS,
+			Upsell_Order_Bump_Acr_Db::step_seconds(
+				array(
+					'delay' => 3,
+					'unit' => 'days',
+				)
+			)
+		);
+		$this->assertSame(
+			HOUR_IN_SECONDS,
+			Upsell_Order_Bump_Acr_Db::step_seconds(
+				array(
+					'delay' => 1,
+					'unit' => 'bogus',
+				)
+			)
+		);
 	}
 
+	/**
+	 * Test: Next step index skips disabled.
+	 */
 	public function test_next_step_index_skips_disabled() {
 		$s                        = Upsell_Order_Bump_Acr_Db::default_settings();
 		$s['steps'][0]['enabled'] = 'off';
@@ -116,18 +171,29 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertSame( -1, Upsell_Order_Bump_Acr_Db::next_step_index( 2 ) );
 	}
 
+	/**
+	 * Test: Cron schedule registered.
+	 */
 	public function test_cron_schedule_registered() {
 		$schedules = Upsell_Order_Bump_Acr_Db::cron_schedules( array() );
 		$this->assertSame( 300, $schedules['wps_ubo_acr_5min']['interval'] );
 		$this->assertArrayHasKey( 'wps_ubo_acr_5min', wp_get_schedules() );
 	}
 
+	/**
+	 * Test: Insert get update delete row.
+	 */
 	public function test_insert_get_update_delete_row() {
 		$id = Upsell_Order_Bump_Acr_Db::insert(
 			array(
 				'session_key' => 'sess-1',
 				'email'       => 'a@example.org',
-				'cart'        => array( array( 'product_id' => 5, 'quantity' => 2 ) ),
+				'cart'        => array(
+					array(
+						'product_id' => 5,
+						'quantity' => 2,
+					),
+				),
 			)
 		);
 		$this->assertGreaterThan( 0, $id );
@@ -138,7 +204,13 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertSame( $id, (int) Upsell_Order_Bump_Acr_Db::get_by( 'token', $row['token'] )['id'] );
 		$this->assertSame( $id, (int) Upsell_Order_Bump_Acr_Db::get_by( 'session_key', 'sess-1' )['id'] );
 
-		Upsell_Order_Bump_Acr_Db::update( $id, array( 'status' => 'abandoned', 'cart' => array() ) );
+		Upsell_Order_Bump_Acr_Db::update(
+			$id,
+			array(
+				'status' => 'abandoned',
+				'cart' => array(),
+			)
+		);
 		$this->assertSame( 'abandoned', Upsell_Order_Bump_Acr_Db::get_by( 'id', $id )['status'] );
 		$this->assertSame( array(), Upsell_Order_Bump_Acr_Db::get_by( 'id', $id )['cart'] );
 
@@ -146,29 +218,82 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertNull( Upsell_Order_Bump_Acr_Db::get_by( 'id', $id ) );
 	}
 
+	/**
+	 * Test: Get by rejects unknown column and empty value.
+	 */
 	public function test_get_by_rejects_unknown_column_and_empty_value() {
 		$this->assertNull( Upsell_Order_Bump_Acr_Db::get_by( 'email', 'a@example.org' ) );
 		$this->assertNull( Upsell_Order_Bump_Acr_Db::get_by( 'token', '' ) );
 	}
 
+	/**
+	 * Test: Unsubscribed and open row lookup.
+	 */
 	public function test_unsubscribed_and_open_row_lookup() {
-		Upsell_Order_Bump_Acr_Db::insert( array( 'session_key' => 'u1', 'email' => 'gone@example.org', 'cart' => array(), 'status' => 'unsubscribed' ) );
+		Upsell_Order_Bump_Acr_Db::insert(
+			array(
+				'session_key' => 'u1',
+				'email' => 'gone@example.org',
+				'cart' => array(),
+				'status' => 'unsubscribed',
+			)
+		);
 		$this->assertTrue( Upsell_Order_Bump_Acr_Db::is_unsubscribed( 'Gone@Example.org' ) );
 		$this->assertFalse( Upsell_Order_Bump_Acr_Db::is_unsubscribed( 'other@example.org' ) );
 
-		$old = Upsell_Order_Bump_Acr_Db::insert( array( 'session_key' => 'o1', 'email' => 'x@example.org', 'cart' => array(), 'status' => 'abandoned', 'abandoned_at' => Upsell_Order_Bump_Acr_Db::now( -100 ) ) );
-		$new = Upsell_Order_Bump_Acr_Db::insert( array( 'session_key' => 'o2', 'email' => 'x@example.org', 'cart' => array(), 'status' => 'lost', 'abandoned_at' => Upsell_Order_Bump_Acr_Db::now( -10 ) ) );
-		Upsell_Order_Bump_Acr_Db::insert( array( 'session_key' => 'o3', 'email' => 'x@example.org', 'cart' => array(), 'status' => 'recovered', 'abandoned_at' => Upsell_Order_Bump_Acr_Db::now() ) );
+		$old = Upsell_Order_Bump_Acr_Db::insert(
+			array(
+				'session_key' => 'o1',
+				'email' => 'x@example.org',
+				'cart' => array(),
+				'status' => 'abandoned',
+				'abandoned_at' => Upsell_Order_Bump_Acr_Db::now( -100 ),
+			)
+		);
+		$new = Upsell_Order_Bump_Acr_Db::insert(
+			array(
+				'session_key' => 'o2',
+				'email' => 'x@example.org',
+				'cart' => array(),
+				'status' => 'lost',
+				'abandoned_at' => Upsell_Order_Bump_Acr_Db::now( -10 ),
+			)
+		);
+		Upsell_Order_Bump_Acr_Db::insert(
+			array(
+				'session_key' => 'o3',
+				'email' => 'x@example.org',
+				'cart' => array(),
+				'status' => 'recovered',
+				'abandoned_at' => Upsell_Order_Bump_Acr_Db::now(),
+			)
+		);
 		$this->assertSame( $new, (int) Upsell_Order_Bump_Acr_Db::open_row_for_email( 'x@example.org' )['id'] );
 		$this->assertNotSame( $old, $new );
 		$this->assertNull( Upsell_Order_Bump_Acr_Db::open_row_for_email( 'nobody@example.org' ) );
 	}
 
+	/**
+	 * Test: List rows filters and paginates.
+	 */
 	public function test_list_rows_filters_and_paginates() {
 		for ( $i = 0; $i < 3; $i++ ) {
-			Upsell_Order_Bump_Acr_Db::insert( array( 'session_key' => "l$i", 'email' => "l$i@example.org", 'cart' => array(), 'status' => 'abandoned' ) );
+			Upsell_Order_Bump_Acr_Db::insert(
+				array(
+					'session_key' => "l$i",
+					'email' => "l$i@example.org",
+					'cart' => array(),
+					'status' => 'abandoned',
+				)
+			);
 		}
-		Upsell_Order_Bump_Acr_Db::insert( array( 'session_key' => 'anon', 'email' => '', 'cart' => array() ) );
+		Upsell_Order_Bump_Acr_Db::insert(
+			array(
+				'session_key' => 'anon',
+				'email' => '',
+				'cart' => array(),
+			)
+		);
 		$all = Upsell_Order_Bump_Acr_Db::list_rows( '', 1, 2 );
 		$this->assertSame( 3, $all['total'], 'Rows without email are hidden from the "all" view.' );
 		$this->assertCount( 2, $all['rows'] );
@@ -177,14 +302,62 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 0, Upsell_Order_Bump_Acr_Db::list_rows( 'recovered', 1 )['total'] );
 	}
 
+	/**
+	 * Test: Stats rates.
+	 */
 	public function test_stats_rates() {
-		$base = array( 'cart' => array(), 'abandoned_at' => Upsell_Order_Bump_Acr_Db::now( -3600 ) );
-		Upsell_Order_Bump_Acr_Db::insert( $base + array( 'session_key' => 's1', 'email' => '1@e.org', 'status' => 'recovered', 'recovered_via' => 'link', 'recovered_total' => 40, 'emails_sent' => 2, 'offer_product' => 9, 'offer_accepted' => 1 ) );
-		Upsell_Order_Bump_Acr_Db::insert( $base + array( 'session_key' => 's2', 'email' => '2@e.org', 'status' => 'recovered', 'recovered_via' => 'direct', 'recovered_total' => 10, 'emails_sent' => 1, 'offer_product' => 9 ) );
-		Upsell_Order_Bump_Acr_Db::insert( $base + array( 'session_key' => 's3', 'email' => '3@e.org', 'status' => 'lost', 'emails_sent' => 3 ) );
-		Upsell_Order_Bump_Acr_Db::insert( $base + array( 'session_key' => 's4', 'email' => '4@e.org', 'status' => 'abandoned' ) );
+		$base = array(
+			'cart' => array(),
+			'abandoned_at' => Upsell_Order_Bump_Acr_Db::now( -3600 ),
+		);
+		Upsell_Order_Bump_Acr_Db::insert(
+			$base + array(
+				'session_key' => 's1',
+				'email' => '1@e.org',
+				'status' => 'recovered',
+				'recovered_via' => 'link',
+				'recovered_total' => 40,
+				'emails_sent' => 2,
+				'offer_product' => 9,
+				'offer_accepted' => 1,
+			)
+		);
+		Upsell_Order_Bump_Acr_Db::insert(
+			$base + array(
+				'session_key' => 's2',
+				'email' => '2@e.org',
+				'status' => 'recovered',
+				'recovered_via' => 'direct',
+				'recovered_total' => 10,
+				'emails_sent' => 1,
+				'offer_product' => 9,
+			)
+		);
+		Upsell_Order_Bump_Acr_Db::insert(
+			$base + array(
+				'session_key' => 's3',
+				'email' => '3@e.org',
+				'status' => 'lost',
+				'emails_sent' => 3,
+			)
+		);
+		Upsell_Order_Bump_Acr_Db::insert(
+			$base + array(
+				'session_key' => 's4',
+				'email' => '4@e.org',
+				'status' => 'abandoned',
+			)
+		);
 		// Older than the window: ignored.
-		Upsell_Order_Bump_Acr_Db::insert( array( 'session_key' => 's5', 'email' => '5@e.org', 'cart' => array(), 'status' => 'recovered', 'abandoned_at' => Upsell_Order_Bump_Acr_Db::now( -40 * DAY_IN_SECONDS ) ) );
+		Upsell_Order_Bump_Acr_Db::insert(
+			array(
+				'session_key' => 's5',
+				'email' => '5@e.org',
+				'cart' => array(),
+				'status' => 'recovered',
+				'abandoned_at' => Upsell_Order_Bump_Acr_Db::now( -40 * DAY_IN_SECONDS ),
+			)
+		);
 
 		$st = Upsell_Order_Bump_Acr_Db::stats( 30 );
 		$this->assertSame( 4, $st['abandoned'] );
@@ -197,12 +370,18 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 50.0, $st['offer_rate'] );
 	}
 
+	/**
+	 * Test: Stats empty has zero rates.
+	 */
 	public function test_stats_empty_has_zero_rates() {
 		$st = Upsell_Order_Bump_Acr_Db::stats( 30 );
 		$this->assertSame( 0, $st['abandoned'] );
 		$this->assertSame( 0, $st['rate'] );
 	}
 
+	/**
+	 * Test: Reschedule follows enabled flag.
+	 */
 	public function test_reschedule_follows_enabled_flag() {
 		$s            = Upsell_Order_Bump_Acr_Db::default_settings();
 		$s['enabled'] = 'on';
@@ -216,14 +395,25 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertFalse( as_next_scheduled_action( Upsell_Order_Bump_Acr_Db::CRON_HOOK, array(), Upsell_Order_Bump_Acr_Db::AS_GROUP ) );
 	}
 
+	/**
+	 * Test: Offer price.
+	 */
 	public function test_offer_price() {
-		$p = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '18', 'sale_price' => '16' ) );
+		$p = WPS_UBO_Test_Factory::simple_product(
+			array(
+				'regular_price' => '18',
+				'sale_price' => '16',
+			)
+		);
 		// QA C2: the discount is taken off the current ( sale ) price and never exceeds it.
 		$this->assertSame( 13.6, Upsell_Order_Bump_Acr_Engine::offer_price( $p, 15 ), 'Discount applies to the sale price.' );
 		$this->assertSame( 1.6, Upsell_Order_Bump_Acr_Engine::offer_price( $p, 100 ), 'Capped at 90%.' );
 		$this->assertSame( 16.0, Upsell_Order_Bump_Acr_Engine::offer_price( $p, -5 ), 'Never above the current price.' );
 	}
 
+	/**
+	 * Test: Mailer URLs and signature.
+	 */
 	public function test_mailer_urls_and_signature() {
 		$row = array( 'token' => 'abcdefabcdefabcdefabcdefabcdef12' );
 		$this->assertStringContainsString( 'wps_ubo_acr=' . $row['token'], Upsell_Order_Bump_Acr_Mailer::recovery_url( $row ) );
@@ -237,6 +427,9 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertNotSame( $sig, Upsell_Order_Bump_Acr_Mailer::unsubscribe_sig( 'other-token' ) );
 	}
 
+	/**
+	 * Test: Mailer sample preview has coupon and offer.
+	 */
 	public function test_mailer_sample_preview_has_coupon_and_offer() {
 		WPS_UBO_Test_Factory::simple_product( array( 'name' => 'Sample offer' ) );
 		$email = Upsell_Order_Bump_Acr_Mailer::render( Upsell_Order_Bump_Acr_Mailer::sample_row(), 2 );
@@ -247,6 +440,9 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertStringNotContainsString( '{recovery_button}', $email['html'] );
 	}
 
+	/**
+	 * Test: Mailer subject decodes entities.
+	 */
 	public function test_mailer_subject_decodes_entities() {
 		$s                        = Upsell_Order_Bump_Acr_Db::default_settings();
 		$s['steps'][0]['subject'] = 'Save on {site_name} &amp; more';
@@ -256,6 +452,9 @@ class AcrDbTest extends WPS_UBO_Test_Case {
 		$this->assertStringContainsString( '& more', $email['subject'] );
 	}
 
+	/**
+	 * Test: Send step uses wp mail.
+	 */
 	public function test_send_step_uses_wp_mail() {
 		$this->assertTrue( Upsell_Order_Bump_Acr_Mailer::send_step( Upsell_Order_Bump_Acr_Mailer::sample_row(), 0, 'shop@example.org' ) );
 		$mails = $this->sent_mails();

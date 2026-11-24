@@ -6,20 +6,31 @@
  */
 
 /**
+ * Bootstrap tests.
+ *
  * @coversNothing
  */
-class BootstrapTest extends WPS_UBO_Test_Case {
+class Bootstrap_Test extends WPS_UBO_Test_Case {
 
+	/**
+	 * Test: Woocommerce is loaded.
+	 */
 	public function test_woocommerce_is_loaded() {
 		$this->assertTrue( class_exists( 'WooCommerce' ) );
 		$this->assertTrue( function_exists( 'WC' ) );
 	}
 
+	/**
+	 * Test: Plugin constants defined.
+	 */
 	public function test_plugin_constants_defined() {
 		$this->assertSame( '3.1.8', UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION );
 		$this->assertTrue( defined( 'UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_DIR_PATH' ) );
 	}
 
+	/**
+	 * Test: Core classes loaded.
+	 */
 	public function test_core_classes_loaded() {
 		foreach ( array(
 			'Upsell_Order_Bump_Offer_For_Woocommerce',
@@ -36,6 +47,9 @@ class BootstrapTest extends WPS_UBO_Test_Case {
 		}
 	}
 
+	/**
+	 * Test: Feature tables exist.
+	 */
 	public function test_feature_tables_exist() {
 		global $wpdb;
 		foreach ( array( Upsell_Order_Bump_Heatmap_Db::table(), Upsell_Order_Bump_Acr_Db::table(), Upsell_Order_Bump_Reco_Db::pairs_table(), Upsell_Order_Bump_Reco_Db::products_table() ) as $table ) {

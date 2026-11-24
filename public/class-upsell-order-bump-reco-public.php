@@ -382,7 +382,7 @@ class Upsell_Order_Bump_Reco_Public {
 		}
 		if ( 'ai' === self::product_source( $bump ) ) {
 			$decisions = (array) WC()->session->get( self::SESSION_KEY, array() );
-			if ( empty( $decisions[ $bump_id ] ) || $decisions[ $bump_id ]['sig'] !== self::signature( self::cart_context_ids() ) || ! self::pick_usable( (int) $decisions[ $bump_id ]['pid'] ) ) {
+			if ( empty( $decisions[ $bump_id ] ) || self::signature( self::cart_context_ids() ) !== $decisions[ $bump_id ]['sig'] || ! self::pick_usable( (int) $decisions[ $bump_id ]['pid'] ) ) {
 				return false;
 			}
 		}

@@ -6,9 +6,11 @@
  */
 
 /**
+ * Gamified tests.
+ *
  * @covers Upsell_Order_Bump_Gamified
  */
-class GamifiedTest extends WPS_UBO_Test_Case {
+class Gamified_Test extends WPS_UBO_Test_Case {
 
 	/**
 	 * Enable the feature with a given format for bump 1.
@@ -28,6 +30,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		update_option( Upsell_Order_Bump_Gamified::SETTINGS_OPTION, Upsell_Order_Bump_Gamified::sanitize_settings( $raw ) );
 	}
 
+	/**
+	 * Test: Defaults are off with six prizes.
+	 */
 	public function test_defaults_are_off_with_six_prizes() {
 		delete_option( Upsell_Order_Bump_Gamified::SETTINGS_OPTION );
 		$settings = Upsell_Order_Bump_Gamified::get_settings();
@@ -37,6 +42,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 'standard', Upsell_Order_Bump_Gamified::format_for( 1 ) );
 	}
 
+	/**
+	 * Test: Sanitize toggles only accept on.
+	 */
 	public function test_sanitize_toggles_only_accept_on() {
 		$clean = Upsell_Order_Bump_Gamified::sanitize_settings(
 			array(
@@ -49,12 +57,18 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 'off', $clean['guarantee_offer_discount'] );
 	}
 
+	/**
+	 * Test: Sanitize clamps max discount.
+	 */
 	public function test_sanitize_clamps_max_discount() {
 		$this->assertSame( 100, Upsell_Order_Bump_Gamified::sanitize_settings( array( 'max_discount' => 500 ) )['max_discount'] );
 		$this->assertSame( 1, Upsell_Order_Bump_Gamified::sanitize_settings( array( 'max_discount' => -4 ) )['max_discount'] );
 		$this->assertSame( 50, Upsell_Order_Bump_Gamified::sanitize_settings( array( 'max_discount' => 'abc' ) )['max_discount'] );
 	}
 
+	/**
+	 * Test: Sanitize formats drop standard and unknown.
+	 */
 	public function test_sanitize_formats_drop_standard_and_unknown() {
 		$clean = Upsell_Order_Bump_Gamified::sanitize_settings(
 			array(
@@ -75,14 +89,31 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Test: Sanitize prizes clamped and cleaned.
+	 */
 	public function test_sanitize_prizes_clamped_and_cleaned() {
 		$clean = Upsell_Order_Bump_Gamified::sanitize_settings(
 			array(
 				'max_discount' => 40,
 				'prizes'       => array(
-					array( 'label' => '<b>Big</b> win label that is way too long', 'discount' => 90, 'weight' => 5000, 'color' => 'red' ),
-					array( 'label' => '   ', 'discount' => 10, 'weight' => 1 ),
-					array( 'label' => 'Small', 'discount' => -5, 'weight' => -1, 'color' => '#00ff00' ),
+					array(
+						'label' => '<b>Big</b> win label that is way too long',
+						'discount' => 90,
+						'weight' => 5000,
+						'color' => 'red',
+					),
+					array(
+						'label' => '   ',
+						'discount' => 10,
+						'weight' => 1,
+					),
+					array(
+						'label' => 'Small',
+						'discount' => -5,
+						'weight' => -1,
+						'color' => '#00ff00',
+					),
 				),
 			)
 		);
@@ -97,29 +128,60 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( '#00ff00', $clean['prizes'][1]['color'] );
 	}
 
+	/**
+	 * Test: Sanitize falls back to default prizes when invalid.
+	 */
 	public function test_sanitize_falls_back_to_default_prizes_when_invalid() {
-		$one = Upsell_Order_Bump_Gamified::sanitize_settings( array( 'prizes' => array( array( 'label' => 'Only', 'discount' => 5, 'weight' => 1 ) ) ) );
+		$one = Upsell_Order_Bump_Gamified::sanitize_settings(
+			array(
+				'prizes' => array(
+					array(
+						'label' => 'Only',
+						'discount' => 5,
+						'weight' => 1,
+					),
+				),
+			)
+		);
 		$this->assertCount( 6, $one['prizes'] );
 
 		$zero_weight = Upsell_Order_Bump_Gamified::sanitize_settings(
 			array(
 				'prizes' => array(
-					array( 'label' => 'A', 'discount' => 5, 'weight' => 0 ),
-					array( 'label' => 'B', 'discount' => 5, 'weight' => 0 ),
+					array(
+						'label' => 'A',
+						'discount' => 5,
+						'weight' => 0,
+					),
+					array(
+						'label' => 'B',
+						'discount' => 5,
+						'weight' => 0,
+					),
 				),
 			)
 		);
 		$this->assertCount( 6, $zero_weight['prizes'] );
 	}
 
+	/**
+	 * Test: Sanitize caps prize count at twelve.
+	 */
 	public function test_sanitize_caps_prize_count_at_twelve() {
 		$rows = array();
 		for ( $i = 0; $i < 20; $i++ ) {
-			$rows[] = array( 'label' => "P$i", 'discount' => 5, 'weight' => 1 );
+			$rows[] = array(
+				'label' => "P$i",
+				'discount' => 5,
+				'weight' => 1,
+			);
 		}
 		$this->assertCount( Upsell_Order_Bump_Gamified::MAX_PRIZES, Upsell_Order_Bump_Gamified::sanitize_settings( array( 'prizes' => $rows ) )['prizes'] );
 	}
 
+	/**
+	 * Test: Sanitize text and colors fall back to defaults.
+	 */
 	public function test_sanitize_text_and_colors_fall_back_to_defaults() {
 		$d     = Upsell_Order_Bump_Gamified::default_settings();
 		$clean = Upsell_Order_Bump_Gamified::sanitize_settings(
@@ -136,6 +198,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( '#abcdef', $clean['color_accent'] );
 	}
 
+	/**
+	 * Test: Format for respects enabled flag.
+	 */
 	public function test_format_for_respects_enabled_flag() {
 		$this->enable();
 		$this->assertSame( 'spin_wheel', Upsell_Order_Bump_Gamified::format_for( 1 ) );
@@ -144,6 +209,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 'standard', Upsell_Order_Bump_Gamified::format_for( 1 ) );
 	}
 
+	/**
+	 * Test: Weighted index only picks positive weight.
+	 */
 	public function test_weighted_index_only_picks_positive_weight() {
 		$prizes = array(
 			array( 'weight' => 0 ),
@@ -156,6 +224,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 0, Upsell_Order_Bump_Gamified::weighted_index( array( array( 'weight' => 0 ) ) ) );
 	}
 
+	/**
+	 * Test: Weighted index distribution roughly follows weights.
+	 */
 	public function test_weighted_index_distribution_roughly_follows_weights() {
 		$prizes = array( array( 'weight' => 90 ), array( 'weight' => 10 ) );
 		$hits   = array( 0, 0 );
@@ -166,6 +237,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertGreaterThan( 100, $hits[1] );
 	}
 
+	/**
+	 * Test: Draw is stored once per session and counted.
+	 */
 	public function test_draw_is_stored_once_per_session_and_counted() {
 		$this->enable();
 		delete_option( Upsell_Order_Bump_Gamified::STATS_OPTION );
@@ -185,6 +259,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 1, $stats[1]['prizes'][ $first['prize']['index'] ] );
 	}
 
+	/**
+	 * Test: Skip records zero discount and skip stat.
+	 */
 	public function test_skip_records_zero_discount_and_skip_stat() {
 		$this->enable();
 		delete_option( Upsell_Order_Bump_Gamified::STATS_OPTION );
@@ -194,6 +271,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 1, Upsell_Order_Bump_Gamified::get_stats()[1]['skips'] );
 	}
 
+	/**
+	 * Test: Draw filter cannot exceed max discount.
+	 */
 	public function test_draw_filter_cannot_exceed_max_discount() {
 		$this->enable( array( 'max_discount' => 20 ) );
 		$filter = static function ( $prize ) {
@@ -206,6 +286,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 20, $result['prize']['discount'] );
 	}
 
+	/**
+	 * Test: Clear session forgets prizes.
+	 */
 	public function test_clear_session_forgets_prizes() {
 		$this->enable();
 		Upsell_Order_Bump_Gamified::draw( 1 );
@@ -214,6 +297,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertNull( Upsell_Order_Bump_Gamified::get_prize( 1 ) );
 	}
 
+	/**
+	 * Test: Effective discount guarantees bump percent.
+	 */
 	public function test_effective_discount_guarantees_bump_percent() {
 		$this->enable();
 		$bump = array(
@@ -236,6 +322,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 10, Upsell_Order_Bump_Gamified::effective_discount( $fixed, array( 'discount' => 10 ) ) );
 	}
 
+	/**
+	 * Test: Bump list read filter applies prize and write guard restores.
+	 */
 	public function test_bump_list_read_filter_applies_prize_and_write_guard_restores() {
 		$this->enable( array( 'guarantee_offer_discount' => 'off' ) );
 		update_option(
@@ -281,6 +370,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 	 * QA WPS-7889 regressions.
 	 */
 
+	/**
+	 * Test: G2 fixed price bump never gets more expensive after a win.
+	 */
 	public function test_g2_fixed_price_bump_never_gets_more_expensive_after_a_win() {
 		$this->enable();
 		$product = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '18' ) );
@@ -301,6 +393,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 30, Upsell_Order_Bump_Gamified::effective_discount( $cheap, array( 'discount' => 30 ) ) );
 	}
 
+	/**
+	 * Test: G2 percent guarantee keeps fractional discount.
+	 */
 	public function test_g2_percent_guarantee_keeps_fractional_discount() {
 		$this->enable();
 		$bump = array(
@@ -310,6 +405,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 12.5, Upsell_Order_Bump_Gamified::effective_discount( $bump, array( 'discount' => 10 ) ), 'Was truncated to 12.' );
 	}
 
+	/**
+	 * Test: G8 lowering max discount also caps prizes already drawn.
+	 */
 	public function test_g8_lowering_max_discount_also_caps_prizes_already_drawn() {
 		$this->enable(
 			array(
@@ -320,6 +418,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 10, Upsell_Order_Bump_Gamified::effective_discount( array(), array( 'discount' => 30 ) ) );
 	}
 
+	/**
+	 * Test: G8 empty prize table gives the standard offer.
+	 */
 	public function test_g8_empty_prize_table_gives_the_standard_offer() {
 		$this->enable();
 		delete_option( Upsell_Order_Bump_Gamified::STATS_OPTION );
@@ -335,13 +436,28 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertArrayNotHasKey( 1, Upsell_Order_Bump_Gamified::get_stats() );
 	}
 
+	/**
+	 * Test: G3 capped prize label follows the discount.
+	 */
 	public function test_g3_capped_prize_label_follows_the_discount() {
 		$raw      = array(
 			'max_discount' => 20,
 			'prizes'       => array(
-				array( 'label' => '50% OFF', 'discount' => 50, 'weight' => 1 ),
-				array( 'label' => 'Mystery', 'discount' => 40, 'weight' => 1 ),
-				array( 'label' => '5% OFF', 'discount' => 5, 'weight' => 1 ),
+				array(
+					'label' => '50% OFF',
+					'discount' => 50,
+					'weight' => 1,
+				),
+				array(
+					'label' => 'Mystery',
+					'discount' => 40,
+					'weight' => 1,
+				),
+				array(
+					'label' => '5% OFF',
+					'discount' => 5,
+					'weight' => 1,
+				),
 			),
 		);
 		$settings = Upsell_Order_Bump_Gamified::sanitize_settings( $raw );
@@ -352,6 +468,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 'Save 10 %', Upsell_Order_Bump_Gamified::label_for_discount( 'Save 12,5 %', 10 ) );
 	}
 
+	/**
+	 * Test: G4 draw uses the prize saved by a parallel request.
+	 */
 	public function test_g4_draw_uses_the_prize_saved_by_a_parallel_request() {
 		global $wpdb;
 		$this->enable();
@@ -385,6 +504,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertArrayNotHasKey( 1, Upsell_Order_Bump_Gamified::get_stats(), 'Not counted twice.' );
 	}
 
+	/**
+	 * Test: G6 accept counted once per session and labels stored.
+	 */
 	public function test_g6_accept_counted_once_per_session_and_labels_stored() {
 		$this->enable();
 		delete_option( Upsell_Order_Bump_Gamified::STATS_OPTION );
@@ -395,6 +517,9 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 1, Upsell_Order_Bump_Gamified::get_stats()[1]['labels'][ $result['prize']['label'] ] );
 	}
 
+	/**
+	 * Test: G1 prize kept until the order is really placed.
+	 */
 	public function test_g1_prize_kept_until_the_order_is_really_placed() {
 		$this->enable();
 		$pub = new Upsell_Order_Bump_Gamified_Public( '3.1.8' );
@@ -425,10 +550,16 @@ class GamifiedTest extends WPS_UBO_Test_Case {
 		$this->assertNull( Upsell_Order_Bump_Gamified::get_prize( 1 ) );
 	}
 
+	/**
+	 * Test: Guard ignores non arrays.
+	 */
 	public function test_guard_ignores_non_arrays() {
 		$this->assertSame( 'x', Upsell_Order_Bump_Gamified::guard_bump_list( 'x' ) );
 	}
 
+	/**
+	 * Test: Uninstall removes options.
+	 */
 	public function test_uninstall_removes_options() {
 		$this->enable();
 		Upsell_Order_Bump_Gamified::bump_stat( 1, 'plays' );

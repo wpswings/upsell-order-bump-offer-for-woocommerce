@@ -55,8 +55,8 @@ abstract class WPS_UBO_Test_Case extends WP_UnitTestCase {
 	/**
 	 * Run an AJAX callback directly and return its decoded JSON response.
 	 *
-	 * wp_send_json()/check_ajax_referer() end in wp_die(); in AJAX mode that is routed to a
-	 * handler that throws, so the test keeps running.
+	 * Calls to wp_send_json() and check_ajax_referer() end in wp_die(); in AJAX mode that is
+	 * routed to a handler that throws, so the test keeps running.
 	 *
 	 * @param callable $callback Handler.
 	 * @param array    $post     $_POST payload.
@@ -65,13 +65,15 @@ abstract class WPS_UBO_Test_Case extends WP_UnitTestCase {
 	protected function ajax_call( $callback, $post = array() ) {
 		$_POST    = $post;
 		$_REQUEST = $post;
+		$die_text = '';
 		$doing    = static function () {
 			return true;
 		};
-		$handler  = static function () {
-			return static function ( $message = '' ) {
+		$handler  = static function () use ( &$die_text ) {
+			return static function ( $message = '' ) use ( &$die_text ) {
 				if ( is_scalar( $message ) ) {
-					echo (string) $message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- test capture.
+					// Keep the wp_die() message as part of the response ( after any output so far ).
+					$die_text .= (string) $message;
 				}
 				throw new WPAjaxDieContinueException( 'ajax-die' );
 			};
@@ -81,10 +83,11 @@ abstract class WPS_UBO_Test_Case extends WP_UnitTestCase {
 		ob_start();
 		try {
 			call_user_func( $callback );
-		} catch ( WPAjaxDieContinueException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-		} catch ( WPAjaxDieStopException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+		} catch ( WPAjaxDieContinueException | WPAjaxDieStopException $e ) {
+			// The handler ended in wp_die(), the normal way out of an AJAX callback.
+			unset( $e );
 		} finally {
-			$raw = (string) ob_get_clean();
+			$raw = (string) ob_get_clean() . $die_text;
 			remove_filter( 'wp_doing_ajax', $doing );
 			remove_filter( 'wp_die_ajax_handler', $handler, 999 );
 			$_POST    = array();
@@ -113,7 +116,9 @@ abstract class WPS_UBO_Test_Case extends WP_UnitTestCase {
 		add_filter( 'wp_redirect', $stop, 1 );
 		try {
 			call_user_func( $callback );
-		} catch ( WPDieException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+		} catch ( WPDieException $e ) {
+			// The redirect stopped the callback; $location already holds the target.
+			unset( $e );
 		} finally {
 			remove_filter( 'wp_redirect', $stop, 1 );
 			$_GET = array();

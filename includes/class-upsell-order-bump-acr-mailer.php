@@ -197,7 +197,7 @@ class Upsell_Order_Bump_Acr_Mailer {
 		}
 		if ( isset( $map['{offer_block}'] ) && '' === (string) $map['{offer_block}'] ) {
 			// An introduction ending in ":" right before the ( empty ) offer block goes too.
-			// ( Runs before the block placeholders are unwrapped, so allow "<p>{offer_block}". )
+			// Runs before the block placeholders are unwrapped, so "<p>{offer_block}" is allowed too.
 			$body = preg_replace( '/<p>(?:(?!<\/p>).)*:\s*<\/p>\s*((?:<p>)?\{offer_block\})/s', '$1', $body );
 		}
 		return (string) $body;

@@ -7,34 +7,68 @@
  */
 
 /**
+ * Upsell Funnel Lite tests.
+ *
  * @covers Upsell_Order_Bump_Offer_For_Woocommerce_Public
  */
-class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
+class Upsell_Funnel_Lite_Test extends WPS_UBO_Test_Case {
 
 	const OFFER_URL = 'https://example.org/special-offer/';
 
-	/** @var Upsell_Order_Bump_Offer_For_Woocommerce_Public */
+	/**
+	 * Pub.
+	 *
+	 * @var Upsell_Order_Bump_Offer_For_Woocommerce_Public
+	 */
 	private $pub;
 
-	/** @var WC_Product */
+	/**
+	 * Target.
+	 *
+	 * @var WC_Product
+	 */
 	private $target;
 
-	/** @var WC_Product */
+	/**
+	 * Offer.
+	 *
+	 * @var WC_Product
+	 */
 	private $offer;
 
-	/** @var WC_Order Order placed by the last checkout(). */
+	/**
+	 * Last order.
+	 *
+	 * @var WC_Order Order placed by the last checkout().
+	 */
 	private $last_order;
 
+	/**
+	 * Set up the test fixture.
+	 */
 	public function set_up() {
 		parent::set_up();
 		wp_set_current_user( 0 );
 		$this->pub    = new Upsell_Order_Bump_Offer_For_Woocommerce_Public( 'upsell-order-bump-offer-for-woocommerce', UPSELL_ORDER_BUMP_OFFER_FOR_WOOCOMMERCE_VERSION );
-		$this->target = WPS_UBO_Test_Factory::simple_product( array( 'name' => 'Kayak', 'regular_price' => '400' ) );
-		$this->offer  = WPS_UBO_Test_Factory::simple_product( array( 'name' => 'Paddle', 'regular_price' => '60' ) );
+		$this->target = WPS_UBO_Test_Factory::simple_product(
+			array(
+				'name' => 'Kayak',
+				'regular_price' => '400',
+			)
+		);
+		$this->offer  = WPS_UBO_Test_Factory::simple_product(
+			array(
+				'name' => 'Paddle',
+				'regular_price' => '60',
+			)
+		);
 		delete_option( 'wps_wocuf_funnels_list' );
 		delete_option( 'wps_upsell_lite_global_options' );
 	}
 
+	/**
+	 * Tear down the test fixture.
+	 */
 	public function tear_down() {
 		$_GET = array();
 		delete_option( 'wps_wocuf_funnels_list' );
@@ -100,6 +134,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		return (string) $this->last_order->get_meta( 'wps_wocfo_upsell_funnel_redirection_link_org' );
 	}
 
+	/**
+	 * Test: Target starts the funnel on the offer page.
+	 */
 	public function test_target_starts_the_funnel_on_the_offer_page() {
 		$this->funnel();
 		$link = $this->checkout( array( $this->target ) );
@@ -115,6 +152,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertSame( '1', (string) $this->last_order->get_meta( 'wps_upsell_funnel_id' ) );
 	}
 
+	/**
+	 * Test: Funnel stats count trigger and view.
+	 */
 	public function test_funnel_stats_count_trigger_and_view() {
 		$this->funnel();
 		$this->checkout( array( $this->target ) );
@@ -123,18 +163,27 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertSame( 1, (int) $funnels[1]['offers_view_count'] );
 	}
 
+	/**
+	 * Test: Block checkout thank you URL points to the offer.
+	 */
 	public function test_block_checkout_thank_you_url_points_to_the_offer() {
 		$this->funnel();
 		$link = $this->checkout( array( $this->target ) );
 		$this->assertSame( $link, apply_filters( 'woocommerce_get_checkout_order_received_url', 'https://example.org/thanks/', $this->last_order ) );
 	}
 
+	/**
+	 * Test: No funnel without target or funnels.
+	 */
 	public function test_no_funnel_without_target_or_funnels() {
 		$this->assertSame( '', $this->checkout( array( $this->target ) ), 'No funnels.' );
 		$this->funnel();
 		$this->assertSame( '', $this->checkout( array( WPS_UBO_Test_Factory::simple_product() ) ) );
 	}
 
+	/**
+	 * Test: Free funnels only run for cash on delivery.
+	 */
 	public function test_free_funnels_only_run_for_cash_on_delivery() {
 		$this->funnel();
 		$this->assertSame( array( 'cod', 'stripe_cc', '' ), wps_upsell_lite_supported_gateways_funnel_builder() );
@@ -142,6 +191,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertNotSame( '', $this->checkout( array( $this->target ), array( 'payment_method' => 'cod' ) ) );
 	}
 
+	/**
+	 * Test: Sandbox funnel only for admins.
+	 */
 	public function test_sandbox_funnel_only_for_admins() {
 		$this->funnel( array( 'wps_upsell_funnel_status' => 'no' ) );
 		$this->assertSame( '', $this->checkout( array( $this->target ) ) );
@@ -149,6 +201,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertNotSame( '', $this->checkout( array( $this->target ) ) );
 	}
 
+	/**
+	 * Test: Category and global funnels.
+	 */
 	public function test_category_and_global_funnels() {
 		$cat    = WPS_UBO_Test_Factory::category();
 		$in_cat = WPS_UBO_Test_Factory::simple_product( array( 'category_ids' => array( $cat ) ) );
@@ -171,6 +226,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertStringContainsString( 'ocuf_fid=2', $this->checkout( array( WPS_UBO_Test_Factory::simple_product() ) ) );
 	}
 
+	/**
+	 * Test: Skipped when offer already in order or out of stock.
+	 */
 	public function test_skipped_when_offer_already_in_order_or_out_of_stock() {
 		$this->funnel();
 		$this->assertSame( '', $this->checkout( array( $this->target, $this->offer ) ) );
@@ -183,6 +241,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertSame( '', $this->checkout( array( $this->target ) ) );
 	}
 
+	/**
+	 * Test: Exclusive offer once per email.
+	 */
 	public function test_exclusive_offer_once_per_email() {
 		$this->funnel( array( 'wps_wocuf_exclusive_offer' => 'yes' ) );
 		$this->assertNotSame( '', $this->checkout( array( $this->target ), array( 'email' => 'one@example.org' ) ) );
@@ -190,6 +251,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertNotSame( '', $this->checkout( array( $this->target ), array( 'email' => 'two@example.org' ) ) );
 	}
 
+	/**
+	 * Test: Schedule limits the weekday.
+	 */
 	public function test_schedule_limits_the_weekday() {
 		$tomorrow = (string) ( ( (int) gmdate( 'w' ) + 1 ) % 7 );
 		$this->funnel( array( 'wps_wocuf_pro_funnel_schedule' => array( $tomorrow ) ) );
@@ -198,6 +262,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertNotSame( '', $this->checkout( array( $this->target ) ) );
 	}
 
+	/**
+	 * Test: Smart skip for offers bought before.
+	 */
 	public function test_smart_skip_for_offers_bought_before() {
 		$user = self::factory()->user->create( array( 'role' => 'customer' ) );
 		wp_set_current_user( $user );
@@ -211,6 +278,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertSame( '', $this->checkout( array( $this->target ), array( 'customer_id' => $user ) ) );
 	}
 
+	/**
+	 * Test: Smart offer upgrade remembers the target item.
+	 */
 	public function test_smart_offer_upgrade_remembers_the_target_item() {
 		$this->funnel( array( 'wps_wocuf_smart_offer_upgrade' => 'yes' ) );
 		$this->checkout( array( $this->target ) );
@@ -218,6 +288,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertSame( (string) $item_ids[0], (string) $this->last_order->get_meta( '__smart_offer_upgrade_target_key' ) );
 	}
 
+	/**
+	 * Test: Offer price from funnel discount.
+	 */
 	public function test_offer_price_from_funnel_discount() {
 		$product = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '60' ) );
 		$this->assertEqualsWithDelta( 30.0, (float) $this->pub->wps_wocuf_pro_change_offered_product_price( $product, '50%' )->get_price(), 0.001 );
@@ -240,23 +313,35 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		return $query;
 	}
 
+	/**
+	 * Test: Real offer link is a live offer.
+	 */
 	public function test_real_offer_link_is_a_live_offer() {
 		$this->open_offer_link();
 		$this->assertSame( 'live_offer', $this->pub->validate_shortcode() );
 	}
 
+	/**
+	 * Test: Offer link for another funnel is not live.
+	 */
 	public function test_offer_link_for_another_funnel_is_not_live() {
 		$this->open_offer_link();
 		$_GET['ocuf_fid'] = '2'; // Exists, but not the funnel started for this order.
 		$this->assertFalse( $this->pub->validate_shortcode() );
 	}
 
+	/**
+	 * Test: Offer link with unknown offer is not live.
+	 */
 	public function test_offer_link_with_unknown_offer_is_not_live() {
 		$this->open_offer_link();
 		$_GET['ocuf_ofd'] = '1;alert(document.domain)//';
 		$this->assertFalse( $this->pub->validate_shortcode() );
 	}
 
+	/**
+	 * Test: Offer link with injected nonce is not live.
+	 */
 	public function test_offer_link_with_injected_nonce_is_not_live() {
 		$this->open_offer_link();
 		$_GET['ocuf_ns'] = '" autofocus onfocus=alert(document.domain) x="';
@@ -265,6 +350,9 @@ class UpsellFunnelLiteTest extends WPS_UBO_Test_Case {
 		$this->assertStringNotContainsString( 'onfocus', (string) $this->pub->buy_now_shortcode_content() );
 	}
 
+	/**
+	 * Test: Offer link for unknown order is not live.
+	 */
 	public function test_offer_link_for_unknown_order_is_not_live() {
 		$this->open_offer_link();
 		$_GET['ocuf_ok'] = 'wc_order_not_a_real_key';

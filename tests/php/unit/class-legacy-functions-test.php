@@ -6,10 +6,15 @@
  */
 
 /**
+ * Legacy Functions tests.
+ *
  * @coversNothing
  */
-class LegacyFunctionsTest extends WPS_UBO_Test_Case {
+class Legacy_Functions_Test extends WPS_UBO_Test_Case {
 
+	/**
+	 * Test: Default global options.
+	 */
 	public function test_default_global_options() {
 		$d = wps_ubo_lite_default_global_options();
 		$this->assertSame( 'on', $d['wps_bump_enable_plugin'] );
@@ -20,6 +25,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertSame( '1', $d['wps_bump_order_bump_limit'] );
 	}
 
+	/**
+	 * Test: Default text and template CSS.
+	 */
 	public function test_default_text_and_template_css() {
 		$text = wps_ubo_lite_offer_default_text();
 		$this->assertArrayHasKey( 'wps_ubo_discount_title_for_percent', $text );
@@ -29,10 +37,16 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertArrayHasKey( 'parent_border_type', $css );
 	}
 
+	/**
+	 * Test: Pro not detected in lite.
+	 */
 	public function test_pro_not_detected_in_lite() {
 		$this->assertFalse( wps_ubo_lite_if_pro_exists() );
 	}
 
+	/**
+	 * Test: Allowed HTML keeps bump markup and strips scripts.
+	 */
 	public function test_allowed_html_keeps_bump_markup_and_strips_scripts() {
 		$allowed = wps_ubo_lite_allowed_html();
 		$this->assertArrayHasKey( 'input', $allowed );
@@ -42,7 +56,12 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 	}
 
 	/**
+	 * Test: Bump location details.
+	 *
 	 * @dataProvider location_provider
+	 * @param mixed $key Key.
+	 * @param mixed $hook Hook.
+	 * @param mixed $priority Priority.
 	 */
 	public function test_bump_location_details( $key, $hook, $priority ) {
 		$details = wps_ubo_lite_retrieve_bump_location_details( $key );
@@ -50,6 +69,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertSame( $priority, $details['priority'] );
 	}
 
+	/**
+	 * Location provider.
+	 */
 	public function location_provider() {
 		return array(
 			'before summary'       => array( '_before_order_summary', 'woocommerce_checkout_order_review', 9 ),
@@ -59,6 +81,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Test: Germanized location.
+	 */
 	public function test_germanized_location() {
 		$details = wps_ubo_lite_retrieve_bump_location_details_for_wc_germanized_compatibility( '_before_place_order_button' );
 		$this->assertSame( 'woocommerce_gzd_review_order_before_submit', $details['hook'] );
@@ -67,13 +92,20 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 	/* ------------------------------------------------------------- pricing */
 
 	/**
+	 * Test: Custom price numeric.
+	 *
 	 * @dataProvider price_provider
+	 * @param mixed $discount Discount.
+	 * @param mixed $expected Expected.
 	 */
 	public function test_custom_price_numeric( $discount, $expected ) {
 		$p = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '100' ) );
 		$this->assertEquals( $expected, wps_ubo_lite_custom_price_html( $p->get_id(), $discount, 'price' ) );
 	}
 
+	/**
+	 * Price provider.
+	 */
 	public function price_provider() {
 		return array(
 			'20 percent'        => array( '20+%', 80 ),
@@ -84,6 +116,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Test: Custom price HTML shows regular and offer price.
+	 */
 	public function test_custom_price_html_shows_regular_and_offer_price() {
 		$p    = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '100' ) );
 		$html = wps_ubo_lite_custom_price_html( $p->get_id(), '20+%' );
@@ -92,10 +127,16 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertStringContainsString( '100', wp_strip_all_tags( $html ) );
 	}
 
+	/**
+	 * Test: Custom price invalid product.
+	 */
 	public function test_custom_price_invalid_product() {
 		$this->assertNull( wps_ubo_lite_custom_price_html( 999999, '20+%', 'price' ) );
 	}
 
+	/**
+	 * Test: Currency filter applied to bump price.
+	 */
 	public function test_currency_filter_applied_to_bump_price() {
 		$p      = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '100' ) );
 		$double = static function ( $price ) {
@@ -109,8 +150,16 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 
 	/* ----------------------------------------------------------- bump info */
 
+	/**
+	 * Test: Fetch bump offer details percent and fixed.
+	 */
 	public function test_fetch_bump_offer_details_percent_and_fixed() {
-		$p = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '100', 'name' => 'Gift wrap' ) );
+		$p = WPS_UBO_Test_Factory::simple_product(
+			array(
+				'regular_price' => '100',
+				'name' => 'Gift wrap',
+			)
+		);
 		WPS_UBO_Test_Factory::bump( $p->get_id() );
 		$details = wps_ubo_lite_fetch_bump_offer_details( 1, 'cartkey' );
 		$this->assertSame( $p->get_id(), (int) $details['id'] );
@@ -130,6 +179,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertEquals( 15, $details['bump_price_at_zero'] );
 	}
 
+	/**
+	 * Test: Fetch bump offer details missing.
+	 */
 	public function test_fetch_bump_offer_details_missing() {
 		update_option( 'wps_ubo_bump_list', array() );
 		$this->assertNull( wps_ubo_lite_fetch_bump_offer_details( 42 ) );
@@ -137,16 +189,31 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 
 	/* ---------------------------------------------------------- cart checks */
 
+	/**
+	 * Test: Check if in cart ignores bump items.
+	 */
 	public function test_check_if_in_cart_ignores_bump_items() {
 		$a = WPS_UBO_Test_Factory::simple_product();
 		$b = WPS_UBO_Test_Factory::simple_product();
 		$key = WC()->cart->add_to_cart( $a->get_id() );
-		WC()->cart->add_to_cart( $b->get_id(), 1, 0, array(), array( 'wps_discounted_price' => '20+%', 'wps_ubo_offer_product' => true ) );
+		WC()->cart->add_to_cart(
+			$b->get_id(),
+			1,
+			0,
+			array(),
+			array(
+				'wps_discounted_price' => '20+%',
+				'wps_ubo_offer_product' => true,
+			)
+		);
 		$this->assertSame( $key, wps_ubo_lite_check_if_in_cart( $a->get_id() ) );
 		$this->assertNull( wps_ubo_lite_check_if_in_cart( $b->get_id() ) );
 		$this->assertNull( wps_ubo_lite_check_if_in_cart( 999999 ) );
 	}
 
+	/**
+	 * Test: Check if in cart matches variation by parent.
+	 */
 	public function test_check_if_in_cart_matches_variation_by_parent() {
 		$v   = WPS_UBO_Test_Factory::variable_product();
 		$var = $v->get_children()[0];
@@ -154,6 +221,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertSame( $key, wps_ubo_lite_check_if_in_cart( $v->get_id() ) );
 	}
 
+	/**
+	 * Test: Already in cart.
+	 */
 	public function test_already_in_cart() {
 		$a = WPS_UBO_Test_Factory::simple_product();
 		$this->assertFalse( wps_ubo_lite_already_in_cart( $a->get_id() ) );
@@ -162,6 +232,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertFalse( wps_ubo_lite_already_in_cart( 999999 ) );
 	}
 
+	/**
+	 * Test: Category in cart including child categories.
+	 */
 	public function test_category_in_cart_including_child_categories() {
 		$parent = WPS_UBO_Test_Factory::category( 'Clothing' );
 		$child  = WPS_UBO_Test_Factory::category( 'Shirts', $parent );
@@ -175,6 +248,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertNull( wps_ubo_lite_check_category_in_cart( $other ) );
 	}
 
+	/**
+	 * Test: Category has parent.
+	 */
 	public function test_category_has_parent() {
 		$parent = WPS_UBO_Test_Factory::category( 'Top' );
 		$child  = WPS_UBO_Test_Factory::category( 'Sub', $parent );
@@ -185,6 +261,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 
 	/* ------------------------------------------------------------- roles */
 
+	/**
+	 * Test: Is valid user role returns true when role excluded.
+	 */
 	public function test_is_valid_user_role_returns_true_when_role_excluded() {
 		WPS_UBO_Test_Factory::bump( WPS_UBO_Test_Factory::simple_product()->get_id(), array( 'wps_upsell_bump_exclude_roles' => array( 'guest' ) ) );
 		wp_set_current_user( 0 );
@@ -199,6 +278,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 
 	/* --------------------------------------------------------- validations */
 
+	/**
+	 * Test: Session validations.
+	 */
 	public function test_session_validations() {
 		$offer = WPS_UBO_Test_Factory::simple_product();
 		$bump  = WPS_UBO_Test_Factory::bump( $offer->get_id() );
@@ -213,12 +295,18 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertNotFalse( wps_ubo_order_bump_session_validations( array( 1 => $bump ), array_merge( $g, array( 'wps_bump_skip_offer' => 'no' ) ), 1 ) );
 	}
 
+	/**
+	 * Test: Session validations out of stock offer.
+	 */
 	public function test_session_validations_out_of_stock_offer() {
 		$offer = WPS_UBO_Test_Factory::simple_product( array( 'stock_status' => 'outofstock' ) );
 		$bump  = WPS_UBO_Test_Factory::bump( $offer->get_id() );
 		$this->assertFalse( wps_ubo_order_bump_session_validations( array( 1 => $bump ), wps_ubo_lite_default_global_options(), 1 ) );
 	}
 
+	/**
+	 * Test: Session destroy clears bump keys.
+	 */
 	public function test_session_destroy_clears_bump_keys() {
 		WC()->session->set( 'encountered_bump_array', array( 1 ) );
 		WC()->session->set( 'encountered_bump_tarket_key_array', array( 'k' ) );
@@ -229,6 +317,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertNull( WC()->session->get( 'bump_offer_status' ) );
 	}
 
+	/**
+	 * Test: Destroy encountered session.
+	 */
 	public function test_destroy_encountered_session() {
 		WC()->session->set( 'encountered_bump_array', array( 1 ) );
 		wps_ubo_destroy_encountered_session();
@@ -238,12 +329,21 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 	/* ------------------------------------------------- dynamic conditions */
 
 	/**
+	 * Test: Compare rule value.
+	 *
 	 * @dataProvider compare_provider
+	 * @param mixed $op Op.
+	 * @param mixed $target Target.
+	 * @param mixed $values Values.
+	 * @param mixed $expected Expected.
 	 */
 	public function test_compare_rule_value( $op, $target, $values, $expected ) {
 		$this->assertSame( $expected, (bool) wc_compare_rule_value( 'field', $op, $target, $values ) );
 	}
 
+	/**
+	 * Compare provider.
+	 */
 	public function compare_provider() {
 		return array(
 			'greater true'         => array( 'greater_than', 150, array( '100' ), true ),
@@ -257,8 +357,11 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Test: Detect device type.
+	 */
 	public function test_detect_device_type() {
-		$saved = isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : null;
+		$saved = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : null;
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Mobile/15E148';
 		$this->assertSame( 'mobile', wc_detect_device_type() );
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0';
@@ -270,6 +373,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		}
 	}
 
+	/**
+	 * Test: Sanitize rules array.
+	 */
 	public function test_sanitize_rules_array() {
 		$this->assertSame(
 			array(
@@ -285,16 +391,58 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		);
 	}
 
+	/**
+	 * Test: Evaluate rule cart subtotal and user status.
+	 */
 	public function test_evaluate_rule_cart_subtotal_and_user_status() {
 		$p = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '60' ) );
 		WC()->cart->add_to_cart( $p->get_id(), 2 );
 		WC()->cart->calculate_totals();
-		$this->assertTrue( (bool) wc_evaluate_rule_condition( array( 'field' => 'subtotal', 'operator' => 'greater_than', 'value' => array( '100' ) ), WC()->cart ) );
-		$this->assertFalse( (bool) wc_evaluate_rule_condition( array( 'field' => 'subtotal', 'operator' => 'less_than', 'value' => array( '100' ) ), WC()->cart ) );
-		$this->assertTrue( (bool) wc_evaluate_rule_condition( array( 'field' => 'user_status', 'operator' => 'is', 'value' => array( 'guest' ) ), WC()->cart ) );
-		$this->assertFalse( (bool) wc_evaluate_rule_condition( array( 'field' => 'unknown_field', 'operator' => 'is', 'value' => array( 'x' ) ), WC()->cart ) );
+		$this->assertTrue(
+			(bool) wc_evaluate_rule_condition(
+				array(
+					'field' => 'subtotal',
+					'operator' => 'greater_than',
+					'value' => array( '100' ),
+				),
+				WC()->cart
+			)
+		);
+		$this->assertFalse(
+			(bool) wc_evaluate_rule_condition(
+				array(
+					'field' => 'subtotal',
+					'operator' => 'less_than',
+					'value' => array( '100' ),
+				),
+				WC()->cart
+			)
+		);
+		$this->assertTrue(
+			(bool) wc_evaluate_rule_condition(
+				array(
+					'field' => 'user_status',
+					'operator' => 'is',
+					'value' => array( 'guest' ),
+				),
+				WC()->cart
+			)
+		);
+		$this->assertFalse(
+			(bool) wc_evaluate_rule_condition(
+				array(
+					'field' => 'unknown_field',
+					'operator' => 'is',
+					'value' => array( 'x' ),
+				),
+				WC()->cart
+			)
+		);
 	}
 
+	/**
+	 * Test: Dynamic conditions pass all rules must match.
+	 */
 	public function test_dynamic_conditions_pass_all_rules_must_match() {
 		$p = WPS_UBO_Test_Factory::simple_product( array( 'regular_price' => '60' ) );
 		WC()->cart->add_to_cart( $p->get_id(), 2 );
@@ -307,8 +455,16 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 			array(
 				'wps_bump_one' => array(
 					1 => array(
-						array( 'field' => 'subtotal', 'operator' => 'greater_than', 'value' => array( '100' ) ),
-						array( 'field' => 'user_status', 'operator' => 'is', 'value' => array( 'guest' ) ),
+						array(
+							'field' => 'subtotal',
+							'operator' => 'greater_than',
+							'value' => array( '100' ),
+						),
+						array(
+							'field' => 'user_status',
+							'operator' => 'is',
+							'value' => array( 'guest' ),
+						),
 					),
 				),
 			)
@@ -320,8 +476,16 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 			array(
 				'wps_bump_one' => array(
 					1 => array(
-						array( 'field' => 'subtotal', 'operator' => 'greater_than', 'value' => array( '100' ) ),
-						array( 'field' => 'user_status', 'operator' => 'is', 'value' => array( 'logged_in' ) ),
+						array(
+							'field' => 'subtotal',
+							'operator' => 'greater_than',
+							'value' => array( '100' ),
+						),
+						array(
+							'field' => 'user_status',
+							'operator' => 'is',
+							'value' => array( 'logged_in' ),
+						),
 					),
 				),
 			)
@@ -331,6 +495,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 
 	/* ------------------------------------------------------- bump selection */
 
+	/**
+	 * Test: Fetch order bump from collection matches target product.
+	 */
 	public function test_fetch_order_bump_from_collection_matches_target_product() {
 		$target = WPS_UBO_Test_Factory::simple_product();
 		$offer  = WPS_UBO_Test_Factory::simple_product();
@@ -345,6 +512,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertContains( $key, $result['wps_upsell_bump_target_key'] );
 	}
 
+	/**
+	 * Test: Fetch order bump from collection respects status and schedule.
+	 */
 	public function test_fetch_order_bump_from_collection_respects_status_and_schedule() {
 		$target = WPS_UBO_Test_Factory::simple_product();
 		$offer  = WPS_UBO_Test_Factory::simple_product();
@@ -380,6 +550,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 		$this->assertNotEmpty( Upsell_Order_Bump_Offer_For_Woocommerce_Public::fetch_order_bump_from_collection( array( 1 => $today ), $g )['encountered_bump_array'] );
 	}
 
+	/**
+	 * Test: Fetch order bump from collection matches category.
+	 */
 	public function test_fetch_order_bump_from_collection_matches_category() {
 		$cat    = WPS_UBO_Test_Factory::category();
 		$target = WPS_UBO_Test_Factory::simple_product( array( 'category_ids' => array( $cat ) ) );
@@ -392,6 +565,9 @@ class LegacyFunctionsTest extends WPS_UBO_Test_Case {
 
 	/* ---------------------------------------------------- free-tier limit */
 
+	/**
+	 * Test: Lite bump list returns only first bump without smart upgrade.
+	 */
 	public function test_lite_bump_list_returns_only_first_bump_without_smart_upgrade() {
 		$p = WPS_UBO_Test_Factory::simple_product()->get_id();
 		WPS_UBO_Test_Factory::bump( $p, array( 'wps_ubo_offer_replace_target' => 'yes' ), 3 );

@@ -9,16 +9,29 @@
  */
 
 /**
+ * Reco Training tests.
+ *
  * @covers Upsell_Order_Bump_Reco_Engine::train
  */
-class RecoTrainingTest extends WPS_UBO_Test_Case {
+class Reco_Training_Test extends WPS_UBO_Test_Case {
 
-	/** @var int[] */
+	/**
+	 * Orders.
+	 *
+	 * @var int[]
+	 */
 	private $orders = array();
 
-	/** @var int[] */
+	/**
+	 * Products.
+	 *
+	 * @var int[]
+	 */
 	private $products = array();
 
+	/**
+	 * Tear down the test fixture.
+	 */
 	public function tear_down() {
 		foreach ( $this->orders as $id ) {
 			$order = wc_get_order( $id );
@@ -36,18 +49,30 @@ class RecoTrainingTest extends WPS_UBO_Test_Case {
 		parent::tear_down();
 	}
 
+	/**
+	 * Product.
+	 */
 	private function product() {
 		$p                = WPS_UBO_Test_Factory::simple_product();
 		$this->products[] = $p->get_id();
 		return $p;
 	}
 
+	/**
+	 * Order.
+	 *
+	 * @param mixed $products Products.
+	 * @param mixed $email Email.
+	 */
 	private function order( $products, $email ) {
 		$order          = WPS_UBO_Test_Factory::order( $products, 'completed', array( 'email' => $email ) );
 		$this->orders[] = $order->get_id();
 		return $order;
 	}
 
+	/**
+	 * Test: Train builds model from baskets.
+	 */
 	public function test_train_builds_model_from_baskets() {
 		update_option(
 			Upsell_Order_Bump_Reco_Db::SETTINGS_OPTION,
@@ -93,6 +118,9 @@ class RecoTrainingTest extends WPS_UBO_Test_Case {
 		$this->assertSame( $meta['version'] + 1, $again['version'] );
 	}
 
+	/**
+	 * Test: QA R7 directional sequences and top k in SQL.
+	 */
 	public function test_qa_r7_directional_sequences_and_top_k_in_sql() {
 		global $wpdb;
 		update_option(
@@ -112,7 +140,12 @@ class RecoTrainingTest extends WPS_UBO_Test_Case {
 		);
 		$a = $this->product();
 		$b = $this->product();
-		$user = self::factory()->user->create( array( 'role' => 'customer', 'user_email' => 'seq@example.org' ) );
+		$user = self::factory()->user->create(
+			array(
+				'role' => 'customer',
+				'user_email' => 'seq@example.org',
+			)
+		);
 
 		// Same customer: A first, B ten days later (twice, from two customers would also do).
 		$first = $this->order( array( $a ), 'seq@example.org' );
@@ -148,16 +181,19 @@ class RecoTrainingTest extends WPS_UBO_Test_Case {
 			$this->assertSame( $expected_source, $meta['source'] );
 
 			$table = Upsell_Order_Bump_Reco_Db::pairs_table();
-			$ab    = $wpdb->get_row( $wpdb->prepare( "SELECT seq_count FROM {$table} WHERE source_id = %d AND target_id = %d", $a->get_id(), $b->get_id() ), ARRAY_A );
+			$ab    = $wpdb->get_row( $wpdb->prepare( 'SELECT seq_count FROM %i WHERE source_id = %d AND target_id = %d', $table, $a->get_id(), $b->get_id() ), ARRAY_A );
 			$this->assertNotNull( $ab, 'A -> B kept as a "bought next" pair.' );
 			$this->assertSame( '1', (string) $ab['seq_count'] );
-			$this->assertNull( $wpdb->get_row( $wpdb->prepare( "SELECT 1 FROM {$table} WHERE source_id = %d AND target_id = %d", $b->get_id(), $a->get_id() ) ), 'B -> A is not a sequence.' );
+			$this->assertNull( $wpdb->get_row( $wpdb->prepare( 'SELECT 1 FROM %i WHERE source_id = %d AND target_id = %d', $table, $b->get_id(), $a->get_id() ) ), 'B -> A is not a sequence.' );
 
-			$kept = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE source_id = %d", $anchor->get_id() ) );
+			$kept = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE source_id = %d', $table, $anchor->get_id() ) );
 			$this->assertSame( 3, $kept, 'Top-K per anchor.' );
 		}
 	}
 
+	/**
+	 * Test: Train with no orders produces empty model.
+	 */
 	public function test_train_with_no_orders_produces_empty_model() {
 		$meta = Upsell_Order_Bump_Reco_Engine::train();
 		$this->assertSame( 0, $meta['orders'] );
@@ -165,8 +201,17 @@ class RecoTrainingTest extends WPS_UBO_Test_Case {
 		$this->assertFalse( Upsell_Order_Bump_Reco_Db::has_model() );
 	}
 
+	/**
+	 * Test: Delete model resets and bumps version.
+	 */
 	public function test_delete_model_resets_and_bumps_version() {
-		Upsell_Order_Bump_Reco_Db::update_model( array( 'trained_at' => time(), 'pairs' => 3, 'version' => 4 ) );
+		Upsell_Order_Bump_Reco_Db::update_model(
+			array(
+				'trained_at' => time(),
+				'pairs' => 3,
+				'version' => 4,
+			)
+		);
 		Upsell_Order_Bump_Reco_Db::delete_model();
 		$meta = Upsell_Order_Bump_Reco_Db::get_model();
 		$this->assertSame( 5, $meta['version'] );

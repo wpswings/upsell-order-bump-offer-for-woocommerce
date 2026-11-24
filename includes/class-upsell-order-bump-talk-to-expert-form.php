@@ -196,7 +196,8 @@ if ( ! class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) :
 				wp_send_json_error( array( 'message' => esc_html__( 'You are not allowed to submit this request.', 'upsell-order-bump-offer-for-woocommerce' ) ), 403 );
 			}
 
-			$form_data = isset( $_POST['form_data'] ) ? wp_unslash( $_POST['form_data'] ) : '';
+			// JSON string; every field is sanitized again in sanitize_submission().
+			$form_data = isset( $_POST['form_data'] ) ? sanitize_textarea_field( wp_unslash( $_POST['form_data'] ) ) : '';
 			$form_data = is_string( $form_data ) ? json_decode( $form_data, true ) : array();
 
 			if ( ! is_array( $form_data ) ) {
@@ -228,6 +229,9 @@ if ( ! class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) :
 
 		/**
 		 * Sanitize the posted form payload.
+		 *
+		 * @param array $form_data Decoded form fields.
+		 * @return array Sanitized fields.
 		 */
 		public static function sanitize_submission( $form_data ) {
 			$form_data          = is_array( $form_data ) ? $form_data : array();
@@ -242,7 +246,7 @@ if ( ! class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) :
 				}
 				$submitted_services = array_filter(
 					array_map( 'sanitize_text_field', $raw_services ),
-					static function( $service ) {
+					static function ( $service ) {
 						return '' !== $service;
 					}
 				);
@@ -268,6 +272,9 @@ if ( ! class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) :
 
 		/**
 		 * Build the wp_remote_post arguments for HubSpot.
+		 *
+		 * @param array $sanitized_data Sanitized form fields.
+		 * @return array
 		 */
 		public static function get_hubspot_request_args( $sanitized_data ) {
 			$payload = self::build_hubspot_payload( $sanitized_data );
@@ -295,6 +302,9 @@ if ( ! class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) :
 
 		/**
 		 * Build the HubSpot payload.
+		 *
+		 * @param array $sanitized_data Sanitized form fields.
+		 * @return array
 		 */
 		public static function build_hubspot_payload( $sanitized_data ) {
 			$selected_services = ! empty( $sanitized_data['what_services_do_you_need_help_with'] ) && is_array( $sanitized_data['what_services_do_you_need_help_with'] )
@@ -319,6 +329,10 @@ if ( ! class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) :
 
 		/**
 		 * Build a single HubSpot field if it has a non-empty value.
+		 *
+		 * @param string $field_name  HubSpot field name.
+		 * @param string $field_value Field value.
+		 * @return array|null
 		 */
 		public static function maybe_build_hubspot_field( $field_name, $field_value ) {
 			if ( is_array( $field_value ) ) {
@@ -327,7 +341,7 @@ if ( ! class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) :
 					array_values(
 						array_filter(
 							array_map( 'strval', $field_value ),
-							static function( $value ) {
+							static function ( $value ) {
 								return '' !== $value;
 							}
 						)
@@ -353,6 +367,9 @@ if ( ! class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) :
 
 		/**
 		 * Clean the HubSpot inline message before it is shown.
+		 *
+		 * @param string $message Raw message.
+		 * @return string
 		 */
 		public static function clean_response_message( $message ) {
 			$message = is_string( $message ) ? $message : '';
@@ -382,7 +399,7 @@ if ( ! class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) :
 				if ( empty( $_SERVER[ $header_key ] ) ) {
 					continue;
 				}
-				$raw_value = wp_unslash( $_SERVER[ $header_key ] );
+				$raw_value = sanitize_text_field( wp_unslash( $_SERVER[ $header_key ] ) );
 				$ip_list   = is_string( $raw_value ) ? explode( ',', $raw_value ) : array( $raw_value );
 				foreach ( $ip_list as $ip_candidate ) {
 					$ip_candidate = trim( sanitize_text_field( (string) $ip_candidate ) );
@@ -396,6 +413,10 @@ if ( ! class_exists( 'Upsell_Order_Bump_Talk_To_Expert_Form' ) ) :
 
 		/**
 		 * Resolve the message from a HubSpot response.
+		 *
+		 * @param string $response_body Response body.
+		 * @param int    $response_code HTTP status code.
+		 * @return string
 		 */
 		public static function get_hubspot_response_message( $response_body, $response_code ) {
 			$response_body = is_array( $response_body ) ? $response_body : array();
