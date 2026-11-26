@@ -534,6 +534,13 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 		// By default plugin will be enabled.
 		$wps_upsell_bump_enable_plugin = ! empty( $wps_ubo_global_options['wps_bump_enable_plugin'] ) ? $wps_ubo_global_options['wps_bump_enable_plugin'] : 'on';
 
+		// Order bump meta form values are shopper input: always show them as plain text,
+		// even when order bumps are switched off ( older orders may still hold them ).
+		$this->loader->add_filter( 'woocommerce_order_item_display_meta_value', 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'escape_order_bump_meta_value', 10, 3 );
+
+		// One-time clean-up of meta form values stored before WPS-8604.
+		$this->loader->add_action( 'admin_init', 'Upsell_Order_Bump_Offer_For_Woocommerce_Public', 'maybe_clean_stored_bump_meta_form_values' );
+
 		if ( 'on' === $wps_upsell_bump_enable_plugin ) {
 
 			$plugin_public = new Upsell_Order_Bump_Offer_For_Woocommerce_Public( $this->get_plugin_name(), $this->get_version() );
