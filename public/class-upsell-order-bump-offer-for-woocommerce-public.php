@@ -1863,7 +1863,7 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 	 * @param  WC_Order_Item $item          Order item.
 	 * @return string
 	 */
-	public function escape_order_bump_meta_value( $display_value, $meta, $item = null ) {
+	public static function escape_order_bump_meta_value( $display_value, $meta, $item = null ) {
 
 		if ( ! is_object( $item ) || ! is_callable( array( $item, 'get_meta' ) ) || 'true' !== (string) $item->get_meta( 'is_order_bump_purchase', true ) ) {
 			return $display_value;
@@ -1874,6 +1874,87 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		}
 
 		return esc_html( wps_ubo_lite_clean_meta_form_text( $meta->value ) );
+	}
+
+	/**
+	 * Option set once the pre-WPS-8604 meta form values have been cleaned.
+	 */
+	const META_FORM_CLEANUP_OPTION = 'wps_ubo_meta_form_xss_cleanup_done';
+
+	/**
+	 * Clean order bump meta form values stored before WPS-8604, once.
+	 *
+	 * Runs on admin_init in batches; the flag is set only when nothing is left,
+	 * so a large store finishes over a few admin page loads.
+	 *
+	 * @param int $batch       Rows per query.
+	 * @param int $max_batches Queries per request.
+	 * @return int Rows cleaned in this run.
+	 */
+	public static function maybe_clean_stored_bump_meta_form_values( $batch = 200, $max_batches = 10 ) {
+		global $wpdb;
+
+		if ( 'yes' === get_option( self::META_FORM_CLEANUP_OPTION ) ) {
+			return 0;
+		}
+
+		$table = $wpdb->prefix . 'woocommerce_order_itemmeta';
+		if ( $table !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			return 0;
+		}
+
+		$batch       = max( 1, absint( $batch ) );
+		$max_batches = max( 1, absint( $max_batches ) );
+		$cleaned     = 0;
+		$skip        = array( 0 );
+
+		for ( $i = 0; $i < $max_batches; $i++ ) {
+
+			// Shopper-facing ( non "_" ) meta of order bump items that still looks like markup.
+			$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+				$wpdb->prepare(
+					"SELECT m.meta_id, m.order_item_id, m.meta_value FROM {$table} m
+					INNER JOIN {$table} f ON f.order_item_id = m.order_item_id AND f.meta_key = 'is_order_bump_purchase'
+					WHERE m.meta_key NOT LIKE %s
+					AND m.meta_key NOT IN ( 'is_order_bump_purchase', 'wps_order_bump_id' )
+					AND ( m.meta_value LIKE %s OR m.meta_value LIKE %s OR m.meta_value LIKE %s OR m.meta_value LIKE %s OR m.meta_value LIKE %s )
+					AND m.meta_id NOT IN ( " . implode( ',', array_map( 'absint', $skip ) ) . ' )
+					ORDER BY m.meta_id ASC LIMIT %d', // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$wpdb->esc_like( '_' ) . '%',
+					'%<%',
+					'%>%',
+					'%&lt;%',
+					'%&gt;%',
+					'%&quot;%',
+					$batch
+				)
+			);
+
+			if ( empty( $rows ) ) {
+				update_option( self::META_FORM_CLEANUP_OPTION, 'yes', false );
+				return $cleaned;
+			}
+
+			foreach ( $rows as $row ) {
+				// Serialized ( array / object ) meta is not shopper text: leave it.
+				if ( is_serialized( $row->meta_value ) ) {
+					$skip[] = (int) $row->meta_id;
+					continue;
+				}
+
+				$clean = wps_ubo_lite_clean_meta_form_text( $row->meta_value );
+				$wpdb->update( $table, array( 'meta_value' => $clean ), array( 'meta_id' => (int) $row->meta_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+				wp_cache_delete( (int) $row->order_item_id, 'order_item_meta' );
+
+				// A value the cleaner can't change ( e.g. a lone "&" + "quot;" pair ) must not loop.
+				if ( $clean === $row->meta_value ) {
+					$skip[] = (int) $row->meta_id;
+				}
+				++$cleaned;
+			}
+		}
+
+		return $cleaned;
 	}
 
 	/**

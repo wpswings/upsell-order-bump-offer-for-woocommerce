@@ -333,4 +333,77 @@ class Bump_Meta_Form_Xss_Test extends WPS_UBO_Test_Case {
 		);
 		$this->assertSame( '<b>x</b>', $this->pub->escape_order_bump_meta_value( '<b>x</b>', $meta, $item ) );
 	}
+
+	/**
+	 * Registered hooks ( loader ) of a fresh plugin instance.
+	 *
+	 * @param string $type actions | filters.
+	 * @return string[] "hook:callback" pairs.
+	 */
+	private function loader_hooks( $type ) {
+		$loader = ( new Upsell_Order_Bump_Offer_For_Woocommerce() )->get_loader();
+		$prop   = new ReflectionProperty( $loader, $type );
+		$prop->setAccessible( true );
+		$hooks  = array();
+		foreach ( $prop->getValue( $loader ) as $hook ) {
+			$hooks[] = $hook['hook'] . ':' . $hook['callback'];
+		}
+		return $hooks;
+	}
+
+	/**
+	 * Test: display escaping and clean-up stay registered when order bumps are switched off.
+	 */
+	public function test_hooks_registered_when_bumps_disabled() {
+		$options                           = wps_ubo_lite_default_global_options();
+		$options['wps_bump_enable_plugin'] = 'off';
+		update_option( 'wps_ubo_global_options', $options );
+
+		$filters = $this->loader_hooks( 'filters' );
+		$actions = $this->loader_hooks( 'actions' );
+		$this->assertContains( 'woocommerce_order_item_display_meta_value:escape_order_bump_meta_value', $filters );
+		$this->assertContains( 'admin_init:maybe_clean_stored_bump_meta_form_values', $actions );
+		$this->assertNotContains( 'wp_ajax_nopriv_add_offer_in_cart:add_offer_in_cart', $actions );
+	}
+
+	/**
+	 * Test: the one-time clean-up neutralises payloads stored before the fix, and only those.
+	 */
+	public function test_cleanup_cleans_stored_payloads_once() {
+		$this->add_offer( array() );
+		$item = $this->checkout_bump_item();
+		$this->assertNotNull( $item );
+		$item_id = $item->get_id();
+
+		wc_update_order_item_meta( $item_id, 'upsell_poc', self::PAYLOAD );
+		wc_update_order_item_meta( $item_id, 'Gift message', 'Happy birthday!' );
+		wc_update_order_item_meta( $item_id, '_internal', '<keep>' );
+		wc_update_order_item_meta( $item_id, 'serialized', array( '<keep>' ) );
+
+		// A non-bump item with markup in its meta is not touched.
+		$order    = wc_get_order( $item->get_order_id() );
+		$other_id = 0;
+		foreach ( $order->get_items() as $line ) {
+			if ( 'true' !== $line->get_meta( 'is_order_bump_purchase' ) ) {
+				$other_id = $line->get_id();
+			}
+		}
+		$this->assertNotSame( 0, $other_id );
+		wc_update_order_item_meta( $other_id, 'note', '<b>keep</b>' );
+
+		delete_option( Upsell_Order_Bump_Offer_For_Woocommerce_Public::META_FORM_CLEANUP_OPTION );
+		$cleaned = Upsell_Order_Bump_Offer_For_Woocommerce_Public::maybe_clean_stored_bump_meta_form_values( 1, 50 );
+
+		$this->assertSame( 1, $cleaned );
+		$this->assertSame( 'yes', get_option( Upsell_Order_Bump_Offer_For_Woocommerce_Public::META_FORM_CLEANUP_OPTION ) );
+		$this->assert_inert( (string) wc_get_order_item_meta( $item_id, 'upsell_poc' ) );
+		$this->assertSame( 'Happy birthday!', wc_get_order_item_meta( $item_id, 'Gift message' ) );
+		$this->assertSame( '<keep>', wc_get_order_item_meta( $item_id, '_internal' ) );
+		$this->assertSame( array( '<keep>' ), wc_get_order_item_meta( $item_id, 'serialized' ) );
+		$this->assertSame( '<b>keep</b>', wc_get_order_item_meta( $other_id, 'note' ) );
+
+		// Runs once: a later payload ( impossible through the fixed endpoints ) is not re-scanned.
+		wc_update_order_item_meta( $item_id, 'upsell_poc', '<i>x</i>' );
+		$this->assertSame( 0, Upsell_Order_Bump_Offer_For_Woocommerce_Public::maybe_clean_stored_bump_meta_form_values() );
+	}
 }
