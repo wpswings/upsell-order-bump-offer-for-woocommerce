@@ -10455,3 +10455,99 @@ function wc_compare_rule_value( $field, $operator, $target, $values ) {
 			return false;
 	}
 }
+
+if ( ! function_exists( 'wps_ubo_lite_clean_meta_form_text' ) ) {
+	/**
+	 * Reduce a bump meta form value ( or label ) to plain text.
+	 *
+	 * sanitize_text_field() alone keeps a space-prefixed tag ( "< div" ) and encoded
+	 * delimiters ( "&quot;", "&lt;" ), which can be rebuilt into markup later. Decode the
+	 * entities until nothing changes, strip the tags, then drop any angle bracket left.
+	 *
+	 * @since  3.1.8
+	 * @param  mixed $value Raw value.
+	 * @return string
+	 */
+	function wps_ubo_lite_clean_meta_form_text( $value ) {
+
+		if ( is_bool( $value ) ) {
+			return $value ? 'true' : 'false';
+		}
+
+		if ( ! is_scalar( $value ) ) {
+			return '';
+		}
+
+		$value = (string) $value;
+
+		for ( $i = 0; $i < 5; $i++ ) {
+			$decoded = html_entity_decode( $value, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+			if ( $decoded === $value ) {
+				break;
+			}
+			$value = $decoded;
+		}
+
+		$value = wp_strip_all_tags( $value );
+		$value = str_replace( array( '<', '>' ), '', $value );
+		$value = sanitize_text_field( $value );
+
+		return function_exists( 'mb_substr' ) ? mb_substr( $value, 0, 500 ) : substr( $value, 0, 500 );
+	}
+}
+
+if ( ! function_exists( 'wps_ubo_lite_sanitize_bump_meta_form' ) ) {
+	/**
+	 * Keep only the meta form fields the bump really defines, as plain text.
+	 *
+	 * The submitted form_data comes from guests ( nopriv AJAX ), so its field names are
+	 * matched against the bump's own "meta_form_fields" labels and anything else is dropped.
+	 *
+	 * @since  3.1.8
+	 * @param  mixed $form_data Raw form_data ( list of array( 'name' => , 'value' => ) ).
+	 * @param  mixed $bump      The bump settings array ( from wps_ubo_bump_list ).
+	 * @return array
+	 */
+	function wps_ubo_lite_sanitize_bump_meta_form( $form_data, $bump ) {
+
+		if ( empty( $form_data ) || ! is_array( $form_data ) || empty( $bump ) || ! is_array( $bump ) ) {
+			return array();
+		}
+
+		if ( empty( $bump['wps_ubo_offer_meta_forms'] ) || 'yes' !== $bump['wps_ubo_offer_meta_forms'] || empty( $bump['meta_form_fields'] ) || ! is_array( $bump['meta_form_fields'] ) ) {
+			return array();
+		}
+
+		$allowed = array();
+		foreach ( $bump['meta_form_fields'] as $field ) {
+			if ( is_array( $field ) && ! empty( $field['label'] ) ) {
+				$label = wps_ubo_lite_clean_meta_form_text( $field['label'] );
+				if ( '' !== $label ) {
+					$allowed[ $label ] = true;
+				}
+			}
+		}
+
+		$clean = array();
+		foreach ( $form_data as $field ) {
+			if ( ! is_array( $field ) || ! isset( $field['name'], $field['value'] ) ) {
+				continue;
+			}
+
+			$name = wps_ubo_lite_clean_meta_form_text( $field['name'] );
+			if ( '' === $name || ! isset( $allowed[ $name ] ) ) {
+				continue;
+			}
+
+			// One value per configured field.
+			unset( $allowed[ $name ] );
+
+			$clean[] = array(
+				'name'  => $name,
+				'value' => wps_ubo_lite_clean_meta_form_text( $field['value'] ),
+			);
+		}
+
+		return $clean;
+	}
+}

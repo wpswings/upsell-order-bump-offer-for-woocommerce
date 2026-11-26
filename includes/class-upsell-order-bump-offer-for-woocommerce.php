@@ -637,6 +637,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce {
 			// Hide Order Bump meta from order items.
 			$this->loader->add_filter( 'woocommerce_order_item_get_formatted_meta_data', $plugin_public, 'hide_order_bump_meta' );
 
+			// Order bump meta form values are shopper input: show them as plain text.
+			$this->loader->add_filter( 'woocommerce_order_item_display_meta_value', $plugin_public, 'escape_order_bump_meta_value', 10, 3 );
+
 			// Set any page as order success page.
 			$this->loader->add_action( 'template_redirect', $plugin_public, 'wps_redirect_custom_thank_you' );
 			$this->loader->add_action( 'init', $plugin_public, 'wps_triggered_shortcode_page' );

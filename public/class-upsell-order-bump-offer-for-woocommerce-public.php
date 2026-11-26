@@ -616,6 +616,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
 		$wps_single_bump_offer = $wps_upsell_bumps_list[ absint( $order_bump_id ) ];
 
+		// Guest-submitted: keep only the fields this bump defines, as plain text.
+		$form_data = wps_ubo_lite_sanitize_bump_meta_form( $form_data, $wps_single_bump_offer );
+
 		// Now Fetch data via bump id.
 		$wps_bump_discounted_price = $wps_single_bump_offer['wps_upsell_bump_offer_discount_price'] . '+' . $wps_single_bump_offer['wps_upsell_offer_price_type'];
 		$wps_bump_product_id = $wps_single_bump_offer['wps_upsell_bump_products_in_offer'];
@@ -967,6 +970,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
 		$wps_single_bump_offer = $wps_upsell_bumps_list[ absint( $order_bump_id ) ];
+
+		// Guest-submitted: keep only the fields this bump defines, as plain text.
+		$form_data = wps_ubo_lite_sanitize_bump_meta_form( $form_data, $wps_single_bump_offer );
 
 		// Now Fetch data via bump id.
 		$bump_offer_discount = $wps_single_bump_offer['wps_upsell_bump_offer_discount_price'] . '+' . $wps_single_bump_offer['wps_upsell_offer_price_type'];
@@ -1784,10 +1790,10 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		// Save custom form fields attached to the item.
 		if ( ! empty( $values['wps_ubo_meta_form'] ) && is_array( $values['wps_ubo_meta_form'] ) ) {
-			foreach ( $values['wps_ubo_meta_form'] as $field ) {
-				if ( isset( $field['name'], $field['value'] ) ) {
-					$item->update_meta_data( sanitize_key( $field['name'] ), sanitize_text_field( $field['value'] ) );
-				}
+			// Re-check against the bump, so carts saved before this check can't carry markup into the order.
+			$meta_form = wps_ubo_lite_sanitize_bump_meta_form( $values['wps_ubo_meta_form'], $this->get_bump_for_meta_form( $values ) );
+			foreach ( $meta_form as $field ) {
+				$item->update_meta_data( sanitize_key( $field['name'] ), $field['value'] );
 			}
 		}
 
@@ -1819,14 +1825,55 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 				if ( ! empty( $single_order_item->legacy_values['wps_ubo_meta_form'] ) && is_array( $single_order_item->legacy_values['wps_ubo_meta_form'] ) ) {
 
-					foreach ( $single_order_item->legacy_values['wps_ubo_meta_form'] as $key => $value ) {
-						if ( isset( $value['name'], $value['value'] ) ) {
-							$single_order_item->update_meta_data( sanitize_text_field( $value['name'] ), sanitize_text_field( $value['value'] ) );
-						}
+					$meta_form = wps_ubo_lite_sanitize_bump_meta_form( $single_order_item->legacy_values['wps_ubo_meta_form'], $this->get_bump_for_meta_form( $single_order_item->legacy_values ) );
+					foreach ( $meta_form as $field ) {
+						$single_order_item->update_meta_data( $field['name'], $field['value'] );
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * The bump settings a cart item's meta form belongs to.
+	 *
+	 * @param  array $values Cart item values.
+	 * @return array
+	 */
+	private function get_bump_for_meta_form( $values ) {
+
+		if ( ! is_array( $values ) || ! isset( $values['wps_ubo_bump_id'] ) || '' === (string) $values['wps_ubo_bump_id'] ) {
+			return array();
+		}
+
+		$bump_list = get_option( 'wps_ubo_bump_list', array() );
+		$bump_id   = absint( $values['wps_ubo_bump_id'] );
+
+		return ( is_array( $bump_list ) && ! empty( $bump_list[ $bump_id ] ) && is_array( $bump_list[ $bump_id ] ) ) ? $bump_list[ $bump_id ] : array();
+	}
+
+	/**
+	 * Show order bump meta form values as plain text.
+	 *
+	 * The values were typed by the shopper, so they are escaped instead of going through
+	 * wp_kses_post(). This also covers orders saved before the values were sanitized.
+	 *
+	 * @param  string        $display_value Display value.
+	 * @param  object        $meta          Meta ( key, value ).
+	 * @param  WC_Order_Item $item          Order item.
+	 * @return string
+	 */
+	public function escape_order_bump_meta_value( $display_value, $meta, $item = null ) {
+
+		if ( ! is_object( $item ) || ! is_callable( array( $item, 'get_meta' ) ) || 'true' !== (string) $item->get_meta( 'is_order_bump_purchase', true ) ) {
+			return $display_value;
+		}
+
+		if ( ! is_object( $meta ) || ! isset( $meta->value ) || ! is_scalar( $meta->value ) ) {
+			return $display_value;
+		}
+
+		return esc_html( wps_ubo_lite_clean_meta_form_text( $meta->value ) );
 	}
 
 	/**
@@ -2055,6 +2102,9 @@ class Upsell_Order_Bump_Offer_For_Woocommerce_Public {
 
 		$wps_upsell_bumps_list = get_option( 'wps_ubo_bump_list', array() );
 		$wps_single_bump_offer = $wps_upsell_bumps_list[ absint( $order_bump_id ) ];
+
+		// Guest-submitted: keep only the fields this bump defines, as plain text.
+		$form_data = wps_ubo_lite_sanitize_bump_meta_form( $form_data, $wps_single_bump_offer );
 
 		// Now Fetch data via bump id.
 		$wps_bump_discounted_price = $wps_single_bump_offer['wps_upsell_bump_offer_discount_price'] . '+' . $wps_single_bump_offer['wps_upsell_offer_price_type'];
